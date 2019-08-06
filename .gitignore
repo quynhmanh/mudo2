@@ -1,0 +1,8 @@
+wwwroot
+node_modules
+.local-chromium
+logs
+obj
+.vs/*
+bin/*
+logs/*
