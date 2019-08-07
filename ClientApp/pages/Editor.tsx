@@ -7,6 +7,7 @@ import TopMenu from '@Components/editor/Sidebar';
 import axios from 'axios';
 import StyledComponent from 'styled-components';
 import Popup from '@Components/shared/Popup';
+import MediaEditPopup from '@Components/editor/MediaEditor';
 import { object } from "prop-types";
 import Canvas from '@Components/editor/Canvas';
 import MathJax from 'react-mathjax2'
@@ -96,6 +97,7 @@ interface IState {
   fontSize: number;
   fontColor: string;
   showPopup: boolean;
+  showMediaEditingPopup: boolean;
   isSaving: boolean;
   fontName: string;
   fontId: string;
@@ -162,6 +164,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     fontName: "images/b96c0021-3a74-4a4a-9dd0-35f0e8351cdf.png",
     isSaving: false,
     showPopup: false,
+    showMediaEditingPopup: false,
     fontColor: 'black',
     fontSize: 0,
     fontsList: [],
@@ -4419,8 +4422,14 @@ handleToolbarResize = e => {
                         text='Click "Close Button" to hide popup'  
                         closePopup={() => {this.setState({showPopup: false})}}  
               />  
-              : null  
-              } 
+        : null  
+        }
+        {this.state.showMediaEditingPopup ? 
+          <MediaEditPopup
+          text='Click "Close Button" to hide popup'  
+          closePopup={() => {this.setState({showPopup: false})}}  
+          /> : null
+        } 
       </div>
     );
   }

@@ -26,8 +26,8 @@ export const routes = <Switch>
     <AppRoute layout={EditorLayout} exact path="/editor/:template_id" component={Editor} />
     <AppRoute layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={Editor} />
     <AppRoute layout={AuthorizedLayout} exact path="/templates" component={TemplatesListPage}/>
+    <AppRoute layout={AuthorizedLayout} exact path="/business-cards" component={TemplatesListPage}/>
     <AppRoute layout={AuthorizedLayout} exact path="/print" component={PrintPage}/>
     <AppRoute layout={AuthorizedLayout} exact path="/about" component={AboutPage}/>
     <AppRoute layout={AuthorizedLayout} exact path="/pricing/pricing" component={PricingPage}/>
-
 </Switch>;

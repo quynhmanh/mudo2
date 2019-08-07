@@ -159,6 +159,7 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                         onMouseLeave={(e) => {clearTimeout(this.timer); this.timer = setTimeout(() =>  {if (this.state.show === "show3" && !this.state.menuHover) {this.setState({ show: null })}}, 200)}}                        >
                             Business cards
                     </h4>
+                    <li><NavLink exact to={'/business-cards'} activeClassName="active">Business cards</NavLink></li>
                     <div className="border" style={{transform: (this.state.show === "show3") ? 'scaleX(1)': ''}}></div>
                 </div>
             </div>

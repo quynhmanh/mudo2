@@ -79,3 +79,7 @@ h4 {
     transform: translateY(-50%) scaleX(0.5) rotate(45deg);
     transition: background-color 300ms;
 }
+
+.u-display-none {
+    display: none !important;
+}
