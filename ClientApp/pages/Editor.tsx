@@ -1586,6 +1586,7 @@ html {
         "FontList": self.state.fontsList.map(font=> font.id),
         "Width": self.state.rectWidth,
         "Height": self.state.rectHeight,
+        "Id": uuidv4(),
       });
 
       axios.post(url, res, {
@@ -1802,7 +1803,6 @@ html {
   imgDragging = null;
 
   templateOnMouseDown(id, e) {
-    console.log('templateOnMouseDown')
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
@@ -1810,20 +1810,16 @@ html {
 
     var self = this;
     const url = `/api/Template/Get?id=${id}`;
-
-    fetch(url)
-      .then(
-        response => response.text() // .json(), etc.
-        // same as function(response) {return response.text();}
-      )
-      .then(html => {
         const { rectWidth, rectHeight } = this.state;
-        var image = JSON.parse(html);
-        var document = JSON.parse(image.value.document)
-        var scaleX = rectWidth / document.width;
-        var scaleY = rectHeight / document.height;
+        var doc = this.state.templates.find(doc => doc.id == id);
+        if (!doc) {
+          doc = this.state.templates2.find(doc => doc.id == id);
+        }
+        var template = JSON.parse(doc.document)
+        var scaleX = rectWidth / template.width;
+        var scaleY = rectHeight / template.height;
 
-        document.document_object = document.document_object.map(doc => {
+        template.document_object = template.document_object.map(doc => {
           doc.width = doc.width * scaleX;
           doc.height = doc.height * scaleY;
           doc.top = doc.top * scaleY;
@@ -1835,8 +1831,10 @@ html {
           return doc;
         });
 
-        if (image.value.fontList) {
-          var fontList = image.value.fontList.forEach(id => { 
+        console.log('template.fontList ', doc)
+
+        if (doc.fontList) {
+          var fontList = doc.fontList.forEach(id => { 
               var style = `@font-face {
                 font-family: '${id}';
                 src: url('/fonts/${id}.ttf');
@@ -1863,19 +1861,17 @@ html {
           });
         }
 
-        console.log('document ', document);
-
-        var id = document.id;
+        var id = template.id;
         var images = this.state.images.filter(image => {
           return image.page !== this.state.activePageId;
         })
         self.setState(state => ({ 
-          fonts: image.value.fontList,
-          images: [...images, ...document.document_object], 
+          fonts: doc.fontList,
+          images: [...images, ...template.document_object], 
           _id: id,
           idObjectSelected: null,
         }));
-      });
+      // });
   }
 
   textOnMouseDown(id, e) {
@@ -2786,7 +2782,7 @@ handleToolbarResize = e => {
       .then(res => res.json())
       .then(
         res => {
-          console.log('res ', res);
+          console.log('res loadMoreTemplate', res);
           var result = res.value.key;
           var currentTemplatesHeight = this.state.currentTemplatesHeight;
           var currentTemplate2sHeight = this.state.currentTemplate2sHeight;
@@ -2834,7 +2830,7 @@ handleToolbarResize = e => {
       .then(res => res.json())
       .then(
         res => {
-          console.log('res ', res);
+          console.log('res loadMoreTextTemplate', res);
           var result = res.value.key;
           var currentGroupedTextsHeight = this.state.currentGroupedTextsHeight;
           var currentGroupedTexts2Height = this.state.currentGroupedTexts2Height;
@@ -2882,7 +2878,7 @@ handleToolbarResize = e => {
     }
     this.setState({ isLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
-    const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${count}`;
+    const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
     console.log('url ', url);
     fetch(url)
       .then(res => res.json())
@@ -2980,8 +2976,8 @@ handleToolbarResize = e => {
     return res;
   }
 
-  handleRemoveAllMedia = () => {
-    const url = `/api/Media/RemoveAll`;
+  handleRemoveAllMedia = (model) => {
+    const url = `/api/${model}/RemoveAll`;
     fetch(url);
   }
 
@@ -3224,7 +3220,7 @@ handleToolbarResize = e => {
                     bottom: 0,
                     right: 0,
                   }}
-                  onClick={this.handleRemoveAllMedia}>
+                  onClick={this.handleRemoveAllMedia.bind(this, "Media")}>
                     RemoveAll
                     </button>
                   <InfiniteScroll
@@ -3462,14 +3458,6 @@ handleToolbarResize = e => {
                       Add a little bit of body text
                       </div>
                     </div>
-                    {/* {this.state.groupedTexts.map(g => (
-                      <img
-                        key={g.id}
-                        onMouseDown={this.textOnMouseDown.bind(this, g.id)}
-                        className="text-picker"
-                        src={g.document.src}
-                      />
-                    ))} */}
                     {
                       <InfiniteScroll
                       throttle={500}
@@ -3505,6 +3493,7 @@ handleToolbarResize = e => {
                             height={150 / (item.width / item.height)}
                             className="text-picker"
                             onPick={this.textOnMouseDown.bind(this, item.id)}
+                            onEdit={null}
                           />
                         ))}
                       </div>
@@ -3521,9 +3510,17 @@ handleToolbarResize = e => {
                             height={150 / (item.width / item.height)}
                             src={item.representative}
                             onPick={this.textOnMouseDown.bind(this, item.id)}
+                            onEdit={null}
                           />
                         ))}
                         </div>
+                        <button
+                          style={{
+                            position: 'absolute',
+                            right: 0,
+                          }}
+                          onClick={this.handleRemoveAllMedia.bind(this, "Template")}
+                        >Remove</button>
                       {/* <div
                         id="image-container-picker"
                         style={{
@@ -3564,6 +3561,7 @@ handleToolbarResize = e => {
                       hasMore={this.state.hasMoreTemplate}
                       onLoadMore={this.loadMoreTemplate}
                       height='100%'
+                      onEdit={null}
                     >
                       {/* <input
                       style={{
@@ -3591,6 +3589,7 @@ handleToolbarResize = e => {
                             height={150 / (item.width / item.height)}
                             className="template-picker"
                             onPick={this.templateOnMouseDown.bind(this, item.id)}
+                            onEdit={null}
                           />
                         ))}
                       </div>
@@ -3607,6 +3606,7 @@ handleToolbarResize = e => {
                             height={150 / (item.width / item.height)}
                             src={item.representative}
                             onPick={this.templateOnMouseDown.bind(this, item.id)}
+                            onEdit={null}
                           />
                         ))}
                         </div>

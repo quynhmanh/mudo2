@@ -99,9 +99,9 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult Search([FromQuery]int type = 0, [FromQuery]int page = 1, [FromQuery]int perPage = 1)
+        public IActionResult Search([FromQuery]int type = 0, [FromQuery]int page = 1, [FromQuery]int perPage = 1, [FromQuery]string terms = "")
         {
-            return Json(MediaService.Search(type, page, perPage));
+            return Json(MediaService.Search(type, page, perPage, terms));
         }
 
         [HttpGet("[action]")]

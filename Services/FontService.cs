@@ -31,9 +31,6 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<FontModel>, int>> Search(string term = null, int page = 1, int perPage = 20)
         {
-            List<FontModel> fonts = _fontContext.Fonts.ToList();
-            var result = new KeyValuePair<List<FontModel>, int>(fonts.Skip((page - 1) * perPage).Take(perPage).ToList(), fonts.Count);
-
             var node = new Uri("http://localhost:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("font").DisableDirectStreaming();
             var client = new ElasticClient(settings);

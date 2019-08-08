@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 using RCB.TypeScript.dbcontext;
 using RCB.TypeScript.Infrastructure;
 using RCB.TypeScript.Models;
@@ -19,9 +20,19 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<TemplateModel>, int>> Search(string type = null, int page = 1, int perPage = 5)
         {
-            List<TemplateModel> templates = _templateContext.Templates.Where(template => template.Type == type).ToList();
-            var result = new KeyValuePair<List<TemplateModel>, int>(templates.Skip((page - 1) * perPage).Take(perPage).ToList(), templates.Count);
-            return Ok(result);
+            //List<TemplateModel> templates = _templateContext.Templates.Where(template => template.Type == type).ToList();
+            //var result = new KeyValuePair<List<TemplateModel>, int>(templates.Skip((page - 1) * perPage).Take(perPage).ToList(), templates.Count);
+            //return Ok(result);
+
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
+            var client = new ElasticClient(settings);
+            string query = $"type:{type}";
+
+            var res = client.Search<TemplateModel>(s => s.Query(q => q.QueryString(d => d.Query(query))));
+
+            var res2 = new KeyValuePair<List<TemplateModel>, int>(res.Documents.ToList(), res.Documents.Count);
+            return Ok(res2);
         }
 
         public virtual Result<TemplateModel> Get(string id)
@@ -39,16 +50,21 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error<string>();
 
-            model.Id = Guid.NewGuid().ToString();
+            //model.Id = Guid.NewGuid().ToString();
 
-            _templateContext.Templates.Add(model);
-            _templateContext.SaveChanges();
+            //_templateContext.Templates.Add(model);
+            //_templateContext.SaveChanges();
 
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node);
+            var client = new ElasticClient(settings);
 
-            return Ok(model.Id);
+            var response = client.Index(model, idx => idx.Index("template"));
+
+            return Ok(response.Id);
         }
 
-        public virtual Result Update(TemplateModel model)
+        public virtual Infrastructure.Result Update(TemplateModel model)
         {
             if (model == null)
                 return Error();
@@ -74,7 +90,7 @@ namespace RCB.TypeScript.Services
             return Ok();
         }
 
-        public virtual Result Delete(string id)
+        public virtual Infrastructure.Result Delete(string id)
         {
             var unit = _templateContext.Templates.Where(x => x.Id == id).FirstOrDefault();
             if (unit == null)
@@ -84,16 +100,18 @@ namespace RCB.TypeScript.Services
             return Ok();
         }
 
-        public virtual Result UpdateRepresentative(string id, string filePath)
+        public virtual Infrastructure.Result UpdateRepresentative(string id, string filePath)
         {
-            var template = _templateContext.Templates.Where(x => x.Id == id).FirstOrDefault();
-            if (template == null)
-            {
-                return Error($"Template with id = {id} not found.");
-            }
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var client = new ElasticClient(settings);
 
-            template.Representative = filePath;
-            _templateContext.SaveChanges();
+            var getResponse = client.Get<TemplateModel>(id);
+
+            var page = getResponse.Source;
+
+            page.Representative = filePath;
+            var updateResponse = client.Update<TemplateModel>(page, u => u.Doc(page));
 
             return Ok();
         }
@@ -103,5 +121,15 @@ namespace RCB.TypeScript.Services
         //    model.FirstName = model.FirstName.Trim();
         //    model.LastName = model.LastName.Trim();
         //}
+
+        public virtual Result<int> RemoveAll()
+        {
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var client = new ElasticClient(settings);
+
+            var res = client.DeleteByQuery<TemplateModel>(q => q.MatchAll());
+            return Ok(1);
+        }
     }
 }

@@ -88,5 +88,11 @@ namespace RCB.TypeScript.Controllers
 
             return Json(result);
         }
+
+        [HttpGet("[action]")]
+        public IActionResult RemoveAll()
+        {
+            return Json(TemplateService.RemoveAll());
+        }
     }
 }
