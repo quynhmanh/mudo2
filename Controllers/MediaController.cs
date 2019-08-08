@@ -104,5 +104,35 @@ namespace RCB.TypeScript.Controllers
             return Json(MediaService.Search(type, page, perPage));
         }
 
+        [HttpGet("[action]")]
+        public IActionResult RemoveAll()
+        {
+            return Json(MediaService.RemoveAll());
+        }
+
+        [HttpPost("[action]")]
+        public async System.Threading.Tasks.Task<IActionResult> Edit()
+        {
+            string body = null;
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = reader.ReadToEnd();
+
+                AddMediaRequest oDownloadBody = JsonConvert.DeserializeObject<AddMediaRequest>(body);
+
+                MediaModel mediaModel = new MediaModel();
+                mediaModel.Id = oDownloadBody.id;
+                mediaModel.Width = oDownloadBody.width;
+                mediaModel.height = oDownloadBody.height;
+                mediaModel.Type = oDownloadBody.type;
+                mediaModel.Keywords = oDownloadBody.keywords;
+                mediaModel.FirstName = oDownloadBody.title;
+
+                MediaService.Edit(mediaModel);
+            }
+
+            return Ok();
+
+        }
     }
 }

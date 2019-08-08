@@ -34,6 +34,16 @@ namespace RCB.TypeScript.Services
             return Ok(1);
         }
 
+        public virtual Result<int> RemoveAll()
+        {
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("media");
+            var client = new ElasticClient(settings);
+
+            var res = client.DeleteByQuery<MediaModel>(q => q.MatchAll());
+            return Ok(1);
+        }
+
         class UpdateDocumentAttributes
         {
             public string id { get; set; }
@@ -51,14 +61,12 @@ namespace RCB.TypeScript.Services
             var getResponse = client.Get<MediaModel>(model.Id);
 
             var page = getResponse.Source;
+
             page.FirstName = model.FirstName;
             page.Keywords = model.Keywords;
-            //page.Color = model.Color;
-
-            //// update the last updated date 
-            //page.LastUpdatedDate = DateTime.UtcNow;
 
             var updateResponse = client.Update<MediaModel>(page, u => u.Doc(page));
+
 
             return Ok(1);
         }

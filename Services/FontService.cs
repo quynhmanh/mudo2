@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 using RCB.TypeScript.dbcontext;
 using RCB.TypeScript.Infrastructure;
 using RCB.TypeScript.Models;
@@ -19,9 +20,11 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> Add(FontModel model)
         {
-            _fontContext.Fonts.Add(model);
-            _fontContext.SaveChanges();
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node);
+            var client = new ElasticClient(settings);
 
+            var response = client.Index(model, idx => idx.Index("font"));
 
             return Ok(1);
         }
@@ -30,7 +33,16 @@ namespace RCB.TypeScript.Services
         {
             List<FontModel> fonts = _fontContext.Fonts.ToList();
             var result = new KeyValuePair<List<FontModel>, int>(fonts.Skip((page - 1) * perPage).Take(perPage).ToList(), fonts.Count);
-            return Ok(result);
+
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("font").DisableDirectStreaming();
+            var client = new ElasticClient(settings);
+            string query = $"*:*";
+
+            var res = client.Search<FontModel>(s => s.Query(q => q.QueryString(d => d.Query(query))));
+
+            var res2 = new KeyValuePair<List<FontModel>, int>(res.Documents.ToList(), res.Documents.Count);
+            return Ok(res2);
         }
     }
 }

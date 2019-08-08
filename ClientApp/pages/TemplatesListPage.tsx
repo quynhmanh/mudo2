@@ -34,6 +34,9 @@ export default class TemplatesPage extends React.Component<Props, {textTemplates
     }
 
     componentDidMount() {
+      var scrollStopper = this.delayedExec(100, this.handleScroll.bind(this));
+
+      window.addEventListener('scroll', this.handleScroll);
         var self = this;
         var url = `http://localhost:64099/api/Template/Search?type=1`;
         fetch(url, {
@@ -64,21 +67,25 @@ export default class TemplatesPage extends React.Component<Props, {textTemplates
         });
     }
 
-    handleScroll = () => {
-        console.log('handleScroll ');
+   delayedExec = function(after, fn) {
+      var timer;
+      return function() {
+          timer && clearTimeout(timer);
+          timer = setTimeout(fn, after);
+      };
+  };
 
+    handleScroll = () => {
         var navbarContent = document.getElementById('hero');
         const bottom = navbarContent.getBoundingClientRect().bottom;
-
         this.setState({navbarPositionFixed: bottom <= 0,});
-
-        console.log('bottom ', bottom);
     }
 
     render() {
-        const { templates, textTemplates } = this.state;
+        const { templates, textTemplates, navbarPositionFixed } = this.state;
+        console.log('navbarPositionFixed', navbarPositionFixed)
 
-        return <div onScroll={this.handleScroll} onWheel={this.handleScroll}>
+        return <div>
             <Helmet>
                 <title>Home page - RCB (TypeScript)</title>
             </Helmet>
@@ -279,14 +286,6 @@ js-ga-click-track" data-ga-event-action="sticky-nav" data-ga-event-label="#shopb
                       </a>
                     </div>
                   </div>
-                  <a href="/us/business-cards/original" className=" js-ga-click-track" data-ga-event-action="tile" data-ga-event-label="/us/business-cards/original || Shop Original" tabIndex={-1}>
-                    <div className="tile__footer cta-link__wrap">
-                      <div className="cta-link -has-chevron">
-                        <span className="cta-link__text">
-                          <span>Shop Original</span>&nbsp;<svg style={{width: '1em',}} viewBox="0 0 48 48" className="svg-icon cta-link__chevron" role="presentation" aria-hidden="true" data-icon-id="ui--chevron-right-xxbold"><path d="M14.663 13.813l10.186 10.186-10.186 10.175 4.24 4.244 14.434-14.417L18.905 9.57l-4.242 4.243z" /></svg>
-                        </span>
-                      </div>      </div>
-                  </a>
                 </div>
               </div>
               <div style={{width: '25%', paddingLeft: '10px', display: 'table',}} className="tile-rack__tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide41">
@@ -338,14 +337,6 @@ js-ga-click-track" data-ga-event-action="sticky-nav" data-ga-event-label="#shopb
                       </a>
                     </div>
                   </div>
-                  <a href="/us/business-cards/cotton" className=" js-ga-click-track" data-ga-event-action="tile" data-ga-event-label="/us/business-cards/cotton || Shop Cotton" tabIndex={-1}>
-                    <div className="tile__footer cta-link__wrap">
-                      <div className="cta-link -has-chevron">
-                        <span className="cta-link__text">
-                          <span>Shop Cotton</span>&nbsp;<svg style={{width: '1em',}} viewBox="0 0 48 48" className="svg-icon cta-link__chevron" role="presentation" aria-hidden="true" data-icon-id="ui--chevron-right-xxbold"><path d="M14.663 13.813l10.186 10.186-10.186 10.175 4.24 4.244 14.434-14.417L18.905 9.57l-4.242 4.243z" /></svg>
-                        </span>
-                      </div>      </div>
-                  </a>
                 </div>
               </div><div style={{width: '25%', paddingLeft: '10px', display: 'table',}} className="tile-rack__tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide42">
                 <div className="tile
@@ -396,14 +387,6 @@ js-ga-click-track" data-ga-event-action="sticky-nav" data-ga-event-label="#shopb
                       </a>
                     </div>
                   </div>
-                  <a href="/us/business-cards/super" className=" js-ga-click-track" data-ga-event-action="tile" data-ga-event-label="/us/business-cards/super || Shop Super" tabIndex={-1}>
-                    <div className="tile__footer cta-link__wrap">
-                      <div className="cta-link -has-chevron">
-                        <span className="cta-link__text">
-                          <span>Shop Super</span>&nbsp;<svg style={{width: '1em',}} viewBox="0 0 48 48" className="svg-icon cta-link__chevron" role="presentation" aria-hidden="true" data-icon-id="ui--chevron-right-xxbold"><path d="M14.663 13.813l10.186 10.186-10.186 10.175 4.24 4.244 14.434-14.417L18.905 9.57l-4.242 4.243z" /></svg>
-                        </span>
-                      </div>      </div>
-                  </a>
                 </div>
               </div><div style={{width: '25%', paddingLeft: '10px', display: 'table',}} className="tile-rack__tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide43">
                 <div className="tile
@@ -454,21 +437,13 @@ js-ga-click-track" data-ga-event-action="sticky-nav" data-ga-event-label="#shopb
                       </a>
                     </div>
                   </div>
-                  <a href="/us/business-cards/luxe" className=" js-ga-click-track" data-ga-event-action="tile" data-ga-event-label="/us/business-cards/luxe || Shop Luxe" tabIndex={-1}>
-                    <div className="tile__footer cta-link__wrap">
-                      <div className="cta-link -has-chevron">
-                        <span className="cta-link__text">
-                          <span>Shop Luxe</span>&nbsp;<svg style={{width: '1em',}} viewBox="0 0 48 48" className="svg-icon cta-link__chevron" role="presentation" aria-hidden="true" data-icon-id="ui--chevron-right-xxbold"><path d="M14.663 13.813l10.186 10.186-10.186 10.175 4.24 4.244 14.434-14.417L18.905 9.57l-4.242 4.243z" /></svg>
-                        </span>
-                      </div>      </div>
-                  </a>
                 </div>
               </div></div>
           </div>
         </div>
       </section>
       
-      <section style={{backgroundColor: '#f3f4f6 !important'}} id="shopbysize" className="band -module size-module        u-backgroundColor-neutralTint
+      <section style={{backgroundColor: '#f3f4f6'}} id="shopbysize" className="band -module size-module        u-backgroundColor-neutralTint
  js-size-module js-component">
         <div className="container">
           <div className="u-textAlign-center">
@@ -790,7 +765,7 @@ js-ga-click-track" data-ga-event-action="size-block" data-ga-event-label="/us/bu
     
     
     js-component">
-        <div className="">
+        <div className="container">
           <div className="u-textAlign-center">
             <header className="module-header list-default__parent u-last-child-margin-bottom-0 ">
               <h2 className="h__module">Designing Your Business Cards</h2>

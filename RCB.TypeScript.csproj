@@ -45,9 +45,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\**" />
-    <None Include="wwwroot\fonts\broadb.ttf" />
-    <None Include="wwwroot\fonts\VNI-Bendigo.ttf" />
-    <None Include="wwwroot\fonts\VNI-Thuphap3.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,7 +67,9 @@
     <Folder Include="ClientApp\components\editor\" />
     <Folder Include="ClientApp\components\editor\Image\" />
     <Folder Include="ClientApp\components\editor\Rect\" />
+    <Folder Include="logs\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
   <ItemGroup>
@@ -95,7 +94,7 @@
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
       <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" Exclude="wwwroot\dist\production_build" />
-      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>

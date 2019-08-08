@@ -3,6 +3,7 @@ import React, {PureComponent, Fragment, isValidElement} from "react";
 export interface IProps {
     src: string;
     onPick: any;
+    onEdit: any;
     className: string;
     height: number;
     color: string;
@@ -30,6 +31,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 top: '5px',
                 right: '5px',
               }}
+              onClick={this.props.onEdit}
             ><span
             >Edit</span>
             </button>

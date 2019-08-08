@@ -8,7 +8,7 @@ import axios from 'axios';
 import StyledComponent from 'styled-components';
 import Popup from '@Components/shared/Popup';
 import MediaEditPopup from '@Components/editor/MediaEditor';
-import { object } from "prop-types";
+import { object, any } from "prop-types";
 import Canvas from '@Components/editor/Canvas';
 import MathJax from 'react-mathjax2'
 import InfiniteScroll from '@Components/shared/InfiniteScroll';
@@ -124,6 +124,8 @@ interface IState {
   currentBackgroundHeights1: number,
   currentBackgroundHeights2: number,
   currentBackgroundHeights3: number,
+  editingMedia: any;
+  showMediaEditPopup: boolean;
 }
 
 let firstpage = uuidv4();
@@ -132,6 +134,7 @@ const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\
 
 class CanvaEditor  extends PureComponent<IProps, IState> {
   state = {
+    showMediaEditPopup: false,
     hasMoreImage: true,
     hasMoreTemplate: true,
     hasMoreTextTemplate: true,
@@ -207,6 +210,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     currentBackgroundHeights1: 0,
     currentBackgroundHeights2: 0,
     currentBackgroundHeights3: 0,
+    editingMedia: null,
   };
 
   $app = null;
@@ -334,6 +338,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     if (this.state.scale !== prevState.scale) {
       this.handleScroll();
     }
+  }
+
+  handleEditmedia = (item) => {
+    console.log('handleEditmedia ');
+    this.setState({showMediaEditPopup: true, editingMedia: item})
   }
 
   handleResizeStart = (startX: number, startY: number) => {
@@ -2971,6 +2980,11 @@ handleToolbarResize = e => {
     return res;
   }
 
+  handleRemoveAllMedia = () => {
+    const url = `/api/Media/RemoveAll`;
+    fetch(url);
+  }
+
   render() {
     const { scale, staticGuides, rectWidth, rectHeight, images, cropMode, pages, } = this.state; 
 
@@ -3192,16 +3206,27 @@ handleToolbarResize = e => {
                     onLoad={(data) => {console.log('data ', data)}}
                     style={{
                       position: 'absolute',
+                      bottom: 0,
                     }}
                     />
                   <button
                     style={{
                       position: 'absolute',
+                      bottom: 0,
                     }}
                     type="submit" 
                     onClick={this.uploadImage.bind(this)}>
                       Upload
-                  </button> 
+                  </button>
+                  <button
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                  }}
+                  onClick={this.handleRemoveAllMedia}>
+                    RemoveAll
+                    </button>
                   <InfiniteScroll
                     throttle={500}
                     threshold={300}
@@ -3237,6 +3262,7 @@ handleToolbarResize = e => {
                           height={150 / (item.width / item.height)}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this)}
+                          onEdit={this.handleEditmedia.bind(this, item)}
                         />
                       ))}
                     </div>
@@ -3250,10 +3276,11 @@ handleToolbarResize = e => {
                         <ImagePicker
                           key={key}
                           color={item.color}
-                          className=""
-                          height={150 / (item.width / item.height)}
                           src={item.representative}
+                          height={150 / (item.width / item.height)}
+                          className=""
                           onPick={this.imgOnMouseDown.bind(this)}
+                          onEdit={this.handleEditmedia.bind(this, item)}
                         />
                       ))}
                       </div>
@@ -4424,10 +4451,10 @@ handleToolbarResize = e => {
               />  
         : null  
         }
-        {this.state.showMediaEditingPopup ? 
+        {this.state.showMediaEditPopup ? 
           <MediaEditPopup
-          text='Click "Close Button" to hide popup'  
-          closePopup={() => {this.setState({showPopup: false})}}  
+          item={this.state.editingMedia}
+          closePopup={() => {console.log('asd'); this.setState({showMediaEditPopup: false})}}  
           /> : null
         } 
       </div>
