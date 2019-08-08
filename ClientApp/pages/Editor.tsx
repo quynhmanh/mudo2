@@ -8,6 +8,7 @@ import axios from 'axios';
 import StyledComponent from 'styled-components';
 import Popup from '@Components/shared/Popup';
 import MediaEditPopup from '@Components/editor/MediaEditor';
+import TemplateEditor from '@Components/editor/TemplateEditor';
 import { object, any } from "prop-types";
 import Canvas from '@Components/editor/Canvas';
 import MathJax from 'react-mathjax2'
@@ -126,6 +127,7 @@ interface IState {
   currentBackgroundHeights3: number,
   editingMedia: any;
   showMediaEditPopup: boolean;
+  showTemplateEditPopup: boolean;
 }
 
 let firstpage = uuidv4();
@@ -211,6 +213,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     currentBackgroundHeights2: 0,
     currentBackgroundHeights3: 0,
     editingMedia: null,
+    showTemplateEditPopup: false,
   };
 
   $app = null;
@@ -1587,6 +1590,7 @@ html {
         "Width": self.state.rectWidth,
         "Height": self.state.rectHeight,
         "Id": uuidv4(),
+        "Keywords": [],
       });
 
       axios.post(url, res, {
@@ -3123,21 +3127,6 @@ handleToolbarResize = e => {
             height: "105%",
           }}
         ></div>
-        {/* {this.state.toolbarOpened && (
-          <div
-            id="editor-resizer"
-            onMouseDown={this.handleToolbarResize.bind(this)}
-            style={{
-              width: "3px",
-              height: "calc(100% - 47px)",
-              top: "40px",
-              cursor: "col-resize",
-              position: "absolute",
-              left: `${this.state.toolbarSize - 1}px`,
-              zIndex: 2147483647
-            }}
-          ></div>
-        )} */}
         <div
           className="wrapper"
           style={{
@@ -3195,7 +3184,10 @@ handleToolbarResize = e => {
                       position: 'absolute',
                     }}
                     onKeyDown={this.handleQuery}
-                    type="text" />
+                    type="text"
+                    onChange={(e) => {this.setState({query: e.target.value})}}
+                    value={this.state.query}
+                    />
                   <input 
                     id="image-file" 
                     type="file"
@@ -3589,7 +3581,7 @@ handleToolbarResize = e => {
                             height={150 / (item.width / item.height)}
                             className="template-picker"
                             onPick={this.templateOnMouseDown.bind(this, item.id)}
-                            onEdit={null}
+                            onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
                           />
                         ))}
                       </div>
@@ -3606,7 +3598,7 @@ handleToolbarResize = e => {
                             height={150 / (item.width / item.height)}
                             src={item.representative}
                             onPick={this.templateOnMouseDown.bind(this, item.id)}
-                            onEdit={null}
+                            onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
                           />
                         ))}
                         </div>
@@ -4455,6 +4447,12 @@ handleToolbarResize = e => {
           <MediaEditPopup
           item={this.state.editingMedia}
           closePopup={() => {console.log('asd'); this.setState({showMediaEditPopup: false})}}  
+          /> : null
+        } 
+        {this.state.showTemplateEditPopup ? 
+          <TemplateEditor
+          item={this.state.editingMedia}
+          closePopup={() => {console.log('asd'); this.setState({showTemplateEditPopup: false})}}  
           /> : null
         } 
       </div>

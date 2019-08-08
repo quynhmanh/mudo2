@@ -11,6 +11,8 @@ namespace RCB.TypeScript.Models
 
         public string Type { get; set; }
 
+        public string[] Keywords { get; set; }
+
         [Column(TypeName = "jsonb")]
         public string Document { get; set; }
 
@@ -25,6 +27,9 @@ namespace RCB.TypeScript.Models
 
         public float Width { get; set; }
         public float Height { get; set; }
+
+        public string FirstName { get; set; }
+        public string FilePath { get; set; }
 
         public TemplateModel()
         {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Helmet } from "react-helmet";
-import logo from "@Images/logo.png";
+import TreeViewContainer from '@Components/shared/TreeViewContainer';
 
 type Props = RouteComponentProps<{}>;
 
@@ -918,6 +918,9 @@ js-ga-click-track" data-ga-event-action="size-block" data-ga-event-label="/us/bu
       </section>
       </div>
       </section>
+      <div className="container">
+        <TreeViewContainer />
+      </div>
             </div>
         </div>;
     }

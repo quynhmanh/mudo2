@@ -1,0 +1,9 @@
+curl -X GET "localhost:9200/file-path-test/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "term": {
+      "file_path.tree": "/User/bob/photos/2017/05"
+    }
+  }
+}
+'

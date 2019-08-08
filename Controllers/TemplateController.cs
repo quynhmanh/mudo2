@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
 
@@ -93,6 +94,40 @@ namespace RCB.TypeScript.Controllers
         public IActionResult RemoveAll()
         {
             return Json(TemplateService.RemoveAll());
+        }
+
+        class AddMediaRequest
+        {
+            [JsonProperty(PropertyName = "id")]
+            public string id;
+
+            [JsonProperty(PropertyName = "title")]
+            public string title;
+
+            [JsonProperty(PropertyName = "keywords")]
+            public string[] keywords;
+        }
+
+        [HttpPost("[action]")]
+        public async System.Threading.Tasks.Task<IActionResult> Edit()
+        {
+            string body = null;
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = reader.ReadToEnd();
+
+                AddMediaRequest oDownloadBody = JsonConvert.DeserializeObject<AddMediaRequest>(body);
+
+                TemplateModel mediaModel = new TemplateModel();
+                mediaModel.Id = oDownloadBody.id;
+                mediaModel.Keywords = oDownloadBody.keywords;
+                mediaModel.FirstName = oDownloadBody.title;
+
+                TemplateService.Edit(mediaModel);
+            }
+
+            return Ok();
+
         }
     }
 }

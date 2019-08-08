@@ -68,13 +68,15 @@ namespace RCB.TypeScript.Services
         {
             if (model == null)
                 return Error();
-            var template = _templateContext.Templates.Where(x => x.Id == model.Id).FirstOrDefault();
-            if (template == null)
-                return Error($"Template with id = {model.Id} not found.");
-            //if (template.Type != model.Type)
-            //{
-            //    return Error($"Do not allow to update type of template {model.Id}.");
-            //}
+
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var client = new ElasticClient(settings);
+
+            var getResponse = client.Get<TemplateModel>(model.Id);
+
+            var template = getResponse.Source;
+
             template.Document = model.Document;
             template.CreatedAt = model.CreatedAt;
             template.CreatedBy = model.CreatedBy;
@@ -84,8 +86,10 @@ namespace RCB.TypeScript.Services
             template.Type = model.Type;
             template.Width = model.Width;
             template.Height = model.Height;
+            template.Keywords = model.Keywords;
+            template.FirstName = model.FirstName;
 
-            _templateContext.SaveChanges();
+            var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
             return Ok();
         }
@@ -129,6 +133,25 @@ namespace RCB.TypeScript.Services
             var client = new ElasticClient(settings);
 
             var res = client.DeleteByQuery<TemplateModel>(q => q.MatchAll());
+            return Ok(1);
+        }
+
+        public virtual Result<int> Edit(TemplateModel model)
+        {
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var client = new ElasticClient(settings);
+
+            var getResponse = client.Get<TemplateModel>(model.Id);
+
+            var page = getResponse.Source;
+
+            page.FirstName = model.FirstName;
+            page.Keywords = model.Keywords;
+
+            var updateResponse = client.Update<TemplateModel>(page, u => u.Doc(page));
+
+
             return Ok(1);
         }
     }
