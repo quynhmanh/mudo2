@@ -22,9 +22,6 @@ h4 {
     font-family: AvenirNextRoundedPro-Medium;
 }
 
-
-
-
 #authorizedLayout {
     background: white !important;
 }
@@ -36,7 +33,7 @@ h4 {
     min-height: 40px;
     background-color: white;
     box-shadow: 0 0.0625rem 0 0 rgba(66,85,105,0.17);
-    height: 150px;
+    height: 130px;
     margin-bottom: 0;
 }
 
@@ -91,3 +88,39 @@ html {
 body {
     height: 4000px !important;
 }
+
+.tree-view a {
+    text-decoration: none;
+    color: black;
+}
+
+.tree-view_item {
+    padding: 3px 8px;
+}
+
+.tree-view_item:hover {
+    background-color: #e7e7e7;
+}
+
+.tree-view_arrow {
+    cursor: pointer;
+    margin-right: 6px;
+    display: inline-block;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .tree-view_arrow:after {
+    content: '▾';
+    color: #3d3d3d75;
+  }
+
+  .tree-view_arrow-collapsed {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+  

@@ -36,6 +36,12 @@ namespace RCB.TypeScript.Controllers
             return Json(TemplateService.Search(type, page, perPage));
         }
 
+        [HttpGet("[action]")]
+        public IActionResult SearchAngAggregate([FromQuery]string type = null, [FromQuery]int page = 1, [FromQuery]int perPage = 1, [FromQuery]string filePath = "", [FromQuery]string subType = "")
+        {
+            return Json(TemplateService.SearchAngAggregate(type, page, perPage, filePath, subType));
+        }
+
         [HttpPost("[action]")]
         public IActionResult Add(TemplateModel model)
         {
@@ -106,6 +112,12 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "keywords")]
             public string[] keywords;
+
+            [JsonProperty(PropertyName = "filePath")]
+            public string filePath;
+
+            [JsonProperty(PropertyName = "subType")]
+            public string subType;
         }
 
         [HttpPost("[action]")]
@@ -122,6 +134,8 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Id = oDownloadBody.id;
                 mediaModel.Keywords = oDownloadBody.keywords;
                 mediaModel.FirstName = oDownloadBody.title;
+                mediaModel.FilePath = oDownloadBody.filePath;
+                mediaModel.SubType = oDownloadBody.subType;
 
                 TemplateService.Edit(mediaModel);
             }

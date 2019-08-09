@@ -10,6 +10,8 @@ export interface IProps {
   interface IState {
     title: string;
     keywords: any;
+    filePath: string;
+    subType: string;
   }
 
 class MediaEditPopup extends PureComponent<IProps, IState> {
@@ -18,6 +20,8 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
             return {
             title: props.item.firstName,
             keywords: props.item.keywords,
+            filePath: props.item.filePath,
+            subType: props.item.subType,
             };
         }
 
@@ -32,7 +36,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
     handleSubmit = () => {
         var url = `/api/Template/Edit`;
         console.log('handleSubmit url ', url)
-        axios.post(url, {title: this.ref.innerHTML, id: this.props.item.id, keywords: this.state.keywords })
+        axios.post(url, {subType: this.refSubtype.innerHTML, title: this.ref.innerHTML, id: this.props.item.id, keywords: this.state.keywords, filePath: this.refFilePath.innerHTML })
             .then(res => {
                 console.log('res ', res)
                 if (res.status === 200) {
@@ -60,6 +64,8 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
     }
 
     ref = null;
+    refFilePath = null;
+    refSubtype = null;
 
   render() {  
         return (  
@@ -123,6 +129,11 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                         <input onChange={this.handleKeywordChanged.bind(this, index)} className='unblurred' type="text" value={kw} />
                         <button className='unblurred' onClick={this.handleRemove.bind(this, index)}>Remove</button>
                     </div>)}
+                    
+                    <p className='unblurred'>File path:</p>
+                    <p ref={i => this.refFilePath = i} className='unblurred' contentEditable={true}>{this.state.filePath}</p>
+                    <p className='unblurred'>Subtype:</p>
+                    <p ref={i => this.refSubtype = i} className='unblurred' contentEditable={true}>{this.state.subType}</p>
 
                     <button className='unblurred' onClick={this.handleSubmit}>OK</button>
                     <button className='unblurred' onClick={this.handleAddNewKeyword}>Add new keyword</button>

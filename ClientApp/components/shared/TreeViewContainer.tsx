@@ -1,18 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import AppComponent from "@Components/shared/AppComponent";
 import TreeView from '@Components/shared/TreeView';
 
 export interface IProps {
+    filePath: string;
 }
 
 export interface IState {
+    templates: any;
 }
 
 var tree = [
     {
-        title: "Brochures",
+        title: "Tờ gấp",
         path: "/templates/brochures",
         childs: [
             {
@@ -930,18 +933,67 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
     super(props);
 
     this.state = {
+        templates : [],
     };
+  }
+
+  componentDidMount() {
+      this.loadTemplate(null);
+  }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.filePath !== nextProps.filePath) {
+            this.loadTemplate(nextProps.filePath);
+        }
+    }
+
+  loadTemplate = (filePath : string) => {
+    var self = this;
+    const url = `/api/Template/SearchAngAggregate?type=1&filePath=${filePath ? filePath : this.props.filePath}&subType=123`;
+    axios.get(url).
+      then(res => {
+          console.log('res ', res);
+          self.setState({templates: res.data.value.documents})
+      })
   }
 
   render() {
 
     return (
-      <div>
-        {tree.map(ele => 
-        <TreeView path={ele.path} childs={ele.childs} collapsed={false} defaultCollapsed={true} nodeLabel={ele.title} className="asd" itemClassName="asd" childrenClassName="asd" treeViewClassName="ads" onClick={null}>
-        </TreeView>
-        )}
-      </div>
+        <div
+            style={{display: 'flex'}}
+        >
+            <div
+            style={{
+                padding: '10px',
+                backgroundColor: 'white',
+                margin: '10px',
+                border: '1px solid #e7eaf3',
+                borderRadius: '.3125rem',
+                width: '300px',
+            }} 
+            >
+                {tree.map(ele => 
+                <TreeView path={ele.path} childs={ele.childs} collapsed={this.props.filePath.indexOf(ele.path) === -1} defaultCollapsed={true} nodeLabel={ele.title} className="asd" itemClassName="asd" childrenClassName="asd" treeViewClassName="ads" onClick={null}>
+                </TreeView>
+                )}
+            </div>
+            <div
+            style={{
+                backgroundColor: 'white',
+                margin: '10px',
+                width: '100%',
+                border: '1px solid #e7eaf3',
+                borderRadius: '.3125rem',
+                padding: '20px',
+            }} 
+            >
+            {this.state.templates.map(template => <a href={`/editor/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', display: 'inline-block', boxShadow: '0 3px 6px 0 rgba(140,152,164,.25)'}}>
+                <img style={{width: '150px'}} src={template.representative} />
+                <p style={{margin: 0, padding: '5px', borderTop: '1px solid #e7eaf3'}}>{template.firstName}</p>
+            </a>)}
+            </div>
+    </div>
     );
   }
 }

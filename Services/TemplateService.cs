@@ -18,7 +18,7 @@ namespace RCB.TypeScript.Services
             _templateContext = templateContext;
         }
 
-        public virtual Result<KeyValuePair<List<TemplateModel>, int>> Search(string type = null, int page = 1, int perPage = 5)
+        public virtual Result<KeyValuePair<List<TemplateModel>, int>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "")
         {
             //List<TemplateModel> templates = _templateContext.Templates.Where(template => template.Type == type).ToList();
             //var result = new KeyValuePair<List<TemplateModel>, int>(templates.Skip((page - 1) * perPage).Take(perPage).ToList(), templates.Count);
@@ -29,31 +29,75 @@ namespace RCB.TypeScript.Services
             var client = new ElasticClient(settings);
             string query = $"type:{type}";
 
-            var res = client.Search<TemplateModel>(s => s.Query(q => q.QueryString(d => d.Query(query))));
+            var res = client.Search<TemplateModel>(s => s.
+                Query(q => q.QueryString(d => d.Query(query)))
+                .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
 
             var res2 = new KeyValuePair<List<TemplateModel>, int>(res.Documents.ToList(), res.Documents.Count);
+
+            return Ok(res2);
+        }
+
+        public class ResultSearchAngAggregate
+        {
+            public int Count { get; set; }
+            public List<TemplateModel> Documents { get; set; }
+            public Dictionary<string, long?> Aggregation { get; set; }
+        }
+
+        public virtual Result<ResultSearchAngAggregate> SearchAngAggregate(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "")
+        {
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
+            var client = new ElasticClient(settings);
+            string query = $"type:{type}";
+
+            var res = client.Search<TemplateModel>(s => s.
+                                //Query(q => q.Term(t => t.Field(f => f.FilePathTree).Value(filePath)))
+                                Query(q => q.Term(t => t.Field(f => f.FilePathTree).Value(filePath)))
+                //Query(q => q.QueryString(q2 => q2.Query($"\"term\": {{ \"filePath.tree\": \"{filePath}\"}}\")))
+                .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
+
+
+            Dictionary<string, long?> aggregations = new Dictionary<string, long?>();
+
+            foreach(var i in res.Aggregations.Terms("my_agg").Buckets)
+            {
+                aggregations.Add(i.Key, i.DocCount);
+            }
+
+            var res2 = new ResultSearchAngAggregate()
+            {
+                Count = res.Documents.ToList().Count,
+                Documents = res.Documents.ToList(),
+                Aggregation = aggregations,
+            };
+
             return Ok(res2);
         }
 
         public virtual Result<TemplateModel> Get(string id)
         {
-            var exist = _templateContext.Templates.Any(template => template.Id == id);
-            if (!exist)
-            {
-                return Error<TemplateModel>($"Template with {id} not found.");
-            }
-            return Ok(_templateContext.Templates.Where(template => template.Id == id).First());
+            //var exist = _templateContext.Templates.Any(template => template.Id == id);
+            //if (!exist)
+            //{
+            //    return Error<TemplateModel>($"Template with {id} not found.");
+            //}
+            //return Ok(_templateContext.Templates.Where(template => template.Id == id).First());
+
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var client = new ElasticClient(settings);
+
+            var response = client.Get<TemplateModel>(id);
+
+            return Ok(response.Source);
         }
 
         public virtual Result<string> Add(TemplateModel model)
         {
             if (model == null)
                 return Error<string>();
-
-            //model.Id = Guid.NewGuid().ToString();
-
-            //_templateContext.Templates.Add(model);
-            //_templateContext.SaveChanges();
 
             var node = new Uri("http://localhost:9200");
             var settings = new ConnectionSettings(node);
@@ -148,6 +192,8 @@ namespace RCB.TypeScript.Services
 
             page.FirstName = model.FirstName;
             page.Keywords = model.Keywords;
+            page.FilePath = model.FilePath;
+            page.SubType = model.SubType;
 
             var updateResponse = client.Update<TemplateModel>(page, u => u.Doc(page));
 

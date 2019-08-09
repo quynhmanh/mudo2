@@ -25,9 +25,9 @@ const Breadcrumbs = () => <Route path="*" render={props => {
     console.log('place ', place)
     // parts = ["home", ...parts];
     return <div style={{padding: '10px',}}>
-        {crumb('home', 0, ['home', ...parts])}
+        {crumb('Trang-Chu', 0, ['Trang-Chu', ...parts])}
         {parts.map(crumb)}
-        <span style={{marginLeft: '8px'}}>{place}</span>
+        <span style={{marginLeft: '8px', fontSize: '11px',}}>{place}</span>
     </div>}} />
   
   const crumb = (part, partIndex, parts) => {
@@ -37,11 +37,12 @@ const Breadcrumbs = () => <Route path="*" render={props => {
             color: 'black',
             textDecoration: 'none',
             position: "relative",
-            padding: '0.25rem 0.625rem 0.3125rem 0.75rem',
+            padding: '3px 10px',
             backgroundColor: '#e9ecef',
             borderTopRightRadius: '0.5rem',
             borderBottomRightRadius: '0.5rem',
             marginLeft: '-2px',
+            fontSize: '11px',
             zIndex: parts.length - partIndex,
         }} key={path} to={path} >{part}<span className="breadcrumbs__separator"></span></Link>}
   

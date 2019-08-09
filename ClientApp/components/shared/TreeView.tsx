@@ -69,6 +69,8 @@ class TreeView extends AppComponent<IProps, IState> {
       />
     );
 
+    console.log('colapsed', collapsed)
+
     return (
       <div className={'tree-view ' + treeViewClassName}>
           <Link replace={false} key={this.props.path} to={this.props.path}>
@@ -81,7 +83,7 @@ class TreeView extends AppComponent<IProps, IState> {
         <div className={containerClassName + ' ' + childrenClassName}>
           {collapsed ? null : children}
         </div>
-        { this.props.childs && this.props.childs.map(child =>
+        {!collapsed && this.props.childs && this.props.childs.map(child =>
             <div style={{marginLeft: '10px'}}>
                 <TreeView path={child.path} childs={child.childs} collapsed={false} defaultCollapsed={true} nodeLabel={child.title} className="asd" itemClassName="asd" childrenClassName="asd" treeViewClassName="ads" onClick={null}>
                 </TreeView>

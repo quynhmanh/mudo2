@@ -55,7 +55,7 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <NavLink exact to={'/'} className="navbar-brand" href="#"><div style={{width: '80px', height:'80px', marginLeft: '6px', }}>
+                    <NavLink exact to={'/'} className="navbar-brand" href="#"><div style={{width: '70px', height:'70px', marginLeft: '6px', }}>
                     <svg viewBox="0 0 160 160" version="1.1" id="svg_null">
     <g id="root" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="group" transform="translate(20, 130)">
@@ -159,7 +159,6 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                         onMouseLeave={(e) => {clearTimeout(this.timer); this.timer = setTimeout(() =>  {if (this.state.show === "show3" && !this.state.menuHover) {this.setState({ show: null })}}, 200)}}                        >
                             Business cards
                     </h4>
-                    <li><NavLink exact to={'/business-cards'} activeClassName="active">Business cards</NavLink></li>
                     <div className="border" style={{transform: (this.state.show === "show3") ? 'scaleX(1)': ''}}></div>
                 </div>
             </div>

@@ -10,6 +10,8 @@ export default class TemplatesPage extends React.Component<Props, {textTemplates
     constructor(props) {
         super(props);
 
+        console.log('props ', props)
+
         var templates = [];
         for (var i = 0; i < 6; ++i)
         {
@@ -69,21 +71,12 @@ export default class TemplatesPage extends React.Component<Props, {textTemplates
             <Helmet>
                 <title>Home page - RCB (TypeScript)</title>
             </Helmet>
-            <div className="container container-content">
+            <div className="container-content">
         <div style={{display: 'flex'}} className="container">
           <div
-            style={{
-              width: '50%',
-            }}  
+            style={{width: '100%'}}
           >
-            <TreeViewContainer />
-          </div>
-          <div
-            style={{
-              width: '50%',
-            }} 
-          >
-            <p>Hello world!</p>
+            <TreeViewContainer filePath={this.props.location.pathname} />
           </div>
         </div>
         </div>

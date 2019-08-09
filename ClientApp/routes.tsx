@@ -20,7 +20,7 @@ import PricingPage from '@Pages/PricingPage';
 export const routes = <Switch>
     <AppRoute layout={GuestLayout} exact path="/login" component={LoginPage} />
     <AppRoute layout={AuthorizedLayout} exact path="/" component={HomePage} />
-    <AppRoute layout={AuthorizedLayout} exact path="/home" component={HomePage} />
+    <AppRoute layout={AuthorizedLayout} exact path="/Trang-Chu" component={HomePage} />
     <AppRoute layout={AuthorizedLayout} exact path="/example" component={ExamplePage} />
     <AppRoute layout={AuthorizedLayout} exact path="/editor" component={TemplatesPage}/>
     <AppRoute layout={EditorLayout} exact path="/editor/:template_id" component={Editor} />

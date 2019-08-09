@@ -1,15 +1,18 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Nest;
 
 namespace RCB.TypeScript.Models
 {
+    [ElasticsearchType(RelationName = "template")]
     public class TemplateModel
     {
         [Key]
         public string Id { get; set; }
 
         public string Type { get; set; }
+        public string SubType { get; set; }
 
         public string[] Keywords { get; set; }
 
@@ -30,6 +33,9 @@ namespace RCB.TypeScript.Models
 
         public string FirstName { get; set; }
         public string FilePath { get; set; }
+
+        [Text(Name = "filePath.tree")]
+        public string FilePathTree { get; set; }
 
         public TemplateModel()
         {
