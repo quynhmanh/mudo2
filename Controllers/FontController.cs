@@ -86,9 +86,11 @@ namespace RCB.TypeScript.Controllers
                 await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                 var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                 {
-                    Headless = true,
-                    UserDataDir = "/Users/llaugusty/Projects/react-core-boilerplate/RCB.TypeScript/wwwroot",
-
+                    DefaultViewport = new ViewPortOptions()
+                    {
+                        Width = 250,
+                        Height = 50,
+                    },
                 });
                 var page = await browser.NewPageAsync();
                 await page.SetContentAsync(template);
@@ -118,6 +120,8 @@ namespace RCB.TypeScript.Controllers
                 fontModel.Representative = file2Rep;
 
                 FontService.Add(fontModel);
+
+                await browser.CloseAsync();
             }
 
             return Ok();

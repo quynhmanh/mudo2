@@ -12,6 +12,8 @@ namespace RCB.TypeScript.Models
         public string Id { get; set; }
 
         public string Type { get; set; }
+
+        [Keyword]
         public string SubType { get; set; }
 
         public string[] Keywords { get; set; }

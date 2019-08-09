@@ -19,15 +19,15 @@ var tree = [
         path: "/templates/brochures",
         childs: [
             {
-                title: "Agriculture",
+                title: "Nông nghiệp",
                 path: "/templates/brochures/agriculture",
             },
             {
-                title: "Automotive & Transportation",
+                title: "Ôtô & Vận tải",
                 path: "/templates/brochures/automotive-transportation",
             },
             {
-                title: "Beauty",
+                title: "Sắc đẹp (beauty)",
                 path: "/templates/brochures/beauty",
             },
             {
@@ -35,117 +35,117 @@ var tree = [
                 path: "/templates/brochures/bland-brochures",
             },
             {
-                title: "Business Services",
+                title: "Dịch vụ kinh doanh",
                 path: "/templates/brochures/business-services",
             },
             {
-                title: "Child Care",
+                title: "Chăm sóc trẻ em",
                 path: "/templates/brochures/child-care",
             },
             {
-                title: "Cleaning",
+                title: "Vệ sinh",
                 path: "/templates/brochures/cleaning",
             },
             {
-                title: "Construction",
+                title: "Xây dựng",
                 path: "/templates/brochures/construction",
             },
             {
-                title: "Creative",
+                title: "Sáng tạo",
                 path: "/templates/brochures/creative",
             },
             {
-                title: "Education & Training",
+                title: "Giáo dục & Đào tạo",
                 path: "/templates/brochures/education-training",
             },
             {
-                title: "Energy & Environment",
+                title: "Năng lượng & Môi trường",
                 path: "/templates/brochures/energy-environment",
             },
             {
-                title: "Event",
+                title: "Sự kiện",
                 path: "/templates/brochures/event",
             },
             {
-                title: "Financial Services",
+                title: "Dịch vụ tài chính",
                 path: "/templates/brochures/financial-services",
             },
             {
-                title: "Food & Beverage",
+                title: "Thực phẩm",
                 path: "/templates/brochures/food-beverage",
             },
+            // {
+            //     title: "Generic Brochures",
+            //     path: "/templates/brochures/generic-brochures",
+            // },
             {
-                title: "Generic Brochures",
-                path: "/templates/brochures/generic-brochures",
-            },
-            {
-                title: "Holiday",
+                title: "Ngày lễ",
                 path: "/templates/brochures/holiday",
             },
             {
-                title: "House & Home",
+                title: "Nhà cửa",
                 path: "/templates/brochures/house-home",
             },
             {
-                title: "Insurance",
+                title: "Bảo hiểm",
                 path: "/templates/brochures/insurance",
             },
             {
-                title: "Law",
+                title: "Luật",
                 path: "/templates/brochures/law",
             },
             {
-                title: "Lawn & Garden",
+                title: "Làm vườn",
                 path: "/templates/brochures/law-garden",
             },
             {
-                title: "Medical & Health Care",
+                title: "Thuốc & Chăm sóc sức khỏe",
                 path: "/templates/brochures/medical-healthcare",
             },
             {
-                title: "Music & Arts",
+                title: "Âm nhạc & Nghệ thuật",
                 path: "/templates/brochures/music-arts",
             },
             {
-                title: "Non Profit",
+                title: "Không lợi nhuận",
                 path: "/templates/brochures/non-profit",
             },
             {
-                title: "Pets & Animals",
+                title: "Thú nuôi",
                 path: "/templates/brochures/pets-animals",
             },
             {
-                title: "Photography",
+                title: "Nhiếp ảnh",
                 path: "/templates/brochures/photography",
             },
             {
-                title: "Real Estate",
+                title: "Bất động sản",
                 path: "/templates/brochures/real-estate",
             },
             {
-                title: "Religion & Organizations",
+                title: "Tổ chức & Tôn giáo",
                 path: "/templates/brochures/religion-organization",
             },
             {
-                title: "Retail",
+                title: "Bán lẻ",
                 path: "/templates/brochures/retail",
             },
             {
-                title: "Sports & Wellness",
+                title: "Thể thao & Sức khỏe",
                 path: "/templates/brochures/sports-wellness",
             },
             {
-                title: "Technology",
+                title: "Công nghệ",
                 path: "/templates/brochures/technology",
             },
             {
-                title: "Travel & Tourism",
+                title: "Du lịch",
                 path: "/templates/brochures/travel-tourism",
             },
         ],
     },
     {
-        title: "Business Cards",
+        title: "Danh thiếp",
         path: "/templates/business-cards",
         childs: [
             {
@@ -275,7 +275,7 @@ var tree = [
         ],
     },
     {
-        title: "Envelopes",
+        title: "Phong bì thư",
         path: '/templates/envelopes',
         childs: [
             {
@@ -405,7 +405,7 @@ var tree = [
         ],
     },
     {
-        title: "Flyers",
+        title: "Tờ rơi",
         path: '/templates/flyers',
         childs: [
             {
@@ -535,7 +535,7 @@ var tree = [
         ],
     },
     {
-        title: "Letterheads",
+        title: "Tiêu đề thư",
         path: '/templates/letterheads',
         childs: [
             {
@@ -665,7 +665,7 @@ var tree = [
         ],
     },
     {
-        title: "Postcards",
+        title: "Bưu thiếp",
         path: '/templates/postcards',
         childs: [
             {
@@ -794,136 +794,136 @@ var tree = [
             },
         ],
     },
-    {
-        title: "Yard Signs",
-        path: "/templates/yard-signs",
-        childs: [
-            {
-                title: "Agriculture",
-                path: "/templates/yard-signs/agriculture",
-            },
-            {
-                title: "Automotive & Transportation",
-                path: "/templates/yard-signs/automotive-transportation",
-            },
-            {
-                title: "Beauty",
-                path: "/templates/yard-signs/beauty",
-            },
-            {
-                title: "Blank Brochures",
-                path: "/templates/yard-signs/bland-brochures",
-            },
-            {
-                title: "Business Services",
-                path: "/templates/yard-signs/business-services",
-            },
-            {
-                title: "Child Care",
-                path: "/templates/yard-signs/child-care",
-            },
-            {
-                title: "Cleaning",
-                path: "/templates/yard-signs/cleaning",
-            },
-            {
-                title: "Construction",
-                path: "/templates/yard-signs/construction",
-            },
-            {
-                title: "Creative",
-                path: "/templates/yard-signs/creative",
-            },
-            {
-                title: "Education & Training",
-                path: "/templates/yard-signs/education-training",
-            },
-            {
-                title: "Energy & Environment",
-                path: "/templates/yard-signs/energy-environment",
-            },
-            {
-                title: "Event",
-                path: "/templates/yard-signs/event",
-            },
-            {
-                title: "Financial Services",
-                path: "/templates/yard-signs/financial-services",
-            },
-            {
-                title: "Food & Beverage",
-                path: "/templates/yard-signs/food-beverage",
-            },
-            {
-                title: "Generic Brochures",
-                path: "/templates/yard-signs/generic-brochures",
-            },
-            {
-                title: "Holiday",
-                path: "/templates/yard-signs/holiday",
-            },
-            {
-                title: "House & Home",
-                path: "/templates/yard-signs/house-home",
-            },
-            {
-                title: "Insurance",
-                path: "/templates/yard-signs/insurance",
-            },
-            {
-                title: "Law",
-                path: "/templates/yard-signs/law",
-            },
-            {
-                title: "Lawn & Garden",
-                path: "/templates/yard-signs/law-garden",
-            },
-            {
-                title: "Medical & Health Care",
-                path: "/templates/yard-signs/medical-healthcare",
-            },
-            {
-                title: "Music & Arts",
-                path: "/templates/yard-signs/music-arts",
-            },
-            {
-                title: "Non Profit",
-                path: "/templates/yard-signs/non-profit",
-            },
-            {
-                title: "Pets & Animals",
-                path: "/templates/yard-signs/pets-animals",
-            },
-            {
-                title: "Photography",
-                path: "/templates/yard-signs/photography",
-            },
-            {
-                title: "Real Estate",
-                path: "/templates/yard-signs/real-estate",
-            },
-            {
-                title: "Religion & Organizations",
-                path: "/templates/yard-signs/religion-organization",
-            },
-            {
-                title: "Retail",
-                path: "/templates/yard-signs/retail",
-            },
-            {
-                title: "Sports & Wellness",
-                path: "/templates/yard-signs/sports-wellness",
-            },
-            {
-                title: "Technology",
-                path: "/templates/yard-signs/technology",
-            },
-            {
-                title: "Travel & Tourism",
-                path: "/templates/yard-signs/travel-tourism",
-            },
-        ],
-    },
+    // {
+    //     title: "Yard Signs",
+    //     path: "/templates/yard-signs",
+    //     childs: [
+    //         {
+    //             title: "Agriculture",
+    //             path: "/templates/yard-signs/agriculture",
+    //         },
+    //         {
+    //             title: "Automotive & Transportation",
+    //             path: "/templates/yard-signs/automotive-transportation",
+    //         },
+    //         {
+    //             title: "Beauty",
+    //             path: "/templates/yard-signs/beauty",
+    //         },
+    //         {
+    //             title: "Blank Brochures",
+    //             path: "/templates/yard-signs/bland-brochures",
+    //         },
+    //         {
+    //             title: "Business Services",
+    //             path: "/templates/yard-signs/business-services",
+    //         },
+    //         {
+    //             title: "Child Care",
+    //             path: "/templates/yard-signs/child-care",
+    //         },
+    //         {
+    //             title: "Cleaning",
+    //             path: "/templates/yard-signs/cleaning",
+    //         },
+    //         {
+    //             title: "Construction",
+    //             path: "/templates/yard-signs/construction",
+    //         },
+    //         {
+    //             title: "Creative",
+    //             path: "/templates/yard-signs/creative",
+    //         },
+    //         {
+    //             title: "Education & Training",
+    //             path: "/templates/yard-signs/education-training",
+    //         },
+    //         {
+    //             title: "Energy & Environment",
+    //             path: "/templates/yard-signs/energy-environment",
+    //         },
+    //         {
+    //             title: "Event",
+    //             path: "/templates/yard-signs/event",
+    //         },
+    //         {
+    //             title: "Financial Services",
+    //             path: "/templates/yard-signs/financial-services",
+    //         },
+    //         {
+    //             title: "Food & Beverage",
+    //             path: "/templates/yard-signs/food-beverage",
+    //         },
+    //         {
+    //             title: "Generic Brochures",
+    //             path: "/templates/yard-signs/generic-brochures",
+    //         },
+    //         {
+    //             title: "Holiday",
+    //             path: "/templates/yard-signs/holiday",
+    //         },
+    //         {
+    //             title: "House & Home",
+    //             path: "/templates/yard-signs/house-home",
+    //         },
+    //         {
+    //             title: "Insurance",
+    //             path: "/templates/yard-signs/insurance",
+    //         },
+    //         {
+    //             title: "Law",
+    //             path: "/templates/yard-signs/law",
+    //         },
+    //         {
+    //             title: "Lawn & Garden",
+    //             path: "/templates/yard-signs/law-garden",
+    //         },
+    //         {
+    //             title: "Medical & Health Care",
+    //             path: "/templates/yard-signs/medical-healthcare",
+    //         },
+    //         {
+    //             title: "Music & Arts",
+    //             path: "/templates/yard-signs/music-arts",
+    //         },
+    //         {
+    //             title: "Non Profit",
+    //             path: "/templates/yard-signs/non-profit",
+    //         },
+    //         {
+    //             title: "Pets & Animals",
+    //             path: "/templates/yard-signs/pets-animals",
+    //         },
+    //         {
+    //             title: "Photography",
+    //             path: "/templates/yard-signs/photography",
+    //         },
+    //         {
+    //             title: "Real Estate",
+    //             path: "/templates/yard-signs/real-estate",
+    //         },
+    //         {
+    //             title: "Religion & Organizations",
+    //             path: "/templates/yard-signs/religion-organization",
+    //         },
+    //         {
+    //             title: "Retail",
+    //             path: "/templates/yard-signs/retail",
+    //         },
+    //         {
+    //             title: "Sports & Wellness",
+    //             path: "/templates/yard-signs/sports-wellness",
+    //         },
+    //         {
+    //             title: "Technology",
+    //             path: "/templates/yard-signs/technology",
+    //         },
+    //         {
+    //             title: "Travel & Tourism",
+    //             path: "/templates/yard-signs/travel-tourism",
+    //         },
+    //     ],
+    // },
 ]
 
 
@@ -970,7 +970,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                 margin: '10px',
                 border: '1px solid #e7eaf3',
                 borderRadius: '.3125rem',
-                width: '300px',
+                width: '350px',
             }} 
             >
                 {tree.map(ele => 
