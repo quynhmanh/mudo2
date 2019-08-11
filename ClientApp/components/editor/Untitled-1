@@ -7,3 +7,6 @@ curl -X GET "localhost:9200/file-path-test/_search?pretty" -H 'Content-Type: app
   }
 }
 '
+
+
+<video autoplay preload="none" width="560" height="320"><source src="https://dl5.webmfiles.org/big-buck-bunny_trailer.webm" type="video/webm"></video>

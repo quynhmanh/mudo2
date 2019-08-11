@@ -559,6 +559,8 @@ export default class Rect extends PureComponent<IProps, IState> {
       outline: selected ? `rgb(1, 159, 182) solid ${2/scale}px` : null,
     };
 
+    console.log('objectType ', objectType);
+
     const direction = zoomable
       .split(",")
       .map(d => d.trim())
@@ -757,7 +759,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           )}
           
-          {src && cropMode && 
+          {src && cropMode &&
             <div
             style={{
               transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
@@ -873,7 +875,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           )}
         </div>
-        {src &&
+        {src && (objectType === 4 || objectType === 6) &&
         <div
           id={_id}
           onMouseDown={!selected || src ? this.startDrag : null}
@@ -929,6 +931,60 @@ export default class Rect extends PureComponent<IProps, IState> {
           onDoubleClick={enableCropMode}
           onMouseDown={cropMode ? this.handleImageDrag.bind(this) : null}
           src={src} />
+          </div>
+        </div>}
+        {src && objectType === 7 &&
+        <div
+          id={_id}
+          onMouseDown={!selected || src ? this.startDrag : null}
+          style={{
+            zIndex: selected && objectType !== 4 ? 1 : 0,
+            transformOrigin: "0 0",
+            // transform: `scaleX(${scaleX}) scaleY(${scaleY})`,
+            position: "absolute",
+            width: width / (src ? 1 : scaleX) + "px",
+            height: height / (src ? 1 : scaleY) + "px",
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+              width: imgWidth + 'px',
+              height: imgHeight + 'px',
+            }} >
+              {cropMode && selected && imgResizeDirection.map(d => {
+                const cursor = `${getCursor(
+                  rotateAngle + parentRotateAngle,
+                  d
+                )}-resize`;
+                return (
+                  <div
+                    key={d}
+                    style={{
+                      cursor,
+                      transform: `scaleX(${1 / scale}) scaleY(${1 / scale})`
+                    }}
+                    className={`${zoomableMap[d]} resizable-handler-container`}
+                    onMouseDown={e => this.startResizeImage(e, cursor)}
+                  >
+                    <div
+                      key={d}
+                      style={{ cursor }}
+                      className={`${zoomableMap[d]} resizable-handler`}
+                      onMouseDown={e => this.startResizeImage(e, cursor)}
+                    />
+                  </div>
+                );
+              })}
+            <video 
+              style={{
+                width: '100%',
+                height: '100%',
+                transformOrigin: '0 0',
+                outline: cropMode ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
+              }}
+            muted loop autoPlay preload="none" width="560" height="320"><source src={src} type="video/webm"/></video>
           </div>
         </div>}
       </StyledRect>

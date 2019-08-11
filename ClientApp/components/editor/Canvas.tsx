@@ -86,6 +86,8 @@ export default class Canvas extends PureComponent<IProps, IState> {
 
         const {mode, rectWidth, rectHeight, scale, images, childId, cropMode, index, id, staticGuides, idObjectSelected} = this.props;
 
+        console.log('images ', images)
+
       return <div id={id}>
         <span style={{fontSize: '12px', display: 'block', marginBottom: '5px',}}>Trang {index + 1} - Mặt trước</span>
         <div

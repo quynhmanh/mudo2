@@ -23,10 +23,11 @@ enum SidebarTab {
   Background = 8,
   Element = 16,
   Upload = 32,
-  Emoji = 64,
+  Video = 64,
   Folder = 128,
   Font = 248,
-  Color = 596,
+  Color = 496,
+  Emoji = 992,
 }
 
 enum Mode {
@@ -44,6 +45,7 @@ enum TemplateType {
   Image = 4,
   Latex = 5,
   BackgroundImage = 6,
+  Video = 7,
 }
 
 export interface IProps {
@@ -128,6 +130,7 @@ interface IState {
   editingMedia: any;
   showMediaEditPopup: boolean;
   showTemplateEditPopup: boolean;
+  videos: any;
 }
 
 let firstpage = uuidv4();
@@ -214,6 +217,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     currentBackgroundHeights3: 0,
     editingMedia: null,
     showTemplateEditPopup: false,
+    videos: [
+      'https://dl5.webmfiles.org/big-buck-bunny_trailer.webm',
+      'http://techslides.com/demos/sample-videos/small.webm',
+      'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
+    ],
   };
 
   $app = null;
@@ -451,7 +459,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           } 
         }
 
-        if (objectType === 4 && !this.state.cropMode) {
+        if ((objectType === 4 || objectType === 7) && !this.state.cropMode) {
           var scaleWidth = image.imgWidth / image.width;
           var scaleHeight = image.imgHeight / image.height;
           var scaleLeft = image.posX / image.imgWidth;
@@ -1289,7 +1297,10 @@ html {
           responseType: 'blob',
         }).then(response =>{
             self.setState(
-              { scale: previousScale, showPopup: false }
+              { 
+                scale: previousScale, 
+                // showPopup: false 
+              }
             );
             console.log('response.data ', response.data);
             self.download("test.pdf", response.data);
@@ -1442,7 +1453,7 @@ html {
           [CANVAS]
         </body></html>`;
 
-        axios.post(`/api/Design/DownloadPNG?width=${this.state.rectWidth}&height=${this.state.rectHeight}`, 
+        axios.post(`/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight}`, 
         {fonts: self.state.fonts,template, canvas},
         {
           headers: {
@@ -2043,6 +2054,121 @@ html {
     });
 
     this.setState({ images });
+  }
+
+  videoOnMouseDown(e) {
+    e.preventDefault();
+
+    console.log('videoOnMouseDown e.target ', e.target);
+    var target = e.target.cloneNode(true);
+
+    console.log('videoOnMouseDown cloned', e.target.getElementsByTagName("source"))
+    target.style.zIndex = "11111111111";
+    console.log('e.target ', e.target.getElementsByTagName("source")[0].getAttribute("src"))
+    target.src = e.target.getElementsByTagName("source")[0].getAttribute("src");
+    target.style.width = e.target.getBoundingClientRect().width + 'px';
+    console.log('e.target.getBoundingClientRect().width ', e.target.getBoundingClientRect().width);
+    document.body.appendChild(target);
+    var self = this;
+    this.imgDragging = target;
+    var posX = e.pageX - e.target.getBoundingClientRect().left;
+    var dragging = true;
+    var posY = e.pageY - e.target.getBoundingClientRect().top;
+
+    var recScreenContainer = document.getElementById('screen-container-parent').getBoundingClientRect(); 
+    var beingInScreenContainer = false; 
+
+    const onMove = e => {
+      if (dragging) {
+        var rec2 = self.imgDragging.getBoundingClientRect();
+        if (
+          beingInScreenContainer === false &&
+          recScreenContainer.left < rec2.left &&
+          recScreenContainer.right > rec2.right &&
+          recScreenContainer.top < rec2.top &&
+          recScreenContainer.bottom > rec2.bottom
+        ) {
+
+          beingInScreenContainer = true;
+
+          // target.style.width = (rec2.width * self.state.scale) + 'px';
+          // target.style.height = (rec2.height * self.state.scale) + 'px';
+          // target.style.transitionDuration = '0.05s';
+
+          setTimeout(() => {
+            target.style.transitionDuration = '';
+          }, 50);
+        }
+
+        if (beingInScreenContainer === true &&
+          !(recScreenContainer.left < rec2.left &&
+            recScreenContainer.right > rec2.right &&
+            recScreenContainer.top < rec2.top &&
+            recScreenContainer.bottom > rec2.bottom)
+        ) {
+          beingInScreenContainer = false;
+
+          // target.style.width = (rec2.width / self.state.scale) + 'px';
+          // target.style.height = (rec2.height / self.state.scale) + 'px';
+          // target.style.transitionDuration = '0.05s';
+
+          setTimeout(() => {
+            target.style.transitionDuration = '';
+          }, 50);
+        }
+
+        target.style.left = e.pageX - posX + "px";
+        target.style.top = e.pageY - posY + "px";
+        target.style.position = "absolute";
+      }
+    };
+
+    const onUp = e => {
+      dragging = false;
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+
+      var recs = document.getElementsByClassName("alo");
+      var rec2 = self.imgDragging.getBoundingClientRect();
+      for (var i = 0; i < recs.length; ++i){
+        var rec = recs[i].getBoundingClientRect();
+        if (
+          rec.left < rec2.right &&
+          rec.right > rec2.left &&
+          rec.top < rec2.bottom &&
+          rec.bottom > rec2.top
+        ) {
+          let images = [...this.state.images];
+          images.push({
+            _id: uuidv4(),
+            type: TemplateType.Video,
+            width: rec2.width / self.state.scale,
+            height: rec2.height / self.state.scale,
+            origin_width: rec2.width / self.state.scale,
+            origin_height: rec2.height / self.state.scale,
+            left: (rec2.left - rec.left) / self.state.scale,
+            top: (rec2.top - rec.top) / self.state.scale,
+            rotateAngle: 0.0,
+            src: target.src,
+            selected: false,
+            scaleX: 1,
+            scaleY: 1,
+            posX: 0,
+            posY: 0,
+            imgWidth: (rec2.width / self.state.scale),
+            imgHeight: (rec2.height / self.state.scale),
+            page: this.state.pages[i],
+            zIndex: this.state.upperZIndex + 1,
+          });
+
+          self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
+        }
+      }
+
+      self.imgDragging.remove();
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
   }
 
   imgOnMouseDown(e) {
@@ -3006,13 +3132,52 @@ handleToolbarResize = e => {
           id='editor-navbar'
           style={{
             backgroundColor: '#019fb6',
-            height: '46px',
+            height: '42px',
+            padding: '5px',
+            display: 'flex',
           }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+            <a
+              id="logo-editor"
+              style={{
+                color: 'white',
+                display: 'inline-block',
+                padding: '5px 8px 5px 5px',
+                // backgroundColor: 'yellowgreen',
+                borderRadius: '6px',
+              }}
+              href="/"
+            >
+            <span style={{
+              alignItems: 'center',
+              display: 'flex',
+            }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '12px',
+                }}
+              >
+              <span>
+              <svg style={{height: '20px', width: '16px'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M15.45 17.97L9.5 12.01a.25.25 0 0 1 0-.36l5.87-5.87a.75.75 0 0 0-1.06-1.06l-5.87 5.87c-.69.68-.69 1.8 0 2.48l5.96 5.96a.75.75 0 0 0 1.06-1.06z"></path></svg>
+              </span>
+              Home    
+              </div>         
+            </span>
+            </a>
+            </div>
             <div
               style={{
                 position: 'absolute',
                 right: 0,
                 display: 'flex',
+                top: 0,
               }}>
               <button
                 className="toolbar-btn dropbtn-font"
@@ -3033,7 +3198,7 @@ handleToolbarResize = e => {
 </div>
 <span>Save</span>
               </button>
-              <button
+              {/* <button
                 className="toolbar-btn dropbtn-font"
                 onClick={this.downloadPNG.bind(this)}
                 style={{
@@ -3104,7 +3269,7 @@ handleToolbarResize = e => {
                 </svg>
 </div>
 <span>Download PDF</span>
-              </button>
+              </button> */}
           <a
             onClick={(e) => {e.preventDefault(); this.setState({showPopup: true})}}
             href="#" style={{
@@ -3897,6 +4062,31 @@ handleToolbarResize = e => {
                     </div>
                   </div>
                 )}
+                {this.state.selectedTab === SidebarTab.Video && (
+                  <div
+                    style={{
+                      color: "white",
+                      overflow: "scroll",
+                    }}
+                  >
+                    <div style={{display: 'inline-block'}}>
+                    <ul
+                      style={{
+                        listStyle: 'none',
+                        padding: 0,
+                      }}
+                    >
+                      {this.state.videos.map(font => 
+                          <video
+                            onMouseDown={this.videoOnMouseDown.bind(this)}
+                            muted autoPlay={true} preload="none" width="560" height="320"><source src={font} type="video/webm">
+                          </source>
+                          </video>
+                      )}
+                    </ul>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           }
@@ -4439,6 +4629,8 @@ handleToolbarResize = e => {
         {this.state.showPopup ?  
               <Popup  
                         text='Click "Close Button" to hide popup'  
+                        handleDownloadPDF={this.downloadPDF.bind(this)}
+                        handleDownloadPNG={this.downloadPNG.bind(this)}
                         closePopup={() => {this.setState({showPopup: false})}}  
               />  
         : null  

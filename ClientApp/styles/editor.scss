@@ -391,3 +391,11 @@ p.single-text:focus {
 input:focus {
   outline: none;
 }
+
+#logo-editor {
+  text-decoration: none;
+}
+
+#logo-editor:hover {
+  background-color: #00000070;
+}
