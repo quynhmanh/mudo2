@@ -100,7 +100,7 @@ export default class HomePage extends React.Component<IProps, IState> {
         <div >
           <div style={{display: 'flex'}} className="tile-rack__container layout--row-spacing u-display-flex u-flexWrap-wrap u-justifyContent-center js-tile-rack-slider" role="toolbar">
             <div className="tile-rack__tile-wrap tile-rack__svg-icons-tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide10" style={{}}>
-              <a href="/us/about/next-day-delivery" data-ga-event-action="tile" data-ga-event-label="/us/about/next-day-delivery || Next Day Delivery!" className="tile" data-di-id="di-id-4159d409-4571d809" tabIndex={-1}>
+              <div href="/us/about/next-day-delivery" data-ga-event-action="tile" data-ga-event-label="/us/about/next-day-delivery || Next Day Delivery!" className="tile" data-di-id="di-id-4159d409-4571d809" tabIndex={-1}>
                 <div className="tile__body list-default__parent">
                   <div className="tile__media-wrap">
                     <figure className="tile__figure u-margin-0">
@@ -120,9 +120,9 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             </div><div className="tile-rack__tile-wrap tile-rack__svg-icons-tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide11" style={{}}>
-              <a href="/us/about/moo-promise" data-ga-event-action="tile" data-ga-event-label="/us/about/moo-promise || The MOO promise" className="tile
+              <div href="/us/about/moo-promise" data-ga-event-action="tile" data-ga-event-label="/us/about/moo-promise || The MOO promise" className="tile
                 -borderless
                 -link
                 -link-whole-tile
@@ -150,9 +150,9 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             </div><div className="tile-rack__tile-wrap tile-rack__svg-icons-tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide12" style={{}}>
-              <a href="/us/about/printfinity" data-ga-event-action="tile" data-ga-event-label="/us/about/printfinity ||  Printfinity" className="tile
+              <div href="/us/about/printfinity" data-ga-event-action="tile" data-ga-event-label="/us/about/printfinity ||  Printfinity" className="tile
                 -borderless
                 -link
                 -link-whole-tile
@@ -180,7 +180,7 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             </div><div className="tile-rack__tile-wrap tile-rack__svg-icons-tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide13" style={{}}>
               <div className="tile
                 -borderless

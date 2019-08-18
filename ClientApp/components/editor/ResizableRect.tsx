@@ -55,6 +55,10 @@ export interface IProps {
     startX: number;
     startY: number;
     updateRect: boolean;
+    imgColor: string;
+    hidden: boolean;
+    showImage: boolean;
+    bleed: boolean;
   }
   
   export interface IState {
@@ -69,7 +73,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     rotatable: true,
     zoomable: '',
     minWidth: 10,
-    minHeight: 10
+    minHeight: 10,
   }
 
   handleRotate = (angle, startAngle) => {
@@ -164,7 +168,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       updateStartPos,_id, src, onTextChange, innerHTML, scaleX, scaleY, zIndex, childrens, objectType,
       outlineWidth, onFontSizeChange, handleFontColorChange, handleFontFaceChange, handleChildIdSelected, 
       childId, posX, posY, handleImageDrag, enableCropMode, cropMode, imgWidth, imgHeight,
-      onImageResize, resizingInnerImage, onResizeInnerImageStart, startX, startY, updateRect,
+      showImage, resizingInnerImage, onResizeInnerImageStart, startX, startY, updateRect, imgColor, hidden, bleed,
     } = this.props;
 
     const styles = tLToCenter({ top, left, width, height, rotateAngle })
@@ -173,6 +177,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
 
     return (
       <Rect
+        hidden={hidden}
         objectType={objectType}
         childrens={childrens}
         _id={_id}
@@ -223,6 +228,9 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         startX={startX}
         startY={startY}
         updateRect={updateRect}
+        imgColor={imgColor}
+        showImage={showImage}
+        bleed={bleed}
       />
     )
   }

@@ -28,6 +28,7 @@ namespace RCB.TypeScript.Models
         public int UpdatedBy { get; set; }
 
         public string Representative { get; set; }
+        public string Representative2 { get; set; }
         public string[] FontList { get; set; }
 
         public float Width { get; set; }
@@ -36,8 +37,21 @@ namespace RCB.TypeScript.Models
         public string FirstName { get; set; }
         public string FilePath { get; set; }
 
+        public string[] Pages { get; set; }
+
+        public int PrintType { get; set; }
+
         [Text(Name = "filePath.tree")]
         public string FilePathTree { get; set; }
+
+        [Ignore]
+        public string[] Canvas { get; set; }
+
+        [Ignore]
+        public string[] Canvas2 { get; set; }
+
+        [Ignore]
+        public string AdditionalStyle { get; set; }
 
         public TemplateModel()
         {

@@ -40,6 +40,12 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
             });
     }
 
+    handleDeleteTemplate = () => {
+        var url = `/api/Media/Delete?id=${this.props.item.id}`;
+        console.log('handleSubmit url ', url)
+        axios.delete(url);
+    }
+
     handleKeywordChanged = (index, e) => {
         console.log('index value', index, e.target.value);
         var keywords = this.state.keywords.map((kw, id) => {
@@ -123,8 +129,21 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                         <button className='unblurred' onClick={this.handleRemove.bind(this, index)}>Remove</button>
                     </div>)}
 
-                    <button className='unblurred' onClick={this.handleSubmit}>OK</button>
+                    <div 
+                        className='unblurred'
+                        style={{
+                        position: 'absolute',
+                        bottom: '15px',
+                        right: '15px',
+                    }}>
+                    <button
+                        style={{
+                            marginRight: '15px',
+                        }}
+                        className='unblurred' onClick={this.handleSubmit}>OK</button>
                     <button className='unblurred' onClick={this.handleAddNewKeyword}>Add new keyword</button>
+                    <button className="unblurred" onClick={this.handleDeleteTemplate}>Delete</button>
+                    </div>
                 </div>  
             </PopupWrapper>
         );  

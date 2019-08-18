@@ -49,6 +49,10 @@ index: number;
 addAPage: any;
 staticGuides: any;
 idObjectSelected: any;
+handleDeleteThisPage: any;
+bleed: boolean;
+showPopup: boolean;
+preview: boolean;
 }
 
 export interface IState {
@@ -86,14 +90,41 @@ export default class Canvas extends PureComponent<IProps, IState> {
 
         const {mode, rectWidth, rectHeight, scale, images, childId, cropMode, index, id, staticGuides, idObjectSelected} = this.props;
 
-        console.log('images ', images)
-
-      return <div id={id}>
+      return <ResizableRectContainer 
+        // onTransitionEnd={this.props.handleDeleteThisPage}
+        style={{
+          position: 'relative',
+          transition: 'all 0.1s linear',
+        }} 
+        key={id}
+        id={id}>
+        { !this.props.preview &&
         <span style={{fontSize: '12px', display: 'block', marginBottom: '5px',}}>Trang {index + 1} - Mặt trước</span>
+        }
+        { !this.props.preview &&
+        <div
+          className="controllers"
+          style={{
+            position: 'absolute',
+            right: 0,
+          }}
+        >
+        <button onClick={() => {
+          document.getElementById(id).style.opacity = '0';
+          setTimeout(() => {
+            this.props.handleDeleteThisPage(id);
+          }, 100);
+        }}>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 3.25h2c.69 0 1.25.56 1.25 1.25V5h-4.5v-.5c0-.69.56-1.25 1.25-1.25zM6.5 5v-.5A2.5 2.5 0 0 1 9 2h2a2.5 2.5 0 0 1 2.5 2.5V5h3.375a.625.625 0 1 1 0 1.25H16V15a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V6.25h-.875a.625.625 0 1 1 0-1.25H6.5zm7 1.25H5.25V15c0 .966.784 1.75 1.75 1.75h6A1.75 1.75 0 0 0 14.75 15V6.25H13.5zM8.125 8h-.25v6h1.25V8h-1zm2.75 1V8h1.25v6h-1.25V9z" fill="currentColor"></path></svg>
+        </button>
+        </div>
+        }
         <div
       style={{
         width: rectWidth * scale + 'px',
         height: rectHeight * scale + 'px',
+        transform: this.props.preview && 'scale(0.5)',
+        transformOrigin: this.props.preview && '0 0',
       }}
     >
 
@@ -153,17 +184,70 @@ export default class Canvas extends PureComponent<IProps, IState> {
                   })
                 }
               </div>
-      
       <div 
                 id="alo" 
                 className="alo"
+                // onTransitionEnd={() => {console.log('onTransitionEnd')}}
                 style={{
-                  backgroundColor: (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) ? 'black' : this.props.cropMode ? 'rgba(14, 19, 24, 0.2)' : 'white',
-                  width: rectWidth * scale + 'px',
-                  height: rectHeight * scale + 'px',
+                  backgroundColor: !this.props.showPopup && ((mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) ? 'black' : this.props.cropMode ? 'rgba(14, 19, 24, 0.2)' : 'white'),
+                  width: this.props.preview ? (rectWidth + 'px') : (rectWidth * scale + (this.props.bleed ? 20 : 0) + 'px'),
+                  height: this.props.preview ? (rectHeight + 'px') : (rectHeight * scale + (this.props.bleed ? 20 : 0) + 'px'),
                   position: 'relative',
                   boxShadow: "0 2px 8px rgba(14,19,24,.07)",
+                  padding: this.props.bleed ? "10px" : 0,
+                  // transition: 'all 2s linear',
+                  overflow: this.props.bleed && 'hidden',
+                  boxSizing: 'border-box',
               }}>
+      {this.props.bleed && 
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '10px',
+          height: '10px',
+          backgroundColor: 'black',
+          zIndex: 99999999,
+        }}
+      >
+      </div>}
+      {this.props.bleed && 
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: '10px',
+          height: '10px',
+          backgroundColor: 'black',
+          zIndex: 99999999,
+        }}
+      ></div>}
+      {this.props.bleed && 
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '10px',
+          height: '10px',
+          backgroundColor: 'black',
+          zIndex: 99999999,
+        }}
+      ></div>}
+      {this.props.bleed && 
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          width: '10px',
+          height: '10px',
+          backgroundColor: 'black',
+          zIndex: 99999999,
+        }}
+      ></div>}
                 <div
                   id="canvas"
                   className="unblurred"
@@ -171,8 +255,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
                     width: rectWidth * scale + 'px' ,
                     height: rectHeight * scale + 'px',
                     display: 'inline-block',
-                    position: 'relative',
-                    overflow: 'hidden',
+                    position: 'absolute',
                   }}
                   onClick={e => {
                     if ((e.target as Element).id === "canvas") {
@@ -180,12 +263,14 @@ export default class Canvas extends PureComponent<IProps, IState> {
                     }
                   }}
                 >
-                {images.filter(img => !img.selected).map(img => (
-
+                {images
+                  .filter(img => img.selected)
+                  .map(img => (
 <ResizableRectWrapper
+  selected={img.selected}
   outlineWidth={Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}
   style={{
-    zIndex: img.zIndex,
+    zIndex: 99999999,
     // outline: img.selected ? `rgb(1, 159, 182) solid ${Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}px` : null, 
     width: img.width * scale + 'px',
     height: img.height * scale + 'px',
@@ -202,9 +287,11 @@ export default class Canvas extends PureComponent<IProps, IState> {
     transformOrigin: '0 0',
   }}
   key={img._id}
-  onMouseDown={this.props.handleImageSelected.bind(this, img._id)}
+  onMouseDown={this.props.handleImageSelected.bind(this, img)}
 >
   <ResizableRect
+    showImage={false}
+    hidden={true}
     objectType={img.type}
     selected={img.selected}
     showController={img.selected}
@@ -251,14 +338,17 @@ export default class Canvas extends PureComponent<IProps, IState> {
     cropMode={cropMode}
     imgWidth={img.imgWidth}
     imgHeight={img.imgHeight}
+    imgColor={img.color}
     onImageResize={this.props.handleImageResize.bind(this)}
     resizingInnerImage={this.props.resizingInnerImage}
     onResizeInnerImageStart={this.props.onResizeInnerImageStart.bind(this)}
     startX={this.props.startX}
     startY={this.props.startY}
     updateRect={this.props.updateRect}
+    bleed={this.props.bleed}
   />
-</div></ResizableRectWrapper>))}
+</div></ResizableRectWrapper>
+))}
               </div>
               <div
                   id="canvas"
@@ -267,10 +357,8 @@ export default class Canvas extends PureComponent<IProps, IState> {
                     width: rectWidth * scale + 'px' ,
                     height: rectHeight * scale + 'px',
                     display: 'inline-block',
-                    position: 'absolute' as 'absolute',
-                    left: 0,
-                    // overflow: 'hidden',
-                    // zIndex: this.props.idObjectSelected ? 123123 : 0,
+                    position: 'relative',
+                    overflow: (!this.props.bleed) && 'hidden',
                   }}
                   onClick={e => {
                     if ((e.target as Element).id === "canvas") {
@@ -278,13 +366,15 @@ export default class Canvas extends PureComponent<IProps, IState> {
                     }
                   }}
                 >
-                {images.filter(img => img.selected).map(img => (
-
+                {images
+                  .filter(img => !img.selected || img.type === 4)
+                  .map(img => (
+                    <div>
 <ResizableRectWrapper
+  selected={img.selected}
   outlineWidth={Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}
   style={{
     zIndex: img.zIndex,
-    // outline: img.selected ? `rgb(1, 159, 182) solid ${Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}px` : null, 
     width: img.width * scale + 'px',
     height: img.height * scale + 'px',
     left: img.left * scale + 'px',
@@ -300,12 +390,15 @@ export default class Canvas extends PureComponent<IProps, IState> {
     transformOrigin: '0 0',
   }}
   key={img._id}
-  onMouseDown={this.props.handleImageSelected.bind(this, img._id)}
+  onMouseDown={this.props.handleImageSelected.bind(this, img)}
 >
   <ResizableRect
+    bleed={this.props.bleed}
+    showImage={true}
+    hidden={true}
     objectType={img.type}
     selected={img.selected}
-    showController={img.selected}
+    showController={false}
     key={img._id + "2"}
     _id={img._id}
     left={img.left}
@@ -349,6 +442,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
     cropMode={cropMode}
     imgWidth={img.imgWidth}
     imgHeight={img.imgHeight}
+    imgColor={img.color}
     onImageResize={this.props.handleImageResize.bind(this)}
     resizingInnerImage={this.props.resizingInnerImage}
     onResizeInnerImageStart={this.props.onResizeInnerImageStart.bind(this)}
@@ -356,10 +450,13 @@ export default class Canvas extends PureComponent<IProps, IState> {
     startY={this.props.startY}
     updateRect={this.props.updateRect}
   />
-</div></ResizableRectWrapper>))}
+</div></ResizableRectWrapper>
+</div>
+))}
               </div>
               </div>
               </div>
+              {!this.props.preview &&
               <a
                 style={{
                   width: '100%',
@@ -373,11 +470,34 @@ export default class Canvas extends PureComponent<IProps, IState> {
                 href="#" onClick={(e) => {this.props.addAPage(e, id)} }>
                 Thêm 1 trang
               </a>
-              </div>}
+              }
+              </ResizableRectContainer>}
 }
 
 const ResizableRectWrapper = StyledComponent.div`
   :hover {
-    outline: rgb(1, 159, 182) solid ${props => props.outlineWidth}px;
+    outline: ${props => props.selected ? 'none' : `rgb(1, 159, 182) solid ${props.outlineWidth}px`};
+  }
+`;
+
+const ResizableRectContainer = StyledComponent.div`
+  .controllers {
+    display: none;
+    top: -2px;
+    border-radius: 5px;
+  }
+  .controllers:hover {
+    background-color: #8080801f;
+  }
+  button {
+    background: none;
+    border: none;
+    padding: 1px 3px;
+  }
+  button:focus {
+    outline: none;
+  }
+  :hover .controllers {
+    display: inline;
   }
 `;

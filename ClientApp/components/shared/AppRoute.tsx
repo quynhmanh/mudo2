@@ -4,12 +4,13 @@ import Globals from "@Globals";
 
 export interface IProps extends RouteProps {
     layout: React.ComponentClass<any>;
+    authorizedRequired: boolean;
 }
 
-export const AppRoute = ({ component: Component, layout: Layout, path: Path, ...rest }: IProps) => {
+export const AppRoute = ({ component: Component, layout: Layout, authorizedRequired, path: Path, ...rest }: IProps) => {
 
     var isLoginPath = Path === "/login";
-    if (!Globals.isAuthenticated && !isLoginPath) {
+    if (!Globals.isAuthenticated && !isLoginPath && authorizedRequired) {
         return <Redirect to="/login" />;
     }
     if (Globals.isAuthenticated && isLoginPath) {

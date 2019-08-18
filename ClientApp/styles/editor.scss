@@ -14,7 +14,7 @@
 }
 
 html {
-  height: 101%;
+  height: 100%;
 }
 
 h4 {
@@ -32,7 +32,7 @@ body {
   .wrapper {
     background-color: #f5f5f5;
     position: absolute;
-    height: calc(100% - 42px);
+    height: calc(100% - 40px);
     top: 40px;
   }
   
@@ -226,10 +226,11 @@ div[data-reactroot] {
   background-color: #f1f1f1;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-  top: 50px;
+  top: calc(100% + 20px);
   border-radius: 3px;
   display: none;
   width: 170px;
+  right: 10px;
 }
 
 .dropdown-content-font-size a {
@@ -398,4 +399,17 @@ input:focus {
 
 #logo-editor:hover {
   background-color: #00000070;
+}
+
+#map {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  z-index: 100;
+}
+
+#screen-container-parent {
+  scroll-behavior: smooth;
 }

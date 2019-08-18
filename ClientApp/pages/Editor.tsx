@@ -14,7 +14,20 @@ import Canvas from '@Components/editor/Canvas';
 import MathJax from 'react-mathjax2'
 import InfiniteScroll from '@Components/shared/InfiniteScroll';
 import ImagePicker from '@Components/shared/ImagePicker';
+import {getMostProminentColor} from '@Utils';
+import PosterReview from '@Components/editor/PosterReview';
+import TrifoldReview from '@Components/editor/TrifoldReview';
+import FlyerReview from '@Components/editor/FlyerReview';
+import BusinessCardReview from '@Components/editor/BusinessCardReview';
+
 const thick = 16;
+
+enum SubType {
+  BusinessCardReview = 0,
+  FlyerReview = 1,
+  PosterReview = 2,
+  TrifoldReview = 3,
+}
 
 enum SidebarTab {
   Image = 1,
@@ -55,6 +68,7 @@ export interface IProps {
 }
 
 interface IState {
+  subtype: SubType,
   query: string;
   error: any;
   items: any;
@@ -131,6 +145,10 @@ interface IState {
   showMediaEditPopup: boolean;
   showTemplateEditPopup: boolean;
   videos: any;
+  hasMoreBackgrounds: boolean;
+  typeObjectSelected: TemplateType;
+  bleed: boolean;
+  showPrintingSidebar: boolean;
 }
 
 let firstpage = uuidv4();
@@ -139,11 +157,14 @@ const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\
 
 class CanvaEditor  extends PureComponent<IProps, IState> {
   state = {
+    subtype: null,
+    bleed: false,
     showMediaEditPopup: false,
     hasMoreImage: true,
     hasMoreTemplate: true,
     hasMoreTextTemplate: true,
     hasMoreFonts: true,
+    hasMoreBackgrounds: true,
     totalFonts: 1000000,
     query: "",
     currentItemsHeight: 0,
@@ -181,6 +202,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     templateType: null,
     _id: null,
     idObjectSelected: null,
+    typeObjectSelected: null,
     scale: 1,
     fitScale: 1,
     startX: 0,
@@ -222,6 +244,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       'http://techslides.com/demos/sample-videos/small.webm',
       'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
     ],
+    showPrintingSidebar: false,
   };
 
   $app = null;
@@ -244,11 +267,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
     var screenContainerParentRect = getBoundingClientRect("screen-container-parent");
     var screenContainerRect = getBoundingClientRect("screen-container");
-
-    // if (screenContainerRect.height > screenContainerParentRect.height) {
-    //   document.getElementById("screen-container").style.bottom = '0px';
-    //   document.getElementById("guide-container").style.bottom = '0px';
-    // }
 
     const { width, height } = screenContainerParentRect;
     var scaleX = (width - 100) / this.state.rectWidth;
@@ -277,6 +295,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           throw new Error(res.data.errors.join("\n"));
         }
 
+        console.log('res ', res);
+
         var image = res.data;
         var templateType = image.value.type;
         var mode;
@@ -294,10 +314,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           y: [[0,0], [document.height/ 2,0], [document.height,0]],
         }
 
-        document.document_object = document.document_object.map(obj => {
-          obj.page = this.state.activePageId;
-          return obj;
-        })
+        // document.document_object = document.document_object.map(obj => {
+        //   obj.page = this.state.activePageId;
+        //   return obj;
+        // })
 
         if (image.value.fontList) {
           var fontList = image.value.fontList.forEach(id => { 
@@ -326,6 +346,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             }
           });
         }
+
+        console.log('document ', res);
         
         self.setState({ 
           scale: Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY),
@@ -337,11 +359,45 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           templateType,
           mode,
           fonts: image.value.fontList,
+          pages: res.data.value.pages, 
+          activePageId:res.data.value.pages[0],
+          subtype: res.data.value.printType,
         });
       }).catch(e => {
         console.log('Unexpected error occured: e', e);
       })
     }
+
+    var subtype = this.props.match.params.subtype;
+    console.log('subtype ', subtype);
+    if (subtype) {
+      var rectWidth;
+      var rectHeight;
+      if (subtype == 0) {
+        console.log("Asdasd")
+        rectWidth = 642;
+        rectHeight = 378;
+      } else if (subtype == 1) {
+        rectWidth = 1587.402;
+        rectHeight = 2245.04;
+      } else if (subtype == 2) {
+        rectWidth = 2245.04; 
+        rectHeight = 1587.402;
+      } else if (subtype == 3) {
+        rectWidth = 3174.8;
+        rectHeight = 4490.08;
+      }
+      var scaleX = (width - 100) / rectWidth;
+      var scaleY = (height - 100) / rectHeight;
+      console.log("Asdasd")
+      self.setState({ 
+        rectWidth,
+        rectHeight,
+        subtype,
+        scale: Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY),
+      });
+    }
+
     document.addEventListener("keydown", this.removeImage.bind(this));
   }
 
@@ -352,7 +408,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   }
 
   handleEditmedia = (item) => {
-    console.log('handleEditmedia ');
     this.setState({showMediaEditPopup: true, editingMedia: item})
   }
 
@@ -373,6 +428,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // handle the crop area
   handleResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
+    console.log('handleResize', this.switching, e.clientX, e.clientY, this.state.startX, this.state.startY);
     if (this.switching) {
       return;
     }
@@ -387,22 +443,54 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         var deltaTop = top - image.top;
         var deltaWidth = width - image.width;
         var deltaHeight = height - image.height;
+
+        var oldDeltaLeft = deltaLeft;
+        var oldDeltaHeight = deltaHeight;
         
         if (this.state.cropMode) {
-          if (deltaLeft < 0 && deltaTop < 0 && image.posX == 0 && image.posY == 0) {
+          
+          var t5 = false;
+          var t8 = false;
+          if (deltaLeft < image.posX && (type == "tl" || type == "bl")) {
+            t5 = true;
+            deltaLeft = image.posX;
+            left = image.left + deltaLeft;
+            width = image.width - deltaLeft;
+            deltaWidth = width - image.imgWidth;
+          } 
+
+          var t6 = false;
+          var t7 = false;
+          if (image.imgHeight + image.posY - height < 0 && (type == "bl" || type == "br")) {
+            t6 = true;
+            height = image.imgHeight + image.posY;
+          }
+          if (image.imgWidth + image.posX - width < 0 && (type == "br" || type == "tr")) {
+            t7 = true;
+            width = image.imgWidth + image.posX;
+          }
+
+          if (deltaTop < image.posY && (type == "tl" || type == "tr")) {
+            t8 = true;
+            deltaTop = image.posY;
+            top = image.top + deltaTop;
+            height = image.height - deltaTop;
+            deltaHeight = height - image.imgHeight;
+          } 
+
+          if (t5 && t8 && type=="tl") {
+            console.log('e.clientX e.clientY', e.clientX, e.clientY, oldDeltaLeft, oldDeltaHeight);
             self.setState({
               resizingInnerImage: !self.state.resizingInnerImage, 
-              startX: e.clientX - deltaLeft, 
-              startY: e.clientY - deltaTop,
+              startX: e.clientX - image.posX, 
+              startY: e.clientY - image.posY,
             });
             self.switching = true;
             self.handleImageResize = () => {};
-          } 
-          else if (deltaHeight > 0 && 
-            deltaLeft < 0 &&
-            image.imgHeight + image.posY - image.height === 0 &&
-            image.posX === 0)
-          {
+          }
+
+          if (t5 && t6 && type == "bl") {
+            console.log("bl");
             self.setState({
               resizingInnerImage: !self.state.resizingInnerImage, 
               startX: e.clientX - deltaLeft, 
@@ -411,52 +499,28 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             self.switching = true;
             self.handleImageResize = () => {};
           }
-          else if (!self.switching && deltaWidth >= 0 &&
-            deltaTop <= 0 &&
-            image.imgWidth + image.posX - image.width === 0 &&
-            image.posY === 0) {
-              self.setState({
-                resizingInnerImage: !self.state.resizingInnerImage, 
-                startX: e.clientX - deltaWidth, 
-                startY: e.clientY - deltaTop,
-              });
-              self.switching = true;
-              self.handleImageResize = () => {};
-            }
-          
-            else if (deltaWidth >= 0 &&
-              deltaHeight >= 0 &&
-              image.imgWidth + image.posX - image.width === 0 && 
-              image.imgHeight + image.posY - image.height === 0) {
-                self.setState({
-                  resizingInnerImage: !self.state.resizingInnerImage, 
-                  startX: e.clientX - deltaLeft, 
-                  startY: e.clientY - deltaHeight,
-                });
-                self.switching = true;
-                self.handleImageResize = () => {};
-              }
 
-          if (deltaLeft < image.posX) {
-            deltaLeft = image.posX;
-            left = image.left + deltaLeft;
-            width = image.width - deltaLeft;
-            deltaWidth = width - image.imgWidth;
-          } 
-
-          if (image.imgHeight + image.posY - height < 0) {
-            height = image.imgHeight + image.posY;
-          }
-          if (image.imgWidth + image.posX - width < 0) {
-            width = image.imgWidth + image.posX;
+          if (t6 && t7 && type == "br") {
+            console.log("br");
+            self.setState({
+              resizingInnerImage: !self.state.resizingInnerImage, 
+              startX: e.clientX - deltaLeft, 
+              startY: e.clientY - deltaHeight,
+            });
+            self.switching = true;
+            self.handleImageResize = () => {};
           }
 
-          if (deltaTop < image.posY) {
-            deltaTop = image.posY;
-            top = image.top + deltaTop;
-            height = image.height - deltaTop;
-            deltaHeight = height - image.imgHeight;
-          } 
+          if (t8 && t7 && type == "tr") {
+            console.log("tr");
+            self.setState({
+              resizingInnerImage: !self.state.resizingInnerImage, 
+              startX: e.clientX - deltaWidth, 
+              startY: e.clientY - deltaTop,
+            });
+            self.switching = true;
+            self.handleImageResize = () => {};
+          }
         }
 
         if ((objectType === 4 || objectType === 7) && !this.state.cropMode) {
@@ -535,7 +599,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           setTimeout(() => {
             self.switching = false,
             self.setState({updateRect: false});
-          }, 50);
+          }, 1);
         }
       });
   };
@@ -546,6 +610,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // Handle the actual miage
   handleImageResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
+    console.log('handleimageResize ', type, this.switching, e.clientX, e.clientY, this.state.startX, this.state.startY);
+    if (this.switching) {
+      return;
+    }
     const { scale } = this.state;
     let { top, left, width, height } = style;
 
@@ -555,41 +623,23 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var images = this.state.images.map(image => {
       if (image._id === _id) {
 
-        // if (top > 0) {
-        //   top = 0;
-        // }
-
-        // if (left > 0) {
-        //   left = 0;
-        // }
-
-        // if (width < image.width) {
-        //   width = image.width;
-        // }
-
-        // if (height < image.height) {
-        //   height = image.height;
-        // }
-
-        // console.log('image.width - left', image.width - left);
-        // console.log('width ', width);
-        // console.log('top ', top);
-        // if (image.width - left > width && top <= 0) {
-        //   console.log('alo 1');
-        //   self.setState({
-        //     resizingInnerImage: !self.state.resizingInnerImage, 
-        //     startX: e.clientX  + image.width - left - width,
-        //     startY: e.clientY,
-        //   });
-        //   switching = true;
-        //   self.handleResize = () => {};
-        //   width = -left + image.width;
-        // }
-        // else if (image.width - left > width && top <= 0) {
-        //   console.log('alo 2');
-        // }
-
-        if (image.height - top > height && left <= 0) {
+        if (image.height - top - height > 0 &&
+          image.width - left - width > 0 && (type == "br")) {
+            console.log(3, image.width - left - width, e.clientX);
+            console.log(3, image.height - top - height, e.clientY);
+            self.setState({
+              resizingInnerImage: !self.state.resizingInnerImage, 
+              startX: e.clientX + image.width - left - width, 
+              startY: e.clientY + image.height - top - height,
+            });
+            switching = true;
+            self.handleResize = () => {};
+            height = -top + image.height;
+            width = -left + image.width;
+        }
+        else
+        if (image.height - top > height && left <= 0 && (type == "bl" || type == "br")) {
+          console.log(1, image.height - top, height, left);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX, 
@@ -598,8 +648,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           switching = true;
           self.handleResize = () => {};
           height = -top + image.height;
+          // width = -left + image.width;
         } else 
-        if (image.height - top > height && left > 0) {
+        if (image.height - top > height && left > 0 && (type == "bl")) {
+          console.log(2);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX - left, 
@@ -612,21 +664,12 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           left = 0;
           height = -top + image.height;
         }
+        else
+        // console.log('image.height - top, height', image.height - top, height);
+        // console.log('image.width - left, width', image.width - left, width);
 
-        if (image.height - top >= height &&
-          image.width - left >= width) {
-            self.setState({
-              resizingInnerImage: !self.state.resizingInnerImage, 
-              startX: e.clientX + image.width - left - width, 
-              startY: e.clientY + image.height - top - height,
-            });
-            switching = true;
-            self.handleResize = () => {};
-            height = -top + image.height;
-            width = -left + image.width;
-          }
-
-        if (image.width - left > width && top <= 0) {
+        if (image.width - left > width && top < 0 && (type == "tr" || type == "br")) {
+          console.log(4);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX, 
@@ -636,7 +679,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           self.handleResize = () => {};
           width = -left + image.width;
         } else 
-        if (image.width - left > width && top > 0) {
+        if (image.width - left > width && top > 0 && type == "tr") {
+          console.log(5);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX - top, 
@@ -649,8 +693,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           top = 0;
           width = -left + image.width;
         }
-
-        if (top > 0 && left <= 0) {
+        else
+        if (top > 0 && left <= 0 && (type == "tl" || type == "tr")) {
+          console.log(6);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX, 
@@ -661,7 +706,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           top = 0;
           switching = true;
           self.handleResize = () => {};
-        } else if (left > 0 && top <= 0) {
+        } else if (left > 0 && top <= 0 && (type == "tl" || type == "bl")) {
+          console.log(7);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX - left, 
@@ -672,7 +718,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           left = 0;
           switching = true;
           self.handleResize = () => {};
-        } else if (left > 0 && top > 0) {
+        } else 
+        if (left > 1 && top > 1 && type == "tl") {
+          console.log(8, left, top);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX - left, 
@@ -703,7 +751,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           // self.setState({updateRect: false});
           setTimeout(() => {
             self.setState({updateRect: false});
-          }, 50);
+          }, 1);
         }
       });
   };
@@ -1097,7 +1145,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         selectedTab = SidebarTab.Image;
       }
 
-      this.setState({ selectedTab, images, idObjectSelected: null, childId: null, });
+      this.setState({ selectedTab, images, idObjectSelected: null, typeObjectSelected: null, childId: null, });
     }
   };
   removeImage(e) {
@@ -1115,13 +1163,14 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       this.setState({ images });
     }
   }
-  handleImageSelected = (_id, event) => {
+  handleImageSelected = (img, event) => {
     event.stopPropagation();
     var scaleY;
     let images = this.state.images.map(image => {
-      if (image._id === _id) {
+      if (image._id === img._id) {
         scaleY = image.scaleY;
-        image.selected = true;
+        image.selected = true; 
+        image.fuck = 1;
       } else {
         image.selected = false;
       }
@@ -1131,7 +1180,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var defaultColor = 'black';
     var font;
     var fontSize;
-    var el = document.getElementById(_id);
+    var el = document.getElementById(img._id);
     if (el) {
       defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
       font = window.getComputedStyle(el, null).getPropertyValue("font-family");
@@ -1142,7 +1191,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     this.handleFontColorChange(defaultColor);
     this.setState({fontSize});
 
-    this.setState({ images, idObjectSelected: _id, childId: null });
+    this.setState({ images, idObjectSelected: img._id, typeObjectSelected: img.type, childId: null });
   };
 
   removeTemplate = (e) => {
@@ -1153,7 +1202,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   }
 
   download = async (filename, text) => {
-    console.log('text ', text);
     var blobUrl = URL.createObjectURL(text);
     var element = document.createElement('a');
 
@@ -1166,12 +1214,12 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     document.body.removeChild(element);
   }
 
-  downloadPDF() {
+  downloadPDF(bleed) {
     var previousScale = this.state.scale;
     var self = this;
     this.doNoObjectSelected();
     this.setState(
-      { scale: 1, showPopup: true },
+      { scale: 1, showPopup: true, bleed, },
       () => {
         var aloCloned = document.getElementsByClassName("alo");
         var canvas = [];
@@ -1279,8 +1327,8 @@ html {
         }
         [FONT_FACE]
         body {
-          width: ${this.state.rectWidth}px;
-          height: ${this.state.rectHeight}px;
+          width: ${this.state.rectWidth + (bleed ? 20 : 0)}px;
+          height: ${this.state.rectHeight + (bleed ? 20 : 0)}px;
           line-height: 1.42857143;
         }
         </style>
@@ -1288,7 +1336,7 @@ html {
           [CANVAS]
         </body></html>`;
 
-        axios.post(`/api/Design/Download?width=${this.state.rectWidth}&height=${this.state.rectHeight}`, 
+        axios.post(`/api/Design/Download?width=${this.state.rectWidth + (bleed ? 20 : 0)}&height=${this.state.rectHeight + (bleed ? 20 : 0)}`, 
         {fonts: self.state.fonts,template, canvas},
         {
           headers: {
@@ -1299,10 +1347,10 @@ html {
             self.setState(
               { 
                 scale: previousScale, 
-                // showPopup: false 
+                // showPopup: false,
+                bleed: false,
               }
             );
-            console.log('response.data ', response.data);
             self.download("test.pdf", response.data);
           })
       }
@@ -1310,9 +1358,7 @@ html {
   }
 
   b64toBlob = (b64Data, contentType='', sliceSize=512) => {
-    console.log('b64Data ', b64Data)
     const byteCharacters = atob(b64Data);
-    console.log('byteCharacters length', byteCharacters.length)
     const byteArrays = [];
   
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
@@ -1331,7 +1377,8 @@ html {
     return blob;
   }
 
-  async downloadPNG() {
+  async downloadPNG(transparent, png) {
+    console.log('transparent ', transparent);
     var previousScale = this.state.scale;
     var self = this;
     this.doNoObjectSelected();
@@ -1349,112 +1396,13 @@ html {
           return style.attributes.getNamedItem("data-styled") !== null
         });
 
-        var template = `<html><head>
-          ${a[0].outerHTML}
-        </head>
-        <style type="text/css">
-        .mjx-chtml {display: inline-block; line-height: 0; text-indent: 0; text-align: left; text-transform: none; font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; letter-spacing: normal; word-wrap: normal; word-spacing: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; margin: 0; padding: 1px 0}
-.MJXc-display {display: block; text-align: center; margin: 0; padding: 0}
-.mjx-chtml[tabindex]:focus, body :focus .mjx-chtml[tabindex] {display: inline-table}
-.mjx-full-width {text-align: center; display: table-cell!important; width: 10000em}
-.mjx-math {display: inline-block; border-collapse: separate; border-spacing: 0}
-.mjx-math * {display: inline-block; -webkit-box-sizing: content-box!important; -moz-box-sizing: content-box!important; box-sizing: content-box!important; text-align: left}
-.mjx-numerator {display: block; text-align: center}
-.mjx-denominator {display: block; text-align: center}
-.MJXc-stacked {height: 0; position: relative}
-.MJXc-stacked > * {position: absolute}
-.MJXc-bevelled > * {display: inline-block}
-.mjx-stack {display: inline-block}
-.mjx-op {display: block}
-.mjx-under {display: table-cell}
-.mjx-over {display: block}
-.mjx-over > * {padding-left: 0px!important; padding-right: 0px!important}
-.mjx-under > * {padding-left: 0px!important; padding-right: 0px!important}
-.mjx-stack > .mjx-sup {display: block}
-.mjx-stack > .mjx-sub {display: block}
-.mjx-prestack > .mjx-presup {display: block}
-.mjx-prestack > .mjx-presub {display: block}
-.mjx-delim-h > .mjx-char {display: inline-block}
-.mjx-surd {vertical-align: top}
-.mjx-mphantom * {visibility: hidden}
-.mjx-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 2px 3px; font-style: normal; font-size: 90%}
-.mjx-annotation-xml {line-height: normal}
-.mjx-menclose > svg {fill: none; stroke: currentColor}
-.mjx-mtr {display: table-row}
-.mjx-mlabeledtr {display: table-row}
-.mjx-mtd {display: table-cell; text-align: center}
-.mjx-label {display: table-row}
-.mjx-box {display: inline-block}
-.mjx-block {display: block}
-.mjx-span {display: inline}
-.mjx-char {display: block; white-space: pre}
-.mjx-itable {display: inline-table; width: auto}
-.mjx-row {display: table-row}
-.mjx-cell {display: table-cell}
-.mjx-table {display: table; width: 100%}
-.mjx-line {display: block; height: 0}
-.mjx-strut {width: 0; padding-top: 1em}
-.mjx-vsize {width: 0}
-.MJXc-space1 {margin-left: .167em}
-.MJXc-space2 {margin-left: .222em}
-.MJXc-space3 {margin-left: .278em}
-.mjx-ex-box-test {position: absolute; overflow: hidden; width: 1px; height: 60ex}
-.mjx-line-box-test {display: table!important}
-.mjx-line-box-test span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
-.MJXc-TeX-unknown-R {font-family: monospace; font-style: normal; font-weight: normal}
-.MJXc-TeX-unknown-I {font-family: monospace; font-style: italic; font-weight: normal}
-.MJXc-TeX-unknown-B {font-family: monospace; font-style: normal; font-weight: bold}
-.MJXc-TeX-unknown-BI {font-family: monospace; font-style: italic; font-weight: bold}
-.MJXc-TeX-ams-R {font-family: MJXc-TeX-ams-R,MJXc-TeX-ams-Rw}
-.MJXc-TeX-cal-B {font-family: MJXc-TeX-cal-B,MJXc-TeX-cal-Bx,MJXc-TeX-cal-Bw}
-.MJXc-TeX-frak-R {font-family: MJXc-TeX-frak-R,MJXc-TeX-frak-Rw}
-.MJXc-TeX-frak-B {font-family: MJXc-TeX-frak-B,MJXc-TeX-frak-Bx,MJXc-TeX-frak-Bw}
-.MJXc-TeX-math-BI {font-family: MJXc-TeX-math-BI,MJXc-TeX-math-BIx,MJXc-TeX-math-BIw}
-.MJXc-TeX-sans-R {font-family: MJXc-TeX-sans-R,MJXc-TeX-sans-Rw}
-.MJXc-TeX-sans-B {font-family: MJXc-TeX-sans-B,MJXc-TeX-sans-Bx,MJXc-TeX-sans-Bw}
-.MJXc-TeX-sans-I {font-family: MJXc-TeX-sans-I,MJXc-TeX-sans-Ix,MJXc-TeX-sans-Iw}
-.MJXc-TeX-script-R {font-family: MJXc-TeX-script-R,MJXc-TeX-script-Rw}
-.MJXc-TeX-type-R {font-family: MJXc-TeX-type-R,MJXc-TeX-type-Rw}
-.MJXc-TeX-cal-R {font-family: MJXc-TeX-cal-R,MJXc-TeX-cal-Rw}
-.MJXc-TeX-main-B {font-family: MJXc-TeX-main-B,MJXc-TeX-main-Bx,MJXc-TeX-main-Bw}
-.MJXc-TeX-main-I {font-family: MJXc-TeX-main-I,MJXc-TeX-main-Ix,MJXc-TeX-main-Iw}
-.MJXc-TeX-main-R {font-family: MJXc-TeX-main-R,MJXc-TeX-main-Rw}
-.MJXc-TeX-math-I {font-family: MJXc-TeX-math-I,MJXc-TeX-math-Ix,MJXc-TeX-math-Iw}
-.MJXc-TeX-size1-R {font-family: MJXc-TeX-size1-R,MJXc-TeX-size1-Rw}
-.MJXc-TeX-size2-R {font-family: MJXc-TeX-size2-R,MJXc-TeX-size2-Rw}
-.MJXc-TeX-size3-R {font-family: MJXc-TeX-size3-R,MJXc-TeX-size3-Rw}
-.MJXc-TeX-size4-R {font-family: MJXc-TeX-size4-R,MJXc-TeX-size4-Rw}
-.MJXc-TeX-vec-R {font-family: MJXc-TeX-vec-R,MJXc-TeX-vec-Rw}
-.MJXc-TeX-vec-B {font-family: MJXc-TeX-vec-B,MJXc-TeX-vec-Bx,MJXc-TeX-vec-Bw}
-.MJX_Assistive_MathML {
-  position: absolute!important;
-  top: 0;
-  left: 0;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 1px 0 0 0!important;
-  border: 0!important;
-  height: 1px!important;
-}
-html {
-          -webkit-print-color-adjust: exact;
-        }
-        @font-face {
-          font-family: 'Amatic SC';
-          src: url('localhost:64099/fonts/broadb.ttf')
-        }
-        [FONT_FACE]
-        body {
-          width: ${this.state.rectWidth}px;
-          height: ${this.state.rectHeight}px;
-          line-height: 1.42857143;
-        }
-        </style>
-        <body style="margin: 0;">
-          [CANVAS]
-        </body></html>`;
-
-        axios.post(`/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight}`, 
-        {fonts: self.state.fonts,template, canvas},
+        axios.post(`/api/Design/DownloadPNG?width=${this.state.rectWidth}&height=${this.state.rectHeight}&transparent=${transparent}&download=true&png=${png}`, 
+        {
+          fonts: self.state.fontsList.map(font=> font.id), 
+          canvas, 
+          additionalStyle: a[0].outerHTML, 
+          transparent
+        },
         {
           headers: {
             'Content-Type': 'text/html',
@@ -1465,13 +1413,13 @@ html {
               { scale: previousScale, showPopup: false }
             );
             console.log('response.data ', response.data);
-            self.download("test.png", response.data);
+            self.download(`test.${png ? "png" : "jpeg"}`, response.data);
           })
       }
     );
   }
 
-  async saveImages() {
+  async saveImages2() {
     console.log('saveImages ');
     this.setState({isSaving: true})
     const { mode } = this.state;
@@ -1503,8 +1451,6 @@ html {
       }
       return img;
     })
-
-    console.log('images ', images);
 
     setTimeout(async function() {
       var url;
@@ -1576,70 +1522,350 @@ html {
         type = TemplateType.Template;
       }
 
-      console.log('saving images');
+      var previousScale = self.state.scale;
+      self.setState(
+        { scale: 1, showPopup: true },
+        () => {
+          var aloCloned = document.getElementById("alo2");
+          var canvas = [aloCloned.outerHTML];
+          var styles = document.getElementsByTagName("style");
+          var a = Array.from(styles).filter(style => {
+            return style.attributes.getNamedItem("data-styled") !== null
+          });
 
-      var res = JSON.stringify({
-        "CreatedAt": "2014-09-27T18:30:49-0300",
-        "CreatedBy": 2,
-        "UpdatedAt": "2014-09-27T18:30:49-0300",
-        "UpdatedBy": 3,
-        Type: type,
-        Document: JSON.stringify({
-          _id: self.state._id ? self.state._id : uuidv4(),
-          width: self.state.rectWidth,
-          origin_width: self.state.rectWidth,
-          height: self.state.rectHeight,
-          origin_height: self.state.rectHeight,
-          left: 0,
-          top: 0,
-          type: mode,
-          scaleX: 1,
-          scaleY: 1,
-          document_object: images,
-        }),
-        "FontList": self.state.fontsList.map(font=> font.id),
-        "Width": self.state.rectWidth,
-        "Height": self.state.rectHeight,
-        "Id": uuidv4(),
-        "Keywords": [],
-      });
+          var res = JSON.stringify({
+            "CreatedAt": "2014-09-27T18:30:49-0300",
+            "CreatedBy": 2,
+            "UpdatedAt": "2014-09-27T18:30:49-0300",
+            "UpdatedBy": 3,
+            Type: type,
+            Document: JSON.stringify({
+              _id: self.state._id ? self.state._id : uuidv4(),
+              width: self.state.rectWidth,
+              origin_width: self.state.rectWidth,
+              height: self.state.rectHeight,
+              origin_height: self.state.rectHeight,
+              left: 0,
+              top: 0,
+              type: mode,
+              scaleX: 1,
+              scaleY: 1,
+              document_object: images,
+            }),
+            "FontList": self.state.fontsList.map(font=> font.id),
+            "Width": self.state.rectWidth,
+            "Height": self.state.rectHeight,
+            "Id": uuidv4(),
+            "Keywords": [],
+            "Canvas": canvas, 
+            "AdditionalStyle": a[0].outerHTML,
+            "FilePath": "/templates",
+            "FirstName": "Untilted",
+          });
 
-      axios.post(url, res, {
-        headers: {
-          'Content-Type': 'application/json',
+          axios.post(url, res, {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
         }
-      })
-      .then(async res => {
-        self.setState({isSaving: false})
-        var id = res.data.value;
-        var src = await self.genRepresentative(false);
-        console.log('srcccc ', src);
+      );
+
+      // console.log('saving images');
+
+      // var res = JSON.stringify({
+      //   "CreatedAt": "2014-09-27T18:30:49-0300",
+      //   "CreatedBy": 2,
+      //   "UpdatedAt": "2014-09-27T18:30:49-0300",
+      //   "UpdatedBy": 3,
+      //   Type: type,
+      //   Document: JSON.stringify({
+      //     _id: self.state._id ? self.state._id : uuidv4(),
+      //     width: self.state.rectWidth,
+      //     origin_width: self.state.rectWidth,
+      //     height: self.state.rectHeight,
+      //     origin_height: self.state.rectHeight,
+      //     left: 0,
+      //     top: 0,
+      //     type: mode,
+      //     scaleX: 1,
+      //     scaleY: 1,
+      //     document_object: images,
+      //   }),
+      //   "FontList": self.state.fontsList.map(font=> font.id),
+      //   "Width": self.state.rectWidth,
+      //   "Height": self.state.rectHeight,
+      //   "Id": uuidv4(),
+      //   "Keywords": [],
+      // });
+
+      // axios.post(url, res, {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   }
+      // })
+      // .then(async res => {
+      //   self.setState({isSaving: false})
+      //   var id = res.data.value;
+      //   var src = await self.genRepresentative(false);
+      //   console.log('srcccc ', src);
+
+      //   var formData = new FormData();
+      //   formData.append('file', src);
+
+      //   var urlUploadRepresentative;
+      //   if (mode == Mode.CreateDesign) {
+      //     urlUploadRepresentative = `/api/Design/Upload?id=${id}`;
+      //   } else {
+      //     urlUploadRepresentative = `/api/Template/Upload?id=${id}`;
+      //   }
+
+      //   var element = document.createElement('a');
+
+      //   element.setAttribute('href', src);
+      //   element.setAttribute('download', "a.png");
+      //   element.style.display = 'none';
+
+      //   document.body.appendChild(element);
+      //   element.click();
+      //   document.body.removeChild(element);
+
+      //   axios.post(urlUploadRepresentative, formData);
+      // })
+      // .catch(res => {
+      // })
+
+    }, 300);
+  }
+
+  async saveImages() {
+    console.log('saveImages ');
+    this.setState({isSaving: true})
+    const { mode } = this.state;
+    var self = this;
+    this.doNoObjectSelected();
+
+    const { rectWidth, rectHeight } = this.state;
+
+    let images = self.state.images.map(image => {
+      image.width2 = image.width / rectWidth;
+      image.height2 = image.height / rectHeight;
+      return image;
+    })
+
+    if (mode === Mode.CreateTextTemplate || mode === Mode.EditTextTemplate) {
+      var newImages = [];
+      for (var i = 0; i < images.length; ++i ) {
+        var image = images[i];
+        if (image.ref === null) {
+          newImages.push(...this.normalize(image, images));
+        }
+      }
+      images = newImages;
+    }
+
+    images = images.map(img => {
+      if (img.innerHTML) {
+        img.innerHTML = img.innerHTML.replace('#ffffff', 'black');
+      }
+      return img;
+    })
+
+    setTimeout(async function() {
+      var url;
+      var _id = self.state._id;
+      if (_id) {
+        url = "/api/Template/Update";
+
+        var res = JSON.stringify({
+          "Id": _id,
+          "CreatedAt": "2014-09-27T18:30:49-0300",
+          "CreatedBy": 2,
+          "UpdatedAt": "2014-09-27T18:30:49-0300",
+          "UpdatedBy": 3,
+          Type: self.state.templateType,
+          Document: JSON.stringify({
+            _id: self.state._id ? self.state._id : uuidv4(),
+            width: self.state.rectWidth,
+            origin_width: self.state.rectWidth,
+            height: self.state.rectHeight,
+            origin_height: self.state.rectHeight,
+            left: 0,
+            top: 0,
+            src: "",
+            type: self.state.templateType,
+            scaleX: 1,
+            scaleY: 1,
+            document_object: images,
+          }),
+          "FontList": self.state.fontsList.map(font=> font.id),
+          "Width": self.state.rectWidth,
+          "Height": self.state.rectHeight,
+          "Pages": self.state.pages,
+        });
+
+        axios.post(url, res, {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(res => {
+          self.setState({isSaving: false})
+        })
+        .catch(res => {
+        })
+
+        var src = await self.genRepresentative(false, self.state.rectWidth, self.state.rectHeight);
 
         var formData = new FormData();
         formData.append('file', src);
 
-        var urlUploadRepresentative;
-        if (mode == Mode.CreateDesign) {
-          urlUploadRepresentative = `/api/Design/Upload?id=${id}`;
-        } else {
-          urlUploadRepresentative = `/api/Template/Upload?id=${id}`;
-        }
+        // self.download("test.png", src);
 
-        var element = document.createElement('a');
-
-        element.setAttribute('href', src);
-        element.setAttribute('download', "a.png");
-        element.style.display = 'none';
-
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
+        var urlUploadRepresentative = `/api/Template/Upload?id=${_id}`;
 
         axios.post(urlUploadRepresentative, formData);
-      })
-      .catch(res => {
-      })
+  
+        return;
+      }
 
+      if (mode == Mode.CreateDesign) {
+        url = "/api/Design/Add";
+      } else {
+        url = "/api/Template/Add";
+      }
+
+      var type;
+      if (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) {
+        type = TemplateType.TextTemplate;
+      } else if (mode == Mode.CreateTemplate || mode == Mode.EditTemplate) {
+        type = TemplateType.Template;
+      }
+
+      var previousScale = self.state.scale;
+      self.setState(
+        { scale: 1, showPopup: true },
+        () => {
+          var aloCloned = document.getElementsByClassName("alo");
+          var canvas = [];
+          for (var i = 0; i < aloCloned.length; ++i) {
+            canvas.push((aloCloned[i] as HTMLElement).outerHTML);
+          }
+
+          var aloCloned2 = document.getElementById("alo2");
+          var canvas2 = [aloCloned2.outerHTML];
+
+          console.log('canvas2 ', canvas2);
+
+          var styles = document.getElementsByTagName("style");
+          var a = Array.from(styles).filter(style => {
+            return style.attributes.getNamedItem("data-styled") !== null
+          });
+
+          var res = JSON.stringify({
+            "CreatedAt": "2014-09-27T18:30:49-0300",
+            "CreatedBy": 2,
+            "UpdatedAt": "2014-09-27T18:30:49-0300",
+            "UpdatedBy": 3,
+            Type: type,
+            Document: JSON.stringify({
+              _id: self.state._id ? self.state._id : uuidv4(),
+              width: self.state.rectWidth,
+              origin_width: self.state.rectWidth,
+              height: self.state.rectHeight,
+              origin_height: self.state.rectHeight,
+              left: 0,
+              top: 0,
+              type: mode,
+              scaleX: 1,
+              scaleY: 1,
+              document_object: images,
+            }),
+            "FontList": self.state.fontsList.map(font=> font.id),
+            "Width": self.state.rectWidth,
+            "Height": self.state.rectHeight,
+            "Id": uuidv4(),
+            "Keywords": [],
+            "Canvas": canvas, 
+            "Canvas2": canvas2,
+            "AdditionalStyle": a[0].outerHTML,
+            "FilePath": "/templates",
+            "FirstName": "Untilted",
+            "Pages": self.state.pages,
+            "PrintType": self.state.subtype,
+          });
+
+          axios.post(url, res, {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+        }
+      );
+
+      // console.log('saving images');
+
+      // var res = JSON.stringify({
+      //   "CreatedAt": "2014-09-27T18:30:49-0300",
+      //   "CreatedBy": 2,
+      //   "UpdatedAt": "2014-09-27T18:30:49-0300",
+      //   "UpdatedBy": 3,
+      //   Type: type,
+      //   Document: JSON.stringify({
+      //     _id: self.state._id ? self.state._id : uuidv4(),
+      //     width: self.state.rectWidth,
+      //     origin_width: self.state.rectWidth,
+      //     height: self.state.rectHeight,
+      //     origin_height: self.state.rectHeight,
+      //     left: 0,
+      //     top: 0,
+      //     type: mode,
+      //     scaleX: 1,
+      //     scaleY: 1,
+      //     document_object: images,
+      //   }),
+      //   "FontList": self.state.fontsList.map(font=> font.id),
+      //   "Width": self.state.rectWidth,
+      //   "Height": self.state.rectHeight,
+      //   "Id": uuidv4(),
+      //   "Keywords": [],
+      // });
+
+      // axios.post(url, res, {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   }
+      // })
+      // .then(async res => {
+      //   self.setState({isSaving: false})
+      //   var id = res.data.value;
+      //   var src = await self.genRepresentative(false);
+      //   console.log('srcccc ', src);
+
+      //   var formData = new FormData();
+      //   formData.append('file', src);
+
+      //   var urlUploadRepresentative;
+      //   if (mode == Mode.CreateDesign) {
+      //     urlUploadRepresentative = `/api/Design/Upload?id=${id}`;
+      //   } else {
+      //     urlUploadRepresentative = `/api/Template/Upload?id=${id}`;
+      //   }
+
+      //   var element = document.createElement('a');
+
+      //   element.setAttribute('href', src);
+      //   element.setAttribute('download', "a.png");
+      //   element.style.display = 'none';
+
+      //   document.body.appendChild(element);
+      //   element.click();
+      //   document.body.removeChild(element);
+
+      //   axios.post(urlUploadRepresentative, formData);
+      // })
+      // .catch(res => {
+      // })
 
     }, 300);
   }
@@ -1700,16 +1926,30 @@ html {
   }
 
   onSingleTextChange(thisImage, e, childId) {
+    console.log('onSingleTextChange')
     var els;
     if (childId){
       els = document.getElementById(childId).getElementsByTagName('font');
     } else {
       els = document.getElementById(this.state.idObjectSelected).getElementsByTagName('font');
     }
+
+    var scaleChildY = 1;
+    if (childId) {
+      for (var i = 0; i < thisImage.document_object.length; ++i) {
+        if (thisImage.document_object[i]._id === childId) {
+          scaleChildY = thisImage.document_object[i].scaleY;
+        }
+      }
+    }
+
     for (var i = 0; i < els.length; ++i) {
       els[i].removeAttribute("size");
-      els[i].style.fontSize = this.state.fontSize / thisImage.scaleY + 'px';
+      els[i].style.fontSize = this.state.fontSize / thisImage.scaleY / scaleChildY + 'px';
     }
+    
+
+    console.log('onSingleTextChange ', this.state.fontSize / thisImage.scaleY + 'px')
 
     e.persist();
     setTimeout(() => {
@@ -1768,6 +2008,8 @@ html {
                 // var a = fontElements as HTMLElement
                 // a.removeAttribute("size");
                 // a.style.fontSize = this.state.fontSize / image.scaleY / text.scaleY + 'px';
+
+                console.log('text ', text.innerHTML, e.target.innerHTML);
                 
                 text.innerHTML = e.target.innerHTML;
                 text.height = e.target.offsetHeight * text.scaleY;
@@ -1842,6 +2084,8 @@ html {
           doc.scaleX = doc.scaleX * scaleX;
           doc.scaleY = doc.scaleY * scaleY;
           doc.page = this.state.activePageId;
+          doc.imgWidth = doc.imgWidth * scaleX;
+          doc.imgHeight = doc.imgHeight * scaleY;
 
           return doc;
         });
@@ -2607,7 +2851,7 @@ handleToolbarResize = e => {
   }
   }
 
-  uploadImage = (e) => {
+  uploadImage = (type, e) => {
     var self = this;``
     var fileUploader = document.getElementById("image-file") as HTMLInputElement;
     var file = fileUploader.files[0];
@@ -2619,7 +2863,8 @@ handleToolbarResize = e => {
       var i = new Image(); 
 
       i.onload = function(){
-        axios.post(url, {id: uuidv4(), data: fr.result, width: i.width, height: i.height, type: TemplateType.Image, keywords: ["123", "123"], title: 'Manh quynh'})
+        var prominentColor = getMostProminentColor(i);
+        axios.post(url, {id: uuidv4(), color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`, data: fr.result, width: i.width, height: i.height, type, keywords: ["123", "123"], title: 'Manh quynh'})
         .then(() => {
           // url = `/api/Font/Search`;
           // fetch(url, {
@@ -2735,6 +2980,20 @@ handleToolbarResize = e => {
   }
 
   setSelectionColor = (color, e) => {
+    console.log('_id ', this.state.idObjectSelected);
+    console.log('type', this.state.typeObjectSelected);
+    if (this.state.typeObjectSelected === TemplateType.Latex) {
+      var images = this.state.images.map(img => {
+        if (img._id === this.state.idObjectSelected) {
+          img.color = color;
+        }
+        return img;
+      });
+
+      console.log('images ', images);
+
+      this.setState({images});
+    }
     e.preventDefault();
     document.execCommand('foreColor', false, color);
     var a = document.getSelection();
@@ -2742,6 +3001,7 @@ handleToolbarResize = e => {
       this.handleFontColorChange(color);
     } else {
       var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
+      console.log('childId ', childId)
       var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];      console.log('el ', el);
       var sel = window.getSelection();
       var range = document.createRange();
@@ -2774,10 +3034,14 @@ handleToolbarResize = e => {
   addAPage = (e, id) => {
     e.preventDefault();
     let pages = [...this.state.pages];
-    pages.splice(pages.findIndex(img => img === id) + 1, 0, uuidv4());
+    var newPageId = uuidv4();
+    pages.splice(pages.findIndex(img => img === id) + 1, 0, newPageId);
     this.setState({
       pages,
     });
+    setTimeout(() => {
+      document.getElementById(newPageId).scrollIntoView();
+    }, 100);
   }
 
   forwardSelectedObject = (id) => {
@@ -2885,7 +3149,7 @@ handleToolbarResize = e => {
             currentBackgroundHeights3,
             cursor: res.cursor,
             isLoading: false,
-            hasMoreImage: res.value.value > state.items.length + state.items2.length + res.value.key.length,
+            hasMoreBackgrounds: res.value.value > state.items.length + state.items2.length + res.value.key.length,
           }))
         },
         error => {
@@ -2955,12 +3219,10 @@ handleToolbarResize = e => {
     }
     // this.setState({ isLoading: true, error: undefined });
     const url = `/api/Template/Search?Type=${TemplateType.TextTemplate}&page=${pageId}&perPage=${count}`;
-    console.log('url ', url);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
-          console.log('res loadMoreTextTemplate', res);
           var result = res.value.key;
           var currentGroupedTextsHeight = this.state.currentGroupedTextsHeight;
           var currentGroupedTexts2Height = this.state.currentGroupedTexts2Height;
@@ -2968,11 +3230,6 @@ handleToolbarResize = e => {
           var res2 = [];
           for (var i = 0; i < result.length; ++i) {
             var currentItem = result[i];
-            console.log('currentItem ', currentItem.document);
-            console.log('currentGroupedTextsHeight ', currentGroupedTextsHeight);
-            console.log('currentGroupedTextsHeight2 ', currentGroupedTexts2Height);
-            console.log('currentItem.document.width ', currentItem.width);
-            console.log('currentItem.document.height ', currentItem.height);
             
             if (currentGroupedTextsHeight <= currentGroupedTexts2Height) {
               res1.push(currentItem);
@@ -3009,20 +3266,15 @@ handleToolbarResize = e => {
     this.setState({ isLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
-    console.log('url ', url);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
           var result = res.value.key;
-          console.log('res loadMore', res);
           var currentItemsHeight = this.state.currentItemsHeight;
           var currentItems2Height = this.state.currentItems2Height;
-          console.log('currentItemsHeight', currentItemsHeight);
-          console.log('currentItems2Height', currentItems2Height);
           var res1 = [];
           var res2 = [];
-          console.log('result ', result)
           for (var i = 0; i < result.length; ++i) {
             var currentItem = result[i];
             if (currentItemsHeight <= currentItems2Height) {
@@ -3033,10 +3285,6 @@ handleToolbarResize = e => {
               currentItems2Height += 150 / (currentItem.width / currentItem.height);
             }
           }
-          console.log('res1 ', res1);
-          console.log('res2 ', res2);
-          console.log('this.state.items', this.state.items);
-          console.log('this.state.items2', this.state.items2);
           this.setState(state => ({
             items: [...state.items, ...res1],
             items2: [...state.items2, ...res2],
@@ -3060,10 +3308,15 @@ handleToolbarResize = e => {
     }
   }
 
-  renderCanvas() {
+  renderCanvas(preview, index) {
     var res = [];
     for (var i = 0; i < this.state.pages.length; ++i) {
+      if (index && i != index) {
+        continue;
+      }
       res.push(<Canvas
+        bleed={this.state.bleed}
+        key={i}
         staticGuides={this.state.staticGuides}
         index={i}
         id={this.state.pages[i]}
@@ -3072,7 +3325,7 @@ handleToolbarResize = e => {
         mode={this.state.mode}
         rectWidth={this.state.rectWidth}
         rectHeight={this.state.rectHeight}
-        scale={this.state.scale}
+        scale={preview ? 1 : this.state.scale}
         childId={this.state.childId}
         cropMode={this.state.cropMode}
         handleImageSelected={this.handleImageSelected}
@@ -3100,13 +3353,28 @@ handleToolbarResize = e => {
         updateRect={this.state.updateRect}
         doNoObjectSelected={this.doNoObjectSelected}
         idObjectSelected={this.state.idObjectSelected}
+        handleDeleteThisPage={this.handleDeleteThisPage.bind(this, this.state.pages[i])}
+        showPopup={this.state.showPopup}
+        preview={preview}
       />);
     }
 
     return res;
   }
 
-  handleRemoveAllMedia = (model) => {
+  handleDeleteThisPage = (pageId) => {
+    console.log('handleDeleteThisPage ', pageId);
+    var pages = this.state.pages.filter(pId => pId !== pageId);
+    this.setState({pages});
+  }
+
+  handleRemoveAllMedia = () => {
+    var model;
+    if (this.state.selectedTab === SidebarTab.Image) {
+      model = "Media";
+    } else if (this.state.selectedTab === SidebarTab.Template) {
+      model = "Template";
+    }
     const url = `/api/${model}/RemoveAll`;
     fetch(url);
   }
@@ -3184,6 +3452,9 @@ handleToolbarResize = e => {
                 onClick={this.saveImages.bind(this)}
                 style={{
                   display: 'flex',
+                  marginTop: '4px',
+                  marginRight: '6px',
+                  fontSize: '13px',
                 }}
               >
                 <div
@@ -3196,100 +3467,43 @@ handleToolbarResize = e => {
 <path style={{fill: this.state.isSaving ? "red" : "black"}} xmlns="http://www.w3.org/2000/svg" d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256s256-114.837,256-256S397.163,0,256,0z"/>
 </svg>
 </div>
-<span>Save</span>
+<span>Lưu</span>
               </button>
-              {/* <button
-                className="toolbar-btn dropbtn-font"
-                onClick={this.downloadPNG.bind(this)}
-                style={{
-                  display: 'flex',
-                }}
-              >
-                <div
-                  style={{
-                    width: '14px',
-                    margin: 'auto',
-                    marginRight: '5px',
-                  }}
-                ><svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512" >
-<path style={{fill: this.state.isSaving ? "red" : "black"}} xmlns="http://www.w3.org/2000/svg" d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256s256-114.837,256-256S397.163,0,256,0z"/>
-</svg>
-</div>
-<span>Download PNG</span>
-              </button>
-              <button
-                className="toolbar-btn dropbtn-font"
-                onClick={this.downloadPDF.bind(this)}
-                style={{
-                  display: 'flex',
-                }}
-              >
-                <div
-                  style={{
-                    width: '20px',
-                    marginRight: '3px',
-                  }}
-                ><svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 471.2 471.2" >
-                <g>
-                  <g>
-                    <path d="M457.7,230.15c-7.5,0-13.5,6-13.5,13.5v122.8c0,33.4-27.2,60.5-60.5,60.5H87.5c-33.4,0-60.5-27.2-60.5-60.5v-124.8    c0-7.5-6-13.5-13.5-13.5s-13.5,6-13.5,13.5v124.8c0,48.3,39.3,87.5,87.5,87.5h296.2c48.3,0,87.5-39.3,87.5-87.5v-122.8    C471.2,236.25,465.2,230.15,457.7,230.15z"/>
-                    <path d="M226.1,346.75c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4l85.8-85.8c5.3-5.3,5.3-13.8,0-19.1c-5.3-5.3-13.8-5.3-19.1,0l-62.7,62.8    V30.75c0-7.5-6-13.5-13.5-13.5s-13.5,6-13.5,13.5v273.9l-62.8-62.8c-5.3-5.3-13.8-5.3-19.1,0c-5.3,5.3-5.3,13.8,0,19.1    L226.1,346.75z"/>
-                  </g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                <g>
-                </g>
-                </svg>
-</div>
-<span>Download PDF</span>
-              </button> */}
           <a
             onClick={(e) => {e.preventDefault(); this.setState({showPopup: true})}}
             href="#" style={{
             float: 'right',
             color: 'white',
-            fontSize: '15px',
             backgroundColor: '#00000070',
             marginTop: '4px',
             marginRight: '6px',
             padding: '5px',
             borderRadius: '4px',
-          }}>  In / Tải xuống
-          </a>           
+            textDecoration: 'none',
+            fontSize: '13px',
+          }}> Tải về
+          </a>
+          <a
+            onClick={(e) => {e.preventDefault(); this.setState({showPrintingSidebar: true})}}
+            href="#" style={{
+            float: 'right',
+            color: 'white',
+            backgroundColor: '#00000070',
+            marginTop: '4px',
+            marginRight: '6px',
+            padding: '5px',
+            borderRadius: '4px',
+            textDecoration: 'none',
+            fontSize: '13px',
+          }}> In ấn
+          </a>             
           </div>       
         </div>
         <div
           style={{
             backgroundColor: "#1a2b34",
-            width: "100%",
-            height: "105%",
+            top: '40px',
+            width: `100%`,
           }}
         ></div>
         <div
@@ -3310,7 +3524,7 @@ handleToolbarResize = e => {
                 width: this.state.toolbarOpened
                   ? `${this.state.toolbarSize}px`
                   : 0,
-                height: "101%",
+                height: "100%",
                 position: "absolute",
               }}
             >
@@ -3322,12 +3536,46 @@ handleToolbarResize = e => {
                 onClick={this.handleSidebarSelectorClicked}
               /> }
               <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      zIndex: 12312313,
+                      backgroundColor: 'white',
+                      width: '100%',
+                    }}
+                  >
+                    <input 
+                      id="image-file" 
+                      type="file"
+                      onLoad={(data) => {console.log('data ', data)}}
+                      style={{
+                        bottom: 0,
+                      }}
+                      />
+                    <button
+                      style={{
+                        bottom: 0,
+                      }}
+                      type="submit" 
+                      onClick={this.uploadImage.bind(this, this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : TemplateType.BackgroundImage)}>
+                        Upload
+                    </button>
+                    <button
+                    style={{
+                      bottom: 0,
+                      right: 0,
+                    }}
+                    onClick={this.handleRemoveAllMedia.bind(this)}>
+                      RemoveAll
+                      </button>
+                    </div>
+              <div
                 id="sidebar-content"
                 style={{
                   position: "relative",
-                  height: `calc(100% - 46px)`,
+                  height: `calc(100% - 35px)`,
                   width: '100%',
-                  padding: '10px 5px 10px 10px',
+                  padding: '10px 5px 0px 10px',
                 }}
               >
                 {this.state.selectedTab === SidebarTab.Image && (
@@ -3336,50 +3584,24 @@ handleToolbarResize = e => {
                       position: 'relative',
                       zIndex: 123,
                     }}>
-                  <input
-                    style={{
-                      width: 'calc(100% - 10px)',
-                      marginBottom: '8px',
-                      border: 'none',
-                      height: '30px',
-                      borderRadius: '6px',
-                      padding: '5px',
-                      fontSize: '13px',
-                      boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
-                      position: 'absolute',
-                    }}
-                    onKeyDown={this.handleQuery}
-                    type="text"
-                    onChange={(e) => {this.setState({query: e.target.value})}}
-                    value={this.state.query}
-                    />
-                  <input 
-                    id="image-file" 
-                    type="file"
-                    onLoad={(data) => {console.log('data ', data)}}
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                    }}
-                    />
-                  <button
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                    }}
-                    type="submit" 
-                    onClick={this.uploadImage.bind(this)}>
-                      Upload
-                  </button>
-                  <button
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                  }}
-                  onClick={this.handleRemoveAllMedia.bind(this, "Media")}>
-                    RemoveAll
-                    </button>
+                      <input
+                      style={{
+                        position: 'absolute',
+                        zIndex: 11,
+                        width: 'calc(100% - 10px)',
+                        marginBottom: '8px',
+                        border: 'none',
+                        height: '30px',
+                        borderRadius: '6px',
+                        padding: '5px',
+                        fontSize: '13px',
+                        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+                      }}
+                      onKeyDown={this.handleQuery}
+                      type="text"
+                      onChange={(e) => {this.setState({query: e.target.value})}}
+                      value={this.state.query}
+                      />
                   <InfiniteScroll
                     throttle={500}
                     threshold={300}
@@ -3650,7 +3872,7 @@ handleToolbarResize = e => {
                             height={150 / (item.width / item.height)}
                             className="text-picker"
                             onPick={this.textOnMouseDown.bind(this, item.id)}
-                            onEdit={null}
+                            onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
                           />
                         ))}
                       </div>
@@ -3667,17 +3889,17 @@ handleToolbarResize = e => {
                             height={150 / (item.width / item.height)}
                             src={item.representative}
                             onPick={this.textOnMouseDown.bind(this, item.id)}
-                            onEdit={null}
+                            onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
                           />
                         ))}
                         </div>
-                        <button
+                        {/* <button
                           style={{
                             position: 'absolute',
                             right: 0,
                           }}
                           onClick={this.handleRemoveAllMedia.bind(this, "Template")}
-                        >Remove</button>
+                        >Remove</button> */}
                       {/* <div
                         id="image-container-picker"
                         style={{
@@ -3805,12 +4027,14 @@ handleToolbarResize = e => {
                     type="file"
                     onLoad={(data) => {console.log('data ', data)}}
                     style={{
-                      position: 'relative',
+                      position: 'absolute',
+                      bottom: 0,
                     }}
                     />
                   <button
                     style={{
-                      position: 'relative',
+                      position: 'absolute',
+                      bottom: 0,
                     }}
                     type="submit" 
                     onClick={this.uploadBackground.bind(this)}>
@@ -4095,7 +4319,8 @@ handleToolbarResize = e => {
               boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 2px 0px",
               transitionDuration: "0.1s, 0.1s",
               width: `calc(100% - ${
-                this.state.toolbarOpened ? this.state.toolbarSize : 0
+                (this.state.toolbarOpened ? this.state.toolbarSize : 0) + 
+                (this.state.showPrintingSidebar ? 330 : 0)
               }px)`,
               left: `${this.state.toolbarOpened ? this.state.toolbarSize - 2 : 0}px`
             }}
@@ -4171,6 +4396,7 @@ handleToolbarResize = e => {
               }}
             >
               {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              (this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Latex) ||
               this.state.childId) &&
               <a
                 href="#"
@@ -4365,9 +4591,8 @@ handleToolbarResize = e => {
                     id="myDropdownFontSize-2"
                     style={{
                       width: '200px',
-                      height: '10px',
-                      backgroundColor: '#ada0a036',
                       borderRadius: '5px',
+                      right: '10px',
                     }}>
                   <div 
                       onMouseDown={(e) => {
@@ -4454,18 +4679,21 @@ handleToolbarResize = e => {
                   onClick={this.onClickpositionList.bind(this)}
                   style={{
                     display: 'flex',
+                    fontSize: '13px',
                   }}
                 >Vị trí</button>
-                <div id="myPositionList" className="dropdown-content-font-size">
+                <div 
+                  id="myPositionList"
+                  style={{
+                    right: '10px',
+                  }}
+                  className="dropdown-content-font-size">
                   <div style={{display: 'flex'}}>
                   <div 
                     id="myDropdownFontSize-2"
                     style={{
-                      width: '200px',
-                      height: '10px',
-                      backgroundColor: '#ada0a036',
                       borderRadius: '5px',
-                      right: '100px',
+                      padding: '10px',
                     }}>
                       <button onClick={this.forwardSelectedObject}>Forward</button>
                       <button onClick={this.backwardSelectedObject}>Backward</button>
@@ -4501,7 +4729,6 @@ handleToolbarResize = e => {
                 width: rectWidth * scale + 40 + 'px',
                 height: rectHeight * scale + 40 + 'px',
                 margin: 'auto',
-                // position: 'absolute',
                 right: 0,
                 left: 0,
                 top: 0,
@@ -4625,12 +4852,51 @@ handleToolbarResize = e => {
             </div>
           </div>
         </div>
+        {this.state.showPrintingSidebar && <div
+          style={{
+            width: '330px',
+            height: '100%',
+            right: 0,
+            position: 'absolute',
+          }}
+        >
+          
+      <div>
+        {this.state.subtype == SubType.BusinessCardReview && 
+<BusinessCardReview>
+{ this.renderCanvas(true, 0)}
+</BusinessCardReview>
+        }
+        {this.state.subtype == SubType.FlyerReview && 
+<FlyerReview>
+{ this.renderCanvas(true, 0)}
+</FlyerReview>
+        }
+  {this.state.subtype == SubType.PosterReview && 
+<TrifoldReview>
+{ this.renderCanvas(true, 0)}
+</TrifoldReview>
+  }
+
+{this.state.subtype == SubType.TrifoldReview && 
+<PosterReview>
+{ this.renderCanvas(true, 0)}
+</PosterReview>
+}
+
+      </div>
         </div>
+        }
+        </div>
+        
         {this.state.showPopup ?  
               <Popup  
                         text='Click "Close Button" to hide popup'  
-                        handleDownloadPDF={this.downloadPDF.bind(this)}
-                        handleDownloadPNG={this.downloadPNG.bind(this)}
+                        handleDownloadPDF={this.downloadPDF.bind(this, false)}
+                        handleDownloadJPG={this.downloadPNG.bind(this, false, false)}
+                        handleDownloadPNGTransparent={this.downloadPNG.bind(this, true, true)}
+                        handleDownloadPNG={this.downloadPNG.bind(this, false, true)}
+                        handleDownloadPDFWithBleed={this.downloadPDF.bind(this, true)}
                         closePopup={() => {this.setState({showPopup: false})}}  
               />  
         : null  

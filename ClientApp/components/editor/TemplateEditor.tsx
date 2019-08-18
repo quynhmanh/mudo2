@@ -33,6 +33,12 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         this.setState({keywords});
     }
 
+    handleDeleteTemplate = () => {
+        var url = `/api/Template/Delete?id=${this.props.item.id}`;
+        console.log('handleSubmit url ', url)
+        axios.delete(url);
+    }
+
     handleSubmit = () => {
         var url = `/api/Template/Edit`;
         console.log('handleSubmit url ', url)
@@ -134,9 +140,23 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <p ref={i => this.refFilePath = i} className='unblurred' contentEditable={true}>{this.state.filePath}</p>
                     <p className='unblurred'>Subtype:</p>
                     <p ref={i => this.refSubtype = i} className='unblurred' contentEditable={true}>{this.state.subType}</p>
-
-                    <button className='unblurred' onClick={this.handleSubmit}>OK</button>
-                    <button className='unblurred' onClick={this.handleAddNewKeyword}>Add new keyword</button>
+                    
+                    <div
+                        className='unblurred'
+                        style={{
+                        position: 'absolute',
+                        bottom: '15px',
+                        right: '15px',
+                        }}
+                    >
+                        <button 
+                            style={{
+                                marginRight: '15px',
+                            }}
+                            className='unblurred' onClick={this.handleSubmit}>OK</button>
+                        <button className='unblurred' onClick={this.handleAddNewKeyword}>Add new keyword</button>
+                        <button className='unblurred' onClick={this.handleDeleteTemplate}>Delete</button>
+                    </div>
                 </div>  
             </PopupWrapper>
         );  

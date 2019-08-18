@@ -25,10 +25,49 @@ const Breadcrumbs = () => <Route path="*" render={props => {
     console.log('place ', place)
     // parts = ["home", ...parts];
     return <div style={{padding: '10px',}}>
-        {crumb('Trang-Chu', 0, ['Trang-Chu', ...parts])}
+        {crumb('Home', 0, ['Home', ...parts])}
         {parts.map(crumb)}
-        <span style={{marginLeft: '8px', fontSize: '11px',}}>{place}</span>
+        <span style={{marginLeft: '8px', fontSize: '11px',}}>{mapping[place]}</span>
     </div>}} />
+
+    const mapping = {
+        'Home' : 'Trang chủ',
+        'templates': 'Mẫu thiết kế',
+        'brochures': 'Tờ gấp',
+        'business-cards': 'Danh thiếp',
+        'flyers': 'Tờ rơi',
+        'postcards': 'Bưu thiếp',
+        'agriculture': 'Nông nghiệp',
+        'automotive-transportation': 'Ôtô & Vận tải',
+        'beauty': 'Sắc đẹp',
+        'business-services': 'Dịch vụ kinh doanh',
+        'child-care': 'Chăm sóc trẻ em',
+        'cleaning': 'Vệ sinh',
+        'construction': 'Xây dựng',
+        'creative': 'Sáng tạo',
+        'education-training': 'Giáo dục & đào tạo',
+        'energy-environment': 'Năng lượng môi trường',
+        'event': 'Sự kiện',
+        'financial-services': 'Dịch vụ tài chính',
+        'food-beverage': 'Thực phẩm',
+        'holiday': 'Ngày lễ',
+        'house-home': 'Nhà cửa',
+        'insurance': 'Bảo hiểm',
+        'law': 'Luật',
+        'law-garden': 'Làm vườn',
+        'medical-healthcare': 'Thuốc & chăm sóc sức khoẻ',
+        'music-arts': 'Âm nhạc & Nghệ thuật',
+        'non-profit': 'Không lợi nhuận',
+        'pets-animals': 'Thú nuôi',
+        'photography': 'Nhiếp ảnh',
+        'real-estate': 'Bất động sản',
+        'religion-organization': 'Tổ chức & tôn giáo',
+        'retail': 'Bán lẻ',
+        'sports-wellness': 'Thẻ thảo & Sức khoẻ',
+        'technology': 'Công nghệ',
+        'travel-tourism': 'Du lịch',
+        'cart': 'Giỏ hàng',
+    }
   
   const crumb = (part, partIndex, parts) => {
         console.log('part ', part);
@@ -44,7 +83,7 @@ const Breadcrumbs = () => <Route path="*" render={props => {
             marginLeft: '-2px',
             fontSize: '11px',
             zIndex: parts.length - partIndex,
-        }} key={path} to={path} >{part}<span className="breadcrumbs__separator"></span></Link>}
+        }} key={path} to={path} >{mapping[part]}<span className="breadcrumbs__separator"></span></Link>}
   
 
 export default class AuthorizedLayout extends React.Component<Props, {}> {

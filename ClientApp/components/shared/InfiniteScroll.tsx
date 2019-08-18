@@ -76,15 +76,15 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
   }
 
   checkWindowScroll = () => {
-    console.log('checkWindowScroll');
+    // console.log('checkWindowScroll');
     if (this.props.isLoading) {
       return;
     }
 
-    console.log('hasMore', this.props.hasMore);
-    console.log('this.sentinel', this.sentinel);
-    console.log('this.sentinel.getBoundingCLientRect().top', this.sentinel.getBoundingClientRect().top - window.innerHeight);
-    console.log('threshold ', this.props.threshold);
+    // console.log('hasMore', this.props.hasMore);
+    // console.log('this.sentinel', this.sentinel);
+    // console.log('this.sentinel.getBoundingCLientRect().top', this.sentinel.getBoundingClientRect().top - window.innerHeight);
+    // console.log('threshold ', this.props.threshold);
 
     if (
       this.props.hasMore &&
@@ -99,8 +99,6 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
 
   render() {
     const sentinel = <div ref={i => {this.sentinel = i}} />;
-    console.log('sentinel ', sentinel);
-
     if(this.props.render) {
       return this.props.render({
         sentinel,
@@ -120,7 +118,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     return (
       <div id="object-container" ref={i => this.containerSroll = i} style={{height: this.props.height, overflow: 'scroll',}}>
         {this.props.children}
-        {this.props.hasMore && <div style={{marginBottom: '10px', height: '10%', color: 'white', position: 'relative'}} ref={i => this.sentinel = i}><Loader show={true} /></div>}
+        {this.props.hasMore && <div style={{marginBottom: '10px', height: '10%', color: 'white', position: 'relative'}} ref={i => this.sentinel = i}><Loader show={true} black={false} /></div>}
       </div>
     );
   }

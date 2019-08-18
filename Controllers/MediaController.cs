@@ -58,6 +58,9 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "keywords")]
             public string[] keywords;
+
+            [JsonProperty(PropertyName = "color")]
+            public string color;
         }
 
         [HttpPost("[action]")]
@@ -90,6 +93,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Type = oDownloadBody.type;
                 mediaModel.Keywords = oDownloadBody.keywords;
                 mediaModel.FirstName = oDownloadBody.title;
+                mediaModel.Color = oDownloadBody.color;
 
                 MediaService.Add(mediaModel);
             }
@@ -108,6 +112,15 @@ namespace RCB.TypeScript.Controllers
         public IActionResult RemoveAll()
         {
             return Json(MediaService.RemoveAll());
+        }
+
+        [HttpDelete("[action]")]
+        public IActionResult Delete([FromQuery]string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest($"{nameof(id)} is not filled.");
+            var result = MediaService.Delete(id);
+            return Json(result);
         }
 
         [HttpPost("[action]")]

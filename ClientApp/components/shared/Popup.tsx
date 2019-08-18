@@ -7,6 +7,9 @@ export interface IProps {
     closePopup: any;
     handleDownloadPDF: any;
     handleDownloadPNG: any;
+    handleDownloadPNGTransparent: any;
+    handleDownloadPDFWithBleed: any;
+    handleDownloadJPG: any;
   }
   
   interface IState {
@@ -63,10 +66,11 @@ class Popup extends PureComponent<IProps, IState> {
    <h4 className="unblurred defaultTitle___37St1 large___2DVhe geometria-medium___3wRqs">Download design</h4>
    <p className="unblurred small___1Vvfz chooseType___aKGtm">Choose a file type to download</p>
    <ul className="unblurred downloadTypes___AkCgx">
-      <li className="unblurred downloadTypeItem___cGw_u"><button className="unblurred downloadTypeBtn___3kgiq" data-test="downloadJpg" data-categ="downloadDesign" data-value="jpg">JPG</button></li>
-      <li className="unblurred downloadTypeItem___cGw_u"><button className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="png">PNG</button></li>
-      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPNG} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pngTransparent">PNG <span className="unblurred downloadTypeBtnText___2myes">Transparent</span></button></li>
+      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadJPG} className="unblurred downloadTypeBtn___3kgiq" data-test="downloadJpg" data-categ="downloadDesign" data-value="jpg">JPG</button></li>
+      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPNG} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="png">PNG</button></li>
+      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPNGTransparent} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pngTransparent">PNG <span className="unblurred downloadTypeBtnText___2myes">Transparent</span></button></li>
       <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPDF} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">Standard</span></button></li>
+      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPDFWithBleed} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">with bleed</span></button></li>
    </ul>
    <div 
     className="unblurred"

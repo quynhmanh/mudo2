@@ -76,12 +76,12 @@ namespace RCB.TypeScript.Controllers
 
                 template = template.Replace("[FONT_FACE]", style);
 
-                //byte[] bytes = Encoding.ASCII.GetBytes(template);
-                //using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh.html", FileMode.Create))
-                //{
-                //    htmlFile.Write(bytes, 0, bytes.Length);
-                //    htmlFile.Flush();
-                //}
+                byte[] bytes = Encoding.ASCII.GetBytes(template);
+                using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh.html", FileMode.Create))
+                {
+                    htmlFile.Write(bytes, 0, bytes.Length);
+                    htmlFile.Flush();
+                }
 
                 await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                 var browser = await Puppeteer.LaunchAsync(new LaunchOptions

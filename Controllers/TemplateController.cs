@@ -42,12 +42,33 @@ namespace RCB.TypeScript.Controllers
             return Json(TemplateService.SearchAngAggregate(type, page, perPage, filePath, subType));
         }
 
+        private class DownloadBody
+        {
+            [JsonProperty(PropertyName = "fonts")]
+            public string[] Fonts;
+            [JsonProperty(PropertyName = "canvas")]
+            public string[] Canvas;
+            [JsonProperty(PropertyName = "additionalStyle")]
+            public string AdditionalStyle;
+        }
+
         [HttpPost("[action]")]
-        public IActionResult Add(TemplateModel model)
+        public async Task<IActionResult> Add(TemplateModel model)
         {
             if (model == null)
                 return BadRequest($"{nameof(model)} is null.");
+
+            TemplateService designService = new TemplateService(null, HostingEnvironment);
+
+            string res = await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2");
+
+            string res2 = await designService.GenerateRepresentative(model, 656, 436, true, model.Type == "2");
+
+            model.Representative = res;
+            model.Representative2 = res2;
+
             var result = TemplateService.Add(model);
+
             return Json(result);
         }
 

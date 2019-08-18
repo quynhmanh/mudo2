@@ -23,7 +23,7 @@ export interface IProps {
   centerY: number;
   outlineWidth: number;
   onFontSizeChange(fontSize: number, scaleY: number): void;
-  handleFontColorChange(fontColor: string): void;
+  handleFontColorChange(_id: string, fontColor: string): void;
   handleFontFaceChange(fontFace: string): void;
   parentScaleX: number;
   handleChildIdSelected(childId: string): void;
@@ -96,7 +96,7 @@ endEditing() {
       var fontFace = window.getComputedStyle(el, null).getPropertyValue('font-family');
       res = parseInt(size.substring(0, size.length - 2)) * self.props.scaleY;
       onFontSizeChange(res, scaleY);
-      handleFontColorChange(color);
+      handleFontColorChange(_id, color);
       handleFontFaceChange(fontFace);
       handleChildIdSelected(_id)
     }, 50);

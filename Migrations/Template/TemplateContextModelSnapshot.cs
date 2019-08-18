@@ -24,6 +24,12 @@ namespace RCB.TypeScript.Migrations.Template
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AdditionalStyle");
+
+                    b.Property<string[]>("Canvas");
+
+                    b.Property<string[]>("Canvas2");
+
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("CreatedBy");
@@ -31,11 +37,23 @@ namespace RCB.TypeScript.Migrations.Template
                     b.Property<string>("Document")
                         .HasColumnType("jsonb");
 
+                    b.Property<string>("FilePath");
+
+                    b.Property<string>("FilePathTree");
+
+                    b.Property<string>("FirstName");
+
                     b.Property<string[]>("FontList");
 
                     b.Property<float>("Height");
 
+                    b.Property<string[]>("Keywords");
+
                     b.Property<string>("Representative");
+
+                    b.Property<string>("Representative2");
+
+                    b.Property<string>("SubType");
 
                     b.Property<string>("Type");
 

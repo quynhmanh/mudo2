@@ -71,36 +71,19 @@ namespace RCB.TypeScript.Services
             return Ok(1);
         }
 
-        public virtual Result<KeyValuePair<List<MediaModel>, int>> Search(int type, int page, int perPage, string terms = "")
+        public virtual Result<int> Delete(string id)
         {
-            //List<MediaModel> templates = _mediaContext.Medias.AsEnumerable().Where(template => template.Type == type).
-            //    Select(media =>
-            //    {
-            //        media.query = NpgsqlTsVector.Parse(media.FirstName);
-            //        return media;
-            //    }).
-            //    AsEnumerable().
-            //     Where(media => NpgsqlFullTextSearchLinqExtensions.Matches(media.query, terms))
-            //    .ToList();
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("media");
+            var client = new ElasticClient(settings);
 
-            //List<MediaModel> templates = _mediaContext.Medias.AsEnumerable().Where(template => template.Type == type).
-            //    Select(media =>
-            //    {
-            //        media.query = NpgsqlTsVector.Parse(media.FirstName);
-            //        return media;
-            //    }).
-            //    AsEnumerable().
-            //     Where(media => NpgsqlFullTextSearchLinqExtensions.Matches(media.query, terms))
-            //    .ToList();
+            var getResponse = client.Delete<MediaModel>(id);
 
-            //var a = _mediaContext.Medias.AsEnumerable().Select(media =>
-            //{
-            //    media.query = NpgsqlTsVector.Parse(media.FirstName);
-            //    return media;
-            //}).
-            //Where(media => media.query.Matches(NpgsqlTsQuery.Parse(terms)));
-            //var result = new KeyValuePair<List<MediaModel>, int>(templates.Skip((page - 1) * perPage).Take(perPage).ToList(), templates.Count);
+            return Ok(1);
+        }
 
+        public virtual Result<KeyValuePair<List<MediaModel>, long>> Search(int type, int page, int perPage, string terms = "")
+        {
             var node = new Uri("http://localhost:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("media").DisableDirectStreaming();
             var client = new ElasticClient(settings);
@@ -119,13 +102,16 @@ namespace RCB.TypeScript.Services
                             )
                             )
                         )
-                    )
+                    ).
+                From((page - 1) * perPage).
+                Size(perPage)
                 );
 
-            var res2 = new KeyValuePair<List<MediaModel>, int>(res4.Documents.ToList(), res4.Documents.Count);
+            var res2 = new KeyValuePair<List<MediaModel>, long>(res4.Documents.ToList(), res4.Total);
 
             return Ok(res2);
         }
+
 
     }
 }

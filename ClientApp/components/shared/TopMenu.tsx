@@ -31,10 +31,12 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     }
 
     componentDidUpdate() {
-        if (this.state.show || this.state.menuHover) {
-            document.getElementById('content-container').style.filter = 'opacity(0.5)';
-        } else {
-            document.getElementById('content-container').style.filter = '';
+        if (document.getElementById('content-container')) {
+            if (this.state.show || this.state.menuHover) {
+                document.getElementById('content-container').style.filter = 'opacity(0.5)';
+            } else {
+                document.getElementById('content-container').style.filter = '';
+            }
         }
     }
 
@@ -87,18 +89,21 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                 <div id="navbar" className="navbar-collapse collapse nav navbar-nav navbar-right">
                     <ul className="nav navbar-nav">
                         {/* <li><NavLink exact to={'/example'} activeClassName="active">Example</NavLink></li> */}
-                        <li><NavLink exact to={'/templates'} activeClassName="active">Templates</NavLink></li>
+                        <li><NavLink exact to={'/templates'} activeClassName="active">Mẫu thiết kế</NavLink></li>
                         {/* <li><NavLink exact to={'/editor'} activeClassName="active">Learn</NavLink></li> */}
-                        <li><NavLink exact to={'/pricing'} activeClassName="active">Account</NavLink></li>
-                        <li><NavLink exact to={'/print'} activeClassName="active">Printing</NavLink></li>
-                        <li><NavLink exact to={'/about'} activeClassName="active">About</NavLink></li>
+                        <li><NavLink exact to={'/cart'} activeClassName="active">Giỏ hàng</NavLink></li>
                         <li className="dropdown">
                             <a href="#" ref={x => this.elDropdown = x} className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {Globals.serviceUser && Globals.serviceUser.login}&nbsp;
                                 <span className="caret"></span>
                             </a>
                             <ul className="dropdown-menu">
-                                <li><a href="#" onClick={this.onClickSignOut}>Sign out</a></li>
+                                <li><NavLink exact to={'/account'} activeClassName="active">Thông tin tài khoản</NavLink></li>
+                                <li><a href="#" onClick={this.onClickSignOut}>Quản lí đơn hàng</a></li>
+                                <li><a href="#" onClick={this.onClickSignOut}>Địa chỉ của tôi</a></li>
+                                <li><a href="#" onClick={this.onClickSignOut}>Thẻ của tôi</a></li>
+                                <li><a href="#" onClick={this.onClickSignOut}>Mã quà tặng</a></li>
+                                <li><a href="#" onClick={this.onClickSignOut}>Thoát</a></li>
                             </ul>
                         </li>
                     </ul>

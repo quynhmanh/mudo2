@@ -22,7 +22,7 @@ enum SidebarTab {
     Background = 8,
     Element = 16,
     Upload = 32,
-    Video = 64,
+    // Video = 64,
   }
 
 var SidebarName = [
@@ -32,7 +32,7 @@ var SidebarName = [
     "Hình nền",
     "Element",
     "Tải lên",
-    "Video",
+    // "Video",
 ]
 
 

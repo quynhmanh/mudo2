@@ -59,3 +59,17 @@
     stroke: rgb(9, 106, 120) !important;
     fill: rgb(9, 106, 120) !important;
 }
+
+.navbar-nav li {
+    padding: 10px;
+    background-color: transparent !important;
+}
+
+.navbar-nav li a {
+    padding: 0;
+    background-color: transparent !important;
+}
+
+.navbar-nav li a:focus {
+    background-color: transparent !important;
+}

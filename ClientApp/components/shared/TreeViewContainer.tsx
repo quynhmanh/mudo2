@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import styled from 'styled-components';
 
 import AppComponent from "@Components/shared/AppComponent";
 import TreeView from '@Components/shared/TreeView';
+import Loader from '@Components/shared/Loader';
 
 export interface IProps {
     filePath: string;
@@ -11,6 +13,7 @@ export interface IProps {
 
 export interface IState {
     templates: any;
+    isLoading: boolean;
 }
 
 var tree = [
@@ -274,136 +277,136 @@ var tree = [
             },
         ],
     },
-    {
-        title: "Phong bì thư",
-        path: '/templates/envelopes',
-        childs: [
-            {
-                title: "Agriculture",
-                path: "/templates/envelopes/agriculture",
-            },
-            {
-                title: "Automotive & Transportation",
-                path: "/templates/envelopes/automotive-transportation",
-            },
-            {
-                title: "Beauty",
-                path: "/templates/envelopes/beauty",
-            },
-            {
-                title: "Blank Brochures",
-                path: "/templates/envelopes/bland-brochures",
-            },
-            {
-                title: "Business Services",
-                path: "/templates/envelopes/business-services",
-            },
-            {
-                title: "Child Care",
-                path: "/templates/envelopes/child-care",
-            },
-            {
-                title: "Cleaning",
-                path: "/templates/envelopes/cleaning",
-            },
-            {
-                title: "Construction",
-                path: "/templates/envelopes/construction",
-            },
-            {
-                title: "Creative",
-                path: "/templates/envelopes/creative",
-            },
-            {
-                title: "Education & Training",
-                path: "/templates/envelopes/education-training",
-            },
-            {
-                title: "Energy & Environment",
-                path: "/templates/envelopes/energy-environment",
-            },
-            {
-                title: "Event",
-                path: "/templates/envelopes/event",
-            },
-            {
-                title: "Financial Services",
-                path: "/templates/envelopes/financial-services",
-            },
-            {
-                title: "Food & Beverage",
-                path: "/templates/envelopes/food-beverage",
-            },
-            {
-                title: "Generic Brochures",
-                path: "/templates/envelopes/generic-brochures",
-            },
-            {
-                title: "Holiday",
-                path: "/templates/envelopes/holiday",
-            },
-            {
-                title: "House & Home",
-                path: "/templates/envelopes/house-home",
-            },
-            {
-                title: "Insurance",
-                path: "/templates/envelopes/insurance",
-            },
-            {
-                title: "Law",
-                path: "/templates/envelopes/law",
-            },
-            {
-                title: "Lawn & Garden",
-                path: "/templates/envelopes/law-garden",
-            },
-            {
-                title: "Medical & Health Care",
-                path: "/templates/envelopes/medical-healthcare",
-            },
-            {
-                title: "Music & Arts",
-                path: "/templates/envelopes/music-arts",
-            },
-            {
-                title: "Non Profit",
-                path: "/templates/envelopes/non-profit",
-            },
-            {
-                title: "Pets & Animals",
-                path: "/templates/envelopes/pets-animals",
-            },
-            {
-                title: "Photography",
-                path: "/templates/envelopes/photography",
-            },
-            {
-                title: "Real Estate",
-                path: "/templates/envelopes/real-estate",
-            },
-            {
-                title: "Religion & Organizations",
-                path: "/templates/envelopes/religion-organization",
-            },
-            {
-                title: "Retail",
-                path: "/templates/envelopes/retail",
-            },
-            {
-                title: "Sports & Wellness",
-                path: "/templates/envelopes/sports-wellness",
-            },
-            {
-                title: "Technology",
-                path: "/templates/envelopes/technology",
-            },
-            {
-                title: "Travel & Tourism",
-                path: "/templates/envelopes/travel-tourism",
-            },
-        ],
-    },
+    // {
+    //     title: "bì thư",
+    //     path: '/templates/envelopes',
+    //     childs: [
+    //         {
+    //             title: "Agriculture",
+    //             path: "/templates/envelopes/agriculture",
+    //         },
+    //         {
+    //             title: "Automotive & Transportation",
+    //             path: "/templates/envelopes/automotive-transportation",
+    //         },
+    //         {
+    //             title: "Beauty",
+    //             path: "/templates/envelopes/beauty",
+    //         },
+    //         {
+    //             title: "Blank Brochures",
+    //             path: "/templates/envelopes/bland-brochures",
+    //         },
+    //         {
+    //             title: "Business Services",
+    //             path: "/templates/envelopes/business-services",
+    //         },
+    //         {
+    //             title: "Child Care",
+    //             path: "/templates/envelopes/child-care",
+    //         },
+    //         {
+    //             title: "Cleaning",
+    //             path: "/templates/envelopes/cleaning",
+    //         },
+    //         {
+    //             title: "Construction",
+    //             path: "/templates/envelopes/construction",
+    //         },
+    //         {
+    //             title: "Creative",
+    //             path: "/templates/envelopes/creative",
+    //         },
+    //         {
+    //             title: "Education & Training",
+    //             path: "/templates/envelopes/education-training",
+    //         },
+    //         {
+    //             title: "Energy & Environment",
+    //             path: "/templates/envelopes/energy-environment",
+    //         },
+    //         {
+    //             title: "Event",
+    //             path: "/templates/envelopes/event",
+    //         },
+    //         {
+    //             title: "Financial Services",
+    //             path: "/templates/envelopes/financial-services",
+    //         },
+    //         {
+    //             title: "Food & Beverage",
+    //             path: "/templates/envelopes/food-beverage",
+    //         },
+    //         {
+    //             title: "Generic Brochures",
+    //             path: "/templates/envelopes/generic-brochures",
+    //         },
+    //         {
+    //             title: "Holiday",
+    //             path: "/templates/envelopes/holiday",
+    //         },
+    //         {
+    //             title: "House & Home",
+    //             path: "/templates/envelopes/house-home",
+    //         },
+    //         {
+    //             title: "Insurance",
+    //             path: "/templates/envelopes/insurance",
+    //         },
+    //         {
+    //             title: "Law",
+    //             path: "/templates/envelopes/law",
+    //         },
+    //         {
+    //             title: "Lawn & Garden",
+    //             path: "/templates/envelopes/law-garden",
+    //         },
+    //         {
+    //             title: "Medical & Health Care",
+    //             path: "/templates/envelopes/medical-healthcare",
+    //         },
+    //         {
+    //             title: "Music & Arts",
+    //             path: "/templates/envelopes/music-arts",
+    //         },
+    //         {
+    //             title: "Non Profit",
+    //             path: "/templates/envelopes/non-profit",
+    //         },
+    //         {
+    //             title: "Pets & Animals",
+    //             path: "/templates/envelopes/pets-animals",
+    //         },
+    //         {
+    //             title: "Photography",
+    //             path: "/templates/envelopes/photography",
+    //         },
+    //         {
+    //             title: "Real Estate",
+    //             path: "/templates/envelopes/real-estate",
+    //         },
+    //         {
+    //             title: "Religion & Organizations",
+    //             path: "/templates/envelopes/religion-organization",
+    //         },
+    //         {
+    //             title: "Retail",
+    //             path: "/templates/envelopes/retail",
+    //         },
+    //         {
+    //             title: "Sports & Wellness",
+    //             path: "/templates/envelopes/sports-wellness",
+    //         },
+    //         {
+    //             title: "Technology",
+    //             path: "/templates/envelopes/technology",
+    //         },
+    //         {
+    //             title: "Travel & Tourism",
+    //             path: "/templates/envelopes/travel-tourism",
+    //         },
+    //     ],
+    // },
     {
         title: "Tờ rơi",
         path: '/templates/flyers',
@@ -534,136 +537,136 @@ var tree = [
             },
         ],
     },
-    {
-        title: "Tiêu đề thư",
-        path: '/templates/letterheads',
-        childs: [
-            {
-                title: "Agriculture",
-                path: "/templates/letterheads/agriculture",
-            },
-            {
-                title: "Automotive & Transportation",
-                path: "/templates/letterheads/automotive-transportation",
-            },
-            {
-                title: "Beauty",
-                path: "/templates/letterheads/beauty",
-            },
-            {
-                title: "Blank Brochures",
-                path: "/templates/letterheads/bland-brochures",
-            },
-            {
-                title: "Business Services",
-                path: "/templates/letterheads/business-services",
-            },
-            {
-                title: "Child Care",
-                path: "/templates/letterheads/child-care",
-            },
-            {
-                title: "Cleaning",
-                path: "/templates/letterheads/cleaning",
-            },
-            {
-                title: "Construction",
-                path: "/templates/letterheads/construction",
-            },
-            {
-                title: "Creative",
-                path: "/templates/letterheads/creative",
-            },
-            {
-                title: "Education & Training",
-                path: "/templates/letterheads/education-training",
-            },
-            {
-                title: "Energy & Environment",
-                path: "/templates/letterheads/energy-environment",
-            },
-            {
-                title: "Event",
-                path: "/templates/letterheads/event",
-            },
-            {
-                title: "Financial Services",
-                path: "/templates/letterheads/financial-services",
-            },
-            {
-                title: "Food & Beverage",
-                path: "/templates/letterheads/food-beverage",
-            },
-            {
-                title: "Generic Brochures",
-                path: "/templates/letterheads/generic-brochures",
-            },
-            {
-                title: "Holiday",
-                path: "/templates/letterheads/holiday",
-            },
-            {
-                title: "House & Home",
-                path: "/templates/letterheads/house-home",
-            },
-            {
-                title: "Insurance",
-                path: "/templates/letterheads/insurance",
-            },
-            {
-                title: "Law",
-                path: "/templates/letterheads/law",
-            },
-            {
-                title: "Lawn & Garden",
-                path: "/templates/letterheads/law-garden",
-            },
-            {
-                title: "Medical & Health Care",
-                path: "/templates/letterheads/medical-healthcare",
-            },
-            {
-                title: "Music & Arts",
-                path: "/templates/letterheads/music-arts",
-            },
-            {
-                title: "Non Profit",
-                path: "/templates/letterheads/non-profit",
-            },
-            {
-                title: "Pets & Animals",
-                path: "/templates/letterheads/pets-animals",
-            },
-            {
-                title: "Photography",
-                path: "/templates/letterheads/photography",
-            },
-            {
-                title: "Real Estate",
-                path: "/templates/letterheads/real-estate",
-            },
-            {
-                title: "Religion & Organizations",
-                path: "/templates/letterheads/religion-organization",
-            },
-            {
-                title: "Retail",
-                path: "/templates/letterheads/retail",
-            },
-            {
-                title: "Sports & Wellness",
-                path: "/templates/letterheads/sports-wellness",
-            },
-            {
-                title: "Technology",
-                path: "/templates/letterheads/technology",
-            },
-            {
-                title: "Travel & Tourism",
-                path: "/templates/letterheads/travel-tourism",
-            },
-        ],
-    },
+    // {
+    //     title: "Tiêu đề thư",
+    //     path: '/templates/letterheads',
+    //     childs: [
+    //         {
+    //             title: "Agriculture",
+    //             path: "/templates/letterheads/agriculture",
+    //         },
+    //         {
+    //             title: "Automotive & Transportation",
+    //             path: "/templates/letterheads/automotive-transportation",
+    //         },
+    //         {
+    //             title: "Beauty",
+    //             path: "/templates/letterheads/beauty",
+    //         },
+    //         {
+    //             title: "Blank Brochures",
+    //             path: "/templates/letterheads/bland-brochures",
+    //         },
+    //         {
+    //             title: "Business Services",
+    //             path: "/templates/letterheads/business-services",
+    //         },
+    //         {
+    //             title: "Child Care",
+    //             path: "/templates/letterheads/child-care",
+    //         },
+    //         {
+    //             title: "Cleaning",
+    //             path: "/templates/letterheads/cleaning",
+    //         },
+    //         {
+    //             title: "Construction",
+    //             path: "/templates/letterheads/construction",
+    //         },
+    //         {
+    //             title: "Creative",
+    //             path: "/templates/letterheads/creative",
+    //         },
+    //         {
+    //             title: "Education & Training",
+    //             path: "/templates/letterheads/education-training",
+    //         },
+    //         {
+    //             title: "Energy & Environment",
+    //             path: "/templates/letterheads/energy-environment",
+    //         },
+    //         {
+    //             title: "Event",
+    //             path: "/templates/letterheads/event",
+    //         },
+    //         {
+    //             title: "Financial Services",
+    //             path: "/templates/letterheads/financial-services",
+    //         },
+    //         {
+    //             title: "Food & Beverage",
+    //             path: "/templates/letterheads/food-beverage",
+    //         },
+    //         {
+    //             title: "Generic Brochures",
+    //             path: "/templates/letterheads/generic-brochures",
+    //         },
+    //         {
+    //             title: "Holiday",
+    //             path: "/templates/letterheads/holiday",
+    //         },
+    //         {
+    //             title: "House & Home",
+    //             path: "/templates/letterheads/house-home",
+    //         },
+    //         {
+    //             title: "Insurance",
+    //             path: "/templates/letterheads/insurance",
+    //         },
+    //         {
+    //             title: "Law",
+    //             path: "/templates/letterheads/law",
+    //         },
+    //         {
+    //             title: "Lawn & Garden",
+    //             path: "/templates/letterheads/law-garden",
+    //         },
+    //         {
+    //             title: "Medical & Health Care",
+    //             path: "/templates/letterheads/medical-healthcare",
+    //         },
+    //         {
+    //             title: "Music & Arts",
+    //             path: "/templates/letterheads/music-arts",
+    //         },
+    //         {
+    //             title: "Non Profit",
+    //             path: "/templates/letterheads/non-profit",
+    //         },
+    //         {
+    //             title: "Pets & Animals",
+    //             path: "/templates/letterheads/pets-animals",
+    //         },
+    //         {
+    //             title: "Photography",
+    //             path: "/templates/letterheads/photography",
+    //         },
+    //         {
+    //             title: "Real Estate",
+    //             path: "/templates/letterheads/real-estate",
+    //         },
+    //         {
+    //             title: "Religion & Organizations",
+    //             path: "/templates/letterheads/religion-organization",
+    //         },
+    //         {
+    //             title: "Retail",
+    //             path: "/templates/letterheads/retail",
+    //         },
+    //         {
+    //             title: "Sports & Wellness",
+    //             path: "/templates/letterheads/sports-wellness",
+    //         },
+    //         {
+    //             title: "Technology",
+    //             path: "/templates/letterheads/technology",
+    //         },
+    //         {
+    //             title: "Travel & Tourism",
+    //             path: "/templates/letterheads/travel-tourism",
+    //         },
+    //     ],
+    // },
     {
         title: "Bưu thiếp",
         path: '/templates/postcards',
@@ -934,6 +937,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
 
     this.state = {
         templates : [],
+        isLoading: false,
     };
   }
 
@@ -950,10 +954,11 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
   loadTemplate = (filePath : string) => {
     var self = this;
     const url = `/api/Template/SearchAngAggregate?type=1&filePath=${filePath ? filePath : this.props.filePath}&subType=123`;
+    self.setState({isLoading: true,})
     axios.get(url).
       then(res => {
           console.log('res ', res);
-          self.setState({templates: res.data.value.documents})
+          self.setState({templates: res.data.value.documents, isLoading: false,})
       })
   }
 
@@ -986,12 +991,25 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                 border: '1px solid #e7eaf3',
                 borderRadius: '.3125rem',
                 padding: '20px',
+                justifyContent: 'space-around',
+                flexWrap: 'wrap',
+                // display: 'flex',
             }} 
             >
-            {this.state.templates.map(template => <a href={`/editor/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', display: 'inline-block', boxShadow: '0 3px 6px 0 rgba(140,152,164,.25)'}}>
-                <img style={{width: '150px'}} src={template.representative} />
-                <p style={{margin: 0, padding: '5px', borderTop: '1px solid #e7eaf3'}}>{template.firstName}</p>
-            </a>)}
+            {this.state.isLoading ? 
+            <div style={{position: 'relative', width: '100%', height: '50px',}}>
+                <Loader show={true} black={true}/>
+            </div>
+            :
+            this.state.templates.map(template => <ImgContainer href={`/editor/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
+                <img
+                    style={{
+                        width: '350px',
+                        borderRadius: '5px',
+                    }} 
+                    src={template.representative2} />
+                <p style={{margin: 0, padding: '5px', color: 'black', fontWeight: 700,}}>{template.firstName}</p>
+            </ImgContainer>)}
             </div>
     </div>
     );
@@ -999,3 +1017,9 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
 }
 
 export default TreeViewContainer;
+
+var ImgContainer = styled.a`
+    :hover {
+        filter: brightness(0.95);
+    }
+`;
