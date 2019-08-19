@@ -30,47 +30,47 @@ class Popup extends PureComponent<IProps, IState> {
                         color: 'white',
                     }}>
    <div className="unblurred">
-      <h3 className="unblurred infoTitle___15NNR large___2DVhe geometria-medium___3wRqs">Save your design in any format</h3>
-      <ul className="unblurred leftInfoList___jwVP0">
-         <li className="unblurred leftInfoItem___22wdL">
-            <h3 className="unblurred leftInfoTitle___JX_9_ large___2DVhe">JPG</h3>
-            <p className="unblurred x-small___1lJKy">Save your file in a JPG format for a smaller size</p>
+      <h5 className="unblurred infoTitle___15NNR large___2DVhe geometria-medium___3wRqs">Tải xuống bản thiết kế của bạn dưới bất kì định dạng nào:</h5>
+      <ul style={{padding: 0}} className="unblurred leftInfoList___jwVP0">
+         <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
+            <h3 style={{flex: '0 0 100px', margin: 0,}} className="unblurred leftInfoTitle___JX_9_ large___2DVhe">JPG</h3>
+            <p className="unblurred x-small___1lJKy">Lưu bản thiết kế của bạn dưới định dạng JPG với dung lượng nhỏ.</p>
          </li>
-         <li className="unblurred leftInfoItem___22wdL">
-            <h3 className="unblurred leftInfoTitle___JX_9_ large___2DVhe">PNG</h3>
-            <p className="unblurred x-small___1lJKy">Use a PNG for a file with an opaque background</p>
+         <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
+            <h3 style={{flex: '0 0 100px', margin: 0,}} className="unblurred leftInfoTitle___JX_9_ large___2DVhe">PNG</h3>
+            <p className="unblurred x-small___1lJKy">Lưu bản thiết kế của bạn dưới định dạng PNG với nền trắng.</p>
          </li>
-         <li className="unblurred leftInfoItem___22wdL">
-            <h3 className="unblurred leftInfoTitle___JX_9_ large___2DVhe">
+         <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
+            <h3 style={{flex: '0 0 100px', margin: 0,}} className="unblurred leftInfoTitle___JX_9_ large___2DVhe">
                PNG
-               <p className="unblurred xx-small___22HAD">Transparent</p>
+               <p style={{fontSize: '11px'}} className="unblurred xx-small___22HAD">nền trong suốt</p>
             </h3>
-            <p className="unblurred x-small___1lJKy">This format allows you to keep transparency in the image</p>
+            <p className="unblurred x-small___1lJKy">Lưu bản thiết kế của bạn dưới định dạng PNG với nền trong suốt.</p>
          </li>
-         <li className="unblurred leftInfoItem___22wdL">
-            <h3 className="unblurred leftInfoTitle___JX_9_ large___2DVhe">
+         <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
+            <h3 style={{flex: '0 0 100px', margin: 0,}} className="unblurred leftInfoTitle___JX_9_ large___2DVhe">
                PDF
-               <p className="unblurred xx-small___22HAD">Standard</p>
+               <p style={{fontSize: '11px'}} className="unblurred xx-small___22HAD">Standard</p>
             </h3>
-            <p className="unblurred x-small___1lJKy">PDF is perfect for web-based images</p>
+            <p className="unblurred x-small___1lJKy">Tải xuống dưới dạng PDF.</p>
          </li>
       </ul>
    </div>
-   <div className="unblurred x-small___1lJKy leftSideLinkWrapper___BgN52"><span className="unblurred" >Visit our </span><a className="unblurred leftSideLink___1a3wo" href="https://support.crello.com" rel="external noopener noreferrer" target="_blank" data-categ="downloadModal" data-value="helpAndSupport">Help &amp; Support</a> <span className="unblurred">to get detailed answers</span></div>
+   {/* <div className="unblurred x-small___1lJKy leftSideLinkWrapper___BgN52"><span className="unblurred" >Visit our </span><a className="unblurred leftSideLink___1a3wo" href="https://support.crello.com" rel="external noopener noreferrer" target="_blank" data-categ="downloadModal" data-value="helpAndSupport">Help &amp; Support</a> <span className="unblurred">to get detailed answers</span></div> */}
 </div>                    </div>
-                    <div className="unblurred">
+                    <div className="unblurred" style={{width: '100%'}}>
 
                     <div style={{
                         padding: '39px 40px',
                     }} className="unblurred content___2kbkg">
-   <h4 className="unblurred defaultTitle___37St1 large___2DVhe geometria-medium___3wRqs">Download design</h4>
-   <p className="unblurred small___1Vvfz chooseType___aKGtm">Choose a file type to download</p>
-   <ul className="unblurred downloadTypes___AkCgx">
-      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadJPG} className="unblurred downloadTypeBtn___3kgiq" data-test="downloadJpg" data-categ="downloadDesign" data-value="jpg">JPG</button></li>
-      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPNG} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="png">PNG</button></li>
-      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPNGTransparent} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pngTransparent">PNG <span className="unblurred downloadTypeBtnText___2myes">Transparent</span></button></li>
-      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPDF} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">Standard</span></button></li>
-      <li className="unblurred downloadTypeItem___cGw_u"><button onClick={this.props.handleDownloadPDFWithBleed} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">with bleed</span></button></li>
+   <h4 className="unblurred defaultTitle___37St1 large___2DVhe geometria-medium___3wRqs">Tải bản thiết kế</h4>
+   <p className="unblurred small___1Vvfz chooseType___aKGtm">Chọn định dạng để tải:</p>
+   <ul style={{listStyle: 'none'}} className="unblurred downloadTypes___AkCgx">
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid'}} onClick={this.props.handleDownloadJPG} className="unblurred downloadTypeBtn___3kgiq" data-test="downloadJpg" data-categ="downloadDesign" data-value="jpg">JPG</button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid'}} onClick={this.props.handleDownloadPNG} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="png">PNG</button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid'}} onClick={this.props.handleDownloadPNGTransparent} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pngTransparent">PNG <span className="unblurred downloadTypeBtnText___2myes">Transparent</span></button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid'}} onClick={this.props.handleDownloadPDF} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">Standard</span></button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid'}} onClick={this.props.handleDownloadPDFWithBleed} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">with bleed</span></button></li>
    </ul>
    <div 
     className="unblurred"
@@ -116,7 +116,7 @@ const PopupWrapper = styled.div`
         margin: auto;  
         background-color: black;
         width: 800px;
-        height: 616px;
+        height: 426px;
     }
 
     .popup-background {

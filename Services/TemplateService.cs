@@ -167,6 +167,18 @@ px;
             var node = new Uri("http://localhost:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
             var client = new ElasticClient(settings);
+
+            var response = client.Indices.Create("template", c => c
+                .Settings(s => s.Analysis(a => a.Analyzers(ar => ar.Custom("custom_path_tree", ac => ac.Tokenizer("custom_hierarchy")))))
+                .Map<TemplateModel>(mm => mm.Properties(props => props
+                    .Keyword(t => t.Name(p => p.SubType))
+                    .Text(pt => pt.Name(ptp => ptp.FilePath).Fields(ptf => ptf.Text(ptft => ptft.Name("tree").Analyzer("custom_path_tree")))))));
+
+                //props
+                //.Keyword(t => t.Name(p => p.SubType))
+                //    && props.Text(pt => pt.Fields(ptf => ptf.Text(ptft => ptft.Analyzer("custom_path_tree")))))))
+                //);
+
             string query = $"type:{type}";
 
             var res = client.Search<TemplateModel>(s => s.

@@ -29,6 +29,13 @@ namespace RCB.TypeScript.Services
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
+            var response2 = client.Indices.Create("media", c => c
+                .Settings(s => s.Analysis(a => a.Analyzers(ar => ar.Custom("custom_path_tree", ac => ac.Tokenizer("custom_hierarchy")))))
+                .Map<TemplateModel>(mm => mm.Properties(props => props
+                    .Keyword(t => t.Name(p => p.SubType))
+                    .Text(pt => pt.Name(ptp => ptp.FilePath).Fields(ptf => ptf.Text(ptft => ptft.Name("tree").Analyzer("custom_path_tree")))))));
+
+
             var response = client.Index(model, idx => idx.Index("media")); //or specify index via settings.DefaultIndex("mytweetindex");
 
             return Ok(1);

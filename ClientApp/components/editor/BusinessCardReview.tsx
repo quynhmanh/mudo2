@@ -13,6 +13,8 @@ import { object } from "prop-types";
 const thick = 16;
 
 export interface IProps {
+    firstPage: any;
+    secondPage: any;
 }
 
 export interface IState {
@@ -29,7 +31,7 @@ enum Mode {
 
 export default class Canvas extends PureComponent<IProps, IState> {
   render () {
-    return <div id="alo2" className="eNf6210Ehjw49xuxCsPpk" 
+    return <div id="alo2" className="business-card eNf6210Ehjw49xuxCsPpk" 
     style={{
         width: '328px', 
         height: '218px', 
@@ -37,6 +39,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
         transform: 'scale(0.9)',
         borderRadius: '5px',
         overflow: 'hidden',
+        transformOrigin: '0 0',
     }}>
     <div>
         <div className="jPqjdkeSY9qVUI2aXLxBM" style={{width: '100%', height: '100%'}}>
@@ -47,7 +50,18 @@ export default class Canvas extends PureComponent<IProps, IState> {
                         <div style={{width: '321.26px', height: '188.976px', overflow: 'hidden'}}>
                             <div>
                                 <div className="cJvigNF8nKVq8YRvhrcrK _3Tk7vFk3XB74DSjc-X114e fs-hide" style={{width: '321.26px', height: '188.976px'}}>
-                                    {this.props.children}
+                                    {this.props.firstPage}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="_36NEU03UAgvptunPQ33QuJ" style={{transformOrigin: '0 0', position: 'absolute', top: 0, left: 0, transform: 'matrix3d(0.322533, 0.185046, 0, -9.49012e-06, -0.187603, 0.318878, 0, -2.19492e-05, 0, 0, 1, 0, 121.032, 92.2729, 0, 1)'}}>
+                    <div className="_3fyu-w84Dj-GvX55phR6M8" style={{width: '321.26px', height: '188.976px'}}>
+                        <div style={{width: '321.26px', height: '188.976px', overflow: 'hidden'}}>
+                            <div>
+                                <div className="cJvigNF8nKVq8YRvhrcrK _3Tk7vFk3XB74DSjc-X114e fs-hide" style={{width: '321.26px', height: '188.976px'}}>
+                                    {this.props.secondPage}
                                 </div>
                             </div>
                         </div>

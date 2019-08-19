@@ -91,7 +91,7 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                         {/* <li><NavLink exact to={'/example'} activeClassName="active">Example</NavLink></li> */}
                         <li><NavLink exact to={'/templates'} activeClassName="active">Mẫu thiết kế</NavLink></li>
                         {/* <li><NavLink exact to={'/editor'} activeClassName="active">Learn</NavLink></li> */}
-                        <li><NavLink exact to={'/cart'} activeClassName="active">Giỏ hàng</NavLink></li>
+                        {/* <li><NavLink exact to={'/cart'} activeClassName="active">Giỏ hàng</NavLink></li> */}
                         <li className="dropdown">
                             <a href="#" ref={x => this.elDropdown = x} className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {Globals.serviceUser && Globals.serviceUser.login}&nbsp;

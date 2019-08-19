@@ -136,6 +136,13 @@ export default class Canvas extends PureComponent<IProps, IState> {
     height: rectHeight * scale + 'px',
     position: 'absolute',
   }}>
+                {this.props.preview && <div
+                  style={{
+                    height: '46px',
+                  }}>
+                  <h1>Hello world</h1>
+                </div>
+                }
                 {
                   staticGuides.x.map(g => g[1] !== 1 ? null :
                     <div className="guide axis-x static" style={{left: `${g[0]*scale}px`, border: g[1] === 1 ? '0.5px dashed #B14AED' : null}}></div>

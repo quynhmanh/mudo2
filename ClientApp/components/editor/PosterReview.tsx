@@ -11,7 +11,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
 
 
   render () {
-    return <div id="alo2" className="eNf6210Ehjw49xuxCsPpk" 
+    return <div id="alo2" className="poster eNf6210Ehjw49xuxCsPpk" 
     style={{
         width: '328px', 
         height: '218px', 
@@ -19,6 +19,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
         transform: 'scale(0.9)',
         borderRadius: '5px',
         overflow: 'hidden',
+        transformOrigin: '0 0',
     }}>
     <div>
         <div className="jPqjdkeSY9qVUI2aXLxBM" style={{width: '100%', height: '100%'}}>

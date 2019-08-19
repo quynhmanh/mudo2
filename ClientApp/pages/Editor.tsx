@@ -149,6 +149,7 @@ interface IState {
   typeObjectSelected: TemplateType;
   bleed: boolean;
   showPrintingSidebar: boolean;
+  currentPrintStep: boolean;
 }
 
 let firstpage = uuidv4();
@@ -157,6 +158,7 @@ const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\
 
 class CanvaEditor  extends PureComponent<IProps, IState> {
   state = {
+    currentPrintStep: 1,
     subtype: null,
     bleed: false,
     showMediaEditPopup: false,
@@ -4748,7 +4750,7 @@ handleToolbarResize = e => {
               style={{
                 position: "fixed",
                 bottom: "10px",
-                right: "20px",
+                right: `${20 + (this.state.showPrintingSidebar ? 330 : 0)}px`,
                 width: "70px",
                 zIndex: 99999999,
               }}
@@ -4862,9 +4864,55 @@ handleToolbarResize = e => {
         >
           
       <div>
+        <div
+          style={{
+            height: '46px',
+          }}
+        >
+                <div className="pStkS_qIKsPoym6eCGnye" style={{padding: '10px', display: 'flex', height: '46px', borderBottom: '1px solid rgba(14,19,24,.15)', justifyContent: 'center'}}>
+    <div className="_3I6bflXEnh4GRlVDlnzEap" style={{display: 'flex', alignItems: 'center'}}>
+      <span style={{marginRight: '5px',}} className="_2JPeE-06cfszm35uzXEvgC _1tNfXgCCl_5Qt5kGxyM8c4">
+          <span className="_2EacSGMxQyBD7pSwvfkZz3 _3l4uYr79jSRjggcw5QCp88" style={{justifyContent: 'center', alignItems: 'center', display: 'flex', width: '20px', height: '20px', borderRadius: '50%', border: '12px solid transparent', backgroundColor: this.state.currentPrintStep >= 1 ? '#6bca2c' : '#e7e7e7', }}>
+            <span>1</span>
+        </span>
+        </span><span style={{marginRight: '5px',}} className="_2JPeE-06cfszm35uzXEvgC _2JAh8PyNfcg1Kun3J3uV1C">
+        <span className="_2EacSGMxQyBD7pSwvfkZz3 _3l4uYr79jSRjggcw5QCp88"  style={{justifyContent: 'center', alignItems: 'center', display: 'flex', width: '20px', height: '20px', borderRadius: '50%', border: '12px solid transparent',backgroundColor: this.state.currentPrintStep >= 2 ? '#6bca2c' : '#e7e7e7', }}>
+          <span>2</span>
+        </span>
+        </span>
+        <span style={{marginRight: '5px',}} className="_2JPeE-06cfszm35uzXEvgC _2JAh8PyNfcg1Kun3J3uV1C">
+          <span className="_2EacSGMxQyBD7pSwvfkZz3 _3l4uYr79jSRjggcw5QCp88" style={{justifyContent: 'center', alignItems: 'center', display: 'flex', width: '20px', height: '20px', borderRadius: '50%', border: '12px solid transparent',backgroundColor: this.state.currentPrintStep >= 3 ? '#6bca2c' : '#e7e7e7', }}>
+            <span>3</span>
+          </span>
+        </span>
+        {/* <span style={{marginRight: '5px',}} className="_2JPeE-06cfszm35uzXEvgC _2JAh8PyNfcg1Kun3J3uV1C">
+          <span className="_2EacSGMxQyBD7pSwvfkZz3 _3l4uYr79jSRjggcw5QCp88" style={{justifyContent: 'center', alignItems: 'center', display: 'flex', width: '20px', height: '20px', borderRadius: '50%', border: '12px solid transparent',backgroundColor: this.state.currentPrintStep >= 4 ? '#6bca2c' : 'rgba(14,19,24,.45)', }}>
+            <span>4</span></span></span> */}
+    </div>
+    <button
+      style={{
+        position: 'absolute',
+        right: 0,
+        border: 'none',
+        background: 'transparent',
+      }}
+      onClick={() => {this.setState({showPrintingSidebar: false,})}}
+    className="_2Rww-JOL60obmcYkaUOyg_ Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _3cIMyP4YPUpE0H8WXQ_r-B Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _3QJ_C8Lg1l0m5aoIK5piST _2kK9hFUTyqtMKr5EG4GuY4 _3SyHP4HOoHraV3-PJsORT7" type="button"><span className="_3WuwevpUMOqhISoQUjDiY3"><span className="_3K8w6l0jetB1VHftQo2qK6 _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z" /></svg></span></span>
+    </button>
+</div>
+        </div>
+
+        {this.state.currentPrintStep == 1 && 
+        <div
+          style={{
+            padding: '16px 16px 0',
+            position: 'relative',
+            height: 'calc(100% - 46px)'
+          }}
+        >
+
         {this.state.subtype == SubType.BusinessCardReview && 
-<BusinessCardReview>
-{ this.renderCanvas(true, 0)}
+<BusinessCardReview firstPage={this.renderCanvas(true, 0)} secondPage={this.renderCanvas(true, 1)}>
 </BusinessCardReview>
         }
         {this.state.subtype == SubType.FlyerReview && 
@@ -4884,6 +4932,166 @@ handleToolbarResize = e => {
 </PosterReview>
 }
 
+<div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
+        <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">What size?</label>
+        <div className>
+          <button style={{width: '100%'}} type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf _3VMFhjcT1YTNCBfgY43AoL"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">A3</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
+          </button>
+        </div>
+      </div>
+
+      <div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
+        <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Select your print options</label>
+        <div className>
+          <button style={{width: '100%'}} type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf _3VMFhjcT1YTNCBfgY43AoL"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">A3</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
+          </button>
+        </div>
+      </div>
+
+
+      <div className="_3YDCW8EBZnxTRa5xT7gtHk _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88"><span className="_17Olod74EUtMOOpeHSF9RO _3K8w6l0jetB1VHftQo2qK6 _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z" /></svg></span>
+        <div className="fe5UvoRC9ZkGGo1SwMSHH">
+          <div className="YOoVgTXLDk_wFPeE7Lehj">100% Happiness Guarantee</div><span className="_19yfLwKwDEYdDKh0ixOgNB _1YRea3--8x2Rm7RqKumWGQ">If you're not happy with your order contact us and we'll make it right! <a href="https://support.canva.com/canva-print/print-customer-service-policy/print-customer-happiness-policy/" target="_blank" rel="noopener">More</a></span></div>
+      </div>
+
+        </div> }
+
+        {this.state.currentPrintStep == 2 && 
+        <div
+        style={{
+          padding: '16px 16px 0',
+          position: 'relative',
+          height: 'calc(100% - 46px)'
+        }}
+      >
+
+<div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
+<form autoComplete="on">
+        <div className="_2WG0n1tF-Rc7mYLaZoDpdC">
+          <p className="_3H42by719pMs1V0_zCiGTG ">Shipping details</p>
+        </div>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>Full name</p>
+          <input className="" type="text" autoComplete="name" placeholder="E.g. David Bowie" name="name" defaultValue="Manh Quynh Nguyen" style={{backgroundImage: 'url("data:image/png', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll', backgroundSize: '16px 18px', backgroundPosition: '98% 50%'}} />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>Contact number</p>
+          <input className="" type="tel" autoComplete="tel" name="tel" />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <div className="_1aw7otah-68EhhPw1Br28i">
+            <p className="_2fHTMyjRhDdhU2qNgpKq2l ">Street address</p><a className="_1lMgzTph3Id2Qfd-IS5BHV jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88 _328_BSxypOJVIAAgQ4sdxf" href="#" draggable="false">Search for address</a></div>
+          <input className="" type="text" autoComplete="street-address" placeholder="E.g. 30 Lafayette Avenue" name="street-address" defaultValue="New Bridge Road" />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>City</p>
+          <input className="" type="text" autoComplete="address-level2" placeholder="E.g. Brooklyn" name="address-level2" defaultValue="Singapore" />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>Country</p>
+          <div className="_3Tk7vFk3XB74DSjc-X114e fs-hide">
+            <div className>
+              <button type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">Singapore</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
+              </button>
+            </div>
+            <div className="_1sk78p8Erqs7Wd-2IGk6E9">
+              <input className="" type="text" autoComplete="country" name="country" />
+            </div>
+          </div>
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p className="">Postal code</p>
+          <input className="" type="text" autoComplete="postal-code" placeholder="E.g. 11217" name="postal-code" />
+        </label>
+      </form>
+    </div>
+
+      </div> 
+        }
+
+{this.state.currentPrintStep == 3 && 
+        <div
+        style={{
+          padding: '16px 16px 0',
+          position: 'relative',
+          height: 'calc(100% - 46px)'
+        }}
+      >
+
+<div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
+<form autoComplete="on">
+        <div className="_2WG0n1tF-Rc7mYLaZoDpdC">
+          <p className="_3H42by719pMs1V0_zCiGTG ">Xác nhận và thanh toán</p>
+        </div>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>Full name</p>
+          <input className="" type="text" autoComplete="name" placeholder="E.g. David Bowie" name="name" defaultValue="Manh Quynh Nguyen" style={{backgroundImage: 'url("data:image/png', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll', backgroundSize: '16px 18px', backgroundPosition: '98% 50%'}} />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>Contact number</p>
+          <input className="" type="tel" autoComplete="tel" name="tel" />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <div className="_1aw7otah-68EhhPw1Br28i">
+            <p className="_2fHTMyjRhDdhU2qNgpKq2l ">Street address</p><a className="_1lMgzTph3Id2Qfd-IS5BHV jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88 _328_BSxypOJVIAAgQ4sdxf" href="#" draggable="false">Search for address</a></div>
+          <input className="" type="text" autoComplete="street-address" placeholder="E.g. 30 Lafayette Avenue" name="street-address" defaultValue="New Bridge Road" />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>City</p>
+          <input className="" type="text" autoComplete="address-level2" placeholder="E.g. Brooklyn" name="address-level2" defaultValue="Singapore" />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>Country</p>
+          <div className="_3Tk7vFk3XB74DSjc-X114e fs-hide">
+            <div className>
+              <button type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">Singapore</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
+              </button>
+            </div>
+            <div className="_1sk78p8Erqs7Wd-2IGk6E9">
+              <input className="" type="text" autoComplete="country" name="country" />
+            </div>
+          </div>
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p className="">Postal code</p>
+          <input className="" type="text" autoComplete="postal-code" placeholder="E.g. 11217" name="postal-code" />
+        </label>
+      </form>
+    </div>
+
+      </div> 
+        }
+
+        <div className="_2UsfVIk8gJrdw8z8BGlvm1" 
+          style={{
+            padding: '16px',
+            position: 'absolute',
+            bottom: '0',
+            flexDirection: 'column',
+            width: '100%',
+          }}>
+        <div className="_2RWrXWDlIFqxW5c9NTv-se _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88" style={{margin: '8px 0', justifyContent: 'space-between', display: 'flex'}}><span>Tổng cộng</span><span className="_1Pu2ailzs8h4eqVc792xOn">$10.00</span></div>
+        <div className="lLA-xJuEE5FVKeD8ezek3">
+          <div>
+            <div className="_3X7RzVL6jzVBkctplBQ8Z" 
+            style={{display: 'flex'}}>
+              {this.state.currentPrintStep > 1 &&
+              <button
+                style={{
+                  marginRight: '5px',
+                }}
+                onClick={() => {this.setState({currentPrintStep: this.state.currentPrintStep - 1})}}
+              >
+                Back
+              </button>
+              }
+              <button className="_2Rww-JOL60obmcYkaUOyg_ Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _28oyZ-_qfE-ERg1G1Nc2zV Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _3QJ_C8Lg1l0m5aoIK5piST _2kK9hFUTyqtMKr5EG4GuY4 _2HxAYUsq5GZ4sKqpZqoKLF" title="Continue" type="button" 
+                onClick={() => {this.setState({currentPrintStep: this.state.currentPrintStep + 1})}}
+                style={{color: 'white', height: '40px', borderRadius: '4px', width: '100%', border: 'none', backgroundColor: 'rgb(1, 159, 182)'}}><span className="wDZfRbnecQOufIqcN2_A5">Tiếp tục</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
         </div>
         }
