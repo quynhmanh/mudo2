@@ -168,16 +168,17 @@ px;
             var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
             var client = new ElasticClient(settings);
 
-            var response = client.Indices.Create("template", c => c
-                .Settings(s => s.Analysis(a => a.Analyzers(ar => ar.Custom("custom_path_tree", ac => ac.Tokenizer("custom_hierarchy")))))
-                .Map<TemplateModel>(mm => mm.Properties(props => props
-                    .Keyword(t => t.Name(p => p.SubType))
-                    .Text(pt => pt.Name(ptp => ptp.FilePath).Fields(ptf => ptf.Text(ptft => ptft.Name("tree").Analyzer("custom_path_tree")))))));
+            //var response = client.Indices.Create("template", c => c
+            //    .Settings(s => s.Analysis(a => a.Analyzers(ar => ar.Custom("custom_path_tree", ac => ac.Tokenizer("custom_hierarchy")))))
+            //    .Map<TemplateModel>(mm => mm.Properties(props => props
+            //        .Keyword(t => t.Name(p => p.SubType))
+            //        .Text(pt => pt.Name(ptp => ptp.FilePath).Fields(ptf => ptf.Text(ptft => ptft.Name("tree").Analyzer("custom_path_tree")))))));
 
-                //props
-                //.Keyword(t => t.Name(p => p.SubType))
-                //    && props.Text(pt => pt.Fields(ptf => ptf.Text(ptft => ptft.Analyzer("custom_path_tree")))))))
-                //);
+
+            //props
+            //.Keyword(t => t.Name(p => p.SubType))
+            //    && props.Text(pt => pt.Fields(ptf => ptf.Text(ptft => ptft.Analyzer("custom_path_tree")))))))
+            //);
 
             string query = $"type:{type}";
 
@@ -500,6 +501,12 @@ px;
                         htmlFile.Flush();
                     }
 
+                    if (preview)
+                    {
+                        width = width * 2;
+                        height = height * 2;
+                    }
+
                     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                     var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
@@ -517,7 +524,7 @@ px;
 
                     await page.EvaluateFunctionAsync(@"() => {
                         if (document.getElementById('alo2')) {
-                            document.getElementById('alo2').style.transform = 'scale(2)';
+                            document.getElementById('alo2').style.transform = 'scale(4)';
                             document.getElementById('alo2').style.transformOrigin = '0 0';
                         }
                     }");
@@ -529,7 +536,6 @@ px;
                             Width = (decimal)width,
                             Height = (decimal)height,
                         },
-                        BurstMode = true,
                     });
 
                     using (var memoryStream = new MemoryStream())
