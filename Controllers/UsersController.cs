@@ -51,6 +51,8 @@ namespace RCB.TypeScript.Controllers
         [HttpPost("~/users/authenticate/external/verify")]
         public IActionResult verify([FromBody]Auth auth)
         {
+            if (auth.Scope == null || !auth.Scope.ToLower().Contains("email"))
+                return BadRequest(new { message = "The following permissions have not been approved for use: email." });
             switch (auth.Provider)
             {
                 case "facebook":
@@ -95,11 +97,38 @@ namespace RCB.TypeScript.Controllers
                     string user_id = (string)data.GetValue("user_id");
                     if (is_valid && app_id.Equals(APP_ID))
                     {
-                        return Ok(new User { Username = user_id });
+                        return GetFacebookInfo(auth.Token);
                     }
                 }
             }
-            return BadRequest(new { message = "Invalid Access Token!!!" });
+            return BadRequest(new { message = "Invalid Access Token!" });
+        }
+
+        private IActionResult GetFacebookInfo(string token) {
+            string url = "https://graph.facebook.com/v4.0/me?fields=name,email&access_token=" + token;
+            string result = "";
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = client.GetAsync(url).Result;
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = response.Content.ReadAsStringAsync().Result;
+                    result = responseBody;
+                }
+                catch (HttpRequestException e)
+                {
+                    
+                }
+            }
+
+            JObject json = JObject.Parse(result);
+            if (result.Contains("email")) {
+                return Ok(new User { Username = (string) json.GetValue("email") });
+            }
+
+            return BadRequest(new { message = "Invalid Access Token!" });
         }
 
         private IActionResult verifyGoogle(Auth auth)
@@ -153,7 +182,7 @@ namespace RCB.TypeScript.Controllers
                 }
             }
 
-            return BadRequest(new { message = "Invalid Access Token!!!" });
+            return BadRequest(new { message = "Invalid Access Token!" });
         }
     }
 }

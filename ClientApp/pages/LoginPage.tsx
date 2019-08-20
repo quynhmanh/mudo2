@@ -56,51 +56,53 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
 
       facebook() {
         const nonce = uuidv4();
+        console.log(nonce);
         const url = "https://www.facebook.com/v4.0/dialog/oauth?"
             + "client_id=" + "476336289816631"
             + "&redirect_uri=" + "https://localhost:64099/users/authenticate/external?provider=facebook"
-            + "&state=" + nonce
-            + "&response_type=" + "token";
+            + "&scope=" + "email"
+            + "&return_scopes=" + "true"
+            + "&auth_type=" + "rerequest"
+            + "&response_type=" + "token"
+            + "&state=" + nonce; // todo: need store nonce somewhere and then compare it with state from response
         window.authenticationScope = { complete: this.externalProviderCompleted.bind(this) };
         window.open(url, "Authenticate Account", "location=0,status=0,width=600,height=750");
     }
 
     google() {
         console.log('asdas d fuck fuck fucl');
+        const nonce = uuidv4();
+        console.log(nonce);
         const url = "https://accounts.google.com/o/oauth2/v2/auth?"
             + "client_id=" + "75521893646-ejv81aiajee0gkt0ebs3pkohhubj47k1.apps.googleusercontent.com"
             + "&response_type=token"
             + "&scope=openid email"
             + "&redirect_uri=" + "https://localhost:64099/users/authenticate/external?provider=google"
-            // + "&state=" + "..."
-            /*
-                TODO: Provide state variable!!!
-                If you generate a random string or encode the hash of some client state (e.g., a cookie) in this state variable, 
-                you can validate the response to additionally ensure that the request and response originated in the same browser.
-            */
+            + "&state=" + nonce; // todo: need store nonce somewhere and then compare it with state from response
         window.authenticationScope = { complete: this.externalProviderCompleted.bind(this) };
         window.open(url, "Authenticate Account", "location=0,status=0,width=600,height=750");
         
     }
 
     externalProviderCompleted(fragment) {
+        console.log(fragment);       
         if (fragment === null || typeof fragment !== 'object' || !fragment.hasOwnProperty("access_token")) {
-            alert("external login failed!");
+            // alert("external login failed!");
             return;
         }
+
+        const { access_token, provider } = fragment;
 
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: fragment.access_token, provider: fragment.provider })
+            body: JSON.stringify({ token: access_token, provider, scope: provider === 'facebook' ? fragment.granted_scopes : fragment.scope })
         };
-        
+ 
         fetch(`/users/authenticate/external/verify`, requestOptions)
         .then(this.handleResponse)
         .then(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
-
             return user;
         })
         .then(
@@ -109,7 +111,8 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                 this.onLoginSuccess(user);
             },
             error => {
-                alert(error);
+                // alert(error);
+                console.log(error);
             }
         );
     }
@@ -154,7 +157,6 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
 
         console.log('asdasd', this.state.isLoggedIn)
         if (this.state.isLoggedIn) {
-            console.log('heje', this.state);
             return <Redirect to='/' />;
         }
 

@@ -6,5 +6,7 @@ namespace RCB.TypeScript.Models
         public string Token { get; set; }
 
         public string Provider { get; set; }
+
+        public string Scope { get; set; }
     }
 }
