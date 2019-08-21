@@ -57,7 +57,7 @@ namespace RCB.TypeScript.Models
 
         public string[] Pages { get; set; }
 
-        public int PrintType { get; set; }
+        public int? PrintType { get; set; }
 
         [Text(Name = "filePath.tree")]
         public string FilePathTree { get; set; }

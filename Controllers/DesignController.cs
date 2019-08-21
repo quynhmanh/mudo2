@@ -74,10 +74,10 @@ namespace RCB.TypeScript.Controllers
 .mjx-ex-box-test {position: absolute; overflow: hidden; width: 1px; height: 60ex}
 .mjx-line-box-test {display: table!important}
 .mjx-line-box-test span { display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
-.MJXc-TeX-unknown-R {font-family: monospace; font-style: normal; font-weight: normal}
-.MJXc-TeX-unknown-I {font-family: monospace; font-style: italic; font-weight: normal}
-.MJXc-TeX-unknown-B {font-family: monospace; font-style: normal; font-weight: bold}
-.MJXc-TeX-unknown-BI {font-family: monospace; font-style: italic; font-weight: bold}
+.MJXc-TeX-unknown-R {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: normal; font-weight: normal}
+.MJXc-TeX-unknown-I {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: italic; font-weight: normal}
+.MJXc-TeX-unknown-B {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: normal; font-weight: bold}
+.MJXc-TeX-unknown-BI {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: italic; font-weight: bold}
 .MJXc-TeX-ams-R {font-family: MJXc-TeX-ams-R,MJXc-TeX-ams-Rw}
 .MJXc-TeX-cal-B {font-family: MJXc-TeX-cal-B,MJXc-TeX-cal-Bx,MJXc-TeX-cal-Bw}
 .MJXc-TeX-frak-R {font-family: MJXc-TeX-frak-R,MJXc-TeX-frak-Rw}
@@ -575,12 +575,12 @@ body {
                     for (var i = 0; i < canvas.Length; ++i)
                     {
                         var html = template.Replace("[CANVAS]", canvas[i]);
-                        //byte[] bytes = Encoding.ASCII.GetBytes(html);
-                        //using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
-                        //{
-                        //    htmlFile.Write(bytes, 0, bytes.Length);
-                        //    htmlFile.Flush();
-                        //}
+                        byte[] bytes = Encoding.ASCII.GetBytes(html);
+                        using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
+                        {
+                            htmlFile.Write(bytes, 0, bytes.Length);
+                            htmlFile.Flush();
+                        }
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
