@@ -282,136 +282,136 @@ var tree = [
             },
         ],
     },
-    // {
-    //     title: "bì thư",
-    //     path: '/templates/envelopes',
-    //     childs: [
-    //         {
-    //             title: "Agriculture",
-    //             path: "/templates/envelopes/agriculture",
-    //         },
-    //         {
-    //             title: "Automotive & Transportation",
-    //             path: "/templates/envelopes/automotive-transportation",
-    //         },
-    //         {
-    //             title: "Beauty",
-    //             path: "/templates/envelopes/beauty",
-    //         },
-    //         {
-    //             title: "Blank Brochures",
-    //             path: "/templates/envelopes/bland-brochures",
-    //         },
-    //         {
-    //             title: "Business Services",
-    //             path: "/templates/envelopes/business-services",
-    //         },
-    //         {
-    //             title: "Child Care",
-    //             path: "/templates/envelopes/child-care",
-    //         },
-    //         {
-    //             title: "Cleaning",
-    //             path: "/templates/envelopes/cleaning",
-    //         },
-    //         {
-    //             title: "Construction",
-    //             path: "/templates/envelopes/construction",
-    //         },
-    //         {
-    //             title: "Creative",
-    //             path: "/templates/envelopes/creative",
-    //         },
-    //         {
-    //             title: "Education & Training",
-    //             path: "/templates/envelopes/education-training",
-    //         },
-    //         {
-    //             title: "Energy & Environment",
-    //             path: "/templates/envelopes/energy-environment",
-    //         },
-    //         {
-    //             title: "Event",
-    //             path: "/templates/envelopes/event",
-    //         },
-    //         {
-    //             title: "Financial Services",
-    //             path: "/templates/envelopes/financial-services",
-    //         },
-    //         {
-    //             title: "Food & Beverage",
-    //             path: "/templates/envelopes/food-beverage",
-    //         },
-    //         {
-    //             title: "Generic Brochures",
-    //             path: "/templates/envelopes/generic-brochures",
-    //         },
-    //         {
-    //             title: "Holiday",
-    //             path: "/templates/envelopes/holiday",
-    //         },
-    //         {
-    //             title: "House & Home",
-    //             path: "/templates/envelopes/house-home",
-    //         },
-    //         {
-    //             title: "Insurance",
-    //             path: "/templates/envelopes/insurance",
-    //         },
-    //         {
-    //             title: "Law",
-    //             path: "/templates/envelopes/law",
-    //         },
-    //         {
-    //             title: "Lawn & Garden",
-    //             path: "/templates/envelopes/law-garden",
-    //         },
-    //         {
-    //             title: "Medical & Health Care",
-    //             path: "/templates/envelopes/medical-healthcare",
-    //         },
-    //         {
-    //             title: "Music & Arts",
-    //             path: "/templates/envelopes/music-arts",
-    //         },
-    //         {
-    //             title: "Non Profit",
-    //             path: "/templates/envelopes/non-profit",
-    //         },
-    //         {
-    //             title: "Pets & Animals",
-    //             path: "/templates/envelopes/pets-animals",
-    //         },
-    //         {
-    //             title: "Photography",
-    //             path: "/templates/envelopes/photography",
-    //         },
-    //         {
-    //             title: "Real Estate",
-    //             path: "/templates/envelopes/real-estate",
-    //         },
-    //         {
-    //             title: "Religion & Organizations",
-    //             path: "/templates/envelopes/religion-organization",
-    //         },
-    //         {
-    //             title: "Retail",
-    //             path: "/templates/envelopes/retail",
-    //         },
-    //         {
-    //             title: "Sports & Wellness",
-    //             path: "/templates/envelopes/sports-wellness",
-    //         },
-    //         {
-    //             title: "Technology",
-    //             path: "/templates/envelopes/technology",
-    //         },
-    //         {
-    //             title: "Travel & Tourism",
-    //             path: "/templates/envelopes/travel-tourism",
-    //         },
-    //     ],
-    // },
+    {
+        title: "Áp phích",
+        path: '/templates/envelopes',
+        childs: [
+            {
+                title: "Agriculture",
+                path: "/templates/envelopes/agriculture",
+            },
+            {
+                title: "Automotive & Transportation",
+                path: "/templates/envelopes/automotive-transportation",
+            },
+            {
+                title: "Beauty",
+                path: "/templates/envelopes/beauty",
+            },
+            {
+                title: "Blank Brochures",
+                path: "/templates/envelopes/bland-brochures",
+            },
+            {
+                title: "Business Services",
+                path: "/templates/envelopes/business-services",
+            },
+            {
+                title: "Child Care",
+                path: "/templates/envelopes/child-care",
+            },
+            {
+                title: "Cleaning",
+                path: "/templates/envelopes/cleaning",
+            },
+            {
+                title: "Construction",
+                path: "/templates/envelopes/construction",
+            },
+            {
+                title: "Creative",
+                path: "/templates/envelopes/creative",
+            },
+            {
+                title: "Education & Training",
+                path: "/templates/envelopes/education-training",
+            },
+            {
+                title: "Energy & Environment",
+                path: "/templates/envelopes/energy-environment",
+            },
+            {
+                title: "Event",
+                path: "/templates/envelopes/event",
+            },
+            {
+                title: "Financial Services",
+                path: "/templates/envelopes/financial-services",
+            },
+            {
+                title: "Food & Beverage",
+                path: "/templates/envelopes/food-beverage",
+            },
+            {
+                title: "Generic Brochures",
+                path: "/templates/envelopes/generic-brochures",
+            },
+            {
+                title: "Holiday",
+                path: "/templates/envelopes/holiday",
+            },
+            {
+                title: "House & Home",
+                path: "/templates/envelopes/house-home",
+            },
+            {
+                title: "Insurance",
+                path: "/templates/envelopes/insurance",
+            },
+            {
+                title: "Law",
+                path: "/templates/envelopes/law",
+            },
+            {
+                title: "Lawn & Garden",
+                path: "/templates/envelopes/law-garden",
+            },
+            {
+                title: "Medical & Health Care",
+                path: "/templates/envelopes/medical-healthcare",
+            },
+            {
+                title: "Music & Arts",
+                path: "/templates/envelopes/music-arts",
+            },
+            {
+                title: "Non Profit",
+                path: "/templates/envelopes/non-profit",
+            },
+            {
+                title: "Pets & Animals",
+                path: "/templates/envelopes/pets-animals",
+            },
+            {
+                title: "Photography",
+                path: "/templates/envelopes/photography",
+            },
+            {
+                title: "Real Estate",
+                path: "/templates/envelopes/real-estate",
+            },
+            {
+                title: "Religion & Organizations",
+                path: "/templates/envelopes/religion-organization",
+            },
+            {
+                title: "Retail",
+                path: "/templates/envelopes/retail",
+            },
+            {
+                title: "Sports & Wellness",
+                path: "/templates/envelopes/sports-wellness",
+            },
+            {
+                title: "Technology",
+                path: "/templates/envelopes/technology",
+            },
+            {
+                title: "Travel & Tourism",
+                path: "/templates/envelopes/travel-tourism",
+            },
+        ],
+    },
     {
         title: "Tờ rơi",
         path: '/templates/flyers',

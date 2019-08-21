@@ -971,6 +971,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                           useMathMLspacing: true,
                           delimiters: [["$$","$$"]],
                           preview: "none",
+                          inlineMath: [['$','$'], ['\\(','\\)']],
                       }
                     } }
                     >
@@ -1050,6 +1051,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                         useMathMLspacing: true,
                         delimiters: [["$$","$$"]],
                         preview: "none",
+                        inlineMath: [['$','$'], ['\\(','\\)']],
                     }
                   } }
                   >
