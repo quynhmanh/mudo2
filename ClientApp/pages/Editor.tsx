@@ -154,6 +154,7 @@ interface IState {
   bleed: boolean;
   showPrintingSidebar: boolean;
   currentPrintStep: number;
+  orderStatus: string;
 }
 
 let firstpage = uuidv4();
@@ -253,6 +254,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
               'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
             ],
             showPrintingSidebar: false,
+            orderStatus: ''
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -3378,6 +3380,7 @@ handleToolbarResize = e => {
             responseFromMomo && responseFromMomo.localMessage && alert(responseFromMomo.localMessage);
             if (responseFromMomo.message === "Success") {
                 this.handleAddOrder();
+                this.setState({ orderStatus: 'success' });
             }
           },
           error => {
@@ -3407,7 +3410,7 @@ handleToolbarResize = e => {
   handleContinueOrder = async () => {
       console.log(this.state.currentPrintStep);
       console.log(this.refFullName);
-    if (this.state.currentPrintStep === 3) {
+    if (this.state.currentPrintStep === 3 && this.state.orderStatus !== 'success') {
         await this.getMoMoPayUrl();
     }
     if (this.state.currentPrintStep < 3)
