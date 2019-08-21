@@ -1185,6 +1185,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
+    console.log('handleImageSelected');
+    console.log('selected image ', img._id, this.state.idObjectSelected);
+    if (img._id === this.state.idObjectSelected) {
+      return;
+    }
     event.stopPropagation();
     var scaleY;
     let images = this.state.images.map(image => {
@@ -1440,225 +1445,6 @@ html {
     );
   }
 
-  async saveImages2() {
-    console.log('saveImages ');
-    this.setState({isSaving: true})
-    const { mode } = this.state;
-    var self = this;
-    this.doNoObjectSelected();
-
-    const { rectWidth, rectHeight } = this.state;
-
-    let images = self.state.images.map(image => {
-      image.width2 = image.width / rectWidth;
-      image.height2 = image.height / rectHeight;
-      return image;
-    })
-
-    if (mode === Mode.CreateTextTemplate || mode === Mode.EditTextTemplate) {
-      var newImages = [];
-      for (var i = 0; i < images.length; ++i ) {
-        var image = images[i];
-        if (image.ref === null) {
-          newImages.push(...this.normalize(image, images));
-        }
-      }
-      images = newImages;
-    }
-
-    images = images.map(img => {
-      if (img.innerHTML) {
-        img.innerHTML = img.innerHTML.replace('#ffffff', 'black');
-      }
-      return img;
-    })
-
-    setTimeout(async function() {
-      var url;
-      var _id = self.state._id;
-      // if (_id) {
-      //   url = "/api/Template/Update";
-
-      //   var res = JSON.stringify({
-      //     "Id": _id,
-      //     "CreatedAt": "2014-09-27T18:30:49-0300",
-      //     "CreatedBy": 2,
-      //     "UpdatedAt": "2014-09-27T18:30:49-0300",
-      //     "UpdatedBy": 3,
-      //     Type: self.state.templateType,
-      //     Document: JSON.stringify({
-      //       _id: self.state._id ? self.state._id : uuidv4(),
-      //       width: self.state.rectWidth,
-      //       origin_width: self.state.rectWidth,
-      //       height: self.state.rectHeight,
-      //       origin_height: self.state.rectHeight,
-      //       left: 0,
-      //       top: 0,
-      //       src: "",
-      //       type: self.state.templateType,
-      //       scaleX: 1,
-      //       scaleY: 1,
-      //       document_object: images,
-      //     }),
-      //     "FontList": self.state.fontsList.map(font=> font.id),
-      //     "Width": self.state.rectWidth,
-      //     "Height": self.state.rectHeight,
-      //   });
-
-      //   axios.post(url, res, {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     }
-      //   })
-      //   .then(res => {
-      //     self.setState({isSaving: false})
-      //   })
-      //   .catch(res => {
-      //   })
-
-      //   var src = await self.genRepresentative(false, self.state.rectWidth, self.state.rectHeight);
-
-      //   var formData = new FormData();
-      //   formData.append('file', src);
-
-      //   // self.download("test.png", src);
-
-      //   var urlUploadRepresentative = `/api/Template/Upload?id=${_id}`;
-
-      //   axios.post(urlUploadRepresentative, formData);
-  
-      //   return;
-      // }
-
-      if (mode == Mode.CreateDesign) {
-        url = "/api/Design/Add";
-      } else {
-        url = "/api/Template/Add";
-      }
-
-      var type;
-      if (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) {
-        type = TemplateType.TextTemplate;
-      } else if (mode == Mode.CreateTemplate || mode == Mode.EditTemplate) {
-        type = TemplateType.Template;
-      }
-
-      var previousScale = self.state.scale;
-      self.setState(
-        { scale: 1, showPopup: true },
-        () => {
-          var aloCloned = document.getElementById("alo2");
-          var canvas = [aloCloned.outerHTML];
-          var styles = document.getElementsByTagName("style");
-          var a = Array.from(styles).filter(style => {
-            return style.attributes.getNamedItem("data-styled") !== null
-          });
-
-          var res = JSON.stringify({
-            "CreatedAt": "2014-09-27T18:30:49-0300",
-            "CreatedBy": 2,
-            "UpdatedAt": "2014-09-27T18:30:49-0300",
-            "UpdatedBy": 3,
-            Type: type,
-            Document: JSON.stringify({
-              _id: self.state._id ? self.state._id : uuidv4(),
-              width: self.state.rectWidth,
-              origin_width: self.state.rectWidth,
-              height: self.state.rectHeight,
-              origin_height: self.state.rectHeight,
-              left: 0,
-              top: 0,
-              type: mode,
-              scaleX: 1,
-              scaleY: 1,
-              document_object: images,
-            }),
-            "FontList": self.state.fontsList.map(font=> font.id),
-            "Width": self.state.rectWidth,
-            "Height": self.state.rectHeight,
-            "Id": uuidv4(),
-            "Keywords": [],
-            "Canvas": canvas, 
-            "AdditionalStyle": a[0].outerHTML,
-            "FilePath": "/templates",
-            "FirstName": "Untilted",
-          });
-
-          axios.post(url, res, {
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          })
-        }
-      );
-
-      // console.log('saving images');
-
-      // var res = JSON.stringify({
-      //   "CreatedAt": "2014-09-27T18:30:49-0300",
-      //   "CreatedBy": 2,
-      //   "UpdatedAt": "2014-09-27T18:30:49-0300",
-      //   "UpdatedBy": 3,
-      //   Type: type,
-      //   Document: JSON.stringify({
-      //     _id: self.state._id ? self.state._id : uuidv4(),
-      //     width: self.state.rectWidth,
-      //     origin_width: self.state.rectWidth,
-      //     height: self.state.rectHeight,
-      //     origin_height: self.state.rectHeight,
-      //     left: 0,
-      //     top: 0,
-      //     type: mode,
-      //     scaleX: 1,
-      //     scaleY: 1,
-      //     document_object: images,
-      //   }),
-      //   "FontList": self.state.fontsList.map(font=> font.id),
-      //   "Width": self.state.rectWidth,
-      //   "Height": self.state.rectHeight,
-      //   "Id": uuidv4(),
-      //   "Keywords": [],
-      // });
-
-      // axios.post(url, res, {
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   }
-      // })
-      // .then(async res => {
-      //   self.setState({isSaving: false})
-      //   var id = res.data.value;
-      //   var src = await self.genRepresentative(false);
-      //   console.log('srcccc ', src);
-
-      //   var formData = new FormData();
-      //   formData.append('file', src);
-
-      //   var urlUploadRepresentative;
-      //   if (mode == Mode.CreateDesign) {
-      //     urlUploadRepresentative = `/api/Design/Upload?id=${id}`;
-      //   } else {
-      //     urlUploadRepresentative = `/api/Template/Upload?id=${id}`;
-      //   }
-
-      //   var element = document.createElement('a');
-
-      //   element.setAttribute('href', src);
-      //   element.setAttribute('download', "a.png");
-      //   element.style.display = 'none';
-
-      //   document.body.appendChild(element);
-      //   element.click();
-      //   document.body.removeChild(element);
-
-      //   axios.post(urlUploadRepresentative, formData);
-      // })
-      // .catch(res => {
-      // })
-
-    }, 300);
-  }
-
   async saveImages(rep) {
     var _id;
     console.log('saveImages ');
@@ -1686,12 +1472,14 @@ html {
       images = newImages;
     }
 
-    images = images.map(img => {
-      if (img.innerHTML) {
-        img.innerHTML = img.innerHTML.replace('#ffffff', 'black');
-      }
-      return img;
-    })
+    if (this.state.mode === Mode.CreateTextTemplate) {
+      images = images.map(img => {
+        if (img.innerHTML) {
+          img.innerHTML = img.innerHTML.replace('#ffffff', 'black');
+        }
+        return img;
+      });
+    }
 
     await setTimeout(async function() {
       var url;
@@ -2879,7 +2667,7 @@ handleToolbarResize = e => {
   }
 
   selectFont = (id, e) => {
-
+    console.log('selectedFont');
     this.setState({fontId: id});
 
     var font = this.state.fontsList.find(font => font.id === id);
@@ -2929,6 +2717,7 @@ handleToolbarResize = e => {
   }
 
   handleChildIdSelected = (childId) => {
+    console.log('handleChildIdSelected');
     this.setState({childId});
   }
 
