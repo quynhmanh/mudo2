@@ -20,6 +20,10 @@ import TrifoldReview from '@Components/editor/TrifoldReview';
 import FlyerReview from '@Components/editor/FlyerReview';
 import BusinessCardReview from '@Components/editor/BusinessCardReview';
 
+declare global {
+  interface Window { paymentScope : any; }
+}
+
 const thick = 16;
 
 enum SubType {
@@ -74,7 +78,7 @@ interface IState {
   items: any;
   currentItemsHeight: number,
   items2: any;
-  currentItems2Height: number;s
+  currentItems2Height: number;
   cursor: any;
   isLoading: boolean;
   mathjav: any;
@@ -157,97 +161,103 @@ let firstpage = uuidv4();
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`
 
 class CanvaEditor  extends PureComponent<IProps, IState> {
-  state = {
-    currentPrintStep: 1,
-    subtype: null,
-    bleed: false,
-    showMediaEditPopup: false,
-    hasMoreImage: true,
-    hasMoreTemplate: true,
-    hasMoreTextTemplate: true,
-    hasMoreFonts: true,
-    hasMoreBackgrounds: true,
-    totalFonts: 1000000,
-    query: "",
-    currentItemsHeight: 0,
-    currentGroupedTextsHeight: 0,
-    currentTemplatesHeight: 0,
-    items: [],
-    backgrounds1: [],
-    backgrounds2: [],
-    backgrounds3: [],
-    currentItems2Height: 0,
-    currentGroupedTexts2Height:0,
-    currentTemplate2sHeight: 0,
-    items2: [],
-    error: null,
-    cursor: false,
-    mathjav: null,
-    isLoading: false,
-    upperZIndex: 1,
-    activePageId: firstpage,
-    pages: [firstpage],
-    numOfPages: 1,
-    updateRect: false,
-    resizingInnerImage: false,
-    childId: null,
-    fontId: "pxpokApm3Ei8KUEgIAEqUg",
-    fontName: "images/b96c0021-3a74-4a4a-9dd0-35f0e8351cdf.png",
-    isSaving: false,
-    showPopup: false,
-    showMediaEditingPopup: false,
-    fontColor: 'black',
-    fontSize: 0,
-    fontsList: [],
-    fonts: [],
-    unnormalizedImages: [],
-    templateType: null,
-    _id: null,
-    idObjectSelected: null,
-    typeObjectSelected: null,
-    scale: 1,
-    fitScale: 1,
-    startX: 0,
-    startY: 0,
-    images: [],
-    images2: [],
-    groupedTexts: [],
-    groupedTexts2: [],
-    templates: [],
-    templates2: [],
-    selectedTab: SidebarTab.Text,
-    rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 0,
-    rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 0,
-    toolbarOpened: true,
-    toolbarSize: 330,
-    scrollX: 16.67,
-    scrollY: 16.67,
-    resizing: false,
-    rotating: false,
-    dragging: false,
-    uuid: "",
-    mode: parseInt(this.props.match.params.mode) || Mode.CreateDesign,
-    staticGuides: {
-      x: [],
-      y: [],
-    },
-    deltaX: 0,
-    deltaY: 0,
-    editing: false,
-    canRenderClientSide: false,
-    cropMode: false,
-    currentBackgroundHeights1: 0,
-    currentBackgroundHeights2: 0,
-    currentBackgroundHeights3: 0,
-    editingMedia: null,
-    showTemplateEditPopup: false,
-    videos: [
-      'https://dl5.webmfiles.org/big-buck-bunny_trailer.webm',
-      'http://techslides.com/demos/sample-videos/small.webm',
-      'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
-    ],
-    showPrintingSidebar: false,
-  };
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            currentPrintStep: 1,
+            subtype: null,
+            bleed: false,
+            showMediaEditPopup: false,
+            hasMoreImage: true,
+            hasMoreTemplate: true,
+            hasMoreTextTemplate: true,
+            hasMoreFonts: true,
+            hasMoreBackgrounds: true,
+            totalFonts: 1000000,
+            query: "",
+            currentItemsHeight: 0,
+            currentGroupedTextsHeight: 0,
+            currentTemplatesHeight: 0,
+            items: [],
+            backgrounds1: [],
+            backgrounds2: [],
+            backgrounds3: [],
+            currentItems2Height: 0,
+            currentGroupedTexts2Height:0,
+            currentTemplate2sHeight: 0,
+            items2: [],
+            error: null,
+            cursor: false,
+            mathjav: null,
+            isLoading: false,
+            upperZIndex: 1,
+            activePageId: firstpage,
+            pages: [firstpage],
+            numOfPages: 1,
+            updateRect: false,
+            resizingInnerImage: false,
+            childId: null,
+            fontId: "pxpokApm3Ei8KUEgIAEqUg",
+            fontName: "images/b96c0021-3a74-4a4a-9dd0-35f0e8351cdf.png",
+            isSaving: false,
+            showPopup: false,
+            showMediaEditingPopup: false,
+            fontColor: 'black',
+            fontSize: 0,
+            fontsList: [],
+            fonts: [],
+            unnormalizedImages: [],
+            templateType: null,
+            _id: null,
+            idObjectSelected: null,
+            typeObjectSelected: null,
+            scale: 1,
+            fitScale: 1,
+            startX: 0,
+            startY: 0,
+            images: [],
+            images2: [],
+            groupedTexts: [],
+            groupedTexts2: [],
+            templates: [],
+            templates2: [],
+            selectedTab: SidebarTab.Text,
+            rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 0,
+            rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 0,
+            toolbarOpened: true,
+            toolbarSize: 330,
+            scrollX: 16.67,
+            scrollY: 16.67,
+            resizing: false,
+            rotating: false,
+            dragging: false,
+            uuid: "",
+            mode: parseInt(this.props.match.params.mode) || Mode.CreateDesign,
+            staticGuides: {
+              x: [],
+              y: [],
+            },
+            deltaX: 0,
+            deltaY: 0,
+            editing: false,
+            canRenderClientSide: false,
+            cropMode: false,
+            currentBackgroundHeights1: 0,
+            currentBackgroundHeights2: 0,
+            currentBackgroundHeights3: 0,
+            editingMedia: null,
+            showTemplateEditPopup: false,
+            videos: [
+              'https://dl5.webmfiles.org/big-buck-bunny_trailer.webm',
+              'http://techslides.com/demos/sample-videos/small.webm',
+              'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
+            ],
+            showPrintingSidebar: false,
+        };
+        this.handleResponse = this.handleResponse.bind(this);
+        this.handleAddOrder = this.handleAddOrder.bind(this);
+        this.externalPaymentCompleted = this.externalPaymentCompleted.bind(this);
+    }
 
   $app = null;
   timer = null;
@@ -3337,6 +3347,73 @@ handleToolbarResize = e => {
     fetch(url);
   }
 
+  handleResponse(response) {
+    return response.text().then(text => {
+        const data = text && JSON.parse(text);
+        if (!response.ok) {
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+        return data;
+    });
+  }
+
+  externalPaymentCompleted(fragment) {
+      if (fragment === null || typeof fragment !== 'object') {
+          return;
+      }
+      const { requestId, orderId } = fragment;
+      
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ requestId, orderId })
+      };
+
+      fetch(`/payments/momo/status`, requestOptions)
+      .then(this.handleResponse)
+      .then(
+          responseFromMomo => {
+            console.log(responseFromMomo)
+            responseFromMomo && responseFromMomo.localMessage && alert(responseFromMomo.localMessage);
+            if (responseFromMomo.message === "Success") {
+                this.handleAddOrder();
+            }
+          },
+          error => {
+              console.log(error);
+          }
+      );
+  }
+
+  getMoMoPayUrl = async () => {
+      const requestOptions = {
+          method: 'GET',
+      };
+
+      fetch(`/payments/momo`, requestOptions)
+      .then(this.handleResponse)
+      .then(
+          responseFromMomo => {
+              window.paymentScope = { complete: this.externalPaymentCompleted }
+              window.open(responseFromMomo.payUrl, "MoMo Payment API", "location=0,status=0,width=600,height=750"); 
+          },
+          error => {
+              console.log(error);
+          }
+      );
+  }
+
+  handleContinueOrder = async () => {
+      console.log(this.state.currentPrintStep);
+      console.log(this.refFullName);
+    if (this.state.currentPrintStep === 3) {
+        await this.getMoMoPayUrl();
+    }
+    if (this.state.currentPrintStep < 3)
+        await this.setState({currentPrintStep: this.state.currentPrintStep + 1});
+  }
+
   handleAddOrder = async () => {
     if (this.refFullName) {
       console.log('fullName', this.refFullName.value);
@@ -4966,20 +5043,20 @@ handleToolbarResize = e => {
         </div>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Họ và tên:</p>
-          <input ref={i => this.refFullName = i} className="" type="text" autoComplete="name" placeholder="E.g. David Bowie" name="name" defaultValue="Manh Quynh Nguyen" style={{backgroundImage: 'url("data:image/png', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll', backgroundSize: '16px 18px', backgroundPosition: '98% 50%'}} />
+          <input className="" type="text" autoComplete="name" placeholder="E.g. David Bowie" name="name" defaultValue="Manh Quynh Nguyen" style={{backgroundImage: 'url("data:image/png', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll', backgroundSize: '16px 18px', backgroundPosition: '98% 50%'}} />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Địa chỉ</p>
-          <input ref={i => this.refAddress = i} className="" type="tel" autoComplete="tel" name="tel" />
+          <input className="" type="tel" autoComplete="tel" name="tel" />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Tỉnh thành phố</p>
-          <input ref={i => this.refCity = i} className="" type="text" autoComplete="address-level2" placeholder="E.g. Brooklyn" name="address-level2" defaultValue="Singapore" />
+          <input className="" type="text" autoComplete="address-level2" placeholder="E.g. Brooklyn" name="address-level2" defaultValue="Singapore" />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Quận / Huyện</p>
           <div className="_3Tk7vFk3XB74DSjc-X114e fs-hide">
-            <div className>
+            <div>
               <button type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">Singapore</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
               </button>
             </div>
@@ -4990,7 +5067,7 @@ handleToolbarResize = e => {
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p className="">Số điện thoại</p>
-          <input ref={i => this.refPhoneNumber = i} className="" type="text" autoComplete="postal-code" placeholder="E.g. 11217" name="postal-code" />
+          <input className="" type="text" autoComplete="postal-code" placeholder="E.g. 11217" name="postal-code" />
         </label>
       </form>
     </div>
@@ -5014,15 +5091,19 @@ handleToolbarResize = e => {
         </div>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Full name</p>
-          <input className="" type="text" autoComplete="name" placeholder="E.g. David Bowie" name="name" defaultValue="Manh Quynh Nguyen" style={{backgroundImage: 'url("data:image/png', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll', backgroundSize: '16px 18px', backgroundPosition: '98% 50%'}} />
+          <input className="" ref={i => this.refFullName = i} type="text" autoComplete="name" placeholder="E.g. David Bowie" name="name" defaultValue="Manh Quynh Nguyen" style={{backgroundImage: 'url("data:image/png', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll', backgroundSize: '16px 18px', backgroundPosition: '98% 50%'}} />
+        </label>
+        <label className="_1lAKgn_4JnKMAytI-mxfqp">
+          <p>Địa chỉ</p>
+          <input ref={i => this.refAddress = i} className="" type="text" autoComplete="text" name="address" />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Contact number</p>
-          <input className="" type="tel" autoComplete="tel" name="tel" />
+          <input className="" ref={i => this.refPhoneNumber = i} type="tel" autoComplete="tel" name="tel" />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>City</p>
-          <input className="" type="text" autoComplete="address-level2" placeholder="E.g. Brooklyn" name="address-level2" defaultValue="Singapore" />
+          <input className="" ref={i => this.refCity = i} type="text" autoComplete="address-level2" placeholder="E.g. Brooklyn" name="address-level2" defaultValue="Singapore" />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Country</p>
@@ -5070,7 +5151,7 @@ handleToolbarResize = e => {
               </button>
               }
               <button className="_2Rww-JOL60obmcYkaUOyg_ Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _28oyZ-_qfE-ERg1G1Nc2zV Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _3QJ_C8Lg1l0m5aoIK5piST _2kK9hFUTyqtMKr5EG4GuY4 _2HxAYUsq5GZ4sKqpZqoKLF" title="Continue" type="button" 
-                onClick={() => {this.handleAddOrder();  this.setState({currentPrintStep: this.state.currentPrintStep + 1})}}
+                onClick={() => this.handleContinueOrder()}
                 style={{color: 'white', height: '40px', borderRadius: '4px', width: '100%', border: 'none', backgroundColor: 'rgb(1, 159, 182)'}}><span className="wDZfRbnecQOufIqcN2_A5">Tiếp tục</span></button>
             </div>
           </div>
