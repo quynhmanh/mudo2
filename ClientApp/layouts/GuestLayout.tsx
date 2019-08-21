@@ -19,7 +19,7 @@ export default class GuestLayout extends React.Component<Props, {}> {
                 <div
                   id="456"
                   style={{
-                    backgroundImage: 'url(images/Kwb3ggnPi0Wzp6nRw3ov7Q.png)',
+                    backgroundImage: 'url(https://b.imge.to/2019/08/21/bAvh1.jpg)',
                     backgroundSize: 'cover',
                   }}
                 >
