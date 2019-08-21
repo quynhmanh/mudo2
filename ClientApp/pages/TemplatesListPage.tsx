@@ -138,9 +138,6 @@ export default class TemplatesPage extends React.Component<Props, {textTemplates
           <h1 className="h__hero u-color-inherit@medium u-display-inline" data-di-mask>Danh thiếp.</h1>
           <h4 style={{fontFamily: 'AvenirNextRoundedPro'}}>Bắt đầu ngay.</h4>
         </div>
-        <div className="hero-module__body-text-wrap list-default__parent u-marginBottom-m u-last-child-margin-bottom-0">
-          <h4 style={{fontFamily: 'AvenirNextRoundedPro'}}>Chất lượng giấy bắt ánh mắt người nhìn, màu sắc nổi bật và những thiết kế mẫu dễ dàng chỉnh sửa.</h4>
-        </div>
       </header>
             </div>
 

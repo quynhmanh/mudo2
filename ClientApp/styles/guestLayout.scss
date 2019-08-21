@@ -3,11 +3,27 @@
 
     #loginContainer {
         width: 400px;
-        position: absolute;
         left: 0;
         right: 0;
         top: 20%;
         margin-left: auto;
         margin-right: auto;
+        padding: 20px 0;
+        margin: 100px auto;
+        background-color: white;
+        padding: 20px;
+        margin-top: 0;
     }
+}
+
+
+.jsx-104637934 {
+    color: black;
+}
+
+.tile-rack__tile-wrap {
+    background: rgba(255, 255, 255, 0.46);
+    padding: .75rem 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    margin-right: 5px;
 }

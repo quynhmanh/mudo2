@@ -5,8 +5,26 @@ using Nest;
 
 namespace RCB.TypeScript.Models
 {
+
+    public interface ITemplateBaseModel
+    {
+        [Ignore]
+        string[] Canvas { get; set; }
+
+        [Ignore]
+        string[] Canvas2 { get; set; }
+
+        float Width { get; set; }
+        float Height { get; set; }
+
+        string[] FontList { get; set; }
+
+        [Ignore]
+        string AdditionalStyle { get; set; }
+    }
+
     [ElasticsearchType(RelationName = "template")]
-    public class TemplateModel
+    public class TemplateModel : ITemplateBaseModel
     {
         [Key]
         public string Id { get; set; }

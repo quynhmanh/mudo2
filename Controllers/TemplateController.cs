@@ -37,7 +37,7 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult SearchAngAggregate([FromQuery]string type = null, [FromQuery]int page = 1, [FromQuery]int perPage = 1, [FromQuery]string filePath = "", [FromQuery]string subType = "")
+        public IActionResult SearchAngAggregate([FromQuery]string type = null, [FromQuery]int page = 1, [FromQuery]int perPage = 5, [FromQuery]string filePath = "", [FromQuery]string subType = "")
         {
             return Json(TemplateService.SearchAngAggregate(type, page, perPage, filePath, subType));
         }
@@ -60,12 +60,9 @@ namespace RCB.TypeScript.Controllers
 
             TemplateService designService = new TemplateService(null, HostingEnvironment);
 
-            string res = await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2");
+            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2", model.Representative);
 
-            string res2 = await designService.GenerateRepresentative(model, 656, 436, true, model.Type == "2");
-
-            model.Representative = res;
-            model.Representative2 = res2;
+            await designService.GenerateRepresentative(model, 656, 436, true, model.Type == "2", model.Representative2);
 
             var result = TemplateService.Add(model);
 

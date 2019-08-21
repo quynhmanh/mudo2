@@ -186,7 +186,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
               </div>
       <div 
                 id="alo" 
-                className="alo"
+                className={!this.props.preview && "alo"}
                 // onTransitionEnd={() => {console.log('onTransitionEnd')}}
                 style={{
                   backgroundColor: !this.props.showPopup && ((mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) ? 'black' : this.props.cropMode ? 'rgba(14, 19, 24, 0.2)' : 'white'),

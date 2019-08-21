@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import AppComponent from "@Components/shared/AppComponent";
 import TreeView from '@Components/shared/TreeView';
 import Loader from '@Components/shared/Loader';
+import InfiniteScroll from '@Components/shared/InfiniteScroll';
 
 export interface IProps {
     filePath: string;
@@ -13,7 +14,11 @@ export interface IProps {
 
 export interface IState {
     templates: any;
+    templates2: any;
+    height: number;
+    height2: number;
     isLoading: boolean;
+    hasMoreImage: boolean;
 }
 
 var tree = [
@@ -937,28 +942,82 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
 
     this.state = {
         templates : [],
+        templates2: [],
+        height: 0,
+        height2: 0,
         isLoading: false,
+        hasMoreImage: true,
     };
   }
 
   componentDidMount() {
-      this.loadTemplate(null);
+      this.loadMore(true, this.props.filePath);
   }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.filePath !== nextProps.filePath) {
-            this.loadTemplate(nextProps.filePath);
+            this.setState({templates: [], templates2: []}, () => {
+                this.loadMore(true, nextProps.filePath);
+            })
         }
     }
 
-  loadTemplate = (filePath : string) => {
+//   loadTemplate = (filePath : string) => {
+//     var self = this;
+//     const url = `/api/Template/SearchAngAggregate?type=1&filePath=${filePath ? filePath : this.props.filePath}`;
+//     self.setState({isLoading: true,})
+//     axios.get(url).
+//       then(res => {
+//           console.log('res ', res);
+//           self.setState({templates: res.data.value.documents, isLoading: false,})
+//       })
+//   }
+
+  loadMore = (initialLoad, filePath) => {
+    console.log('loadMore ');
+    let pageId;
+    let count;
+    if (initialLoad) {
+      pageId = 1;
+      count = 10;
+    } else {
+      pageId = (this.state.templates.length + this.state.templates2.length) / 5 + 1;
+      count = 5;
+    }
+
     var self = this;
-    const url = `/api/Template/SearchAngAggregate?type=1&filePath=${filePath ? filePath : this.props.filePath}&subType=123`;
+    const url = `/api/Template/SearchAngAggregate?type=1&perPage=${count}&page=${pageId}&filePath=${filePath ? filePath : this.props.filePath}`;
     self.setState({isLoading: true,})
     axios.get(url).
       then(res => {
+            var currentHeight = this.state.height;
+            var currentHeight2 = this.state.height2;
+            var result = res.data.value.documents;
+            var templates = this.state.templates;
+            var templates2 = this.state.templates2;
+            var res1 = [];
+            var res2 = [];
+            for (var i = 0; i < result.length; ++i) {
+                var currentItem = result[i];
+                if (currentHeight <= currentHeight2) {
+                    res1.push(currentItem);
+                    currentHeight += 150 / (currentItem.width / currentItem.height);
+                } else {
+                    res2.push(currentItem);
+                    currentHeight2 += 150 / (currentItem.width / currentItem.height);
+                }
+            }
+            
           console.log('res ', res);
-          self.setState({templates: res.data.value.documents, isLoading: false,})
+          console.log('asd ', templates.length + templates2.length + res.data.value.documents.length, res.data.value.count);
+          self.setState({
+              templates: [...templates, ...res1],
+              templates2: [...templates2, ...res2],
+              height: currentHeight,
+              height2: currentHeight2,
+              isLoading: false,
+              hasMoreImage: templates.length + templates2.length + res.data.value.documents.length < res.data.value.count,
+            })
       })
   }
 
@@ -971,11 +1030,12 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
             <div
             style={{
                 padding: '10px',
-                backgroundColor: 'white',
+                backgroundColor: 'rgba(255, 255, 255, 0.85)',
                 margin: '10px',
                 border: '1px solid #e7eaf3',
                 borderRadius: '.3125rem',
                 width: '350px',
+                minHeight: '600px',
             }} 
             >
                 {tree.map(ele => 
@@ -985,7 +1045,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
             </div>
             <div
             style={{
-                backgroundColor: 'white',
+                backgroundColor: 'rgba(255, 255, 255, 0.85)',
                 margin: '10px',
                 width: '100%',
                 border: '1px solid #e7eaf3',
@@ -996,12 +1056,24 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                 // display: 'flex',
             }} 
             >
-            {this.state.isLoading ? 
-            <div style={{position: 'relative', width: '100%', height: '50px',}}>
-                <Loader show={true} black={true}/>
-            </div>
-            :
-            this.state.templates.map(template => <ImgContainer href={`/editor/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
+            <InfiniteScroll
+                scroll={false}
+                    throttle={500}
+                    threshold={300}
+                    isLoading={this.state.isLoading}
+                    hasMore={this.state.hasMoreImage}
+                    onLoadMore={this.loadMore.bind(this, false, this.props.filePath)}
+                    height='100%'
+                  >
+                    <div id="image-container-picker" style={{display: 'flex', padding: '35px 5px 10px 0px',}}>
+                    <div
+                      style={{
+                        height: "calc(100% - 170px)",
+                        width: '350px',
+                        marginRight: '10px',
+                      }}
+                    >
+                      {this.state.templates.map(template => <ImgContainer href={`/editor/design/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
                 <img
                     style={{
                         width: '350px',
@@ -1009,7 +1081,40 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                     }} 
                     src={template.representative2} />
                 <p style={{margin: 0, padding: '5px', color: 'black', fontWeight: 700,}}>{template.firstName}</p>
-            </ImgContainer>)}
+                      </ImgContainer>)}
+                    </div>
+                    <div
+                      style={{
+                        height: "calc(100% - 170px)",
+                        width: '350px',
+                      }}
+                    >
+                      {this.state.templates2.map(template => <ImgContainer href={`/editor/design/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
+                <img
+                    style={{
+                        width: '350px',
+                        borderRadius: '5px',
+                    }} 
+                    src={template.representative2} />
+                <p style={{margin: 0, padding: '5px', color: 'black', fontWeight: 700,}}>{template.firstName}</p>
+                      </ImgContainer>)}
+                      </div>
+                    </div>
+                  </InfiniteScroll>
+            {/* {this.state.isLoading ? 
+            <div style={{position: 'relative', width: '100%', height: '50px',}}>
+                <Loader show={true} black={true}/>
+            </div>
+            :
+            this.state.templates.map(template => <ImgContainer href={`/editor/design/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
+                <img
+                    style={{
+                        width: '350px',
+                        borderRadius: '5px',
+                    }} 
+                    src={template.representative2} />
+                <p style={{margin: 0, padding: '5px', color: 'black', fontWeight: 700,}}>{template.firstName}</p>
+            </ImgContainer>)} */}
             </div>
     </div>
     );

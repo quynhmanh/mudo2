@@ -169,31 +169,63 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
             </Helmet>
             
             {/* <Loader ref={x => this.elLoader = x} show={this.props.indicators.operationLoading} /> */}
-
+            <h1 style={{textAlign: 'center', color: 'white'}}>Đăng nhập</h1>
             <div id="loginContainer">
-
-                <p className="text-center">Type any login and password to enter.</p>
-
-                <Form ref={x => this.elForm = x}>
-                    <div className="form-group">
-                        <label htmlFor="inputLogin">Login</label>
-                        <input type="text" name={nameof<ILoginModel>(x=>x.login)} data-value-type="string" className="form-control" id="inputLogin" data-val-required="true" data-msg-required="Login is required." />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="inputLogin">Password</label>
-                        <input type="password" name={nameof<ILoginModel>(x=>x.password)} data-value-type="string" className="form-control" id="inputPassword" data-val-required="true" data-msg-required="Password is required." />
-                    </div>
-                    <div className="form-inline">
-                        <button className="btn btn-success" onClick={this.onClickSubmitBtn}>Sign in</button>
-                    </div>
-                </Form>
-                <button onClick={this.facebook.bind(this)} className="btn btn-primary">
+                <button 
+                    style={{
+                        width: '100%',
+                        borderRadius: 0,
+                        border: 'none',
+                        marginBottom: '10px',
+                    }} 
+                    onClick={this.facebook.bind(this)} className="btn btn-primary">
                     Login with Facebook
                     </button>
                 <br/>
-                <button onClick={this.google.bind(this)} className="btn btn-primary">
+                <button 
+                    style={{
+                        width: '100%',
+                        backgroundColor: 'rgb(211, 72, 54)',
+                        borderRadius: 0,
+                        border: 'none',
+                    }} 
+                    onClick={this.google.bind(this)} className="btn btn-primary">
                     Login with Google
                 </button>
+                <div style={{position: 'relative'}} class="jsx-3592679178 separator"><hr className="jsx-3592679178"/>
+                <span 
+                    className="jsx-3592679178 text"
+                    style={{
+                        position: 'absolute',
+                        width: '50px',
+                        left: 'calc(50% - 25px)',
+                        top: '-10px',
+                        textAlign: 'center',
+                        backgroundColor: 'rgb(255, 255, 255)',
+                        lineHeight: '2rem',
+                    }}
+                    >hoặc</span></div>
+                <p className="text-center">Type any login and password to enter.</p>
+                <Form ref={x => this.elForm = x}>
+                    <div className="form-group">
+                        <label htmlFor="inputLogin">Địa chỉ email</label>
+                        <input type="text" name={nameof<ILoginModel>(x=>x.login)} data-value-type="string" className="form-control" id="inputLogin" data-val-required="true" data-msg-required="Login is required." />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="inputLogin">Mật khẩu</label>
+                        <input type="password" name={nameof<ILoginModel>(x=>x.password)} data-value-type="string" className="form-control" id="inputPassword" data-val-required="true" data-msg-required="Password is required." />
+                    </div>
+                    <div 
+                        className="form-inline"
+                        >
+                        <button
+                            style={{
+                                width: '100%',
+                                borderRadius: 0,
+                            }}
+                            className="btn btn-success" onClick={this.onClickSubmitBtn}>Sign in</button>
+                    </div>
+                </Form>
             </div>
 
         </div>;

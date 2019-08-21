@@ -94,7 +94,12 @@ export default class AuthorizedLayout extends React.Component<Props, {}> {
             <div className="container container-content">
             <Breadcrumbs />
             </div>
-            <div id='content-container'>
+            <div
+                style={{
+                    backgroundImage: 'url(images/Kwb3ggnPi0Wzp6nRw3ov7Q.png)',
+                    backgroundSize: 'cover',
+                }}
+                id='content-container'>
                     {this.props.children}
             </div>
             <ToastContainer />

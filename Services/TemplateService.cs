@@ -157,7 +157,7 @@ px;
 
         public class ResultSearchAngAggregate
         {
-            public int Count { get; set; }
+            public long Count { get; set; }
             public List<TemplateModel> Documents { get; set; }
             public Dictionary<string, long?> Aggregation { get; set; }
         }
@@ -185,6 +185,7 @@ px;
             var res = client.Search<TemplateModel>(s => s.
                                 //Query(q => q.Term(t => t.Field(f => f.FilePathTree).Value(filePath)))
                                 Query(q => q.QueryString(d => d.Query(query)) && q.Term(t => t.Field(f => f.FilePathTree).Value(filePath)))
+                                .From((page - 1) * perPage).Take(perPage)
                 //Query(q => q.QueryString(q2 => q2.Query($"\"term\": {{ \"filePath.tree\": \"{filePath}\"}}\")))
                 .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
 
@@ -198,9 +199,9 @@ px;
 
             var res2 = new ResultSearchAngAggregate()
             {
-                Count = res.Documents.ToList().Count,
                 Documents = res.Documents.ToList(),
                 Aggregation = aggregations,
+                Count = res.Total,
             };
 
             return Ok(res2);
@@ -332,7 +333,7 @@ px;
             return Ok(1);
         }
 
-        public async virtual Task<string> GenerateRepresentative(TemplateModel templateModel, int width, int height, Boolean preview, Boolean backgroundBlack)
+        public async virtual Task<string> GenerateRepresentative(ITemplateBaseModel templateModel, int width, int height, Boolean preview, Boolean backgroundBlack, string path)
         {
             string resPath = null;
             string style = @"@font-face {
@@ -544,8 +545,7 @@ px;
                         data = memoryStream.ToArray();
                     }
 
-                    resPath = "images" + Path.DirectorySeparatorChar + Guid.NewGuid() + ".png";
-                    var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + resPath);
+                    var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + path);
 
                     using (var imageFile = new FileStream(filePathRep, FileMode.Create))
                     {

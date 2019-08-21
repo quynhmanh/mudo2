@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Hosting;
@@ -146,10 +147,16 @@ body {
         }
 
         [HttpPost("[action]")]
-        public IActionResult Add(DesignModel model)
+        public async Task<IActionResult> Add(DesignModel model)
         {
             if (model == null)
                 return BadRequest($"{nameof(model)} is null.");
+
+            TemplateService designService = new TemplateService(null, HostingEnvironment);
+
+            string res = await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, false, model.Representative);
+            model.Representative = res;
+
             var result = DesignService.Add(model);
             return Json(result);
         }
@@ -335,8 +342,8 @@ body {
                         {
                             DefaultViewport = new ViewPortOptions()
                             {
-                                Width = int.Parse(width),
-                                Height = int.Parse(height),
+                                Width = (int)double.Parse(width),
+                                Height = (int)double.Parse(height),
                             },
                         });
 
@@ -345,17 +352,35 @@ body {
 
                         await page.SetContentAsync(html);
 
-                        Stream a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
+                        Stream a;
+                        if (png)
                         {
-                            Clip = new PuppeteerSharp.Media.Clip()
+                            a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
                             {
-                                Width = decimal.Parse(width),
-                                Height = decimal.Parse(height),
-                            },
-                            BurstMode = true,
-                            OmitBackground = transparent,
-                            Type = png ? ScreenshotType.Png : ScreenshotType.Jpeg,
-                        });
+                                Clip = new PuppeteerSharp.Media.Clip()
+                                {
+                                    Width = decimal.Parse(width),
+                                    Height = decimal.Parse(height),
+                                },
+                                BurstMode = true,
+                                OmitBackground = transparent,
+                                Type = ScreenshotType.Png,
+                            });
+                        } else
+                        {
+                            a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
+                            {
+                                Clip = new PuppeteerSharp.Media.Clip()
+                                {
+                                    Width = decimal.Parse(width),
+                                    Height = decimal.Parse(height),
+                                },
+                                BurstMode = true,
+                                OmitBackground = transparent,
+                                Type = ScreenshotType.Jpeg,
+                                Quality = 100,
+                            });
+                        }
 
                         using (var memoryStream = new MemoryStream())
                         {

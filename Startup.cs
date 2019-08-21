@@ -77,6 +77,12 @@ namespace RCB.TypeScript
                     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")))
                 .BuildServiceProvider();
 
+            services
+                .AddScoped<OrderService>()
+                .AddDbContext<OrderContext>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")))
+                .BuildServiceProvider();
+
 
             services.AddScoped<IUserService, UserService>();
 

@@ -36,7 +36,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
                         </div>
                     </div>
                 </div>
-            </div><img src="https://static.canva.com/web/images/0b19ac5ffdb3834ed19d80c252385c43.png" className="_3ABwoP9VfcpIZ-Qr_klynj" style={{width: '100%', height: '100%', position: 'absolute', left: 0, top: 0}} /></div>
+            </div><img src="https://static.canva.com/web/images/0b19ac5ffdb3834ed19d80c252385c43.png" className="_3ABwoP9VfcpIZ-Qr_klynj" style={{transform: 'translateZ(0)', width: '100%', height: '100%', position: 'absolute', left: 0, top: 0}} /></div>
     </div>
 </div>    
   }

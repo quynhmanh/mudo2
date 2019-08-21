@@ -1,15 +1,21 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Nest;
 
 namespace RCB.TypeScript.Models
 {
-    public class DesignModel
+    public class DesignModel : ITemplateBaseModel
     {
         [Key]
         public string Id { get; set; }
 
         public string Type { get; set; }
+
+        [Keyword]
+        public string SubType { get; set; }
+
+        public string[] Keywords { get; set; }
 
         [Column(TypeName = "jsonb")]
         public string Document { get; set; }
@@ -21,6 +27,30 @@ namespace RCB.TypeScript.Models
         public int UpdatedBy { get; set; }
 
         public string Representative { get; set; }
+        public string Representative2 { get; set; }
+        public string[] FontList { get; set; }
+
+        public float Width { get; set; }
+        public float Height { get; set; }
+
+        public string FirstName { get; set; }
+        public string FilePath { get; set; }
+
+        public string[] Pages { get; set; }
+
+        public int PrintType { get; set; }
+
+        [Text(Name = "filePath.tree")]
+        public string FilePathTree { get; set; }
+
+        [Ignore]
+        public string[] Canvas { get; set; }
+
+        [Ignore]
+        public string[] Canvas2 { get; set; }
+
+        [Ignore]
+        public string AdditionalStyle { get; set; }
 
 
         public DesignModel()

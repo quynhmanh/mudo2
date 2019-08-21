@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 using RCB.TypeScript.dbcontext;
 using RCB.TypeScript.Infrastructure;
 using RCB.TypeScript.Models;
@@ -36,21 +38,21 @@ namespace RCB.TypeScript.Services
             return Ok(_designContext.Designs.Where(template => template.Id == id).First());
         }
 
-        public virtual Result<string> Add(DesignModel model)
+        public virtual async Task<Result<string>> Add(DesignModel model)
         {
             if (model == null)
                 return Error<string>();
 
-            model.Id = Guid.NewGuid().ToString();
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node);
+            var client = new ElasticClient(settings);
 
-            _designContext.Designs.Add(model);
-            _designContext.SaveChanges();
-
+            var response = client.Index(model, idx => idx.Index("design"));
 
             return Ok(model.Id);
         }
 
-        public virtual Result UpdateRepresentative(string id, string filePath)
+        public virtual Infrastructure.Result UpdateRepresentative(string id, string filePath)
         {
             var design = _designContext.Designs.Where(x => x.Id == id).FirstOrDefault();
             if (design == null)
@@ -60,6 +62,13 @@ namespace RCB.TypeScript.Services
 
             design.Representative = filePath;
             _designContext.SaveChanges();
+
+            var node = new Uri("http://localhost:9200");
+            var settings = new ConnectionSettings(node);
+            var client = new ElasticClient(settings);
+
+            var response = client.Index(design, idx => idx.Index("design"));
+
 
             return Ok();
         }

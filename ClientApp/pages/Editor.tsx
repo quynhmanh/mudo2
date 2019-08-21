@@ -149,7 +149,7 @@ interface IState {
   typeObjectSelected: TemplateType;
   bleed: boolean;
   showPrintingSidebar: boolean;
-  currentPrintStep: boolean;
+  currentPrintStep: number;
 }
 
 let firstpage = uuidv4();
@@ -288,6 +288,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     });
     var self = this;
     var template_id = this.props.match.params.template_id;
+    console.log('props ', this.props)
     if (template_id) {
 
       var url = `/api/Template/Get?id=${template_id}`;
@@ -302,7 +303,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         var image = res.data;
         var templateType = image.value.type;
         var mode;
-        if (templateType == TemplateType.Template) {
+        if (this.props.match.path == "/editor/design/:template_id") {
+          console.log('/editor/design/:template_id')
+          mode = Mode.CreateDesign;
+        }
+        else if (templateType == TemplateType.Template) {
           mode = Mode.EditTemplate;
         } else if (templateType == TemplateType.TextTemplate) {
           mode = Mode.EditTextTemplate;
@@ -368,6 +373,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       }).catch(e => {
         console.log('Unexpected error occured: e', e);
       })
+    } else {
+      self.setState({
+        _id: uuidv4(),
+      })
     }
 
     var subtype = this.props.match.params.subtype;
@@ -415,7 +424,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   handleResizeStart = (startX: number, startY: number) => {
     this.setState({ resizing: true, resizingInnerImage: false, startX, startY });
-  };
+  }
 
   handleResizeEnd = () => {
     setTimeout(
@@ -430,7 +439,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // handle the crop area
   handleResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
-    console.log('handleResize', this.switching, e.clientX, e.clientY, this.state.startX, this.state.startY);
     if (this.switching) {
       return;
     }
@@ -612,7 +620,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // Handle the actual miage
   handleImageResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
-    console.log('handleimageResize ', type, this.switching, e.clientX, e.clientY, this.state.startX, this.state.startY);
     if (this.switching) {
       return;
     }
@@ -1457,59 +1464,59 @@ html {
     setTimeout(async function() {
       var url;
       var _id = self.state._id;
-      if (_id) {
-        url = "/api/Template/Update";
+      // if (_id) {
+      //   url = "/api/Template/Update";
 
-        var res = JSON.stringify({
-          "Id": _id,
-          "CreatedAt": "2014-09-27T18:30:49-0300",
-          "CreatedBy": 2,
-          "UpdatedAt": "2014-09-27T18:30:49-0300",
-          "UpdatedBy": 3,
-          Type: self.state.templateType,
-          Document: JSON.stringify({
-            _id: self.state._id ? self.state._id : uuidv4(),
-            width: self.state.rectWidth,
-            origin_width: self.state.rectWidth,
-            height: self.state.rectHeight,
-            origin_height: self.state.rectHeight,
-            left: 0,
-            top: 0,
-            src: "",
-            type: self.state.templateType,
-            scaleX: 1,
-            scaleY: 1,
-            document_object: images,
-          }),
-          "FontList": self.state.fontsList.map(font=> font.id),
-          "Width": self.state.rectWidth,
-          "Height": self.state.rectHeight,
-        });
+      //   var res = JSON.stringify({
+      //     "Id": _id,
+      //     "CreatedAt": "2014-09-27T18:30:49-0300",
+      //     "CreatedBy": 2,
+      //     "UpdatedAt": "2014-09-27T18:30:49-0300",
+      //     "UpdatedBy": 3,
+      //     Type: self.state.templateType,
+      //     Document: JSON.stringify({
+      //       _id: self.state._id ? self.state._id : uuidv4(),
+      //       width: self.state.rectWidth,
+      //       origin_width: self.state.rectWidth,
+      //       height: self.state.rectHeight,
+      //       origin_height: self.state.rectHeight,
+      //       left: 0,
+      //       top: 0,
+      //       src: "",
+      //       type: self.state.templateType,
+      //       scaleX: 1,
+      //       scaleY: 1,
+      //       document_object: images,
+      //     }),
+      //     "FontList": self.state.fontsList.map(font=> font.id),
+      //     "Width": self.state.rectWidth,
+      //     "Height": self.state.rectHeight,
+      //   });
 
-        axios.post(url, res, {
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-        .then(res => {
-          self.setState({isSaving: false})
-        })
-        .catch(res => {
-        })
+      //   axios.post(url, res, {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     }
+      //   })
+      //   .then(res => {
+      //     self.setState({isSaving: false})
+      //   })
+      //   .catch(res => {
+      //   })
 
-        var src = await self.genRepresentative(false, self.state.rectWidth, self.state.rectHeight);
+      //   var src = await self.genRepresentative(false, self.state.rectWidth, self.state.rectHeight);
 
-        var formData = new FormData();
-        formData.append('file', src);
+      //   var formData = new FormData();
+      //   formData.append('file', src);
 
-        // self.download("test.png", src);
+      //   // self.download("test.png", src);
 
-        var urlUploadRepresentative = `/api/Template/Upload?id=${_id}`;
+      //   var urlUploadRepresentative = `/api/Template/Upload?id=${_id}`;
 
-        axios.post(urlUploadRepresentative, formData);
+      //   axios.post(urlUploadRepresentative, formData);
   
-        return;
-      }
+      //   return;
+      // }
 
       if (mode == Mode.CreateDesign) {
         url = "/api/Design/Add";
@@ -1640,7 +1647,8 @@ html {
     }, 300);
   }
 
-  async saveImages() {
+  async saveImages(rep) {
+    var _id;
     console.log('saveImages ');
     this.setState({isSaving: true})
     const { mode } = this.state;
@@ -1673,69 +1681,71 @@ html {
       return img;
     })
 
-    setTimeout(async function() {
+    await setTimeout(async function() {
       var url;
       var _id = self.state._id;
-      if (_id) {
-        url = "/api/Template/Update";
+      // if (_id) {
+      //   url = "/api/Template/Update";
 
-        var res = JSON.stringify({
-          "Id": _id,
-          "CreatedAt": "2014-09-27T18:30:49-0300",
-          "CreatedBy": 2,
-          "UpdatedAt": "2014-09-27T18:30:49-0300",
-          "UpdatedBy": 3,
-          Type: self.state.templateType,
-          Document: JSON.stringify({
-            _id: self.state._id ? self.state._id : uuidv4(),
-            width: self.state.rectWidth,
-            origin_width: self.state.rectWidth,
-            height: self.state.rectHeight,
-            origin_height: self.state.rectHeight,
-            left: 0,
-            top: 0,
-            src: "",
-            type: self.state.templateType,
-            scaleX: 1,
-            scaleY: 1,
-            document_object: images,
-          }),
-          "FontList": self.state.fontsList.map(font=> font.id),
-          "Width": self.state.rectWidth,
-          "Height": self.state.rectHeight,
-          "Pages": self.state.pages,
-        });
+      //   var res = JSON.stringify({
+      //     "Id": _id,
+      //     "CreatedAt": "2014-09-27T18:30:49-0300",
+      //     "CreatedBy": 2,
+      //     "UpdatedAt": "2014-09-27T18:30:49-0300",
+      //     "UpdatedBy": 3,
+      //     Type: self.state.templateType,
+      //     Document: JSON.stringify({
+      //       _id: self.state._id ? self.state._id : uuidv4(),
+      //       width: self.state.rectWidth,
+      //       origin_width: self.state.rectWidth,
+      //       height: self.state.rectHeight,
+      //       origin_height: self.state.rectHeight,
+      //       left: 0,
+      //       top: 0,
+      //       src: "",
+      //       type: self.state.templateType,
+      //       scaleX: 1,
+      //       scaleY: 1,
+      //       document_object: images,
+      //     }),
+      //     "FontList": self.state.fontsList.map(font=> font.id),
+      //     "Width": self.state.rectWidth,
+      //     "Height": self.state.rectHeight,
+      //     "Pages": self.state.pages,
+      //   });
 
-        axios.post(url, res, {
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-        .then(res => {
-          self.setState({isSaving: false})
-        })
-        .catch(res => {
-        })
+      //   axios.post(url, res, {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     }
+      //   })
+      //   .then(res => {
+      //     self.setState({isSaving: false})
+      //   })
+      //   .catch(res => {
+      //   })
 
-        var src = await self.genRepresentative(false, self.state.rectWidth, self.state.rectHeight);
+      //   var src = await self.genRepresentative(false, self.state.rectWidth, self.state.rectHeight);
 
-        var formData = new FormData();
-        formData.append('file', src);
+      //   var formData = new FormData();
+      //   formData.append('file', src);
 
-        // self.download("test.png", src);
+      //   // self.download("test.png", src);
 
-        var urlUploadRepresentative = `/api/Template/Upload?id=${_id}`;
+      //   var urlUploadRepresentative = `/api/Template/Upload?id=${_id}`;
 
-        axios.post(urlUploadRepresentative, formData);
+      //   axios.post(urlUploadRepresentative, formData);
   
-        return;
-      }
+      //   return;
+      // }
 
       if (mode == Mode.CreateDesign) {
         url = "/api/Design/Add";
       } else {
         url = "/api/Template/Add";
       }
+
+      console.log('url ', url)
 
       var type;
       if (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) {
@@ -1755,14 +1765,19 @@ html {
           }
 
           var aloCloned2 = document.getElementById("alo2");
-          var canvas2 = [aloCloned2.outerHTML];
-
-          console.log('canvas2 ', canvas2);
+          var canvas2 = [];
+          if (aloCloned2) {
+            canvas2 = [aloCloned2.outerHTML];
+          }
 
           var styles = document.getElementsByTagName("style");
           var a = Array.from(styles).filter(style => {
             return style.attributes.getNamedItem("data-styled") !== null
           });
+
+          _id = self.state._id ? self.state._id : uuidv4();
+
+          console.log('adding ', _id);
 
           var res = JSON.stringify({
             "CreatedAt": "2014-09-27T18:30:49-0300",
@@ -1771,7 +1786,7 @@ html {
             "UpdatedBy": 3,
             Type: type,
             Document: JSON.stringify({
-              _id: self.state._id ? self.state._id : uuidv4(),
+              _id,
               width: self.state.rectWidth,
               origin_width: self.state.rectWidth,
               height: self.state.rectHeight,
@@ -1786,7 +1801,7 @@ html {
             "FontList": self.state.fontsList.map(font=> font.id),
             "Width": self.state.rectWidth,
             "Height": self.state.rectHeight,
-            "Id": uuidv4(),
+            "Id": _id,
             "Keywords": [],
             "Canvas": canvas, 
             "Canvas2": canvas2,
@@ -1795,7 +1810,11 @@ html {
             "FirstName": "Untilted",
             "Pages": self.state.pages,
             "PrintType": self.state.subtype,
+            "Representative": rep ? rep : `images/${uuidv4()}.png`,
+            "Representative2": `images/${uuidv4()}.png`,
           });
+
+          console.log('res ', res)
 
           axios.post(url, res, {
             headers: {
@@ -1804,72 +1823,9 @@ html {
           })
         }
       );
-
-      // console.log('saving images');
-
-      // var res = JSON.stringify({
-      //   "CreatedAt": "2014-09-27T18:30:49-0300",
-      //   "CreatedBy": 2,
-      //   "UpdatedAt": "2014-09-27T18:30:49-0300",
-      //   "UpdatedBy": 3,
-      //   Type: type,
-      //   Document: JSON.stringify({
-      //     _id: self.state._id ? self.state._id : uuidv4(),
-      //     width: self.state.rectWidth,
-      //     origin_width: self.state.rectWidth,
-      //     height: self.state.rectHeight,
-      //     origin_height: self.state.rectHeight,
-      //     left: 0,
-      //     top: 0,
-      //     type: mode,
-      //     scaleX: 1,
-      //     scaleY: 1,
-      //     document_object: images,
-      //   }),
-      //   "FontList": self.state.fontsList.map(font=> font.id),
-      //   "Width": self.state.rectWidth,
-      //   "Height": self.state.rectHeight,
-      //   "Id": uuidv4(),
-      //   "Keywords": [],
-      // });
-
-      // axios.post(url, res, {
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   }
-      // })
-      // .then(async res => {
-      //   self.setState({isSaving: false})
-      //   var id = res.data.value;
-      //   var src = await self.genRepresentative(false);
-      //   console.log('srcccc ', src);
-
-      //   var formData = new FormData();
-      //   formData.append('file', src);
-
-      //   var urlUploadRepresentative;
-      //   if (mode == Mode.CreateDesign) {
-      //     urlUploadRepresentative = `/api/Design/Upload?id=${id}`;
-      //   } else {
-      //     urlUploadRepresentative = `/api/Template/Upload?id=${id}`;
-      //   }
-
-      //   var element = document.createElement('a');
-
-      //   element.setAttribute('href', src);
-      //   element.setAttribute('download', "a.png");
-      //   element.style.display = 'none';
-
-      //   document.body.appendChild(element);
-      //   element.click();
-      //   document.body.removeChild(element);
-
-      //   axios.post(urlUploadRepresentative, formData);
-      // })
-      // .catch(res => {
-      // })
-
     }, 300);
+
+    return _id;
   }
 
   onTextChange(parentIndex, e, key) {
@@ -3374,12 +3330,45 @@ handleToolbarResize = e => {
     var model;
     if (this.state.selectedTab === SidebarTab.Image) {
       model = "Media";
-    } else if (this.state.selectedTab === SidebarTab.Template) {
+    } else if (this.state.selectedTab === SidebarTab.Template) {  
       model = "Template";
     }
     const url = `/api/${model}/RemoveAll`;
     fetch(url);
   }
+
+  handleAddOrder = async () => {
+    if (this.refFullName) {
+      console.log('fullName', this.refFullName.value);
+      var fullName = this.refFullName.value;
+      var address = this.refAddress.value;
+      var city = this.refCity.value;
+      var phoneNumber = this.refPhoneNumber.value;
+
+      var rep = `images/${uuidv4()}.png`;
+
+      this.saveImages(rep);
+
+      console.log('this.state._id ', this.state._id);
+
+      var url = `/api/Order/Add`;
+      var res = {
+        "Id": uuidv4(),
+        "FullName": fullName,
+        "Address": address,
+        "City": city,
+        "PhoneNumber": phoneNumber,
+        "OrderId": this.state._id,
+        "Representative": rep,
+      }
+      axios.post(url, res);
+    }
+  }
+
+  refFullName = null;
+  refAddress = null;
+  refCity = null;
+  refPhoneNumber = null;
 
   render() {
     const { scale, staticGuides, rectWidth, rectHeight, images, cropMode, pages, } = this.state; 
@@ -3451,7 +3440,7 @@ handleToolbarResize = e => {
               }}>
               <button
                 className="toolbar-btn dropbtn-font"
-                onClick={this.saveImages.bind(this)}
+                onClick={this.saveImages.bind(this, null)}
                 style={{
                   display: 'flex',
                   marginTop: '4px',
@@ -3605,6 +3594,7 @@ handleToolbarResize = e => {
                       value={this.state.query}
                       />
                   <InfiniteScroll
+                    scroll={true}
                     throttle={500}
                     threshold={300}
                     isLoading={this.state.isLoading}
@@ -3841,6 +3831,7 @@ handleToolbarResize = e => {
                     </div>
                     {
                       <InfiniteScroll
+                      scroll={true}
                       throttle={500}
                       threshold={300}
                       isLoading={this.state.isLoading}
@@ -3936,6 +3927,7 @@ handleToolbarResize = e => {
                   >
                     {
                       <InfiniteScroll
+                      scroll={true}
                       throttle={500}
                       threshold={300}
                       isLoading={this.state.isLoading}
@@ -4018,6 +4010,7 @@ handleToolbarResize = e => {
                 )}
                 {this.state.selectedTab === SidebarTab.Background && 
                   <InfiniteScroll
+                  scroll={true}
                   throttle={100}
                   threshold={300}
                   isLoading={false}
@@ -4140,6 +4133,7 @@ handleToolbarResize = e => {
                         height: '100%',
                       }}
                     ><InfiniteScroll
+                    scroll={true}
                     throttle={500}
                     threshold={300}
                     isLoading={false}
@@ -4961,34 +4955,29 @@ handleToolbarResize = e => {
         style={{
           padding: '16px 16px 0',
           position: 'relative',
-          height: 'calc(100% - 46px)'
+
         }}
       >
 
 <div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
 <form autoComplete="on">
         <div className="_2WG0n1tF-Rc7mYLaZoDpdC">
-          <p className="_3H42by719pMs1V0_zCiGTG ">Shipping details</p>
+          <p className="_3H42by719pMs1V0_zCiGTG ">Địa chỉ giao hàng</p>
         </div>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
-          <p>Full name</p>
-          <input className="" type="text" autoComplete="name" placeholder="E.g. David Bowie" name="name" defaultValue="Manh Quynh Nguyen" style={{backgroundImage: 'url("data:image/png', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll', backgroundSize: '16px 18px', backgroundPosition: '98% 50%'}} />
+          <p>Họ và tên:</p>
+          <input ref={i => this.refFullName = i} className="" type="text" autoComplete="name" placeholder="E.g. David Bowie" name="name" defaultValue="Manh Quynh Nguyen" style={{backgroundImage: 'url("data:image/png', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll', backgroundSize: '16px 18px', backgroundPosition: '98% 50%'}} />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
-          <p>Contact number</p>
-          <input className="" type="tel" autoComplete="tel" name="tel" />
+          <p>Địa chỉ</p>
+          <input ref={i => this.refAddress = i} className="" type="tel" autoComplete="tel" name="tel" />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
-          <div className="_1aw7otah-68EhhPw1Br28i">
-            <p className="_2fHTMyjRhDdhU2qNgpKq2l ">Street address</p><a className="_1lMgzTph3Id2Qfd-IS5BHV jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88 _328_BSxypOJVIAAgQ4sdxf" href="#" draggable="false">Search for address</a></div>
-          <input className="" type="text" autoComplete="street-address" placeholder="E.g. 30 Lafayette Avenue" name="street-address" defaultValue="New Bridge Road" />
+          <p>Tỉnh thành phố</p>
+          <input ref={i => this.refCity = i} className="" type="text" autoComplete="address-level2" placeholder="E.g. Brooklyn" name="address-level2" defaultValue="Singapore" />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
-          <p>City</p>
-          <input className="" type="text" autoComplete="address-level2" placeholder="E.g. Brooklyn" name="address-level2" defaultValue="Singapore" />
-        </label>
-        <label className="_1lAKgn_4JnKMAytI-mxfqp">
-          <p>Country</p>
+          <p>Quận / Huyện</p>
           <div className="_3Tk7vFk3XB74DSjc-X114e fs-hide">
             <div className>
               <button type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">Singapore</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
@@ -5000,8 +4989,8 @@ handleToolbarResize = e => {
           </div>
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
-          <p className="">Postal code</p>
-          <input className="" type="text" autoComplete="postal-code" placeholder="E.g. 11217" name="postal-code" />
+          <p className="">Số điện thoại</p>
+          <input ref={i => this.refPhoneNumber = i} className="" type="text" autoComplete="postal-code" placeholder="E.g. 11217" name="postal-code" />
         </label>
       </form>
     </div>
@@ -5030,11 +5019,6 @@ handleToolbarResize = e => {
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Contact number</p>
           <input className="" type="tel" autoComplete="tel" name="tel" />
-        </label>
-        <label className="_1lAKgn_4JnKMAytI-mxfqp">
-          <div className="_1aw7otah-68EhhPw1Br28i">
-            <p className="_2fHTMyjRhDdhU2qNgpKq2l ">Street address</p><a className="_1lMgzTph3Id2Qfd-IS5BHV jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88 _328_BSxypOJVIAAgQ4sdxf" href="#" draggable="false">Search for address</a></div>
-          <input className="" type="text" autoComplete="street-address" placeholder="E.g. 30 Lafayette Avenue" name="street-address" defaultValue="New Bridge Road" />
         </label>
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>City</p>
@@ -5086,7 +5070,7 @@ handleToolbarResize = e => {
               </button>
               }
               <button className="_2Rww-JOL60obmcYkaUOyg_ Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _28oyZ-_qfE-ERg1G1Nc2zV Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _3QJ_C8Lg1l0m5aoIK5piST _2kK9hFUTyqtMKr5EG4GuY4 _2HxAYUsq5GZ4sKqpZqoKLF" title="Continue" type="button" 
-                onClick={() => {this.setState({currentPrintStep: this.state.currentPrintStep + 1})}}
+                onClick={() => {this.handleAddOrder();  this.setState({currentPrintStep: this.state.currentPrintStep + 1})}}
                 style={{color: 'white', height: '40px', borderRadius: '4px', width: '100%', border: 'none', backgroundColor: 'rgb(1, 159, 182)'}}><span className="wDZfRbnecQOufIqcN2_A5">Tiếp tục</span></button>
             </div>
           </div>
