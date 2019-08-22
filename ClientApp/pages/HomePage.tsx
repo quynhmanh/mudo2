@@ -41,14 +41,8 @@ export default class HomePage extends React.Component<IProps, IState> {
     return (
       <div>
         <Helmet>
-          <title>Home page - RCB (TypeScript)</title>
+          <title>Mudo website thiết kế mọi thứ</title>
         </Helmet>
-        {/* <img
-                style={{
-                  width: '100%',
-                  position: 'relative',
-                }}
-              class="img-fluid" src="images/Kwb3ggnPi0Wzp6nRw3ov7Q.png" alt="Search Print Design Templates"/> */}
         <div
           style={{
             width: "100%",
@@ -73,7 +67,7 @@ export default class HomePage extends React.Component<IProps, IState> {
             <header 
               style={{
                 position: 'relative',
-                top: '50%',
+                top: '70%',
                 marginTop: 'auto',
                 marginBottom: 'auto',
                 transform: 'translateY(-50%)',
@@ -241,7 +235,7 @@ export default class HomePage extends React.Component<IProps, IState> {
       <section style={{padding: '30px 0'}}>
       <div className="container">
         <div >
-          <div style={{display: 'flex'}} className="tile-rack__container layout--row-spacing u-display-flex u-flexWrap-wrap u-justifyContent-center js-tile-rack-slider" role="toolbar">
+          {/* <div style={{display: 'flex'}} className="tile-rack__container layout--row-spacing u-display-flex u-flexWrap-wrap u-justifyContent-center js-tile-rack-slider" role="toolbar">
             <div
               style={{
                 background: 'rgba(255, 255, 255, 0.46)',
@@ -352,12 +346,12 @@ export default class HomePage extends React.Component<IProps, IState> {
                       <h3 style={{textAlign: 'center'}} className="h__block u-marginBottom-xxxs">
                         Khách hàng tin tưởng chúng tôi
                       </h3>
-                      {/* <p style={{textAlign: 'center'}}>That’s why they’ve rated us 9.5&nbsp;out of 10 on Trustpilot. Excellent stuff.</p> */}
+                      <p style={{textAlign: 'center'}}>That’s why they’ve rated us 9.5&nbsp;out of 10 on Trustpilot. Excellent stuff.</p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div></div>
+            </div></div> */}
         </div>
       </div>
       </section>

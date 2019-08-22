@@ -19,10 +19,23 @@ export default class GuestLayout extends React.Component<Props, {}> {
                 <div
                   id="456"
                   style={{
-                    backgroundImage: 'url(https://b.imge.to/2019/08/21/bAvh1.jpg)',
-                    backgroundSize: 'cover',
+                    backgroundColor: '#558ca7',
+                    height: '600px',
+                    position: 'relative',
                   }}
                 >
+                  <img 
+                    style={{
+                      height: '100%',
+                      display: 'block',
+                      left: '30%',
+                      marginLeft: 'auto',
+                      marginRight: 'auto',
+                      transform: 'translateX(-50%)',
+                      maxWidth: 'none',
+                      position: 'absolute',
+                    }}
+                    src="https://b.imge.to/2019/08/22/mACAU.jpg" />
                 <div className="container container-content">
                     {this.props.children}
                 </div>
@@ -34,6 +47,8 @@ export default class GuestLayout extends React.Component<Props, {}> {
                 >
                 <div
                   id="456"
+                  style={{
+                  }}
                   // style={{
                   //   backgroundImage: 'url(images/Kwb3ggnPi0Wzp6nRw3ov7Q.png)',
                   //   backgroundSize: '100% 100%',

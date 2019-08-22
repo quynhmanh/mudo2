@@ -474,6 +474,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   endEditing = e => {};
 
   startEditing = selectionScaleY => {
+    console.log('startEditting');
     this.setState({selectionScaleY});
   };
 

@@ -88,7 +88,6 @@ endEditing() {
     var self = this;
     setTimeout(() => {
       var res;
-      var a = document.getSelection();
       var color;
       var el = document.getElementById(_id).getElementsByTagName('font')[0];
       const size = window.getComputedStyle(el, null).getPropertyValue('font-size');

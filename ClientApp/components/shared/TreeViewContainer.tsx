@@ -1065,7 +1065,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                     onLoadMore={this.loadMore.bind(this, false, this.props.filePath)}
                     height='100%'
                   >
-                    <div id="image-container-picker" style={{display: 'flex', padding: '35px 5px 10px 0px',}}>
+                    <div id="image-container-picker" style={{justifyContent: 'space-around', display: 'flex', padding: '0px 5px 10px 0px',}}>
                     <div
                       style={{
                         height: "calc(100% - 170px)",

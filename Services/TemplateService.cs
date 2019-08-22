@@ -516,6 +516,7 @@ px;
                             Width = width,
                             Height = height,
                         },
+                        Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
                     });
 
 
