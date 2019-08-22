@@ -26,15 +26,15 @@ namespace WebApi.Controllers
         [HttpGet("~/payments/momo")]
         public IActionResult getPayUrl()
         {
-            
+            var baseURL = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
 
             const string url = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
             string requestId = Guid.NewGuid().ToString(); //
             const string amount = "100000";
             string orderId = Guid.NewGuid().ToString(); //
             const string orderInfo = "1-Month Membership Subscription";
-            const string returnUrl = "https://localhost:64099/payments/momo/return";
-            const string notifyUrl = "https://localhost:64099/payments/momo/notify";
+            string returnUrl = baseURL + "/payments/momo/return";
+            string notifyUrl = baseURL + "/payments/momo/notify";
             const string extraData = ""; //pass empty value if your merchant does not have stores else merchantName=[storeName]; merchantId=[storeId] to identify a transaction map with a physical store
             const string requestType = "captureMoMoWallet";
 

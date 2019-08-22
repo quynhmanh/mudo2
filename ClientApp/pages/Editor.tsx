@@ -3399,7 +3399,7 @@ handleToolbarResize = e => {
       .then(
           responseFromMomo => {
               window.paymentScope = { complete: this.externalPaymentCompleted }
-              window.open(responseFromMomo.payUrl, "MoMo Payment API", "location=0,status=0,width=600,height=750"); 
+              window.open(responseFromMomo.payUrl, "_blank"); 
           },
           error => {
               console.log(error);

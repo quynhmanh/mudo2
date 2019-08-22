@@ -59,14 +59,14 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
         console.log(nonce);
         const url = "https://www.facebook.com/v4.0/dialog/oauth?"
             + "client_id=" + "476336289816631"
-            + "&redirect_uri=" + "https://localhost:64099/users/authenticate/external?provider=facebook"
+            + "&redirect_uri=" + window.location.origin + "/users/authenticate/external?provider=facebook"
             + "&scope=" + "email"
             + "&return_scopes=" + "true"
             + "&auth_type=" + "rerequest"
             + "&response_type=" + "token"
             + "&state=" + nonce; // todo: need store nonce somewhere and then compare it with state from response
         window.authenticationScope = { complete: this.externalProviderCompleted.bind(this) };
-        window.open(url, "Authenticate Account", "location=0,status=0,width=600,height=750");
+        window.open(url, "_blank");
     }
 
     google() {
@@ -77,10 +77,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
             + "client_id=" + "75521893646-ejv81aiajee0gkt0ebs3pkohhubj47k1.apps.googleusercontent.com"
             + "&response_type=token"
             + "&scope=openid email"
-            + "&redirect_uri=" + "https://localhost:64099/users/authenticate/external?provider=google"
+            + "&redirect_uri=" + window.location.origin + "/users/authenticate/external?provider=google"
             + "&state=" + nonce; // todo: need store nonce somewhere and then compare it with state from response
         window.authenticationScope = { complete: this.externalProviderCompleted.bind(this) };
-        window.open(url, "Authenticate Account", "location=0,status=0,width=600,height=750");
+        window.open(url, "_blank");
         
     }
 
