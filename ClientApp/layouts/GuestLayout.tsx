@@ -35,7 +35,7 @@ export default class GuestLayout extends React.Component<Props, {}> {
                       maxWidth: 'none',
                       position: 'absolute',
                     }}
-                    src="images/SpYBabN3REm1lTyMzosatQ.png" />
+                    src="https://b.imge.to/2019/08/22/mACAU.jpg" />
                 <div className="container container-content">
                     {this.props.children}
                 </div>
