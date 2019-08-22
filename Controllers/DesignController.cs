@@ -345,6 +345,7 @@ body {
                                 Width = (int)double.Parse(width),
                                 Height = (int)double.Parse(height),
                             },
+                            Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
                         });
 
 
@@ -590,6 +591,7 @@ body {
                                 Width = (int)double.Parse(width),
                                 Height = (int)double.Parse(height),
                             },
+                            Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
                         });
                         var page = await browser.NewPageAsync();
                         await page.SetContentAsync(html);

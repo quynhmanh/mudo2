@@ -91,6 +91,7 @@ namespace RCB.TypeScript.Controllers
                         Width = 250,
                         Height = 50,
                     },
+                    Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
                 });
                 var page = await browser.NewPageAsync();
                 await page.SetContentAsync(template);
