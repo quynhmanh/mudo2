@@ -162,7 +162,11 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
 
         console.log('heje', this.state);
 
-        return <div id="loginPage">
+        return <div id="loginPage" style={{
+            left: 0,
+            right: 0,
+            position: 'absolute',
+        }}>
 
             <Helmet>
                 <title>Login page - RCB (TypeScript)</title>

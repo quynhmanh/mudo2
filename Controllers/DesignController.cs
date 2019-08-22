@@ -338,7 +338,7 @@ body {
                         //}
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                        using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                         {
                             DefaultViewport = new ViewPortOptions()
                             {
@@ -346,58 +346,59 @@ body {
                                 Height = (int)double.Parse(height),
                             },
                             Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
-                        });
-
-
-                        var page = await browser.NewPageAsync();
-
-                        await page.SetContentAsync(html);
-
-                        Stream a;
-                        if (png)
+                        }))
                         {
-                            a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
+
+                            var page = await browser.NewPageAsync();
+
+                            await page.SetContentAsync(html);
+
+                            Stream a;
+                            if (png)
                             {
-                                Clip = new PuppeteerSharp.Media.Clip()
+                                a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
                                 {
-                                    Width = decimal.Parse(width),
-                                    Height = decimal.Parse(height),
-                                },
-                                BurstMode = true,
-                                OmitBackground = transparent,
-                                Type = ScreenshotType.Png,
-                            });
-                        } else
-                        {
-                            a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
+                                    Clip = new PuppeteerSharp.Media.Clip()
+                                    {
+                                        Width = decimal.Parse(width),
+                                        Height = decimal.Parse(height),
+                                    },
+                                    BurstMode = true,
+                                    OmitBackground = transparent,
+                                    Type = ScreenshotType.Png,
+                                });
+                            }
+                            else
                             {
-                                Clip = new PuppeteerSharp.Media.Clip()
+                                a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
                                 {
-                                    Width = decimal.Parse(width),
-                                    Height = decimal.Parse(height),
-                                },
-                                BurstMode = true,
-                                OmitBackground = transparent,
-                                Type = ScreenshotType.Jpeg,
-                                Quality = 100,
-                            });
+                                    Clip = new PuppeteerSharp.Media.Clip()
+                                    {
+                                        Width = decimal.Parse(width),
+                                        Height = decimal.Parse(height),
+                                    },
+                                    BurstMode = true,
+                                    OmitBackground = transparent,
+                                    Type = ScreenshotType.Jpeg,
+                                    Quality = 100,
+                                });
+                            }
+
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                a.CopyTo(memoryStream);
+                                data = memoryStream.ToArray();
+                            }
+
+                            resPath = "images" + Path.DirectorySeparatorChar + Guid.NewGuid() + ".png";
+                            var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + resPath);
+
+                            using (var imageFile = new FileStream(filePathRep, FileMode.Create))
+                            {
+                                imageFile.Write(data, 0, data.Length);
+                                imageFile.Flush();
+                            }
                         }
-
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            a.CopyTo(memoryStream);
-                            data = memoryStream.ToArray();
-                        }
-
-                        resPath = "images" + Path.DirectorySeparatorChar + Guid.NewGuid() + ".png";
-                        var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + resPath);
-
-                        using (var imageFile = new FileStream(filePathRep, FileMode.Create))
-                        {
-                            imageFile.Write(data, 0, data.Length);
-                            imageFile.Flush();
-                        }
-
                     }
 
                     //doc.Close();
@@ -584,7 +585,7 @@ body {
                         // }
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                        using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                         {
                             DefaultViewport = new ViewPortOptions()
                             {
@@ -592,71 +593,73 @@ body {
                                 Height = (int)double.Parse(height),
                             },
                             Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
-                        });
-                        var page = await browser.NewPageAsync();
-                        await page.SetContentAsync(html);
-                        Stream a = await page.PdfStreamAsync(new PdfOptions()
+                        }))
                         {
-                            Width = width + "px",
-                            Height = (int)double.Parse(height) + 5000 + "px",
-                        });
-
-                        string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
-                        {
-                            Clip = new PuppeteerSharp.Media.Clip()
+                            var page = await browser.NewPageAsync();
+                            await page.SetContentAsync(html);
+                            Stream a = await page.PdfStreamAsync(new PdfOptions()
                             {
-                                Width = decimal.Parse(width),
-                                Height = decimal.Parse(height),
-                            },
-                            OmitBackground = true,
-                        });
+                                Width = width + "px",
+                                Height = (int)double.Parse(height) + 5000 + "px",
+                            });
 
-                        PdfReader reader2 = new PdfReader(a);
-                        Rectangle rec = reader2.GetPageSize(1);
-                        float ratio = (int)double.Parse(width) * 1f / (int)double.Parse(height);
-                        float left = 0;
-                        float bottom = rec.Height - rec.Width / ratio;
-                        float right = rec.Width;
-                        float top = rec.Height;
+                            string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
+                            {
+                                Clip = new PuppeteerSharp.Media.Clip()
+                                {
+                                    Width = decimal.Parse(width),
+                                    Height = decimal.Parse(height),
+                                },
+                                OmitBackground = true,
+                            });
 
-                        System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
-                        PdfDictionary pageDict;
-                        PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
-                        pageDict = reader2.GetPageN(1);
-                        pageDict.Put(PdfName.CROPBOX, rect);
+                            PdfReader reader2 = new PdfReader(a);
+                            Rectangle rec = reader2.GetPageSize(1);
+                            float ratio = (int)double.Parse(width) * 1f / (int)double.Parse(height);
+                            float left = 0;
+                            float bottom = rec.Height - rec.Width / ratio;
+                            float right = rec.Width;
+                            float top = rec.Height;
 
-                        //PdfStamper pdfStamper2 = new PdfStamper(reader2, new FileStream("/Users/llaugusty/Downloads/quynh2.pdf", FileMode.Create));
+                            System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
+                            PdfDictionary pageDict;
+                            PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
+                            pageDict = reader2.GetPageN(1);
+                            pageDict.Put(PdfName.CROPBOX, rect);
 
-                        //iTextSharp.text.Rectangle pageRectangle = reader2.GetPageSizeWithRotation(1);
-                        //PdfContentByte pdfData = pdfStamper2.GetOverContent(1);
-                        //pdfData.SetFontAndSize(BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED), 10);
-                        //PdfGState graphicsState = new PdfGState();
-                        //graphicsState.FillOpacity = 0.4F;
-                        //pdfData.SetGState(graphicsState);
-                        //pdfData.BeginText();
+                            //PdfStamper pdfStamper2 = new PdfStamper(reader2, new FileStream("/Users/llaugusty/Downloads/quynh2.pdf", FileMode.Create));
 
-                        //iTextSharp.text.Image jpeg = Image.GetInstance("https://www.pngfind.com/pngs/m/256-2563274_rose-flowers-love-yellow-roses-png-image-rose.png");
-                        //float width2 = pageRectangle.Width;
-                        //float height2 = pageRectangle.Height;
-                        ////jpeg.ScaleToFit(width2, height2);
-                        //jpeg.SetAbsolutePosition(100, 100);
+                            //iTextSharp.text.Rectangle pageRectangle = reader2.GetPageSizeWithRotation(1);
+                            //PdfContentByte pdfData = pdfStamper2.GetOverContent(1);
+                            //pdfData.SetFontAndSize(BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED), 10);
+                            //PdfGState graphicsState = new PdfGState();
+                            //graphicsState.FillOpacity = 0.4F;
+                            //pdfData.SetGState(graphicsState);
+                            //pdfData.BeginText();
 
-                        ////jpeg.SetAbsolutePosition(width2 / 2 - jpeg.ScaledWidth / 2, height2 / 2 - jpeg.ScaledHeight / 2);
-                        //jpeg.Rotation = 45;
+                            //iTextSharp.text.Image jpeg = Image.GetInstance("https://www.pngfind.com/pngs/m/256-2563274_rose-flowers-love-yellow-roses-png-image-rose.png");
+                            //float width2 = pageRectangle.Width;
+                            //float height2 = pageRectangle.Height;
+                            ////jpeg.ScaleToFit(width2, height2);
+                            //jpeg.SetAbsolutePosition(100, 100);
 
-                        //pdfData.AddImage(jpeg);
+                            ////jpeg.SetAbsolutePosition(width2 / 2 - jpeg.ScaledWidth / 2, height2 / 2 - jpeg.ScaledHeight / 2);
+                            //jpeg.Rotation = 45;
 
-                        ////var text = "Other random blabla...";
-                        ////// put the alignment and coordinates here
-                        ////pdfData.ShowTextAligned(2, text, 100, 200, 0);
+                            //pdfData.AddImage(jpeg);
 
-                        //pdfData.EndText();
-                        ////msOutput3.Close();
-                        ////pdfStamper2.Close();
-                        //msOutput3.Position = 0;
-                        ////PdfReader reader3 = new PdfReader(msOutput3);
-                        pCopy.AddPage(pCopy.GetImportedPage(reader2, 1));
-                        reader2.Close();
+                            ////var text = "Other random blabla...";
+                            ////// put the alignment and coordinates here
+                            ////pdfData.ShowTextAligned(2, text, 100, 200, 0);
+
+                            //pdfData.EndText();
+                            ////msOutput3.Close();
+                            ////pdfStamper2.Close();
+                            //msOutput3.Position = 0;
+                            ////PdfReader reader3 = new PdfReader(msOutput3);
+                            pCopy.AddPage(pCopy.GetImportedPage(reader2, 1));
+                            reader2.Close();
+                        }
                     }
 
                     doc.Close();

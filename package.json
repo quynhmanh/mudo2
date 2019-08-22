@@ -60,7 +60,6 @@
     "domain-wait": "^1.2.1",
     "formik": "1.5.7",
     "history": "4.9.0",
-    "html-to-image": "^0.1.1",
     "json-to-url": "1.0.5",
     "lodash": "^4.17.11",
     "mathjax": "^2.7.5",

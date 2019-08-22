@@ -96,8 +96,7 @@ export default class AuthorizedLayout extends React.Component<Props, {}> {
             </div>
             <div
                 style={{
-                    backgroundImage: 'url(https://b.imge.to/2019/08/21/bAvh1.jpg)',
-                    backgroundSize: 'cover',
+                    backgroundColor: 'rgb(205, 220, 223)',
                 }}
                 id='content-container'>
                     {this.props.children}
