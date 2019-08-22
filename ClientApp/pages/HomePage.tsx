@@ -41,14 +41,8 @@ export default class HomePage extends React.Component<IProps, IState> {
     return (
       <div>
         <Helmet>
-          <title>Home page - RCB (TypeScript)</title>
+          <title>Mudo website thiết kế mọi thứ</title>
         </Helmet>
-        {/* <img
-                style={{
-                  width: '100%',
-                  position: 'relative',
-                }}
-              class="img-fluid" src="images/Kwb3ggnPi0Wzp6nRw3ov7Q.png" alt="Search Print Design Templates"/> */}
         <div
           style={{
             width: "100%",
