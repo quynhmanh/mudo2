@@ -18,7 +18,7 @@ import AccountPage from '@Pages/AccountPage';
 
 
 export const routes = <Switch>
-    <AppRoute authorizedRequired={true} layout={GuestLayout} exact path="/login" component={LoginPage} />
+    <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/login" component={LoginPage} />
     <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/" component={HomePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/home" component={HomePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/example" component={ExamplePage} />
