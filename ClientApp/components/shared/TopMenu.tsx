@@ -1,6 +1,6 @@
 ﻿import * as React from "react";
 import { withRouter } from "react-router";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Globals from "@Globals";
 import AccountService from "@Services/AccountService";
 import { Dropdown, Collapse } from "bootstrap3-native";
@@ -43,11 +43,6 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     timer = null
 
     render() {
-        if (this.state.logoutAction)
-            return <Redirect to="/login" />;
-
-        const {show, menuHover} = this.state;
-
         return <div className="navbar navbar-default">
             <div className="container container-fluid">
                 <div className="navbar-header">
