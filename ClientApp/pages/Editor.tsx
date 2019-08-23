@@ -155,6 +155,7 @@ interface IState {
   showPrintingSidebar: boolean;
   currentPrintStep: number;
   orderStatus: string;
+  downloading: boolean;
 }
 
 let firstpage = uuidv4();
@@ -254,7 +255,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
               'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
             ],
             showPrintingSidebar: false,
-            orderStatus: ''
+            orderStatus: '',
+            downloading: false,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -1245,7 +1247,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var self = this;
     this.doNoObjectSelected();
     this.setState(
-      { scale: 1, showPopup: true, bleed, },
+      { scale: 1, showPopup: true, bleed, downloading: true, },
       () => {
         var aloCloned = document.getElementsByClassName("alo");
         var canvas = [];
@@ -1375,6 +1377,7 @@ html {
                 scale: previousScale, 
                 // showPopup: false,
                 bleed: false,
+                downloading: false,
               }
             );
             self.download("test.pdf", response.data);
@@ -1620,6 +1623,8 @@ html {
             headers: {
               'Content-Type': 'application/json',
             }
+          }).then(res => {
+            self.setState({isSaving: false})
           })
         }
       );
@@ -3074,6 +3079,8 @@ handleToolbarResize = e => {
         continue;
       }
       res.push(<Canvas
+        isSaving={this.state.isSaving}
+        downloading={this.state.downloading}
         bleed={this.state.bleed}
         key={i}
         staticGuides={this.state.staticGuides}

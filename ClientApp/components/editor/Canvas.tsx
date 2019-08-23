@@ -53,6 +53,8 @@ handleDeleteThisPage: any;
 bleed: boolean;
 showPopup: boolean;
 preview: boolean;
+downloading: boolean;
+isSaving: boolean;
 }
 
 export interface IState {
@@ -267,6 +269,9 @@ export default class Canvas extends PureComponent<IProps, IState> {
                   .filter(img => img.selected)
                   .map(img => (
 <ResizableRectWrapper
+  className="9876"
+  downloading={this.props.downloading}
+  isSaving={this.props.isSaving}
   selected={img.selected}
   outlineWidth={Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}
   style={{
@@ -371,6 +376,9 @@ export default class Canvas extends PureComponent<IProps, IState> {
                   .map(img => (
                     <div>
 <ResizableRectWrapper
+  className="9876"
+  downloading={this.props.downloading}
+  isSaving={this.props.isSaving}
   selected={img.selected}
   outlineWidth={Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}
   style={{
@@ -476,7 +484,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
 
 const ResizableRectWrapper = StyledComponent.div`
   :hover {
-    outline: ${props => props.selected ? 'none' : `rgb(1, 159, 182) solid ${props.outlineWidth}px`};
+    outline: ${props => (props.isSaving || props.selected || props.downloading) ? 'none' : `rgb(1, 159, 182) solid ${props.outlineWidth}px`};
   }
 `;
 
