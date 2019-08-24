@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using WebApi.Services;
 using System.Collections.Specialized;
 using System.Web;
 using System.Net.Http;
@@ -8,6 +7,9 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RCB.TypeScript.Models;
+using RCB.TypeScript.dbcontext;
+using Microsoft.EntityFrameworkCore;
+using RCB.TypeScript.Services;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -17,10 +19,12 @@ namespace RCB.TypeScript.Controllers
     public class UsersController : Controller
     {
         private IUserService _userService;
+        private UserContext _userContext;
 
         public UsersController(IUserService userService)
         {
             _userService = userService;
+
         }
 
         [AllowAnonymous]
@@ -176,6 +180,10 @@ namespace RCB.TypeScript.Controllers
             {
                 string aud = (string)data.GetValue("aud");
                 string email = (string)data.GetValue("email");
+
+                var user = new User { Username = email };
+                _userService.Add(user);
+
                 if (aud.Equals(CLIENT_ID))
                 {
                     return Ok(new User { Username = email });
