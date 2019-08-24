@@ -1,2 +1,2 @@
-docker run -p 5003:5003  kjackal/hello-dotnet:v1
+docker run d 64099:5003  kjackal/hello-dotnet:v1
 
