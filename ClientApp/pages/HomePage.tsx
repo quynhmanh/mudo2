@@ -82,7 +82,7 @@ export default class HomePage extends React.Component<IProps, IState> {
               marginBottom: '20px',
               fontFamily: 'AvenirNextRoundedPro-Bold',
             }}
-          >Thiết kế mọi thứ 5</h2>
+          >Thiết kế mọi thứ 6</h2>
           <div
             id="search-icon"
             style={{
