@@ -1,5 +1,8 @@
-FROM gcr.io/google-appengine/aspnetcore:2.0
-ADD ./bin/Release/netcoreapp2.0/publish/ /app
+FROM gcr.io/google-appengine/aspnetcore:2.2
+ADD ./bin/Release/netcoreapp2.2/publish/ /
 ENV ASPNETCORE_URLS=http://*:${PORT}
-WORKDIR /app
-ENTRYPOINT [ "dotnet", "HelloWorldAspNetCore.dll"]
+WORKDIR /
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
+RUN apt-get install -y software-properties-common
+RUN apt-get install --yes nodejs
+ENTRYPOINT [ "dotnet", "RCB.TypeScript.dll"]
