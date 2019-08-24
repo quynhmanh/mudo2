@@ -15,7 +15,6 @@ using RCB.TypeScript.Extensions.Microsoft.Extensions.DependencyInjection;
 using RCB.TypeScript.Infrastructure;
 using RCB.TypeScript.Services;
 using Serilog;
-using WebApi.Services;
 
 namespace RCB.TypeScript
 {

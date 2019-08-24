@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using WebApi.Services;
 using System.Collections.Specialized;
 using System.Web;
 using System.Net.Http;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RCB.TypeScript.Models;
+using RCB.TypeScript.Services;
 
 namespace RCB.TypeScript.Controllers
 {
