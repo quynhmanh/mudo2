@@ -7,17 +7,20 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RCB.TypeScript;
+using RCB.TypeScript.dbcontext;
+using RCB.TypeScript.Infrastructure;
 using RCB.TypeScript.Models;
 
-namespace WebApi.Services
+namespace RCB.TypeScript.Services
 {
     public interface IUserService
     {
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
+        void Add(User user);
     }
 
-    public class UserService : IUserService
+    public class UserService : ServiceBase, IUserService
     {
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private List<User> _users = new List<User>
@@ -25,15 +28,18 @@ namespace WebApi.Services
             new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" }
         };
 
+        private UserContext _userContext;
+
         private readonly RCB.TypeScript.Helpers.AppSettings _appSettings;
 
-        public UserService()
+        public UserService(UserContext userContext)
         {
-
+            _userContext = userContext;
         }
 
-        public UserService(IOptions<RCB.TypeScript.Helpers.AppSettings> appSettings)
+        public UserService(UserContext userContext, IOptions<RCB.TypeScript.Helpers.AppSettings> appSettings)
         {
+            _userContext = userContext;
             _appSettings = appSettings.Value;
         }
 
@@ -64,6 +70,12 @@ namespace WebApi.Services
             user.Password = null;
 
             return user;
+        }
+
+        public void Add(User user)
+        {
+            _userContext.Users.Add(user);
+            _userContext.SaveChanges();
         }
 
         public IEnumerable<User> GetAll()
