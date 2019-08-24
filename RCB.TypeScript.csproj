@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
@@ -91,7 +92,7 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     	
     <Exec Command="npm install" />
-    <Exec Command="npm run build:prod" />
+    <Exec Command="npm run build:prod" ContinueOnError="true"/>
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
