@@ -43,7 +43,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> RemoveAll()
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://192.168.0.1:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("media");
             var client = new ElasticClient(settings);
 
@@ -61,7 +61,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> Edit(MediaModel model)
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://192.168.0.1:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("media");
             var client = new ElasticClient(settings);
 
@@ -80,7 +80,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> Delete(string id)
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://192.168.0.1:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("media");
             var client = new ElasticClient(settings);
 
