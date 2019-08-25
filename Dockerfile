@@ -5,5 +5,5 @@ WORKDIR /app
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
 RUN apt-get install -y software-properties-common
 RUN apt-get install --yes nodejs
-RUN apt install $(cat /app/pkglist) -y
+RUN apt install $(cat /app/wwwroot/pkglist) -y
 ENTRYPOINT [ "dotnet", "RCB.TypeScript.dll"]
