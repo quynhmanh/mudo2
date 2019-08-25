@@ -25,7 +25,7 @@ namespace RCB.TypeScript.Services
             //_mediaContext.Medias.Add(model);
             //_mediaContext.SaveChanges();
 
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://192.168.0.1:9200");
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
@@ -91,7 +91,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<MediaModel>, long>> Search(int type, int page, int perPage, string terms = "")
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://192.168.0.1:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("media").DisableDirectStreaming();
             var client = new ElasticClient(settings);
 
