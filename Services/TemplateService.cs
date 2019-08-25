@@ -235,11 +235,16 @@ namespace RCB.TypeScript.Services
             }
             for (int i = 0; i < templateModel.FontList.Length; ++i)
             {
-                byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{templateModel.FontList[i]}.ttf");
-                String file = Convert.ToBase64String(AsBytes);
+                try {
+                    byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{templateModel.FontList[i]}.ttf");
+                    String file = Convert.ToBase64String(AsBytes);
 
-                string s = $"@font-face {{ font-family: '{templateModel.FontList[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
-                style += s;
+                    string s = $"@font-face {{ font-family: '{templateModel.FontList[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
+                    style += s;
+                } catch (Exception e) 
+                {
+                    
+                }
             }
 
             var template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", templateModel.AdditionalStyle);
