@@ -62,7 +62,15 @@ namespace RCB.TypeScript.Controllers
 
             await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2", model.Representative);
 
-            await designService.GenerateRepresentative(model, 656, 436, true, model.Type == "2", model.Representative2);
+            int width = 656;
+            int height = 436;
+            if (model.PrintType > 3)
+            {
+                width = (int)model.Width;
+                height = (int)model.Height;
+            }
+
+            await designService.GenerateRepresentative(model, width, height, true, model.Type == "2", model.Representative2);
 
             var result = TemplateService.Add(model);
 

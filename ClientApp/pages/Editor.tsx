@@ -20,6 +20,7 @@ import PosterReview from '@Components/editor/PosterReview';
 import TrifoldReview from '@Components/editor/TrifoldReview';
 import FlyerReview from '@Components/editor/FlyerReview';
 import BusinessCardReview from '@Components/editor/BusinessCardReview';
+import CanvasReview from '@Components/editor/CanvasReview';
 
 declare global {
   interface Window { paymentScope : any; }
@@ -32,6 +33,7 @@ enum SubType {
   FlyerReview = 1,
   PosterReview = 2,
   TrifoldReview = 3,
+  Logo = 4,
 }
 
 enum SidebarTab {
@@ -410,6 +412,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       } else if (subtype == 3) {
         rectWidth = 3174.8;
         rectHeight = 4490.08;
+      } else if (subtype == 4) {
+        rectWidth = 500;
+        rectHeight = 500;
       }
       var scaleX = (width - 100) / rectWidth;
       var scaleY = (height - 100) / rectHeight;
@@ -4816,6 +4821,14 @@ handleToolbarResize = e => {
 <PosterReview>
 { this.renderCanvas(true, 0)}
 </PosterReview>
+}
+{this.state.subtype > SubType.TrifoldReview && 
+  <CanvasReview
+    width={500}
+    height={500}
+  >
+  { this.renderCanvas(true, 0)}
+  </CanvasReview>
 }
 
 <div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
