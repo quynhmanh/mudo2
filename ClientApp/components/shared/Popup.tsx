@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';  
 import styled, {createGlobalStyle} from 'styled-components';
-
+import Loader from '@Components/shared/Loader';
 
 export interface IProps {
     text: string;
@@ -59,7 +59,7 @@ class Popup extends PureComponent<IProps, IState> {
    </div>
    {/* <div className="unblurred x-small___1lJKy leftSideLinkWrapper___BgN52"><span className="unblurred" >Visit our </span><a className="unblurred leftSideLink___1a3wo" href="https://support.crello.com" rel="external noopener noreferrer" target="_blank" data-categ="downloadModal" data-value="helpAndSupport">Help &amp; Support</a> <span className="unblurred">to get detailed answers</span></div> */}
 </div>                    </div>
-                    <div className="unblurred" style={{width: '100%'}}>
+                    <div className="unblurred" style={{width: '100%', position: 'relative'}}>
 
                     {!this.props.isDownload ? <div style={{
                         padding: '39px 40px',
@@ -96,7 +96,9 @@ class Popup extends PureComponent<IProps, IState> {
    style={{
       padding: '39px 40px',
   }}
-   className="unblurred"><h1 className="unblurred">Đang tải - phải mất vài giây đến 1 phút</h1></div>
+   className="unblurred"><h1 style={{textAlign: 'center'}} className="unblurred">Đang tải</h1>
+      <Loader className="unblurred" show={true} black={true}/>
+   </div>
                     }             
 </div>
                 </div>  

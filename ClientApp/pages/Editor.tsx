@@ -1432,7 +1432,7 @@ html {
     var self = this;
     this.doNoObjectSelected();
     this.setState(
-      { scale: 1, showPopup: true },
+      { scale: 1, showPopup: true, downloading: true, },
       () => {
         var aloCloned = document.getElementsByClassName("alo");
         var canvas = [];
@@ -1459,7 +1459,7 @@ html {
           responseType: 'blob',
         }).then(response =>{
             self.setState(
-              { scale: previousScale, showPopup: false }
+              { scale: previousScale, showPopup: false, downloading: false, }
             );
             console.log('response.data ', response.data);
             self.download(`test.${png ? "png" : "jpeg"}`, response.data);
