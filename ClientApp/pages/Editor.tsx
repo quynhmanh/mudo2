@@ -4995,6 +4995,7 @@ handleToolbarResize = e => {
                         handleDownloadPNGTransparent={this.downloadPNG.bind(this, true, true)}
                         handleDownloadPNG={this.downloadPNG.bind(this, false, true)}
                         handleDownloadPDFWithBleed={this.downloadPDF.bind(this, true)}
+                        isDownload={this.state.downloading}
                         closePopup={() => {this.setState({showPopup: false})}}  
               />  
         : null  
