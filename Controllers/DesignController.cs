@@ -207,11 +207,15 @@ namespace RCB.TypeScript.Controllers
                 string style = AppSettings.style;
                 for (int i = 0; i < oDownloadBody.Fonts.Length; ++i)
                 {
-                    byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{oDownloadBody.Fonts[i]}.ttf");
-                    String file = Convert.ToBase64String(AsBytes);
+                    try {
+                        byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{oDownloadBody.Fonts[i]}.ttf");
+                        String file = Convert.ToBase64String(AsBytes);
 
-                    string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
-                    style += s;
+                        string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
+                        style += s;
+                    } catch (Exception e) {
+                        
+                    }
                 }
 
                 string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
