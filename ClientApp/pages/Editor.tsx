@@ -21,6 +21,7 @@ import TrifoldReview from '@Components/editor/TrifoldReview';
 import FlyerReview from '@Components/editor/FlyerReview';
 import BusinessCardReview from '@Components/editor/BusinessCardReview';
 import CanvasReview from '@Components/editor/CanvasReview';
+import Globals from '@Globals';
 
 declare global {
   interface Window { paymentScope : any; }
@@ -3268,6 +3269,10 @@ handleToolbarResize = e => {
   render() {
     const { scale, staticGuides, rectWidth, rectHeight, images, cropMode, pages, } = this.state; 
 
+    console.log('Globals.serviceUser.username', Globals.serviceUser.username);
+
+    const adminEmail = "llaugusty@gmail.com"
+
     const fontColors = [
       "rgb(246, 218, 179)","rgb(201, 148, 114)","rgb(89, 61, 44)","rgb(74, 38, 21)","rgb(37, 25, 15)","rgb(115, 28, 44)","rgb(186, 32, 41)","rgb(226, 32, 46)","rgb(241, 93, 88)","rgb(246, 158, 173)","rgb(252, 196, 167)","rgb(249, 164, 86)","rgb(243, 115, 47)","rgb(206, 93, 40)","rgb(90, 43, 29)","rgb(67, 26, 23)","rgb(168, 31, 39)","rgb(239, 55, 50)","rgb(245, 143, 152)","rgb(247, 175, 183)","rgb(255, 221, 155)","rgb(253, 188, 79)","rgb(248, 153, 31)","rgb(217, 124, 39)","rgb(129, 73, 37)","rgb(72, 25, 40)","rgb(170, 29, 68)","rgb(235, 8, 140)","rgb(239, 117, 173)","rgb(246, 175, 206)","rgb(254, 246, 169)","rgb(255, 209, 120)","rgb(246, 179, 26)","rgb(249, 201, 39)","rgb(192, 127, 42)","rgb(64, 32, 82)","rgb(106, 52, 132)","rgb(119, 65, 152)","rgb(161, 130, 187)","rgb(177, 158, 204)","rgb(254, 244, 140)","rgb(252, 240, 93)","rgb(252, 238, 33)","rgb(206, 220, 40)","rgb(154, 168, 57)","rgb(33, 29, 77)","rgb(84, 39, 101)","rgb(80, 90, 168)","rgb(127, 127, 189)","rgb(158, 156, 205)","rgb(215, 231, 171)","rgb(200, 221, 108)","rgb(153, 204, 106)","rgb(136, 179, 63)","rgb(110, 134, 56)","rgb(31, 37, 85)","rgb(19, 75, 150)","rgb(6, 109, 181)","rgb(39, 174, 229)","rgb(138, 213, 247)","rgb(176, 218, 172)","rgb(84, 187, 111)","rgb(1, 176, 83)","rgb(1, 93, 49)","rgb(13, 63, 34)","rgb(0, 124, 143)","rgb(0, 169, 162)","rgb(54, 193, 208)","rgb(129, 207, 207)","rgb(151, 216, 224)","rgb(255, 255, 255)","rgb(137, 133, 134)","rgb(102, 99, 100)","rgb(84, 80, 80)","rgb(58, 56, 56)","rgb(52, 50, 50)","rgb(36, 36, 36)","rgb(31, 30, 30)","rgb(16, 19, 19)","rgb(0, 0, 0)"
     ];
@@ -3333,6 +3338,7 @@ handleToolbarResize = e => {
                 display: 'flex',
                 top: 0,
               }}>
+              { Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === "llaugusty@gmail.com" &&
               <button
                 className="toolbar-btn dropbtn-font"
                 onClick={this.saveImages.bind(this, null)}
@@ -3355,6 +3361,7 @@ handleToolbarResize = e => {
 </div>
 <span>Lưu</span>
               </button>
+              }
           <a
             onClick={(e) => {e.preventDefault(); this.setState({showPopup: true})}}
             href="#" style={{
@@ -3421,6 +3428,7 @@ handleToolbarResize = e => {
                 selectedTab={this.state.selectedTab}
                 onClick={this.handleSidebarSelectorClicked}
               /> }
+              {Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail &&
               <div
                     style={{
                       position: 'absolute',
@@ -3458,6 +3466,7 @@ handleToolbarResize = e => {
                       RemoveAll
                       </button>
                     </div>
+              }
               <div
                 id="sidebar-content"
                 style={{
@@ -3915,24 +3924,6 @@ handleToolbarResize = e => {
                   hasMore={false}
                   onLoadMore={this.loadMoreBackground}
                 >
-                  <input 
-                    id="background-file" 
-                    type="file"
-                    onLoad={(data) => {console.log('data ', data)}}
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                    }}
-                    />
-                  <button
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                    }}
-                    type="submit" 
-                    onClick={this.uploadBackground.bind(this)}>
-                      Upload
-                  </button> 
                   <div
                     id="image-container-picker"
                     style={{
@@ -4057,6 +4048,7 @@ handleToolbarResize = e => {
                           }} 
                           href="#" 
                           onClick={this.selectFont.bind(this, font.id)}>
+                            { Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == "llaugusty@gmail.com" &&
                             <button
                               style={{
                                 position: 'absolute',
@@ -4072,6 +4064,7 @@ handleToolbarResize = e => {
                 <svg width="16" height="16" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fill-rule="evenodd"></use></svg>
                             </span>
                             </button>
+                            }
                             <img 
                               style={{
                                 height: '25px',
@@ -4832,7 +4825,7 @@ handleToolbarResize = e => {
 }
 
 <div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
-        <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">What size?</label>
+        <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Kích thước</label>
         <div className>
           <button style={{width: '100%'}} type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf _3VMFhjcT1YTNCBfgY43AoL"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">A3</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
           </button>
@@ -4840,7 +4833,7 @@ handleToolbarResize = e => {
       </div>
 
       <div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
-        <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Select your print options</label>
+        <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Thông tin khác:</label>
         <div className>
           <button style={{width: '100%'}} type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf _3VMFhjcT1YTNCBfgY43AoL"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">A3</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
           </button>
@@ -4850,7 +4843,7 @@ handleToolbarResize = e => {
 
       <div className="_3YDCW8EBZnxTRa5xT7gtHk _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88"><span className="_17Olod74EUtMOOpeHSF9RO _3K8w6l0jetB1VHftQo2qK6 _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z" /></svg></span>
         <div className="fe5UvoRC9ZkGGo1SwMSHH">
-          <div className="YOoVgTXLDk_wFPeE7Lehj">100% Happiness Guarantee</div><span className="_19yfLwKwDEYdDKh0ixOgNB _1YRea3--8x2Rm7RqKumWGQ">If you're not happy with your order contact us and we'll make it right! <a href="https://support.canva.com/canva-print/print-customer-service-policy/print-customer-happiness-policy/" target="_blank" rel="noopener">More</a></span></div>
+          <div className="YOoVgTXLDk_wFPeE7Lehj">100% Đảm bảo hài lòng</div><span className="_19yfLwKwDEYdDKh0ixOgNB _1YRea3--8x2Rm7RqKumWGQ">Nếu bạn không hài lòng với món hàng bạn nhận được. Chúng tôi sẽ làm nó hài lòng với bạn. <a href="https://support.canva.com/canva-print/print-customer-service-policy/print-customer-happiness-policy/" target="_blank" rel="noopener">More</a></span></div>
       </div>
 
         </div> }

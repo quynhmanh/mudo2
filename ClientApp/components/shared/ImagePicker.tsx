@@ -1,5 +1,6 @@
 import React, {PureComponent, Fragment, isValidElement} from "react";
 import styled from 'styled-components';
+import Globals from '@Globals';
 
 export interface IProps {
     src: string;
@@ -33,6 +34,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
         // loaded = Boolean(Math.round(Math.random() % 2));
         return (
           <Container>
+            {Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === "llaugusty@gmail.com" &&
             <button
               style={{
                 position: 'absolute',
@@ -48,6 +50,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 <svg width="16" height="16" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fill-rule="evenodd"></use></svg>
             </span>
             </button>
+            }
             {loaded ? null :
               <img
                 style={{

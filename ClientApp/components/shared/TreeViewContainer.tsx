@@ -1082,6 +1082,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                     style={{
                         width: '350px',
                         borderRadius: '5px',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
                     }} 
                     src={template.representative2} />
                 <p style={{margin: 0, padding: '5px', color: 'black', fontWeight: 700,}}>{template.firstName}</p>
@@ -1098,6 +1099,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                     style={{
                         width: '350px',
                         borderRadius: '5px',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
                     }} 
                     src={template.representative2} />
                 <p style={{margin: 0, padding: '5px', color: 'black', fontWeight: 700,}}>{template.firstName}</p>
