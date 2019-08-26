@@ -284,131 +284,131 @@ var tree = [
     },
     {
         title: "Áp phích",
-        path: '/templates/envelopes',
+        path: '/templates/poster',
         childs: [
             {
                 title: "Agriculture",
-                path: "/templates/envelopes/agriculture",
+                path: "/templates/poster/agriculture",
             },
             {
                 title: "Automotive & Transportation",
-                path: "/templates/envelopes/automotive-transportation",
+                path: "/templates/poster/automotive-transportation",
             },
             {
                 title: "Beauty",
-                path: "/templates/envelopes/beauty",
+                path: "/templates/poster/beauty",
             },
             {
                 title: "Blank Brochures",
-                path: "/templates/envelopes/bland-brochures",
+                path: "/templates/poster/bland-brochures",
             },
             {
                 title: "Business Services",
-                path: "/templates/envelopes/business-services",
+                path: "/templates/poster/business-services",
             },
             {
                 title: "Child Care",
-                path: "/templates/envelopes/child-care",
+                path: "/templates/poster/child-care",
             },
             {
                 title: "Cleaning",
-                path: "/templates/envelopes/cleaning",
+                path: "/templates/poster/cleaning",
             },
             {
                 title: "Construction",
-                path: "/templates/envelopes/construction",
+                path: "/templates/poster/construction",
             },
             {
                 title: "Creative",
-                path: "/templates/envelopes/creative",
+                path: "/templates/poster/creative",
             },
             {
                 title: "Education & Training",
-                path: "/templates/envelopes/education-training",
+                path: "/templates/poster/education-training",
             },
             {
                 title: "Energy & Environment",
-                path: "/templates/envelopes/energy-environment",
+                path: "/templates/poster/energy-environment",
             },
             {
                 title: "Event",
-                path: "/templates/envelopes/event",
+                path: "/templates/poster/event",
             },
             {
                 title: "Financial Services",
-                path: "/templates/envelopes/financial-services",
+                path: "/templates/poster/financial-services",
             },
             {
                 title: "Food & Beverage",
-                path: "/templates/envelopes/food-beverage",
+                path: "/templates/poster/food-beverage",
             },
             {
                 title: "Generic Brochures",
-                path: "/templates/envelopes/generic-brochures",
+                path: "/templates/poster/generic-brochures",
             },
             {
                 title: "Holiday",
-                path: "/templates/envelopes/holiday",
+                path: "/templates/poster/holiday",
             },
             {
                 title: "House & Home",
-                path: "/templates/envelopes/house-home",
+                path: "/templates/poster/house-home",
             },
             {
                 title: "Insurance",
-                path: "/templates/envelopes/insurance",
+                path: "/templates/poster/insurance",
             },
             {
                 title: "Law",
-                path: "/templates/envelopes/law",
+                path: "/templates/poster/law",
             },
             {
                 title: "Lawn & Garden",
-                path: "/templates/envelopes/law-garden",
+                path: "/templates/poster/law-garden",
             },
             {
                 title: "Medical & Health Care",
-                path: "/templates/envelopes/medical-healthcare",
+                path: "/templates/poster/medical-healthcare",
             },
             {
                 title: "Music & Arts",
-                path: "/templates/envelopes/music-arts",
+                path: "/templates/poster/music-arts",
             },
             {
                 title: "Non Profit",
-                path: "/templates/envelopes/non-profit",
+                path: "/templates/poster/non-profit",
             },
             {
                 title: "Pets & Animals",
-                path: "/templates/envelopes/pets-animals",
+                path: "/templates/poster/pets-animals",
             },
             {
                 title: "Photography",
-                path: "/templates/envelopes/photography",
+                path: "/templates/poster/photography",
             },
             {
                 title: "Real Estate",
-                path: "/templates/envelopes/real-estate",
+                path: "/templates/poster/real-estate",
             },
             {
                 title: "Religion & Organizations",
-                path: "/templates/envelopes/religion-organization",
+                path: "/templates/poster/religion-organization",
             },
             {
                 title: "Retail",
-                path: "/templates/envelopes/retail",
+                path: "/templates/poster/retail",
             },
             {
                 title: "Sports & Wellness",
-                path: "/templates/envelopes/sports-wellness",
+                path: "/templates/poster/sports-wellness",
             },
             {
                 title: "Technology",
-                path: "/templates/envelopes/technology",
+                path: "/templates/poster/technology",
             },
             {
                 title: "Travel & Tourism",
-                path: "/templates/envelopes/travel-tourism",
+                path: "/templates/poster/travel-tourism",
             },
         ],
     },
@@ -1038,6 +1038,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                 borderRadius: '.3125rem',
                 width: '350px',
                 minHeight: '600px',
+                minWidth: '200px',
             }} 
             >
                 {tree.map(ele => 
