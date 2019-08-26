@@ -45,12 +45,15 @@ export interface InfiniteScrollProps {
   height: string;
 
   scroll: boolean;
+
+  loaderBlack: boolean;
 }
 
 export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}> {
-  public static defaultProps: Pick<InfiniteScrollProps, 'threshold' | 'throttle'> = {
+  public static defaultProps: Pick<InfiniteScrollProps, 'threshold' | 'throttle' | 'loaderBlack'> = {
     threshold: 100,
     throttle: 64,
+    loaderBlack: false,
   };
   private sentinel: HTMLDivElement;
   private containerSroll: HTMLDivElement;
@@ -100,6 +103,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
   }
 
   render() {
+    console.log('this.props.loaderBlack', this.props.loaderBlack)
     const sentinel = <div ref={i => {this.sentinel = i}} />;
     if(this.props.render) {
       return this.props.render({
@@ -120,7 +124,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     return (
       <div id="object-container" ref={i => this.containerSroll = i} style={{height: this.props.height, overflow: this.props.scroll && 'scroll',}}>
         {this.props.children}
-        {this.props.hasMore && <div style={{marginBottom: '10px', height: '10%', color: 'white', position: 'relative'}} ref={i => this.sentinel = i}><Loader show={true} black={false} /></div>}
+        {this.props.hasMore && <div style={{marginBottom: '10px', height: '10%', color: 'white', position: 'relative'}} ref={i => this.sentinel = i}><Loader show={true} black={this.props.loaderBlack} /></div>}
       </div>
     );
   }

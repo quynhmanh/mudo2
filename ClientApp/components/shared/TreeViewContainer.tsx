@@ -1067,6 +1067,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                     hasMore={this.state.hasMoreImage}
                     onLoadMore={this.loadMore.bind(this, false, this.props.filePath)}
                     height='100%'
+                    loaderBlack={true}
                   >
                     <div id="image-container-picker" style={{justifyContent: 'space-around', display: 'flex', padding: '0px 5px 10px 0px',}}>
                     <div
