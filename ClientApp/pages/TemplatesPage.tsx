@@ -17,7 +17,7 @@ export default class TemplatesPage extends React.Component<Props, {textTemplates
     render() {
         return <div>
             <Helmet>
-                <title>Home page - RCB (TypeScript)</title>
+                <title>Mẫu thiết kế</title>
             </Helmet>
             <div className="container-content">
         <div style={{display: 'flex'}} className="container">

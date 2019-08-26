@@ -22,6 +22,7 @@ import FlyerReview from '@Components/editor/FlyerReview';
 import BusinessCardReview from '@Components/editor/BusinessCardReview';
 import CanvasReview from '@Components/editor/CanvasReview';
 import Globals from '@Globals';
+import { Helmet } from "react-helmet";
 
 declare global {
   interface Window { paymentScope : any; }
@@ -3287,6 +3288,9 @@ handleToolbarResize = e => {
         id="editor"
         style={{ display: "flex", flexDirection: "column", height: "100%" }}
       >
+        <Helmet>
+            <title>Thiết kế</title>
+        </Helmet>
         <div
           id='editor-navbar'
           style={{

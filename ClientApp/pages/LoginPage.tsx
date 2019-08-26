@@ -169,7 +169,7 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
         }}>
 
             <Helmet>
-                <title>Login page - RCB (TypeScript)</title>
+                <title>Đăng nhập</title>
             </Helmet>
             
             {/* <Loader ref={x => this.elLoader = x} show={this.props.indicators.operationLoading} /> */}
