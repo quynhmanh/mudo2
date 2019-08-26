@@ -134,5 +134,14 @@ namespace RCB.TypeScript.Controllers
         {
             return Json(FontService.Search(term, page, perPage));
         }
+
+        [HttpDelete("[action]")]
+        public IActionResult Delete([FromQuery]string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest($"{nameof(id)} is not filled.");
+            var result = FontService.Delete(id);
+            return Json(result);
+        }
     }
 }

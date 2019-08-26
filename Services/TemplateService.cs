@@ -27,7 +27,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "")
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
             var client = new ElasticClient(settings);
             string query = $"type:{type}";
@@ -52,7 +52,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<ResultSearchAngAggregate> SearchAngAggregate(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "")
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
             var client = new ElasticClient(settings);
 
@@ -104,7 +104,7 @@ namespace RCB.TypeScript.Services
             //}
             //return Ok(_templateContext.Templates.Where(template => template.Id == id).First());
 
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template");
             var client = new ElasticClient(settings);
 
@@ -118,7 +118,7 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error<string>();
 
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
@@ -132,7 +132,7 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error();
 
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template");
             var client = new ElasticClient(settings);
 
@@ -159,7 +159,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Infrastructure.Result Delete(string id)
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template");
             var client = new ElasticClient(settings);
 
@@ -170,7 +170,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Infrastructure.Result UpdateRepresentative(string id, string filePath)
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template");
             var client = new ElasticClient(settings);
 
@@ -192,7 +192,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> RemoveAll()
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template");
             var client = new ElasticClient(settings);
 
@@ -202,7 +202,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> Edit(TemplateModel model)
         {
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template");
             var client = new ElasticClient(settings);
 
@@ -235,11 +235,16 @@ namespace RCB.TypeScript.Services
             }
             for (int i = 0; i < templateModel.FontList.Length; ++i)
             {
-                byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{templateModel.FontList[i]}.ttf");
-                String file = Convert.ToBase64String(AsBytes);
+                try {
+                    byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{templateModel.FontList[i]}.ttf");
+                    String file = Convert.ToBase64String(AsBytes);
 
-                string s = $"@font-face {{ font-family: '{templateModel.FontList[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
-                style += s;
+                    string s = $"@font-face {{ font-family: '{templateModel.FontList[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
+                    style += s;
+                } catch (Exception e) 
+                {
+                    
+                }
             }
 
             var template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", templateModel.AdditionalStyle);

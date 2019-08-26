@@ -43,7 +43,7 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error<string>();
 
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://192.168.0.1:9200");
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
@@ -63,7 +63,7 @@ namespace RCB.TypeScript.Services
             design.Representative = filePath;
             _designContext.SaveChanges();
 
-            var node = new Uri("http://localhost:9200");
+            var node = new Uri("http://192.168.0.1:9200");
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
