@@ -103,11 +103,18 @@ namespace RCB.TypeScript.Controllers
                     for (var i = 0; i < canvas.Length; ++i)
                     {
                         var html = template.Replace("[CANVAS]", canvas[i]);
-                        byte[] bytes = Encoding.ASCII.GetBytes(html);
-                        using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
+                        try
                         {
-                            htmlFile.Write(bytes, 0, bytes.Length);
-                            htmlFile.Flush();
+                            byte[] bytes = Encoding.ASCII.GetBytes(html);
+                            using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
+                            {
+                                htmlFile.Write(bytes, 0, bytes.Length);
+                                htmlFile.Flush();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+
                         }
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
