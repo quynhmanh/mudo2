@@ -10,6 +10,7 @@ export interface IProps {
     handleDownloadPNGTransparent: any;
     handleDownloadPDFWithBleed: any;
     handleDownloadJPG: any;
+    isDownload: boolean;
   }
   
   interface IState {
@@ -60,7 +61,7 @@ class Popup extends PureComponent<IProps, IState> {
 </div>                    </div>
                     <div className="unblurred" style={{width: '100%'}}>
 
-                    <div style={{
+                    {!this.props.isDownload ? <div style={{
                         padding: '39px 40px',
                     }} className="unblurred content___2kbkg">
    <h4 className="unblurred defaultTitle___37St1 large___2DVhe geometria-medium___3wRqs">Tải bản thiết kế</h4>
@@ -91,7 +92,13 @@ class Popup extends PureComponent<IProps, IState> {
          </svg>
       </button>
    </div>
-</div>                    </div>
+</div>  : <div
+   style={{
+      padding: '39px 40px',
+  }}
+   className="unblurred"><h1 className="unblurred">Đang tải - phải mất vài giây đến 1 phút</h1></div>
+                    }             
+</div>
                 </div>  
             </PopupWrapper>
         );  
