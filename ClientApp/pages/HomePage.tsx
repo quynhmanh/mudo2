@@ -117,7 +117,7 @@ export default class HomePage extends React.Component<IProps, IState> {
           margin: 'auto',
           padding: 0,
           backgroundColor: 'white',
-          height: '200px',
+          height: '214px',
           overflow: 'scroll',
           borderRadius: '5px',
         }}
