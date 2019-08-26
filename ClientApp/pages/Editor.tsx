@@ -200,7 +200,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             resizingInnerImage: false,
             childId: null,
             fontId: "pxpokApm3Ei8KUEgIAEqUg",
-            fontName: "images/b96c0021-3a74-4a4a-9dd0-35f0e8351cdf.png",
+            fontName: "images/833bdf3b-7c22-4e79-9b0a-eece6711eacd.png",
             isSaving: false,
             showPopup: false,
             showMediaEditingPopup: false,
