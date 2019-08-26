@@ -41,5 +41,17 @@ namespace RCB.TypeScript.Services
             var res2 = new KeyValuePair<List<FontModel>, int>(res.Documents.ToList(), res.Documents.Count);
             return Ok(res2);
         }
+
+        public virtual Infrastructure.Result Delete(string id)
+        {
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("font");
+            var client = new ElasticClient(settings);
+
+            var getResponse = client.Delete<TemplateModel>(id);
+
+            return Ok();
+        }
+
     }
 }
