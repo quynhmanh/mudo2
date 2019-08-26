@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
+using RCB.TypeScript.dbcontext;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -16,11 +17,14 @@ namespace RCB.TypeScript.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private UserService _userService { get; }
+        private readonly UserService _userService;
+        private readonly ITokenService _tokenService;
+        
 
-        public UserController(UserService userService)
+        public UserController(UserService userService, ITokenService tokenService)
         {
             _userService = userService;
+            _tokenService = tokenService;
         }
 
         [AllowAnonymous]
@@ -133,7 +137,7 @@ namespace RCB.TypeScript.Controllers
             JObject json = JObject.Parse(result);
             if (result.Contains("email")) {
                 string email = (string) json.GetValue("email");
-                return Ok(new User { Username = email, Token = _userService.GenerateJWTToken(email) });
+                return Ok(_userService.Login(HttpContext, email, null));
             }
 
             return BadRequest(new { message = "Invalid Access Token!" });
@@ -186,7 +190,7 @@ namespace RCB.TypeScript.Controllers
                 string email = (string)data.GetValue("email");
                 if (aud.Equals(CLIENT_ID))
                 {
-                    return Ok(new User { Username = email, Token = _userService.GenerateJWTToken(email) });
+                    return Ok(_userService.Login(HttpContext, email, null));
                 }
             }
 
