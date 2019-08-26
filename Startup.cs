@@ -43,7 +43,7 @@ namespace RCB.TypeScript
                 );
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddNodeServices();
-            services.AddSpaPrerenderer();
+            //services.AddSpaPrerenderer();
 
             // Add your own services here.
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
