@@ -1227,13 +1227,14 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var defaultColor = 'black';
     var font;
     var fontSize;
-    var el = document.getElementById(img._id);
+    var el = document.getElementById(img._id).getElementsByTagName("font")[0];
     if (el) {
       defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
       font = window.getComputedStyle(el, null).getPropertyValue("font-family");
       fontSize = window.getComputedStyle(el, null).getPropertyValue("font-size");
       fontSize = parseInt(fontSize.substring(0, fontSize.length)) * scaleY;
     }
+    console.log('font ', font)
     this.handleFontFamilyChange(font);
     this.handleFontColorChange(defaultColor);
     this.setState({fontSize});
