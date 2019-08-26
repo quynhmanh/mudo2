@@ -30,7 +30,12 @@ namespace RCB.TypeScript.Services
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
             var client = new ElasticClient(settings);
-            string query = $"type:{type} AND printType:{printType}";
+            string query = $"type:{type}";
+
+            if (printType != null && printType.Length > 0)
+            {
+                query = query + $" AND printType:{printType}";
+            }
 
             var res = client.Search<TemplateModel>(s => s.
                 Query(q => q.QueryString(d => d.Query(query)))
