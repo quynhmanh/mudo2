@@ -3095,11 +3095,14 @@ handleToolbarResize = e => {
   }
 
   renderCanvas(preview, index) {
+    console.log('preview ', preview, 'index ', index)
     var res = [];
     for (var i = 0; i < this.state.pages.length; ++i) {
-      if (index && i != index) {
+      if (index >= 0 && i != index) {
         continue;
       }
+
+      console.log('iiiiii ', i);
       res.push(<Canvas
         isSaving={this.state.isSaving}
         downloading={this.state.downloading}
