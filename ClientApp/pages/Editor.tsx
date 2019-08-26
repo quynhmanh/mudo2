@@ -9,6 +9,7 @@ import StyledComponent from 'styled-components';
 import Popup from '@Components/shared/Popup';
 import MediaEditPopup from '@Components/editor/MediaEditor';
 import TemplateEditor from '@Components/editor/TemplateEditor';
+import FontEditPopup from '@Components/editor/FontEditor';
 import { object, any } from "prop-types";
 import Canvas from '@Components/editor/Canvas';
 import MathJax from 'react-mathjax2'
@@ -146,8 +147,10 @@ interface IState {
   currentBackgroundHeights2: number,
   currentBackgroundHeights3: number,
   editingMedia: any;
+  editingFont: any;
   showMediaEditPopup: boolean;
   showTemplateEditPopup: boolean;
+  showFontEditPopup: boolean;
   videos: any;
   hasMoreBackgrounds: boolean;
   typeObjectSelected: TemplateType;
@@ -248,6 +251,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             currentBackgroundHeights2: 0,
             currentBackgroundHeights3: 0,
             editingMedia: null,
+            editingFont: null,
             showTemplateEditPopup: false,
             videos: [
               'https://dl5.webmfiles.org/big-buck-bunny_trailer.webm',
@@ -267,13 +271,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   timer = null;
   $container = null;
 
-  componentDidMount() {
-
-    this.loadMore(true);
-    this.loadMoreFont(true);
-    this.loadMoreTextTemplate(true);
-    this.loadMoreTemplate(true);
-    this.loadMoreBackground(true);
+  async componentDidMount() {
 
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
@@ -301,13 +299,14 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       fitScale, 
     });
     var self = this;
+    var subtype;
     var template_id = this.props.match.params.template_id;
     console.log('props ', this.props)
     if (template_id) {
 
       var url = `/api/Template/Get?id=${template_id}`;
 
-      axios.get(url).then(res => {
+      await axios.get(url).then(res => {
         if (res.data.errors.length > 0) {
           throw new Error(res.data.errors.join("\n"));
         }
@@ -369,7 +368,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         }
 
         console.log('document ', res);
-        
+        subtype = res.data.value.printType;
         self.setState({ 
           scale: Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY),
           staticGuides,
@@ -393,9 +392,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       })
     }
 
-    var subtype = this.props.match.params.subtype;
     console.log('subtype ', subtype);
-    if (subtype) {
+    if (this.props.match.params.subtype) {
+      subtype = this.props.match.params.subtype;
       var rectWidth;
       var rectHeight;
       if (subtype == 0) {
@@ -423,6 +422,14 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       });
     }
 
+    console.log('this.state.subtype ', subtype);
+
+    this.loadMore.bind(this)(true);
+    this.loadMoreFont(true);
+    this.loadMoreTextTemplate(true);
+    this.loadMoreTemplate.bind(this)(true, subtype);
+    this.loadMoreBackground(true);
+
     document.addEventListener("keydown", this.removeImage.bind(this));
   }
 
@@ -434,6 +441,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   handleEditmedia = (item) => {
     this.setState({showMediaEditPopup: true, editingMedia: item})
+  }
+
+  handleEditFont = (item) => {
+    console.log('handleEditFont ');
+    this.setState({showFontEditPopup: true, editingFont: item})
   }
 
   handleResizeStart = (startX: number, startY: number) => {
@@ -2615,6 +2627,7 @@ handleToolbarResize = e => {
   }
 
   uploadImage = (type, e) => {
+    console.log('selectedTab ', this.state.selectedTab);
     var self = this;``
     var fileUploader = document.getElementById("image-file") as HTMLInputElement;
     var file = fileUploader.files[0];
@@ -2647,8 +2660,9 @@ handleToolbarResize = e => {
 }
 
   uploadFont = (e) => {
+    console.log('uploadFont ');
     var self = this;``
-    var fileUploader = document.getElementById("font-file") as HTMLInputElement;
+    var fileUploader = document.getElementById("image-file") as HTMLInputElement;
     var file = fileUploader.files[0];
     var fr = new FileReader();
     fr.readAsDataURL(file);
@@ -2922,7 +2936,7 @@ handleToolbarResize = e => {
     )
   }
 
-  loadMoreTemplate = (initalLoad) => {
+  loadMoreTemplate = (initalLoad, subtype) => {
     console.log('loadMoreTextTemplate')
     let pageId;
     let count;
@@ -2934,7 +2948,7 @@ handleToolbarResize = e => {
       count = 5;
     }
     // this.setState({ isLoading: true, error: undefined });
-    const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}`;
+    const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype ? subtype : this.state.subtype}`;
     console.log('url ', url);
     fetch(url)
       .then(res => res.json())
@@ -3424,7 +3438,10 @@ handleToolbarResize = e => {
                         bottom: 0,
                       }}
                       type="submit" 
-                      onClick={this.uploadImage.bind(this, this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : TemplateType.BackgroundImage)}>
+                      onClick={
+                        this.state.selectedTab === SidebarTab.Font ? 
+                        this.uploadFont.bind(this) :
+                        this.uploadImage.bind(this, this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : TemplateType.BackgroundImage)}>
                         Upload
                     </button>
                     <button
@@ -3808,7 +3825,7 @@ handleToolbarResize = e => {
                       threshold={300}
                       isLoading={this.state.isLoading}
                       hasMore={this.state.hasMoreTemplate}
-                      onLoadMore={this.loadMoreTemplate}
+                      onLoadMore={this.loadMoreTemplate.bind(this)}
                       height='100%'
                       onEdit={null}
                     >
@@ -3973,15 +3990,6 @@ handleToolbarResize = e => {
                     }}
                   >
                     <div
-                      style={{
-                        position: 'absolute',
-                        zIndex: 123,
-                      }}
-                    >
-                      <input id="font-file" type="file"/>
-                      <button type="submit" onClick={this.uploadFont.bind(this)}>Upload</button> 
-                    </div>
-                    <div
                     style={{
                     }}>
                       
@@ -4036,14 +4044,6 @@ handleToolbarResize = e => {
                       }}
                     >
                       {this.state.fontsList.map((font, key) => (
-                        // <ImagePicker
-                        //   key={key}
-                        //   color={item.color}
-                        //   src={item.representative}
-                        //   height={50}
-                        //   className=""
-                        //   onPick={this.imgOnMouseDown.bind(this)}
-                        // />
                         <a 
                           className="font-picker"
                           style={{
@@ -4051,12 +4051,28 @@ handleToolbarResize = e => {
                             position: 'relative',
                           }} 
                           href="#" 
-                          onClick={this.selectFont.bind(this, font.id)}><img 
-                          style={{
-                            height: '25px',
-                            margin: 'auto',
-                          }} src={font.representative} />
-                          {this.state.fontId === font.id ? <span style={{position: 'absolute', float: 'right', width: '25px', height: '25px', right: '10px'}}><svg style={{fill: 'white'}} version="1.1" viewBox="0 0 44 44" enable-background="new 0 0 44 44">
+                          onClick={this.selectFont.bind(this, font.id)}>
+                            <button
+                              style={{
+                                position: 'absolute',
+                                top: '5px',
+                                left: '5px',
+                                borderRadius: '13px',
+                                border: 'none',
+                                padding: '0 4px',
+                                boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+                              }}
+                              onClick={this.handleEditFont.bind(this, font)}
+                            ><span>
+                <svg width="16" height="16" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fill-rule="evenodd"></use></svg>
+                            </span>
+                            </button>
+                            <img 
+                              style={{
+                                height: '25px',
+                                margin: 'auto',
+                              }} src={font.representative} />
+                              {this.state.fontId === font.id ? <span style={{position: 'absolute', float: 'right', width: '25px', height: '25px', right: '10px'}}><svg style={{fill: 'white'}} version="1.1" viewBox="0 0 44 44" enable-background="new 0 0 44 44">
   <path d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"/>
 </svg></span> : null}
                           </a>
@@ -4983,6 +4999,12 @@ handleToolbarResize = e => {
           <TemplateEditor
           item={this.state.editingMedia}
           closePopup={() => {console.log('asd'); this.setState({showTemplateEditPopup: false})}}  
+          /> : null
+        }
+        {this.state.showFontEditPopup ?
+          <FontEditPopup
+          item={this.state.editingFont}
+          closePopup={() => {console.log('asd'); this.setState({showFontEditPopup: false})}}  
           /> : null
         } 
       </div>

@@ -25,12 +25,12 @@ namespace RCB.TypeScript.Services
             HostingEnvironment = hostingEnvironment;
         }
 
-        public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "")
+        public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "", string printType = "")
         {
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
             var client = new ElasticClient(settings);
-            string query = $"type:{type}";
+            string query = $"type:{type} AND printType:{printType}";
 
             var res = client.Search<TemplateModel>(s => s.
                 Query(q => q.QueryString(d => d.Query(query)))

@@ -31,9 +31,9 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult Search([FromQuery]string type = null, [FromQuery]int page = 1, [FromQuery]int perPage = 1)
+        public IActionResult Search([FromQuery]string type = null, [FromQuery]int page = 1, [FromQuery]int perPage = 1, [FromQuery]string printType = "")
         {
-            return Json(TemplateService.Search(type, page, perPage));
+            return Json(TemplateService.Search(type, page, perPage, printType: printType));
         }
 
         [HttpGet("[action]")]
