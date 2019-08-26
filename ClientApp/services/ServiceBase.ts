@@ -52,6 +52,16 @@ export abstract class ServiceBase {
             }
         }
 
+        if (opts.data.token) {
+            axiosRequestConfig = {
+                ...axiosRequestConfig,
+                headers: {
+                    Authorization: `Bearer ${opts.data.token}`
+                }
+            }
+            opts.data.token = null
+        }
+
         try {
             switch (opts.method) {
                 case "GET":

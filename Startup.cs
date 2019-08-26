@@ -15,7 +15,10 @@ using RCB.TypeScript.Extensions.Microsoft.Extensions.DependencyInjection;
 using RCB.TypeScript.Infrastructure;
 using RCB.TypeScript.Services;
 using Serilog;
-using WebApi.Services;
+using RCB.TypeScript.Models;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace RCB.TypeScript
 {
@@ -43,8 +46,28 @@ namespace RCB.TypeScript
             services.AddSpaPrerenderer();
 
             // Add your own services here.
-            services.AddScoped<AccountService>();
-            services.AddScoped<PersonService>();
+            services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
+            var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
+            var secret = Encoding.ASCII.GetBytes(token.Secret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey =  new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                    ValidIssuer = token.Issuer,
+                    ValidAudience = token.Audience,
+                    ValidateIssuer = true,
+                    ValidateAudience = true
+                };
+            });
 
             services
                 .AddScoped<TemplateService>()
@@ -83,32 +106,25 @@ namespace RCB.TypeScript
                     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")))
                 .BuildServiceProvider();
 
-
-            services.AddScoped<IUserService, UserService>();
-
-            services.AddAuthentication()
-            .AddGoogle(options =>
-            {
-                IConfigurationSection googleAuthNSection =
-                    Configuration.GetSection("Authentication:Google");
-
-                options.ClientId = googleAuthNSection["ClientId"];
-                options.ClientSecret = googleAuthNSection["ClientSecret"];
-            });
+            services
+                .AddScoped<UserService>()
+                .AddDbContext<UserContext>(options => 
+                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")))
+                .BuildServiceProvider();
 
             return services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+        {   
             app.UseMiddleware<ExceptionMiddleware>();
 
             // Build your own authorization system or use Identity.
             app.Use(async (context, next) =>
             {
-                var accountService = (AccountService)context.RequestServices.GetService(typeof(AccountService));
-                var verifyResult = accountService.Verify(context);
+                var userService = (UserService)context.RequestServices.GetService(typeof(UserService));
+                var verifyResult = userService.Verify(context);
                 if (!verifyResult.HasErrors)
                 {
                     context.Items.Add(Constants.HttpContextServiceUserItemKey, verifyResult.Value);
@@ -129,6 +145,9 @@ namespace RCB.TypeScript
             {
                 app.UseExceptionHandler("/Main/Error");
             }
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 

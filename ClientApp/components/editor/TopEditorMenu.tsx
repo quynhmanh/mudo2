@@ -55,7 +55,7 @@ class TopEditorMenu extends React.Component<{}, { logoutAction: boolean }> {
                         <li><NavLink exact to={'/editor'} activeClassName="active">Resize</NavLink></li>
                         <li className="dropdown">
                             <a href="#" ref={x => this.elDropdown = x} className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                {Globals.serviceUser.login}&nbsp;
+                                {Globals.serviceUser.username}&nbsp;
                                 <span className="caret"></span>
                             </a>
                             <ul className="dropdown-menu">

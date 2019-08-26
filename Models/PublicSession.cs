@@ -6,6 +6,6 @@
     /// </summary>
     public class PublicSession
     {
-        public ServiceUser ServiceUser { get; set; }
+        public User ServiceUser { get; set; }
     }
 }

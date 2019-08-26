@@ -1,3 +1,4 @@
 ﻿export interface IServiceUser {
-    login: string;
+    username: string;
+    token: string;
 }

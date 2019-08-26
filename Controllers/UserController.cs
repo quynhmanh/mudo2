@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using WebApi.Services;
 using System.Collections.Specialized;
 using System.Web;
 using System.Net.Http;
@@ -8,31 +7,39 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RCB.TypeScript.Models;
+using RCB.TypeScript.Services;
 
 namespace RCB.TypeScript.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : Controller
+    public class UserController : Controller
     {
-        private IUserService _userService;
+        private UserService _userService { get; }
 
-        public UsersController(IUserService userService)
+        public UserController(UserService userService)
         {
             _userService = userService;
         }
 
         [AllowAnonymous]
-        [HttpPost("~/users/authenticate")]
-        public IActionResult Authenticate([FromBody]User userParam)
+        [HttpPost("[action]")]
+        public IActionResult Login([FromBody]User userParam)
         {
-            var user = _userService.Authenticate(userParam.Username, userParam.Password);
+            var user = _userService.Login(HttpContext, userParam.Username, userParam.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 
-            return Ok(user);
+            return Ok(new { value = user });
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult Logout()
+        {
+            var result = _userService.Logout(HttpContext);
+            return Json(result);
         }
 
         [AllowAnonymous]
@@ -125,7 +132,8 @@ namespace RCB.TypeScript.Controllers
 
             JObject json = JObject.Parse(result);
             if (result.Contains("email")) {
-                return Ok(new User { Username = (string) json.GetValue("email") });
+                string email = (string) json.GetValue("email");
+                return Ok(new User { Username = email, Token = _userService.GenerateJWTToken(email) });
             }
 
             return BadRequest(new { message = "Invalid Access Token!" });
@@ -178,7 +186,7 @@ namespace RCB.TypeScript.Controllers
                 string email = (string)data.GetValue("email");
                 if (aud.Equals(CLIENT_ID))
                 {
-                    return Ok(new User { Username = email });
+                    return Ok(new User { Username = email, Token = _userService.GenerateJWTToken(email) });
                 }
             }
 

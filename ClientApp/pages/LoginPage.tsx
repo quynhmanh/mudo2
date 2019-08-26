@@ -137,7 +137,7 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
 
     onLoginSuccess = async user => {
         var a = {
-            login: user.username,
+            username: user.username,
             password: "fuck fuck",
         }
 
@@ -213,7 +213,7 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                 <Form ref={x => this.elForm = x}>
                     <div className="form-group">
                         <label htmlFor="inputLogin">Địa chỉ email</label>
-                        <input type="text" name={nameof<ILoginModel>(x=>x.login)} data-value-type="string" className="form-control" id="inputLogin" data-val-required="true" data-msg-required="Login is required." />
+                        <input type="text" name={nameof<ILoginModel>(x=>x.username)} data-value-type="string" className="form-control" id="inputLogin" data-val-required="true" data-msg-required="Login is required." />
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputLogin">Mật khẩu</label>

@@ -92,12 +92,12 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     	
     <Exec Command="npm install" />
-    <Exec Command="npm run build:prod" ContinueOnError="true"/>
+    <Exec Command="npm run build:prod" ContinueOnError="true" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
       <DistFiles Include="wwwroot\dist\**; ClientApp\dist\**" Exclude="wwwroot\dist\production_build" />
-      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>

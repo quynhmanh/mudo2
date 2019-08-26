@@ -1,5 +1,5 @@
 ﻿export interface ILoginModel {
-    login: string;
+    username: string;
     password: string;
     rememberMe?: boolean;
 }

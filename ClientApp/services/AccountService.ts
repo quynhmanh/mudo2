@@ -8,7 +8,7 @@ export default class AccountService extends ServiceBase {
     
     static async login(loginModel: ILoginModel) : Promise<Result<IServiceUser>> {
         var result = await this.requestJson<IServiceUser>({
-            url: "api/Account/Login",
+            url: "api/User/Login",
             method: "POST",
             data: loginModel
         });
@@ -22,8 +22,9 @@ export default class AccountService extends ServiceBase {
 
     static async logout(): Promise<Result<{}>> {
         var result = await this.requestJson<IServiceUser>({
-            url: "api/Account/Logout",
-            method: "POST"
+            url: "api/User/Logout",
+            method: "POST",
+            data: { token: Globals.serviceUser.token }
         });
 
         if (!result.hasErrors) {
