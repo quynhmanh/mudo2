@@ -4836,7 +4836,7 @@ handleToolbarResize = e => {
 
 <div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
         <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Kích thước</label>
-        <div className>
+        <div style={{zIndex: 123123,}}>
           <button style={{width: '100%', backgroundColor: 'white', border: 'none'}} type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf _3VMFhjcT1YTNCBfgY43AoL"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">A3</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
           </button>
         </div>
@@ -4844,14 +4844,28 @@ handleToolbarResize = e => {
 
       <div className="_3w96fDCkiF-cx4xtdHq8Eb" style={{display: 'flex', flexDirection: 'column'}}>
         <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Thông tin khác:</label>
-        <div className>
+        <div style={{zIndex: 123123,}}>
           <button style={{width: '100%', backgroundColor: 'white', border: 'none'}} type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf _3VMFhjcT1YTNCBfgY43AoL"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">A3</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
           </button>
         </div>
       </div>
 
 
-      <div className="_3YDCW8EBZnxTRa5xT7gtHk _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88"><span className="_17Olod74EUtMOOpeHSF9RO _3K8w6l0jetB1VHftQo2qK6 _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z" /></svg></span>
+      <div style={{
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+      }} className="_3YDCW8EBZnxTRa5xT7gtHk _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88"><span 
+        style={{
+          margin: 'auto',
+          display: 'inline-block',
+          padding: '14px',
+          backgroundColor: 'rgb(107, 202, 44)',
+          borderRadius: '50%',
+          marginTop: '20px',
+          marginBottom: '20px',
+        }}
+        className="_17Olod74EUtMOOpeHSF9RO _3K8w6l0jetB1VHftQo2qK6 _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z" /></svg></span>
         <div className="fe5UvoRC9ZkGGo1SwMSHH">
           <div className="YOoVgTXLDk_wFPeE7Lehj">100% Đảm bảo hài lòng</div><span className="_19yfLwKwDEYdDKh0ixOgNB _1YRea3--8x2Rm7RqKumWGQ">Nếu bạn không hài lòng với món hàng bạn nhận được. Chúng tôi sẽ làm nó hài lòng với bạn. <a href="https://support.canva.com/canva-print/print-customer-service-policy/print-customer-happiness-policy/" target="_blank" rel="noopener">More</a></span></div>
       </div>
