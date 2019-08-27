@@ -26,9 +26,7 @@ class Popup extends PureComponent<IProps, IState> {
                   style={{
                      display: 'flex', 
                      borderRadius: '13px',
-                     backgroundColor: 'white',
-                     backgroundImage: 'url("https://a.imge.to/2019/08/27/vslLuR.jpg")',
-                     backgroundSize: 'cover',
+                     background: 'linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%)',
                   }} >  
                     <div className="unblurred">
                     <div className="unblurred leftInfo___1rQiJ" style={{
@@ -101,6 +99,7 @@ class Popup extends PureComponent<IProps, IState> {
       onClick={this.props.closePopup}
       style={{
           border: 'none',
+          backgroundColor: 'transparent',
       }} className="unblurred closeButton___3_ryt closeButtonNew___3gFHf" data-test="onCloseModal" data-categ="downloadModal" data-value="closeModal">
          <svg viewBox="0 0 12 12" width={12} height={12} className="unblurred closeBtnSvg___3O3ue">
             <path d="M11.5671 12C11.4501 11.9997 11.338 11.953 11.2554 11.8701L0.1299 0.737165C0.0883095 0.698515 0.0552686 0.651589 0.0329019 0.599406C0.0105353 0.547223 -0.000661901 0.490937 3.02373e-05 0.434168C-0.000661901 0.377398 0.0105353 0.321112 0.0329019 0.268929C0.0552686 0.216746 0.0883095 0.169821 0.1299 0.131171C0.168766 0.0897632 0.215707 0.0567605 0.267826 0.0342C0.319945 0.0116395 0.376136 0 0.43293 0C0.489723 0 0.545914 0.0116395 0.598033 0.0342C0.650152 0.0567605 0.697093 0.0897632 0.735959 0.131171L11.8701 11.2555C11.953 11.3381 11.9997 11.4502 12 11.5671C11.9978 11.6813 11.9515 11.7901 11.8708 11.8708C11.79 11.9515 11.6812 11.9978 11.5671 12Z" />

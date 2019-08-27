@@ -3952,6 +3952,7 @@ handleToolbarResize = e => {
                         key={key}
                         src={item.representative}
                         onPick={this.backgroundOnMouseDown.bind(this)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
                     </div>
@@ -3966,6 +3967,7 @@ handleToolbarResize = e => {
                         key={key}
                         src={item.representative}
                         onPick={this.backgroundOnMouseDown.bind(this)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
                     </div>
