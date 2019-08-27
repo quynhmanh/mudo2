@@ -24,7 +24,7 @@ export default class AccountService extends ServiceBase {
         var result = await this.requestJson<IServiceUser>({
             url: "api/User/Logout",
             method: "POST",
-            data: { token: Globals.serviceUser.token }
+            headers: { Authorization: `Bearer ${Globals.serviceUser.token}` }
         });
 
         if (!result.hasErrors) {
