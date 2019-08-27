@@ -36,7 +36,7 @@ namespace RCB.TypeScript.Services
             var client = new ElasticClient(settings);
             string query = $"*:*";
 
-            var res = client.Search<FontModel>(s => s.Query(q => q.QueryString(d => d.Query(query))));
+            var res = client.Search<FontModel>(s => s.Query(q => q.QueryString(d => d.Query(query))).From((page - 1) * perPage).Take(perPage));
 
             var res2 = new KeyValuePair<List<FontModel>, int>(res.Documents.ToList(), res.Documents.Count);
             return Ok(res2);
