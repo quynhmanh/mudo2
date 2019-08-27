@@ -3495,7 +3495,6 @@ handleToolbarResize = e => {
                 selectedTab={this.state.selectedTab}
                 onClick={this.handleSidebarSelectorClicked}
               /> }
-              {Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail &&
               <div
                     style={{
                       position: 'absolute',
@@ -3503,6 +3502,7 @@ handleToolbarResize = e => {
                       zIndex: 12312313,
                       backgroundColor: 'white',
                       width: '100%',
+                      display: Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail && "none",
                     }}
                   >
                     <input 
@@ -3535,7 +3535,6 @@ handleToolbarResize = e => {
                       RemoveAll
                       </button>
                     </div>
-              }
               <div
                 id="sidebar-content"
                 style={{
