@@ -23,12 +23,12 @@ namespace RCB.TypeScript.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
 
             var jwtToken = new JwtSecurityToken(
-                issuer: _tokenManagement.Issuer,
-                audience: _tokenManagement.Audience,
-                claims: claims,
-                notBefore: DateTime.UtcNow,
-                expires: DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+                _tokenManagement.Issuer,
+                _tokenManagement.Audience,
+                claims,
+                DateTime.UtcNow,
+                DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
+                new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
 
             return new JwtSecurityTokenHandler().WriteToken(jwtToken);

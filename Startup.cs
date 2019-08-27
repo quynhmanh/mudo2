@@ -61,11 +61,12 @@ namespace RCB.TypeScript
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey =  new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                    IssuerSigningKey =  new SymmetricSecurityKey(secret),
                     ValidIssuer = token.Issuer,
                     ValidAudience = token.Audience,
                     ValidateIssuer = true,
-                    ValidateAudience = true
+                    ValidateAudience = true,
+                    ClockSkew = TimeSpan.Zero
                 };
 
                 options.Events = new JwtBearerEvents
@@ -118,11 +119,7 @@ namespace RCB.TypeScript
                     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")))
                 .BuildServiceProvider();
 
-            services
-                .AddScoped<TokenService>()
-                .AddDbContext<UserContext>(options => 
-                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")))
-                .BuildServiceProvider();
+            services.AddScoped<ITokenService, TokenService>();
 
             services
                 .AddScoped<UserService>()

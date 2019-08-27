@@ -21,10 +21,10 @@ namespace RCB.TypeScript.Services
 
         private UserContext _userContext;
 
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
 
 
-        public UserService(UserContext userContext, TokenService tokenService)
+        public UserService(UserContext userContext, ITokenService tokenService)
         {
             _userContext = userContext;
             _tokenService = tokenService;
@@ -32,12 +32,12 @@ namespace RCB.TypeScript.Services
 
         public User Login(HttpContext context, string username, string password)
         {
-            var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
+            // var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
 
             // return null if user not found
-            if (user == null)
+            // if (user == null)
                 // return null;
-                user = new User { Username = username };
+            var user = new User { Username = username };
 
             context.Response.Cookies.Append(Constants.AuthorizationCookieKey, username);
 
@@ -67,17 +67,17 @@ namespace RCB.TypeScript.Services
             if (string.IsNullOrEmpty(cookieValue))
                 return Error<User>();
 
-            var user = _userContext.Users.SingleOrDefault(u => u.Username == cookieValue);
-            if (user == null)
-                user = new User 
-                { 
-                    Username = cookieValue, 
-                    Token = _tokenService.GenerateAccessToken(new [] 
-                    {
-                        new Claim(ClaimTypes.Name, cookieValue),                
-                    }), 
-                    RefreshToken = _tokenService.GenerateRefreshToken() 
-                };
+            // var user = _userContext.Users.SingleOrDefault(u => u.Username == cookieValue);
+            // if (user == null)
+            var user = new User 
+            { 
+                Username = cookieValue, 
+                Token = _tokenService.GenerateAccessToken(new [] 
+                {
+                    new Claim(ClaimTypes.Name, cookieValue),                
+                }), 
+                RefreshToken = _tokenService.GenerateRefreshToken() 
+            };
 
             return Ok(user);
         }

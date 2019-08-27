@@ -18,13 +18,10 @@ namespace RCB.TypeScript.Controllers
     public class UserController : Controller
     {
         private readonly UserService _userService;
-        private readonly ITokenService _tokenService;
         
-
-        public UserController(UserService userService, ITokenService tokenService)
+        public UserController(UserService userService)
         {
             _userService = userService;
-            _tokenService = tokenService;
         }
 
         [AllowAnonymous]
