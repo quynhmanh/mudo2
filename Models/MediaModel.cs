@@ -12,6 +12,7 @@
         public string[] Keywords { get; set; }
         public NpgsqlTypes.NpgsqlTsVector query { get; set; }
         public string Color { get; set; }
+        public string UserEmail { get; set; }
 
         public MediaModel(string id, string firstName, string lastName, string representative)
         {

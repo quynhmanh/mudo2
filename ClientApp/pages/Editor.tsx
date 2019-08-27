@@ -68,6 +68,7 @@ enum TemplateType {
   Latex = 5,
   BackgroundImage = 6,
   Video = 7,
+  UserUpload = 8,
 }
 
 export interface IProps {
@@ -150,6 +151,10 @@ interface IState {
   currentBackgroundHeights1: number,
   currentBackgroundHeights2: number,
   currentBackgroundHeights3: number,
+  userUpload1: Array<object>,
+  userUpload2: Array<object>,
+  currentUserUpload1: number,
+  currentUserUpload2: number,
   editingMedia: any;
   editingFont: any;
   showMediaEditPopup: boolean;
@@ -230,6 +235,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             groupedTexts2: [],
             templates: [],
             templates2: [],
+            userUpload1: [],
+            userUpload2: [],
+            currentUserUpload1: 0,
+            currentUserUpload2: 0,
             selectedTab: SidebarTab.Text,
             rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 0,
             rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 0,
@@ -436,6 +445,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     this.loadMoreTextTemplate(true);
     this.loadMoreTemplate.bind(this)(true, subtype);
     this.loadMoreBackground(true);
+    this.loadmoreUserUpload(true);
 
     document.addEventListener("keydown", this.removeImage.bind(this));
   }
@@ -2648,7 +2658,7 @@ handleToolbarResize = e => {
 
       i.onload = function(){
         var prominentColor = getMostProminentColor(i);
-        axios.post(url, {id: uuidv4(), color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`, data: fr.result, width: i.width, height: i.height, type, keywords: ["123", "123"], title: 'Manh quynh'})
+        axios.post(url, {id: uuidv4(), userEmail: Globals.serviceUser.username, color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`, data: fr.result, width: i.width, height: i.height, type, keywords: ["123", "123"], title: 'Manh quynh'})
         .then(() => {
           // url = `/api/Font/Search`;
           // fetch(url, {
@@ -2879,6 +2889,55 @@ handleToolbarResize = e => {
         },
         error => {
           // this.setState({ isLoading: false, error })
+        }
+    )
+  }
+
+  loadmoreUserUpload = (initialload) => {
+    let pageId;
+    let count;
+    if (initialload) {
+      pageId = 1;
+      count = 10;
+    } else {
+      pageId = (this.state.backgrounds1.length + this.state.backgrounds2.length + this.state.backgrounds3.length) / 5 + 1;
+      count = 5;
+    }
+    this.setState({ isLoading: true, error: undefined });
+    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
+    const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${count}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        res => {
+          var result = res.value.key;
+          console.log('res loadMoreBackground', res);
+          var currentUserUpload1 = this.state.currentUserUpload1;
+          var currentUserUpload2 = this.state.currentUserUpload2;
+          var res1 = [];
+          var res2 = [];
+          for (var i = 0; i < result.length; ++i) {
+            var currentItem = result[i];
+            if (currentUserUpload1 <= currentUserUpload2) {
+              res1.push(currentItem);
+              currentUserUpload1 += 150 / (currentItem.width / currentItem.height);
+            } else {
+              res2.push(currentItem);
+              currentUserUpload2 += 150 / (currentItem.width / currentItem.height);
+            }
+          }
+          this.setState(state => ({
+            userUpload1: [...state.userUpload1, ...res1],
+            userUpload2: [...state.userUpload2, ...res2],
+            currentUserUpload1,
+            currentUserUpload2,
+            cursor: res.cursor,
+            isLoading: false,
+            hasMoreBackgrounds: res.value.value > state.items.length + state.items2.length + res.value.key.length,
+          }))
+        },
+        error => {
+          this.setState({ isLoading: false, error })
         }
     )
   }
@@ -3450,6 +3509,8 @@ handleToolbarResize = e => {
                       id="image-file" 
                       type="file"
                       onLoad={(data) => {console.log('data ', data)}}
+                      onLoadedData={(data) => {console.log('data', data)}}
+                      onChange={(e) => { this.uploadImage(this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : (this.state.selectedTab === SidebarTab.Background ? TemplateType.BackgroundImage : TemplateType.UserUpload), e)}}
                       style={{
                         bottom: 0,
                       }}
@@ -4207,6 +4268,66 @@ handleToolbarResize = e => {
                     </div>
                   </div>
                 )}
+                {this.state.selectedTab === SidebarTab.Upload && (
+                  <div
+                  style={{
+                    color: "white",
+                    overflow: "scroll",
+                    width: '100%',
+                  }}
+                >
+                  <div style={{display: 'inline-block', width: '100%',}}>
+                  <button
+                    style={{
+                      width: '100%',
+                      backgroundColor: 'white',
+                      border: 'none',
+                      color: 'black',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={() => {document.getElementById("image-file").click(); }}
+                  >Tải lên một hình ảnh</button>
+                  <div style={{
+                    display: 'flex',
+                    marginTop: '10px',
+                  }}>
+                  <div
+                        style={{
+                          width: '350px',
+                          marginRight: '10px',
+                        }}
+                      >
+                    {this.state.userUpload1.map((item, key) => (
+                      <ImagePicker
+                        key={key}
+                        src={item.representative}
+                        onPick={this.imgOnMouseDown.bind(this)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
+                      />
+                    ))}
+                    </div>
+                    <div
+                        style={{
+                          width: '350px',
+                          marginRight: '10px',
+                        }}
+                      >
+                    {this.state.userUpload2.map((item, key) => (
+                      <ImagePicker
+                        key={key}
+                        src={item.representative}
+                        onPick={this.imgOnMouseDown.bind(this)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
+                      />
+                    ))}
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                )
+
+                }
               </div>
             </div>
           }

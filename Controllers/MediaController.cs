@@ -61,6 +61,9 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "color")]
             public string color;
+
+            [JsonProperty(PropertyName = "userEmail")]
+            public string userEmail;
         }
 
         [HttpPost("[action]")]
@@ -94,6 +97,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Keywords = oDownloadBody.keywords;
                 mediaModel.FirstName = oDownloadBody.title;
                 mediaModel.Color = oDownloadBody.color;
+                mediaModel.UserEmail = oDownloadBody.userEmail;
 
                 MediaService.Add(mediaModel);
             }
