@@ -372,7 +372,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
                   }}
                 >
                 {images
-                  .filter(img => !img.selected || img.type === 4)
+                  .filter(img => !img.selected || img.type === 4 || img.type === 6)
                   .map(img => (
                     <div>
 <ResizableRectWrapper

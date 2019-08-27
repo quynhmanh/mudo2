@@ -564,6 +564,9 @@ export default class Rect extends PureComponent<IProps, IState> {
       showImage,
     } = this.props;
 
+    console.log('showImage ', showImage);
+    console.log('cropMode ', cropMode);
+
     var newWidth = width;
     var newHeight = height;
     var style = {
@@ -1113,7 +1116,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             }} >
             {showImage && !cropMode &&
             <img
-            id="123"
+            id="1235"
             style={{
               width: imgWidth + 'px',
               height: imgHeight + 'px',
@@ -1135,7 +1138,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             }} >
             {(!showImage && cropMode) &&
             <img
-            id="123"
+            id="1236"
             style={{
               width: imgWidth + 'px',
               height: imgHeight + 'px',
@@ -1158,7 +1161,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             }} >
             {(!showImage && cropMode) &&
             <img
-            id="123"
+            id="1234"
             style={{
               width: imgWidth + 'px',
               height: imgHeight + 'px',

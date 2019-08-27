@@ -28,6 +28,14 @@ export default class Canvas extends PureComponent<IProps, IState> {
     <div>
         {this.props.children}
     </div>
+    <div style={{
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      top: 0,
+    }}>
+
+    </div>
 </div>    
   }
 }
