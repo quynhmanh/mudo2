@@ -64,6 +64,9 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "userEmail")]
             public string userEmail;
+
+            [JsonProperty(PropertyName = "ext")]
+            public string ext;
         }
 
         [HttpPost("[action]")]
@@ -78,7 +81,7 @@ namespace RCB.TypeScript.Controllers
                 var dataFont = oDownloadBody.data;
                 var id = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
 
-                string file2 = "images" + Path.DirectorySeparatorChar + id + ".png";
+                string file2 = "images" + Path.DirectorySeparatorChar + id + "." + oDownloadBody.ext;
                 var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2);
                 string base64 = dataFont.Substring(dataFont.IndexOf(',') + 1);
                 byte[] data = Convert.FromBase64String(base64);
@@ -98,6 +101,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.FirstName = oDownloadBody.title;
                 mediaModel.Color = oDownloadBody.color;
                 mediaModel.UserEmail = oDownloadBody.userEmail;
+                mediaModel.Ext = oDownloadBody.ext;
 
                 MediaService.Add(mediaModel);
             }

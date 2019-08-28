@@ -2653,6 +2653,7 @@ handleToolbarResize = e => {
     fr.readAsDataURL(file);
     fr.onload = () => {
       console.log('fr.result ', fr.result);
+      console.log('fr ', file);
       var url = `/api/Media/Add`;
       var i = new Image(); 
 
@@ -2660,7 +2661,7 @@ handleToolbarResize = e => {
 
       i.onload = function(){
         var prominentColor = getMostProminentColor(i);
-        axios.post(url, {id: uuidv4(), userEmail: Globals.serviceUser.username, color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`, data: fr.result, width: i.width, height: i.height, type, keywords: ["123", "123"], title: 'Manh quynh'})
+        axios.post(url, {id: uuidv4(), ext: file.name.split('.')[1], userEmail: Globals.serviceUser.username, color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`, data: fr.result, width: i.width, height: i.height, type, keywords: ["123", "123"], title: 'Manh quynh'})
         .then(() => {
           // url = `/api/Font/Search`;
           // fetch(url, {
