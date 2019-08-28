@@ -32,12 +32,15 @@ namespace RCB.TypeScript.Services
 
         public User Login(HttpContext context, string username, string password)
         {
-            // var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
+            var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
 
-            // return null if user not found
-            // if (user == null)
-                // return null;
-            var user = new User { Username = username };
+            // create new user if user not found
+            bool isNewUser = false;
+            if (user == null)
+            {
+                user = new User { Username = username };
+                isNewUser = true;
+            }
 
             context.Response.Cookies.Append(Constants.AuthorizationCookieKey, username);
 
@@ -52,7 +55,8 @@ namespace RCB.TypeScript.Services
 
             user.Token = jwtToken;
             user.RefreshToken = refreshToken;
-            _userContext.Users.Add(user);
+            if (isNewUser)
+                _userContext.Users.Add(user);
             _userContext.SaveChanges();
 
             return user;
