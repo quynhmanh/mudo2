@@ -1999,8 +1999,10 @@ html {
               console.log('document ', document);
               document.left = (rec2.left - rec.left) / self.state.scale;
               document.top = (rec2.top - rectTop) / self.state.scale;
-              // document.scaleX = rec2.width / this.state.rectWidth;
-              // document.scaleY = rec2.height / this.state.rectHeight;
+              document.scaleX = rec2.width / this.state.rectWidth;
+              document.scaleY = rec2.height / this.state.rectHeight;
+              // console.log('scaleX ', document.scaleX);
+              // console.log('scaleY ', document.scaleY);
               // document.scaleX = 1;
               // document.scaleY = 1;
               // document.document_object = document.document.map(obj => {
@@ -3676,19 +3678,21 @@ handleToolbarResize = e => {
                             return img;
                           });
 
+                          var scale = this.state.rectWidth / e.target.getBoundingClientRect().width;
+
                           images.push({
                             _id,
                             type: TemplateType.Latex,
-                            width: 200,
+                            width: 200 * scale,
                             origin_width: 200,
-                            height: 40,
+                            height: 40 * scale,
                             origin_height: 40,
                             left: 0,
                             top: 0,
                             rotateAngle: 0.0,
-                            innerHTML: "f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi",
-                            scaleX: 1,
-                            scaleY: 1,
+                            innerHTML: "Phương trình: $$ f(x) = x^2 $$",
+                            scaleX: scale,
+                            scaleY: scale,
                             selected: false,
                             ref: this.state.idObjectSelected,
                             page: this.state.activePageId,
@@ -3718,19 +3722,21 @@ handleToolbarResize = e => {
                             return img;
                           });
 
+                          var scale = this.state.rectWidth / e.target.getBoundingClientRect().width;
+
                           images.push({
                             _id,
                             type: TemplateType.Heading,
-                            width: 200,
+                            width: 200 * scale,
                             origin_width: 200,
-                            height: 40,
+                            height: 40 * scale,
                             origin_height: 40,
                             left: 0,
                             top: 0,
                             rotateAngle: 0.0,
                             innerHTML: "<font face=\"AvenirNextRoundedPro\" style=\"font-size: 26px\">Add a heading</font>",
-                            scaleX: 1,
-                            scaleY: 1,
+                            scaleX: scale,
+                            scaleY: scale,
                             selected: false,
                             ref: this.state.idObjectSelected,
                             page: this.state.activePageId,
@@ -3750,21 +3756,21 @@ handleToolbarResize = e => {
                         }}
                         onMouseDown={(e) => {
                           e.preventDefault();
-    
+                          var scale = this.state.rectWidth / e.target.getBoundingClientRect().width - 0.3;
                           let images = [...this.state.images];
                           images.push({
                             _id: uuidv4(),
                             type: TemplateType.Heading,
-                            width: 182,
-                            origin_width: 182,
-                            height: 35,
+                            width: 190 * scale,
+                            origin_width: 190,
+                            height: 35 * scale,
                             origin_height: 35,
                             left: 0,
                             top: 0,
                             rotateAngle: 0.0,
                             innerHTML: "<font face=\"AvenirNextRoundedPro\" style=\"font-size: 22px\">Add a subheading</font>",
-                            scaleX: 1,
-                            scaleY: 1,
+                            scaleX: scale,
+                            scaleY: scale,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
                           });
@@ -3783,21 +3789,21 @@ handleToolbarResize = e => {
                         }}
                         onMouseDown={(e) => {
                           e.preventDefault();
-    
+                          var scale = this.state.rectWidth / e.target.getBoundingClientRect().width - 0.6;
                           let images = [...this.state.images];
                           images.push({
                             _id: uuidv4(),
                             type: TemplateType.Heading,
-                            width: 190,
-                            origin_width: 190,
-                            height: 22,
+                            width: 200 * scale,
+                            origin_width: 200,
+                            height: 22 * scale,
                             origin_height: 22,
                             left: 0,
                             top: 0,
                             rotateAngle: 0.0,
                             innerHTML: "<font ace=\"AvenirNextRoundedPro\" style=\"font-size: 16px\">Add a little bit of body text</font>",
-                            scaleX: 1,
-                            scaleY: 1,
+                            scaleX: scale,
+                            scaleY: scale,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
                           });
