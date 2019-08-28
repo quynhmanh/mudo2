@@ -5,11 +5,13 @@ import { transformUrl } from "domain-wait";
 import jsonToUrl from "json-to-url";
 import { isNode } from "@Utils";
 import Globals from "@Globals";
+import { IServiceUser } from "@Models/IServiceUser";
 
 export interface IRequestOptions {
     url: string;
     data?: any;
     method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+    headers?: any;
 }
 
 export interface ISendFormDataOptions {
@@ -52,14 +54,13 @@ export abstract class ServiceBase {
             }
         }
 
-        if (opts.data.token) {
+        if (opts.headers) {
             axiosRequestConfig = {
                 ...axiosRequestConfig,
                 headers: {
-                    Authorization: `Bearer ${opts.data.token}`
+                    ...opts.headers
                 }
             }
-            opts.data.token = null
         }
 
         try {
@@ -82,6 +83,26 @@ export abstract class ServiceBase {
             }
             result = new Result(axiosResult.data.value, ...axiosResult.data.errors);
         } catch (error) {
+            const response = error.response;
+            if (response.status === 401 && response.headers.hasOwnProperty('token-expired')) {
+                var jwtToken = Globals.serviceUser.token;
+                var refreshToken = Globals.serviceUser.refreshToken;
+                var refreshResponse = await this.requestJson<IServiceUser>({
+                    url: "api/Token/Refresh",
+                    method: "POST",
+                    data: { token: jwtToken, refreshToken },
+                });
+
+                console.log("refreshing token...")
+                if (!refreshResponse.hasErrors) {
+                    console.log("refreshing token => ok")
+                    Globals.serviceUser.token = refreshResponse.value.token;
+                    Globals.serviceUser.refreshToken = refreshResponse.value.refreshToken;
+                    if (opts.headers.hasOwnProperty("Authorization"))
+                        opts.headers.Authorization = `Bearer ${Globals.serviceUser.token}`;
+                    return await this.requestJson<T>(opts);
+                }
+            }
             result = new Result(null, error.message);
         }
 

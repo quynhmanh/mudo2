@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -20,51 +21,40 @@ namespace RCB.TypeScript.Services
 
         private UserContext _userContext;
 
-        private readonly TokenManagement _tokenManagement;
+        private readonly ITokenService _tokenService;
 
-        public UserService(UserContext userContext)
+
+        public UserService(UserContext userContext, ITokenService tokenService)
         {
             _userContext = userContext;
-        }
-
-        public UserService(UserContext userContext, IOptions<TokenManagement> tokenManagement)
-        {
-            _userContext = userContext;
-            _tokenManagement = tokenManagement.Value;
+            _tokenService = tokenService;
         }
 
         public User Login(HttpContext context, string username, string password)
         {
-            context.Response.Cookies.Append(Constants.AuthorizationCookieKey, username);
-
-            //var user = _users.SingleOrDefault(x => x.Username == username && x.Password == password);
-            var user = new User { Username = username };
+            // var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
 
             // return null if user not found
-            if (user == null)
-                return null;
+            // if (user == null)
+                // return null;
+            var user = new User { Username = username };
 
-            // authentication successful so generate jwt token
-            user.Token = GenerateJWTToken(username);
+            context.Response.Cookies.Append(Constants.AuthorizationCookieKey, username);
+
+            var usersClaims = new [] 
+            {
+                new Claim(ClaimTypes.Name, user.Username),                
+                // new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+            var jwtToken = _tokenService.GenerateAccessToken(usersClaims);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            user.Token = jwtToken;
+            user.RefreshToken = refreshToken;
+            _userContext.SaveChanges();
 
             return user;
-        }
-
-        public string GenerateJWTToken(string username) {
-            var claim = new[]
-            {
-                new Claim(ClaimTypes.Name, username)
-            };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var jwtToken = new JwtSecurityToken(
-                _tokenManagement.Issuer,
-                _tokenManagement.Audience,
-                claim,
-                expires:DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
-                signingCredentials: credentials
-            );
-            return new JwtSecurityTokenHandler().WriteToken(jwtToken);
         }
 
         public Result Logout(HttpContext context) {
@@ -76,11 +66,20 @@ namespace RCB.TypeScript.Services
             var cookieValue = context.Request.Cookies[Constants.AuthorizationCookieKey];
             if (string.IsNullOrEmpty(cookieValue))
                 return Error<User>();
-            return Ok(new User
-            {
-                Username = cookieValue,
-                Token = GenerateJWTToken(cookieValue)
-            });
+
+            // var user = _userContext.Users.SingleOrDefault(u => u.Username == cookieValue);
+            // if (user == null)
+            var user = new User 
+            { 
+                Username = cookieValue, 
+                Token = _tokenService.GenerateAccessToken(new [] 
+                {
+                    new Claim(ClaimTypes.Name, cookieValue),                
+                }), 
+                RefreshToken = _tokenService.GenerateRefreshToken() 
+            };
+
+            return Ok(user);
         }
 
         public void Add(User user)
