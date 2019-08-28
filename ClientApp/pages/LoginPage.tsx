@@ -196,10 +196,11 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     onClick={this.google.bind(this)} className="btn btn-primary">
                     Login with Google
                 </button>
-                <div style={{position: 'relative'}} class="jsx-3592679178 separator"><hr className="jsx-3592679178"/>
+                <div style={{position: 'relative', display: 'none',}} class="jsx-3592679178 separator"><hr className="jsx-3592679178"/>
                 <span 
                     className="jsx-3592679178 text"
                     style={{
+                        display: 'none',
                         position: 'absolute',
                         width: '50px',
                         left: 'calc(50% - 25px)',
@@ -209,9 +210,9 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                         lineHeight: '2rem',
                     }}
                     >hoặc</span></div>
-                <p className="text-center">Nhập tên tài khoản và mật khẩu vào ô bên dưới để đăng nhập.</p>
-                <Form ref={x => this.elForm = x}>
-                    <div className="form-group">
+                <p style={{display: 'none',}} className="text-center">Nhập tên tài khoản và mật khẩu vào ô bên dưới để đăng nhập.</p>
+                <Form style={{display: 'none',}} ref={x => this.elForm = x}>
+                    <div style={{display: 'none',}} className="form-group">
                         <label htmlFor="inputLogin">Địa chỉ email</label>
                         <input type="text" name={nameof<ILoginModel>(x=>x.username)} data-value-type="string" className="form-control" id="inputLogin" data-val-required="true" data-msg-required="Login is required." />
                     </div>
