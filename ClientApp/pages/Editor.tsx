@@ -1301,6 +1301,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var font;
     var fontSize;
     var el = document.getElementById(img._id).getElementsByTagName("font")[0];
+    if (!el) {
+      el = document.getElementById(img._id).getElementsByTagName("span")[0];
+    }
     if (el) {
       defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
       font = window.getComputedStyle(el, null).getPropertyValue("font-family");
