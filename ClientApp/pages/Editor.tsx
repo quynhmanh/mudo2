@@ -4606,8 +4606,8 @@ handleToolbarResize = e => {
                 >
                   {Math.round(this.state.fontSize)}px
                 </button>
-                <div id="myFontSizeList" className="dropdown-content-font-size">
-                  <div style={{display: 'flex'}}>
+                <div style={{height: '20px', top: '17px'}} id="myFontSizeList" className="dropdown-content-font-size">
+                  <div style={{display: 'flex', height: '10px',}}>
                   <div 
                     id="myDropdownFontSize-2"
                     style={{
@@ -4626,7 +4626,7 @@ handleToolbarResize = e => {
                           var slide = e.pageX - rec1.left;
                           var scale = slide / rec1.width * 170;
                           scale = Math.max(8, scale)
-                          scale = Math.min(140, scale);
+                          scale = Math.min(240, scale);
 
                           var a = document.getSelection();
                           console.log('a  ', a);
