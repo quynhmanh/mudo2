@@ -89,13 +89,17 @@ namespace RCB.TypeScript.Services
             return Ok(1);
         }
 
-        public virtual Result<KeyValuePair<List<MediaModel>, long>> Search(int type, int page, int perPage, string terms = "")
+        public virtual Result<KeyValuePair<List<MediaModel>, long>> Search(int type, int page, int perPage, string terms = "", string userEmail = "")
         {
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("media").DisableDirectStreaming();
             var client = new ElasticClient(settings);
 
             string query = $"type:{type}";
+            if (userEmail != "")
+            {
+                query = query + $" AND userEmail:{userEmail}";
+            }
 
             var res = client.Search<MediaModel>(s => s.Query(q => q.QueryString(d => d.Query(query))));
             var res3 = client.Search<MediaModel>(s => s.Query(q => q.Match(d => d.Query(query))));
@@ -104,6 +108,7 @@ namespace RCB.TypeScript.Services
                     Bool(d => d.
                         Must(
                             e => e.Match(ee => ee.Field(f => f.Type).Query(type.ToString())) &&
+                            e.Match(ee => ee.Field(f => f.UserEmail).Query(userEmail.ToString())) &&
                             (e.Match(ee => ee.Field(f => f.Keywords).Query(terms)) ||
                             e.Match(ee => ee.Field(f => f.FirstName).Query(terms))
                             )

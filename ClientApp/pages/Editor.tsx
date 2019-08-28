@@ -2905,13 +2905,14 @@ handleToolbarResize = e => {
     }
     this.setState({ isLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
-    const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${count}`;
+    const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${count}&userEmail=${Globals.serviceUser.username}`;
+    console.log('loadmoreUserUpload ', url)
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
           var result = res.value.key;
-          console.log('res loadMoreBackground', res);
+          console.log('res loadmoreUserUpload', res);
           var currentUserUpload1 = this.state.currentUserUpload1;
           var currentUserUpload2 = this.state.currentUserUpload2;
           var res1 = [];
@@ -3502,7 +3503,7 @@ handleToolbarResize = e => {
                       zIndex: 12312313,
                       backgroundColor: 'white',
                       width: '100%',
-                      display: Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail && "none",
+                      display: Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail ?  "block" : "none",
                     }}
                   >
                     <input 
