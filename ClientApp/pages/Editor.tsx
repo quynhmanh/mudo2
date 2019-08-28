@@ -4187,6 +4187,7 @@ handleToolbarResize = e => {
                     style={{
                       color: "white",
                       overflow: "scroll",
+                      height: '100%',
                     }}
                   >
                     <div style={{display: 'inline-block'}}>
@@ -4607,7 +4608,7 @@ handleToolbarResize = e => {
                   {Math.round(this.state.fontSize)}px
                 </button>
                 <div style={{height: '20px', top: '17px'}} id="myFontSizeList" className="dropdown-content-font-size">
-                  <div style={{display: 'flex', height: '10px',}}>
+                  <div style={{display: 'flex', height: '10px', backgroundColor: 'white', borderRadius: '5px'}}>
                   <div 
                     id="myDropdownFontSize-2"
                     style={{
@@ -4716,8 +4717,8 @@ handleToolbarResize = e => {
                       borderRadius: '5px',
                       padding: '10px',
                     }}>
-                      <button onClick={this.forwardSelectedObject}>Forward</button>
-                      <button onClick={this.backwardSelectedObject}>Backward</button>
+                      <button onClick={this.forwardSelectedObject}>Lên trên</button>
+                      <button onClick={this.backwardSelectedObject}>Xuống dưới</button>
                       </div>
                     </div>
                 </div>
