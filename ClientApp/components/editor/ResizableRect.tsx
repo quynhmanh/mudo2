@@ -59,6 +59,7 @@ export interface IProps {
     hidden: boolean;
     showImage: boolean;
     bleed: boolean;
+    backgroundColor: string;
   }
   
   export interface IState {
@@ -99,7 +100,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     this.props.onRotate(rotateAngle, _id)
   }
 
-  handleResize = (length, alpha, rect, type, isShiftKey, cursor, objectType, e) => {
+  handleResize = (length, alpha, rect, type, isShiftKey, cursor, objectType, e, backgroundColor) => {
     if (!this.props.onResize) return
     const { rotateAngle, minWidth, minHeight, parentRotateAngle, scale, _id } = this.props
     const beta = alpha - degToRadian(rotateAngle + parentRotateAngle)
@@ -107,7 +108,9 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     const deltaH = length * Math.sin(beta) / scale
     var {aspectRatio} = this.props;
 
-    if (this.props.cropMode || cursor == 'e-resize' || cursor == 'w-resize') {
+    console.log('aspectRatio ', arguments)
+
+    if (this.props.cropMode || backgroundColor || cursor == 'e-resize' || cursor == 'w-resize') {
       aspectRatio = null
     }
 
@@ -169,6 +172,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       outlineWidth, onFontSizeChange, handleFontColorChange, handleFontFaceChange, handleChildIdSelected, 
       childId, posX, posY, handleImageDrag, enableCropMode, cropMode, imgWidth, imgHeight,
       showImage, resizingInnerImage, onResizeInnerImageStart, startX, startY, updateRect, imgColor, hidden, bleed,
+      backgroundColor,
     } = this.props;
 
     const styles = tLToCenter({ top, left, width, height, rotateAngle })
@@ -231,6 +235,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         imgColor={imgColor}
         showImage={showImage}
         bleed={bleed}
+        backgroundColor={backgroundColor}
       />
     )
   }

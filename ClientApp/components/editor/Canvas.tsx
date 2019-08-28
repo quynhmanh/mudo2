@@ -351,6 +351,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
     startY={this.props.startY}
     updateRect={this.props.updateRect}
     bleed={this.props.bleed}
+    backgroundColor={img.backgroundColor}
   />
 </div></ResizableRectWrapper>
 ))}
@@ -457,6 +458,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
     startX={this.props.startX}
     startY={this.props.startY}
     updateRect={this.props.updateRect}
+    backgroundColor={img.backgroundColor}
   />
 </div></ResizableRectWrapper>
 </div>

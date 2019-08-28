@@ -168,6 +168,7 @@ interface IState {
   currentPrintStep: number;
   orderStatus: string;
   downloading: boolean;
+  imgBackgroundColor: string;
 }
 
 let firstpage = uuidv4();
@@ -274,6 +275,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             showPrintingSidebar: false,
             orderStatus: '',
             downloading: false,
+            imgBackgroundColor: 'white',
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -1221,6 +1223,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     if (img._id === this.state.idObjectSelected) {
       return;
     }
+
+    if (img.type === TemplateType.Image) {
+      this.setState({
+        imgBackgroundColor: img.backgroundColor,
+      })
+    }
+
     event.stopPropagation();
     var scaleY;
     let images = this.state.images.map(image => {
@@ -2214,9 +2223,11 @@ html {
     e.preventDefault();
     var target = e.target.cloneNode(true);
     target.style.zIndex = "11111111111";
-    console.log('e.target ', e.target.getAttribute("srcset"))
+    // console.log('e.target ', e.target.getAttribute("srcset"))
     target.src = e.target.getAttribute("src");
     target.style.width = e.target.getBoundingClientRect().width + 'px';
+    target.style.backgroundColor = e.target.style.backgroundColor;
+    console.log('backgorund Color', e.target.style.backgroundColor);
     console.log('e.target.getBoundingClientRect().width ', e.target.getBoundingClientRect().width);
     document.body.appendChild(target);
     var self = this;
@@ -2300,6 +2311,7 @@ html {
             top: (rec2.top - rec.top) / self.state.scale,
             rotateAngle: 0.0,
             src: target.src,
+            backgroundColor: target.style.backgroundColor,
             selected: false,
             scaleX: 1,
             scaleY: 1,
@@ -2794,24 +2806,35 @@ handleToolbarResize = e => {
       console.log('images ', images);
 
       this.setState({images});
+    } else if (this.state.typeObjectSelected === TemplateType.Image) {
+      console.log('this.state.typeObjectSelected === TemplateType.Image');
+      var images = this.state.images.map(img => {
+        if (img._id === this.state.idObjectSelected) {
+          img.backgroundColor = color;
+        }
+        return img;
+      });
+      this.setState({images});
     }
     e.preventDefault();
     document.execCommand('foreColor', false, color);
-    var a = document.getSelection();
-    if (a && a.type === "Range") {
-      this.handleFontColorChange(color);
-    } else {
-      var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
-      console.log('childId ', childId)
-      var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];      console.log('el ', el);
-      var sel = window.getSelection();
-      var range = document.createRange();
-      range.selectNodeContents(el);
-      sel.removeAllRanges();
-      sel.addRange(range);
-      this.handleFontColorChange(color);
-      document.execCommand('foreColor', false, color);
-      sel.removeAllRanges();
+    if (this.state.typeObjectSelected === TemplateType.Heading) {
+      var a = document.getSelection();
+      if (a && a.type === "Range") {
+        this.handleFontColorChange(color);
+      } else {
+        var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
+        console.log('childId ', childId)
+        var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];      console.log('el ', el);
+        var sel = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        this.handleFontColorChange(color);
+        document.execCommand('foreColor', false, color);
+        sel.removeAllRanges();
+      }
     }
   }
 
@@ -4280,6 +4303,49 @@ handleToolbarResize = e => {
                     </div>
                   </div>
                 )}
+                {this.state.selectedTab === SidebarTab.Element && (
+                  <div
+                  style={{
+                    color: "white",
+                    overflow: "scroll",
+                    width: '100%',
+                  }}
+                >
+                  <div style={{display: 'inline-block', width: '100%',}}>
+                  <div style={{
+                    display: 'flex',
+                    marginTop: '10px',
+                    height: 'calc(100% - 50px)',
+                    overflow: 'scroll',
+                  }}>
+                  <div
+                        style={{
+                          width: '350px',
+                          marginRight: '10px',
+                        }}
+                      >
+                        <img
+                          onMouseDown={this.imgOnMouseDown.bind(this)}
+                          style={{
+                            width: '160px',
+                            height: '150px',
+                            backgroundColor: '#019fb6',
+                          }}
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="/>
+                    </div>
+                    <div
+                        style={{
+                          width: '350px',
+                          marginRight: '10px',
+                        }}
+                      >
+                    
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                )
+                }
                 {this.state.selectedTab === SidebarTab.Upload && (
                   <div
                   style={{
@@ -4588,12 +4654,16 @@ handleToolbarResize = e => {
                   </a>
               }
               {(this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Image) &&
-                <div>
+                <div style={{
+                  position: 'relative',
+                }}>
                   { !this.state.cropMode &&
                   <button
                   style={{
                     boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
                     height: '26px',
+                    top: 0,
+                    position: 'absolute',
                   }}
                   className="dropbtn-font dropbtn-font-size"
                   onClick={(e) => {this.setState({cropMode: true,})}}
@@ -4601,6 +4671,23 @@ handleToolbarResize = e => {
                   Crop
                 </button>
                   }
+                  {this.state.imgBackgroundColor && 
+                  <button
+                  style={{
+                    boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
+                    height: '26px',
+                    top: 0,
+                    position: 'absolute',
+                    left: '81px',
+                    width: '27px',
+                    backgroundColor: this.state.imgBackgroundColor,
+                  }}
+                  className="dropbtn-font dropbtn-font-size"
+                  onClick={(e) => {this.setState({selectedTab: SidebarTab.Color,})}}
+                >
+                  
+                </button>
+                }
                 </div>
               }
               {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||

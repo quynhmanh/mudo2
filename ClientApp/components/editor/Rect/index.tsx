@@ -40,6 +40,7 @@ export interface IProps {
     cursor: string,
     objectType: number,
     e: any,
+    backgroundColor: string,
   ): void;
   onResizeInnerImageStart(startX: number, startY: number): void;
   onImageResize(
@@ -89,6 +90,7 @@ export interface IProps {
   hidden: boolean;
   showImage: boolean;
   bleed: boolean;
+  backgroundColor: string;
 }
 
 export interface IState {
@@ -261,6 +263,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           cursor,
           objectType,
           e,
+          this.props.backgroundColor,
         );
       } else {
         this.props.onImageResize(
@@ -352,7 +355,8 @@ export default class Rect extends PureComponent<IProps, IState> {
           isShiftKey,
           cursor,
           objectType,
-          e
+          e,
+          this.props.backgroundColor,
         );
       } else {
         this.props.onImageResize(
@@ -445,7 +449,8 @@ export default class Rect extends PureComponent<IProps, IState> {
         isShiftKey,
         cursor,
         objectType,
-        e
+        e,
+        this.props.backgroundColor,
       );
 
       a();
@@ -562,6 +567,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgHeight,
       imgColor,
       showImage,
+      backgroundColor,
     } = this.props;
 
     console.log('showImage ', showImage);
@@ -1124,6 +1130,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               opacity: selected || !cropMode ? 1 : 0.5,
               outline: cropMode && selected ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
               transformOrigin: '0 0',
+              backgroundColor: backgroundColor,
             }}
           onDoubleClick={enableCropMode}
           onMouseDown={cropMode ? this.handleImageDrag.bind(this) : null}
