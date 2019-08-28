@@ -4869,12 +4869,12 @@ handleToolbarResize = e => {
                         margin: 'auto',
                       }}></div>
                     </div>
-                    <button style={{display: 'block', width: '100%', marginTop: '10px',}}>
+                    {/* <button style={{display: 'block', width: '100%', marginTop: '10px',}}>
                       Fit
                     </button>
                     <button style={{display: 'block', width: '100%', marginTop: '10px',}}>
                       Fill
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </Tooltip>
