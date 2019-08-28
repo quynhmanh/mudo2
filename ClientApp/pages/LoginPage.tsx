@@ -209,7 +209,7 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                         lineHeight: '2rem',
                     }}
                     >hoặc</span></div>
-                <p className="text-center">Type any login and password to enter.</p>
+                <p className="text-center">Nhập tên tài khoản và mật khẩu vào ô bên dưới để đăng nhập.</p>
                 <Form ref={x => this.elForm = x}>
                     <div className="form-group">
                         <label htmlFor="inputLogin">Địa chỉ email</label>
