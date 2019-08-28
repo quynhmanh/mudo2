@@ -4827,6 +4827,109 @@ handleToolbarResize = e => {
                 </div>
               </div>
               }
+              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+                this.state.childId) &&
+                <a
+                href='#'
+                className="toolbar-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  var a = document.getSelection();
+                  if (a && a.type === "Range") {
+                    document.execCommand("JustifyLeft", false, null);
+                  } else {
+                    var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
+                    var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0]; 
+                    var sel = window.getSelection();
+                    var range = document.createRange();
+                    range.selectNodeContents(el);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                    document.execCommand("JustifyLeft", false, null);
+                    sel.removeAllRanges();
+                  }
+                }}
+                style={{
+                  borderRadius: "4px",
+                  padding: "3px",
+                  paddingBottom: "0px",
+                  marginRight: "6px",
+                  backgroundColor: "rgb(242, 242, 242)",
+                  display: "inline-block",
+                  cursor: "pointer",
+                  color: 'black',
+                }}>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M20.25 5.25a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5zm0 4a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5z"></path></svg>                  
+            </a>}
+              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+                this.state.childId) &&
+                <a
+                href='#'
+                className="toolbar-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  var a = document.getSelection();
+                  if (a && a.type === "Range") {
+                    document.execCommand("JustifyCenter", false, null);
+                  } else {
+                    var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
+                    var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0]; 
+                    var sel = window.getSelection();
+                    var range = document.createRange();
+                    range.selectNodeContents(el);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                    document.execCommand("JustifyCenter", false, null);
+                    sel.removeAllRanges();
+                  }
+                }}
+                style={{
+                  borderRadius: "4px",
+                  padding: "3px",
+                  paddingBottom: "0px",
+                  marginRight: "6px",
+                  backgroundColor: "rgb(242, 242, 242)",
+                  display: "inline-block",
+                  cursor: "pointer",
+                  color: 'black',
+                }}>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M3.75 5.25h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5zm-4 4h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z"></path></svg>              
+              </a>}
+              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+                this.state.childId) &&
+                <a
+                href='#'
+                className="toolbar-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  var a = document.getSelection();
+                  if (a && a.type === "Range") {
+                    document.execCommand("JustifyRight", false, null);
+                  } else {
+                    var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
+                    var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0]; 
+                    var sel = window.getSelection();
+                    var range = document.createRange();
+                    range.selectNodeContents(el);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                    document.execCommand("JustifyRight", false, null);
+                    sel.removeAllRanges();
+                  }
+                }}
+                style={{
+                  borderRadius: "4px",
+                  padding: "3px",
+                  paddingBottom: "0px",
+                  marginRight: "6px",
+                  backgroundColor: "rgb(242, 242, 242)",
+                  display: "inline-block",
+                  cursor: "pointer",
+                  color: 'black',
+                }}>
+<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24"><defs><path id="_3487901159__a" d="M3.75 5.25h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5zm0 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5zm0 4h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5zm0 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z"></path></defs><use fill="currentColor" xlinkHref="#_3487901159__a" fill-rule="evenodd"></use></svg>              
+              </a>
+              }
               { this.state.cropMode &&
                 <button
                   className="toolbar-btn dropbtn-font"
