@@ -2656,6 +2656,8 @@ handleToolbarResize = e => {
       var url = `/api/Media/Add`;
       var i = new Image(); 
 
+      self.setState({userUpload1: [{representative: fr.result}, ...self.state.userUpload1]})
+
       i.onload = function(){
         var prominentColor = getMostProminentColor(i);
         axios.post(url, {id: uuidv4(), userEmail: Globals.serviceUser.username, color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`, data: fr.result, width: i.width, height: i.height, type, keywords: ["123", "123"], title: 'Manh quynh'})
@@ -4291,6 +4293,8 @@ handleToolbarResize = e => {
                   <div style={{
                     display: 'flex',
                     marginTop: '10px',
+                    height: 'calc(100% - 50px)',
+                    overflow: 'scroll',
                   }}>
                   <div
                         style={{
