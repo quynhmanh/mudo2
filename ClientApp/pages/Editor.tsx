@@ -3197,10 +3197,12 @@ handleToolbarResize = e => {
     this.setState({ isLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
+    console.log('res url loadMore ', url);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
+          console.log('res loadMore', res);
           var result = res.value.key;
           var currentItemsHeight = this.state.currentItemsHeight;
           var currentItems2Height = this.state.currentItems2Height;

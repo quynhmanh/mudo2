@@ -69,7 +69,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 height: this.props.height + 'px',
                 width: '100%',
                 marginBottom: '10px',
-                backgroundColor: this.props.color,
+                // backgroundColor: this.props.color,
                 } : {display: 'none'}}
               src={this.props.src}
               onMouseDown={this.props.onPick}

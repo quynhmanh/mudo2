@@ -178,6 +178,9 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     const styles = tLToCenter({ top, left, width, height, rotateAngle })
     const imgStyles = tLToCenter({ left: posX, top: posY, width: imgWidth, height: imgHeight, rotateAngle: 0 })
     
+    console.log('imgColor ', imgColor);
+    console.log('backgroundColor ', backgroundColor);
+
 
     return (
       <Rect
