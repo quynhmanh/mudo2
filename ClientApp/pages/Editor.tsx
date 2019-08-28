@@ -212,14 +212,14 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             updateRect: false,
             resizingInnerImage: false,
             childId: null,
-            fontId: "pxpokApm3Ei8KUEgIAEqUg",
+            fontId: "O5mEMMs7UejmI1WeSKWQ",
             fontName: "images/833bdf3b-7c22-4e79-9b0a-eece6711eacd.png",
             isSaving: false,
             showPopup: false,
             showMediaEditingPopup: false,
             fontColor: 'black',
             fontSize: 0,
-            fontsList: [],
+            fontsList: ['O5mEMMs7UejmI1WeSKWQ'],
             fonts: [],
             unnormalizedImages: [],
             templateType: null,
@@ -308,6 +308,58 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
     var fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
 
+    this.state.fontsList.forEach(id => { 
+      var style = `@font-face {
+        font-family: '${id}';
+        src: url('/fonts/${id}.ttf');
+      }`;
+      var styleEle = ce("style");
+      var type = ca("type");
+      type.value = "text/css";
+      styleEle.attributes.setNamedItem(type)
+      styleEle.innerHTML = style;
+      var head = document.head || ge('head')[0];
+      head.appendChild(styleEle);
+
+      var link = ce('link');
+      link.id = id;
+      link.rel = 'preload';
+      link.href = `/fonts/${id}.ttf`
+      link.media = 'all';
+      link.as = "font";
+      link.crossOrigin = "anonymous";
+      head.appendChild(link);
+    return {
+    id: id,
+    }
+  });
+
+  this.state.fontsList.forEach(id => { 
+    var style = `@font-face {
+      font-family: '${id}';
+      src: url('/fonts/${id}.ttf');
+    }`;
+    var styleEle = ce("style");
+    var type = ca("type");
+    type.value = "text/css";
+    styleEle.attributes.setNamedItem(type)
+    styleEle.innerHTML = style;
+    var head = document.head || ge('head')[0];
+    head.appendChild(styleEle);
+
+    var link = ce('link');
+    link.id = id;
+    link.rel = 'preload';
+    link.href = `/fonts/${id}.ttf`
+    link.media = 'all';
+    link.as = "font";
+    link.crossOrigin = "anonymous";
+    head.appendChild(link);
+  return {
+  id: id,
+  }
+});
+
     this.setState({
       staticGuides,
       scale: fitScale,
@@ -317,6 +369,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var subtype;
     var template_id = this.props.match.params.template_id;
     console.log('props ', this.props)
+    console.log('fontList ', this.state.fontsList)
+
     if (template_id) {
 
       var url = `/api/Template/Get?id=${template_id}`;
@@ -3826,7 +3880,7 @@ handleToolbarResize = e => {
                             left: 0,
                             top: 0,
                             rotateAngle: 0.0,
-                            innerHTML: "<font ace=\"O5mEMMs7UejmI1WeSKWQ\" style=\"font-size: 16px\">Add a little bit of body text</font>",
+                            innerHTML: "<font face=\"O5mEMMs7UejmI1WeSKWQ\" style=\"font-size: 16px\">Add a little bit of body text</font>",
                             scaleX: scale,
                             scaleY: scale,
                             page: this.state.activePageId,
