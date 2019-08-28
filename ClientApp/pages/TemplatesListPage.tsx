@@ -83,7 +83,6 @@ export default class TemplatesPage extends React.Component<Props, {textTemplates
 
     render() {
         const { templates, textTemplates, navbarPositionFixed } = this.state;
-        console.log('navbarPositionFixed', navbarPositionFixed)
 
         return <div>
             <Helmet>

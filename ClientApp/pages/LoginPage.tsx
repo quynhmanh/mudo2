@@ -51,12 +51,11 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
     }
 
     responseGoogle = (response) => {
-        console.log(response);
+        
       }
 
       facebook() {
         const nonce = uuidv4();
-        console.log(nonce);
         const url = "https://www.facebook.com/v4.0/dialog/oauth?"
             + "client_id=" + "476336289816631"
             + "&redirect_uri=" + window.location.origin + "/users/authenticate/external?provider=facebook"
@@ -70,9 +69,7 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
     }
 
     google() {
-        console.log('asdas d fuck fuck fucl');
         const nonce = uuidv4();
-        console.log(nonce);
         const url = "https://accounts.google.com/o/oauth2/v2/auth?"
             + "client_id=" + "75521893646-ejv81aiajee0gkt0ebs3pkohhubj47k1.apps.googleusercontent.com"
             + "&response_type=token"
@@ -84,8 +81,7 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
         
     }
 
-    externalProviderCompleted(fragment) {
-        console.log(fragment);       
+    externalProviderCompleted(fragment) {    
         if (fragment === null || typeof fragment !== 'object' || !fragment.hasOwnProperty("access_token")) {
             // alert("external login failed!");
             return;
@@ -107,12 +103,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
         })
         .then(
             user => { 
-                console.log('user ', user);
                 this.onLoginSuccess(user);
             },
             error => {
-                // alert(error);
-                console.log(error);
+
             }
         );
     }
@@ -141,10 +135,6 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
             password: "fuck fuck",
         }
 
-        console.log(a);
-
-        console.log('this.props ', this.props)
-
         await this.props.loginRequest(a);
 
         this.setState({
@@ -155,12 +145,9 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
 
     render() {
 
-        console.log('asdasd', this.state.isLoggedIn)
         if (this.state.isLoggedIn) {
             return <Redirect to='/' />;
         }
-
-        console.log('heje', this.state);
 
         return <div id="loginPage" style={{
             left: 0,
