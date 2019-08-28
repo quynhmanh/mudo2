@@ -34,7 +34,7 @@ export default class Footer extends React.Component<{}, {}> {
                       <li className="jsx-104637934"><a href="https://pages.mudo.vn/partners" className="jsx-104637934">Hợp tác</a></li>
                       <li className="jsx-104637934"><a href="https://pages.mudo.vn/genuine-guarantee" className="jsx-104637934">Chính hãng</a></li>
                       <li className="jsx-104637934"><a href="https://careers.mudo.vn" className="jsx-104637934">Tuyển dụng</a></li>
-                      <li className="jsx-104637934"><a className="jsx-104637934" href="/vn/brands">Thương hiệu</a></li>
+                      <li className="jsx-104637934"><a className="jsx-104637934" href="https://careers.mudo.vn/vn/brands">Thương hiệu</a></li>
                     </ul>
                   </div>
                 </div>
