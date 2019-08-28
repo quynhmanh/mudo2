@@ -26,7 +26,9 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     private elCollapseButton: HTMLButtonElement;
 
     componentDidMount() {
-        var dropdown = new Dropdown(this.elDropdown);
+        if (this.elDropdown) {
+            var dropdown = new Dropdown(this.elDropdown);
+        }
         var collapse = new Collapse(this.elCollapseButton);
     }
 
@@ -88,10 +90,14 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                         {/* <li><NavLink exact to={'/editor'} activeClassName="active">Learn</NavLink></li> */}
                         {/* <li><NavLink exact to={'/cart'} activeClassName="active">Giỏ hàng</NavLink></li> */}
                         <li className="dropdown">
+                            {Globals.serviceUser && Globals.serviceUser.username ?
                             <a href="#" ref={x => this.elDropdown = x} className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {Globals.serviceUser && Globals.serviceUser.username}&nbsp;
                                 <span className="caret"></span>
                             </a>
+                            :
+                            <NavLink exact to={'/login'} activeClassName="active">Đăng nhập</NavLink>
+                            }
                             <ul className="dropdown-menu">
                                 <li><NavLink exact to={'/account'} activeClassName="active">Thông tin tài khoản</NavLink></li>
                                 <li><a href="#" onClick={this.onClickSignOut}>Quản lí đơn hàng</a></li>
