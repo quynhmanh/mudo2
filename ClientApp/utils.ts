@@ -353,7 +353,6 @@ export function preparePortal($root, className) {
 export function positionRotated(left: number, top: number, width: number, height: number, rotateAngle: number) {
   let centerX = left + width / 2;
   let centerY = top + height / 2;
-  console.log('centerX centerY', centerX, centerY);
   if (rotateAngle === 90 || rotateAngle === 270) {
     return {
       top: centerY - width / 2,
@@ -377,7 +376,6 @@ export function getBoundingClientRect(id: string) {
 
 export function getMostProminentColor(imgEl) {
   var data = getImageData(imgEl, null, null, null);
-  console.log('data ', data);
   var rgb = null;
   rgb = getMostProminentRGBImpl(data, 6, rgb);
   rgb = getMostProminentRGBImpl(data, 4, rgb);
@@ -387,7 +385,6 @@ export function getMostProminentColor(imgEl) {
 };
 
 var getImageData = function(imgEl, degrade, rgbMatch, colorFactorCallback) {
-  console.log('getImageData ')
   var rgb,
       canvas = document.createElement('canvas'),
       context = canvas.getContext && canvas.getContext('2d'),
@@ -409,14 +406,11 @@ var getImageData = function(imgEl, degrade, rgbMatch, colorFactorCallback) {
   try {
     data = context.getImageData(0, 0, width, height);
   } catch(e) {
-    console.log(e);
     /* security error, img on diff domain */
     return null;
   }
 
   length = data.data.length;
-
-  console.log('length ', length)
   
   var factor = Math.max(1,Math.round(length/5000));
   var result = {};
@@ -427,7 +421,6 @@ var getImageData = function(imgEl, degrade, rgbMatch, colorFactorCallback) {
       if (!result.hasOwnProperty(key)) {
         rgb = {r:data.data[i], g:data.data[i+1], b:data.data[i+2],count:1};
         rgb.weight = 0;
-        console.log('rgb ', rgb);
         // rgb.weight = this.callback(rgb.r, rgb.g, rgb.b);
         if (rgb.weight<=0) rgb.weight = 1e-10;
         result[key]=rgb;

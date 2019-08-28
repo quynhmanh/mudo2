@@ -92,8 +92,6 @@ export default class Canvas extends PureComponent<IProps, IState> {
 
         const {mode, rectWidth, rectHeight, scale, images, childId, cropMode, index, id, staticGuides, idObjectSelected} = this.props;
 
-      console.log('images ', images);
-
       return <ResizableRectContainer 
         // onTransitionEnd={this.props.handleDeleteThisPage}
         style={{

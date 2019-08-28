@@ -35,16 +35,13 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
 
     handleDeleteTemplate = () => {
         var url = `/api/Template/Delete?id=${this.props.item.id}`;
-        console.log('handleSubmit url ', url)
         axios.delete(url);
     }
 
     handleSubmit = () => {
         var url = `/api/Template/Edit`;
-        console.log('handleSubmit url ', url)
         axios.post(url, {subType: this.refSubtype.innerHTML, title: this.ref.innerHTML, id: this.props.item.id, keywords: this.state.keywords, filePath: this.refFilePath.innerHTML })
             .then(res => {
-                console.log('res ', res)
                 if (res.status === 200) {
                     this.props.closePopup();
                 }
@@ -52,7 +49,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
     }
 
     handleKeywordChanged = (index, e) => {
-        console.log('index value', index, e.target.value);
         var keywords = this.state.keywords.map((kw, id) => {
             if (id === index) {
                 return e.target.value;
@@ -64,7 +60,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
     }
 
     handleRemove = (index, e) => {
-        console.log('index ', index)
         var keywords = this.state.keywords.filter((kw, id) => id !== index);
         this.setState({keywords});
     }

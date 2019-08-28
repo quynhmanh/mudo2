@@ -14,15 +14,13 @@ type Props = IProps;
 
 const Breadcrumbs = () => <Route path="*" render={props => {
     let parts = props.location.pathname.split("/");
-    console.log('props.location.pathname ', props.location.pathname)
     // parts = ['home', ...parts.splice(1, parts.length-1)];
-    console.log('parts', parts)
     const place = parts[parts.length-1];
     parts = parts.slice(1, parts.length-1);
     if (!place) {
         return null;
     }
-    console.log('place ', place)
+
     // parts = ["home", ...parts];
     return <div style={{padding: '10px',}}>
         {crumb('Home', 0, ['Home', ...parts])}
@@ -72,7 +70,6 @@ const Breadcrumbs = () => <Route path="*" render={props => {
     }
   
   const crumb = (part, partIndex, parts) => {
-        console.log('part ', part);
         const path = ['', ...parts.slice(0, partIndex+1)].join("/");
         return <Link style={{
             color: 'black',

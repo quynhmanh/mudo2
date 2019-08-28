@@ -479,7 +479,6 @@ export default class Rect extends PureComponent<IProps, IState> {
   endEditing = e => {};
 
   startEditing = selectionScaleY => {
-    console.log('startEditting');
     this.setState({selectionScaleY});
   };
 
@@ -523,13 +522,11 @@ export default class Rect extends PureComponent<IProps, IState> {
   }
 
   innerHTML = () => {
-    console.log('innerHTML ')
     var parser = new DOMParser;
     var dom = parser.parseFromString(
         '<!doctype html><body>' + this.props.innerHTML,
         'text/html');
     var decodedString = dom.body.textContent;
-    console.log('decoded String ', decodedString);
     return decodedString;
   }
 
@@ -569,9 +566,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       showImage,
       backgroundColor,
     } = this.props;
-
-    console.log('showImage ', showImage);
-    console.log('cropMode ', cropMode);
 
     var newWidth = width;
     var newHeight = height;

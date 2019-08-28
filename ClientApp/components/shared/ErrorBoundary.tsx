@@ -8,7 +8,6 @@ export default class ErrorBoundary extends React.Component<{}, {hasError: boolea
 
     componentDidCatch(error, info) {
         this.setState({ hasError: true });
-        console.log(error, info);
     }
 
     render() {

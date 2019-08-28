@@ -21,7 +21,6 @@ export default class AccountPage extends React.Component<Props, {orders, selecte
         var url = `/api/Order/Search`;
         axios.get(url).then(
             res => {
-                console.log(' res  r ', res);
                 self.setState({
                     orders: res.data.value.key,
                 })

@@ -66,8 +66,6 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     this.resizeHandler = throttle(this.checkWindowScroll.bind(this), this.props.throttle);
     this.loadMore = throttle(this.props.onLoadMore, this.props.throttle);
 
-    console.log('scrollhandler ', this.scrollHandler)
-
     window.document.body.addEventListener('scroll', this.scrollHandler);
     window.addEventListener('resize', this.resizeHandler);
     this.containerSroll.addEventListener('scroll', this.scrollHandler);
@@ -81,7 +79,6 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
   }
 
   checkWindowScroll = () => {
-    console.log('checkWindowScroll');
     if (this.props.isLoading) {
       return;
     }
@@ -97,13 +94,11 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
       this.sentinel.getBoundingClientRect().top - window.innerHeight <
       this.props.threshold
     ) {
-      console.log('InfiniteScroll.checkWindowScroll.loadMore');
       this.loadMore();
     }
   }
 
   render() {
-    console.log('this.props.loaderBlack', this.props.loaderBlack)
     const sentinel = <div ref={i => {this.sentinel = i}} />;
     if(this.props.render) {
       return this.props.render({

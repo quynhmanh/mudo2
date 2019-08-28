@@ -69,8 +69,6 @@ class TreeView extends AppComponent<IProps, IState> {
       />
     );
 
-    console.log('colapsed', collapsed)
-
     return (
       <div className={'tree-view ' + treeViewClassName}>
           <Link replace={false} key={this.props.path} to={this.props.path}>

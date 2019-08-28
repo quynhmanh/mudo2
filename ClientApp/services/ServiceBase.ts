@@ -93,9 +93,7 @@ export abstract class ServiceBase {
                     data: { token: jwtToken, refreshToken },
                 });
 
-                console.log("refreshing token...")
                 if (!refreshResponse.hasErrors) {
-                    console.log("refreshing token => ok")
                     Globals.serviceUser.token = refreshResponse.value.token;
                     Globals.serviceUser.refreshToken = refreshResponse.value.refreshToken;
                     if (opts.headers.hasOwnProperty("Authorization"))

@@ -820,7 +820,6 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
 //   }
 
   loadMore = (initialLoad, filePath) => {
-    console.log('loadMore ');
     let pageId;
     let count;
     if (initialLoad) {
@@ -854,10 +853,6 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                 }
             }
             
-          console.log('res ', res);
-          console.log('asd ', templates.length + templates2.length + res.data.value.documents.length, res.data.value.count);
-          console.log('currentHeight ', currentHeight);
-          console.log('currentHeight2 ', currentHeight2);
           self.setState({
               templates: [...templates, ...res1],
               templates2: [...templates2, ...res2],

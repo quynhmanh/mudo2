@@ -39,7 +39,6 @@
                 return data;
             }
             const fragment = getFragment();
-            console.log('fragment');
             window.opener.authenticationScope.complete(fragment);
             window.close();
         })();</script>

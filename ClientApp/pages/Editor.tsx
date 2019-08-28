@@ -368,8 +368,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var self = this;
     var subtype;
     var template_id = this.props.match.params.template_id;
-    console.log('props ', this.props)
-    console.log('fontList ', this.state.fontsList)
 
     if (template_id) {
 
@@ -380,13 +378,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           throw new Error(res.data.errors.join("\n"));
         }
 
-        console.log('res ', res);
-
         var image = res.data;
         var templateType = image.value.type;
         var mode;
         if (this.props.match.path == "/editor/design/:template_id") {
-          console.log('/editor/design/:template_id')
           mode = Mode.CreateDesign;
         }
         else if (templateType == TemplateType.Template) {
@@ -436,7 +431,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           });
         }
 
-        console.log('document ', res);
         subtype = res.data.value.printType;
         self.setState({ 
           scale: Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY),
@@ -461,13 +455,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       })
     }
 
-    console.log('subtype ', subtype);
     if (this.props.match.params.subtype) {
       subtype = this.props.match.params.subtype;
       var rectWidth;
       var rectHeight;
       if (subtype == 0) {
-        console.log("Asdasd")
         rectWidth = 642;
         rectHeight = 378;
       } else if (subtype == 1) {
@@ -485,7 +477,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       }
       var scaleX = (width - 100) / rectWidth;
       var scaleY = (height - 100) / rectHeight;
-      console.log("Asdasd")
       self.setState({ 
         rectWidth,
         rectHeight,
@@ -493,8 +484,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         scale: Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY),
       });
     }
-
-    console.log('this.state.subtype ', subtype);
 
     this.loadMore.bind(this)(true);
     this.loadMoreFont(true);
@@ -517,7 +506,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   }
 
   handleEditFont = (item) => {
-    console.log('handleEditFont ');
     this.setState({showFontEditPopup: true, editingFont: item})
   }
 
@@ -588,7 +576,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           } 
 
           if (t5 && t8 && type=="tl") {
-            console.log('e.clientX e.clientY', e.clientX, e.clientY, oldDeltaLeft, oldDeltaHeight);
             self.setState({
               resizingInnerImage: !self.state.resizingInnerImage, 
               startX: e.clientX - image.posX, 
@@ -599,7 +586,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           }
 
           if (t5 && t6 && type == "bl") {
-            console.log("bl");
             self.setState({
               resizingInnerImage: !self.state.resizingInnerImage, 
               startX: e.clientX - deltaLeft, 
@@ -610,7 +596,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           }
 
           if (t6 && t7 && type == "br") {
-            console.log("br");
             self.setState({
               resizingInnerImage: !self.state.resizingInnerImage, 
               startX: e.clientX - deltaLeft, 
@@ -621,7 +606,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           }
 
           if (t8 && t7 && type == "tr") {
-            console.log("tr");
             self.setState({
               resizingInnerImage: !self.state.resizingInnerImage, 
               startX: e.clientX - deltaWidth, 
@@ -733,8 +717,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
         if (image.height - top - height > 0 &&
           image.width - left - width > 0 && (type == "br")) {
-            console.log(3, image.width - left - width, e.clientX);
-            console.log(3, image.height - top - height, e.clientY);
             self.setState({
               resizingInnerImage: !self.state.resizingInnerImage, 
               startX: e.clientX + image.width - left - width, 
@@ -747,7 +729,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         }
         else
         if (image.height - top > height && left <= 0 && (type == "bl" || type == "br")) {
-          console.log(1, image.height - top, height, left);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX, 
@@ -759,7 +740,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           // width = -left + image.width;
         } else 
         if (image.height - top > height && left > 0 && (type == "bl")) {
-          console.log(2);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX - left, 
@@ -773,11 +753,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           height = -top + image.height;
         }
         else
-        // console.log('image.height - top, height', image.height - top, height);
-        // console.log('image.width - left, width', image.width - left, width);
 
         if (image.width - left > width && top < 0 && (type == "tr" || type == "br")) {
-          console.log(4);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX, 
@@ -788,7 +765,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           width = -left + image.width;
         } else 
         if (image.width - left > width && top > 0 && type == "tr") {
-          console.log(5);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX - top, 
@@ -803,7 +779,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         }
         else
         if (top > 0 && left <= 0 && (type == "tl" || type == "tr")) {
-          console.log(6);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX, 
@@ -815,7 +790,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           switching = true;
           self.handleResize = () => {};
         } else if (left > 0 && top <= 0 && (type == "tl" || type == "bl")) {
-          console.log(7);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX - left, 
@@ -828,7 +802,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           self.handleResize = () => {};
         } else 
         if (left > 1 && top > 1 && type == "tl") {
-          console.log(8, left, top);
           self.setState({
             resizingInnerImage: !self.state.resizingInnerImage, 
             startX: e.clientX - left, 
@@ -1272,8 +1245,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
-    console.log('handleImageSelected');
-    console.log('selected image ', img._id, this.state.idObjectSelected);
     if (img._id === this.state.idObjectSelected) {
       return;
     }
@@ -1310,7 +1281,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       fontSize = window.getComputedStyle(el, null).getPropertyValue("font-size");
       fontSize = parseInt(fontSize.substring(0, fontSize.length)) * scaleY;
     }
-    console.log('font ', font)
     this.handleFontFamilyChange(font);
     this.handleFontColorChange(defaultColor);
     this.setState({fontSize});
@@ -1503,7 +1473,6 @@ html {
   }
 
   async downloadPNG(transparent, png) {
-    console.log('transparent ', transparent);
     var previousScale = this.state.scale;
     var self = this;
     this.doNoObjectSelected();
@@ -1537,7 +1506,6 @@ html {
             self.setState(
               { scale: previousScale, showPopup: false, downloading: false, }
             );
-            console.log('response.data ', response.data);
             self.download(`test.${png ? "png" : "jpeg"}`, response.data);
           })
       }
@@ -1546,7 +1514,6 @@ html {
 
   async saveImages(rep) {
     var _id;
-    console.log('saveImages ');
     this.setState({isSaving: true})
     const { mode } = this.state;
     var self = this;
@@ -1644,8 +1611,6 @@ html {
         url = "/api/Template/Add";
       }
 
-      console.log('url ', url)
-
       var type;
       if (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) {
         type = TemplateType.TextTemplate;
@@ -1675,8 +1640,6 @@ html {
           });
 
           _id = self.state._id ? self.state._id : uuidv4();
-
-          console.log('adding ', _id);
 
           var res = JSON.stringify({
             "CreatedAt": "2014-09-27T18:30:49-0300",
@@ -1712,8 +1675,6 @@ html {
             "Representative": rep ? rep : `images/${uuidv4()}.png`,
             "Representative2": `images/${uuidv4()}.png`,
           });
-
-          console.log('res ', res)
 
           axios.post(url, res, {
             headers: {
@@ -1785,7 +1746,6 @@ html {
   }
 
   onSingleTextChange(thisImage, e, childId) {
-    console.log('onSingleTextChange')
     var els;
     if (childId){
       els = document.getElementById(childId).getElementsByTagName('font');
@@ -1806,9 +1766,6 @@ html {
       els[i].removeAttribute("size");
       els[i].style.fontSize = this.state.fontSize / thisImage.scaleY / scaleChildY + 'px';
     }
-    
-
-    console.log('onSingleTextChange ', this.state.fontSize / thisImage.scaleY + 'px')
 
     e.persist();
     setTimeout(() => {
@@ -1833,7 +1790,6 @@ html {
               a = document.getElementById(thisImage._id).getElementsByClassName("text2")[0] as HTMLElement;
             }
             var newHeight = a.offsetHeight * image.scaleY;
-            console.log('newHeight ', newHeight);
             image.height = newHeight;
             var tmp = newHeight/2 - oldHeight/2;
             var deltacX = tmp * Math.sin((360 - image.rotateAngle) / 180 * Math.PI);
@@ -1867,12 +1823,9 @@ html {
                 // var a = fontElements as HTMLElement
                 // a.removeAttribute("size");
                 // a.style.fontSize = this.state.fontSize / image.scaleY / text.scaleY + 'px';
-
-                console.log('text ', text.innerHTML, e.target.innerHTML);
                 
                 text.innerHTML = e.target.innerHTML;
                 text.height = e.target.offsetHeight * text.scaleY;
-                console.log('newHeight', text.height)
               }
               return text;
             });
@@ -1949,8 +1902,6 @@ html {
           return doc;
         });
 
-        console.log('template.fontList ', doc)
-
         if (doc.fontList) {
           var fontList = doc.fontList.forEach(id => { 
               var style = `@font-face {
@@ -1993,7 +1944,6 @@ html {
   }
 
   textOnMouseDown(id, e) {
-    console.log(arguments)
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
@@ -2041,16 +1991,11 @@ html {
               response => response.text()
             )
             .then(html => {
-              // var image = JSON.parse(html);
-              // console.log('image ', image);
-              // var document = JSON.parse(image.value.document)
-              // console.log('document ', document);
               var doc = this.state.groupedTexts.find(doc => doc.id == id);
               if (!doc) {
                 doc = this.state.groupedTexts2.find(doc => doc.id == id);
               }
               var document = JSON.parse(doc.document)
-              console.log('document ', document);
               document._id = uuidv4();
               document.page = self.state.pages[index];
               document.zIndex = this.state.upperZIndex + 1;
@@ -2062,13 +2007,10 @@ html {
               // document.origin_height = document.height / document.scaleY;
               document.scaleX = document.width / document.origin_width;
               document.scaleY = document.height / document.origin_height;
-              console.log('document ', document);
               document.left = (rec2.left - rec.left) / self.state.scale;
               document.top = (rec2.top - rectTop) / self.state.scale;
               document.scaleX = rec2.width / this.state.rectWidth;
               document.scaleY = rec2.height / this.state.rectHeight;
-              // console.log('scaleX ', document.scaleX);
-              // console.log('scaleY ', document.scaleY);
               // document.scaleX = 1;
               // document.scaleY = 1;
               // document.document_object = document.document.map(obj => {
@@ -2164,15 +2106,11 @@ html {
   videoOnMouseDown(e) {
     e.preventDefault();
 
-    console.log('videoOnMouseDown e.target ', e.target);
     var target = e.target.cloneNode(true);
 
-    console.log('videoOnMouseDown cloned', e.target.getElementsByTagName("source"))
     target.style.zIndex = "11111111111";
-    console.log('e.target ', e.target.getElementsByTagName("source")[0].getAttribute("src"))
     target.src = e.target.getElementsByTagName("source")[0].getAttribute("src");
     target.style.width = e.target.getBoundingClientRect().width + 'px';
-    console.log('e.target.getBoundingClientRect().width ', e.target.getBoundingClientRect().width);
     document.body.appendChild(target);
     var self = this;
     this.imgDragging = target;
@@ -2280,12 +2218,9 @@ html {
     e.preventDefault();
     var target = e.target.cloneNode(true);
     target.style.zIndex = "11111111111";
-    // console.log('e.target ', e.target.getAttribute("srcset"))
     target.src = e.target.getAttribute("src");
     target.style.width = e.target.getBoundingClientRect().width + 'px';
     target.style.backgroundColor = e.target.style.backgroundColor;
-    console.log('backgorund Color', e.target.style.backgroundColor);
-    console.log('e.target.getBoundingClientRect().width ', e.target.getBoundingClientRect().width);
     document.body.appendChild(target);
     var self = this;
     this.imgDragging = target;
@@ -2494,8 +2429,6 @@ html {
 
     var node = document.getElementById('alo');
 
-    console.log('node ', node);
-
     return htmlToImage.toPng(node)
   }
 
@@ -2691,7 +2624,6 @@ handleToolbarResize = e => {
     var fr = new FileReader();
     fr.readAsDataURL(file);
     fr.onload = () => {
-      console.log('fr.result ', fr.result);
       var url = `/api/Media/Add`;
       var i = new Image(); 
 
@@ -2716,15 +2648,12 @@ handleToolbarResize = e => {
   }
 
   uploadImage = (type, e) => {
-    console.log('selectedTab ', this.state.selectedTab);
     var self = this;``
     var fileUploader = document.getElementById("image-file") as HTMLInputElement;
     var file = fileUploader.files[0];
     var fr = new FileReader();
     fr.readAsDataURL(file);
     fr.onload = () => {
-      console.log('fr.result ', fr.result);
-      console.log('fr ', file);
       var url = `/api/Media/Add`;
       var i = new Image(); 
 
@@ -2752,7 +2681,6 @@ handleToolbarResize = e => {
 }
 
   uploadFont = (e) => {
-    console.log('uploadFont ');
     var self = this;``
     var fileUploader = document.getElementById("image-file") as HTMLInputElement;
     var file = fileUploader.files[0];
@@ -2778,7 +2706,6 @@ handleToolbarResize = e => {
   }
 
   selectFont = (id, e) => {
-    console.log('selectedFont');
     this.setState({fontId: id});
 
     var font = this.state.fontsList.find(font => font.id === id);
@@ -2828,7 +2755,6 @@ handleToolbarResize = e => {
   }
 
   handleChildIdSelected = (childId) => {
-    console.log('handleChildIdSelected');
     this.setState({childId});
   }
 
@@ -2850,8 +2776,6 @@ handleToolbarResize = e => {
   }
 
   setSelectionColor = (color, e) => {
-    console.log('_id ', this.state.idObjectSelected);
-    console.log('type', this.state.typeObjectSelected);
     if (this.state.typeObjectSelected === TemplateType.Latex) {
       var images = this.state.images.map(img => {
         if (img._id === this.state.idObjectSelected) {
@@ -2860,11 +2784,8 @@ handleToolbarResize = e => {
         return img;
       });
 
-      console.log('images ', images);
-
       this.setState({images});
     } else if (this.state.typeObjectSelected === TemplateType.Image) {
-      console.log('this.state.typeObjectSelected === TemplateType.Image');
       var images = this.state.images.map(img => {
         if (img._id === this.state.idObjectSelected) {
           img.backgroundColor = color;
@@ -2881,8 +2802,7 @@ handleToolbarResize = e => {
         this.handleFontColorChange(color);
       } else {
         var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
-        console.log('childId ', childId)
-        var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];      console.log('el ', el);
+        var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];
         var sel = window.getSelection();
         var range = document.createRange();
         range.selectNodeContents(el);
@@ -2948,7 +2868,6 @@ handleToolbarResize = e => {
   }
 
   loadMoreFont = (initialLoad) => {
-    console.log('loadmoreFont')
     let pageId;
     let count;
     if (initialLoad) {
@@ -2960,12 +2879,10 @@ handleToolbarResize = e => {
     }
     // this.setState({ isLoading: true, error: undefined });
     const url = `/api/Font/Search?page=${pageId}&perPage=${count}`;
-    console.log('url ', url);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
-          console.log('res ', res);
           this.setState(state => ({
             fontsList: [...state.fontsList, ...res.value.key],
             totalFonts: res.value.value,
@@ -2991,13 +2908,11 @@ handleToolbarResize = e => {
     this.setState({ isLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${count}&userEmail=${Globals.serviceUser.username}`;
-    console.log('loadmoreUserUpload ', url)
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
           var result = res.value.key;
-          console.log('res loadmoreUserUpload', res);
           var currentUserUpload1 = this.state.currentUserUpload1;
           var currentUserUpload2 = this.state.currentUserUpload2;
           var res1 = [];
@@ -3041,13 +2956,11 @@ handleToolbarResize = e => {
     this.setState({ isLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.BackgroundImage}&page=${pageId}&perPage=${count}`;
-    console.log('url loadMoreBackground ', url);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
           var result = res.value.key;
-          console.log('res loadMoreBackground', res);
           var currentBackgroundHeights1 = this.state.currentBackgroundHeights1;
           var currentBackgroundHeights2 = this.state.currentBackgroundHeights2;
           var currentBackgroundHeights3 = this.state.currentBackgroundHeights3;
@@ -3067,10 +2980,6 @@ handleToolbarResize = e => {
               currentBackgroundHeights3 += 150 / (currentItem.width / currentItem.height);
             }
           }
-          console.log('res1 ', res1);
-          console.log('res2 ', res2);
-          console.log('this.state.items', this.state.items);
-          console.log('this.state.items2', this.state.items2);
           this.setState(state => ({
             backgrounds1: [...state.backgrounds1, ...res1],
             backgrounds2: [...state.backgrounds2, ...res2],
@@ -3090,7 +2999,6 @@ handleToolbarResize = e => {
   }
 
   loadMoreTemplate = (initalLoad, subtype) => {
-    console.log('loadMoreTextTemplate')
     let pageId;
     let count;
     if (initalLoad) {
@@ -3102,12 +3010,10 @@ handleToolbarResize = e => {
     }
     // this.setState({ isLoading: true, error: undefined });
     const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype ? subtype : this.state.subtype}`;
-    console.log('url ', url);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
-          console.log('res loadMoreTemplate', res);
           var result = res.value.key;
           var currentTemplatesHeight = this.state.currentTemplatesHeight;
           var currentTemplate2sHeight = this.state.currentTemplate2sHeight;
@@ -3138,7 +3044,6 @@ handleToolbarResize = e => {
   }
 
   loadMoreTextTemplate = (initalLoad) => {
-    console.log('loadMoreTextTemplate')
     let pageId;
     let count;
     if (initalLoad) {
@@ -3197,12 +3102,10 @@ handleToolbarResize = e => {
     this.setState({ isLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
-    console.log('res url loadMore ', url);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
-          console.log('res loadMore', res);
           var result = res.value.key;
           var currentItemsHeight = this.state.currentItemsHeight;
           var currentItems2Height = this.state.currentItems2Height;
@@ -3237,19 +3140,16 @@ handleToolbarResize = e => {
   handleQuery = (e) => {
     if (e.key === "Enter") {
       this.setState({query: e.target.value, items: [], items2: [],}, () => {this.loadMore(true)});
-      console.log('e.target.value', e.target.value)
     }
   }
 
   renderCanvas(preview, index) {
-    console.log('preview ', preview, 'index ', index)
     var res = [];
     for (var i = 0; i < this.state.pages.length; ++i) {
       if (index >= 0 && i != index) {
         continue;
       }
 
-      console.log('iiiiii ', i);
       res.push(<Canvas
         isSaving={this.state.isSaving}
         downloading={this.state.downloading}
@@ -3301,7 +3201,6 @@ handleToolbarResize = e => {
   }
 
   handleDeleteThisPage = (pageId) => {
-    console.log('handleDeleteThisPage ', pageId);
     var pages = this.state.pages.filter(pId => pId !== pageId);
     this.setState({pages});
   }
@@ -3344,7 +3243,6 @@ handleToolbarResize = e => {
       .then(this.handleResponse)
       .then(
           responseFromMomo => {
-            console.log(responseFromMomo)
             responseFromMomo && responseFromMomo.localMessage && alert(responseFromMomo.localMessage);
             if (responseFromMomo.message === "Success") {
                 this.handleAddOrder();
@@ -3352,7 +3250,7 @@ handleToolbarResize = e => {
             }
           },
           error => {
-              console.log(error);
+              
           }
       );
   }
@@ -3370,14 +3268,12 @@ handleToolbarResize = e => {
               window.open(responseFromMomo.payUrl, "_blank"); 
           },
           error => {
-              console.log(error);
+              
           }
       );
   }
 
   handleContinueOrder = async () => {
-      console.log(this.state.currentPrintStep);
-      console.log(this.refFullName);
     if (this.state.currentPrintStep === 3 && this.state.orderStatus !== 'success') {
         await this.getMoMoPayUrl();
     }
@@ -3387,7 +3283,6 @@ handleToolbarResize = e => {
 
   handleAddOrder = async () => {
     if (this.refFullName) {
-      console.log('fullName', this.refFullName.value);
       var fullName = this.refFullName.value;
       var address = this.refAddress.value;
       var city = this.refCity.value;
@@ -3396,8 +3291,6 @@ handleToolbarResize = e => {
       var rep = `images/${uuidv4()}.png`;
 
       this.saveImages(rep);
-
-      console.log('this.state._id ', this.state._id);
 
       var url = `/api/Order/Add`;
       var res = {
@@ -3420,8 +3313,6 @@ handleToolbarResize = e => {
 
   render() {
     const { scale, staticGuides, rectWidth, rectHeight, images, cropMode, pages, } = this.state; 
-
-    console.log('Globals.serviceUser.username', Globals.serviceUser.username);
 
     const adminEmail = "llaugusty@gmail.com"
 
@@ -3598,8 +3489,8 @@ handleToolbarResize = e => {
                     <input 
                       id="image-file" 
                       type="file"
-                      onLoad={(data) => {console.log('data ', data)}}
-                      onLoadedData={(data) => {console.log('data', data)}}
+                      onLoad={(data) => {}}
+                      onLoadedData={(data) => {}}
                       onChange={(e) => { this.uploadImage(this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : (this.state.selectedTab === SidebarTab.Background ? TemplateType.BackgroundImage : TemplateType.UserUpload), e)}}
                       style={{
                         bottom: 0,
@@ -4619,7 +4510,7 @@ handleToolbarResize = e => {
                     document.execCommand("italic");
                   } else {
                     var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
-                    var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];      console.log('el ', el);
+                    var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];
                     var sel = window.getSelection();
                     var range = document.createRange();
                     range.selectNodeContents(el);
@@ -4667,7 +4558,7 @@ handleToolbarResize = e => {
                     document.execCommand("bold");
                   } else {
                     var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
-                    var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];      console.log('el ', el);
+                    var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];
                     var sel = window.getSelection();
                     var range = document.createRange();
                     range.selectNodeContents(el);
@@ -4785,13 +4676,11 @@ handleToolbarResize = e => {
                           scale = Math.min(240, scale);
 
                           var a = document.getSelection();
-                          console.log('a  ', a);
                           if (a && a.type === "Range") {
                             document.execCommand("FontSize", false, "7");
                           } else {
                             var id = this.state.childId ? this.state.childId : this.state.idObjectSelected;
                             var el = this.state.childId ? document.getElementById(id) : document.getElementById(id).getElementsByClassName('text')[0];
-                            console.log('el ', el);
                             var sel = window.getSelection();
                             var range = document.createRange();
                             range.selectNodeContents(el);
@@ -4803,7 +4692,6 @@ handleToolbarResize = e => {
 
                           // document.execCommand("FontSize", false, "7");
                           this.setState({fontSize: scale})
-                          console.log('scale font ', scale)
                         }
 
                         const onUp = (e) => {
@@ -4987,7 +4875,6 @@ handleToolbarResize = e => {
             id="screen-container-parent"
             onClick={(e) => {
               if (!cropMode && (e.target as Element).id === "screen-container-parent") {
-                console.log('onClick ', e.target);
                 this.doNoObjectSelected();
                 e.stopPropagation();
               }
@@ -5081,7 +4968,6 @@ handleToolbarResize = e => {
                           var rec1 = document.getElementById('myDropdown-2').getBoundingClientRect();
                           var rec2 = document.getElementById('myDropdown-2slider');
                           var slide = rec1.bottom - e.pageY;
-                          console.log('slide ', slide)
                           var scale = slide / rec1.height * 2;
                           if (scale < 0.1 || scale > 1.8){
                             if (scale < 0.1) {
@@ -5407,19 +5293,19 @@ handleToolbarResize = e => {
         {this.state.showMediaEditPopup ? 
           <MediaEditPopup
           item={this.state.editingMedia}
-          closePopup={() => {console.log('asd'); this.setState({showMediaEditPopup: false})}}  
+          closePopup={() => {this.setState({showMediaEditPopup: false})}}  
           /> : null
         } 
         {this.state.showTemplateEditPopup ? 
           <TemplateEditor
           item={this.state.editingMedia}
-          closePopup={() => {console.log('asd'); this.setState({showTemplateEditPopup: false})}}  
+          closePopup={() => {this.setState({showTemplateEditPopup: false})}}  
           /> : null
         }
         {this.state.showFontEditPopup ?
           <FontEditPopup
           item={this.state.editingFont}
-          closePopup={() => {console.log('asd'); this.setState({showFontEditPopup: false})}}  
+          closePopup={() => {this.setState({showFontEditPopup: false})}}  
           /> : null
         } 
       </div>

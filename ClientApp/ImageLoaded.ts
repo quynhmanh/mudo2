@@ -175,7 +175,7 @@ export default class ImageLoaded {
     // filter & find items if we have an item selector
     this.elements.forEach( this.addElementImages, this );
 
-    console.log('this images', this.images);
+    
   };
   
   /**

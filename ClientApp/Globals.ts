@@ -49,7 +49,6 @@ export default class Globals {
         let currentSession = this.getSession();
         if (currentSession) {
             let publicSession = currentSession.public;
-            console.log(publicSession);
             if (publicSession) {
                 return publicSession.serviceUser;
             } else {

@@ -455,7 +455,6 @@ namespace RCB.TypeScript.Controllers
 
                         var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
         startRecording();
-console.log('asdasd');
         return Promise.resolve(42);
     }");
 
