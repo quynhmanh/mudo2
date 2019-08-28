@@ -35,29 +35,25 @@ namespace RCB.TypeScript.Services
             var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
 
             // create new user if user not found
-            bool isNewUser = false;
             if (user == null)
             {
                 user = new User { Username = username };
-                isNewUser = true;
+                var usersClaims = new [] 
+                {
+                    new Claim(ClaimTypes.Name, user.Username),                
+                    // new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                };
+
+                var jwtToken = _tokenService.GenerateAccessToken(usersClaims);
+                var refreshToken = _tokenService.GenerateRefreshToken();
+
+                user.Token = jwtToken;
+                user.RefreshToken = refreshToken;
+                _userContext.Users.Add(user);
+                _userContext.SaveChanges();
             }
 
             context.Response.Cookies.Append(Constants.AuthorizationCookieKey, username);
-
-            var usersClaims = new [] 
-            {
-                new Claim(ClaimTypes.Name, user.Username),                
-                // new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
-
-            var jwtToken = _tokenService.GenerateAccessToken(usersClaims);
-            var refreshToken = _tokenService.GenerateRefreshToken();
-
-            user.Token = jwtToken;
-            user.RefreshToken = refreshToken;
-            if (isNewUser)
-                _userContext.Users.Add(user);
-            _userContext.SaveChanges();
 
             return user;
         }
@@ -72,17 +68,9 @@ namespace RCB.TypeScript.Services
             if (string.IsNullOrEmpty(cookieValue))
                 return Error<User>();
 
-            // var user = _userContext.Users.SingleOrDefault(u => u.Username == cookieValue);
-            // if (user == null)
-            var user = new User 
-            { 
-                Username = cookieValue, 
-                Token = _tokenService.GenerateAccessToken(new [] 
-                {
-                    new Claim(ClaimTypes.Name, cookieValue),                
-                }), 
-                RefreshToken = _tokenService.GenerateRefreshToken() 
-            };
+            var user = _userContext.Users.SingleOrDefault(u => u.Username == cookieValue);
+            if (user == null)
+                return Error<User>();
 
             return Ok(user);
         }

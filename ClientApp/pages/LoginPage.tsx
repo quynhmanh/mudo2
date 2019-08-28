@@ -11,6 +11,7 @@ import bind from 'bind-decorator';
 import { Form } from "@Components/shared/Form";
 import GoogleLogin from 'react-google-login';
 import uuidv4 from "uuid/v4";
+import Globals from "@Globals";
 
 declare global {
     interface Window { authenticationScope: any; }
@@ -130,12 +131,13 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
     }
 
     onLoginSuccess = async user => {
-        var a = {
-            username: user.username,
-            password: "fuck fuck",
-        }
-
-        await this.props.loginRequest(a);
+        // var a = {
+        //     username: user.username,
+        //     password: "fuck fuck",
+        // }
+        // await this.props.loginRequest(a);
+        
+        Globals.serviceUser = user;
 
         this.setState({
             user, 

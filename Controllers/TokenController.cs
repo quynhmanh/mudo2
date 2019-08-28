@@ -28,14 +28,15 @@ namespace RCB.TypeScript.Controllers
             var principal = _tokenService.GetPrincipalFromExpiredToken(req.Token);
             var username = principal.Identity.Name; //this is mapped to the Name claim by default
 
-            // var user = _usersDb.Users.SingleOrDefault(u => u.Username == username);
-            // if (user == null || user.RefreshToken != refreshToken) return BadRequest();
+            var user = _usersDb.Users.SingleOrDefault(u => u.Username == username);
+            if (user == null || user.RefreshToken != req.RefreshToken) return BadRequest();
 
             var newJwtToken = _tokenService.GenerateAccessToken(principal.Claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
 
-            // user.RefreshToken = newRefreshToken;
-            // await _usersDb.SaveChangesAsync();
+            user.Token = newJwtToken;
+            user.RefreshToken = newRefreshToken;
+            await _usersDb.SaveChangesAsync();
 
             return Ok(new { value = new { token = newJwtToken, refreshToken = newRefreshToken} });
         }
