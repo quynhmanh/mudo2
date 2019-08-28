@@ -39,10 +39,6 @@ var tree = [
                 path: "/templates/brochures/beauty",
             },
             {
-                title: "Blank Brochures",
-                path: "/templates/brochures/bland-brochures",
-            },
-            {
                 title: "Dịch vụ kinh doanh",
                 path: "/templates/brochures/business-services",
             },
@@ -157,127 +153,123 @@ var tree = [
         path: "/templates/business-cards",
         childs: [
             {
-                title: "Agriculture",
+                title: "Nông nghiệp",
                 path: "/templates/business-cards/agriculture",
             },
             {
-                title: "Automotive & Transportation",
+                title: "Ôtô & Vận tải",
                 path: "/templates/business-cards/automotive-transportation",
             },
             {
-                title: "Beauty",
+                title: "Sắc đẹp (beauty)",
                 path: "/templates/business-cards/beauty",
             },
             {
-                title: "Blank Brochures",
-                path: "/templates/business-cards/bland-brochures",
-            },
-            {
-                title: "Business Services",
+                title: "Dịch vụ kinh doanh",
                 path: "/templates/business-cards/business-services",
             },
             {
-                title: "Child Care",
+                title: "Chăm sóc trẻ em",
                 path: "/templates/business-cards/child-care",
             },
             {
-                title: "Cleaning",
+                title: "Vệ sinh",
                 path: "/templates/business-cards/cleaning",
             },
             {
-                title: "Construction",
+                title: "Xây dựng",
                 path: "/templates/business-cards/construction",
             },
             {
-                title: "Creative",
+                title: "Sáng tạo",
                 path: "/templates/business-cards/creative",
             },
             {
-                title: "Education & Training",
+                title: "Giáo dục & Đào tạo",
                 path: "/templates/business-cards/education-training",
             },
             {
-                title: "Energy & Environment",
+                title: "Năng lượng & Môi trường",
                 path: "/templates/business-cards/energy-environment",
             },
             {
-                title: "Event",
+                title: "Sự kiện",
                 path: "/templates/business-cards/event",
             },
             {
-                title: "Financial Services",
+                title: "Dịch vụ tài chính",
                 path: "/templates/business-cards/financial-services",
             },
             {
-                title: "Food & Beverage",
+                title: "Thực phẩm",
                 path: "/templates/business-cards/food-beverage",
             },
+            // {
+            //     title: "Generic Brochures",
+            //     path: "/templates/business-cards/generic-brochures",
+            // },
             {
-                title: "Generic Brochures",
-                path: "/templates/business-cards/generic-brochures",
-            },
-            {
-                title: "Holiday",
+                title: "Ngày lễ",
                 path: "/templates/business-cards/holiday",
             },
             {
-                title: "House & Home",
+                title: "Nhà cửa",
                 path: "/templates/business-cards/house-home",
             },
             {
-                title: "Insurance",
+                title: "Bảo hiểm",
                 path: "/templates/business-cards/insurance",
             },
             {
-                title: "Law",
+                title: "Luật",
                 path: "/templates/business-cards/law",
             },
             {
-                title: "Lawn & Garden",
+                title: "Làm vườn",
                 path: "/templates/business-cards/law-garden",
             },
             {
-                title: "Medical & Health Care",
+                title: "Thuốc & Chăm sóc sức khỏe",
                 path: "/templates/business-cards/medical-healthcare",
             },
             {
-                title: "Music & Arts",
+                title: "Âm nhạc & Nghệ thuật",
                 path: "/templates/business-cards/music-arts",
             },
             {
-                title: "Non Profit",
+                title: "Không lợi nhuận",
                 path: "/templates/business-cards/non-profit",
             },
             {
-                title: "Pets & Animals",
+                title: "Thú nuôi",
                 path: "/templates/business-cards/pets-animals",
             },
             {
-                title: "Photography",
+                title: "Nhiếp ảnh",
                 path: "/templates/business-cards/photography",
             },
             {
-                title: "Real Estate",
+                title: "Bất động sản",
                 path: "/templates/business-cards/real-estate",
             },
             {
-                title: "Religion & Organizations",
+                title: "Tổ chức & Tôn giáo",
                 path: "/templates/business-cards/religion-organization",
             },
             {
-                title: "Retail",
+                title: "Bán lẻ",
                 path: "/templates/business-cards/retail",
             },
             {
-                title: "Sports & Wellness",
+                title: "Thể thao & Sức khỏe",
                 path: "/templates/business-cards/sports-wellness",
             },
             {
-                title: "Technology",
+                title: "Công nghệ",
                 path: "/templates/business-cards/technology",
             },
             {
-                title: "Travel & Tourism",
+                title: "Du lịch",
                 path: "/templates/business-cards/travel-tourism",
             },
         ],
@@ -287,127 +279,123 @@ var tree = [
         path: '/templates/poster',
         childs: [
             {
-                title: "Agriculture",
+                title: "Nông nghiệp",
                 path: "/templates/poster/agriculture",
             },
             {
-                title: "Automotive & Transportation",
+                title: "Ôtô & Vận tải",
                 path: "/templates/poster/automotive-transportation",
             },
             {
-                title: "Beauty",
+                title: "Sắc đẹp (beauty)",
                 path: "/templates/poster/beauty",
             },
             {
-                title: "Blank Brochures",
-                path: "/templates/poster/bland-brochures",
-            },
-            {
-                title: "Business Services",
+                title: "Dịch vụ kinh doanh",
                 path: "/templates/poster/business-services",
             },
             {
-                title: "Child Care",
+                title: "Chăm sóc trẻ em",
                 path: "/templates/poster/child-care",
             },
             {
-                title: "Cleaning",
+                title: "Vệ sinh",
                 path: "/templates/poster/cleaning",
             },
             {
-                title: "Construction",
+                title: "Xây dựng",
                 path: "/templates/poster/construction",
             },
             {
-                title: "Creative",
+                title: "Sáng tạo",
                 path: "/templates/poster/creative",
             },
             {
-                title: "Education & Training",
+                title: "Giáo dục & Đào tạo",
                 path: "/templates/poster/education-training",
             },
             {
-                title: "Energy & Environment",
+                title: "Năng lượng & Môi trường",
                 path: "/templates/poster/energy-environment",
             },
             {
-                title: "Event",
+                title: "Sự kiện",
                 path: "/templates/poster/event",
             },
             {
-                title: "Financial Services",
+                title: "Dịch vụ tài chính",
                 path: "/templates/poster/financial-services",
             },
             {
-                title: "Food & Beverage",
+                title: "Thực phẩm",
                 path: "/templates/poster/food-beverage",
             },
+            // {
+            //     title: "Generic Brochures",
+            //     path: "/templates/poster/generic-brochures",
+            // },
             {
-                title: "Generic Brochures",
-                path: "/templates/poster/generic-brochures",
-            },
-            {
-                title: "Holiday",
+                title: "Ngày lễ",
                 path: "/templates/poster/holiday",
             },
             {
-                title: "House & Home",
+                title: "Nhà cửa",
                 path: "/templates/poster/house-home",
             },
             {
-                title: "Insurance",
+                title: "Bảo hiểm",
                 path: "/templates/poster/insurance",
             },
             {
-                title: "Law",
+                title: "Luật",
                 path: "/templates/poster/law",
             },
             {
-                title: "Lawn & Garden",
+                title: "Làm vườn",
                 path: "/templates/poster/law-garden",
             },
             {
-                title: "Medical & Health Care",
+                title: "Thuốc & Chăm sóc sức khỏe",
                 path: "/templates/poster/medical-healthcare",
             },
             {
-                title: "Music & Arts",
+                title: "Âm nhạc & Nghệ thuật",
                 path: "/templates/poster/music-arts",
             },
             {
-                title: "Non Profit",
+                title: "Không lợi nhuận",
                 path: "/templates/poster/non-profit",
             },
             {
-                title: "Pets & Animals",
+                title: "Thú nuôi",
                 path: "/templates/poster/pets-animals",
             },
             {
-                title: "Photography",
+                title: "Nhiếp ảnh",
                 path: "/templates/poster/photography",
             },
             {
-                title: "Real Estate",
+                title: "Bất động sản",
                 path: "/templates/poster/real-estate",
             },
             {
-                title: "Religion & Organizations",
+                title: "Tổ chức & Tôn giáo",
                 path: "/templates/poster/religion-organization",
             },
             {
-                title: "Retail",
+                title: "Bán lẻ",
                 path: "/templates/poster/retail",
             },
             {
-                title: "Sports & Wellness",
+                title: "Thể thao & Sức khỏe",
                 path: "/templates/poster/sports-wellness",
             },
             {
-                title: "Technology",
+                title: "Công nghệ",
                 path: "/templates/poster/technology",
             },
             {
-                title: "Travel & Tourism",
+                title: "Du lịch",
                 path: "/templates/poster/travel-tourism",
             },
         ],
@@ -417,127 +405,123 @@ var tree = [
         path: '/templates/flyers',
         childs: [
             {
-                title: "Agriculture",
+                title: "Nông nghiệp",
                 path: "/templates/flyers/agriculture",
             },
             {
-                title: "Automotive & Transportation",
+                title: "Ôtô & Vận tải",
                 path: "/templates/flyers/automotive-transportation",
             },
             {
-                title: "Beauty",
+                title: "Sắc đẹp (beauty)",
                 path: "/templates/flyers/beauty",
             },
             {
-                title: "Blank Brochures",
-                path: "/templates/flyers/bland-brochures",
-            },
-            {
-                title: "Business Services",
+                title: "Dịch vụ kinh doanh",
                 path: "/templates/flyers/business-services",
             },
             {
-                title: "Child Care",
+                title: "Chăm sóc trẻ em",
                 path: "/templates/flyers/child-care",
             },
             {
-                title: "Cleaning",
+                title: "Vệ sinh",
                 path: "/templates/flyers/cleaning",
             },
             {
-                title: "Construction",
+                title: "Xây dựng",
                 path: "/templates/flyers/construction",
             },
             {
-                title: "Creative",
+                title: "Sáng tạo",
                 path: "/templates/flyers/creative",
             },
             {
-                title: "Education & Training",
+                title: "Giáo dục & Đào tạo",
                 path: "/templates/flyers/education-training",
             },
             {
-                title: "Energy & Environment",
+                title: "Năng lượng & Môi trường",
                 path: "/templates/flyers/energy-environment",
             },
             {
-                title: "Event",
+                title: "Sự kiện",
                 path: "/templates/flyers/event",
             },
             {
-                title: "Financial Services",
+                title: "Dịch vụ tài chính",
                 path: "/templates/flyers/financial-services",
             },
             {
-                title: "Food & Beverage",
+                title: "Thực phẩm",
                 path: "/templates/flyers/food-beverage",
             },
+            // {
+            //     title: "Generic Brochures",
+            //     path: "/templates/flyers/generic-brochures",
+            // },
             {
-                title: "Generic Brochures",
-                path: "/templates/flyers/generic-brochures",
-            },
-            {
-                title: "Holiday",
+                title: "Ngày lễ",
                 path: "/templates/flyers/holiday",
             },
             {
-                title: "House & Home",
+                title: "Nhà cửa",
                 path: "/templates/flyers/house-home",
             },
             {
-                title: "Insurance",
+                title: "Bảo hiểm",
                 path: "/templates/flyers/insurance",
             },
             {
-                title: "Law",
+                title: "Luật",
                 path: "/templates/flyers/law",
             },
             {
-                title: "Lawn & Garden",
+                title: "Làm vườn",
                 path: "/templates/flyers/law-garden",
             },
             {
-                title: "Medical & Health Care",
+                title: "Thuốc & Chăm sóc sức khỏe",
                 path: "/templates/flyers/medical-healthcare",
             },
             {
-                title: "Music & Arts",
+                title: "Âm nhạc & Nghệ thuật",
                 path: "/templates/flyers/music-arts",
             },
             {
-                title: "Non Profit",
+                title: "Không lợi nhuận",
                 path: "/templates/flyers/non-profit",
             },
             {
-                title: "Pets & Animals",
+                title: "Thú nuôi",
                 path: "/templates/flyers/pets-animals",
             },
             {
-                title: "Photography",
+                title: "Nhiếp ảnh",
                 path: "/templates/flyers/photography",
             },
             {
-                title: "Real Estate",
+                title: "Bất động sản",
                 path: "/templates/flyers/real-estate",
             },
             {
-                title: "Religion & Organizations",
+                title: "Tổ chức & Tôn giáo",
                 path: "/templates/flyers/religion-organization",
             },
             {
-                title: "Retail",
+                title: "Bán lẻ",
                 path: "/templates/flyers/retail",
             },
             {
-                title: "Sports & Wellness",
+                title: "Thể thao & Sức khỏe",
                 path: "/templates/flyers/sports-wellness",
             },
             {
-                title: "Technology",
+                title: "Công nghệ",
                 path: "/templates/flyers/technology",
             },
             {
-                title: "Travel & Tourism",
+                title: "Du lịch",
                 path: "/templates/flyers/travel-tourism",
             },
         ],
@@ -547,127 +531,123 @@ var tree = [
         path: '/templates/logo',
         childs: [
             {
-                title: "Agriculture",
+                title: "Nông nghiệp",
                 path: "/templates/logo/agriculture",
             },
             {
-                title: "Automotive & Transportation",
+                title: "Ôtô & Vận tải",
                 path: "/templates/logo/automotive-transportation",
             },
             {
-                title: "Beauty",
+                title: "Sắc đẹp (beauty)",
                 path: "/templates/logo/beauty",
             },
             {
-                title: "Blank Brochures",
-                path: "/templates/logo/bland-brochures",
-            },
-            {
-                title: "Business Services",
+                title: "Dịch vụ kinh doanh",
                 path: "/templates/logo/business-services",
             },
             {
-                title: "Child Care",
+                title: "Chăm sóc trẻ em",
                 path: "/templates/logo/child-care",
             },
             {
-                title: "Cleaning",
+                title: "Vệ sinh",
                 path: "/templates/logo/cleaning",
             },
             {
-                title: "Construction",
+                title: "Xây dựng",
                 path: "/templates/logo/construction",
             },
             {
-                title: "Creative",
+                title: "Sáng tạo",
                 path: "/templates/logo/creative",
             },
             {
-                title: "Education & Training",
+                title: "Giáo dục & Đào tạo",
                 path: "/templates/logo/education-training",
             },
             {
-                title: "Energy & Environment",
+                title: "Năng lượng & Môi trường",
                 path: "/templates/logo/energy-environment",
             },
             {
-                title: "Event",
+                title: "Sự kiện",
                 path: "/templates/logo/event",
             },
             {
-                title: "Financial Services",
+                title: "Dịch vụ tài chính",
                 path: "/templates/logo/financial-services",
             },
             {
-                title: "Food & Beverage",
+                title: "Thực phẩm",
                 path: "/templates/logo/food-beverage",
             },
+            // {
+            //     title: "Generic Brochures",
+            //     path: "/templates/logo/generic-brochures",
+            // },
             {
-                title: "Generic Brochures",
-                path: "/templates/logo/generic-brochures",
-            },
-            {
-                title: "Holiday",
+                title: "Ngày lễ",
                 path: "/templates/logo/holiday",
             },
             {
-                title: "House & Home",
+                title: "Nhà cửa",
                 path: "/templates/logo/house-home",
             },
             {
-                title: "Insurance",
+                title: "Bảo hiểm",
                 path: "/templates/logo/insurance",
             },
             {
-                title: "Law",
+                title: "Luật",
                 path: "/templates/logo/law",
             },
             {
-                title: "Lawn & Garden",
+                title: "Làm vườn",
                 path: "/templates/logo/law-garden",
             },
             {
-                title: "Medical & Health Care",
+                title: "Thuốc & Chăm sóc sức khỏe",
                 path: "/templates/logo/medical-healthcare",
             },
             {
-                title: "Music & Arts",
+                title: "Âm nhạc & Nghệ thuật",
                 path: "/templates/logo/music-arts",
             },
             {
-                title: "Non Profit",
+                title: "Không lợi nhuận",
                 path: "/templates/logo/non-profit",
             },
             {
-                title: "Pets & Animals",
+                title: "Thú nuôi",
                 path: "/templates/logo/pets-animals",
             },
             {
-                title: "Photography",
+                title: "Nhiếp ảnh",
                 path: "/templates/logo/photography",
             },
             {
-                title: "Real Estate",
+                title: "Bất động sản",
                 path: "/templates/logo/real-estate",
             },
             {
-                title: "Religion & Organizations",
+                title: "Tổ chức & Tôn giáo",
                 path: "/templates/logo/religion-organization",
             },
             {
-                title: "Retail",
+                title: "Bán lẻ",
                 path: "/templates/logo/retail",
             },
             {
-                title: "Sports & Wellness",
+                title: "Thể thao & Sức khỏe",
                 path: "/templates/logo/sports-wellness",
             },
             {
-                title: "Technology",
+                title: "Công nghệ",
                 path: "/templates/logo/technology",
             },
             {
-                title: "Travel & Tourism",
+                title: "Du lịch",
                 path: "/templates/logo/travel-tourism",
             },
         ],
@@ -677,261 +657,127 @@ var tree = [
         path: '/templates/postcards',
         childs: [
             {
-                title: "Agriculture",
+                title: "Nông nghiệp",
                 path: "/templates/postcards/agriculture",
             },
             {
-                title: "Automotive & Transportation",
+                title: "Ôtô & Vận tải",
                 path: "/templates/postcards/automotive-transportation",
             },
             {
-                title: "Beauty",
+                title: "Sắc đẹp (beauty)",
                 path: "/templates/postcards/beauty",
             },
             {
-                title: "Blank Brochures",
-                path: "/templates/postcards/bland-brochures",
-            },
-            {
-                title: "Business Services",
+                title: "Dịch vụ kinh doanh",
                 path: "/templates/postcards/business-services",
             },
             {
-                title: "Child Care",
+                title: "Chăm sóc trẻ em",
                 path: "/templates/postcards/child-care",
             },
             {
-                title: "Cleaning",
+                title: "Vệ sinh",
                 path: "/templates/postcards/cleaning",
             },
             {
-                title: "Construction",
+                title: "Xây dựng",
                 path: "/templates/postcards/construction",
             },
             {
-                title: "Creative",
+                title: "Sáng tạo",
                 path: "/templates/postcards/creative",
             },
             {
-                title: "Education & Training",
+                title: "Giáo dục & Đào tạo",
                 path: "/templates/postcards/education-training",
             },
             {
-                title: "Energy & Environment",
+                title: "Năng lượng & Môi trường",
                 path: "/templates/postcards/energy-environment",
             },
             {
-                title: "Event",
+                title: "Sự kiện",
                 path: "/templates/postcards/event",
             },
             {
-                title: "Financial Services",
+                title: "Dịch vụ tài chính",
                 path: "/templates/postcards/financial-services",
             },
             {
-                title: "Food & Beverage",
+                title: "Thực phẩm",
                 path: "/templates/postcards/food-beverage",
             },
+            // {
+            //     title: "Generic Brochures",
+            //     path: "/templates/postcards/generic-brochures",
+            // },
             {
-                title: "Generic Brochures",
-                path: "/templates/postcards/generic-brochures",
-            },
-            {
-                title: "Holiday",
+                title: "Ngày lễ",
                 path: "/templates/postcards/holiday",
             },
             {
-                title: "House & Home",
+                title: "Nhà cửa",
                 path: "/templates/postcards/house-home",
             },
             {
-                title: "Insurance",
+                title: "Bảo hiểm",
                 path: "/templates/postcards/insurance",
             },
             {
-                title: "Law",
+                title: "Luật",
                 path: "/templates/postcards/law",
             },
             {
-                title: "Lawn & Garden",
+                title: "Làm vườn",
                 path: "/templates/postcards/law-garden",
             },
             {
-                title: "Medical & Health Care",
+                title: "Thuốc & Chăm sóc sức khỏe",
                 path: "/templates/postcards/medical-healthcare",
             },
             {
-                title: "Music & Arts",
+                title: "Âm nhạc & Nghệ thuật",
                 path: "/templates/postcards/music-arts",
             },
             {
-                title: "Non Profit",
+                title: "Không lợi nhuận",
                 path: "/templates/postcards/non-profit",
             },
             {
-                title: "Pets & Animals",
+                title: "Thú nuôi",
                 path: "/templates/postcards/pets-animals",
             },
             {
-                title: "Photography",
+                title: "Nhiếp ảnh",
                 path: "/templates/postcards/photography",
             },
             {
-                title: "Real Estate",
+                title: "Bất động sản",
                 path: "/templates/postcards/real-estate",
             },
             {
-                title: "Religion & Organizations",
+                title: "Tổ chức & Tôn giáo",
                 path: "/templates/postcards/religion-organization",
             },
             {
-                title: "Retail",
+                title: "Bán lẻ",
                 path: "/templates/postcards/retail",
             },
             {
-                title: "Sports & Wellness",
+                title: "Thể thao & Sức khỏe",
                 path: "/templates/postcards/sports-wellness",
             },
             {
-                title: "Technology",
+                title: "Công nghệ",
                 path: "/templates/postcards/technology",
             },
             {
-                title: "Travel & Tourism",
+                title: "Du lịch",
                 path: "/templates/postcards/travel-tourism",
             },
         ],
     },
-    // {
-    //     title: "Yard Signs",
-    //     path: "/templates/yard-signs",
-    //     childs: [
-    //         {
-    //             title: "Agriculture",
-    //             path: "/templates/yard-signs/agriculture",
-    //         },
-    //         {
-    //             title: "Automotive & Transportation",
-    //             path: "/templates/yard-signs/automotive-transportation",
-    //         },
-    //         {
-    //             title: "Beauty",
-    //             path: "/templates/yard-signs/beauty",
-    //         },
-    //         {
-    //             title: "Blank Brochures",
-    //             path: "/templates/yard-signs/bland-brochures",
-    //         },
-    //         {
-    //             title: "Business Services",
-    //             path: "/templates/yard-signs/business-services",
-    //         },
-    //         {
-    //             title: "Child Care",
-    //             path: "/templates/yard-signs/child-care",
-    //         },
-    //         {
-    //             title: "Cleaning",
-    //             path: "/templates/yard-signs/cleaning",
-    //         },
-    //         {
-    //             title: "Construction",
-    //             path: "/templates/yard-signs/construction",
-    //         },
-    //         {
-    //             title: "Creative",
-    //             path: "/templates/yard-signs/creative",
-    //         },
-    //         {
-    //             title: "Education & Training",
-    //             path: "/templates/yard-signs/education-training",
-    //         },
-    //         {
-    //             title: "Energy & Environment",
-    //             path: "/templates/yard-signs/energy-environment",
-    //         },
-    //         {
-    //             title: "Event",
-    //             path: "/templates/yard-signs/event",
-    //         },
-    //         {
-    //             title: "Financial Services",
-    //             path: "/templates/yard-signs/financial-services",
-    //         },
-    //         {
-    //             title: "Food & Beverage",
-    //             path: "/templates/yard-signs/food-beverage",
-    //         },
-    //         {
-    //             title: "Generic Brochures",
-    //             path: "/templates/yard-signs/generic-brochures",
-    //         },
-    //         {
-    //             title: "Holiday",
-    //             path: "/templates/yard-signs/holiday",
-    //         },
-    //         {
-    //             title: "House & Home",
-    //             path: "/templates/yard-signs/house-home",
-    //         },
-    //         {
-    //             title: "Insurance",
-    //             path: "/templates/yard-signs/insurance",
-    //         },
-    //         {
-    //             title: "Law",
-    //             path: "/templates/yard-signs/law",
-    //         },
-    //         {
-    //             title: "Lawn & Garden",
-    //             path: "/templates/yard-signs/law-garden",
-    //         },
-    //         {
-    //             title: "Medical & Health Care",
-    //             path: "/templates/yard-signs/medical-healthcare",
-    //         },
-    //         {
-    //             title: "Music & Arts",
-    //             path: "/templates/yard-signs/music-arts",
-    //         },
-    //         {
-    //             title: "Non Profit",
-    //             path: "/templates/yard-signs/non-profit",
-    //         },
-    //         {
-    //             title: "Pets & Animals",
-    //             path: "/templates/yard-signs/pets-animals",
-    //         },
-    //         {
-    //             title: "Photography",
-    //             path: "/templates/yard-signs/photography",
-    //         },
-    //         {
-    //             title: "Real Estate",
-    //             path: "/templates/yard-signs/real-estate",
-    //         },
-    //         {
-    //             title: "Religion & Organizations",
-    //             path: "/templates/yard-signs/religion-organization",
-    //         },
-    //         {
-    //             title: "Retail",
-    //             path: "/templates/yard-signs/retail",
-    //         },
-    //         {
-    //             title: "Sports & Wellness",
-    //             path: "/templates/yard-signs/sports-wellness",
-    //         },
-    //         {
-    //             title: "Technology",
-    //             path: "/templates/yard-signs/technology",
-    //         },
-    //         {
-    //             title: "Travel & Tourism",
-    //             path: "/templates/yard-signs/travel-tourism",
-    //         },
-    //     ],
-    // },
 ]
 
 
