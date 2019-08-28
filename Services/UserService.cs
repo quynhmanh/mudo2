@@ -52,7 +52,7 @@ namespace RCB.TypeScript.Services
 
             user.Token = jwtToken;
             user.RefreshToken = refreshToken;
-            //_userContext.Users.Add(user);
+            _userContext.Users.Add(user);
             _userContext.SaveChanges();
 
             return user;
