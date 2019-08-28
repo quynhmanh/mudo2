@@ -3449,7 +3449,8 @@ handleToolbarResize = e => {
             fontSize: '13px',
           }}> Tải về
           </a>
-          {/* <a
+          {Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail &&
+          <a
             onClick={(e) => {e.preventDefault(); this.setState({showPrintingSidebar: true})}}
             href="#" style={{
             float: 'right',
@@ -3462,7 +3463,8 @@ handleToolbarResize = e => {
             textDecoration: 'none',
             fontSize: '13px',
           }}> In ấn
-          </a>              */}
+          </a>             
+          }
           </div>       
         </div>
         <div
