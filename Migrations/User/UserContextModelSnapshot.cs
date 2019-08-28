@@ -29,6 +29,8 @@ namespace RCB.TypeScript.Migrations.User
 
                     b.Property<string>("Password");
 
+                    b.Property<string>("RefreshToken");
+
                     b.Property<string>("Token");
 
                     b.Property<string>("Username");
