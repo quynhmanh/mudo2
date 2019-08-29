@@ -140,6 +140,7 @@ interface IState {
   hasMoreFonts: boolean;
   hasMoreTextTemplate: boolean;
   hasMoreTemplate: boolean;
+  hasMoreUserUpload: boolean;
   currentGroupedTextsHeight: number;
   currentGroupedTexts2Height: number;
   currentTemplatesHeight: number;
@@ -276,6 +277,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             orderStatus: '',
             downloading: false,
             imgBackgroundColor: 'white',
+            hasMoreUserUpload: true,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -2935,6 +2937,8 @@ handleToolbarResize = e => {
               currentUserUpload2 += 150 / (currentItem.width / currentItem.height);
             }
           }
+
+          console.log('hasMoreUserUpload ', res.value.value > this.state.items.length + this.state.items2.length + res.value.key.length)
           this.setState(state => ({
             userUpload1: [...state.userUpload1, ...res1],
             userUpload2: [...state.userUpload2, ...res2],
@@ -2942,7 +2946,7 @@ handleToolbarResize = e => {
             currentUserUpload2,
             cursor: res.cursor,
             isLoading: false,
-            hasMoreBackgrounds: res.value.value > state.items.length + state.items2.length + res.value.key.length,
+            hasMoreUserUpload: res.value.value > state.items.length + state.items2.length + res.value.key.length,
           }))
         },
         error => {
@@ -2952,6 +2956,7 @@ handleToolbarResize = e => {
   }
 
   loadMoreBackground = (initialload) => {
+    console.log('loadMoreBackground');
     let pageId;
     let count;
     if (initialload) {
@@ -3982,7 +3987,7 @@ handleToolbarResize = e => {
                   throttle={100}
                   threshold={300}
                   isLoading={false}
-                  hasMore={false}
+                  hasMore={this.state.hasMoreTextTemplate}
                   onLoadMore={this.loadMoreBackground}
                 >
                   <div
@@ -4304,7 +4309,16 @@ handleToolbarResize = e => {
                 </div>
                 )
                 }
-                {this.state.selectedTab === SidebarTab.Upload && (
+                {this.state.selectedTab === SidebarTab.Upload && 
+                (<InfiniteScroll
+                  scroll={true}
+                  throttle={100}
+                  threshold={300}
+                  isLoading={false}
+                  height="100%"
+                  hasMore={this.state.hasMoreUserUpload}
+                  onLoadMore={this.loadmoreUserUpload}
+                >
                   <div
                   style={{
                     color: "white",
@@ -4363,6 +4377,7 @@ handleToolbarResize = e => {
                     </div>
                   </div>
                 </div>
+                </InfiniteScroll>
                 )
 
                 }
