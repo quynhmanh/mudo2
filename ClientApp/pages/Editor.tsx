@@ -220,8 +220,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             showMediaEditingPopup: false,
             fontColor: 'black',
             fontSize: 0,
-            fontsList: ['O5mEMMs7UejmI1WeSKWQ'],
-            fonts: [],
+            fontsList: [{id: 'O5mEMMs7UejmI1WeSKWQ'}],
+            fonts: ["O5mEMMs7UejmI1WeSKWQ"],
             unnormalizedImages: [],
             templateType: null,
             _id: null,
@@ -1501,7 +1501,7 @@ html {
 
         axios.post(`/api/Design/DownloadPNG?width=${this.state.rectWidth}&height=${this.state.rectHeight}&transparent=${transparent}&download=true&png=${png}`, 
         {
-          fonts: self.state.fontsList.map(font=> font.id), 
+          fonts: self.state.fonts,
           canvas, 
           additionalStyle: a[0].outerHTML, 
           transparent
@@ -1669,7 +1669,7 @@ html {
               scaleY: 1,
               document_object: images,
             }),
-            "FontList": self.state.fontsList.map(font=> font.id),
+            "FontList": self.state.fonts,
             "Width": self.state.rectWidth,
             "Height": self.state.rectHeight,
             "Id": _id,
@@ -2803,7 +2803,6 @@ handleToolbarResize = e => {
       });
       this.setState({images});
     }
-    console.log('asd ', color); 
     e.preventDefault();
     document.execCommand('foreColor', false, color);
     if (this.state.typeObjectSelected === TemplateType.Heading || this.state.typeObjectSelected === TemplateType.TextTemplate) {
@@ -2893,7 +2892,6 @@ handleToolbarResize = e => {
       .then(res => res.json())
       .then(
         res => {
-          console.log('hasMoreFonts ',  res.value.value, this.state.fontsList.length, res.value.value > this.state.fontsList.length + res.value.key.length)
           this.setState(state => ({
             fontsList: [...state.fontsList, ...res.value.key],
             totalFonts: res.value.value,
@@ -2939,7 +2937,6 @@ handleToolbarResize = e => {
             }
           }
 
-          console.log('hasMoreUserUpload ', res.value.value > this.state.items.length + this.state.items2.length + res.value.key.length)
           this.setState(state => ({
             userUpload1: [...state.userUpload1, ...res1],
             userUpload2: [...state.userUpload2, ...res2],
@@ -2957,7 +2954,6 @@ handleToolbarResize = e => {
   }
 
   loadMoreBackground = (initialload) => {
-    console.log('loadMoreBackground');
     let pageId;
     let count;
     if (initialload) {
