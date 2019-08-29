@@ -220,7 +220,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             showMediaEditingPopup: false,
             fontColor: 'black',
             fontSize: 0,
-            fontsList: [{id: 'O5mEMMs7UejmI1WeSKWQ'}],
+            fontsList: [],
             fonts: ["O5mEMMs7UejmI1WeSKWQ"],
             unnormalizedImages: [],
             templateType: null,
@@ -2690,7 +2690,7 @@ handleToolbarResize = e => {
 }
 
   uploadFont = (e) => {
-    var self = this;``
+    var self = this;
     var fileUploader = document.getElementById("image-file") as HTMLInputElement;
     var file = fileUploader.files[0];
     var fr = new FileReader();
