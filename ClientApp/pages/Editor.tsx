@@ -2009,8 +2009,8 @@ html {
               document.scaleY = document.height / document.origin_height;
               document.left = (rec2.left - rec.left) / self.state.scale;
               document.top = (rec2.top - rectTop) / self.state.scale;
-              document.scaleX = rec2.width / this.state.rectWidth;
-              document.scaleY = rec2.height / this.state.rectHeight;
+              // document.scaleX = rec2.width / this.state.rectWidth;
+              // document.scaleY = rec2.height / this.state.rectHeight;
               // document.scaleX = 1;
               // document.scaleY = 1;
               // document.document_object = document.document.map(obj => {
