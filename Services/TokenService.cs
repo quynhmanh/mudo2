@@ -27,11 +27,15 @@ namespace RCB.TypeScript.Services
                 audience: _tokenManagement.Audience,
                 claims: claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
+                expires: DateTime.UtcNow.AddMinutes(_tokenManagement.AccessExpiration),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
 
             return new JwtSecurityTokenHandler().WriteToken(jwtToken);
+        }
+
+        public double GetRefreshExpiration() {
+            return _tokenManagement.RefreshExpiration;
         }
 
         public string GenerateRefreshToken()

@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using NpgsqlTypes;
 using RCB.TypeScript.dbcontext;
 
-namespace RCB.TypeScript.Migrations.Design
+namespace RCB.TypeScript.Migrations.Media
 {
-    [DbContext(typeof(DesignContext))]
-    [Migration("20190829131618_AddBaseModel")]
+    [DbContext(typeof(MediaContext))]
+    [Migration("20190829161003_AddBaseModel")]
     partial class AddBaseModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,57 +22,44 @@ namespace RCB.TypeScript.Migrations.Design
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("RCB.TypeScript.Models.DesignModel", b =>
+            modelBuilder.Entity("RCB.TypeScript.Models.MediaModel", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AdditionalStyle");
-
-                    b.Property<string[]>("Canvas");
-
-                    b.Property<string[]>("Canvas2");
+                    b.Property<string>("Color");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("CreatedBy");
 
-                    b.Property<string>("Document")
-                        .HasColumnType("jsonb");
-
-                    b.Property<string>("FilePath");
-
-                    b.Property<string>("FilePathTree");
+                    b.Property<string>("Ext");
 
                     b.Property<string>("FirstName");
 
-                    b.Property<string[]>("FontList");
-
-                    b.Property<float>("Height");
-
                     b.Property<string[]>("Keywords");
 
-                    b.Property<string[]>("Pages");
-
-                    b.Property<int>("PrintType");
+                    b.Property<string>("LastName");
 
                     b.Property<string>("Representative");
 
-                    b.Property<string>("Representative2");
-
-                    b.Property<string>("SubType");
-
-                    b.Property<string>("Type");
+                    b.Property<int>("Type");
 
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<int>("UpdatedBy");
 
+                    b.Property<string>("UserEmail");
+
                     b.Property<float>("Width");
+
+                    b.Property<float>("height");
+
+                    b.Property<NpgsqlTsVector>("query");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Designs");
+                    b.ToTable("Medias");
                 });
 #pragma warning restore 612, 618
         }

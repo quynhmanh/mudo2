@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using NpgsqlTypes;
 using RCB.TypeScript.dbcontext;
 
-namespace RCB.TypeScript.Migrations.Media
+namespace RCB.TypeScript.Migrations.Order
 {
-    [DbContext(typeof(MediaContext))]
-    [Migration("20190829131657_AddBaseModel")]
+    [DbContext(typeof(OrderContext))]
+    [Migration("20190829160937_AddBaseModel")]
     partial class AddBaseModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,44 +21,42 @@ namespace RCB.TypeScript.Migrations.Media
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("RCB.TypeScript.Models.MediaModel", b =>
+            modelBuilder.Entity("RCB.TypeScript.Models.OrderModel", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Color");
+                    b.Property<string>("Address");
+
+                    b.Property<string>("City");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("CreatedBy");
 
-                    b.Property<string>("Ext");
+                    b.Property<string>("District");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FullName");
 
-                    b.Property<string[]>("Keywords");
+                    b.Property<float>("Height");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("OrderId");
+
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("Representative");
-
-                    b.Property<int>("Type");
 
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<int>("UpdatedBy");
 
-                    b.Property<string>("UserEmail");
+                    b.Property<int>("UserId");
 
                     b.Property<float>("Width");
 
-                    b.Property<float>("height");
-
-                    b.Property<NpgsqlTsVector>("query");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Medias");
+                    b.ToTable("Orders");
                 });
 #pragma warning restore 612, 618
         }

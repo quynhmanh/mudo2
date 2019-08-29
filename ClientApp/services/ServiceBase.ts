@@ -99,6 +99,10 @@ export abstract class ServiceBase {
                     if (opts.headers.hasOwnProperty("Authorization"))
                         opts.headers.Authorization = `Bearer ${Globals.serviceUser.token}`;
                     return await this.requestJson<T>(opts);
+                } else {
+                    const message = refreshResponse.errors[0];
+                    if (message === 'REFRESH_TOKEN_EXPIRED')
+                    Globals.serviceUser = null;
                 }
             }
             result = new Result(null, error.message);

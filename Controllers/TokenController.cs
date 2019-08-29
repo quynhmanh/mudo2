@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ namespace RCB.TypeScript.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class TokenController : Controller
+    public class TokenController : ControllerBase
     {
         private readonly ITokenService _tokenService;
         private readonly UserContext _usersDb;
@@ -25,20 +26,32 @@ namespace RCB.TypeScript.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest req)
         {
-            var principal = _tokenService.GetPrincipalFromExpiredToken(req.Token);
-            var username = principal.Identity.Name; //this is mapped to the Name claim by default
+            try {
+                var principal = _tokenService.GetPrincipalFromExpiredToken(req.Token);
+                var username = principal.Identity.Name; //this is mapped to the Name claim by default
 
-            var user = _usersDb.Users.SingleOrDefault(u => u.Username == username);
-            if (user == null || user.RefreshToken != req.RefreshToken) return BadRequest();
+                var user = _usersDb.Users.SingleOrDefault(u => u.Username == username);
+                if (user == null || user.RefreshToken != req.RefreshToken) return BadRequest();
 
-            var newJwtToken = _tokenService.GenerateAccessToken(principal.Claims);
-            var newRefreshToken = _tokenService.GenerateRefreshToken();
+                // authenticate again to extend refresh token lifetime
+                if (DateTime.Compare(user.RefreshExpiration, DateTime.UtcNow) < 0) {
+                    HttpContext.Response.Cookies.Delete(Constants.AuthorizationCookieKey);
+                    ServiceUser = null;
+                    return Ok(new { errors = new string[] { "REFRESH_TOKEN_EXPIRED" } });
+                }
 
-            user.Token = newJwtToken;
-            user.RefreshToken = newRefreshToken;
-            await _usersDb.SaveChangesAsync();
+                var newJwtToken = _tokenService.GenerateAccessToken(principal.Claims);
+                var newRefreshToken = _tokenService.GenerateRefreshToken();
 
-            return Ok(new { value = new { token = newJwtToken, refreshToken = newRefreshToken} });
+                user.Token = newJwtToken;
+                user.RefreshToken = newRefreshToken;
+                user.UpdatedAt = DateTime.UtcNow;
+                await _usersDb.SaveChangesAsync();
+
+                return Ok(new { value = new { token = newJwtToken, refreshToken = newRefreshToken} });
+            } catch (Exception e) {
+                return BadRequest();
+            }
         }
 
         [HttpPost("[action]")]

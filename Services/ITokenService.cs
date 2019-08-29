@@ -7,6 +7,8 @@ namespace RCB.TypeScript.Services
     {
          string GenerateAccessToken(IEnumerable<Claim> claims);         
          string GenerateRefreshToken();    
-         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);            
+         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+
+         double GetRefreshExpiration();            
     }
 }

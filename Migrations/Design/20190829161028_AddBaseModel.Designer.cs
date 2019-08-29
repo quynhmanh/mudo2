@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RCB.TypeScript.dbcontext;
 
-namespace RCB.TypeScript.Migrations.Font
+namespace RCB.TypeScript.Migrations.Design
 {
-    [DbContext(typeof(FontContext))]
-    [Migration("20190829131640_AddBaseModel")]
+    [DbContext(typeof(DesignContext))]
+    [Migration("20190829161028_AddBaseModel")]
     partial class AddBaseModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,28 +21,57 @@ namespace RCB.TypeScript.Migrations.Font
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("RCB.TypeScript.Models.FontModel", b =>
+            modelBuilder.Entity("RCB.TypeScript.Models.DesignModel", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdditionalStyle");
+
+                    b.Property<string[]>("Canvas");
+
+                    b.Property<string[]>("Canvas2");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("CreatedBy");
 
+                    b.Property<string>("Document")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("FilePath");
+
+                    b.Property<string>("FilePathTree");
+
                     b.Property<string>("FirstName");
 
-                    b.Property<string>("LastName");
+                    b.Property<string[]>("FontList");
+
+                    b.Property<float>("Height");
+
+                    b.Property<string[]>("Keywords");
+
+                    b.Property<string[]>("Pages");
+
+                    b.Property<int>("PrintType");
 
                     b.Property<string>("Representative");
+
+                    b.Property<string>("Representative2");
+
+                    b.Property<string>("SubType");
+
+                    b.Property<string>("Type");
 
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<int>("UpdatedBy");
 
+                    b.Property<float>("Width");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Fonts");
+                    b.ToTable("Designs");
                 });
 #pragma warning restore 612, 618
         }

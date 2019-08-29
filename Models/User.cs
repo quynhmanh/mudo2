@@ -15,6 +15,6 @@ namespace RCB.TypeScript.Models
         public string RefreshToken { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime RefreshExpiration { get; set; }
+        public DateTime RefreshExpiration { get; set; } = DateTime.UtcNow;
     }
 }

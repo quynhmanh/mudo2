@@ -34,6 +34,8 @@ namespace RCB.TypeScript.Services
         {
             var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
 
+            DateTime current = DateTime.UtcNow;
+
             // create new user if user not found
             if (user == null)
             {
@@ -49,9 +51,19 @@ namespace RCB.TypeScript.Services
 
                 user.Token = jwtToken;
                 user.RefreshToken = refreshToken;
+                user.CreatedAt = current;
+                user.RefreshExpiration = current.AddMinutes(_tokenService.GetRefreshExpiration());
                 _userContext.Users.Add(user);
-                _userContext.SaveChanges();
             }
+
+            user.UpdatedAt = current;
+            if (user.RefreshExpiration == null || DateTime.Compare(user.RefreshExpiration, current) < 0)
+                user.RefreshExpiration = current.AddMinutes(_tokenService.GetRefreshExpiration());
+            
+            if (user.CreatedAt == null)
+                user.CreatedAt = current;
+
+            _userContext.SaveChanges();
 
             context.Response.Cookies.Append(Constants.AuthorizationCookieKey, username);
 
