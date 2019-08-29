@@ -778,6 +778,132 @@ var tree = [
             },
         ],
     },
+    {
+        title: "Sơ yếu lý lịch",
+        path: '/templates/resume',
+        childs: [
+            {
+                title: "Nông nghiệp",
+                path: "/templates/resume/agriculture",
+            },
+            {
+                title: "Ôtô & Vận tải",
+                path: "/templates/resume/automotive-transportation",
+            },
+            {
+                title: "Sắc đẹp (beauty)",
+                path: "/templates/resume/beauty",
+            },
+            {
+                title: "Dịch vụ kinh doanh",
+                path: "/templates/resume/business-services",
+            },
+            {
+                title: "Chăm sóc trẻ em",
+                path: "/templates/resume/child-care",
+            },
+            {
+                title: "Vệ sinh",
+                path: "/templates/resume/cleaning",
+            },
+            {
+                title: "Xây dựng",
+                path: "/templates/resume/construction",
+            },
+            {
+                title: "Sáng tạo",
+                path: "/templates/resume/creative",
+            },
+            {
+                title: "Giáo dục & Đào tạo",
+                path: "/templates/resume/education-training",
+            },
+            {
+                title: "Năng lượng & Môi trường",
+                path: "/templates/resume/energy-environment",
+            },
+            {
+                title: "Sự kiện",
+                path: "/templates/resume/event",
+            },
+            {
+                title: "Dịch vụ tài chính",
+                path: "/templates/resume/financial-services",
+            },
+            {
+                title: "Thực phẩm",
+                path: "/templates/resume/food-beverage",
+            },
+            // {
+            //     title: "Generic Brochures",
+            //     path: "/templates/resume/generic-brochures",
+            // },
+            {
+                title: "Ngày lễ",
+                path: "/templates/resume/holiday",
+            },
+            {
+                title: "Nhà cửa",
+                path: "/templates/resume/house-home",
+            },
+            {
+                title: "Bảo hiểm",
+                path: "/templates/resume/insurance",
+            },
+            {
+                title: "Luật",
+                path: "/templates/resume/law",
+            },
+            {
+                title: "Làm vườn",
+                path: "/templates/resume/law-garden",
+            },
+            {
+                title: "Thuốc & Chăm sóc sức khỏe",
+                path: "/templates/resume/medical-healthcare",
+            },
+            {
+                title: "Âm nhạc & Nghệ thuật",
+                path: "/templates/resume/music-arts",
+            },
+            {
+                title: "Không lợi nhuận",
+                path: "/templates/resume/non-profit",
+            },
+            {
+                title: "Thú nuôi",
+                path: "/templates/resume/pets-animals",
+            },
+            {
+                title: "Nhiếp ảnh",
+                path: "/templates/resume/photography",
+            },
+            {
+                title: "Bất động sản",
+                path: "/templates/resume/real-estate",
+            },
+            {
+                title: "Tổ chức & Tôn giáo",
+                path: "/templates/resume/religion-organization",
+            },
+            {
+                title: "Bán lẻ",
+                path: "/templates/resume/retail",
+            },
+            {
+                title: "Thể thao & Sức khỏe",
+                path: "/templates/resume/sports-wellness",
+            },
+            {
+                title: "Công nghệ",
+                path: "/templates/resume/technology",
+            },
+            {
+                title: "Du lịch",
+                path: "/templates/resume/travel-tourism",
+            },
+        ],
+    },
 ]
 
 

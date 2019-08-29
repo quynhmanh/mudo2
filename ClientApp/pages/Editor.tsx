@@ -2893,6 +2893,7 @@ handleToolbarResize = e => {
       .then(res => res.json())
       .then(
         res => {
+          console.log('hasMoreFonts ',  res.value.value, this.state.fontsList.length, res.value.value > this.state.fontsList.length + res.value.key.length)
           this.setState(state => ({
             fontsList: [...state.fontsList, ...res.value.key],
             totalFonts: res.value.value,
