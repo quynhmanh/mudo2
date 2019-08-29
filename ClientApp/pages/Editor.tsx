@@ -3013,7 +3013,7 @@ handleToolbarResize = e => {
     let count;
     if (initalLoad) {
       pageId = 1;
-      count = 5;
+      count = 10;
     } else {
       pageId = Math.round((this.state.templates.length + this.state.templates2.length) / 5) + 1;
       count = 5;
