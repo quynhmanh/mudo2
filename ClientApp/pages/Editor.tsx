@@ -474,7 +474,14 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       } else if (subtype == 4) {
         rectWidth = 500;
         rectHeight = 500;
+      } else if (subtype == 5) {
+        rectWidth = 794;
+        rectHeight = 1134;
       }
+
+      console.log('rectWidth ', rectWidth);
+      console.log('rectHeight ', rectHeight);
+
       var scaleX = (width - 100) / rectWidth;
       var scaleY = (height - 100) / rectHeight;
       self.setState({ 

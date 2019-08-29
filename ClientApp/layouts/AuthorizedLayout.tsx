@@ -37,6 +37,7 @@ const Breadcrumbs = () => <Route path="*" render={props => {
         'postcards': 'Bưu thiếp',
         'poster' : 'Áp phích',
         'logo': 'Logo',
+        'resume': 'Sơ yếu lý lịch',
         'agriculture': 'Nông nghiệp',
         'automotive-transportation': 'Ôtô & Vận tải',
         'beauty': 'Sắc đẹp',
