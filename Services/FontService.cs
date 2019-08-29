@@ -29,7 +29,7 @@ namespace RCB.TypeScript.Services
             return Ok(1);
         }
 
-        public virtual Result<KeyValuePair<List<FontModel>, int>> Search(string term = null, int page = 1, int perPage = 20)
+        public virtual Result<KeyValuePair<List<FontModel>, long>> Search(string term = null, int page = 1, int perPage = 20)
         {
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex("font").DisableDirectStreaming();
@@ -38,7 +38,7 @@ namespace RCB.TypeScript.Services
 
             var res = client.Search<FontModel>(s => s.Query(q => q.QueryString(d => d.Query(query))).From((page - 1) * perPage).Take(perPage));
 
-            var res2 = new KeyValuePair<List<FontModel>, int>(res.Documents.ToList(), res.Documents.Count);
+            var res2 = new KeyValuePair<List<FontModel>, long>(res.Documents.ToList(), res.Total);
             return Ok(res2);
         }
 
