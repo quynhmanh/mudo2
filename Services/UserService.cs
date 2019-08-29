@@ -30,7 +30,7 @@ namespace RCB.TypeScript.Services
             _tokenService = tokenService;
         }
 
-        public User Login(HttpContext context, string username, string password)
+        public UserInfoResponse Login(HttpContext context, string username, string password)
         {
             var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
 
@@ -67,7 +67,15 @@ namespace RCB.TypeScript.Services
 
             context.Response.Cookies.Append(Constants.AuthorizationCookieKey, username);
 
-            return user;
+            return GetUserInfoResponse(user);
+        }
+
+        private UserInfoResponse GetUserInfoResponse(User user) {
+            return new UserInfoResponse(
+                user.Username,
+                user.Token,
+                user.RefreshToken
+            );
         }
 
         public Result Logout(HttpContext context) {
@@ -75,16 +83,16 @@ namespace RCB.TypeScript.Services
             return Ok();
         }
 
-        public Result<User> Verify(HttpContext context) {
+        public Result<UserInfoResponse> Verify(HttpContext context) {
             var cookieValue = context.Request.Cookies[Constants.AuthorizationCookieKey];
             if (string.IsNullOrEmpty(cookieValue))
-                return Error<User>();
+                return Error<UserInfoResponse>();
 
             var user = _userContext.Users.SingleOrDefault(u => u.Username == cookieValue);
             if (user == null)
-                return Error<User>();
+                return Error<UserInfoResponse>();
 
-            return Ok(user);
+            return Ok(GetUserInfoResponse(user));
         }
 
         public void Add(User user)
