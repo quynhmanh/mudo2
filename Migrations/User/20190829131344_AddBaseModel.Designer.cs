@@ -2,16 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RCB.TypeScript.dbcontext;
 
-namespace RCB.TypeScript.Migrations.Font
+namespace RCB.TypeScript.Migrations.User
 {
-    [DbContext(typeof(FontContext))]
-    partial class FontContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(UserContext))]
+    [Migration("20190829131344_AddBaseModel")]
+    partial class AddBaseModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,9 +21,9 @@ namespace RCB.TypeScript.Migrations.Font
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("RCB.TypeScript.Models.FontModel", b =>
+            modelBuilder.Entity("RCB.TypeScript.Models.User", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedAt");
@@ -32,15 +34,23 @@ namespace RCB.TypeScript.Migrations.Font
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Representative");
+                    b.Property<string>("Password");
+
+                    b.Property<DateTime>("RefreshExpiration");
+
+                    b.Property<string>("RefreshToken");
+
+                    b.Property<string>("Token");
 
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<int>("UpdatedBy");
 
+                    b.Property<string>("Username");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Fonts");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

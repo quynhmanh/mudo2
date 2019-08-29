@@ -5,7 +5,7 @@ using Nest;
 
 namespace RCB.TypeScript.Models
 {
-    public class DesignModel : ITemplateBaseModel
+    public class DesignModel : Base, ITemplateBaseModel
     {
         [Key]
         public string Id { get; set; }
@@ -19,12 +19,6 @@ namespace RCB.TypeScript.Models
 
         [Column(TypeName = "jsonb")]
         public string Document { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-        public int CreatedBy { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
-        public int UpdatedBy { get; set; }
 
         public string Representative { get; set; }
         public string Representative2 { get; set; }

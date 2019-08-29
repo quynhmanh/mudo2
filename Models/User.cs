@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace RCB.TypeScript.Models
 {
-    public class User
+    public class User : Base
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -11,5 +13,8 @@ namespace RCB.TypeScript.Models
         public string Token { get; set; }
 
         public string RefreshToken { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime RefreshExpiration { get; set; }
     }
 }

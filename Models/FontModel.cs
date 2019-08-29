@@ -1,6 +1,6 @@
 ﻿namespace RCB.TypeScript.Models
 {
-    public class FontModel
+    public class FontModel : Base
     {
         public string Id { get; set; }
         public string FirstName { get; set; }

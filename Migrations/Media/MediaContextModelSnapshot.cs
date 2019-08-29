@@ -17,13 +17,21 @@ namespace RCB.TypeScript.Migrations.Media
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("RCB.TypeScript.Models.MediaModel", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Color");
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<string>("Ext");
 
                     b.Property<string>("FirstName");
 
@@ -34,6 +42,12 @@ namespace RCB.TypeScript.Migrations.Media
                     b.Property<string>("Representative");
 
                     b.Property<int>("Type");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<int>("UpdatedBy");
+
+                    b.Property<string>("UserEmail");
 
                     b.Property<float>("Width");
 

@@ -4,20 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RCB.TypeScript.Models
 {
-    public class TextTemplateModel
+    public class TextTemplateModel : Base
     {
         [Key]
         public string Id { get; set; }
 
         [Column(TypeName = "jsonb")]
         public string Document { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-        public int CreatedBy { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
-        public int UpdatedBy { get; set; }
-
 
         public TextTemplateModel()
         {

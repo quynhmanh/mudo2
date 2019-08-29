@@ -2,16 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RCB.TypeScript.dbcontext;
 
-namespace RCB.TypeScript.Migrations.Template
+namespace RCB.TypeScript.Migrations.Design
 {
-    [DbContext(typeof(TemplateContext))]
-    partial class TemplateContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DesignContext))]
+    [Migration("20190829131618_AddBaseModel")]
+    partial class AddBaseModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace RCB.TypeScript.Migrations.Template
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("RCB.TypeScript.Models.TemplateModel", b =>
+            modelBuilder.Entity("RCB.TypeScript.Models.DesignModel", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -51,7 +53,7 @@ namespace RCB.TypeScript.Migrations.Template
 
                     b.Property<string[]>("Pages");
 
-                    b.Property<int?>("PrintType");
+                    b.Property<int>("PrintType");
 
                     b.Property<string>("Representative");
 
@@ -69,7 +71,7 @@ namespace RCB.TypeScript.Migrations.Template
 
                     b.HasKey("Id");
 
-                    b.ToTable("Templates");
+                    b.ToTable("Designs");
                 });
 #pragma warning restore 612, 618
         }

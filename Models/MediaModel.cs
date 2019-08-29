@@ -1,6 +1,6 @@
 ﻿namespace RCB.TypeScript.Models
 {
-    public class MediaModel
+    public class MediaModel : Base
     {
         public string Id { get; set; }
         public string FirstName { get; set; }

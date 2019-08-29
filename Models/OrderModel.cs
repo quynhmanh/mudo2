@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RCB.TypeScript.Models
 {
-    public class OrderModel 
+    public class OrderModel : Base
     {
         [Key]
         public string Id { get; set; }
