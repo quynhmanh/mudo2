@@ -2794,9 +2794,10 @@ handleToolbarResize = e => {
       });
       this.setState({images});
     }
+    console.log('asd ', color); 
     e.preventDefault();
     document.execCommand('foreColor', false, color);
-    if (this.state.typeObjectSelected === TemplateType.Heading) {
+    if (this.state.typeObjectSelected === TemplateType.Heading || this.state.typeObjectSelected === TemplateType.TextTemplate) {
       var a = document.getSelection();
       if (a && a.type === "Range") {
         this.handleFontColorChange(color);
