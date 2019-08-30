@@ -2944,7 +2944,7 @@ handleToolbarResize = e => {
             currentUserUpload2,
             cursor: res.cursor,
             isLoading: false,
-            hasMoreUserUpload: res.value.value > state.items.length + state.items2.length + res.value.key.length,
+            hasMoreUserUpload: res.value.value > state.userUpload2.length + state.userUpload1.length + res.value.key.length,
           }))
         },
         error => {
