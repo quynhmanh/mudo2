@@ -2911,7 +2911,7 @@ handleToolbarResize = e => {
       pageId = 1;
       count = 10;
     } else {
-      pageId = (this.state.backgrounds1.length + this.state.backgrounds2.length + this.state.backgrounds3.length) / 5 + 1;
+      pageId = (this.state.userUpload1.length + this.state.userUpload2.length) / 5 + 1;
       count = 5;
     }
     this.setState({ isLoading: true, error: undefined });
@@ -3324,8 +3324,8 @@ handleToolbarResize = e => {
   render() {
     const { scale, staticGuides, rectWidth, rectHeight, images, cropMode, pages, } = this.state; 
 
-    const adminEmail = "llaugusty@gmail.com"
-
+    const adminEmail = "llaugusty@gmail.com";
+    
     const fontColors = [
       "rgb(246, 218, 179)","rgb(201, 148, 114)","rgb(89, 61, 44)","rgb(74, 38, 21)","rgb(37, 25, 15)","rgb(115, 28, 44)","rgb(186, 32, 41)","rgb(226, 32, 46)","rgb(241, 93, 88)","rgb(246, 158, 173)","rgb(252, 196, 167)","rgb(249, 164, 86)","rgb(243, 115, 47)","rgb(206, 93, 40)","rgb(90, 43, 29)","rgb(67, 26, 23)","rgb(168, 31, 39)","rgb(239, 55, 50)","rgb(245, 143, 152)","rgb(247, 175, 183)","rgb(255, 221, 155)","rgb(253, 188, 79)","rgb(248, 153, 31)","rgb(217, 124, 39)","rgb(129, 73, 37)","rgb(72, 25, 40)","rgb(170, 29, 68)","rgb(235, 8, 140)","rgb(239, 117, 173)","rgb(246, 175, 206)","rgb(254, 246, 169)","rgb(255, 209, 120)","rgb(246, 179, 26)","rgb(249, 201, 39)","rgb(192, 127, 42)","rgb(64, 32, 82)","rgb(106, 52, 132)","rgb(119, 65, 152)","rgb(161, 130, 187)","rgb(177, 158, 204)","rgb(254, 244, 140)","rgb(252, 240, 93)","rgb(252, 238, 33)","rgb(206, 220, 40)","rgb(154, 168, 57)","rgb(33, 29, 77)","rgb(84, 39, 101)","rgb(80, 90, 168)","rgb(127, 127, 189)","rgb(158, 156, 205)","rgb(215, 231, 171)","rgb(200, 221, 108)","rgb(153, 204, 106)","rgb(136, 179, 63)","rgb(110, 134, 56)","rgb(31, 37, 85)","rgb(19, 75, 150)","rgb(6, 109, 181)","rgb(39, 174, 229)","rgb(138, 213, 247)","rgb(176, 218, 172)","rgb(84, 187, 111)","rgb(1, 176, 83)","rgb(1, 93, 49)","rgb(13, 63, 34)","rgb(0, 124, 143)","rgb(0, 169, 162)","rgb(54, 193, 208)","rgb(129, 207, 207)","rgb(151, 216, 224)","rgb(255, 255, 255)","rgb(137, 133, 134)","rgb(102, 99, 100)","rgb(84, 80, 80)","rgb(58, 56, 56)","rgb(52, 50, 50)","rgb(36, 36, 36)","rgb(31, 30, 30)","rgb(16, 19, 19)","rgb(0, 0, 0)"
     ];
@@ -3394,7 +3394,7 @@ handleToolbarResize = e => {
                 display: 'flex',
                 top: 0,
               }}>
-              { Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === "llaugusty@gmail.com" &&
+              { Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail &&
               <button
                 className="toolbar-btn dropbtn-font"
                 onClick={this.saveImages.bind(this, null)}
@@ -4113,7 +4113,7 @@ handleToolbarResize = e => {
                           }} 
                           href="#" 
                           onClick={this.selectFont.bind(this, font.id)}>
-                            { Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == "llaugusty@gmail.com" &&
+                            { Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail &&
                             <button
                               style={{
                                 position: 'absolute',
