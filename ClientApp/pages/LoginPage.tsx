@@ -199,9 +199,9 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                         lineHeight: '2rem',
                     }}
                     >hoặc</span></div>
-                <p style={{display: 'none',}} className="text-center">Nhập tên tài khoản và mật khẩu vào ô bên dưới để đăng nhập.</p>
-                <Form style={{display: 'none',}} ref={x => this.elForm = x}>
-                    <div style={{display: 'none',}} className="form-group">
+                <p style={{}} className="text-center">Nhập tên tài khoản và mật khẩu vào ô bên dưới để đăng nhập.</p>
+                <Form style={{}} ref={x => this.elForm = x}>
+                    <div style={{}} className="form-group">
                         <label htmlFor="inputLogin">Địa chỉ email</label>
                         <input type="text" name={nameof<ILoginModel>(x=>x.username)} data-value-type="string" className="form-control" id="inputLogin" data-val-required="true" data-msg-required="Login is required." />
                     </div>

@@ -2884,7 +2884,7 @@ handleToolbarResize = e => {
       count = 30;
     } else {
       pageId = (this.state.fontsList.length) / 1 + 1;
-      count = 1;
+      count = 30;
     }
     // this.setState({ isLoading: true, error: undefined });
     const url = `/api/Font/Search?page=${pageId}&perPage=${count}`;
