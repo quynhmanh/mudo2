@@ -79,8 +79,8 @@ namespace RCB.TypeScript.Services
                                 //Query(q => q.Term(t => t.Field(f => f.FilePathTree).Value(filePath)))
                                 Query(q => q.QueryString(d => d.Query(query)) && q.Term(t => t.Field(f => f.FilePathTree).Value(filePath)))
                                 .From((page - 1) * perPage).Take(perPage)
-                //Query(q => q.QueryString(q2 => q2.Query($"\"term\": {{ \"filePath.tree\": \"{filePath}\"}}\")))
-                .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
+                                .Source(src => src.IncludeAll().Excludes(e => e.Fields(p => p.Document)))
+                                .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
 
 
             Dictionary<string, long?> aggregations = new Dictionary<string, long?>();
