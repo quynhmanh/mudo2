@@ -2958,7 +2958,7 @@ handleToolbarResize = e => {
     let count;
     if (initialload) {
       pageId = 1;
-      count = 10;
+      count = 25;
     } else {
       pageId = (this.state.backgrounds1.length + this.state.backgrounds2.length + this.state.backgrounds3.length) / 5 + 1;
       count = 5;
