@@ -2883,7 +2883,7 @@ handleToolbarResize = e => {
       pageId = 1;
       count = 30;
     } else {
-      pageId = (this.state.fontsList.length) / 1 + 1;
+      pageId = (this.state.fontsList.length) / 30 + 1;
       count = 30;
     }
     // this.setState({ isLoading: true, error: undefined });
