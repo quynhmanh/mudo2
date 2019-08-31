@@ -85,10 +85,22 @@ namespace RCB.TypeScript.Controllers
 
         [HttpPost("[action]")]
         [RequestSizeLimit(2147483648)] // e.g. 2 GB request limit
-        public IActionResult Update(TemplateModel model)
+        public async Task<IActionResult> Update(TemplateModel model)
         {
-            if (model == null)
-                return BadRequest($"{nameof(model)} is null.");
+
+            TemplateService designService = new TemplateService(null, HostingEnvironment);
+
+            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2", model.Representative);
+
+            int width = 656;
+            int height = 436;
+            if (model.PrintType > 3)
+            {
+                width = (int)model.Width;
+                height = (int)model.Height;
+            }
+
+            await designService.GenerateRepresentative(model, width, height, true, model.Type == "2", model.Representative2);
             var result = TemplateService.Update(model);
             return Json(result);
         }

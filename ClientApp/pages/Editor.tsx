@@ -252,7 +252,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             rotating: false,
             dragging: false,
             uuid: "",
-            mode: parseInt(this.props.match.params.mode) || Mode.CreateDesign,
+            mode: parseInt(this.props.match.params.mode) ||  Mode.CreateDesign,
             staticGuides: {
               x: [],
               y: [],
@@ -1587,6 +1587,8 @@ html {
       //     "Width": self.state.rectWidth,
       //     "Height": self.state.rectHeight,
       //     "Pages": self.state.pages,
+      //     "Representative": rep ? rep : `images/${uuidv4()}.png`,
+      //     "Representative2": `images/${uuidv4()}.png`,
       //   });
 
       //   axios.post(url, res, {
@@ -1600,25 +1602,19 @@ html {
       //   .catch(res => {
       //   })
 
-      //   var src = await self.genRepresentative(false, self.state.rectWidth, self.state.rectHeight);
-
-      //   var formData = new FormData();
-      //   formData.append('file', src);
-
-      //   // self.download("test.png", src);
-
-      //   var urlUploadRepresentative = `/api/Template/Upload?id=${_id}`;
-
-      //   axios.post(urlUploadRepresentative, formData);
-  
       //   return;
       // }
 
       if (mode == Mode.CreateDesign) {
-        url = "/api/Design/Add";
-      } else {
+        url = "/api/Template/Update";
+      } else if (mode == Mode.CreateTemplate) {
         url = "/api/Template/Add";
+      } else if (mode == Mode.EditTemplate) {
+        url = "/api/Template/Update";
       }
+
+      console.log('mode ', mode);
+      console.log('url ', url);
 
       var type;
       if (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) {
