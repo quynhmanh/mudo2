@@ -961,6 +961,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
     self.setState({isLoading: true,})
     axios.get(url).
       then(res => {
+          console.log('res ', res);
             var currentHeight = this.state.height;
             var currentHeight2 = this.state.height2;
             var result = res.data.value.documents;
@@ -1049,7 +1050,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                     style={{
                         width: '350px',
                         borderRadius: '5px',
-                        boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0) 0px 1px 2px',
+                        boxShadow: 'rgba(0, 0, 0, 0.26) 0px 1px 3px, rgba(0, 0, 0, 0) 0px 1px 2px',
                     }} 
                     src={template.representative2} />
                 <p style={{margin: 0, padding: '5px', color: 'black', fontWeight: 700,}}>{template.firstName}</p>
@@ -1066,7 +1067,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                     style={{
                         width: '350px',
                         borderRadius: '5px',
-                        boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0) 0px 1px 2px',
+                        boxShadow: 'rgba(0, 0, 0, 0.26) 0px 1px 3px, rgba(0, 0, 0, 0) 0px 1px 2px',
                     }} 
                     src={template.representative2} />
                 <p style={{margin: 0, padding: '5px', color: 'black', fontWeight: 700,}}>{template.firstName}</p>
