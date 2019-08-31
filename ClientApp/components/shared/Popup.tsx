@@ -74,7 +74,7 @@ class Popup extends PureComponent<IProps, IState> {
                            style={{
                               backgroundColor: 'rgba(0, 0, 0, 0.54)',
                               borderRadius: '10px',
-                              padding: '20px',
+                              padding: '10px',
                               color: 'white',
                               height: '100%',
                            }}                       
