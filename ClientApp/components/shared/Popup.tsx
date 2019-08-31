@@ -30,9 +30,10 @@ class Popup extends PureComponent<IProps, IState> {
                   }} >  
                     <div className="unblurred">
                     <div className="unblurred leftInfo___1rQiJ" style={{
-                        padding: '39px 40px',
+                        padding: '2px',
                         width: '520px',
                         color: 'white',
+                        paddingRight: 0,
                     }}>
    <div className="unblurred" style={{padding: '10px', backgroundColor: '#0000008a', borderRadius: '10px',}}>
       <h5 className="unblurred infoTitle___15NNR large___2DVhe geometria-medium___3wRqs">Tải xuống bản thiết kế của bạn dưới bất kì định dạng nào:</h5>
@@ -66,14 +67,14 @@ class Popup extends PureComponent<IProps, IState> {
                     <div className="unblurred" style={{width: '100%', position: 'relative'}}>
 
                     {!this.props.isDownload ? <div style={{
-                        padding: '39px 20px',
+                        padding: '2px',
                         height: '100%',
                     }} className="unblurred content___2kbkg">
                        <div className="unblurred"
                            style={{
                               backgroundColor: 'rgba(0, 0, 0, 0.54)',
                               borderRadius: '10px',
-                              padding: '10px',
+                              padding: '20px',
                               color: 'white',
                               height: '100%',
                            }}                       
@@ -81,11 +82,11 @@ class Popup extends PureComponent<IProps, IState> {
    <h4 className="unblurred defaultTitle___37St1 large___2DVhe geometria-medium___3wRqs">Tải bản thiết kế</h4>
    <p className="unblurred small___1Vvfz chooseType___aKGtm">Chọn định dạng để tải:</p>
    <ul style={{listStyle: 'none', padding: 0,}} className="unblurred downloadTypes___AkCgx">
-      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid', color: 'black'}} onClick={this.props.handleDownloadJPG} className="unblurred downloadTypeBtn___3kgiq" data-test="downloadJpg" data-categ="downloadDesign" data-value="jpg">JPG</button></li>
-      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid', color: 'black'}} onClick={this.props.handleDownloadPNG} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="png">PNG</button></li>
-      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid', color: 'black'}} onClick={this.props.handleDownloadPNGTransparent} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pngTransparent">PNG <span className="unblurred downloadTypeBtnText___2myes">Transparent</span></button></li>
-      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid', color: 'black'}} onClick={this.props.handleDownloadPDF} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">Standard</span></button></li>
-      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: '1px black solid', color: 'black'}} onClick={this.props.handleDownloadPDFWithBleed} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">with bleed</span></button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadJPG} className="unblurred downloadTypeBtn___3kgiq" data-test="downloadJpg" data-categ="downloadDesign" data-value="jpg">JPG</button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadPNG} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="png">PNG</button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadPNGTransparent} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pngTransparent">PNG <span className="unblurred downloadTypeBtnText___2myes">Transparent</span></button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadPDF} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">Standard</span></button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadPDFWithBleed} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">with bleed</span></button></li>
    </ul>
    <div 
     className="unblurred"
@@ -111,6 +112,7 @@ class Popup extends PureComponent<IProps, IState> {
 </div>  : <div
    style={{
       padding: '39px 40px',
+      height: '293px',
   }}
    className="unblurred"><h1 style={{textAlign: 'center'}} className="unblurred">Đang tải</h1>
       <Loader className="unblurred" show={true} black={true}/>
@@ -141,7 +143,7 @@ const PopupWrapper = styled.div`
         margin: auto;  
         background-color: black;
         width: 800px;
-        height: 373px;
+        height: 277px;
     }
 
     .popup-background {
