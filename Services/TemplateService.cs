@@ -294,7 +294,7 @@ namespace RCB.TypeScript.Services
                     }
 
                     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                    var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                    using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
                         DefaultViewport = new ViewPortOptions()
                         {
@@ -302,43 +302,44 @@ namespace RCB.TypeScript.Services
                             Height = height,
                         },
                         Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
-                    });
-
-
-                    var page = await browser.NewPageAsync();
-
-                    await page.SetContentAsync(html);
-
-                    await page.EvaluateFunctionAsync(@"() => {
-                        if (document.getElementById('alo2')) {
-                            document.getElementById('alo2').style.transform = 'scale(4)';
-                            document.getElementById('alo2').style.transformOrigin = '0 0';
-                        }
-                    }");
-
-                    Stream a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
+                    }))
                     {
-                        Clip = new PuppeteerSharp.Media.Clip()
+
+
+                        var page = await browser.NewPageAsync();
+
+                        await page.SetContentAsync(html);
+
+                        await page.EvaluateFunctionAsync(@"() => {
+                            if (document.getElementById('alo2')) {
+                                document.getElementById('alo2').style.transform = 'scale(4)';
+                                document.getElementById('alo2').style.transformOrigin = '0 0';
+                            }
+                        }");
+
+                        Stream a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
                         {
-                            Width = (decimal)width,
-                            Height = (decimal)height,
-                        },
-                    });
+                            Clip = new PuppeteerSharp.Media.Clip()
+                            {
+                                Width = (decimal)width,
+                                Height = (decimal)height,
+                            },
+                        });
 
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        a.CopyTo(memoryStream);
-                        data = memoryStream.ToArray();
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            a.CopyTo(memoryStream);
+                            data = memoryStream.ToArray();
+                        }
+
+                        var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + path);
+
+                        using (var imageFile = new FileStream(filePathRep, FileMode.Create))
+                        {
+                            imageFile.Write(data, 0, data.Length);
+                            imageFile.Flush();
+                        }
                     }
-
-                    var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + path);
-
-                    using (var imageFile = new FileStream(filePathRep, FileMode.Create))
-                    {
-                        imageFile.Write(data, 0, data.Length);
-                        imageFile.Flush();
-                    }
-
                 }
 
                 //doc.Close();
