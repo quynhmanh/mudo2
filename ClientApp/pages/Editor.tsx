@@ -379,7 +379,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         if (res.data.errors.length > 0) {
           throw new Error(res.data.errors.join("\n"));
         }
-
+        console.log('resss ', res);
         var image = res.data;
         var templateType = image.value.type;
         var mode;
@@ -2970,6 +2970,7 @@ handleToolbarResize = e => {
       .then(res => res.json())
       .then(
         res => {
+          console.log('ress ', res);
           var result = res.value.key;
           var currentBackgroundHeights1 = this.state.currentBackgroundHeights1;
           var currentBackgroundHeights2 = this.state.currentBackgroundHeights2;
@@ -4005,6 +4006,7 @@ handleToolbarResize = e => {
                     {this.state.backgrounds1.map((item, key) => (
                       <ImagePicker
                         key={key}
+                        color={item.color}
                         src={item.representative}
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
@@ -4020,6 +4022,7 @@ handleToolbarResize = e => {
                     {this.state.backgrounds2.map((item, key) => (
                       <ImagePicker
                         key={key}
+                        color={item.color}
                         src={item.representative}
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
@@ -4035,6 +4038,7 @@ handleToolbarResize = e => {
                     {this.state.backgrounds3.map((item, key) => (
                       <ImagePicker
                         key={key}
+                        color={item.color}
                         src={item.representative}
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
