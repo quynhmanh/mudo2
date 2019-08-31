@@ -4008,7 +4008,7 @@ handleToolbarResize = e => {
                         key={key}
                         color={item.color}
                         src={item.representative}
-                        height={150 / (item.width / item.height)}
+                        height={93 / (item.width / item.height)}
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
@@ -4025,7 +4025,7 @@ handleToolbarResize = e => {
                         key={key}
                         color={item.color}
                         src={item.representative}
-                        height={150 / (item.width / item.height)}
+                        height={93 / (item.width / item.height)}
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
@@ -4042,7 +4042,7 @@ handleToolbarResize = e => {
                         key={key}
                         color={item.color}
                         src={item.representative}
-                        height={150 / (item.width / item.height)}
+                        height={93 / (item.width / item.height)} 
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
