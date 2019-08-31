@@ -85,7 +85,7 @@ namespace RCB.TypeScript.Services
 
             Dictionary<string, long?> aggregations = new Dictionary<string, long?>();
 
-            foreach(var i in res.Aggregations.Terms("my_agg").Buckets)
+            foreach(var i in res.Aggregations.Terms("my_agg")?.Buckets)
             {
                 aggregations.Add(i.Key, i.DocCount);
             }
@@ -156,6 +156,8 @@ namespace RCB.TypeScript.Services
             template.Height = model.Height;
             template.Keywords = model.Keywords;
             template.FirstName = model.FirstName;
+            template.Representative = model.Representative;
+            template.Representative2 = model.Representative2;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
