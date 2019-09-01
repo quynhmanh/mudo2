@@ -1613,7 +1613,7 @@ html {
 
       if (mode == Mode.CreateDesign) {
         url = "/api/Template/Update";
-      } else if (mode == Mode.CreateTemplate) {
+      } else if (mode == Mode.CreateTemplate || mode == Mode.CreateTextTemplate) {
         url = "/api/Template/Add";
       } else if (mode == Mode.EditTemplate) {
         url = "/api/Template/Update";

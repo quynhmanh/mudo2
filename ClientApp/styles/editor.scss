@@ -71,11 +71,6 @@ body {
   cursor: auto;
 }
 
-.text-picker {
-  background-color:#00000082;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px 0px;
-}
-
 .image-picker {
   height: auto !important;
 }
@@ -84,6 +79,11 @@ body {
   width: 150px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px 0px;
   cursor: pointer;
+}
+
+.text-picker {
+  background-color:#00000082;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .template-picker {
