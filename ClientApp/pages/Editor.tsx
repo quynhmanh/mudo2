@@ -87,6 +87,8 @@ interface IState {
   currentItems2Height: number;
   cursor: any;
   isLoading: boolean;
+  isTextTemplateLoading: boolean;
+  isTemplateLoading: boolean;
   mathjav: any;
   idObjectSelected: string;
   images: Array<object>;
@@ -170,6 +172,7 @@ interface IState {
   orderStatus: string;
   downloading: boolean;
   imgBackgroundColor: string;
+  isBackgroundLoading: boolean;
 }
 
 let firstpage = uuidv4();
@@ -206,6 +209,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             cursor: false,
             mathjav: null,
             isLoading: false,
+            isTemplateLoading: false,
             upperZIndex: 1,
             activePageId: firstpage,
             pages: [firstpage],
@@ -278,6 +282,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             downloading: false,
             imgBackgroundColor: 'white',
             hasMoreUserUpload: true,
+            isTextTemplateLoading: false,
+            isBackgroundLoading: false,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -2959,7 +2965,7 @@ handleToolbarResize = e => {
       pageId = (this.state.backgrounds1.length + this.state.backgrounds2.length + this.state.backgrounds3.length) / 5 + 1;
       count = 5;
     }
-    this.setState({ isLoading: true, error: undefined });
+    this.setState({ isBackgroundLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.BackgroundImage}&page=${pageId}&perPage=${count}`;
     fetch(url)
@@ -2995,12 +3001,12 @@ handleToolbarResize = e => {
             currentBackgroundHeights2,
             currentBackgroundHeights3,
             cursor: res.cursor,
-            isLoading: false,
+            isBackgroundLoading: false,
             hasMoreBackgrounds: res.value.value > state.items.length + state.items2.length + res.value.key.length,
           }))
         },
         error => {
-          this.setState({ isLoading: false, error })
+          this.setState({ isBackgroundLoading: false, error })
         }
     )
   }
@@ -3015,7 +3021,7 @@ handleToolbarResize = e => {
       pageId = Math.round((this.state.templates.length + this.state.templates2.length) / 5) + 1;
       count = 5;
     }
-    // this.setState({ isLoading: true, error: undefined });
+    this.setState({ isTemplateLoading: true, error: undefined });
     const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype ? subtype : this.state.subtype}`;
     fetch(url)
       .then(res => res.json())
@@ -3041,6 +3047,7 @@ handleToolbarResize = e => {
             templates2: [...state.templates2, ...res2],
             currentTemplatesHeight,
             currentTemplate2sHeight,
+            isTemplateLoading: false,
             hasMoreTemplate: res.value.value > state.templates.length + state.templates2.length + res.value.key.length,
           }))
         },
@@ -3060,7 +3067,7 @@ handleToolbarResize = e => {
       pageId = (this.state.groupedTexts.length + this.state.groupedTexts2.length) / 1 + 1;
       count = 1;
     }
-    // this.setState({ isLoading: true, error: undefined });
+    this.setState({ isTextTemplateLoading: true, error: undefined });
     const url = `/api/Template/Search?Type=${TemplateType.TextTemplate}&page=${pageId}&perPage=${count}`;
     fetch(url)
       .then(res => res.json())
@@ -3087,11 +3094,12 @@ handleToolbarResize = e => {
             groupedTexts2: [...state.groupedTexts2, ...res2],
             currentGroupedTextsHeight,
             currentGroupedTexts2Height,
+            isTextTemplateLoading: false,
             hasMoreTextTemplate: res.value.value > state.groupedTexts.length + state.groupedTexts2.length + res.value.key.length,
           }))
         },
         error => {
-          // this.setState({ isLoading: false, error })
+          this.setState({ isTextTemplateLoading: false, error })
         }
     )
   }
@@ -3867,7 +3875,7 @@ handleToolbarResize = e => {
                       scroll={true}
                       throttle={500}
                       threshold={300}
-                      isLoading={this.state.isLoading}
+                      isLoading={this.state.isTemplateLoading}
                       hasMore={this.state.hasMoreTextTemplate}
                       onLoadMore={this.loadMoreTextTemplate}
                       height='calc(100% - 180px)'
