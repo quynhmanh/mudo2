@@ -3110,10 +3110,10 @@ handleToolbarResize = e => {
     let count;
     if (initialLoad) {
       pageId = 1;
-      count = 10;
+      count = 15;
     } else {
-      pageId = (this.state.items.length + this.state.items2.length) / 10 + 1;
-      count = 10;
+      pageId = (this.state.items.length + this.state.items2.length) / 15 + 1;
+      count = 15;
     }
     this.setState({ isLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
