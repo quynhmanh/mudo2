@@ -1024,6 +1024,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                 padding: '20px',
                 justifyContent: 'space-around',
                 flexWrap: 'wrap',
+                paddingBottom: '50px',
                 // display: 'flex',
             }} 
             >
