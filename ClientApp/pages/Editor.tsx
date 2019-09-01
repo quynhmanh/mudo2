@@ -4428,7 +4428,7 @@ handleToolbarResize = e => {
                       <ImagePicker
                         key={key}
                         src={item.representative}
-                        onPick={this.imgOnMouseDown.bind(this)}
+                        onPick={this.imgOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
@@ -4443,7 +4443,7 @@ handleToolbarResize = e => {
                       <ImagePicker
                         key={key}
                         src={item.representative}
-                        onPick={this.imgOnMouseDown.bind(this)}
+                        onPick={this.imgOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
