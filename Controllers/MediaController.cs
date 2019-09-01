@@ -82,7 +82,9 @@ namespace RCB.TypeScript.Controllers
                 var id = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
 
                 string file2 = "images" + Path.DirectorySeparatorChar + id + "." + oDownloadBody.ext;
+                string file3 = "images" + Path.DirectorySeparatorChar + id + "_thumbnail." + oDownloadBody.ext;
                 var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2);
+                var filePath3 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file3);
                 string base64 = dataFont.Substring(dataFont.IndexOf(',') + 1);
                 byte[] data = Convert.FromBase64String(base64);
                 System.Drawing.Image img;
@@ -92,21 +94,6 @@ namespace RCB.TypeScript.Controllers
                     fontFile.Flush();
                 }
 
-                img = System.Drawing.Image.FromFile(filePath);
-
-                double imgHeight = img.Size.Height;
-                double imgWidth = img.Size.Width;
-
-                double x = imgWidth / 300;
-                int newWidth = Convert.ToInt32(imgWidth / x);
-                int newHeight = Convert.ToInt32(imgHeight / x);
-
-                string file3 = "images" + Path.DirectorySeparatorChar + id + "_thumbnail." + oDownloadBody.ext;
-
-                var filePath3 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file3);
-                //----------        Creating Small Image
-                System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
-                myThumbnail.Save(filePath3);
 
                 MediaModel mediaModel = new MediaModel();
                 mediaModel.Id = id.ToString();
@@ -119,7 +106,28 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Color = oDownloadBody.color;
                 mediaModel.UserEmail = oDownloadBody.userEmail;
                 mediaModel.Ext = oDownloadBody.ext;
-                mediaModel.RepresentativeThumbnail = file3;
+
+                try
+                {
+
+                    img = System.Drawing.Image.FromFile(filePath);
+
+                    double imgHeight = img.Size.Height;
+                    double imgWidth = img.Size.Width;
+
+                    double x = imgWidth / 300;
+                    int newWidth = Convert.ToInt32(imgWidth / x);
+                    int newHeight = Convert.ToInt32(imgHeight / x);
+
+                    //----------        Creating Small Image
+                    System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
+                    myThumbnail.Save(filePath3);
+                    mediaModel.RepresentativeThumbnail = file3;
+
+                } catch (Exception e)
+                {
+                    mediaModel.RepresentativeThumbnail = file2;
+                }
 
                 MediaService.Add(mediaModel);
             }
