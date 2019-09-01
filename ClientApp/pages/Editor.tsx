@@ -2070,7 +2070,7 @@ html {
     document.addEventListener("mouseup", onUp);
   }
 
-  backgroundOnMouseDown(e) {
+  backgroundOnMouseDown(item, e) {
     var rec2 = e.target.getBoundingClientRect();
     var self = this;
     let images = [...this.state.images];
@@ -2093,7 +2093,7 @@ html {
       left: 0,
       top:  0,
       rotateAngle: 0.0,
-      src: e.target.src,
+      src: item.representative,
       selected: false,
       scaleX: 1,
       scaleY: 1,
@@ -4070,7 +4070,7 @@ handleToolbarResize = e => {
                         color={item.color}
                         src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)}
-                        onPick={this.backgroundOnMouseDown.bind(this)}
+                        onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
@@ -4087,7 +4087,7 @@ handleToolbarResize = e => {
                         color={item.color}
                         src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)}
-                        onPick={this.backgroundOnMouseDown.bind(this)}
+                        onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
@@ -4104,7 +4104,7 @@ handleToolbarResize = e => {
                         color={item.color}
                         src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)} 
-                        onPick={this.backgroundOnMouseDown.bind(this)}
+                        onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
