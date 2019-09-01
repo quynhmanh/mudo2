@@ -1683,8 +1683,8 @@ html {
             "FirstName": "Untilted",
             "Pages": self.state.pages,
             "PrintType": self.state.subtype,
-            "Representative": rep ? rep : `images/${uuidv4()}.png`,
-            "Representative2": `images/${uuidv4()}.png`,
+            "Representative": rep ? rep : `images/${uuidv4()}.jpeg`,
+            "Representative2": `images/${uuidv4()}.jpeg`,
           });
 
           axios.post(url, res, {
