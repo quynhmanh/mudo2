@@ -2956,14 +2956,15 @@ handleToolbarResize = e => {
   }
 
   loadMoreBackground = (initialload) => {
+    console.log('loadmorebackground')
     let pageId;
     let count;
     if (initialload) {
       pageId = 1;
-      count = 5;
+      count = 30;
     } else {
       pageId = (this.state.backgrounds1.length + this.state.backgrounds2.length + this.state.backgrounds3.length) / 5 + 1;
-      count = 5;
+      count = 15;
     }
     this.setState({ isBackgroundLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
@@ -4053,7 +4054,7 @@ handleToolbarResize = e => {
                   <InfiniteScroll
                   scroll={true}
                   throttle={100}
-                  threshold={300}
+                  threshold={0}
                   isLoading={this.state.isLoading}
                   height="100%"
                   hasMore={this.state.hasMoreBackgrounds}
@@ -4072,7 +4073,7 @@ handleToolbarResize = e => {
                           marginRight: '10px',
                         }}
                       >
-                    {this.state.backgrounds1.concat([{height: 93, width: 93, color: 'white',}, {height: 93, width: 93, color: 'white',}]).map((item, key) => (
+                    {this.state.backgrounds1.map((item, key) => (
                       <ImagePicker
                         key={key}
                         color={item.color}
@@ -4089,7 +4090,7 @@ handleToolbarResize = e => {
                           marginRight: '10px',
                         }}
                       >
-                    {this.state.backgrounds2.concat([{height: 93, width: 93, color: 'white',}, {height: 93, width: 93, color: 'white',}]).map((item, key) => (
+                    {this.state.backgrounds2.map((item, key) => (
                       <ImagePicker
                         key={key}
                         color={item.color}
@@ -4106,7 +4107,7 @@ handleToolbarResize = e => {
                           marginRight: '10px',
                         }}
                       >
-                    {this.state.backgrounds3.concat([{height: 93, width: 93, color: 'white',}, {height: 93, width: 93, color: 'white',}]).map((item, key) => (
+                    {this.state.backgrounds3.map((item, key) => (
                       <ImagePicker
                         key={key}
                         color={item.color}
