@@ -2219,11 +2219,11 @@ html {
     document.addEventListener("mouseup", onUp);
   }
 
-  imgOnMouseDown(e) {
+  imgOnMouseDown(img, e) {
     e.preventDefault();
     var target = e.target.cloneNode(true);
     target.style.zIndex = "11111111111";
-    target.src = e.target.getAttribute("src");
+    target.src = img.representative;
     target.style.width = e.target.getBoundingClientRect().width + 'px';
     target.style.backgroundColor = e.target.style.backgroundColor;
     document.body.appendChild(target);
@@ -2954,7 +2954,7 @@ handleToolbarResize = e => {
     let count;
     if (initialload) {
       pageId = 1;
-      count = 25;
+      count = 5;
     } else {
       pageId = (this.state.backgrounds1.length + this.state.backgrounds2.length + this.state.backgrounds3.length) / 5 + 1;
       count = 5;
@@ -3214,7 +3214,7 @@ handleToolbarResize = e => {
 
   handleRemoveAllMedia = () => {
     var model;
-    if (this.state.selectedTab === SidebarTab.Image) {
+    if (this.state.selectedTab === SidebarTab.Image || this.state.selectedTab === SidebarTab.Background) {
       model = "Media";
     } else if (this.state.selectedTab === SidebarTab.Template) {  
       model = "Template";
@@ -3311,6 +3311,72 @@ handleToolbarResize = e => {
       }
       axios.post(url, res);
     }
+  }
+
+  handleRemaining = () => {
+    return (
+      <div
+                    id="image-container-picker"
+                    style={{
+                      display: "flex",
+                      overflow: "scroll",
+                      // height: '200px',
+                      height: "100%"
+                    }}
+                  >
+                    <div
+                        style={{
+                          width: '350px',
+                          marginRight: '10px',
+                        }}
+                      >
+                    {this.state.backgrounds1.map((item, key) => (
+                      <ImagePicker
+                        key={key}
+                        color={item.color}
+                        src={}
+                        height={93 / (item.width / item.height)}
+                        onPick={this.backgroundOnMouseDown.bind(this)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
+                      />
+                    ))}
+                    </div>
+                    <div
+                        style={{
+                          width: '350px',
+                          marginRight: '10px',
+                        }}
+                      >
+                    {this.state.backgrounds2.map((item, key) => (
+                      <ImagePicker
+                        key={key}
+                        color={item.color}
+                        src={item.representative}
+                        height={93 / (item.width / item.height)}
+                        onPick={this.backgroundOnMouseDown.bind(this)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
+                      />
+                    ))}
+                    </div>
+                    <div
+                        style={{
+                          width: '350px',
+                          marginRight: '10px',
+                        }}
+                      >
+                    {this.state.backgrounds3.map((item, key) => (
+                      <ImagePicker
+                        key={key}
+                        color={item.color}
+                        src={}
+                        height={93 / (item.width / item.height)} 
+                        onPick={this.backgroundOnMouseDown.bind(this)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
+                      />
+                    ))}
+                    </div>
+                  </div>
+    );
   }
 
   refFullName = null;
@@ -3588,10 +3654,10 @@ handleToolbarResize = e => {
                         <ImagePicker
                           key={key}
                           color={item.color}
-                          src={item.representative}
+                          src={item.representativeThumbnail}
                           height={150 / (item.width / item.height)}
                           className=""
-                          onPick={this.imgOnMouseDown.bind(this)}
+                          onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
                         />
                       ))}
@@ -3606,10 +3672,10 @@ handleToolbarResize = e => {
                         <ImagePicker
                           key={key}
                           color={item.color}
-                          src={item.representative}
+                          src={item.representativeThumbnail}
                           height={150 / (item.width / item.height)}
                           className=""
-                          onPick={this.imgOnMouseDown.bind(this)}
+                          onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
                         />
                       ))}
@@ -3980,17 +4046,16 @@ handleToolbarResize = e => {
                   scroll={true}
                   throttle={100}
                   threshold={300}
-                  isLoading={false}
-                  hasMore={this.state.hasMoreTextTemplate}
+                  isLoading={this.state.isLoading}
+                  height="100%"
+                  hasMore={this.state.hasMoreBackgrounds}
                   onLoadMore={this.loadMoreBackground}
                 >
                   <div
                     id="image-container-picker"
                     style={{
                       display: "flex",
-                      overflow: "scroll",
                       // height: '200px',
-                      height: "100%"
                     }}
                   >
                     <div
@@ -3999,11 +4064,11 @@ handleToolbarResize = e => {
                           marginRight: '10px',
                         }}
                       >
-                    {this.state.backgrounds1.map((item, key) => (
+                    {this.state.backgrounds1.concat([{height: 93, width: 93, color: 'white',}, {height: 93, width: 93, color: 'white',}]).map((item, key) => (
                       <ImagePicker
                         key={key}
                         color={item.color}
-                        src={item.representative}
+                        src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)}
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
@@ -4016,11 +4081,11 @@ handleToolbarResize = e => {
                           marginRight: '10px',
                         }}
                       >
-                    {this.state.backgrounds2.map((item, key) => (
+                    {this.state.backgrounds2.concat([{height: 93, width: 93, color: 'white',}, {height: 93, width: 93, color: 'white',}]).map((item, key) => (
                       <ImagePicker
                         key={key}
                         color={item.color}
-                        src={item.representative}
+                        src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)}
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
@@ -4033,11 +4098,11 @@ handleToolbarResize = e => {
                           marginRight: '10px',
                         }}
                       >
-                    {this.state.backgrounds3.map((item, key) => (
+                    {this.state.backgrounds3.concat([{height: 93, width: 93, color: 'white',}, {height: 93, width: 93, color: 'white',}]).map((item, key) => (
                       <ImagePicker
                         key={key}
                         color={item.color}
-                        src={item.representative}
+                        src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)} 
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
