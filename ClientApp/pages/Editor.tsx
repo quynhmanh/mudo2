@@ -2223,7 +2223,7 @@ html {
     e.preventDefault();
     var target = e.target.cloneNode(true);
     target.style.zIndex = "11111111111";
-    target.src = img.representative;
+    target.src = img.representativeThumbnail;
     target.style.width = e.target.getBoundingClientRect().width + 'px';
     target.style.backgroundColor = e.target.style.backgroundColor;
     document.body.appendChild(target);
@@ -2307,7 +2307,7 @@ html {
             left: (rec2.left - rec.left) / self.state.scale,
             top: (rec2.top - rec.top) / self.state.scale,
             rotateAngle: 0.0,
-            src: target.src,
+            src: img.representative,
             backgroundColor: target.style.backgroundColor,
             selected: false,
             scaleX: 1,
