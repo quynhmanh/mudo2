@@ -2313,7 +2313,7 @@ html {
             left: (rec2.left - rec.left) / self.state.scale,
             top: (rec2.top - rec.top) / self.state.scale,
             rotateAngle: 0.0,
-            src: window.location.origin + "/" + img.representative,
+            src: (!img.representative.startsWith("data") ? (window.location.origin + "/" + img.representative) : img.representative),
             backgroundColor: target.style.backgroundColor,
             selected: false,
             scaleX: 1,
@@ -4363,7 +4363,7 @@ handleToolbarResize = e => {
                         }}
                       >
                         <img
-                          onMouseDown={this.imgOnMouseDown.bind(this)}
+                          onMouseDown={this.imgOnMouseDown.bind(this, {representative: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="})}
                           style={{
                             width: '160px',
                             height: '150px',
