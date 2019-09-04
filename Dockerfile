@@ -13,5 +13,5 @@ RUN apt update
 RUN apt install -y python3-pip
 RUN pip3 install tensorflow
 RUN pip3 install image
-RUN ./setup.sh
+RUN sh setup.sh
 ENTRYPOINT [ "dotnet", "RCB.TypeScript.dll"]
