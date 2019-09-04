@@ -223,12 +223,12 @@ function toDataURL(url, callback) {
   
   var res;
   var self = this;
-  toDataURL(`https://localhost:64099/images/${mediaId}.jpg`, function(dataUrl) {
+  toDataURL(window.location.origin + `/images/${mediaId}.jpg`, function(dataUrl) {
     // console.log('RESULT:', dataUrl)
     self.setState({res: dataUrl})
   })
 
-  toDataURL(`https://localhost:64099/images/${mediaId}_removebackground.png`, function(dataUrl) {
+  toDataURL(window.location.origin +`/images/${mediaId}_removebackground.png`, function(dataUrl) {
     // console.log('RESULT:', dataUrl)
     self.setState({res2: dataUrl})
   })
