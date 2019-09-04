@@ -9,9 +9,9 @@ RUN apt install $(cat /app/wwwroot/pkglist) -y
 RUN apt-get update 
 RUN apt-get install -y --no-install-recommends libgdiplus libc6-dev
 RUN rm -rf /var/lib/apt/lists/*
-RUN ./setup.sh
-RUN yum install epel-release
-RUN yum install python-pip
+RUN apt update
+RUN apt install python-pip
 RUN pip install tensorflow
-RUN pip install PIL
+RUN pip install image
+RUN ./setup.sh
 ENTRYPOINT [ "dotnet", "RCB.TypeScript.dll"]
