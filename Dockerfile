@@ -10,7 +10,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends libgdiplus libc6-dev
 RUN rm -rf /var/lib/apt/lists/*
 RUN apt update
-RUN apt install -y python-pip
+RUN apt install -y python3-pip
 RUN pip install tensorflow
 RUN pip install image
 RUN ./setup.sh
