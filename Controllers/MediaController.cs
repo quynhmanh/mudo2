@@ -178,7 +178,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Ext = oDownloadBody.ext;
 
                 ProcessStartInfo start = new ProcessStartInfo();
-                start.FileName = "/usr/local/bin/python3";
+                start.FileName = "/usr/bin/python3";
                 start.Arguments = string.Format($"seg.py wwwroot/{file2} wwwroot/{file4} 1");
                 start.UseShellExecute = false;// Do not use OS shell
                 start.CreateNoWindow = true; // We don't need new window
