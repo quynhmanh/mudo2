@@ -259,12 +259,12 @@ namespace RCB.TypeScript.Controllers
                     for (var i = 0; i < canvas.Length; ++i)
                     {
                         var html = template.Replace("[CANVAS]", canvas[i]);
-                        // byte[] bytes = Encoding.ASCII.GetBytes(html);
-                        // using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
-                        // {
-                        //     htmlFile.Write(bytes, 0, bytes.Length);
-                        //     htmlFile.Flush();
-                        // }
+                        byte[] bytes = Encoding.ASCII.GetBytes(html);
+                        using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
+                        {
+                            htmlFile.Write(bytes, 0, bytes.Length);
+                            htmlFile.Flush();
+                        }
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                         using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
@@ -357,209 +357,210 @@ namespace RCB.TypeScript.Controllers
             }
         }
 
-        [HttpPost("[action]")]
-        public async System.Threading.Tasks.Task<IActionResult> DownloadVideo([FromQuery]string width, [FromQuery]string height)
-        {
+    //    [HttpPost("[action]")]
+    //    public async System.Threading.Tasks.Task<IActionResult> DownloadVideo([FromQuery]string width, [FromQuery]string height)
+    //    {
 
-            string body = null;
-            using (var reader = new StreamReader(Request.Body))
-            {
-                body = reader.ReadToEnd();
+    //        string body = null;
+    //        using (var reader = new StreamReader(Request.Body))
+    //        {
+    //            body = reader.ReadToEnd();
 
-                DownloadBody oDownloadBody = JsonConvert.DeserializeObject<DownloadBody>(body);
+    //            DownloadBody oDownloadBody = JsonConvert.DeserializeObject<DownloadBody>(body);
 
-                string style = AppSettings.style;
-                try
-                {
-                    for (int i = 0; i < oDownloadBody.Fonts.Length; ++i)
-                    {
-                        byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{oDownloadBody.Fonts[i]}.ttf");
-                        String file = Convert.ToBase64String(AsBytes);
+    //            string style = AppSettings.style;
+    //            try
+    //            {
+    //                for (int i = 0; i < oDownloadBody.Fonts.Length; ++i)
+    //                {
+    //                    byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{oDownloadBody.Fonts[i]}.ttf");
+    //                    String file = Convert.ToBase64String(AsBytes);
 
-                        string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
-                        style += s;
-                    }
-                } catch (Exception e)
-                {
+    //                    string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
+    //                    style += s;
+    //                }
+    //            } catch (Exception e)
+    //            {
 
-                }
+    //            }
 
-                string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
-                    .Replace("[FONT_FACE]", style)
-                    .Replace("[RECT_WIDTH]", width)
-                    .Replace("[RECT_HEIGHT]", height);
+    //            string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
+    //                .Replace("[FONT_FACE]", style)
+    //                .Replace("[RECT_WIDTH]", width)
+    //                .Replace("[RECT_HEIGHT]", height);
 
-                byte[] data = null;
-                using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-                {
-                    iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
-                    iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
-                    doc.Open();
-                    var canvas = oDownloadBody.Canvas;
-                    for (var i = 0; i < canvas.Length; ++i)
-                    {
-                        var html = template.Replace("[CANVAS]", canvas[i]);
-                        //byte[] bytes = Encoding.ASCII.GetBytes(html);
-                        //using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
-                        //{
-                        //    htmlFile.Write(bytes, 0, bytes.Length);
-                        //    htmlFile.Flush();
-                        //}
+    //            byte[] data = null;
+    //            using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+    //            {
+    //                iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
+    //                iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
+    //                doc.Open();
+    //                var canvas = oDownloadBody.Canvas;
+    //                for (var i = 0; i < canvas.Length; ++i)
+    //                {
+    //                    var html = template.Replace("[CANVAS]", canvas[i]);
+    //                    //byte[] bytes = Encoding.ASCII.GetBytes(html);
+    //                    //using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
+    //                    //{
+    //                    //    htmlFile.Write(bytes, 0, bytes.Length);
+    //                    //    htmlFile.Flush();
+    //                    //}
 
-                        var path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro-master/test-extension";
-                        var extensionId = "faffmpnegcamgkccjjginaailmnoldhn";
-                         var args = new string[] {
-            $"--whitelisted-extension-id={extensionId}",
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage",
-            $"--disable-extensions-except={path}",
-            $"--load-extension={path}"
-                        };
+    //                    var path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro-master/test-extension";
+    //                    var extensionId = "faffmpnegcamgkccjjginaailmnoldhn";
+    //                     var args = new string[] {
+    //        $"--whitelisted-extension-id={extensionId}",
+    //        "--no-sandbox",
+    //        "--disable-setuid-sandbox",
+    //        "--disable-dev-shm-usage",
+    //        $"--disable-extensions-except={path}",
+    //        $"--load-extension={path}"
+    //                    };
 
-                        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-                        {
-                            DefaultViewport = new ViewPortOptions()
-                            {
-                                Width = int.Parse(width),
-                                Height = int.Parse(height),
-                            },
-                            ExecutablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary",
-                            Args = args,
-                            Headless = false,
-                        });
+    //                    await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+    //                    var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+    //                    {
+    //                        DefaultViewport = new ViewPortOptions()
+    //                        {
+    //                            Width = int.Parse(width),
+    //                            Height = int.Parse(height),
+    //                        },
+    //                        ExecutablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary",
+    //                        Args = args,
+    //                        Headless = false,
+    //                    });
 
-                        var page = await browser.NewPageAsync();
-                        await page.SetContentAsync(html,
-                            new NavigationOptions()
-                            {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
-                            });
+    //                    var page = await browser.NewPageAsync();
+    //                    await page.SetContentAsync(html,
+    //                        new NavigationOptions()
+    //                        {
+    //                            WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+    //                        });
 
-                        var targets = browser.Targets();
-                        Target backgroundPageTarget = null;
-                        for (int t = 0; t < targets.Length; ++t)
-                        {
-                            if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
-                            {
-                                backgroundPageTarget = targets[t];
-                            }
-                        }
+    //                    var targets = browser.Targets();
+    //                    Target backgroundPageTarget = null;
+    //                    for (int t = 0; t < targets.Length; ++t)
+    //                    {
+    //                        if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
+    //                        {
+    //                            backgroundPageTarget = targets[t];
+    //                        }
+    //                    }
 
-                        var backgroundPage = await backgroundPageTarget.PageAsync();
+    //                    var backgroundPage = await backgroundPageTarget.PageAsync();
 
-                        var messages = new List<ConsoleMessage>();
+    //                    var messages = new List<ConsoleMessage>();
 
-                        backgroundPage.Console += (sender, e) => messages.Add(e.Message);
+    //                    backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
-                        var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
-        startRecording();
-        return Promise.resolve(42);
-    }");
+    //                    var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
+    //    startRecording();
+    //    return Promise.resolve(42);
+    //}");
 
-                        await backgroundPage.WaitForTimeoutAsync(12 * 1000);
+    //                    await backgroundPage.WaitForTimeoutAsync(12 * 1000);
 
-                        //                        string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
-                        //                        {
-                        //                            Clip = new PuppeteerSharp.Media.Clip()
-                        //                            {
-                        //                                Width = decimal.Parse(width),
-                        //                                Height = decimal.Parse(height),
-                        //                            }
-                        //                        });
+    //                    string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
+    //                    {
+    //                        Clip = new PuppeteerSharp.Media.Clip()
+    //                        {
+    //                            Width = decimal.Parse(width),
+    //                            Height = decimal.Parse(height),
+    //                        }
+    //                    });
 
-                        //                        var exePath = "/Users/llaugusty/Downloads/ffmpeg";
+    //                    var exePath = "/Users/llaugusty/Downloads/ffmpeg";
 
-                        //                        var inputArgs = "-framerate 40 -f image2pipe -pix_fmt rgb32 -video_size 1920x1080 -i -";
-                        //                        var outputArgs = "-vcodec libx264 -crf 23 -pix_fmt yuv420p -preset ultrafast -r 20 out.mp4";
+    //                    var inputArgs = "-framerate 40 -f image2pipe -pix_fmt rgb32 -video_size 1920x1080 -i -";
+    //                    var outputArgs = "-vcodec libx264 -crf 23 -pix_fmt yuv420p -preset ultrafast -r 20 out.mp4";
 
-                        //                        var process = new Process
-                        //                        {
-                        //                            StartInfo =
-                        //    {
-                        //        FileName = exePath,
-                        //        Arguments = $"{inputArgs} {outputArgs}",
-                        //        UseShellExecute = false,
-                        //        CreateNoWindow = true,
-                        //        RedirectStandardInput = true
-                        //    }
-                        //                        };
+    //                    var process = new Process
+    //                    {
+    //                        StartInfo =
+    //                        {
+    //                            FileName = exePath,
+    //                            Arguments = $"{inputArgs} {outputArgs}",
+    //                            UseShellExecute = false,
+    //                            CreateNoWindow = true,
+    //                            RedirectStandardInput = true
+    //                        }
+    //                    };
 
-                        //                        process.Start();
+    //                    process.Start();
 
-                        //                        var ffmpegIn = process.StandardInput.BaseStream;
-
-
-                        //                        PdfReader reader2 = new PdfReader(a);
-                        //                        Rectangle rec = reader2.GetPageSize(1);
-                        //                        float ratio = int.Parse(width) * 1f / int.Parse(height);
-                        //                        float left = 0;
-                        //                        float bottom = rec.Height - rec.Width / ratio;
-                        //                        float right = rec.Width;
-                        //                        float top = rec.Height;
-
-                        //                        System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
-                        //                        PdfDictionary pageDict;
-                        //                        PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
-                        //                        pageDict = reader2.GetPageN(1);
-                        //                        pageDict.Put(PdfName.CROPBOX, rect);
-
-                        //                        double currentTime = 0;
-
-                        //                        for (int j = 0; j <= 1000; ++j, currentTime += 0.025)
-                        //                        {
-                        //                            var res = await page.EvaluateFunctionAsync(@"(currentTime) => {
-                        //  var videos = document.getElementsByTagName(""video"");
-                        //  for (var i = 0; i < videos.length; ++i)
-                        //  {
-                        //      videos[i].currentTime = currentTime;
-                        //  }
-                        //}", currentTime);
-
-                        //                            Stream aa = await page.ScreenshotStreamAsync(new ScreenshotOptions()
-                        //                            {
-                        //                                Clip = new PuppeteerSharp.Media.Clip()
-                        //                                {
-                        //                                    Width = decimal.Parse(width),
-                        //                                    Height = decimal.Parse(height),
-                        //                                },
-                        //                            });
-
-                        //                            try
-                        //                            {
-                        //                                //ffmpegIn.Position = ffmpegIn.Length;
-                        //                                ffmpegIn.Write(ReadFully(aa));
-                        //                            } catch (Exception)
-                        //                            {
-
-                        //                            }
-                        //                        }
+    //                    var ffmpegIn = process.StandardInput.BaseStream;
 
 
-                        //                        // After you are done
-                        //                        ffmpegIn.Flush();
-                        //                        ffmpegIn.Close();
+    //                    //PdfReader reader2 = new PdfReader(a);
+    //                    //Rectangle rec = reader2.GetPageSize(1);
+    //                    //float ratio = int.Parse(width) * 1f / int.Parse(height);
+    //                    //float left = 0;
+    //                    //float bottom = rec.Height - rec.Width / ratio;
+    //                    //float right = rec.Width;
+    //                    //float top = rec.Height;
 
-                        //                        process.WaitForExit();
-                        //                        process.Close();
+    //                    //System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
+    //                    //PdfDictionary pageDict;
+    //                    //PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
+    //                    //pageDict = reader2.GetPageN(1);
+    //                    //pageDict.Put(PdfName.CROPBOX, rect);
 
-                        //                        pCopy.AddPage(pCopy.GetImportedPage(reader2, 1));
-                        //                        reader2.Close();
-                    }
+    //                    //double currentTime = 0;
 
-                        doc.Close();
-                    pCopy.Close();
-                    data = msOutput.ToArray();
-                }
+    //                    //for (int j = 0; j <= 1000; ++j, currentTime += 0.025)
+    //                    //{
+    //                    //    var res = await page.EvaluateFunctionAsync(@"(currentTime) => {
+    //                    //  var videos = document.getElementsByTagName(""video"");
+    //                    //  for (var i = 0; i < videos.length; ++i)
+    //                    //  {
+    //                    //      videos[i].currentTime = currentTime;
+    //                    //  }
+    //                    //}", currentTime);
 
-                //p.WaitForExit();
+    //                    //    Stream aa = await page.ScreenshotStreamAsync(new ScreenshotOptions()
+    //                    //    {
+    //                    //        Clip = new PuppeteerSharp.Media.Clip()
+    //                    //        {
+    //                    //            Width = decimal.Parse(width),
+    //                    //            Height = decimal.Parse(height),
+    //                    //        },
+    //                    //    });
 
-                return File(data, "application/pdf");
+    //                    //    try
+    //                    //    {
+    //                    //        //ffmpegIn.Position = ffmpegIn.Length;
+    //                    //        ffmpegIn.Write(ReadFully(aa));
+    //                    //    }
+    //                    //    catch (Exception)
+    //                    //    {
 
-                //return Json(null);
-            }
-        }
+    //                    //    }
+    //                    //}
+
+
+    //                    // After you are done
+    //                    ffmpegIn.Flush();
+    //                    ffmpegIn.Close();
+
+    //                    process.WaitForExit();
+    //                    process.Close();
+
+    //                    pCopy.AddPage(pCopy.GetImportedPage(reader2, 1));
+    //                    reader2.Close();
+    //                }
+
+    //                doc.Close();
+    //                pCopy.Close();
+    //                data = msOutput.ToArray();
+    //            }
+
+    //            //p.WaitForExit();
+
+    //            return File(data, "application/pdf");
+
+    //            //return Json(null);
+    //        }
+    //    }
 
         public static byte[] ReadFully(Stream input)
         {

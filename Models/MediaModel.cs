@@ -7,6 +7,7 @@
         public string LastName { get; set; }
         public string Representative { get; set; }
         public string RepresentativeThumbnail { get; set; }
+        public string RepresentativeRemoveBackground { get; set; }
         public float Width { get; set; }
         public float height { get; set; }
         public int Type { get; set; }

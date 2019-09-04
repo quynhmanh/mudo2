@@ -15,6 +15,7 @@ import PrintPage from '@Pages/PrintPage';
 import AboutPage from '@Pages/AboutPage';
 import PricingPage from '@Pages/PricingPage';
 import AccountPage from '@Pages/AccountPage';
+import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemovalEditor';
 
 
 export const routes = <Switch>
@@ -34,5 +35,6 @@ export const routes = <Switch>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/print" component={PrintPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/about" component={AboutPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/cart" component={AboutPage}/>
+    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/remove-background/:media_id" component={ImageBackgroundRemovalEditor}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/pricing/pricing" component={PricingPage}/>
 </Switch>;

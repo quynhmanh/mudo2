@@ -124,7 +124,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                         <input onChange={this.handleKeywordChanged.bind(this, index)} className='unblurred' type="text" value={kw} />
                         <button className='unblurred' onClick={this.handleRemove.bind(this, index)}>Remove</button>
                     </div>)}
-
                     <div 
                         className='unblurred'
                         style={{
@@ -132,6 +131,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                         bottom: '15px',
                         right: '15px',
                     }}>
+                    <a className='unblurred' href={`/remove-background/${this.props.item.id}`}>Edit removed background</a>
                     <button
                         style={{
                             marginRight: '15px',
@@ -164,7 +164,7 @@ const PopupWrapper = styled.div`
         margin: auto;  
         background-color: black;
         width: 500px;
-        height: 400px;
+        height: 600px;
     }
 
     .popup-background {

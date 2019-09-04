@@ -60,7 +60,7 @@ namespace RCB.TypeScript.Controllers
         public IActionResult verify([FromBody]Auth auth)
         {
             if (auth.Scope == null || !auth.Scope.ToLower().Contains("email"))
-                return BadRequest(new { message = "The following permissions have not been approved for use: email." });
+                return BadRequest(new { message = "The follusers/authenticate/external/verify:1 owing permissions have not been approved for use: email." });
             switch (auth.Provider)
             {
                 case "facebook":

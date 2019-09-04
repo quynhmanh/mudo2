@@ -45,7 +45,7 @@ enum SidebarTab {
   Background = 8,
   Element = 16,
   Upload = 32,
-  Video = 64,
+  RemovedBackgroundImage = 64,
   Folder = 128,
   Font = 248,
   Color = 496,
@@ -67,7 +67,7 @@ enum TemplateType {
   Image = 4,
   Latex = 5,
   BackgroundImage = 6,
-  Video = 7,
+  RemovedBackgroundImage = 7,
   UserUpload = 8,
 }
 
@@ -164,6 +164,10 @@ interface IState {
   showTemplateEditPopup: boolean;
   showFontEditPopup: boolean;
   videos: any;
+  removeImages1: Array<object>;
+  removeImages2: Array<object>;
+  currentHeightRemoveImage1: number;
+  currentHeightRemoveImage2: number;
   hasMoreBackgrounds: boolean;
   typeObjectSelected: TemplateType;
   bleed: boolean;
@@ -173,6 +177,7 @@ interface IState {
   downloading: boolean;
   imgBackgroundColor: string;
   isBackgroundLoading: boolean;
+  hasMoreRemovedBackground: boolean;
 }
 
 let firstpage = uuidv4();
@@ -284,6 +289,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             hasMoreUserUpload: true,
             isTextTemplateLoading: false,
             isBackgroundLoading: false,
+            currentHeightRemoveImage1: 0,
+            currentHeightRemoveImage2: 0,
+            hasMoreRemovedBackground: true,
+            removeImages1: [],
+            removeImages2: [],
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -501,6 +511,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     }
 
     this.loadMore.bind(this)(true);
+    this.loadMoreRemovedBackgroundImage.bind(this)(true);
     this.loadMoreFont(true);
     this.loadMoreTextTemplate(true);
     this.loadMoreTemplate.bind(this)(true, subtype);
@@ -2195,7 +2206,7 @@ html {
           let images = [...this.state.images];
           images.push({
             _id: uuidv4(),
-            type: TemplateType.Video,
+            type: TemplateType.RemovedBackgroundImage,
             width: rec2.width / self.state.scale,
             height: rec2.height / self.state.scale,
             origin_width: rec2.width / self.state.scale,
@@ -2635,7 +2646,8 @@ handleToolbarResize = e => {
     var fr = new FileReader();
     fr.readAsDataURL(file);
     fr.onload = () => {
-      var url = `/api/Media/Add`;
+      var url = `/api/Media/Add2`;
+      console.log('url ', url);
       var i = new Image(); 
 
       i.onload = function(){
@@ -2658,7 +2670,7 @@ handleToolbarResize = e => {
   }
   }
 
-  uploadImage = (type, e) => {
+  uploadImage = (type, removeBackground, e) => {
     var self = this;``
     var fileUploader = document.getElementById("image-file") as HTMLInputElement;
     var file = fileUploader.files[0];
@@ -2666,7 +2678,12 @@ handleToolbarResize = e => {
     fr.readAsDataURL(file);
     fr.onload = () => {
       var url = `/api/Media/Add`;
+      if (type === TemplateType.RemovedBackgroundImage) {
+        url = `/api/Media/Add2`;
+      }
       var i = new Image(); 
+
+      console.log('url   ', type, url);
 
       self.setState({userUpload1: [{representative: fr.result}, ...self.state.userUpload1]})
 
@@ -3153,6 +3170,54 @@ handleToolbarResize = e => {
     )
   }
 
+  loadMoreRemovedBackgroundImage = (initialLoad: Boolean) => {
+    let pageId;
+    let count;
+    if (initialLoad) {
+      pageId = 1;
+      count = 15;
+    } else {
+      pageId = (this.state.items.length + this.state.items2.length) / 15 + 1;
+      count = 15;
+    }
+    this.setState({ isLoading: true, error: undefined });
+    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
+    const url = `/api/Media/Search?type=${TemplateType.RemovedBackgroundImage}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        res => {
+          var result = res.value.key;
+          var currentHeightRemoveImage1 = this.state.currentHeightRemoveImage1;
+          var currentHeightRemoveImage2 = this.state.currentHeightRemoveImage2;
+          var res1 = [];
+          var res2 = [];
+          for (var i = 0; i < result.length; ++i) {
+            var currentItem = result[i];
+            if (currentHeightRemoveImage1 <= currentHeightRemoveImage2) {
+              res1.push(currentItem);
+              currentHeightRemoveImage1 += 150 / (currentItem.width / currentItem.height);
+            } else {
+              res2.push(currentItem);
+              currentHeightRemoveImage2 += 150 / (currentItem.width / currentItem.height);
+            }
+          }
+          this.setState(state => ({
+            removeImages1: [...state.removeImages1, ...res1],
+            removeImages2: [...state.removeImages2, ...res2],
+            currentHeightRemoveImage1,
+            currentHeightRemoveImage2,
+            cursor: res.cursor,
+            isLoading: false,
+            hasMoreRemovedBackground: res.value.value > state.items.length + state.items2.length + res.value.key.length,
+          }))
+        },
+        error => {
+          this.setState({ isLoading: false, error })
+        }
+    )
+  }
+
   handleQuery = (e) => {
     if (e.key === "Enter") {
       this.setState({query: e.target.value, items: [], items2: [],}, () => {this.loadMore(true)});
@@ -3343,7 +3408,7 @@ handleToolbarResize = e => {
                       <ImagePicker
                         key={key}
                         color={item.color}
-                        src={}
+                        src={item.representative}
                         height={93 / (item.width / item.height)}
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
@@ -3573,7 +3638,9 @@ handleToolbarResize = e => {
                       type="file"
                       onLoad={(data) => {}}
                       onLoadedData={(data) => {}}
-                      onChange={(e) => { this.uploadImage(this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : (this.state.selectedTab === SidebarTab.Background ? TemplateType.BackgroundImage : TemplateType.UserUpload), e)}}
+                      onChange={(e) => {this.uploadImage(this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : 
+                          (this.state.selectedTab === SidebarTab.Background ? TemplateType.BackgroundImage : 
+                            (this.state.selectedTab === SidebarTab.RemovedBackgroundImage ? TemplateType.RemovedBackgroundImage : TemplateType.RemovedBackgroundImage)), false, e)}}
                       style={{
                         bottom: 0,
                       }}
@@ -3586,7 +3653,7 @@ handleToolbarResize = e => {
                       onClick={
                         this.state.selectedTab === SidebarTab.Font ? 
                         this.uploadFont.bind(this) :
-                        this.uploadImage.bind(this, this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : TemplateType.BackgroundImage)}>
+                        this.uploadImage.bind(this, this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : TemplateType.BackgroundImage, false)}>
                         Upload
                     </button>
                     <button
@@ -4316,30 +4383,111 @@ handleToolbarResize = e => {
                     </div>
                   </div>
                 )}
-                {this.state.selectedTab === SidebarTab.Video && (
+                {this.state.selectedTab === SidebarTab.RemovedBackgroundImage && (
+                  <div
+                  style={{
+                    position: 'relative',
+                    zIndex: 123,
+                  }}>
+                    <input
+                    style={{
+                      position: 'absolute',
+                      zIndex: 11,
+                      width: 'calc(100% - 10px)',
+                      marginBottom: '8px',
+                      border: 'none',
+                      height: '30px',
+                      borderRadius: '6px',
+                      padding: '5px',
+                      fontSize: '13px',
+                      boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+                    }}
+                    onKeyDown={this.handleQuery}
+                    type="text"
+                    onChange={(e) => {this.setState({query: e.target.value})}}
+                    value={this.state.query}
+                    />
+                <InfiniteScroll
+                  scroll={true}
+                  throttle={500}
+                  threshold={300}
+                  isLoading={this.state.isLoading}
+                  hasMore={this.state.hasMoreImage}
+                  onLoadMore={this.loadMore}
+                  height='100%'
+                >
+                  {/* <input
+                  style={{
+                    width: '100%',
+                    marginBottom: '8px',
+                    border: 'none',
+                    height: '30px',
+                    borderRadius: '6px',
+                    padding: '5px',
+                    fontSize: '13px',
+                  }}
+                  type="text" /> */}
+                  <div id="image-container-picker" style={{display: 'flex', padding: '35px 5px 10px 0px',}}>
                   <div
                     style={{
-                      color: "white",
-                      overflow: "scroll",
+                      height: "calc(100% - 170px)",
+                      width: '350px',
+                      marginRight: '10px',
                     }}
                   >
-                    <div style={{display: 'inline-block'}}>
-                    <ul
-                      style={{
-                        listStyle: 'none',
-                        padding: 0,
-                      }}
-                    >
-                      {this.state.videos.map(font => 
-                          <video
-                            onMouseDown={this.videoOnMouseDown.bind(this)}
-                            muted autoPlay={true} preload="none" width="560" height="320"><source src={font} type="video/webm">
-                          </source>
-                          </video>
-                      )}
-                    </ul>
-                    </div>
+                    {this.state.removeImages1.map((item, key) => (
+                      <ImagePicker
+                        key={key}
+                        color={item.color}
+                        src={item.representativeThumbnail}
+                        height={150 / (item.width / item.height)}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, item)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
+                      />
+                    ))}
                   </div>
+                  <div
+                    style={{
+                      height: "calc(100% - 170px)",
+                      width: '350px',
+                    }}
+                  >
+                    {this.state.removeImages2.map((item, key) => (
+                      <ImagePicker
+                        key={key}
+                        color={item.color}
+                        src={item.representativeThumbnail}
+                        height={150 / (item.width / item.height)}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, item)}
+                        onEdit={this.handleEditmedia.bind(this, item)}
+                      />
+                    ))}
+                    </div>
+                  {/* <div
+                    id="image-container-picker"
+                    style={{
+                      // display: "flex",
+                      overflow: "scroll",
+                      // height: '200px',
+                      height: "100%",
+                      width: '350px',
+                      paddingLeft: '5px',
+                    }}
+                  >
+                    {this.state.items.map((item, key) => (
+                      <ImagePicker
+                        key={key}
+                        className=""
+                        src={item.urls.small}
+                        onPick={this.imgOnMouseDown.bind(this)}
+                      />
+                    ))}
+                  </div> */}
+                  </div>
+                </InfiniteScroll>
+                </div>
                 )}
                 {this.state.selectedTab === SidebarTab.Element && (
                   <div
@@ -4413,6 +4561,17 @@ handleToolbarResize = e => {
                     }}
                     onClick={() => {document.getElementById("image-file").click(); }}
                   >Tải lên một hình ảnh</button>
+                  {/* <button
+                    style={{
+                      width: '100%',
+                      backgroundColor: 'white',
+                      border: 'none',
+                      color: 'black',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={this.uploadImage.bind(this, TemplateType.UserUpload, true)}
+                  >Tải lên một hình ảnh để xoá phông nền</button> */}
                   <div style={{
                     display: 'flex',
                     marginTop: '10px',
