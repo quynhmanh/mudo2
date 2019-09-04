@@ -11,7 +11,7 @@ RUN apt-get install -y --no-install-recommends libgdiplus libc6-dev
 RUN rm -rf /var/lib/apt/lists/*
 RUN apt update
 RUN apt install -y python-pip
-RUN pip install -y tensorflow
-RUN pip install -y image
+RUN pip install tensorflow
+RUN pip install image
 RUN ./setup.sh
 ENTRYPOINT [ "dotnet", "RCB.TypeScript.dll"]
