@@ -5,6 +5,8 @@ import { Helmet } from "react-helmet";
 import Globals from '@Globals';
 
 export interface IProps {
+    mediaId: string;
+    closePopup: any;
   }
   
   interface IState {
@@ -30,7 +32,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
     
     componentDidMount = () => {
     var self = this;
-    var mediaId = this.props.match.params.media_id;
+    var mediaId = this.props.mediaId ? this.props.mediaId : this.props.match.params.media_id;
     this.setState({mediaId});
         var strokeWidth = 8;
 var bufferSize;
@@ -126,9 +128,10 @@ svgElement.addEventListener("mousedown", function (e) {
 });
 
 svgElement.addEventListener("mouseenter", function (e) {
+    var rect2 = document.getElementById("divSmoothingFactor").getBoundingClientRect();
     var mousemove = (e) => {
-        document.getElementById("cursor").style.left = e.clientX + "px";
-        document.getElementById("cursor").style.top = e.clientY + "px";
+        document.getElementById("cursor").style.left = (e.pageX - rect2.left) + "px";
+        document.getElementById("cursor").style.top = (e.pageY - rect2.top)  + "px";
     }
     
     document.addEventListener("mousemove", mousemove);
@@ -342,12 +345,60 @@ function toDataURL(url, callback) {
 
       console.log('render ');
       
-        return (<div>
-            <Helmet>
+        return (
+            <PopupWrapper className='popup unblurred'>
+        <div>
+            {/* <Helmet>
               <title>Home page - RCB (TypeScript)</title>
-            </Helmet>
-            
-          <div className="container"><div className='unblurred'><div className='unblurred' id="divSmoothingFactor">
+            </Helmet> */}
+          <div className="container"><div className='unblurred'><div style={{position: 'relative'}} className='unblurred' id="divSmoothingFactor">
+          <span 
+                    onClick={this.props.closePopup}
+                    style={{
+                        position: 'absolute',
+                        width: '13px',
+                        height: '13px',
+                        right: '8px',
+                        top: '8px',
+                        cursor: 'pointer',
+                    }} className='unblurred'>
+<svg class="unblurred" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 212.982 212.982" xmlSpace="preserve">
+<g id="Close">
+	<path fill="black" d="M131.804,106.491l75.936-75.936c6.99-6.99,6.99-18.323,0-25.312   c-6.99-6.99-18.322-6.99-25.312,0l-75.937,75.937L30.554,5.242c-6.99-6.99-18.322-6.99-25.312,0c-6.989,6.99-6.989,18.323,0,25.312   l75.937,75.936L5.242,182.427c-6.989,6.99-6.989,18.323,0,25.312c6.99,6.99,18.322,6.99,25.312,0l75.937-75.937l75.937,75.937   c6.989,6.99,18.322,6.99,25.312,0c6.99-6.99,6.99-18.322,0-25.312L131.804,106.491z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+
+                    </span>
             <div
                 style={{
                     marginTop: '10px',
@@ -457,8 +508,47 @@ function toDataURL(url, callback) {
         </div>
         </div>
         </div>
-        </div>);  
+        </div>
+        </PopupWrapper>);  
     }  
 }  
+
+
+const PopupWrapper = styled.div`
+    z-index: 99999999999;
+    position: fixed;  
+    top: 0;  
+    left: 0;  
+    right: 0;  
+    bottom: 0;  
+    margin: auto;  
+    background-color: rgba(0,0,0, 0.5);  
+
+    .popup_inner {  
+        position: fixed;  
+        top: 0;  
+        left: 0;  
+        right: 0;  
+        bottom: 0;  
+        margin: auto;  
+        background-color: black;
+        width: 800px;
+        height: 277px;
+    }
+
+    .popup-background {
+        filter: blur(5px);
+    }
+`;
+
+const PopupWrapperBody = createGlobalStyle`
+    #editor :not(.unblurred) {
+        -webkit-filter: blur(2px);
+        -moz-filter: blur(2px);
+        -o-filter: blur(2px);
+        -ms-filter: blur(2px);
+        filter: blur(2px);    
+    }
+`;
 
 export default MediaEditPopup;

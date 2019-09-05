@@ -23,6 +23,7 @@ import BusinessCardReview from '@Components/editor/BusinessCardReview';
 import CanvasReview from '@Components/editor/CanvasReview';
 import Globals from '@Globals';
 import { Helmet } from "react-helmet";
+import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemovalEditor';
 
 declare global {
   interface Window { paymentScope : any; }
@@ -178,6 +179,8 @@ interface IState {
   imgBackgroundColor: string;
   isBackgroundLoading: boolean;
   hasMoreRemovedBackground: boolean;
+  showImageRemovalBackgroundPopup: boolean;
+  imageIdBackgroundRemoved: string;
 }
 
 let firstpage = uuidv4();
@@ -294,6 +297,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             hasMoreRemovedBackground: true,
             removeImages1: [],
             removeImages2: [],
+            showImageRemovalBackgroundPopup: false,
+            imageIdBackgroundRemoved: null,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -1496,6 +1501,11 @@ html {
   
     const blob = new Blob(byteArrays, {type: contentType});
     return blob;
+  }
+
+  handleRemoveBackground = (mediaId, e) => {
+    console.log('handleRemoveBackground')
+    this.setState({showImageRemovalBackgroundPopup: true, imageIdBackgroundRemoved: mediaId, showMediaEditPopup: false, showPopup: false,})
   }
 
   async downloadPNG(transparent, png) {
@@ -5550,6 +5560,7 @@ handleToolbarResize = e => {
           <MediaEditPopup
           item={this.state.editingMedia}
           closePopup={() => {this.setState({showMediaEditPopup: false})}}  
+          handleRemoveBackground={this.handleRemoveBackground.bind(this, this.state.editingMedia.id)}
           /> : null
         } 
         {this.state.showTemplateEditPopup ? 
@@ -5563,7 +5574,13 @@ handleToolbarResize = e => {
           item={this.state.editingFont}
           closePopup={() => {this.setState({showFontEditPopup: false})}}  
           /> : null
-        } 
+        }
+        {this.state.showImageRemovalBackgroundPopup && 
+          <ImageBackgroundRemovalEditor
+            mediaId={this.state.imageIdBackgroundRemoved}
+            closePopup={() => {this.setState({showImageRemovalBackgroundPopup: false})}}  
+          />
+        }
       </div>
     );
   }

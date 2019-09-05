@@ -5,6 +5,7 @@ import axios from 'axios';
 export interface IProps {
     item: any;
     closePopup: any;
+    handleRemoveBackground: any;
   }
   
   interface IState {
@@ -131,7 +132,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                         bottom: '15px',
                         right: '15px',
                     }}>
-                    <a className='unblurred' href={`/remove-background/${this.props.item.id}`}>Edit removed background</a>
+                    <button className='unblurred' onClick={this.props.handleRemoveBackground}>Edit removed background</button>
                     <button
                         style={{
                             marginRight: '15px',
