@@ -2661,7 +2661,7 @@ handleToolbarResize = e => {
       var i = new Image(); 
 
       i.onload = function(){
-        axios.post(url, {id: uuidv4(), data: fr.result, width: i.width, height: i.height, type: TemplateType.BackgroundImage})
+        axios.post(url, {id: uuidv4(), data: fr.result, width: i.width, height: i.height, type: TemplateType.RemovedBackgroundImage})
         .then(() => {
           // url = `/api/Font/Search`;
           // fetch(url, {
@@ -3197,6 +3197,7 @@ handleToolbarResize = e => {
       .then(res => res.json())
       .then(
         res => {
+          console.log('loadMoreRemovedBackgroundImage res', res)
           var result = res.value.key;
           var currentHeightRemoveImage1 = this.state.currentHeightRemoveImage1;
           var currentHeightRemoveImage2 = this.state.currentHeightRemoveImage2;
@@ -4442,7 +4443,7 @@ handleToolbarResize = e => {
                       <ImagePicker
                         key={key}
                         color={item.color}
-                        src={item.representativeThumbnail}
+                        src={item.representativeRemoveBackgroundSVG}
                         height={150 / (item.width / item.height)}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, item)}
@@ -4460,7 +4461,7 @@ handleToolbarResize = e => {
                       <ImagePicker
                         key={key}
                         color={item.color}
-                        src={item.representativeThumbnail}
+                        src={item.representativeRemoveBackgroundSVG}
                         height={150 / (item.width / item.height)}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, item)}

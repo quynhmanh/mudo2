@@ -10,6 +10,7 @@ using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -140,6 +141,18 @@ namespace RCB.TypeScript.Controllers
         [HttpPost("[action]")]
         public async System.Threading.Tasks.Task<IActionResult> Add2()
         {
+            string svgTemplate = @"<svg 
+            className='unblurred' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' version='1.1' id='svgElement' x='0px' y='0px' width='600px' height='400px' viewBox='0 0 600 400' enable-background='new 0 0 600 400' xmlSpace='preserve'>
+            <defs>
+              <mask id='myCircle'>
+                 <image 
+            href='data:image/jpeg;base64,[IMAGE1]' />
+         </mask>
+
+     </defs>
+
+     <image className = 'unblurred' mask='url(#myCircle)' style='width:500px;' href='data:image/jpeg;base64,[IMAGE2]'/>
+</svg>";
             string body = null;
             using (var reader = new StreamReader(Request.Body))
             {
@@ -152,9 +165,12 @@ namespace RCB.TypeScript.Controllers
                 string file2 = "images" + Path.DirectorySeparatorChar + id + "." + oDownloadBody.ext;
                 string file3 = "images" + Path.DirectorySeparatorChar + id + "_thumbnail." + oDownloadBody.ext;
                 string file4 = "images" + Path.DirectorySeparatorChar + id + "_removebackground." + "png";
+                string file5 = "images" + Path.DirectorySeparatorChar + id + "_removebackgroundSVG." + "svg";
+
                 var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2);
                 var filePath3 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file3);
                 string base64 = dataFont.Substring(dataFont.IndexOf(',') + 1);
+                svgTemplate = svgTemplate.Replace("[IMAGE2]", base64);
                 byte[] data = Convert.FromBase64String(base64);
                 System.Drawing.Image img;
                 using (var fontFile = new FileStream(filePath, FileMode.Create))
@@ -166,7 +182,7 @@ namespace RCB.TypeScript.Controllers
 
                 MediaModel mediaModel = new MediaModel();
                 mediaModel.Id = id.ToString();
-                mediaModel.Representative = file2;
+                mediaModel.Representative = file5;
                 mediaModel.RepresentativeRemoveBackground = file4;
                 mediaModel.Width = oDownloadBody.width;
                 mediaModel.height = oDownloadBody.height;
@@ -176,6 +192,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Color = oDownloadBody.color;
                 mediaModel.UserEmail = oDownloadBody.userEmail;
                 mediaModel.Ext = oDownloadBody.ext;
+                mediaModel.RepresentativeRemoveBackgroundSVG = file5;
 
                 ProcessStartInfo start = new ProcessStartInfo();
                 start.FileName = "/usr/bin/python3";
@@ -191,6 +208,29 @@ namespace RCB.TypeScript.Controllers
                         string stderr = process.StandardError.ReadToEnd(); // Here are the exceptions from our Python script
                         string result = reader2.ReadToEnd(); // Here is the result of StdOut(for example: print "test")
                     }
+                }
+
+                var filePath4 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file4);
+                using (Image image = Image.FromFile(filePath4))
+                {
+                    using (MemoryStream m = new MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+
+                        // Convert byte[] to Base64 String
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        svgTemplate = svgTemplate.Replace("[IMAGE1]", base64String);
+                    }
+                }
+
+                byte[] bytes = Encoding.ASCII.GetBytes(svgTemplate);
+
+                var filePath5 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file5);
+                using (var fontFile = new FileStream(filePath5, FileMode.Create))
+                {
+                    fontFile.Write(bytes);
+                    fontFile.Flush();
                 }
 
                 try
