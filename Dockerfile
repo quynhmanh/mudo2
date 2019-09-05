@@ -2,6 +2,10 @@ FROM gcr.io/google-appengine/aspnetcore:2.2
 ADD ./bin/Release/netcoreapp2.2/publish/ /app
 ENV ASPNETCORE_URLS=http://*:${PORT}
 WORKDIR /app
+RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse" > /etc/apt/sources.list && \
+    echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
+    echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse" >> /etc/apt/sources.list && \
+    DEBIAN_FRONTEND=noninteractive apt-get update
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
 RUN apt-get install -y software-properties-common
 RUN apt-get install --yes nodejs
@@ -13,6 +17,6 @@ RUN apt update
 RUN apt install -y python3-pip
 RUN pip3 install tensorflow
 RUN pip3 install image
-RUN chmod a+x setup.sh  
+RUN chmod a+x setup.sh
 RUN sh setup.sh
 ENTRYPOINT [ "dotnet", "RCB.TypeScript.dll"]
