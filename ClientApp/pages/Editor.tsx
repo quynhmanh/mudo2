@@ -3679,7 +3679,7 @@ handleToolbarResize = e => {
                 id="sidebar-content"
                 style={{
                   position: "relative",
-                  height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 35}px)`,
+                  height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 50}px)`,
                   width: '100%',
                   padding: '10px 5px 0px 10px',
                 }}
