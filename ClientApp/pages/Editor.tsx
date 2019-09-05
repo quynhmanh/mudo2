@@ -4399,24 +4399,17 @@ handleToolbarResize = e => {
                     position: 'relative',
                     zIndex: 123,
                   }}>
-                    <input
+                                      <button
                     style={{
-                      position: 'absolute',
-                      zIndex: 11,
-                      width: 'calc(100% - 10px)',
-                      marginBottom: '8px',
+                      width: '100%',
+                      backgroundColor: 'white',
                       border: 'none',
-                      height: '30px',
-                      borderRadius: '6px',
-                      padding: '5px',
-                      fontSize: '13px',
-                      boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+                      color: 'black',
+                      padding: '10px',
+                      borderRadius: '5px',
                     }}
-                    onKeyDown={this.handleQuery}
-                    type="text"
-                    onChange={(e) => {this.setState({query: e.target.value})}}
-                    value={this.state.query}
-                    />
+                    onClick={() => {document.getElementById("image-file").click(); }}
+                  >Tải lên một hình ảnh</button>
                 <InfiniteScroll
                   scroll={true}
                   throttle={500}
@@ -4437,7 +4430,7 @@ handleToolbarResize = e => {
                     fontSize: '13px',
                   }}
                   type="text" /> */}
-                  <div id="image-container-picker" style={{display: 'flex', padding: '35px 5px 10px 0px',}}>
+                  <div id="image-container-picker" style={{display: 'flex', padding: '5px 5px 10px 0px',}}>
                   <div
                     style={{
                       height: "calc(100% - 170px)",
