@@ -6,9 +6,9 @@ RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted uni
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse" >> /etc/apt/sources.list && \
     DEBIAN_FRONTEND=noninteractive apt-get update
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN apt-get install -y nodejs
 RUN apt-get install -y software-properties-common
-RUN apt-get install --yes nodejs
 RUN apt install $(cat /app/wwwroot/pkglist) -y
 RUN apt-get update 
 RUN apt-get install -y --no-install-recommends libgdiplus libc6-dev
