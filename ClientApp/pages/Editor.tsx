@@ -4417,7 +4417,7 @@ handleToolbarResize = e => {
                   isLoading={this.state.isLoading}
                   hasMore={this.state.hasMoreImage}
                   onLoadMore={this.loadMore}
-                  height='100%'
+                  height='calc(100% - 55px)'
                 >
                   {/* <input
                   style={{
