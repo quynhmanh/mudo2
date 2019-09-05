@@ -34,7 +34,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
         // loaded = Boolean(Math.round(Math.random() % 2));
         return (
           <Container>
-            {Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === "llaugusty@gmail.com" &&
+            {Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
             <button
               style={{
                 position: 'absolute',
