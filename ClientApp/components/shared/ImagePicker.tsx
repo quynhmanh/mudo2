@@ -25,7 +25,7 @@ const Container = styled.div`
   width: ${props => props.width}px;
   animation: gradient___UgeAv 4s linear infinite;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
-  background-image: linear-gradient(90deg,#019fb6,#019fb6,#019FBD,#76c5d0,#2ea6c5,#019FB1,#019fb6);
+  background-image: ${props => props.loaded ? 'none' : 'linear-gradient(90deg,#019fb6,#019fb6,#019FBD,#76c5d0,#2ea6c5,#019FB1,#019fb6'} );
   margin-bottom: 10px;
   button {
     visibility: hidden;
