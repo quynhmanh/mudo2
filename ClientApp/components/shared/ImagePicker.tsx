@@ -12,6 +12,7 @@ export interface IProps {
     width: number;
     color: string;
     id: string;
+    delay: number;
 }
 
 export interface IState {
@@ -25,8 +26,9 @@ const Container = styled.div`
   width: ${props => props.width}px;
   animation: gradient___UgeAv 3s linear infinite;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
-  background-image: ${props => props.loaded ? 'none;' : 'linear-gradient(90deg,#efefef00,rgba(255, 255, 255, .15),#ffffff26,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.9),#060c0d00 );'}
+  background-image: ${props => props.loaded ? 'none;' : 'linear-gradient(90deg, rgba(239, 239, 239, 0), rgba(255, 255, 255, 0.15), rgb(0, 0, 0), rgb(0, 0, 0), rgba(0, 0, 0, 0.9), rgba(6, 12, 13, 0));'}
   margin-bottom: 10px;
+  animation-delay: ${props => props.delay}s;
   button {
     visibility: hidden;
   }
@@ -43,7 +45,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
         // loaded = true;
         // loaded = Boolean(Math.round(Math.random() % 2));
         return (
-          <Container id={this.props.id} loaded={loaded} height={this.props.height} width={this.props.width} defaultHeight={this.props.defaultHeight}>
+          <Container delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.props.width} defaultHeight={this.props.defaultHeight}>
             {Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
             <button
               style={{
