@@ -145,7 +145,7 @@ namespace RCB.TypeScript.Controllers
             className='unblurred' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' version='1.1' id='svgElement' x='0px' y='0px' width='600px' height='400px' viewBox='0 0 600 400' enable-background='new 0 0 600 400' xmlSpace='preserve'>
             <defs>
               <mask id='myCircle'>
-                 <image 
+                 <image style='width:500px;'
             href='data:image/jpeg;base64,[IMAGE1]' />
          </mask>
 
