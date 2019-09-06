@@ -3551,14 +3551,14 @@ handleToolbarResize = e => {
             href="#" style={{
             float: 'right',
             color: 'white',
-            backgroundColor: '#00000070',
             marginTop: '4px',
             marginRight: '6px',
             padding: '5px',
             borderRadius: '4px',
             textDecoration: 'none',
             fontSize: '13px',
-          }}> Tải về
+            fontFamily: 'AvenirNextRoundedPro-Medium',
+          }}> TẢI VỀ
           </a>
           {Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail &&
           <a
