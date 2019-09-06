@@ -183,6 +183,7 @@ interface IState {
   hasMoreRemovedBackground: boolean;
   showImageRemovalBackgroundPopup: boolean;
   imageIdBackgroundRemoved: string;
+  mounted: boolean;
 }
 
 let firstpage = uuidv4();
@@ -301,6 +302,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             removeImages2: [],
             showImageRemovalBackgroundPopup: false,
             imageIdBackgroundRemoved: null,
+            mounted: false,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -317,7 +319,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
 
-    this.setState({canRenderClientSide: true})
+    this.setState({canRenderClientSide: true});
+    var self = this;
+    setTimeout(() => {
+      self.setState({mounted: true})
+    }, 1000);
 
     var screenContainerParentRect = getBoundingClientRect("screen-container-parent");
     var screenContainerRect = getBoundingClientRect("screen-container");
@@ -3754,9 +3760,9 @@ handleToolbarResize = e => {
                           delay={0}
                         />
                       ))}
-                      {this.state.hasMoreImage && Array(1).fill(0).map(item => (
+                      {this.state.mounted && this.state.hasMoreImage && Array(1).fill(0).map((item, i) => (
                       <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -3768,9 +3774,9 @@ handleToolbarResize = e => {
                         delay={0}
                       />))
                       }
-                      {this.state.hasMoreImage && Array(10).fill(0).map(item => (
+                      {this.state.mounted && this.state.hasMoreImage && Array(10).fill(0).map((item, i) => (
                       <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -3802,9 +3808,9 @@ handleToolbarResize = e => {
                           delay={-1}
                         />
                       ))}
-                      {this.state.hasMoreImage && Array(1).fill(0).map(item => (
+                      {this.state.mounted && this.state.hasMoreImage && Array(1).fill(0).map((item, i) => (
                       <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -3816,9 +3822,9 @@ handleToolbarResize = e => {
                         delay={-1}
                       />))
                       }
-                      {this.state.hasMoreImage && Array(10).fill(0).map(item => (
+                      {this.state.mounted && this.state.hasMoreImage && Array(10).fill(0).map((item, i) => (
                       <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -4228,9 +4234,9 @@ handleToolbarResize = e => {
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
-                    {this.state.hasMoreBackgrounds && Array(1).fill(0).map(item => (
+                    {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
                       <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -4241,9 +4247,9 @@ handleToolbarResize = e => {
                         onEdit={this.handleEditmedia.bind(this, null)}
                       />))
                       }
-                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map(item => (
+                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
                       <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -4272,9 +4278,9 @@ handleToolbarResize = e => {
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
-                      {this.state.hasMoreBackgrounds && Array(1).fill(0).map(item => (
+                      {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
 <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -4285,9 +4291,9 @@ handleToolbarResize = e => {
                         onEdit={this.handleEditmedia.bind(this, null)}
                       />))
                       }
-                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map(item => (
+                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
 <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -4316,9 +4322,9 @@ handleToolbarResize = e => {
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
-                      {this.state.hasMoreBackgrounds && Array(1).fill(0).map(item => (
+                      {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
 <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
@@ -4329,9 +4335,9 @@ handleToolbarResize = e => {
                         onEdit={this.handleEditmedia.bind(this, null)}
                       />))
                       }
-                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map(item => (
+                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
 <ImagePicker
-                        key={1}
+                        key={i}
                         id="sentinel"
                         color="black"
                         src={""}
