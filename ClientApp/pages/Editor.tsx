@@ -257,7 +257,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 0,
             rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 0,
             toolbarOpened: true,
-            toolbarSize: 330,
+            toolbarSize: 400,
             scrollX: 16.67,
             scrollY: 16.67,
             resizing: false,
@@ -3483,6 +3483,9 @@ handleToolbarResize = e => {
     ,"rgb(0, 84, 151)","rgb(6, 79, 146)","rgb(19, 75, 150)","rgb(35, 60, 120)","rgb(36, 58, 112)","rgb(36, 53, 108)","rgb(33, 41, 91)","rgb(31, 37, 85)","rgb(34, 49, 100)","rgb(34, 56, 110)","rgb(30, 67, 134)","rgb(21, 73, 139)","rgb(9, 78, 144)","rgb(0, 84, 153)","rgb(0, 92, 165)","rgb(4, 98, 171)","rgb(8, 101, 177)","rgb(6, 113, 185)","rgb(21, 130, 198)","rgb(32, 141, 196)","rgb(168, 198, 229)","rgb(152, 187, 227)","rgb(124, 162, 213)","rgb(94, 137, 198)","rgb(62, 118, 187)","rgb(14, 103, 177)","rgb(10, 98, 175)","rgb(0, 89, 165)","rgb(0, 85, 158)","rgb(11, 78, 145)","rgb(22, 73, 138)","rgb(27, 70, 134)","rgb(38, 57, 118)","rgb(35, 45, 97)","rgb(34, 42, 91)","rgb(30, 36, 84)","rgb(29, 32, 79)","rgb(34, 40, 91)","rgb(37, 43, 98)","rgb(38, 52, 111)","rgb(39, 56, 120)","rgb(38, 58, 123)","rgb(39, 65, 124)","rgb(36, 62, 130)","rgb(32, 67, 141)","rgb(28, 69, 149)","rgb(13, 77, 158)","rgb(28, 83, 163)","rgb(41, 98, 173)","rgb(49, 110, 175)","rgb(129, 148, 203)","rgb(98, 119, 186)","rgb(71, 100, 174)","rgb(49, 84, 163)","rgb(33, 75, 157)","rgb(33, 70, 153)","rgb(33, 68, 152)","rgb(35, 64, 145)","rgb(37, 67, 132)","rgb(41, 52, 119)","rgb(41, 53, 109)","rgb(39, 48, 108)","rgb(37, 40, 94)","rgb(34, 37, 89)","rgb(29, 31, 79)","rgb(24, 27, 68)"
     ];
 
+    const imgWidth = 182;
+    const backgroundWidth = 116.33;
+
     return (
       <div
         id="editor"
@@ -3717,7 +3720,7 @@ handleToolbarResize = e => {
                     hasMore={this.state.hasMoreImage}
                     onLoadMore={this.loadMore}
                     height='100%'
-                    width={150}
+                    width={imgWidth}
                     refId="sentinel"
                   >
                     {/* <input
@@ -3744,8 +3747,8 @@ handleToolbarResize = e => {
                           key={key}
                           color={item.color}
                           src={item.representativeThumbnail}
-                          height={150 / (item.width / item.height)}
-                          defaultHeight={150}
+                          height={imgWidth / (item.width / item.height)}
+                          defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
@@ -3757,8 +3760,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={150}
-                        defaultHeight={150}
+                        height={imgWidth}
+                        defaultHeight={imgWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -3770,8 +3773,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={150}
-                        defaultHeight={150}
+                        height={imgWidth}
+                        defaultHeight={imgWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -3789,8 +3792,8 @@ handleToolbarResize = e => {
                           key={key}
                           color={item.color}
                           src={item.representativeThumbnail}
-                          height={150 / (item.width / item.height)}
-                          defaultHeight={150}
+                          height={imgWidth / (item.width / item.height)}
+                          defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
@@ -3802,8 +3805,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={150}
-                        defaultHeight={150}
+                        height={imgWidth}
+                        defaultHeight={imgWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -3815,8 +3818,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={150}
-                        defaultHeight={150}
+                        height={imgWidth}
+                        defaultHeight={imgWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -4214,8 +4217,8 @@ handleToolbarResize = e => {
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
-                        height={93 / (item.width / item.height)}
-                        defaultHeight={93}
+                        height={backgroundWidth / (item.width / item.height)}
+                        defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
@@ -4226,8 +4229,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={93}
-                        defaultHeight={93}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -4239,8 +4242,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={93}
-                        defaultHeight={93}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -4258,8 +4261,8 @@ handleToolbarResize = e => {
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
-                        height={93 / (item.width / item.height)}
-                        defaultHeight={93}
+                        height={backgroundWidth / (item.width / item.height)}
+                        defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
@@ -4270,8 +4273,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={93}
-                        defaultHeight={93}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -4283,8 +4286,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={93}
-                        defaultHeight={93}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -4302,8 +4305,8 @@ handleToolbarResize = e => {
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
-                        height={93 / (item.width / item.height)} 
-                        defaultHeight={93}
+                        height={backgroundWidth / (item.width / item.height)} 
+                        defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
@@ -4314,8 +4317,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={93}
-                        defaultHeight={93}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -4327,8 +4330,8 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
-                        height={93}
-                        defaultHeight={93}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
@@ -5419,7 +5422,7 @@ handleToolbarResize = e => {
         </div>
         {this.state.showPrintingSidebar && <div
           style={{
-            width: '330px',
+            width: '400px',
             height: '100%',
             right: 0,
             position: 'absolute',
