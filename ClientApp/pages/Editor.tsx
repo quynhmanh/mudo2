@@ -3621,7 +3621,7 @@ handleToolbarResize = e => {
                       bottom: 0,
                       zIndex: 12312313,
                       backgroundColor: 'white',
-                      width: '100px',
+                      width: '80px',
                       display: Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail ?  "block" : "none",
                     }}
                   >
