@@ -255,7 +255,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             userUpload2: [],
             currentUserUpload1: 0,
             currentUserUpload2: 0,
-            selectedTab: SidebarTab.Text,
+            selectedTab: SidebarTab.Image,
             rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 0,
             rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 0,
             toolbarOpened: true,
@@ -3751,6 +3751,7 @@ handleToolbarResize = e => {
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
+                          delay={0}
                         />
                       ))}
                       {this.state.hasMoreImage && Array(1).fill(0).map(item => (
@@ -3764,6 +3765,7 @@ handleToolbarResize = e => {
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
+                        delay={0}
                       />))
                       }
                       {this.state.hasMoreImage && Array(10).fill(0).map(item => (
@@ -3777,6 +3779,7 @@ handleToolbarResize = e => {
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
+                        delay={0}
                       />))
                       }
                     </div>
@@ -3796,6 +3799,7 @@ handleToolbarResize = e => {
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
+                          delay={-1}
                         />
                       ))}
                       {this.state.hasMoreImage && Array(1).fill(0).map(item => (
@@ -3809,6 +3813,7 @@ handleToolbarResize = e => {
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
+                        delay={-1}
                       />))
                       }
                       {this.state.hasMoreImage && Array(10).fill(0).map(item => (
@@ -3822,6 +3827,7 @@ handleToolbarResize = e => {
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
                         onEdit={this.handleEditmedia.bind(this, null)}
+                        delay={-1}
                       />))
                       }
                       </div>
