@@ -4646,7 +4646,7 @@ handleToolbarResize = e => {
                   <div style={{
                     display: 'flex',
                     marginTop: '10px',
-                    height: 'calc(100% - 50px)',
+                    height: 'calc(100% - 35px)',
                     overflow: 'scroll',
                   }}>
                   <div
