@@ -26,9 +26,10 @@ const Container = styled.div`
   width: ${props => props.width}px;
   animation: gradient___UgeAv 3s linear infinite;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
-  background-image: ${props => props.loaded ? 'none;' : 'linear-gradient(90deg, rgba(239, 239, 239, 0), rgba(255, 255, 255, 0.23), rgba(236, 240, 242, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(6, 12, 13, 0));'}
+  background-image: ${props => props.loaded ? 'none;' : 'linear-gradient(90deg,rgba(239,239,239,0),rgba(255, 255, 255, 0.06),rgba(236,240,242,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(6,12,13,0));'}
   margin-bottom: 10px;
   animation-delay: ${props => props.delay}s;
+  background-color: #00000030;
   button {
     visibility: hidden;
   }
