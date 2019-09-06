@@ -11,6 +11,7 @@ export interface IProps {
     handleDownloadPDFWithBleed: any;
     handleDownloadJPG: any;
     isDownload: boolean;
+    showPopup: boolean;
   }
   
   interface IState {
@@ -20,6 +21,7 @@ export interface IProps {
 class Popup extends PureComponent<IProps, IState> {
   render() {  
         return (  
+           !this.props.showPopup ? null :
             <PopupWrapper className='popup unblurred'>
                 <PopupWrapperBody />
                 <div className='popup_inner unblurred' 
