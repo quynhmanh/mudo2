@@ -79,8 +79,9 @@ export default class TopMenu extends PureComponent<IProps, IState> {
           width: `${toolbarSize - 1}px`,
           zIndex: 1111111111,
           color: "black",
-          backgroundColor: 'rgb(62, 62, 62)',
+          backgroundColor: 'white',
           overflow: 'scroll',
+          flexDirection: 'column',
         }}
       >
         {

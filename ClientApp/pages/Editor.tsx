@@ -30,8 +30,8 @@ declare global {
 }
 
 const thick = 16;
-const imgWidth = 182;
-const backgroundWidth = 116.33;
+const imgWidth = 167;
+const backgroundWidth = 106.33;
 
 enum SubType {
   BusinessCardReview = 0,
@@ -260,7 +260,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 0,
             rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 0,
             toolbarOpened: true,
-            toolbarSize: 400,
+            toolbarSize: 450,
             scrollX: 16.67,
             scrollY: 16.67,
             resizing: false,
@@ -3625,7 +3625,7 @@ handleToolbarResize = e => {
               style={{
                 left: "-1px",
                 transitionDuration: "0.1s, 0.1s",
-                backgroundColor: "#292929",
+                backgroundColor: "#293039",
                 flexDirection: "row",
                 zIndex: 11111,
                 width: this.state.toolbarOpened
@@ -3633,6 +3633,7 @@ handleToolbarResize = e => {
                   : 0,
                 height: "100%",
                 position: "absolute",
+                display: 'flex'
               }}
             >
               { this.state.toolbarOpened && 
@@ -3648,7 +3649,7 @@ handleToolbarResize = e => {
                       bottom: 0,
                       zIndex: 12312313,
                       backgroundColor: 'white',
-                      width: '100%',
+                      width: '100px',
                       display: Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail ?  "block" : "none",
                     }}
                   >
@@ -3688,8 +3689,8 @@ handleToolbarResize = e => {
                 id="sidebar-content"
                 style={{
                   position: "relative",
-                  height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 35}px)`,
-                  width: '100%',
+                  height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 0}px)`,
+                  width: '370px',
                   padding: '10px 5px 0px 10px',
                 }}
               >
