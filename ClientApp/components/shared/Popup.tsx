@@ -26,7 +26,7 @@ class Popup extends PureComponent<IProps, IState> {
                   style={{
                      display: 'flex', 
                      borderRadius: '13px',
-                     background: 'linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%)',
+                     background: 'linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #5affb7 75%)',
                   }} >  
                     <div className="unblurred">
                     <div className="unblurred leftInfo___1rQiJ" style={{
