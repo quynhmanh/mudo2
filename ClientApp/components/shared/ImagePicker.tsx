@@ -8,7 +8,10 @@ export interface IProps {
     onEdit: any;
     className: string;
     height: number;
+    defaultHeight: number;
+    width: number;
     color: string;
+    id: string;
 }
 
 export interface IState {
@@ -17,6 +20,13 @@ export interface IState {
 
 const Container = styled.div`
   position: relative;
+  background-size: 300% 300%;
+  position: relative;
+  width: ${props => props.width}px;
+  animation: gradient___UgeAv 4s linear infinite;
+  height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
+  background-image: linear-gradient(90deg,#019fb6,#019fb6,#019FBD,#76c5d0,#2ea6c5,#019FB1,#019fb6);
+  margin-bottom: 10px;
   button {
     visibility: hidden;
   }
@@ -33,7 +43,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
         // loaded = true;
         // loaded = Boolean(Math.round(Math.random() % 2));
         return (
-          <Container>
+          <Container id={this.props.id} loaded={loaded} height={this.props.height} width={this.props.width} defaultHeight={this.props.defaultHeight}>
             {Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
             <button
               style={{
@@ -51,7 +61,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             </span>
             </button>
             }
-            {loaded ? null :
+            {/* {loaded ? null :
               <img
                 style={{
                     // background: 'hsl(0, 0%, 80%)',
@@ -62,7 +72,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     marginBottom: '10px',
                 }}
               />
-            }
+            } */}
             <img
               className={this.props.className}
               style={loaded ? {

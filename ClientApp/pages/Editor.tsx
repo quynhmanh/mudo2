@@ -3717,6 +3717,8 @@ handleToolbarResize = e => {
                     hasMore={this.state.hasMoreImage}
                     onLoadMore={this.loadMore}
                     height='100%'
+                    width={150}
+                    refId="sentinel"
                   >
                     {/* <input
                     style={{
@@ -3729,7 +3731,7 @@ handleToolbarResize = e => {
                       fontSize: '13px',
                     }}
                     type="text" /> */}
-                    <div id="image-container-picker" style={{display: 'flex', padding: '35px 5px 10px 0px',}}>
+                    <div id="image-container-picker" style={{display: 'flex', padding: '40px 5px 10px 0px',}}>
                     <div
                       style={{
                         height: "calc(100% - 170px)",
@@ -3743,11 +3745,38 @@ handleToolbarResize = e => {
                           color={item.color}
                           src={item.representativeThumbnail}
                           height={150 / (item.width / item.height)}
+                          defaultHeight={150}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
                         />
                       ))}
+                      {this.state.hasMoreImage && Array(1).fill(0).map(item => (
+                      <ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={150}
+                        defaultHeight={150}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
+                      {this.state.hasMoreImage && Array(10).fill(0).map(item => (
+                      <ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={150}
+                        defaultHeight={150}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
                     </div>
                     <div
                       style={{
@@ -3761,11 +3790,38 @@ handleToolbarResize = e => {
                           color={item.color}
                           src={item.representativeThumbnail}
                           height={150 / (item.width / item.height)}
+                          defaultHeight={150}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
                         />
                       ))}
+                      {this.state.hasMoreImage && Array(1).fill(0).map(item => (
+                      <ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={150}
+                        defaultHeight={150}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
+                      {this.state.hasMoreImage && Array(10).fill(0).map(item => (
+                      <ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={150}
+                        defaultHeight={150}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
                       </div>
                     {/* <div
                       id="image-container-picker"
@@ -4135,8 +4191,10 @@ handleToolbarResize = e => {
                   threshold={0}
                   isLoading={this.state.isLoading}
                   height="100%"
+                  width={93}
                   hasMore={this.state.hasMoreBackgrounds}
                   onLoadMore={this.loadMoreBackground}
+                  refId="sentinel"
                 >
                   <div
                     id="image-container-picker"
@@ -4157,10 +4215,37 @@ handleToolbarResize = e => {
                         color={item.color}
                         src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)}
+                        defaultHeight={93}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
+                    {this.state.hasMoreBackgrounds && Array(1).fill(0).map(item => (
+                      <ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={93}
+                        defaultHeight={93}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
+                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map(item => (
+                      <ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={93}
+                        defaultHeight={93}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
                     </div>
                     <div
                         style={{
@@ -4174,10 +4259,37 @@ handleToolbarResize = e => {
                         color={item.color}
                         src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)}
+                        defaultHeight={93}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
+                      {this.state.hasMoreBackgrounds && Array(1).fill(0).map(item => (
+<ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={93}
+                        defaultHeight={93}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
+                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map(item => (
+<ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={93}
+                        defaultHeight={93}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
                     </div>
                     <div
                         style={{
@@ -4191,10 +4303,37 @@ handleToolbarResize = e => {
                         color={item.color}
                         src={item.representativeThumbnail}
                         height={93 / (item.width / item.height)} 
+                        defaultHeight={93}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
+                      {this.state.hasMoreBackgrounds && Array(1).fill(0).map(item => (
+<ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={93}
+                        defaultHeight={93}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
+                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map(item => (
+<ImagePicker
+                        key={1}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={93}
+                        defaultHeight={93}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                      />))
+                      }
                     </div>
                   </div>
                 </InfiniteScroll>

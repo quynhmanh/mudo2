@@ -13,6 +13,15 @@
   font-style: normal;
 }
 
+@keyframes gradient___UgeAv {
+  0% {
+      background-position: 150% 150%
+  }
+  to {
+      background-position: -150% -150%
+  }
+}
+
 html {
   height: 100%;
   overscroll-behavior: none;

@@ -47,6 +47,8 @@ export interface InfiniteScrollProps {
   scroll: boolean;
 
   loaderBlack: boolean;
+
+  refId: string;
 }
 
 export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}> {
@@ -71,6 +73,8 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     this.containerSroll.addEventListener('scroll', this.scrollHandler);
 
     // this.checkWindowScroll();
+
+    this.sentinel = document.getElementById(this.props.refId);
   }
 
   componentWillUnmount() {
@@ -119,7 +123,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     return (
       <div id="object-container" ref={i => this.containerSroll = i} style={{height: this.props.height, overflow: this.props.scroll && 'scroll',}}>
         {this.props.children}
-        {this.props.hasMore && <div style={{marginBottom: '10px', height: '10%', color: 'white', position: 'relative'}} ref={i => this.sentinel = i}><Loader show={true} black={this.props.loaderBlack} /></div>}
+        {/* {<div style={{marginBottom: '10px', height: '10%', color: 'white', position: 'relative'}} ref={i => this.sentinel = i}><Loader show={true} black={this.props.loaderBlack} /></div>} */}
       </div>
     );
   }
