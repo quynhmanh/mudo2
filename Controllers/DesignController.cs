@@ -445,7 +445,7 @@ namespace RCB.TypeScript.Controllers
                                 Width = (int)double.Parse(width),
                                 Height = (int)double.Parse(height),
                             },
-                            //ExecutablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary",
+                            ExecutablePath = "/usr/bin/chromium-browser",
                             Args = args,
                             Headless = false,
                         });
