@@ -31,6 +31,6 @@ xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyri
 # Creating Display
 ENV DISPLAY :99
 
-CMD Xvfb :99 -screen 0 1024x768x16 &
+RUN Xvfb :99 -screen 0 1024x768x16 &
 
-ENTRYPOINT [ "dotnet", "RCB.TypeScript.dll"]
+ENTRYPOINT [ "xvfb-run", "dotnet", "RCB.TypeScript.dll"]
