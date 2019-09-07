@@ -26,6 +26,9 @@ libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss
 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
 xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps
 
-CMD Xvfb :99 -screen 0 1024x768x16 & npm start
+# Creating Display
+ENV DISPLAY :99
+
+CMD Xvfb :99 -screen 0 1024x768x16
 
 ENTRYPOINT [ "dotnet", "RCB.TypeScript.dll"]
