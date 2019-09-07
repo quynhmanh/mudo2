@@ -25,9 +25,6 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-# Run everything after as non-privileged user.
-USER pptruser
-
 RUN apt install -y chromium-browser
 
 RUN apt-get update &&\
