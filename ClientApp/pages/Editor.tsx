@@ -49,7 +49,7 @@ enum SidebarTab {
   Element = 16,
   Upload = 32,
   RemovedBackgroundImage = 64,
-  Folder = 128,
+  Video = 128,
   Font = 248,
   Color = 496,
   Emoji = 992,
@@ -1349,6 +1349,45 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+
+  downloadVideo = () => {
+    var previousScale = this.state.scale;
+    var self = this;
+    this.doNoObjectSelected();
+    this.setState(
+      { scale: 1, showPopup: true, downloading: true, },
+      () => {
+        var aloCloned = document.getElementsByClassName("alo");
+        var canvas = [];
+        for (var i = 0; i < aloCloned.length; ++i) {
+          canvas.push((aloCloned[i] as HTMLElement).outerHTML);
+        }
+
+        var styles = document.getElementsByTagName("style");
+        var a = Array.from(styles).filter(style => {
+          return style.attributes.getNamedItem("data-styled") !== null
+        });
+
+        axios.post(`/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight}`, 
+        {
+          fonts: self.state.fonts,
+          canvas, 
+          additionalStyle: a[0].outerHTML, 
+        },
+        {
+          headers: {
+            'Content-Type': 'text/html',
+          },
+          responseType: 'blob',
+        }).then(response =>{
+            self.setState(
+              { scale: previousScale, showPopup: false, downloading: false, }
+            );
+            self.download(`test.mp4`, response.data);
+          })
+      }
+    );
   }
 
   downloadPDF(bleed) {
@@ -3873,7 +3912,7 @@ handleToolbarResize = e => {
                           this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
                         }}
                       >
-                          Add a LaTeX
+                          Thêm LaTeX
                       </div>
                       <div
                         style={{
@@ -3917,7 +3956,7 @@ handleToolbarResize = e => {
                           this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
                         }}
                       >
-                          Add a heading
+                          Thêm tiêu đề
                       </div>
                       <div
                         style={{
@@ -3949,7 +3988,7 @@ handleToolbarResize = e => {
                           this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
                         }}
                       >
-                      Add a subheading
+                      Thêm tiêu đề con
                       </div>
                       <div
                         style={{
@@ -3982,7 +4021,7 @@ handleToolbarResize = e => {
                           this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
                         }}
                       >
-                      Add a little bit of body text
+                      Thêm đoạn văn
                       </div>
                     </div>
                     {
@@ -4634,6 +4673,31 @@ handleToolbarResize = e => {
                 </div>
                 )
                 }
+                {this.state.selectedTab === SidebarTab.Video && (
+                  <div
+                    style={{
+                      color: "white",
+                      overflow: "scroll",
+                    }}
+                  >
+                    <div style={{display: 'inline-block'}}>
+                    <ul
+                      style={{
+                        listStyle: 'none',
+                        padding: 0,
+                      }}
+                    >
+                      {this.state.videos.map(font => 
+                          <video
+                            onMouseDown={this.videoOnMouseDown.bind(this)}
+                            muted autoPlay={true} preload="none" width="560" height="320"><source src={font} type="video/webm">
+                          </source>
+                          </video>
+                      )}
+                    </ul>
+                    </div>
+                  </div>
+                )}
                 {this.state.selectedTab === SidebarTab.Upload && 
                 (<InfiniteScroll
                   scroll={true}
@@ -5626,14 +5690,15 @@ handleToolbarResize = e => {
         
               <Popup  
                 showPopup={this.state.showPopup}
-                        text='Click "Close Button" to hide popup'  
-                        handleDownloadPDF={this.downloadPDF.bind(this, false)}
-                        handleDownloadJPG={this.downloadPNG.bind(this, false, false)}
-                        handleDownloadPNGTransparent={this.downloadPNG.bind(this, true, true)}
-                        handleDownloadPNG={this.downloadPNG.bind(this, false, true)}
-                        handleDownloadPDFWithBleed={this.downloadPDF.bind(this, true)}
-                        isDownload={this.state.downloading}
-                        closePopup={() => {this.setState({showPopup: false})}}  
+                text='Click "Close Button" to hide popup'  
+                handleDownloadPDF={this.downloadPDF.bind(this, false)}
+                handleDownloadJPG={this.downloadPNG.bind(this, false, false)}
+                handleDownloadPNGTransparent={this.downloadPNG.bind(this, true, true)}
+                handleDownloadPNG={this.downloadPNG.bind(this, false, true)}
+                handleDownloadPDFWithBleed={this.downloadPDF.bind(this, true)}
+                isDownload={this.state.downloading}
+                handleDownloadVideo={this.downloadVideo.bind(this)}
+                closePopup={() => {this.setState({showPopup: false})}}  
               />  
         {this.state.showMediaEditPopup ? 
           <MediaEditPopup

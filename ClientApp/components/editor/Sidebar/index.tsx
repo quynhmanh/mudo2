@@ -23,6 +23,7 @@ enum SidebarTab {
     Element = 16,
     Upload = 32,
     RemovedBackgroundImage = 64,
+    Video = 128,
   }
 
 var SidebarName = [
@@ -33,6 +34,7 @@ var SidebarName = [
     "Element",
     "Tải lên",
     "Ảnh xoá nền",
+    "Video",
 ]
 
 
@@ -45,10 +47,10 @@ var SidebarName = [
   }
 
   var allowedSelector = [
-    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Template ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage,
-    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage,
+    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Template ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage ^ SidebarTab.Video,
+    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage ^ SidebarTab.Video,
     SidebarTab.Image ^ SidebarTab.Text,
-    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage,
+    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage ^ SidebarTab.Video,
     SidebarTab.Image ^ SidebarTab.Text,
   ];
 

@@ -12,6 +12,7 @@ export interface IProps {
     handleDownloadJPG: any;
     isDownload: boolean;
     showPopup: boolean;
+    handleDownloadVideo: any;
   }
   
   interface IState {
@@ -90,6 +91,7 @@ class Popup extends PureComponent<IProps, IState> {
       <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadPNGTransparent} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pngTransparent">PNG <span className="unblurred downloadTypeBtnText___2myes">Transparent</span></button></li>
       <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadPDF} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">Standard</span></button></li>
       <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadPDFWithBleed} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">PDF <span className="unblurred downloadTypeBtnText___2myes">with bleed</span></button></li>
+      <li style={{listStyle: 'none', marginBottom: '10px',}} className="unblurred downloadTypeItem___cGw_u"><button style={{width: '100%', border: 'none', borderRadius: '5px', color: 'black'}} onClick={this.props.handleDownloadVideo} className="unblurred downloadTypeBtn___3kgiq" data-categ="downloadDesign" data-value="pdfStandart">Video <span className="unblurred downloadTypeBtnText___2myes"></span></button></li>
    </ul>
    <div 
     className="unblurred"
