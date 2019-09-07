@@ -76,7 +76,7 @@ export default class TopMenu extends PureComponent<IProps, IState> {
         <div
         style={{
           display: "inline-flex",
-          width: `100px`,
+          width: `80px`,
           zIndex: 1111111111,
           color: "black",
           backgroundColor: 'white',
