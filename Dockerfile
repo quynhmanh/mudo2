@@ -33,4 +33,4 @@ ENV DISPLAY :99
 
 RUN Xvfb :99 -screen 0 1024x768x16 &
 
-ENTRYPOINT [ "xvfb-run", "dotnet", "RCB.TypeScript.dll"]
+ENTRYPOINT ["dotnet", "RCB.TypeScript.dll"]
