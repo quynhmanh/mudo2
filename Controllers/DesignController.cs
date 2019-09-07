@@ -440,11 +440,11 @@ namespace RCB.TypeScript.Controllers
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                         {
-                            DefaultViewport = new ViewPortOptions()
-                            {
-                                Width = (int)double.Parse(width),
-                                Height = (int)double.Parse(height),
-                            },
+                            //DefaultViewport = new ViewPortOptions()
+                            //{
+                            //    Width = (int)double.Parse(width),
+                            //    Height = (int)double.Parse(height),
+                            //},
                             ExecutablePath = "/usr/bin/chromium-browser",
                             Args = args,
                             Headless = false,
