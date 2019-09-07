@@ -18,7 +18,7 @@ RUN pip3 install image
 RUN chmod a+x setup.sh  
 RUN sh setup.sh
 
-RUN apt install chromium-browser
+RUN apt install -y chromium-browser
 
 RUN apt-get update &&\
 apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
