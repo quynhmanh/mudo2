@@ -452,7 +452,7 @@ namespace RCB.TypeScript.Controllers
                             },
                             ExecutablePath = "/usr/bin/chromium-browser",
                             Args = args,
-                            Headless = false,
+                            //Headless = false,
                         });
 
                         var page = await browser.NewPageAsync();
