@@ -75,6 +75,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     // this.checkWindowScroll();
 
     this.sentinel = document.getElementById(this.props.refId);
+    console.log('sentinel ', this.sentinel, this.props.refId);
   }
 
   componentWillUnmount() {
@@ -83,6 +84,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
   }
 
   checkWindowScroll = () => {
+    console.log('checkWindowScroll');
     if (this.props.isLoading) {
       return;
     }
@@ -91,6 +93,10 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     // console.log('this.sentinel', this.sentinel);
     // console.log('this.sentinel.getBoundingCLientRect().top', this.sentinel.getBoundingClientRect().top - window.innerHeight);
     // console.log('threshold ', this.props.threshold);
+
+    if (!this.sentinel) {
+      this.sentinel = document.getElementById(this.props.refId);
+    }
 
     if (
       this.props.hasMore &&

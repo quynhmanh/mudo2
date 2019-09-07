@@ -193,9 +193,11 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.UserEmail = oDownloadBody.userEmail;
                 mediaModel.Ext = oDownloadBody.ext;
                 mediaModel.RepresentativeRemoveBackgroundSVG = file5;
+                mediaModel.RepresentativeThumbnail = file5;
+
 
                 ProcessStartInfo start = new ProcessStartInfo();
-                start.FileName = "/usr/bin/python3";
+                start.FileName = "/usr/local/bin/python3";
                 start.Arguments = string.Format($"seg.py wwwroot/{file2} wwwroot/{file4} 1");
                 start.UseShellExecute = false;// Do not use OS shell
                 start.CreateNoWindow = true; // We don't need new window
@@ -233,28 +235,28 @@ namespace RCB.TypeScript.Controllers
                     fontFile.Flush();
                 }
 
-                try
-                {
+                //try
+                //{
 
-                    img = System.Drawing.Image.FromFile(filePath);
+                //    img = System.Drawing.Image.FromFile(filePath);
 
-                    double imgHeight = img.Size.Height;
-                    double imgWidth = img.Size.Width;
+                //    double imgHeight = img.Size.Height;
+                //    double imgWidth = img.Size.Width;
 
-                    double x = imgWidth / 300;
-                    int newWidth = Convert.ToInt32(imgWidth / x);
-                    int newHeight = Convert.ToInt32(imgHeight / x);
+                //    double x = imgWidth / 300;
+                //    int newWidth = Convert.ToInt32(imgWidth / x);
+                //    int newHeight = Convert.ToInt32(imgHeight / x);
 
-                    //----------        Creating Small Image
-                    System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
-                    myThumbnail.Save(filePath3);
-                    mediaModel.RepresentativeThumbnail = file3;
+                //    //----------        Creating Small Image
+                //    System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
+                //    myThumbnail.Save(filePath3);
+                //    mediaModel.RepresentativeThumbnail = file3;
 
-                }
-                catch (Exception e)
-                {
-                    mediaModel.RepresentativeThumbnail = file2;
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    mediaModel.RepresentativeThumbnail = mediaModel.Representative;
+                //}
 
                 MediaService.Add(mediaModel);
             }

@@ -92,6 +92,7 @@ interface IState {
   isLoading: boolean;
   isTextTemplateLoading: boolean;
   isTemplateLoading: boolean;
+  isUserUploadLoading: boolean;
   mathjav: any;
   idObjectSelected: string;
   images: Array<object>;
@@ -305,6 +306,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             showImageRemovalBackgroundPopup: false,
             imageIdBackgroundRemoved: null,
             mounted: false,
+            isUserUploadLoading: false,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -2922,7 +2924,7 @@ handleToolbarResize = e => {
       pageId = (this.state.userUpload1.length + this.state.userUpload2.length) / 5 + 1;
       count = 5;
     }
-    this.setState({ isLoading: true, error: undefined });
+    this.setState({ isUserUploadLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${count}&userEmail=${Globals.serviceUser.username}`;
     fetch(url)
@@ -2951,12 +2953,12 @@ handleToolbarResize = e => {
             currentUserUpload1,
             currentUserUpload2,
             cursor: res.cursor,
-            isLoading: false,
+            isUserUploadLoading: false,
             hasMoreUserUpload: res.value.value > state.userUpload2.length + state.userUpload1.length + res.value.key.length,
           }))
         },
         error => {
-          this.setState({ isLoading: false, error })
+          this.setState({ isUserUploadLoading: false, error })
         }
     )
   }
@@ -3112,6 +3114,7 @@ handleToolbarResize = e => {
   }
 
   loadMore = (initialLoad: Boolean) => {
+    console.log('loadMore ');
     let pageId;
     let count;
     if (initialLoad) {
@@ -3619,9 +3622,9 @@ handleToolbarResize = e => {
                     style={{
                       position: 'absolute',
                       bottom: 0,
-                      zIndex: 12312313,
+                      zIndex: 1111111112,
                       backgroundColor: 'white',
-                      width: '80px',
+                      width: '100%',
                       display: Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail ?  "block" : "none",
                     }}
                   >
@@ -3702,17 +3705,6 @@ handleToolbarResize = e => {
                     width={imgWidth}
                     refId="sentinel"
                   >
-                    {/* <input
-                    style={{
-                      width: '100%',
-                      marginBottom: '8px',
-                      border: 'none',
-                      height: '30px',
-                      borderRadius: '6px',
-                      padding: '5px',
-                      fontSize: '13px',
-                    }}
-                    type="text" /> */}
                     <div id="image-container-picker" style={{display: 'flex', padding: '40px 5px 10px 0px',}}>
                     <div
                       style={{
@@ -4094,7 +4086,7 @@ handleToolbarResize = e => {
                       scroll={true}
                       throttle={500}
                       threshold={300}
-                      isLoading={this.state.isLoading}
+                      isLoading={this.state.isTemplateLoading}
                       hasMore={this.state.hasMoreTemplate}
                       onLoadMore={this.loadMoreTemplate.bind(this)}
                       height='100%'
@@ -4177,7 +4169,7 @@ handleToolbarResize = e => {
                   scroll={true}
                   throttle={100}
                   threshold={0}
-                  isLoading={this.state.isLoading}
+                  isLoading={this.state.isBackgroundLoading}
                   height="100%"
                   width={93}
                   hasMore={this.state.hasMoreBackgrounds}
@@ -4647,7 +4639,7 @@ handleToolbarResize = e => {
                   scroll={true}
                   throttle={100}
                   threshold={300}
-                  isLoading={false}
+                  isLoading={this.state.isUserUploadLoading}
                   height="100%"
                   hasMore={this.state.hasMoreUserUpload}
                   onLoadMore={this.loadmoreUserUpload}
