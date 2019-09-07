@@ -25,7 +25,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt install -y chromium-browser
+# RUN apt install -y chromium-browser
 
 RUN apt-get update &&\
 apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \

@@ -445,7 +445,7 @@ namespace RCB.TypeScript.Controllers
                                 Width = (int)double.Parse(width),
                                 Height = (int)double.Parse(height),
                             },
-                            ExecutablePath = "/usr/bin/chromium-browser",
+                            ExecutablePath = "/usr/bin/google-chrome-unstable",
                             Args = args,
                             Headless = false,
                         });
