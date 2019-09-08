@@ -20,6 +20,8 @@ RUN sh setup.sh
 
 RUN apt install -y chromium-browser
 
+RUN apt install -y ffmpeg
+
 RUN apt-get update &&\
 apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \

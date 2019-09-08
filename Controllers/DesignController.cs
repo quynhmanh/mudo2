@@ -214,7 +214,7 @@ namespace RCB.TypeScript.Controllers
         public async System.Threading.Tasks.Task<IActionResult> VideoStream()
         {
             string body = null;
-            using (var fontFile = new FileStream("/Users/llaugusty/Downloads/quynh.webm", FileMode.Append))
+            using (var fontFile = new FileStream("/app/wwwroot/quynh.webm", FileMode.Append))
             {
                 var file = Request.Form.Files.GetFile("webm");
                 file.CopyTo(fontFile);
@@ -495,46 +495,46 @@ namespace RCB.TypeScript.Controllers
                             }
                         }
 
-    //                    var backgroundPage = await backgroundPageTarget.PageAsync();
+                        var backgroundPage = await backgroundPageTarget.PageAsync();
 
-    //                    var messages = new List<ConsoleMessage>();
+                        var messages = new List<ConsoleMessage>();
 
-    //                    backgroundPage.Console += (sender, e) => messages.Add(e.Message);
+                        backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
-    //                    var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
-    //    startRecording();
-    //    return Promise.resolve(42);
-    //}");
+                        var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
+        startRecording();
+        return Promise.resolve(42);
+    }");
 
-    //                    await backgroundPage.WaitForTimeoutAsync(12 * 1000);
-    //                    await browser.CloseAsync();
+                        await backgroundPage.WaitForTimeoutAsync(12 * 1000);
+                        await browser.CloseAsync();
                     }
                 }
 
-                //var exePath = "/Users/llaugusty/Downloads/ffmpeg";
+                var exePath = "/Users/llaugusty/Downloads/ffmpeg";
 
-                //var inputArgs = "/Users/llaugusty/Downloads/quynh.webm";
-                //var outputArgs = "/Users/llaugusty/Downloads/quynh.mp4";
+                var inputArgs = "/app/wwwroot/quynh.webm";
+                var outputArgs = "/app/wwwroot/quynh.mp4";
 
-                //var process = new Process
-                //{
-                //    StartInfo =
-                //            {
-                //                FileName = exePath,
-                //                Arguments = $"-i {inputArgs} {outputArgs}",
-                //                UseShellExecute = false,
-                //                CreateNoWindow = true,
-                //                RedirectStandardInput = true
-                //            }
-                //};
+                var process = new Process
+                {
+                    StartInfo =
+                            {
+                                FileName = exePath,
+                                Arguments = $"-i {inputArgs} {outputArgs}",
+                                UseShellExecute = false,
+                                CreateNoWindow = true,
+                                RedirectStandardInput = true
+                            }
+                };
 
-                //process.Start();
-                //process.WaitForExit();
-                //process.Close();
+                process.Start();
+                process.WaitForExit();
+                process.Close();
 
-                //byte[] file2 = System.IO.File.ReadAllBytes("/Users/llaugusty/Downloads/quynh.mp4");
+                byte[] file2 = System.IO.File.ReadAllBytes("/app/wwwroot/quynh.mp4");
 
-                //return File(file2, "video/webm");
+                return File(file2, "video/webm");
 
                 return Json("1");
             }
