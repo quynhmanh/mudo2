@@ -111,7 +111,7 @@
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-      <DistFiles Include="wwwroot\dist\**; wwwroot\test-extension\** ClientApp\dist\**" Exclude="wwwroot\dist\production_build" />
+      <DistFiles Include="wwwroot\dist\**; wwwroot\test-extension\**; ClientApp\dist\**" Exclude="wwwroot\dist\production_build" />
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
