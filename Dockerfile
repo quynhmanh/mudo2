@@ -2,7 +2,7 @@ FROM gcr.io/google-appengine/aspnetcore:2.2
 ADD ./bin/Release/netcoreapp2.2/publish/ /app
 ENV ASPNETCORE_URLS=http://*:${PORT}
 WORKDIR /app
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://download.nus.edu.sg/mirror/ubuntu/|g' /etc/apt/sources.list
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirror.0x.sg/ubuntu/|g' /etc/apt/sources.list
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt update
 RUN apt-get install -y software-properties-common
