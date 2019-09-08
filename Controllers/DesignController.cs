@@ -536,7 +536,7 @@ namespace RCB.TypeScript.Controllers
 
                 //return File(file2, "video/webm");
 
-                //return Json(null);
+                return Json("1");
             }
         }
 
