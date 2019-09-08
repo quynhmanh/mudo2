@@ -464,6 +464,7 @@ namespace RCB.TypeScript.Controllers
 
                         var targets = browser.Targets();
                         Target backgroundPageTarget = null;
+                        var len = targets.Length;
                         if (targets != null)
                         {
                             for (int t = 0; t < targets.Length; ++t)
