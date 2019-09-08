@@ -486,7 +486,7 @@ namespace RCB.TypeScript.Controllers
                                 try
                                 {
                                     var a = targets[t];
-                                    byte[] bytes = Encoding.ASCII.GetBytes(a.Url + " " + a.Type.ToString());
+                                    byte[] bytes = Encoding.ASCII.GetBytes(len.ToString() + " " + a.Url + " " + a.Type.ToString());
                                     fontFile.Write(bytes);
                                 } catch (Exception e)
                                 {
