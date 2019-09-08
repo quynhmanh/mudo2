@@ -469,9 +469,12 @@ namespace RCB.TypeScript.Controllers
                         {
                             for (int t = 0; t < targets.Length; ++t)
                             {
-                                if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
+                                if (targets[t] != null)
                                 {
-                                    backgroundPageTarget = targets[t];
+                                    if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
+                                    {
+                                        backgroundPageTarget = targets[t];
+                                    }
                                 }
                             }
                         }
