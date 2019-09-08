@@ -495,122 +495,46 @@ namespace RCB.TypeScript.Controllers
                             }
                         }
 
-                        var backgroundPage = await backgroundPageTarget.PageAsync();
+    //                    var backgroundPage = await backgroundPageTarget.PageAsync();
 
-                        var messages = new List<ConsoleMessage>();
+    //                    var messages = new List<ConsoleMessage>();
 
-                        backgroundPage.Console += (sender, e) => messages.Add(e.Message);
+    //                    backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
-                        var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
-        startRecording();
-        return Promise.resolve(42);
-    }");
+    //                    var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
+    //    startRecording();
+    //    return Promise.resolve(42);
+    //}");
 
-                        await backgroundPage.WaitForTimeoutAsync(12 * 1000);
-
-                        //string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
-                        //{
-                        //    Clip = new PuppeteerSharp.Media.Clip()
-                        //    {
-                        //        Width = decimal.Parse(width),
-                        //        Height = decimal.Parse(height),
-                        //    }
-                        //});
-
-                        //var ffmpegIn = process.StandardInput.BaseStream;
-
-
-                        //PdfReader reader2 = new PdfReader(a);
-                        //Rectangle rec = reader2.GetPageSize(1);
-                        //float ratio = int.Parse(width) * 1f / int.Parse(height);
-                        //float left = 0;
-                        //float bottom = rec.Height - rec.Width / ratio;
-                        //float right = rec.Width;
-                        //float top = rec.Height;
-
-                        //System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
-                        //PdfDictionary pageDict;
-                        //PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
-                        //pageDict = reader2.GetPageN(1);
-                        //pageDict.Put(PdfName.CROPBOX, rect);
-
-                        //double currentTime = 0;
-
-                        //for (int j = 0; j <= 1000; ++j, currentTime += 0.025)
-                        //{
-                        //    var res = await page.EvaluateFunctionAsync(@"(currentTime) => {
-                        //  var videos = document.getElementsByTagName(""video"");
-                        //  for (var i = 0; i < videos.length; ++i)
-                        //  {
-                        //      videos[i].currentTime = currentTime;
-                        //  }
-                        //}", currentTime);
-
-                        //    Stream aa = await page.ScreenshotStreamAsync(new ScreenshotOptions()
-                        //    {
-                        //        Clip = new PuppeteerSharp.Media.Clip()
-                        //        {
-                        //            Width = decimal.Parse(width),
-                        //            Height = decimal.Parse(height),
-                        //        },
-                        //    });
-
-                        //    try
-                        //    {
-                        //        //ffmpegIn.Position = ffmpegIn.Length;
-                        //        ffmpegIn.Write(ReadFully(aa));
-                        //    }
-                        //    catch (Exception)
-                        //    {
-
-                        //    }
-                        //}
-
-
-                        // After you are done
-                        //ffmpegIn.Flush();
-                        //ffmpegIn.Close();
-
-                        //process.WaitForExit();
-                        //process.Close();
-
-                        //pCopy.AddPage(pCopy.GetImportedPage(reader2, 1));
-                        //reader2.Close();
-
-                        await browser.CloseAsync();
+    //                    await backgroundPage.WaitForTimeoutAsync(12 * 1000);
+    //                    await browser.CloseAsync();
                     }
-
-                    //doc.Close();
-                    //pCopy.Close();
-                    //data = msOutput.ToArray();
                 }
 
-                //p.WaitForExit();
+                //var exePath = "/Users/llaugusty/Downloads/ffmpeg";
 
-                var exePath = "/Users/llaugusty/Downloads/ffmpeg";
+                //var inputArgs = "/Users/llaugusty/Downloads/quynh.webm";
+                //var outputArgs = "/Users/llaugusty/Downloads/quynh.mp4";
 
-                var inputArgs = "/Users/llaugusty/Downloads/quynh.webm";
-                var outputArgs = "/Users/llaugusty/Downloads/quynh.mp4";
+                //var process = new Process
+                //{
+                //    StartInfo =
+                //            {
+                //                FileName = exePath,
+                //                Arguments = $"-i {inputArgs} {outputArgs}",
+                //                UseShellExecute = false,
+                //                CreateNoWindow = true,
+                //                RedirectStandardInput = true
+                //            }
+                //};
 
-                var process = new Process
-                {
-                    StartInfo =
-                            {
-                                FileName = exePath,
-                                Arguments = $"-i {inputArgs} {outputArgs}",
-                                UseShellExecute = false,
-                                CreateNoWindow = true,
-                                RedirectStandardInput = true
-                            }
-                };
+                //process.Start();
+                //process.WaitForExit();
+                //process.Close();
 
-                process.Start();
-                process.WaitForExit();
-                process.Close();
+                //byte[] file2 = System.IO.File.ReadAllBytes("/Users/llaugusty/Downloads/quynh.mp4");
 
-                byte[] file2 = System.IO.File.ReadAllBytes("/Users/llaugusty/Downloads/quynh.mp4");
-
-                return File(file2, "video/webm");
+                //return File(file2, "video/webm");
 
                 //return Json(null);
             }
