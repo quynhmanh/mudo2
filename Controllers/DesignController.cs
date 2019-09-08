@@ -422,11 +422,11 @@ namespace RCB.TypeScript.Controllers
                         //byte[] bytes = Encoding.ASCII.GetBytes(html);
                         //using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
                         //{
-                        //    htmlFile.Write(bytes, 0, bytes.Length);
+                        //    htmlFile.Write(bytes, 0, bytes.Length);`
                         //    htmlFile.Flush();
                         //}
 
-                        var path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
+                        var path = "/app/test-extension";
                         var extensionId = "nkeimhogjdpnpccoofpliimaahmaaome";
                         var args = new string[] {
             $"--whitelisted-extension-id={extensionId}",
