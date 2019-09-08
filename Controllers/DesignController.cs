@@ -481,17 +481,14 @@ namespace RCB.TypeScript.Controllers
 
                         using (var fontFile = new FileStream("/app/test.txt", FileMode.Append))
                         {
-                            for (int t = 0; t < len; ++t)
+                            try
                             {
-                                try
-                                {
-                                    var a = targets[t];
-                                    byte[] bytes = Encoding.ASCII.GetBytes(len.ToString() + " " + a.Url + " " + a.Type.ToString());
-                                    fontFile.Write(bytes);
-                                } catch (Exception e)
-                                {
+                                var a = backgroundPageTarget;
+                                byte[] bytes = Encoding.ASCII.GetBytes(len.ToString() + " " + a.Url + " " + a.Type.ToString());
+                                fontFile.Write(bytes);
+                            } catch (Exception e)
+                            {
 
-                                }
                             }
                         }
 
@@ -511,7 +508,7 @@ namespace RCB.TypeScript.Controllers
                     }
                 }
 
-                var exePath = "/Users/llaugusty/Downloads/ffmpeg";
+                var exePath = "/usr/bin/ffmpeg";
 
                 var inputArgs = "/app/wwwroot/quynh.webm";
                 var outputArgs = "/app/wwwroot/quynh.mp4";
