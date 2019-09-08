@@ -1,5 +1,6 @@
 FROM gcr.io/google-appengine/aspnetcore:2.2
 ADD ./bin/Release/netcoreapp2.2/publish/ /app
+ADD ./bin/Release/netcoreapp2.2/wwwroot/test-extension /test-extension
 ENV ASPNETCORE_URLS=http://*:${PORT}
 WORKDIR /app
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://download.nus.edu.sg/mirror/ubuntu/|g' /etc/apt/sources.list
