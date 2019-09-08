@@ -64,6 +64,9 @@
     <None Update="wwwroot\pkglist">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="wwwroot\test-extension\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="setup.sh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -79,7 +82,6 @@
     <Folder Include="ClientApp\components\editor\Rect\" />
     <Folder Include="logs\" />
     <Folder Include="wwwroot\images\" />
-    <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="Helpers\" />
     <Folder Include="Views\Users\" />
