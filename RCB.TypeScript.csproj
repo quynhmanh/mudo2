@@ -83,7 +83,8 @@
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="Helpers\" />
     <Folder Include="Views\Users\" />
-    <Content Include="wwwroot\pkglist" />
+    <Folder Include="wwwroot\test-extension\" />
+    <Folder Include="Views\Users\" />
     <Content Include="setup.sh" />
     <Content Include="seg.py" />
   </ItemGroup>

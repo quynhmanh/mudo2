@@ -427,7 +427,7 @@ namespace RCB.TypeScript.Controllers
                         //}
 
                         var path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
-                        var extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
+                        var extensionId = "nkeimhogjdpnpccoofpliimaahmaaome";
                         var args = new string[] {
             $"--whitelisted-extension-id={extensionId}",
             "--no-sandbox",
