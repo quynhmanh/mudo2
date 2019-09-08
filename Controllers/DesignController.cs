@@ -434,7 +434,7 @@ namespace RCB.TypeScript.Controllers
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
             //$"--disable-extensions-except={path}",
-            $"--load-extension={path}"
+            //$"--load-extension={path}"
                         };
 
                         //var args = new string[]
@@ -481,14 +481,18 @@ namespace RCB.TypeScript.Controllers
 
                         using (var fontFile = new FileStream("/app/test.txt", FileMode.Append))
                         {
-                            try
+                            for (int t = 0; t < len; ++t)
                             {
-                                var a = backgroundPageTarget;
-                                byte[] bytes = Encoding.ASCII.GetBytes(len.ToString() + " " + a.Url + " " + a.Type.ToString());
-                                fontFile.Write(bytes);
-                            } catch (Exception e)
-                            {
+                                try
+                                {
+                                    var a = targets[t];
+                                    byte[] bytes = Encoding.ASCII.GetBytes(len.ToString() + " " + a.Url + " " + a.Type.ToString());
+                                    fontFile.Write(bytes);
+                                }
+                                catch (Exception e)
+                                {
 
+                                }
                             }
                         }
 
