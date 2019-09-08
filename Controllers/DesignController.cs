@@ -428,19 +428,19 @@ namespace RCB.TypeScript.Controllers
 
                         var path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
                         var extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
-            //            var args = new string[] {
-            //$"--whitelisted-extension-id={extensionId}",
-            //"--no-sandbox",
-            //"--disable-setuid-sandbox",
-            //"--disable-dev-shm-usage",
-            //$"--disable-extensions-except={path}",
-            //$"--load-extension={path}"
-            //            };
-
-                        var args = new string[]
-                        {
-                            "--no-sandbox",
+                        var args = new string[] {
+            $"--whitelisted-extension-id={extensionId}",
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            $"--disable-extensions-except={path}",
+            $"--load-extension={path}"
                         };
+
+                        //var args = new string[]
+                        //{
+                        //    "--no-sandbox",
+                        //};
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
@@ -452,7 +452,7 @@ namespace RCB.TypeScript.Controllers
                             },
                             ExecutablePath = "/usr/bin/chromium-browser",
                             Args = args,
-                            //Headless = false,
+                            Headless = false,
                         });
 
                         var page = await browser.NewPageAsync();
