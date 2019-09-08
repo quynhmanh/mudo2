@@ -467,7 +467,7 @@ namespace RCB.TypeScript.Controllers
                         var len = targets.Length;
                         if (targets != null)
                         {
-                            for (int t = 0; t < targets.Length; ++t)
+                            for (int t = 0; t < len; ++t)
                             {
                                 if (targets[t] != null)
                                 {
