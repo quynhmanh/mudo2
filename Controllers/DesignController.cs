@@ -427,14 +427,14 @@ namespace RCB.TypeScript.Controllers
                         //}
 
                         var path = "/app/test-extension";
-                        var extensionId = "nkeimhogjdpnpccoofpliimaahmaaome";
+                        var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
                         var args = new string[] {
             $"--whitelisted-extension-id={extensionId}",
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
             //$"--disable-extensions-except={path}",
-            //$"--load-extension={path}"
+            $"--load-extension={path}"
                         };
 
                         //var args = new string[]
@@ -453,6 +453,7 @@ namespace RCB.TypeScript.Controllers
                             ExecutablePath = "/usr/bin/chromium-browser",
                             Args = args,
                             Headless = false,
+                            IgnoredDefaultArgs = new string[] { "--disable-extensions" },
                         });
 
                         var page = await browser.NewPageAsync();
