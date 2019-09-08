@@ -479,6 +479,16 @@ namespace RCB.TypeScript.Controllers
                             }
                         }
 
+                        using (var fontFile = new FileStream("/app/test.txt", FileMode.Append))
+                        {
+                            for (int t = 0; t < len; ++t)
+                            {
+                                var a = targets[t];
+                                byte[] bytes = Encoding.ASCII.GetBytes(a.ToString());
+                                fontFile.Write(bytes);
+                            }
+                        }
+
                         var backgroundPage = await backgroundPageTarget.PageAsync();
 
                         var messages = new List<ConsoleMessage>();
