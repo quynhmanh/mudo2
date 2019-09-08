@@ -433,7 +433,7 @@ namespace RCB.TypeScript.Controllers
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
-            $"--disable-extensions-except={path}",
+            //$"--disable-extensions-except={path}",
             $"--load-extension={path}"
                         };
 
