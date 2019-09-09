@@ -41,7 +41,7 @@ export default class HomePage extends React.Component<IProps, IState> {
     return (
       <div>
         <Helmet>
-          <title>Mudo website thiết kế mọi thứ</title>
+          <title>Draft website thiết kế mọi thứ</title>
         </Helmet>
         <div
           style={{

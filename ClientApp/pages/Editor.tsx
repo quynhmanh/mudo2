@@ -39,6 +39,7 @@ enum SubType {
   PosterReview = 2,
   TrifoldReview = 3,
   Logo = 4,
+  AnimatedSocialMedia = 5,
 }
 
 enum SidebarTab {
@@ -512,6 +513,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       } else if (subtype == 5) {
         rectWidth = 794;
         rectHeight = 1134;
+      } else if (subtype == 6) {
+        rectWidth = 1024;
+        rectHeight = 1024;
       }
 
       console.log('rectWidth ', rectWidth);
@@ -4811,6 +4815,34 @@ handleToolbarResize = e => {
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
+                    {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
+<ImagePicker
+                        key={i}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                        delay={-2}
+                      />))
+                      }
+                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
+<ImagePicker
+                        key={i}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                        delay={-2}
+                      />))
+                      }
                     </div>
                     <div
                         style={{
@@ -4824,8 +4856,35 @@ handleToolbarResize = e => {
                         src={item.representative}
                         onPick={this.imgOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
-                      />
-                    ))}
+                      />))}
+                      {this.state.hasMoreUserUpload && Array(1).fill(0).map((item, i) => (
+                        <ImagePicker
+                          key={i}
+                          id="sentinel"
+                          color="black"
+                          src={""}
+                          height={backgroundWidth}
+                          defaultHeight={backgroundWidth}
+                          className=""
+                          onPick={this.imgOnMouseDown.bind(this, null)}
+                          onEdit={this.handleEditmedia.bind(this, null)}
+                          delay={-2}
+                        />))
+                        }
+                        {this.state.hasMoreUserUpload && Array(10).fill(0).map((item, i) => (
+                        <ImagePicker
+                        key={i}
+                        id="sentinel"
+                        color="black"
+                        src={""}
+                        height={backgroundWidth}
+                        defaultHeight={backgroundWidth}
+                        className=""
+                        onPick={this.imgOnMouseDown.bind(this, null)}
+                        onEdit={this.handleEditmedia.bind(this, null)}
+                        delay={-2}
+                      />))
+                      }
                     </div>
                     </div>
                   </div>
