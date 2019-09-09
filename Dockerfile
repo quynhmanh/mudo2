@@ -16,7 +16,6 @@ RUN apt install -y python3-pip
 RUN pip3 install tensorflow
 RUN pip3 install image
 RUN chmod a+x setup.sh  
-RUN sh setup.sh
 
 RUN apt install -y chromium-browser
 
@@ -30,7 +29,6 @@ libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss
 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
 xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps
 
-CMD Xvfb -ac :99 -screen 0 1280x1024x16 &
-ENV DISPLAY :99
+RUN sh setup.sh
 
 ENTRYPOINT ["dotnet", "RCB.TypeScript.dll"]

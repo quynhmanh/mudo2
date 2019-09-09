@@ -9,4 +9,6 @@ tar xvzf deeplabv3_pascal_train_aug_2018_01_04.tar.gz -C xception_model --strip=
 rm deeplabv3_mnv2_pascal_train_aug_2018_01_29.tar.gz
 rm deeplabv3_pascal_train_aug_2018_01_04.tar.gz
 
+export DISPLAY=:99
+
 Xvfb -ac :99 -screen 0 1280x1024x16 &
