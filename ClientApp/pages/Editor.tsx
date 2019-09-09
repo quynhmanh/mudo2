@@ -3004,10 +3004,10 @@ handleToolbarResize = e => {
     let count;
     if (initialload) {
       pageId = 1;
-      count = 10;
+      count = 15;
     } else {
-      pageId = (this.state.userUpload1.length + this.state.userUpload2.length) / 5 + 1;
-      count = 5;
+      pageId = (this.state.userUpload1.length + this.state.userUpload2.length) / 15 + 1;
+      count = 15;
     }
     this.setState({ isUserUploadLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
@@ -4768,14 +4768,17 @@ handleToolbarResize = e => {
                   </div>
                 )}
                 {this.state.selectedTab === SidebarTab.Upload && 
-                (<InfiniteScroll
+                (
+                  <InfiniteScroll
                   scroll={true}
                   throttle={100}
-                  threshold={300}
+                  threshold={0}
                   isLoading={this.state.isUserUploadLoading}
                   height="100%"
+                  width={93}
                   hasMore={this.state.hasMoreUserUpload}
                   onLoadMore={this.loadmoreUserUpload}
+                  refId="sentinel"
                 >
                   <div
                   style={{
@@ -4815,7 +4818,7 @@ handleToolbarResize = e => {
                         onEdit={this.handleEditmedia.bind(this, item)}
                       />
                     ))}
-                    {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
+                    {this.state.hasMoreUserUpload && Array(1).fill(0).map((item, i) => (
 <ImagePicker
                         key={i}
                         id="sentinel"
@@ -4829,7 +4832,7 @@ handleToolbarResize = e => {
                         delay={-2}
                       />))
                       }
-                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
+                      {this.state.hasMoreUserUpload && Array(10).fill(0).map((item, i) => (
 <ImagePicker
                         key={i}
                         id="sentinel"
