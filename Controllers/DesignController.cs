@@ -215,7 +215,7 @@ namespace RCB.TypeScript.Controllers
         public async System.Threading.Tasks.Task<IActionResult> VideoStream([FromQuery]string videoId)
         {
 
-            var filePath = "/app/wwwroot/quynh.webm";
+            var filePath = "/app/wwwroot/" + videoId + ".webm";
             if (HostingEnvironment.IsDevelopment())
             {
                 filePath = "/Users/llaugusty/Downloads/" + videoId + ".webm";
