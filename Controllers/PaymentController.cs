@@ -26,7 +26,7 @@ namespace WebApi.Controllers
         public IActionResult getPayUrl()
         {
             // var baseURL = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}"; // nginx used as proxy server so baseURL still is localhost
-            const string baseURL = "https://mudo.vn";
+            const string baseURL = "https://draft.vn";
 
             const string url = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
             string requestId = Guid.NewGuid().ToString(); //
