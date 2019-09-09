@@ -72,6 +72,74 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
+        public async System.Threading.Tasks.Task<IActionResult> AddVideo()
+        {
+            string body = null;
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = reader.ReadToEnd();
+
+                AddMediaRequest oDownloadBody = JsonConvert.DeserializeObject<AddMediaRequest>(body);
+                var dataFont = oDownloadBody.data;
+                var id = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
+
+                string file2 = "videos" + Path.DirectorySeparatorChar + id + ".mp4";
+                string file3 = "videos" + Path.DirectorySeparatorChar + id + "_thumbnail." + oDownloadBody.ext;
+                var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2);
+                var filePath3 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file3);
+                string base64 = dataFont.Substring(dataFont.IndexOf(',') + 1);
+                byte[] data = Convert.FromBase64String(base64);
+                System.Drawing.Image img;
+                using (var fontFile = new FileStream(filePath, FileMode.Create))
+                {
+                    fontFile.Write(data, 0, data.Length);
+                    fontFile.Flush();
+                }
+
+
+                MediaModel mediaModel = new MediaModel();
+                mediaModel.Id = id.ToString();
+                mediaModel.Representative = file2;
+                mediaModel.Width = oDownloadBody.width;
+                mediaModel.height = oDownloadBody.height;
+                mediaModel.Type = oDownloadBody.type;
+                mediaModel.Keywords = oDownloadBody.keywords;
+                mediaModel.FirstName = oDownloadBody.title;
+                mediaModel.Color = oDownloadBody.color;
+                mediaModel.UserEmail = oDownloadBody.userEmail;
+                mediaModel.Ext = oDownloadBody.ext;
+
+                try
+                {
+
+                    img = System.Drawing.Image.FromFile(filePath);
+
+                    double imgHeight = img.Size.Height;
+                    double imgWidth = img.Size.Width;
+
+                    double x = imgWidth / 300;
+                    int newWidth = Convert.ToInt32(imgWidth / x);
+                    int newHeight = Convert.ToInt32(imgHeight / x);
+
+                    //----------        Creating Small Image
+                    System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
+                    myThumbnail.Save(filePath3);
+                    mediaModel.RepresentativeThumbnail = file3;
+
+                }
+                catch (Exception e)
+                {
+                    mediaModel.RepresentativeThumbnail = file2;
+                }
+
+                MediaService.Add(mediaModel);
+            }
+
+            return Ok();
+
+        }
+
+        [HttpPost("[action]")]
         public async System.Threading.Tasks.Task<IActionResult> Add()
         {
             string body = null;

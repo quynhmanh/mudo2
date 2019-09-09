@@ -72,6 +72,7 @@ enum TemplateType {
   BackgroundImage = 6,
   RemovedBackgroundImage = 7,
   UserUpload = 8,
+  Video = 9,
 }
 
 export interface IProps {
@@ -168,6 +169,7 @@ interface IState {
   showTemplateEditPopup: boolean;
   showFontEditPopup: boolean;
   videos: any;
+  hasMoreVideos: boolean;
   removeImages1: Array<object>;
   removeImages2: Array<object>;
   currentHeightRemoveImage1: number;
@@ -196,6 +198,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            hasMoreVideos: true,
             isRemovedBackgroundLoading: false,
             currentPrintStep: 1,
             subtype: null,
@@ -287,9 +290,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             editingFont: null,
             showTemplateEditPopup: false,
             videos: [
-              'https://dl5.webmfiles.org/big-buck-bunny_trailer.webm',
-              'http://techslides.com/demos/sample-videos/small.webm',
-              'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
             ],
             showPrintingSidebar: false,
             orderStatus: '',
@@ -534,6 +534,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     this.loadMoreTemplate.bind(this)(true, subtype);
     this.loadMoreBackground(true);
     this.loadmoreUserUpload(true);
+    this.loadMoreVideo(true);
 
     document.addEventListener("keydown", this.removeImage.bind(this));
   }
@@ -2700,6 +2701,19 @@ handleToolbarResize = e => {
     return result;
   }
 
+  uploadVideo = () => {
+    console.log('uploadVideo');
+    var self = this;``
+    var fileUploader = document.getElementById("image-file") as HTMLInputElement;
+    var file = fileUploader.files[0];
+    var fr = new FileReader();
+    fr.readAsDataURL(file);
+    fr.onload = () => {
+      var url = `/api/Media/AddVideo`;
+      axios.post(url, {id: uuidv4(), data: fr.result, type: TemplateType.Video});
+    }
+  }
+
   uploadImage = (type, removeBackground, e) => {
     var self = this;``
     var fileUploader = document.getElementById("image-file") as HTMLInputElement;
@@ -2945,6 +2959,34 @@ handleToolbarResize = e => {
             fontsList: [...state.fontsList, ...res.value.key],
             totalFonts: res.value.value,
             hasMoreFonts: res.value.value > state.fontsList.length + res.value.key.length,
+          }))
+        },
+        error => {
+          // this.setState({ isLoading: false, error })
+        }
+    )
+  }
+
+  loadMoreVideo = (initialLoad) => {
+    let pageId;
+    let count;
+    if (initialLoad) {
+      pageId = 1;
+      count = 30;
+    } else {
+      pageId = (this.state.fontsList.length) / 30 + 1;
+      count = 30;
+    }
+    // this.setState({ isLoading: true, error: undefined });
+    const url = `/api/Media/Search?page=${pageId}&perPage=${count}&type=${TemplateType.Video}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        res => {
+          console.log('loadMoreVideo ', url ,res);
+          this.setState(state => ({
+            videos: [...state.videos, ...res.value.key],
+            hasMoreVideos: res.value.value > state.videos.length + res.value.key.length,
           }))
         },
         error => {
@@ -3672,7 +3714,9 @@ handleToolbarResize = e => {
                       type="file"
                       onLoad={(data) => {}}
                       onLoadedData={(data) => {}}
-                      onChange={(e) => {this.uploadImage(this.state.selectedTab === SidebarTab.Image ? TemplateType.Image :
+                      onChange={(e) => {this.state.selectedTab === SidebarTab.Video ?
+                        this.uploadVideo() :
+                        this.uploadImage(this.state.selectedTab === SidebarTab.Image ? TemplateType.Image :
                           (this.state.selectedTab === SidebarTab.Upload ? TemplateType.UserUpload : 
                           (this.state.selectedTab === SidebarTab.Background ? TemplateType.BackgroundImage : 
                             (this.state.selectedTab === SidebarTab.RemovedBackgroundImage ? TemplateType.RemovedBackgroundImage : TemplateType.RemovedBackgroundImage))), false, e)}}
@@ -4678,23 +4722,40 @@ handleToolbarResize = e => {
                     style={{
                       color: "white",
                       overflow: "scroll",
+                      height: '100%',
                     }}
                   >
                     <div style={{display: 'inline-block', width: '100%',}}>
+                    <button
+                    style={{
+                      width: '100%',
+                      backgroundColor: 'white',
+                      border: 'none',
+                      color: 'black',
+                      padding: '10px',
+                      borderRadius: '5px',
+                    }}
+                    onClick={() => {document.getElementById("image-file").click(); }}
+                  >Tải lên một video</button>
                     <ul
                       style={{
                         listStyle: 'none',
                         padding: 0,
                         width: '100%',
+                        marginTop: '10px',
                       }}
                     >
-                      {this.state.videos.map(font => 
+                  
+                      {this.state.videos.map(video => 
                           <video
                             style={{
                               width: '100%',
+                              marginBottom: '10px',
                             }}
                             onMouseDown={this.videoOnMouseDown.bind(this)}
-                            muted autoPlay={true} preload="none" ><source src={font} type="video/webm">
+                            muted 
+                            // autoPlay={true} preload="none" 
+                            ><source src={video.representative} type="video/webm">
                           </source>
                           </video>
                       )}
