@@ -28,7 +28,7 @@ export const routes = <Switch>
     <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/design/:template_id" component={Editor} />
     <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={Editor} />
     <AppRoute authorizedRequired={false} layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={Editor} />
-    <AppRoute authorizedRequired={false} layout={GuestLayout} path="/templates" component={TemplatesPage}/>
+    <AppRoute authorizedRequired={false} layout={AuthorizedLayout} path="/templates" component={TemplatesPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/account" component={AccountPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} path="/account/:info" component={AccountPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/business-cards" component={TemplatesListPage}/>
