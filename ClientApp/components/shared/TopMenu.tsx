@@ -60,8 +60,8 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     <g id="root" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="group" style={{transform:"translate(118px, 36px)"}}>
             <rect id="Rectangle-14" x="0" y="0" width="83" height="22"></rect>
-            <text id="headerText.primary" font-family="AvenirNextRoundedPro" font-size="18" font-weight="700" letter-spacing=".81" fill="#019fb6" data-text-alignment="C" style={{fontSize: 56}}>
-                <tspan x="0" y="30">MUDO</tspan>
+            <text id="headerText.primary" font-family="AvenirNextRoundedPro" font-weight="700" letter-spacing="10px" fill="#019fb6" data-text-alignment="C" style={{fontSize: 50}}>
+                <tspan x="0" y="30">draft</tspan>
             </text>
         </g>
         <rect id="icon.primary" x="63" y="50" width="35" height="35" display="none" fill="#364f6b"></rect>
@@ -70,7 +70,7 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                 <path
                     style={{
                         stroke: 'rgb(1, 159, 182)',
-                        strokeWidth: '1.7px',
+                        strokeWidth: '1.4px',
                         strokeLinejoin: 'round',
                         fill: 'none',
                         border: '1px solid black',
