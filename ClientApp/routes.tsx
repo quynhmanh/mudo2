@@ -24,10 +24,10 @@ export const routes = <Switch>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/home" component={HomePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/example" component={ExamplePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/editor" component={TemplatesPage}/>
-    <AppRoute authorizedRequired={true} layout={EditorLayout} exact path="/editor/:template_id" component={Editor} />
-    <AppRoute authorizedRequired={true} layout={EditorLayout} exact path="/editor/design/:template_id" component={Editor} />
-    <AppRoute authorizedRequired={true} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={Editor} />
-    <AppRoute authorizedRequired={true} layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={Editor} />
+    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:template_id" component={Editor} />
+    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/design/:template_id" component={Editor} />
+    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={Editor} />
+    <AppRoute authorizedRequired={false} layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={Editor} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} path="/templates" component={TemplatesPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/account" component={AccountPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} path="/account/:info" component={AccountPage}/>
