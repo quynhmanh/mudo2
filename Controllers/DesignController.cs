@@ -498,7 +498,7 @@ namespace RCB.TypeScript.Controllers
                         backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
                         var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
-                            startRecording('" + videoId + @"');
+                            startRecording('" + videoId + @"'," + width + @"," + height + @"); 
                             return Promise.resolve(42);
                         }");
 
