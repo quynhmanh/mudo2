@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PuppeteerSharp;
@@ -211,10 +212,16 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
-        public async System.Threading.Tasks.Task<IActionResult> VideoStream()
+        public async System.Threading.Tasks.Task<IActionResult> VideoStream([FromQuery]string videoId)
         {
-            string body = null;
-            using (var fontFile = new FileStream("/app/wwwroot/quynh.webm", FileMode.Append))
+
+            var filePath = "/app/wwwroot/quynh.webm";
+            if (HostingEnvironment.IsDevelopment())
+            {
+                filePath = "/Users/llaugusty/Downloads/" + videoId + ".webm";
+            }
+
+            using (var fontFile = new FileStream(filePath, FileMode.Append))
             {
                 var file = Request.Form.Files.GetFile("webm");
                 file.CopyTo(fontFile);
@@ -377,8 +384,11 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
-        public async System.Threading.Tasks.Task<IActionResult> DownloadVideo([FromQuery]string width, [FromQuery]string height)
-        {
+        public async System.Threading.Tasks.Task<IActionResult> DownloadVideo(
+            [FromQuery]string width,
+            [FromQuery]string height,
+            [FromQuery]string videoId
+        ) {
 
             string body = null;
             using (var reader = new StreamReader(Request.Body))
@@ -419,28 +429,29 @@ namespace RCB.TypeScript.Controllers
                     for (var i = 0; i < canvas.Length; ++i)
                     {
                         var html = template.Replace("[CANVAS]", canvas[i]);
-                        //byte[] bytes = Encoding.ASCII.GetBytes(html);
-                        //using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
-                        //{
-                        //    htmlFile.Write(bytes, 0, bytes.Length);`
-                        //    htmlFile.Flush();
-                        //}
-
                         var path = "/app/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
-                        var args = new string[] {
-            $"--whitelisted-extension-id={extensionId}",
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage",
-            //$"--disable-extensions-except={path}",
-            $"--load-extension={path}"
+                        var executablePath = "/usr/bin/chromium-browser";
+                        if (HostingEnvironment.IsDevelopment())
+                        {
+                            executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
+                            path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
+                            extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
+                        }
+
+                        List<string> arguments = new List<string>()
+                        {
+                            $"--whitelisted-extension-id={extensionId}",
+                            "--no-sandbox",
+                            "--disable-setuid-sandbox",
+                            "--disable-dev-shm-usage",
+                            $"--load-extension={path}"
                         };
 
-                        //var args = new string[]
-                        //{
-                        //    "--no-sandbox",
-                        //};
+                        if (HostingEnvironment.IsDevelopment())
+                        {
+                            arguments.Add($"--disable-extensions-except={path}");
+                        }
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
@@ -450,8 +461,8 @@ namespace RCB.TypeScript.Controllers
                                 Width = (int)double.Parse(width),
                                 Height = (int)double.Parse(height),
                             },
-                            ExecutablePath = "/usr/bin/chromium-browser",
-                            Args = args,
+                            ExecutablePath = executablePath,
+                            Args = arguments.ToArray(),
                             Headless = false,
                             IgnoredDefaultArgs = new string[] { "--disable-extensions" },
                         });
@@ -480,23 +491,6 @@ namespace RCB.TypeScript.Controllers
                             }
                         }
 
-                        using (var fontFile = new FileStream("/app/test.txt", FileMode.Append))
-                        {
-                            for (int t = 0; t < len; ++t)
-                            {
-                                try
-                                {
-                                    var a = targets[t];
-                                    byte[] bytes = Encoding.ASCII.GetBytes(len.ToString() + " " + a.Url + " " + a.Type.ToString());
-                                    fontFile.Write(bytes);
-                                }
-                                catch (Exception e)
-                                {
-
-                                }
-                            }
-                        }
-
                         var backgroundPage = await backgroundPageTarget.PageAsync();
 
                         var messages = new List<ConsoleMessage>();
@@ -504,9 +498,9 @@ namespace RCB.TypeScript.Controllers
                         backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
                         var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
-        startRecording();
-        return Promise.resolve(42);
-    }");
+                            startRecording('" + videoId + @"');
+                            return Promise.resolve(42);
+                        }");
 
                         await backgroundPage.WaitForTimeoutAsync(12 * 1000);
                         await browser.CloseAsync();
@@ -514,31 +508,35 @@ namespace RCB.TypeScript.Controllers
                 }
 
                 var exePath = "/usr/bin/ffmpeg";
+                var inputArgs = "/app/wwwroot/" + videoId + ".webm";
+                var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
 
-                var inputArgs = "/app/wwwroot/quynh.webm";
-                var outputArgs = "/app/wwwroot/quynh.mp4";
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    exePath = "/usr/local/bin/ffmpeg";
+                    inputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
+                    outputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".mp4";
+                }
 
                 var process = new Process
                 {
                     StartInfo =
-                            {
-                                FileName = exePath,
-                                Arguments = $"-i {inputArgs} {outputArgs}",
-                                UseShellExecute = false,
-                                CreateNoWindow = true,
-                                RedirectStandardInput = true
-                            }
+                    {
+                        FileName = exePath,
+                        Arguments = $"-i {inputArgs} {outputArgs}",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true
+                    }
                 };
 
                 process.Start();
                 process.WaitForExit();
                 process.Close();
 
-                byte[] file2 = System.IO.File.ReadAllBytes("/app/wwwroot/quynh.mp4");
+                byte[] file2 = System.IO.File.ReadAllBytes(outputArgs);
 
                 return File(file2, "video/webm");
-
-                return Json("1");
             }
         }
 

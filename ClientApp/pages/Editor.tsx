@@ -1369,7 +1369,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           return style.attributes.getNamedItem("data-styled") !== null
         });
 
-        axios.post(`/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight}`, 
+        axios.post(`/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight}&videoId=${uuidv4()}`, 
         {
           fonts: self.state.fonts,
           canvas, 
@@ -4680,17 +4680,21 @@ handleToolbarResize = e => {
                       overflow: "scroll",
                     }}
                   >
-                    <div style={{display: 'inline-block'}}>
+                    <div style={{display: 'inline-block', width: '100%',}}>
                     <ul
                       style={{
                         listStyle: 'none',
                         padding: 0,
+                        width: '100%',
                       }}
                     >
                       {this.state.videos.map(font => 
                           <video
+                            style={{
+                              width: '100%',
+                            }}
                             onMouseDown={this.videoOnMouseDown.bind(this)}
-                            muted autoPlay={true} preload="none" width="560" height="320"><source src={font} type="video/webm">
+                            muted autoPlay={true} preload="none" ><source src={font} type="video/webm">
                           </source>
                           </video>
                       )}
