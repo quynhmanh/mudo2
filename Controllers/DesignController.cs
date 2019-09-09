@@ -398,9 +398,9 @@ namespace RCB.TypeScript.Controllers
                 DownloadBody oDownloadBody = JsonConvert.DeserializeObject<DownloadBody>(body);
 
                 string style = AppSettings.style;
-                try
+                for (int i = 0; i < oDownloadBody.Fonts.Length; ++i)
                 {
-                    for (int i = 0; i < oDownloadBody.Fonts.Length; ++i)
+                    try
                     {
                         byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{oDownloadBody.Fonts[i]}.ttf");
                         String file = Convert.ToBase64String(AsBytes);
@@ -408,10 +408,10 @@ namespace RCB.TypeScript.Controllers
                         string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
                         style += s;
                     }
-                }
-                catch (Exception e)
-                {
+                    catch (Exception e)
+                    {
 
+                    }
                 }
 
                 string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
