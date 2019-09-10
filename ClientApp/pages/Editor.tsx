@@ -5500,7 +5500,18 @@ handleToolbarResize = e => {
                 </svg>
             </button>
             <div class="zoomPercent___3286Z">
-                <button onClick={(e) => {this.setState({showZoomPopup: true,})}} style={{color: 'white', border: 'none', background: 'transparent', width: '50px'}} class="scaleListButton___GEm7w zoomMain___1z1vk" data-zoom="true" data-categ="tools" data-value="zoomPanelOpen" data-subcateg="bottomPanel">{Math.round(this.state.scale * 100)}%</button>
+                <button onClick={
+                  (e) => {
+                    var self = this;
+                    this.setState({showZoomPopup: true,})
+                    const onDownload = () => {
+                      self.setState({showZoomPopup: false,});
+                      document.removeEventListener("click", onDownload);
+                    };
+                    document.addEventListener("click", onDownload);
+                  }
+                } 
+                style={{color: 'white', border: 'none', background: 'transparent', width: '50px'}} class="scaleListButton___GEm7w zoomMain___1z1vk" data-zoom="true" data-categ="tools" data-value="zoomPanelOpen" data-subcateg="bottomPanel">{Math.round(this.state.scale * 100)}%</button>
             </div>
             <button onClick={(e) => {this.setState({scale: this.state.scale + 0.15})}} style={{border: 'none', background: 'transparent'}} class="zoomPlus___1TbHD" data-test="zoomPlus" data-categ="tools" data-value="zoomIn" data-subcateg="bottomPanel">
                 <svg style={{fill: 'white'}} viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
