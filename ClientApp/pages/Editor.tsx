@@ -4248,7 +4248,7 @@ handleToolbarResize = e => {
                     id="image-container-picker"
                     style={{
                       display: "flex",
-                      // height: '200px',
+                      padding: '0px 13px 10px 0px',
                     }}
                   >
                     <div
@@ -4348,7 +4348,6 @@ handleToolbarResize = e => {
                     <div
                         style={{
                           width: '350px',
-                          marginRight: '10px',
                         }}
                       >
                     {this.state.backgrounds3.map((item, key) => (
@@ -4441,6 +4440,7 @@ handleToolbarResize = e => {
                     <div id="image-container-picker">
                     <div
                       style={{
+                        // height: "calc(100% - 170px)",
                         marginRight: '10px',
                       }}
                     >
@@ -4688,7 +4688,7 @@ handleToolbarResize = e => {
                     <ul
                       style={{
                         listStyle: 'none',
-                        padding: 0,
+                        padding: '0px 13px 10px 0px',
                         width: '100%',
                         marginTop: '10px',
                       }}
