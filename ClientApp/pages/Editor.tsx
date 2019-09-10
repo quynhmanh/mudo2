@@ -3793,7 +3793,7 @@ handleToolbarResize = e => {
                     width={imgWidth}
                     refId="sentinel"
                   >
-                    <div id="image-container-picker" style={{display: 'flex', padding: '0px 5px 10px 0px',}}>
+                    <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
                     <div
                       style={{
                         height: "calc(100% - 170px)",
@@ -4771,7 +4771,24 @@ handleToolbarResize = e => {
                   </div>
                 )}
                 {this.state.selectedTab === SidebarTab.Upload && 
-                (
+                (<div
+                  style={{
+                    position: 'relative',
+                    zIndex: 123,
+                  }}>
+                  <button
+                    style={{
+                      width: 'calc(100% - 13px)',
+                      backgroundColor: 'white',
+                      border: 'none',
+                      color: 'black',
+                      padding: '10px',
+                      borderRadius: '5px',
+                      height: '37px',
+                      marginBottom: '10px',
+                    }}
+                    onClick={() => {document.getElementById("image-file").click(); }}
+                  >Tải lên một hình ảnh</button>
                   <InfiniteScroll
                   scroll={true}
                   throttle={100}
@@ -4790,30 +4807,14 @@ handleToolbarResize = e => {
                     width: '100%',
                   }}
                 >
-                  <div style={{display: 'inline-block', width: '100%',}}>
-                  <button
-                    style={{
-                      width: 'calc(100% - 13px)',
-                      backgroundColor: 'white',
-                      border: 'none',
-                      color: 'black',
-                      padding: '10px',
-                      borderRadius: '5px',
-                      height: '37px',
-                    }}
-                    onClick={() => {document.getElementById("image-file").click(); }}
-                  >Tải lên một hình ảnh</button>
-                  <div style={{
-                    display: 'flex',
-                    marginTop: '10px',
-                    overflow: 'scroll',
-                  }}>
-                  <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
+                  <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
+                    <div
+                      style={{
+                        height: "calc(100% - 170px)",
+                        width: '350px',
+                        marginRight: '10px',
+                      }}
+                    >
                     {this.state.userUpload1.map((item, key) => (
                       <ImagePicker
                         key={key}
@@ -4854,7 +4855,6 @@ handleToolbarResize = e => {
                     <div
                         style={{
                           width: '350px',
-                          marginRight: '10px',
                         }}
                       >
                     {this.state.userUpload2.map((item, key) => (
@@ -4895,11 +4895,10 @@ handleToolbarResize = e => {
                     </div>
                     </div>
                   </div>
-                </div>
                 </InfiniteScroll>
-                )
+                </div>
 
-                }
+                )}
               </div>}
             </div>
           }
