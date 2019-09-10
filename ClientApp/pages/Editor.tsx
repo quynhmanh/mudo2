@@ -3686,25 +3686,23 @@ handleToolbarResize = e => {
             <div
               style={{
                 left: "-1px",
-                transitionDuration: "0.1s, 0.1s",
                 backgroundColor: "#293039",
                 flexDirection: "row",
                 zIndex: 11111,
                 width: this.state.toolbarOpened
                   ? `${this.state.toolbarSize}px`
-                  : 0,
+                  : '80px',
                 height: "100%",
                 position: "absolute",
                 display: 'flex'
               }}
             >
-              { this.state.toolbarOpened && 
               <TopMenu
                 mode={this.state.mode}
                 toolbarSize={this.state.toolbarSize}
                 selectedTab={this.state.selectedTab}
                 onClick={this.handleSidebarSelectorClicked}
-              /> }
+              /> 
               <div
                     style={{
                       position: 'absolute',
@@ -3750,6 +3748,7 @@ handleToolbarResize = e => {
                       RemoveAll
                       </button>
                     </div>
+                    { this.state.toolbarOpened && 
               <div
                 id="sidebar-content"
                 style={{
@@ -3757,6 +3756,7 @@ handleToolbarResize = e => {
                   height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 0}px)`,
                   width: '370px',
                   padding: '10px 5px 0px 10px',
+                  transitionDuration: "0.1s, 0.1s",
                 }}
               >
                 {this.state.selectedTab === SidebarTab.Image && (
@@ -4898,7 +4898,7 @@ handleToolbarResize = e => {
                 )
 
                 }
-              </div>
+              </div>}
             </div>
           }
           <div
@@ -4906,66 +4906,47 @@ handleToolbarResize = e => {
               boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 2px 0px",
               transitionDuration: "0.1s, 0.1s",
               width: `calc(100% - ${
-                (this.state.toolbarOpened ? this.state.toolbarSize : 0) + 
+                (this.state.toolbarOpened ? this.state.toolbarSize : 80) + 
                 (this.state.showPrintingSidebar ? 330 : 0)
               }px)`,
-              left: `${this.state.toolbarOpened ? this.state.toolbarSize - 2 : 0}px`
+              left: `${this.state.toolbarOpened ? this.state.toolbarSize - 2 : 80}px`
             }}
             ref={this.setAppRef}
             id="screens"
             onScroll={this.handleScroll}
             onWheel={this.handleWheel}
           >
-            <Tooltip
-              offsetLeft={40}
-              offsetTop={-10}
-              content={<span style={{ fontSize: "12px" }}>Toggle sidebar</span>}
-              delay={0}
-              style={{
-                top: "45%",
-                position: 'absolute',
-              }}
+            {this.state.toolbarOpened &&
+            <button
+              onClick={(e) => {this.setState({toolbarOpened: false,})}}
             >
-              <div
-                onClick={() => {
-                  this.setState({
-                    toolbarOpened: !this.state.toolbarOpened,
-                    selectedTab: null
-                  });
-                }}
-                id="sidebar-toggle"
-                className="_3aXgK2zaCyBVqYpmgP0GNp"
-                style={{
-                  cursor: "pointer",
-                  transitionDuration: "0.5s",
-                  marginLeft: "7px",
-                  width: "21px",
-                  position: "absolute",
-                  top: "45%",
-                  zIndex: 2147483647,
-                  transform: `rotate(${this.state.toolbarOpened ? 225 : 45}deg)`
-                }}
-              ></div>
-              <div
-                onClick={e => {
-                  this.setState({
-                    toolbarOpened: !this.state.toolbarOpened,
-                    selectedTab: null
-                  });
-                }}
-                id="sidebar-toggle"
-                className="_3aXgK2zaCyBVqYpmgP0GNp"
-                style={{
-                  cursor: "pointer",
-                  transitionDuration: "0.5s",
-                  width: "21px",
-                  position: "absolute",
-                  top: "45%",
-                  zIndex: 2147483647,
-                  transform: `rotate(${this.state.toolbarOpened ? 225 : 45}deg)`
-                }}
-              ></div>
-            </Tooltip>
+            <svg viewBox="0 0 32 112" xmlns="http://www.w3.org/2000/svg" 
+              style={{
+                height: '120px',
+                zIndex: 1,
+                top: '43%',
+                position: 'absolute',
+                left: '-16px',
+              }}>
+    <path d="M22.626 17.865l-1.94-1.131C17.684 14.981 16 12.608 16 10.133V0H0v112h16v-10.135c0-2.475 1.684-4.849 4.686-6.6l1.94-1.131C28.628 90.632 32 85.885 32 80.934v-49.87c0-4.95-3.372-9.698-9.374-13.199" fill="#293039"></path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width={12} height={12} viewBox="0 0 12 12" 
+  style={{
+    width: '20px',
+    fill: '#293039', 
+    height: '20px', 
+    stroke: 'currentcolor', 
+    strokeLinecap: 'round', 
+    strokeWidth: '1px',
+    top: '49.9%',
+    left: '-5px',
+    position: 'absolute',
+    zIndex: 2,
+  }}>
+  <path fill="#293039" stroke="white" strokeLinecap="round" strokeWidth="1.25" d="M7 3.17L4.88 5.3a1 1 0 0 0 0 1.42L7 8.83" style={{strokeWidth: '0.5px'}} />
+  </svg>
+</button>
+            }
 
             <div
               style={{
@@ -5158,7 +5139,7 @@ handleToolbarResize = e => {
                   className="dropbtn-font dropbtn-font-size"
                   onClick={(e) => {this.setState({cropMode: true,})}}
                 >
-                  Crop
+                  Cắt
                 </button>
                   }
                   {this.state.imgBackgroundColor && 
