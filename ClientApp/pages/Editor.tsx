@@ -189,6 +189,7 @@ interface IState {
   showImageRemovalBackgroundPopup: boolean;
   imageIdBackgroundRemoved: string;
   mounted: boolean;
+  showZoomPopup: boolean;
 }
 
 let firstpage = uuidv4();
@@ -308,6 +309,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             imageIdBackgroundRemoved: null,
             mounted: false,
             isUserUploadLoading: false,
+            showZoomPopup: false,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -5452,107 +5454,82 @@ handleToolbarResize = e => {
             <div
               style={{
                 position: "fixed",
-                bottom: "10px",
-                right: `${20 + (this.state.showPrintingSidebar ? 330 : 0)}px`,
-                width: "70px",
+                bottom: "5px",
+                right: `${5 + (this.state.showPrintingSidebar ? 330 : 0)}px`,
                 zIndex: 99999999,
               }}
             >
-              <Tooltip
-                offsetLeft={-60}
-                offsetTop={0}
-                content={<span style={{ fontSize: "12px" }}>Zoom</span>}
-                delay={0}
-                style={null}
-              >
-                <div className="dropdown">
-                  <button
-                    onClick={this.onClickDropDownList.bind(this)}
-                    className="dropbtn"
-                    style={{
-                      display: 'flex',
-                      borderRadius: '5px',
-                      width: '81px'
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: '20px',
-                        height: '20px',
-                        transform: 'scale(0.7)',
-                      }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill-rule="evenodd" clip-rule="evenodd">
-                      <path style={{fill: 'white'}} xmlns="http://www.w3.org/2000/svg" d="M9.145 18.29c-5.042 0-9.145-4.102-9.145-9.145s4.103-9.145 9.145-9.145 9.145 4.103 9.145 9.145-4.102 9.145-9.145 9.145zm0-15.167c-3.321 0-6.022 2.702-6.022 6.022s2.702 6.022 6.022 6.022 6.023-2.702 6.023-6.022-2.702-6.022-6.023-6.022zm9.263 12.443c-.817 1.176-1.852 2.188-3.046 2.981l5.452 5.453 3.014-3.013-5.42-5.421z"/>                      
-                    </svg>
-                    </div>
-                    <span style={{marginLeft: '5px'}}>{Math.floor(scale * 100)}%</span>
-                  </button>
-                  <div id="myDropdown" className="dropdown-content">
-                    <div 
-                    id="myDropdown-2"
-                    style={{
-                      margin: 'auto',
-                      width: '6px',
-                      height: '200px',
-                      borderRadius: '5px',
-                      background: `linear-gradient(to top, #fffffffc ${scale * 100 / 2}%, #019fb6 ${100 - (scale * 100 / 2)}%)`,
-                    }}>
-                      <div 
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        var self = this;
-                        const onMove = (e) => {
-                          e.preventDefault();
-                          var rec1 = document.getElementById('myDropdown-2').getBoundingClientRect();
-                          var rec2 = document.getElementById('myDropdown-2slider');
-                          var slide = rec1.bottom - e.pageY;
-                          var scale = slide / rec1.height * 2;
-                          if (scale < 0.1 || scale > 1.8){
-                            if (scale < 0.1) {
-                              scale = 0.1;
-                            } else {
-                              scale = 1.8;
-                            }
-                          }
+              {this.state.showZoomPopup &&
+              <div style={{
+                background: '#293039',
+              }}>
+                <ul style={{padding: '5px', listStyle: 'none', marginBottom: '5px'}} class="zoomPercentPanel___2ZfEJ">
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 3, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_300" data-subcateg="bottomPanel">300%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 2, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_200" data-subcateg="bottomPanel">200%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 1.75, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_175" data-subcateg="bottomPanel">175%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 1.5, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_150" data-subcateg="bottomPanel">150%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 1.25, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_125" data-subcateg="bottomPanel">125%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 1, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_100" data-subcateg="bottomPanel">100%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 0.75, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_75" data-subcateg="bottomPanel">75%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 0.5, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_50" data-subcateg="bottomPanel">50%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 0.25, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_25" data-subcateg="bottomPanel">25%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 0.1, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_10" data-subcateg="bottomPanel">10%</button>
+    </li>
+    <li class="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: this.state.fitScale, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w scaleListButtonActive___2GxqI" data-categ="tools" data-value="scaleToFit" data-subcateg="bottomPanel">Fit</button>
+    </li>
+</ul>
+              </div>
+              }
 
-                          rec2.style.bottom = scale / 2 * 100 + '%';
-                          self.setState({scale: scale});
-                        }
-
-                        const onUp = (e) => {
-                          e.preventDefault();
-                          document.removeEventListener('mousemove', onMove);
-                          document.removeEventListener('mouseup', onUp);
-                        }
-
-                        document.addEventListener('mousemove', onMove);
-                        document.addEventListener('mouseup', onUp);
-                      }}
-                      id='myDropdown-2slider'
-                      style={{
-                        bottom: scale * 100 / 2 + '%',
-                        backgroundColor: '#5c5c5f',
-                        width: '14px',
-                        height: '14px',
-                        borderRadius: '50%',
-                        borderWidth: '1px',
-                        borderStyle: 'solid',
-                        borderColor: 'rgb(200, 205, 208)',
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        margin: 'auto',
-                      }}></div>
-                    </div>
-                    {/* <button style={{display: 'block', width: '100%', marginTop: '10px',}}>
-                      Fit
-                    </button>
-                    <button style={{display: 'block', width: '100%', marginTop: '10px',}}>
-                      Fill
-                    </button> */}
-                  </div>
-                </div>
-              </Tooltip>
+                <div class="workSpaceBottomPanel___73_jE" data-bubble="false">
+    <div class="workSpaceButtons___f6jkZ">
+        <div style={{
+            display: 'flex', 
+            flexDirection: 'row',
+            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+            background: '#293039',
+            padding: '5px',
+            borderRadius: '5px',
+          }} 
+            class="zoom___21DG8">
+            <button onClick={(e) => {this.setState({scale: this.state.scale - 0.15})}} style={{border: 'none', background: 'transparent'}} class="zoomMinus___1Ooi5" data-test="zoomMinus" data-categ="tools" data-value="zoomOut" data-subcateg="bottomPanel">
+                <svg style={{fill: 'white'}} viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
+                    <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
+                    <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
+                </svg>
+            </button>
+            <div class="zoomPercent___3286Z">
+                <button onClick={(e) => {this.setState({showZoomPopup: true,})}} style={{color: 'white', border: 'none', background: 'transparent', width: '50px'}} class="scaleListButton___GEm7w zoomMain___1z1vk" data-zoom="true" data-categ="tools" data-value="zoomPanelOpen" data-subcateg="bottomPanel">{Math.round(this.state.scale * 100)}%</button>
+            </div>
+            <button onClick={(e) => {this.setState({scale: this.state.scale + 0.15})}} style={{border: 'none', background: 'transparent'}} class="zoomPlus___1TbHD" data-test="zoomPlus" data-categ="tools" data-value="zoomIn" data-subcateg="bottomPanel">
+                <svg style={{fill: 'white'}} viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
+                    <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM13,13h0a7,7,0,1,1,2.09-5A7,7,0,0,1,13,13Z"></path>
+                    <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
             </div>
           </div>
         </div>

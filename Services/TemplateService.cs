@@ -172,7 +172,7 @@ namespace RCB.TypeScript.Services
 
             var getResponse = client.Delete<TemplateModel>(id);
 
-            return Ok();
+            return Ok(getResponse);
         }
 
         public virtual Infrastructure.Result UpdateRepresentative(string id, string filePath)
