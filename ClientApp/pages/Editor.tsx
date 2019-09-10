@@ -3718,11 +3718,11 @@ handleToolbarResize = e => {
                       type="file"
                       onLoad={(data) => {}}
                       onLoadedData={(data) => {}}
-                      onChange={(e) => {this.state.selectedTab === SidebarTab.Video ?
-                        this.uploadVideo() :
+                      onChange={(e) => {this.state.selectedTab === SidebarTab.Video ? this.uploadVideo() :
+                        this.state.selectedTab === SidebarTab.Font ? this.uploadFont(e) :
                         this.uploadImage(this.state.selectedTab === SidebarTab.Image ? TemplateType.Image :
                           (this.state.selectedTab === SidebarTab.Upload ? TemplateType.UserUpload : 
-                          (this.state.selectedTab === SidebarTab.Background ? TemplateType.BackgroundImage : 
+                          (this.state.selectedTab === SidebarTab.Background ? TemplateType.BackgroundImage :
                             (this.state.selectedTab === SidebarTab.RemovedBackgroundImage ? TemplateType.RemovedBackgroundImage : TemplateType.RemovedBackgroundImage))), false, e)}}
                       style={{
                         bottom: 0,
