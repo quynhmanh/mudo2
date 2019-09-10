@@ -3564,7 +3564,7 @@ handleToolbarResize = e => {
           id='editor-navbar'
           style={{
             backgroundImage: 'linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #5affb7 75%)',
-            height: '42px',
+            height: '45px',
             padding: '5px',
             display: 'flex',
           }}>
@@ -3671,14 +3671,14 @@ handleToolbarResize = e => {
         <div
           style={{
             backgroundColor: "#1a2b34",
-            top: '40px',
+            top: '45px',
             width: `100%`,
           }}
         ></div>
         <div
           className="wrapper"
           style={{
-            top: '40px',
+            top: '45px',
             width: `100%`
           }}
         >
@@ -5163,7 +5163,7 @@ handleToolbarResize = e => {
               }
               {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&              
-              <div>
+              <div style={{position: 'relative'}}>
                 <button
                   style={{
                     boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
@@ -5174,7 +5174,7 @@ handleToolbarResize = e => {
                 >
                   {Math.round(this.state.fontSize)}px
                 </button>
-                <div style={{height: '20px', top: '17px'}} id="myFontSizeList" className="dropdown-content-font-size">
+                <div style={{height: '20px', left: '0px', position: 'absolute'}} id="myFontSizeList" className="dropdown-content-font-size">
                   <div style={{display: 'flex', height: '10px', backgroundColor: 'white', borderRadius: '5px'}}>
                   <div 
                     id="myDropdownFontSize-2"
