@@ -3756,7 +3756,7 @@ handleToolbarResize = e => {
                   height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 0}px)`,
                   width: '370px',
                   padding: '10px 5px 0px 10px',
-                  transitionDuration: "0.1s, 0.1s",
+                  transitionDuration: "1s, 1s",
                 }}
               >
                 {this.state.selectedTab === SidebarTab.Image && (
