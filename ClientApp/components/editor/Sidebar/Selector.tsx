@@ -37,12 +37,12 @@ export default class Selector extends PureComponent<IProps, IState> {
             flexDirection: "column",
             alignItems: "center",
             padding: "8px",
-            backgroundColor: disabled ? '#d2d1d1' : selected ? "rgb(41, 48, 57)" : "white",
-            color: selected ? "white" : null,
+            color: disabled ? '#d2d1d1' : selected ? "white" : "white",
             boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 2px 0px",
-            borderBottomLeftRadius: prevSelected ? "9px" : null,
+            borderTopRightRadius: prevSelected ? "9px" : null,
             borderBottomRightRadius: nextSelected ? "9px" : null,
             textAlign: 'center',
+            backgroundColor: !selected ? '#0e1318' : 'rgb(41, 48, 57)'
           }}
           onClick={disabled ? null : onClick}
         >

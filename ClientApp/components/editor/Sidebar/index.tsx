@@ -81,7 +81,6 @@ export default class TopMenu extends PureComponent<IProps, IState> {
           width: `80px`,
           zIndex: 1111111111,
           color: "black",
-          backgroundColor: 'white',
           overflow: 'scroll',
           flexDirection: 'column',
         }}
