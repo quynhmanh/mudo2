@@ -5493,7 +5493,11 @@ handleToolbarResize = e => {
             borderRadius: '5px',
           }} 
             class="zoom___21DG8">
-            <button onClick={(e) => {this.setState({scale: this.state.scale - 0.15})}} style={{border: 'none', background: 'transparent'}} class="zoomMinus___1Ooi5" data-test="zoomMinus" data-categ="tools" data-value="zoomOut" data-subcateg="bottomPanel">
+            <button onClick={(e) => { 
+              if (this.state.scale - 0.15 > 0.2) {
+                this.setState({scale: this.state.scale - 0.15})};
+              }
+            } style={{border: 'none', background: 'transparent'}} class="zoomMinus___1Ooi5" data-test="zoomMinus" data-categ="tools" data-value="zoomOut" data-subcateg="bottomPanel">
                 <svg style={{fill: 'white'}} viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
                     <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
                     <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
