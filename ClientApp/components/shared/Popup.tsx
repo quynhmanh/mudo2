@@ -120,7 +120,7 @@ class Popup extends PureComponent<IProps, IState> {
       height: '293px',
   }}
    className="unblurred"><h1 style={{textAlign: 'center'}} className="unblurred">Đang tải</h1>
-      <Loader className="unblurred" show={true} black={true}/>
+      {/* <Loader className="unblurred" show={true} black={true}/> */}
    </div>
                     }             
 </div>
