@@ -3563,7 +3563,7 @@ handleToolbarResize = e => {
         <div
           id='editor-navbar'
           style={{
-            backgroundImage: 'linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #5affb7 75%)',
+            backgroundImage: 'linear-gradient(to right, rgb(33, 147, 176), rgb(109, 213, 237))',
             height: '45px',
             padding: '5px',
             display: 'flex',
