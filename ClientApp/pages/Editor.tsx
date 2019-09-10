@@ -4735,7 +4735,7 @@ handleToolbarResize = e => {
                   throttle={100}
                   threshold={0}
                   isLoading={this.state.isUserUploadLoading}
-                  height="100%"
+                  height="calc(100% - 47px)"
                   width={93}
                   hasMore={this.state.hasMoreUserUpload}
                   onLoadMore={this.loadmoreUserUpload}
