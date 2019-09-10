@@ -5442,41 +5442,40 @@ handleToolbarResize = e => {
             >
               {this.state.showZoomPopup &&
               <div style={{
-                background: '#293039',
               }}>
-                <ul style={{padding: '5px', listStyle: 'none', marginBottom: '5px'}} class="zoomPercentPanel___2ZfEJ">
+                <ul style={{borderRadius: '5px', padding: '5px', listStyle: 'none', marginBottom: '5px', background: '#293039',}} class="zoomPercentPanel___2ZfEJ">
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 3, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_300" data-subcateg="bottomPanel">300%</button>
+        <button onClick={(e) => {this.setState({scale: 3, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_300" data-subcateg="bottomPanel">300%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 2, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_200" data-subcateg="bottomPanel">200%</button>
+        <button onClick={(e) => {this.setState({scale: 2, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_200" data-subcateg="bottomPanel">200%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 1.75, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_175" data-subcateg="bottomPanel">175%</button>
+        <button onClick={(e) => {this.setState({scale: 1.75, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_175" data-subcateg="bottomPanel">175%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 1.5, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_150" data-subcateg="bottomPanel">150%</button>
+        <button onClick={(e) => {this.setState({scale: 1.5, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_150" data-subcateg="bottomPanel">150%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 1.25, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_125" data-subcateg="bottomPanel">125%</button>
+        <button onClick={(e) => {this.setState({scale: 1.25, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_125" data-subcateg="bottomPanel">125%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 1, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_100" data-subcateg="bottomPanel">100%</button>
+        <button onClick={(e) => {this.setState({scale: 1, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_100" data-subcateg="bottomPanel">100%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 0.75, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_75" data-subcateg="bottomPanel">75%</button>
+        <button onClick={(e) => {this.setState({scale: 0.75, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_75" data-subcateg="bottomPanel">75%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 0.5, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_50" data-subcateg="bottomPanel">50%</button>
+        <button onClick={(e) => {this.setState({scale: 0.5, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_50" data-subcateg="bottomPanel">50%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 0.25, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_25" data-subcateg="bottomPanel">25%</button>
+        <button onClick={(e) => {this.setState({scale: 0.25, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_25" data-subcateg="bottomPanel">25%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 0.1, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_10" data-subcateg="bottomPanel">10%</button>
+        <button onClick={(e) => {this.setState({scale: 0.1, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_10" data-subcateg="bottomPanel">10%</button>
     </li>
     <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: this.state.fitScale, showZoomPopup: false,})}} style={{width: '100%', background: 'rgb(41, 48, 57)', color: 'white', border: 'none'}} class="scaleListButton___GEm7w scaleListButtonActive___2GxqI" data-categ="tools" data-value="scaleToFit" data-subcateg="bottomPanel">Fit</button>
+        <button onClick={(e) => {this.setState({scale: this.state.fitScale, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w scaleListButtonActive___2GxqI" data-categ="tools" data-value="scaleToFit" data-subcateg="bottomPanel">Fit</button>
     </li>
 </ul>
               </div>
@@ -5498,7 +5497,7 @@ handleToolbarResize = e => {
                 this.setState({scale: this.state.scale - 0.15})};
               }
             } style={{border: 'none', background: 'transparent'}} class="zoomMinus___1Ooi5" data-test="zoomMinus" data-categ="tools" data-value="zoomOut" data-subcateg="bottomPanel">
-                <svg style={{fill: 'white'}} viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
+                <svg viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
                     <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
                     <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
                 </svg>
@@ -5518,7 +5517,7 @@ handleToolbarResize = e => {
                 style={{color: 'white', border: 'none', background: 'transparent', width: '50px'}} class="scaleListButton___GEm7w zoomMain___1z1vk" data-zoom="true" data-categ="tools" data-value="zoomPanelOpen" data-subcateg="bottomPanel">{Math.round(this.state.scale * 100)}%</button>
             </div>
             <button onClick={(e) => {this.setState({scale: this.state.scale + 0.15})}} style={{border: 'none', background: 'transparent'}} class="zoomPlus___1TbHD" data-test="zoomPlus" data-categ="tools" data-value="zoomIn" data-subcateg="bottomPanel">
-                <svg style={{fill: 'white'}} viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
+                <svg viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
                     <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM13,13h0a7,7,0,1,1,2.09-5A7,7,0,0,1,13,13Z"></path>
                     <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
                 </svg>

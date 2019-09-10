@@ -428,3 +428,39 @@ input:focus {
 button:focus {
   outline: none;
 }
+
+.zoomMinus___1Ooi5, .zoomPlus___1TbHD {
+  svg {
+    fill: #ccc;
+  }
+}
+
+.zoomMinus___1Ooi5:hover {
+  svg {
+    fill: white;
+  }
+}
+
+.zoomPlus___1TbHD:hover {
+  svg {
+    fill: white;
+  }
+}
+
+.zoomPercent___3286Z:hover {
+  background-color: #0b0a0a;
+    border-radius: 8px;
+}
+
+.zoomPercentPanel___2ZfEJ {
+  li {
+    background: rgb(41, 48, 57);
+    button {
+      background: transparent;
+    }
+  }
+  li:hover {
+    background-color: #0b0a0a;
+    border-radius: 8px;
+  }
+}
