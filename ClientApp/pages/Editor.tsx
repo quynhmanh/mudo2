@@ -4094,7 +4094,7 @@ handleToolbarResize = e => {
                         fontSize: '13px',
                       }}
                       type="text" /> */}
-                      <div id="image-container-picker" style={{display: 'flex', padding: '0px 5px 10px 0px',}}>
+                      <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
                       <div
                         style={{
                           width: '350px',
@@ -4191,7 +4191,7 @@ handleToolbarResize = e => {
                         fontSize: '13px',
                       }}
                       type="text" /> */}
-                      <div id="image-container-picker" style={{display: 'flex', padding: '0px 5px 10px 0px',}}>
+                      <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
                       <div
                         style={{
                           width: '350px',
@@ -4227,26 +4227,6 @@ handleToolbarResize = e => {
                           />
                         ))}
                         </div>
-                      {/* <div
-                        id="image-container-picker"
-                        style={{
-                          // display: "flex",
-                          overflow: "scroll",
-                          // height: '200px',
-                          height: "100%",
-                          width: '350px',
-                          paddingLeft: '5px',
-                        }}
-                      >
-                        {this.state.items.map((item, key) => (
-                          <ImagePicker
-                            key={key}
-                            className=""
-                            src={item.urls.small}
-                            onPick={this.imgOnMouseDown.bind(this)}
-                          />
-                        ))}
-                      </div> */}
                       </div>
                     </InfiniteScroll>
                     }
@@ -4458,21 +4438,9 @@ handleToolbarResize = e => {
                     onLoadMore={this.loadMoreFont}
                     height='100%'
                   >
-                    {/* <input
-                    style={{
-                      width: '100%',
-                      marginBottom: '8px',
-                      border: 'none',
-                      height: '30px',
-                      borderRadius: '6px',
-                      padding: '5px',
-                      fontSize: '13px',
-                    }}
-                    type="text" /> */}
                     <div id="image-container-picker">
                     <div
                       style={{
-                        // height: "calc(100% - 170px)",
                         marginRight: '10px',
                       }}
                     >
@@ -4513,33 +4481,6 @@ handleToolbarResize = e => {
                           </a>
                       ))}
                     </div>
-                    {/* <div
-                      style={{
-                        height: "calc(100% - 170px)",
-                        width: '350px',
-                      }}
-                    >
-                      </div> */}
-                    {/* <div
-                      id="image-container-picker"
-                      style={{
-                        // display: "flex",
-                        overflow: "scroll",
-                        // height: '200px',
-                        height: "100%",
-                        width: '350px',
-                        paddingLeft: '5px',
-                      }}
-                    >
-                      {this.state.items.map((item, key) => (
-                        <ImagePicker
-                          key={key}
-                          className=""
-                          src={item.urls.small}
-                          onPick={this.imgOnMouseDown.bind(this)}
-                        />
-                      ))}
-                    </div> */}
                     </div>
                   </InfiniteScroll>
                   </div>
