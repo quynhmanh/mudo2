@@ -3767,12 +3767,11 @@ handleToolbarResize = e => {
                     }}>
                       <input
                       style={{
-                        position: 'absolute',
                         zIndex: 11,
-                        width: 'calc(100% - 10px)',
+                        width: 'calc(100% - 13px)',
                         marginBottom: '8px',
                         border: 'none',
-                        height: '30px',
+                        height: '37px',
                         borderRadius: '6px',
                         padding: '5px',
                         fontSize: '13px',
@@ -3794,7 +3793,7 @@ handleToolbarResize = e => {
                     width={imgWidth}
                     refId="sentinel"
                   >
-                    <div id="image-container-picker" style={{display: 'flex', padding: '40px 5px 10px 0px',}}>
+                    <div id="image-container-picker" style={{display: 'flex', padding: '0px 5px 10px 0px',}}>
                     <div
                       style={{
                         height: "calc(100% - 170px)",
@@ -4631,12 +4630,13 @@ handleToolbarResize = e => {
                   <div style={{display: 'inline-block', width: '100%',}}>
                   <button
                     style={{
-                      width: '100%',
+                      width: 'calc(100% - 13px)',
                       backgroundColor: 'white',
                       border: 'none',
                       color: 'black',
                       padding: '10px',
                       borderRadius: '5px',
+                      height: '37px',
                     }}
                     onClick={() => {document.getElementById("image-file").click(); }}
                   >Tải lên một hình ảnh</button>
@@ -4734,12 +4734,13 @@ handleToolbarResize = e => {
                     <div style={{display: 'inline-block', width: '100%',}}>
                     <button
                     style={{
-                      width: '100%',
+                      width: 'calc(100% - 13px)',
                       backgroundColor: 'white',
                       border: 'none',
                       color: 'black',
                       padding: '10px',
                       borderRadius: '5px',
+                      height: '37px',
                     }}
                     onClick={() => {document.getElementById("image-file").click(); }}
                   >Tải lên một video</button>
@@ -4792,12 +4793,13 @@ handleToolbarResize = e => {
                   <div style={{display: 'inline-block', width: '100%',}}>
                   <button
                     style={{
-                      width: '100%',
+                      width: 'calc(100% - 13px)',
                       backgroundColor: 'white',
                       border: 'none',
                       color: 'black',
                       padding: '10px',
                       borderRadius: '5px',
+                      height: '37px',
                     }}
                     onClick={() => {document.getElementById("image-file").click(); }}
                   >Tải lên một hình ảnh</button>

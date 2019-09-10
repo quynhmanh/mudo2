@@ -397,7 +397,7 @@ p.single-text:focus {
 } 
 
 #object-container::-webkit-scrollbar {
-  width: 6px !important;
+  width: 8px !important;
 }
 
 input:focus {
@@ -463,4 +463,18 @@ button:focus {
     background-color: #0b0a0a;
     border-radius: 8px;
   }
+}
+
+#object-container::-webkit-scrollbar-track {
+  background-color: #293039;
+  width: 20px;
+}
+
+#object-container::-webkit-scrollbar-thumb {
+  display: none;
+  width: 20px;
+}
+
+#object-container:hover::-webkit-scrollbar-thumb {
+  display: block;
 }
