@@ -38,7 +38,7 @@ class Popup extends PureComponent<IProps, IState> {
                         color: 'white',
                         paddingRight: 0,
                     }}>
-   <div className="unblurred" style={{padding: '10px', backgroundColor: '#0000008a', borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px'}}>
+   <div className="unblurred" style={{padding: '20px', backgroundColor: '#0000008a', borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px'}}>
       <h5 className="unblurred infoTitle___15NNR large___2DVhe geometria-medium___3wRqs">Tải xuống bản thiết kế của bạn dưới bất kì định dạng nào:</h5>
       <ul style={{padding: 0}} className="unblurred leftInfoList___jwVP0">
          <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
@@ -78,7 +78,7 @@ class Popup extends PureComponent<IProps, IState> {
                               backgroundColor: 'rgba(0, 0, 0, 0.54)',
                               borderTopRightRadius: '10px',
                               borderBottomRightRadius: '10px',
-                              padding: '10px',
+                              padding: '20px',
                               color: 'white',
                               height: '100%',
                            }}                       
@@ -148,7 +148,7 @@ const PopupWrapper = styled.div`
         margin: auto;  
         background-color: black;
         width: 800px;
-        height: 277px;
+        height: 317px;
     }
 
     .popup-background {
