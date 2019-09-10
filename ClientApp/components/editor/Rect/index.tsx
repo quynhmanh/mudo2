@@ -845,7 +845,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             );
           })}
         </div>}
-          {!showController && src && cropMode && !selected &&
+          {/* {!showController && src && cropMode && !selected &&
             <div
             style={{
               transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
@@ -890,7 +890,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             onMouseDown={cropMode ? this.handleImageDrag.bind(this) : null}
             src={src} />
             </div>
-          }
+          } */}
           {!showImage && cropMode && selected &&
             <div
             style={{
@@ -1114,7 +1114,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               position: 'absolute',
               overflow: !this.props.bleed && 'hidden',
             }} >
-            {showImage && !cropMode &&
+            {showImage &&
             <img
             id="1235"
             style={{
@@ -1137,14 +1137,14 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: height / (src ? 1 : scaleY) + "px",
               position: 'absolute',
             }} >
-            {(!showImage && cropMode) &&
+            {(!showImage && cropMode && selected) &&
             <img
             id="1236"
             style={{
               width: imgWidth + 'px',
               height: imgHeight + 'px',
               transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-              opacity: 0.5,
+              opacity: 0.7,
               outline: cropMode && selected ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
               transformOrigin: '0 0',
             }}

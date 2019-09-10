@@ -424,3 +424,7 @@ input:focus {
 #screen-container-parent {
   scroll-behavior: smooth;
 }
+
+button:focus {
+  outline: none;
+}
