@@ -60,22 +60,10 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
               }}
               onClick={this.props.onEdit}
             ><span>
-<svg width="25" height="25" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fill-rule="evenodd"></use></svg>
+<svg width="16" height="16" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fill-rule="evenodd"></use></svg>
             </span>
             </button>
             }
-            {/* {loaded ? null :
-              <img
-                style={{
-                    // background: 'hsl(0, 0%, 80%)',
-                    paddingLeft: '100%',
-                    backgroundColor: this.props.color,
-                    width: '100%',
-                    height: this.props.height + 'px',
-                    marginBottom: '10px',
-                }}
-              />
-            } */}
             <img
               className={this.props.className}
               style={loaded ? {
