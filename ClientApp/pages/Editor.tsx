@@ -3755,7 +3755,7 @@ handleToolbarResize = e => {
                   position: "relative",
                   height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 0}px)`,
                   width: '370px',
-                  padding: '10px 5px 0px 10px',
+                  padding: '10px 5px 0px 18px',
                   transitionDuration: "1s, 1s",
                 }}
               >
@@ -3789,7 +3789,7 @@ handleToolbarResize = e => {
                     isLoading={this.state.isLoading}
                     hasMore={this.state.hasMoreImage}
                     onLoadMore={this.loadMore}
-                    height='100%'
+                    height='calc(100% - 45px)'
                     width={imgWidth}
                     refId="sentinel"
                   >
