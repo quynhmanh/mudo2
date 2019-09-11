@@ -5554,7 +5554,7 @@ handleToolbarResize = e => {
                       }}
                       id='myDropdownFontSize-3slider'
                       style={{
-                        left: this.state.currentOpacity + '%',
+                        left: this.state.currentOpacity - 1 + '%',
                         backgroundColor: '#5c5c5f',
                         width: '10px',
                         height: '10px',
