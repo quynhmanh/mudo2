@@ -254,7 +254,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             fitScale: 1,
             startX: 0,
             startY: 0,
-            images: [],
+            images: [
+            ],
             images2: [],
             groupedTexts: [],
             groupedTexts2: [],
@@ -489,7 +490,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       })
     } else {
       self.setState({
-        _id: uuidv4(),
+        _id: uuidv4()
       })
     }
 
@@ -530,6 +531,27 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         rectHeight,
         subtype,
         scale: Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY),
+        images: [
+          {
+            _id: "16a35aa3-469d-4ece-b3f2-6e87a9517e16",
+            src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+            top: 0,
+            left: 0,
+            height: rectWidth,
+            width: rectHeight,
+            type: TemplateType.BackgroundImage,
+            imgWidth: rectWidth,
+            imgHeight: rectHeight,
+            origin_width: rectWidth,
+            origin_height: rectHeight,
+            rotateAngle: 0,
+            scaleX: 1,
+            scaleY: 1,
+            zIndex: 1,
+            page: firstpage,
+            backgroundColor: 'transparent',
+          }
+        ]
       });
     }
 
@@ -999,6 +1021,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       }
     });
 
+    if (img.type === TemplateType.BackgroundImage) {
+      return;
+    }
+
     let images = this.state.images.map(image => {
       if (image.page === img.page) {
         var imageTransformed = this.tranformImage(image);
@@ -1299,7 +1325,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return;
     }
 
-    if (img.type === TemplateType.Image) {
+    console.log('img.backgroundColor ', img.backgroundColor);
+
+    if (img.backgroundColor) {
+      console.log('img.backgroundColor 22 ', img.backgroundColor);
       this.setState({
         imgBackgroundColor: img.backgroundColor,
       })
@@ -2863,7 +2892,7 @@ handleToolbarResize = e => {
       });
 
       this.setState({images});
-    } else if (this.state.typeObjectSelected === TemplateType.Image) {
+    } else if (this.state.typeObjectSelected === TemplateType.Image || this.state.typeObjectSelected === TemplateType.BackgroundImage) {
       var images = this.state.images.map(img => {
         if (img._id === this.state.idObjectSelected) {
           img.backgroundColor = color;
@@ -5084,23 +5113,25 @@ handleToolbarResize = e => {
                   Cắt
                 </button>
                   }
-                  {this.state.imgBackgroundColor && 
+                </div>
+              }
+              {this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).backgroundColor && 
+              <div style={{
+                position: 'relative',
+              }}> 
                   <button
                   style={{
                     boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
                     height: '26px',
                     top: 0,
                     position: 'absolute',
-                    left: '81px',
                     width: '27px',
                     backgroundColor: this.state.imgBackgroundColor,
                   }}
                   className="dropbtn-font dropbtn-font-size"
                   onClick={(e) => {this.setState({selectedTab: SidebarTab.Color,})}}
                 >
-                  
                 </button>
-                }
                 </div>
               }
               {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
