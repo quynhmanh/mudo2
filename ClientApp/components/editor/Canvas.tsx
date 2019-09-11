@@ -308,6 +308,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
   onMouseDown={this.props.handleImageSelected.bind(this, img)}
 >
   <ResizableRect
+    opacity={img.opacity}
     showImage={false}
     hidden={true}
     objectType={img.type}
@@ -415,6 +416,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
   onMouseDown={this.props.handleImageSelected.bind(this, img)}
 >
   <ResizableRect
+    opacity={img.opacity}
     bleed={this.props.bleed}
     showImage={true}
     hidden={true}

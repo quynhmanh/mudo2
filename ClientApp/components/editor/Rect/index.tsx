@@ -91,6 +91,7 @@ export interface IProps {
   showImage: boolean;
   bleed: boolean;
   backgroundColor: string;
+  opacity: number;
 }
 
 export interface IState {
@@ -565,6 +566,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgColor,
       showImage,
       backgroundColor,
+      opacity,
     } = this.props;
 
     var newWidth = width;
@@ -575,6 +577,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       zIndex: selected ? 101 : 100,
       cursor: selected ? 'move' : null,
       outline: !showImage ? `rgb(1, 159, 182) ${objectType === 2 ? 'dotted' : 'solid'} ${2/scale}px` : null,
+      opacity: opacity ? opacity / 100 : 1,
     };
 
     const direction = zoomable

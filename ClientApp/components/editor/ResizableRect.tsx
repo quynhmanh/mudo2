@@ -60,6 +60,7 @@ export interface IProps {
     showImage: boolean;
     bleed: boolean;
     backgroundColor: string;
+    opacity: number;
   }
   
   export interface IState {
@@ -170,7 +171,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       outlineWidth, onFontSizeChange, handleFontColorChange, handleFontFaceChange, handleChildIdSelected, 
       childId, posX, posY, handleImageDrag, enableCropMode, cropMode, imgWidth, imgHeight,
       showImage, resizingInnerImage, onResizeInnerImageStart, startX, startY, updateRect, imgColor, hidden, bleed,
-      backgroundColor,
+      backgroundColor, opacity,
     } = this.props;
 
     const styles = tLToCenter({ top, left, width, height, rotateAngle })
@@ -178,6 +179,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
 
     return (
       <Rect
+        opacity={opacity}
         hidden={hidden}
         objectType={objectType}
         childrens={childrens}
