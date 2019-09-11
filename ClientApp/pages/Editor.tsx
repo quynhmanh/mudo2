@@ -130,6 +130,7 @@ interface IState {
   fonts: any;
   fontsList: any;
   fontSize: number;
+  currentOpacity: number;
   fontColor: string;
   showPopup: boolean;
   showMediaEditingPopup: boolean;
@@ -311,6 +312,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             mounted: false,
             isUserUploadLoading: false,
             showZoomPopup: false,
+            currentOpacity: 100,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -1364,7 +1366,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     this.handleFontColorChange(defaultColor);
     this.setState({fontSize});
 
-    this.setState({ images, idObjectSelected: img._id, typeObjectSelected: img.type, childId: null });
+    console.log('img ', img);
+
+    this.setState({ images, idObjectSelected: img._id, typeObjectSelected: img.type, childId: null, currentOpacity: img.opacity ? img.opacity : 100, });
   };
 
   removeTemplate = (e) => {
@@ -2492,6 +2496,30 @@ html {
     document.addEventListener("mouseup", onDown);
   };
 
+  onClickTransparent = () => {
+    console.log('myTransparent ');
+    document.getElementById("myTransparent").classList.toggle("show");
+
+    const onDown = e => {
+      if (!e.target.matches(".dropbtn-font-size")) {
+        var dropdowns = document.getElementsByClassName(
+          "dropdown-content-font-size"
+        );
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+
+        document.removeEventListener("mouseup", onDown);
+      }
+    };
+
+    document.addEventListener("mouseup", onDown);
+  };
+
   onClickpositionList = () => {
     document.getElementById("myPositionList").classList.toggle("show");
 
@@ -3494,6 +3522,17 @@ handleToolbarResize = e => {
       }
       axios.post(url, res);
     }
+  }
+
+  handleOpacityChange = (opacity) => {
+    var images = this.state.images.map(img => {
+      if (img._id === this.state.idObjectSelected) {
+        img.opacity = opacity;
+      }
+      return img;
+    });
+
+    this.setState({images});
   }
 
   handleRemaining = () => {
@@ -5109,7 +5148,52 @@ handleToolbarResize = e => {
                   className="dropbtn-font dropbtn-font-size"
                   onClick={(e) => {this.setState({cropMode: true,})}}
                 >
-                  Cắt
+                  <svg style={{width: '15px', height: '15px'}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="475.078px" height="475.078px" viewBox="0 0 475.078 475.078"
+	 xmlSpace="preserve">
+<g>
+	<path d="M465.948,328.897h-63.953V85.936l70.517-70.233c1.711-1.903,2.566-4.089,2.566-6.565c0-2.478-0.855-4.665-2.566-6.567
+		C470.609,0.859,468.419,0,465.948,0c-2.478,0-4.668,0.855-6.57,2.57l-70.237,70.521H146.18V9.137c0-2.667-0.855-4.858-2.57-6.567
+		C141.897,0.859,139.71,0,137.042,0H82.227c-2.665,0-4.858,0.855-6.567,2.57c-1.711,1.713-2.57,3.903-2.57,6.567v63.954H9.136
+		c-2.666,0-4.856,0.854-6.567,2.568C0.859,77.372,0,79.562,0,82.226v54.818c0,2.666,0.855,4.856,2.568,6.565
+		c1.714,1.711,3.905,2.57,6.567,2.57h63.954V392.86c0,2.666,0.855,4.856,2.57,6.561c1.713,1.711,3.903,2.573,6.567,2.573h246.678
+		v63.953c0,2.663,0.855,4.854,2.566,6.564c1.708,1.711,3.898,2.566,6.57,2.566h54.816c2.666,0,4.856-0.855,6.563-2.566
+		c1.712-1.711,2.574-3.901,2.574-6.564v-63.953h63.953c2.662,0,4.853-0.862,6.56-2.573c1.712-1.704,2.567-3.895,2.567-6.561v-54.819
+		c0-2.669-0.855-4.863-2.567-6.57C470.801,329.76,468.61,328.897,465.948,328.897z M146.18,146.174h169.881L146.18,316.054V146.174z
+		 M328.904,328.897H159.026l169.878-169.88V328.897z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+                  <span style={{marginLeft: '5px'}}>Cắt</span>
                 </button>
                   }
                 </div>
@@ -5358,9 +5442,11 @@ handleToolbarResize = e => {
                   }}
                 >Cancel</button>
               }  
+              {this.state.idObjectSelected &&
               <div style={{
                 position: 'absolute',
                 right: 0,
+                display: 'flex',
               }}>
                 <button
                   className="toolbar-btn dropbtn-font"
@@ -5370,6 +5456,16 @@ handleToolbarResize = e => {
                     fontSize: '13px',
                   }}
                 >Vị trí</button>
+                <button
+                  style={{
+                    boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
+                    height: '26px',
+                  }}
+                  className="dropbtn-font dropbtn-font-size"
+                  onClick={this.onClickTransparent.bind(this)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd"><path d="M3 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"></path><path d="M11 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z" opacity=".45"></path><path d="M19 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z" opacity=".15"></path><path d="M7 6h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z" opacity=".7"></path><path d="M15 6h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z" opacity=".3"></path></g></svg>
+                </button>
                 <div 
                   id="myPositionList"
                   style={{
@@ -5383,12 +5479,93 @@ handleToolbarResize = e => {
                       borderRadius: '5px',
                       padding: '10px',
                     }}>
-                      <button onClick={this.forwardSelectedObject}>Lên trên</button>
+                      <button onClick={this.forwardSelectedObject}>Transparent</button>
                       <button onClick={this.backwardSelectedObject}>Xuống dưới</button>
                       </div>
                     </div>
                 </div>
+                <div style={{
+                  height: '50px', 
+                  right: '10px', 
+                  position: 'absolute',
+                  marginTop: '-9px',
+                  width: '350px',
+                  padding: '10px',
+                  background: 'white',
+                }} id="myTransparent" className="dropdown-content-font-size">
+                  <p
+                    style={{
+                      display: 'inline-block',
+                      margin: 0,
+                      lineHeight: '30px',
+                      width: '146px',
+                      fontSize: '12px',
+                    }}
+                  >Mức trong suốt: </p>
+                  <div style={{
+                    display: 'flex', 
+                    height: '4px', 
+                    backgroundColor: 'black', 
+                    borderRadius: '5px',
+                    top: 0,
+                    bottom: 0,
+                    margin: 'auto',  
+                    width: '100%',
+                  }}>
+                  <div 
+                    id="myDropdownFontSize-3"
+                    style={{
+                      width: '200px',
+                      borderRadius: '5px',
+                      width: '100%',
+                    }}>
+                  <div 
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        var self = this;
+                        const onMove = (e) => {
+                          e.preventDefault();
+                          var rec1 = document.getElementById('myDropdownFontSize-3').getBoundingClientRect();
+                          var rec2 = document.getElementById('myDropdownFontSize-3slider');
+                          var slide = e.pageX - rec1.left;
+                          var scale = slide / rec1.width * 100;
+                          console.log('scale ', scale, slide, rec1.width);
+                          scale = Math.max(1, scale)
+                          scale = Math.min(100, scale);
+
+                          console.log('scale ', scale);
+
+                          this.setState({currentOpacity: scale});
+
+                          this.handleOpacityChange.bind(this)(scale);
+                        }
+
+                        const onUp = (e) => {
+                          e.preventDefault();
+                          document.removeEventListener('mousemove', onMove);
+                          document.removeEventListener('mouseup', onUp);
+                        }
+
+                        document.addEventListener('mousemove', onMove);
+                        document.addEventListener('mouseup', onUp);
+                      }}
+                      id='myDropdownFontSize-3slider'
+                      style={{
+                        left: this.state.currentOpacity + '%',
+                        backgroundColor: '#5c5c5f',
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '5px',
+                        top: 0,
+                        bottom: 0,
+                        margin: 'auto',
+                        position: 'absolute',
+                      }}></div>
+                      </div>
+                    </div>
+                </div>
               </div>
+              }
             </div>
             <div
             onScroll={this.handleScroll2.bind(this)}
