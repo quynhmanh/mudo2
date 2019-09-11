@@ -1352,6 +1352,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var defaultColor = 'black';
     var font;
     var fontSize;
+    var id = img._id;
     var el = document.getElementById(img._id).getElementsByTagName("font")[0];
     if (!el) {
       el = document.getElementById(img._id).getElementsByTagName("span")[0];
@@ -2890,6 +2891,20 @@ handleToolbarResize = e => {
   }
 
   handleChildIdSelected = (childId) => {
+    var defaultColor = 'black';
+    var font;
+    var fontSize;
+    var el = document.getElementById(childId).getElementsByTagName("font")[0];
+    if (!el) {
+      el = document.getElementById(childId).getElementsByTagName("span")[0];
+    }
+    if (el) {
+      defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
+      font = window.getComputedStyle(el, null).getPropertyValue("font-family");
+      fontSize = window.getComputedStyle(el, null).getPropertyValue("font-size");
+    }
+    this.handleFontFamilyChange(font);
+    this.handleFontColorChange(defaultColor);
     this.setState({childId});
   }
 
