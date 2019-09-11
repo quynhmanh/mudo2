@@ -5136,7 +5136,7 @@ handleToolbarResize = e => {
               }
               {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&              
-              <div style={{position: 'relative'}}>
+              <div>
                 <button
                   style={{
                     boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
@@ -5147,14 +5147,38 @@ handleToolbarResize = e => {
                 >
                   {Math.round(this.state.fontSize)}px
                 </button>
-                <div style={{height: '20px', left: '0px', position: 'absolute'}} id="myFontSizeList" className="dropdown-content-font-size">
-                  <div style={{display: 'flex', height: '10px', backgroundColor: 'white', borderRadius: '5px'}}>
+                <div style={{
+                  height: '50px', 
+                  left: '10px', 
+                  position: 'absolute',
+                  marginTop: '-9px',
+                  width: '95%',
+                }} id="myFontSizeList" className="dropdown-content-font-size">
+                  <p
+                    style={{
+                      display: 'inline-block',
+                      margin: 0,
+                      lineHeight: '36px',
+                      width: '97px',
+                      fontSize: '13px',
+                    }}
+                  >Kích cỡ chữ: </p>
+                  <div style={{
+                    display: 'flex', 
+                    height: '4px', 
+                    backgroundColor: 'black', 
+                    borderRadius: '5px',
+                    top: 0,
+                    bottom: 0,
+                    margin: 'auto',  
+                    width: '100%',
+                  }}>
                   <div 
                     id="myDropdownFontSize-2"
                     style={{
                       width: '200px',
                       borderRadius: '5px',
-                      right: '10px',
+                      width: '100%',
                     }}>
                   <div 
                       onMouseDown={(e) => {
@@ -5166,8 +5190,8 @@ handleToolbarResize = e => {
                           var rec2 = document.getElementById('myDropdownFontSize-2slider');
                           var slide = e.pageX - rec1.left;
                           var scale = slide / rec1.width * 170;
-                          scale = Math.max(8, scale)
-                          scale = Math.min(240, scale);
+                          scale = Math.max(1, scale)
+                          scale = Math.min(165, scale);
 
                           var a = document.getSelection();
                           if (a && a.type === "Range") {
@@ -5199,12 +5223,15 @@ handleToolbarResize = e => {
                       }}
                       id='myDropdownFontSize-2slider'
                       style={{
-                        position: 'absolute',
                         left: this.state.fontSize / 1.7 + '%',
                         backgroundColor: '#5c5c5f',
                         width: '10px',
                         height: '10px',
                         borderRadius: '5px',
+                        top: 0,
+                        bottom: 0,
+                        margin: 'auto',
+                        position: 'absolute',
                       }}></div>
                       </div>
                     </div>
