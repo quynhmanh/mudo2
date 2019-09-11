@@ -5105,7 +5105,6 @@ handleToolbarResize = e => {
                     boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
                     height: '26px',
                     top: 0,
-                    position: 'absolute',
                   }}
                   className="dropbtn-font dropbtn-font-size"
                   onClick={(e) => {this.setState({cropMode: true,})}}
