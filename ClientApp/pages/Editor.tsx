@@ -5454,13 +5454,15 @@ handleToolbarResize = e => {
                   onClick={this.onClickpositionList.bind(this)}
                   style={{
                     display: 'flex',
-                    fontSize: '13px',
+                    fontSize: '16px',
                   }}
                 >Vị trí</button>
                 <button
                   style={{
                     boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
                     height: '26px',
+                    width: '30px',
+                    padding: 0,
                   }}
                   className="dropbtn-font dropbtn-font-size"
                   onClick={this.onClickTransparent.bind(this)}
