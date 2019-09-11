@@ -502,7 +502,7 @@ namespace RCB.TypeScript.Controllers
                             return Promise.resolve(42);
                         }");
 
-                        await backgroundPage.WaitForTimeoutAsync(12 * 1000);
+                        await backgroundPage.WaitForTimeoutAsync(7 * 1000);
                         await browser.CloseAsync();
                     }
                 }
