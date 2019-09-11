@@ -121,6 +121,17 @@ class Popup extends PureComponent<IProps, IState> {
   }}
    className="unblurred"><h1 style={{textAlign: 'center'}} className="unblurred">Đang tải</h1>
       {/* <Loader className="unblurred" show={true} black={true}/> */}
+      <img
+         className="unblurred"
+         style={{
+            left: 0,
+            right: 0,
+            position: 'absolute',
+            margin: 'auto',
+            width: '100px',
+            height: '100px',
+         }}
+         src="https://a.imge.to/2019/09/11/vjEl7W.gif"/>
    </div>
                     }             
 </div>
