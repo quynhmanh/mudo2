@@ -3824,7 +3824,7 @@ handleToolbarResize = e => {
                   height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 0}px)`,
                   width: '370px',
                   padding: '10px 5px 0px 18px',
-                  transitionDuration: "1s, 1s",
+                  transitionDuration: "10s, 10s",
                 }}
               >
                 {this.state.selectedTab === SidebarTab.Image && (
@@ -4736,7 +4736,6 @@ handleToolbarResize = e => {
                   <div
                     style={{
                       color: "white",
-                      overflow: "scroll",
                       height: '100%',
                     }}
                   >
@@ -4759,6 +4758,8 @@ handleToolbarResize = e => {
                         padding: '0px 13px 10px 0px',
                         width: '100%',
                         marginTop: '10px',
+                        overflow: 'scroll',
+                        height: '100%',
                       }}
                     >
                   
