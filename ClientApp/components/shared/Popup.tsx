@@ -121,17 +121,26 @@ class Popup extends PureComponent<IProps, IState> {
   }}
    className="unblurred"><h1 style={{textAlign: 'center'}} className="unblurred">Đang tải</h1>
       {/* <Loader className="unblurred" show={true} black={true}/> */}
-      <img
-         className="unblurred"
+      <svg
          style={{
+            width: '120px',
+            height: '150px',
+            margin: 'auto',
             left: 0,
             right: 0,
             position: 'absolute',
-            margin: 'auto',
-            width: '100px',
-            height: '100px',
          }}
-         src="https://a.imge.to/2019/09/11/vjEl7W.gif"/>
+         className="unblurred" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" ><circle cx="15.5" cy="47.2279" ng-attr-r="{{config.radius}}" fill="#2c2c2e" r="8">
+  <animate attributeName="cy" values="46;54;46" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="0s" repeatCount="indefinite"/>
+</circle><circle cx="32.5" cy="46.1307" ng-attr-r="{{config.radius}}" fill="rgba(100%,100%,100%,0)" r="8">
+  <animate attributeName="cy" values="46;54;46" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.2s" repeatCount="indefinite"/>
+</circle><circle cx="49.5" cy="50.0871" ng-attr-r="{{config.radius}}" fill="#2c2c2e" r="8">
+  <animate attributeName="cy" values="46;54;46" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.4s" repeatCount="indefinite"/>
+</circle><circle cx="66.5" cy="53.896" ng-attr-r="{{config.radius}}" fill="rgba(100%,100%,100%,0)" r="8">
+  <animate attributeName="cy" values="46;54;46" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.6s" repeatCount="indefinite"/>
+</circle><circle cx="83.5" cy="52.6661" ng-attr-r="{{config.radius}}" fill="#2c2c2e" r="8">
+  <animate attributeName="cy" values="46;54;46" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.8s" repeatCount="indefinite"/>
+</circle></svg>
    </div>
                     }             
 </div>

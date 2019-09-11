@@ -314,14 +314,18 @@ p.single-text:focus {
   animation: arrows 1s infinite;
 }
 
+#sidebar-content {
+  overflow: hidden;
+}
+
 #sidebar-content::before {
-  transition: opacity 0.5s ease;
-  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 5s ease;
+  -webkit-transition: opacity 5s ease;
 }
 
 #sidebar-content::after {
-  transition: opacity 0.5s ease;
-  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 5s ease;
+  -webkit-transition: opacity 5s ease;
 }
 
 #editor-navbar {
