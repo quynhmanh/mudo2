@@ -69,6 +69,19 @@ enum Mode {
     EditTextTemplate = 4,
   }
 
+  enum TemplateType {
+    Template = 1,
+    TextTemplate = 2,
+    Heading = 3,
+    Image = 4,
+    Latex = 5,
+    BackgroundImage = 6,
+    RemovedBackgroundImage = 7,
+    UserUpload = 8,
+    Video = 9,
+  }
+  
+
 export default class Canvas extends PureComponent<IProps, IState> {
 
   tranformImage = (image: any) => {
@@ -316,7 +329,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
     onResizeStart={this.props.handleResizeStart}
     onResize={this.props.handleResize.bind(this)}
     onResizeEnd={this.props.handleResizeEnd}
-    onDragStart={this.props.handleDragStart.bind(this)}
+    onDragStart={img.type === TemplateType.BackgroundImage ? null :  this.props.handleDragStart.bind(this)}
     onDrag={this.props.handleDrag.bind(this)}
     onDragEnd={this.props.handleDragEnd}
     updateStartPos={img.updateStartPos}
@@ -424,7 +437,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
     onResizeStart={this.props.handleResizeStart}
     onResize={this.props.handleResize.bind(this)}
     onResizeEnd={this.props.handleResizeEnd}
-    onDragStart={this.props.handleDragStart.bind(this)}
+    onDragStart={img.type === TemplateType.BackgroundImage ? null :  this.props.handleDragStart.bind(this)}
     onDrag={this.props.handleDrag.bind(this)}
     onDragEnd={this.props.handleDragEnd}
     updateStartPos={img.updateStartPos}
