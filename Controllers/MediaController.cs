@@ -8,9 +8,11 @@ using PuppeteerSharp;
 using RCB.TypeScript.dbcontext;
 using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
+using Svg;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -152,7 +154,7 @@ namespace RCB.TypeScript.Controllers
                 var id = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
 
                 string file2 = "images" + Path.DirectorySeparatorChar + id + "." + oDownloadBody.ext;
-                string file3 = "images" + Path.DirectorySeparatorChar + id + "_thumbnail." + oDownloadBody.ext;
+                string file3 = "images" + Path.DirectorySeparatorChar + id + "_thumbnail." + "png";
                 var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2);
                 var filePath3 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file3);
                 string base64 = dataFont.Substring(dataFont.IndexOf(',') + 1);
@@ -179,20 +181,32 @@ namespace RCB.TypeScript.Controllers
 
                 try
                 {
+                    if (oDownloadBody.ext == "svg")
+                    {
+                        // Create PNG Image from SVG-File
+                        var svgDocument = Svg.SvgDocument.Open(filePath);  // Replace with correct FileName
+                        svgDocument.ShapeRendering = SvgShapeRendering.Auto;
 
-                    img = System.Drawing.Image.FromFile(filePath);
+                        Bitmap bmp = svgDocument.Draw(200, 200);                          // Draw Bitmap in any Size you need - for example 12px x 12px
+                        bmp.Save(filePath3, ImageFormat.Png); 				// save Bitmap as PNG-File
+                        mediaModel.RepresentativeThumbnail = file3;
+                    }
+                    else
+                    {
+                        img = System.Drawing.Image.FromFile(filePath);
 
-                    double imgHeight = img.Size.Height;
-                    double imgWidth = img.Size.Width;
+                        double imgHeight = img.Size.Height;
+                        double imgWidth = img.Size.Width;
 
-                    double x = imgWidth / 300;
-                    int newWidth = Convert.ToInt32(imgWidth / x);
-                    int newHeight = Convert.ToInt32(imgHeight / x);
+                        double x = imgWidth / 300;
+                        int newWidth = Convert.ToInt32(imgWidth / x);
+                        int newHeight = Convert.ToInt32(imgHeight / x);
 
-                    //----------        Creating Small Image
-                    System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
-                    myThumbnail.Save(filePath3);
-                    mediaModel.RepresentativeThumbnail = file3;
+                        //----------        Creating Small Image
+                        System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
+                        myThumbnail.Save(filePath3);
+                        mediaModel.RepresentativeThumbnail = file3;
+                    }
 
                 } catch (Exception e)
                 {
