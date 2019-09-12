@@ -3769,7 +3769,7 @@ handleToolbarResize = e => {
                 className="dropdown-content-font-size">
                 <div style={{display: 'flex', width: '100%',}}>
                 <div 
-                  id="myDropdownFontSize-2"
+                  id="myDropdownFontSize-3"
                   style={{
                     borderRadius: '5px',
                     width: '100%',
