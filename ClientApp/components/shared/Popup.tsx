@@ -31,42 +31,6 @@ class Popup extends PureComponent<IProps, IState> {
                      borderRadius: '13px',
                      background: 'linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #5affb7 75%)',
                   }} >  
-                    <div className="unblurred">
-                    <div className="unblurred leftInfo___1rQiJ" style={{
-                        padding: '2px',
-                        width: '520px',
-                        color: 'white',
-                        paddingRight: 0,
-                    }}>
-   <div className="unblurred" style={{padding: '20px', backgroundColor: '#0000008a', borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px'}}>
-      <h5 className="unblurred infoTitle___15NNR large___2DVhe geometria-medium___3wRqs">Tải xuống bản thiết kế của bạn dưới bất kì định dạng nào:</h5>
-      <ul style={{padding: 0}} className="unblurred leftInfoList___jwVP0">
-         <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
-            <h3 style={{flex: '0 0 100px', margin: 0,}} className="unblurred leftInfoTitle___JX_9_ large___2DVhe">JPG</h3>
-            <p className="unblurred x-small___1lJKy">Lưu bản thiết kế của bạn dưới định dạng JPG với dung lượng nhỏ.</p>
-         </li>
-         <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
-            <h3 style={{flex: '0 0 100px', margin: 0,}} className="unblurred leftInfoTitle___JX_9_ large___2DVhe">PNG</h3>
-            <p className="unblurred x-small___1lJKy">Lưu bản thiết kế của bạn dưới định dạng PNG với nền trắng.</p>
-         </li>
-         <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
-            <h3 style={{flex: '0 0 100px', margin: 0,}} className="unblurred leftInfoTitle___JX_9_ large___2DVhe">
-               PNG
-               <p style={{fontSize: '11px'}} className="unblurred xx-small___22HAD">nền trong suốt</p>
-            </h3>
-            <p className="unblurred x-small___1lJKy">Lưu bản thiết kế của bạn dưới định dạng PNG với nền trong suốt.</p>
-         </li>
-         <li style={{listStyle: 'none', display: 'flex', marginBottom: '10px',}} className="unblurred leftInfoItem___22wdL">
-            <h3 style={{flex: '0 0 100px', margin: 0,}} className="unblurred leftInfoTitle___JX_9_ large___2DVhe">
-               PDF
-               <p style={{fontSize: '11px'}} className="unblurred xx-small___22HAD">Standard</p>
-            </h3>
-            <p className="unblurred x-small___1lJKy">Tải xuống dưới dạng PDF.</p>
-         </li>
-      </ul>
-   </div>
-   {/* <div className="unblurred x-small___1lJKy leftSideLinkWrapper___BgN52"><span className="unblurred" >Visit our </span><a className="unblurred leftSideLink___1a3wo" href="https://support.crello.com" rel="external noopener noreferrer" target="_blank" data-categ="downloadModal" data-value="helpAndSupport">Help &amp; Support</a> <span className="unblurred">to get detailed answers</span></div> */}
-</div>                    </div>
                     <div className="unblurred" style={{width: '100%', position: 'relative'}}>
 
                     {!this.props.isDownload ? <div style={{
@@ -167,7 +131,7 @@ const PopupWrapper = styled.div`
         bottom: 0;  
         margin: auto;  
         background-color: black;
-        width: 800px;
+        width: 300px;
         height: 317px;
     }
 

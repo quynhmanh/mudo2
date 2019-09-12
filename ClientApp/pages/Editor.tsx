@@ -1564,7 +1564,7 @@ html {
             self.setState(
               { 
                 scale: previousScale, 
-                // showPopup: false,
+                showPopup: false,
                 bleed: false,
                 downloading: false,
               }
@@ -2496,6 +2496,29 @@ html {
 
     document.addEventListener("mouseup", onDown);
   };
+
+  handleDownloadList = () => {
+    document.getElementById("myDownloadList").classList.toggle("show");
+
+    const onDown = e => {
+      if (!e.target.matches(".dropbtn-font-size")) {
+        var dropdowns = document.getElementsByClassName(
+          "dropdown-content-font-size"
+        );
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+
+        document.removeEventListener("mouseup", onDown);
+      }
+    };
+
+    document.addEventListener("mouseup", onDown);
+  }
 
   onClickTransparent = () => {
     console.log('myTransparent ');
@@ -3719,8 +3742,8 @@ handleToolbarResize = e => {
 <span>Lưu</span>
               </button>
               }
-          <a
-            onClick={(e) => {e.preventDefault(); this.setState({showPopup: true})}}
+          <button
+            onClick={this.handleDownloadList}
             href="#" style={{
             float: 'right',
             color: 'white',
@@ -3731,8 +3754,118 @@ handleToolbarResize = e => {
             textDecoration: 'none',
             fontSize: '13px',
             fontFamily: 'AvenirNextRoundedPro-Medium',
-          }}> TẢI VỀ
-          </a>
+            background: 'transparent',
+            border: 'none',
+          }}> <svg style={{fill: 'white'}} height="25px" viewBox="0 0 512 512" width="25px" xmlns="http://www.w3.org/2000/svg"><path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0"/></svg>
+          </button>
+          <div 
+                id="myDownloadList"
+                style={{
+                  right: '10px',
+                  zIndex: 9999999999,
+                  background: 'white',
+                }}
+                className="dropdown-content-font-size">
+                <div style={{display: 'flex', width: '100%',}}>
+                <div 
+                  id="myDropdownFontSize-2"
+                  style={{
+                    borderRadius: '5px',
+                    width: '100%',
+                    overflow: 'hidden',
+                  }}>
+                    <ul style={{
+                      padding: 0,
+                      listStyle: 'none',
+                      width: '100%',
+                    }}>
+                      <li><button
+                        onClick={this.downloadPNG.bind(this, true, true)}
+                        style={{
+                          width: '100%',
+                          border: 'none',
+                          textAlign: 'left',
+                          padding: '5px 12px',
+                        }}
+                      ><p
+                        style={{marginBottom: '4px',}}
+                      >PNG</p><span
+                        style={{
+                          fontSize: '12px',
+                        }}
+                      >Ảnh chất lượng cao</span></button></li>
+                      <li>
+                        <button
+                          onClick={this.downloadPNG.bind(this, false, false)}
+                          style={{
+                            width: '100%',
+                            border: 'none',
+                            textAlign: 'left',
+                            padding: '5px 12px',
+                          }}>
+                            <p
+                        style={{marginBottom: '4px',}}
+                      >JPG</p><span
+                        style={{
+                          fontSize: '12px',
+                        }}
+                      >Kích thước tập tin ảnh nhỏ</span>
+                      </button></li>
+                      <li
+                      ><button
+                      onClick={this.downloadPDF.bind(this, true)}
+                      style={{
+                        width: '100%',
+                        border: 'none',
+                        textAlign: 'left',
+                        padding: '5px 12px',
+                      }}>
+                        <p
+                        style={{marginBottom: '4px',}}
+                      >PDF Standard</p><span
+                        style={{
+                          fontSize: '12px',
+                        }}
+                      >Kích thước tập tin nhỏ, nhiều trang</span>
+                        </button></li>
+                      <li
+                      ><button
+                      onClick={this.downloadPDF.bind(this, false)}
+                      style={{
+                        width: '100%',
+                        border: 'none',
+                        textAlign: 'left',
+                        padding: '5px 12px',
+                      }}>
+                        <p
+                        style={{marginBottom: '4px',}}
+                      >PDF Print</p><span
+                        style={{
+                          fontSize: '12px',
+                        }}
+                      >Chất lượng ảnh cao, nhiều trang</span>
+                        </button></li>
+                      <li
+                      ><button
+                      onClick={this.downloadVideo.bind(this)}
+                      style={{
+                        width: '100%',
+                        border: 'none',
+                        textAlign: 'left',
+                        padding: '5px 12px',
+                      }}>
+                        <p
+                        style={{marginBottom: '4px',}}
+                      >Video</p><span
+                        style={{
+                          fontSize: '12px',
+                        }}
+                      >MP4</span>
+                        </button></li>
+                    </ul>
+                    </div>
+                  </div>
+              </div>
           {Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail &&
           <a
             onClick={(e) => {e.preventDefault(); this.setState({showPrintingSidebar: true})}}
@@ -4663,7 +4796,7 @@ handleToolbarResize = e => {
                       height: '37px',
                     }}
                     onClick={() => {document.getElementById("image-file").click(); }}
-                  >Tải lên một hình ảnh</button>
+                  >vềlên một hình ảnh</button>
                   <div style={{
                     display: 'flex',
                     marginTop: '10px',
@@ -5248,7 +5381,7 @@ handleToolbarResize = e => {
                   position: 'absolute',
                   marginTop: '-9px',
                   width: '95%',
-                }} id="myFontSizeList" className="dropdown-content-font-size">
+                }} id="myFontSizeList" className="dropdown-content-font-size">
                   <p
                     style={{
                       display: 'inline-block',
