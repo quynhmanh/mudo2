@@ -3975,7 +3975,18 @@ handleToolbarResize = e => {
                   transitionDuration: "10s, 10s",
                 }}
               >
-                {this.state.selectedTab === SidebarTab.Image && (
+                {/* {this.state.selectedTab === SidebarTab.Image && ( */}
+                  <div
+                    style={{
+                      opacity: this.state.selectedTab === SidebarTab.Image ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Image && `translate3d(0px, calc(-${this.state.selectedTab > SidebarTab.Image ? 40 : -40}px), 0px)`,
+                      zIndex: this.state.selectedTab !== SidebarTab.Image && -1,
+                      top: '10px',
+                    }}
+                  >
                   <div
                     style={{
                       position: 'relative',
@@ -4130,8 +4141,20 @@ handleToolbarResize = e => {
                     </div>
                   </InfiniteScroll>
                   </div>
-                )}
-                {this.state.selectedTab === SidebarTab.Text && (
+                  </div>
+                {/* } */}
+                {/* {this.state.selectedTab === SidebarTab.Text && ( */}
+                  <div
+                    style={{
+                      opacity: this.state.selectedTab === SidebarTab.Text ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Text && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Text ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.Text && -1,
+                    }}
+                  >
                   <div style={{ color: "white" }}>
                     <div style={{marginBottom: '10px'}}>
                       <p>Nhấn để thêm chữ vào trang</p>
@@ -4377,12 +4400,18 @@ handleToolbarResize = e => {
                     </InfiniteScroll>
                     }
                   </div>
-                )}
-                {this.state.selectedTab === SidebarTab.Template && (
-                  <div
+                  </div>
+                {/* }
+                {this.state.selectedTab === SidebarTab.Template && ( */}
+                    <div
                     style={{
-                      color: "white",
-                      overflow: "scroll"
+                      opacity: this.state.selectedTab === SidebarTab.Template ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Template && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Template ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.Template && -1,
                     }}
                   >
                     {
@@ -4447,8 +4476,21 @@ handleToolbarResize = e => {
                     </InfiniteScroll>
                     }
                   </div>
-                )}
-                {this.state.selectedTab === SidebarTab.Background && 
+                {/* } */}
+                {/* {this.state.selectedTab === SidebarTab.Background &&  */}
+                <div
+                    style={{
+                      opacity: this.state.selectedTab === SidebarTab.Background ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
+                      color: "white",
+                      overflow: "scroll",
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Background && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Background ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.Background && -1,
+                    }}
+                  >
                   <InfiniteScroll
                   scroll={true}
                   throttle={100}
@@ -4609,12 +4651,20 @@ handleToolbarResize = e => {
                     </div>
                   </div>
                 </InfiniteScroll>
-                }
-                {this.state.selectedTab === SidebarTab.Font && (
+                </div>
+                {/* }
+                {this.state.selectedTab === SidebarTab.Font && ( */}
                   <div
                     style={{
+                      opacity: this.state.selectedTab === SidebarTab.Font ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
                       color: "white",
                       overflow: "scroll",
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Font && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Font ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.Font && -1,
                     }}
                   >
                     <div
@@ -4702,13 +4752,19 @@ handleToolbarResize = e => {
                   </div>
                     </div>
                   </div>
-                )}
-                {this.state.selectedTab === SidebarTab.Color && (
+                {/* }
+                {this.state.selectedTab === SidebarTab.Color && ( */}
                   <div
                     style={{
+                      opacity: this.state.selectedTab === SidebarTab.Color ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
                       color: "white",
                       overflow: "scroll",
-                      height: '100%',
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Color && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Color ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.Color && -1,
                     }}
                   >
                     <div style={{display: 'inline-block'}}>
@@ -4766,9 +4822,22 @@ handleToolbarResize = e => {
                     </ul>
                     </div>
                   </div>
-                )}
-                {this.state.selectedTab === SidebarTab.RemovedBackgroundImage && 
-                (<InfiniteScroll
+                {/* }
+                {this.state.selectedTab === SidebarTab.RemovedBackgroundImage &&  */}
+                <div
+                    style={{
+                      opacity: this.state.selectedTab === SidebarTab.RemovedBackgroundImage ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
+                      color: "white",
+                      overflow: "scroll",
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.RemovedBackgroundImage && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.RemovedBackgroundImage ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.RemovedBackgroundImage && -1,
+                    }}
+                  >
+                <InfiniteScroll
                   scroll={true}
                   throttle={500}
                   threshold={300}
@@ -4836,15 +4905,22 @@ handleToolbarResize = e => {
                   </div>
                 </div>
                 </InfiniteScroll>
-                )}
-                {this.state.selectedTab === SidebarTab.Element && (
+                </div>
+                {/* }
+                {this.state.selectedTab === SidebarTab.Element && ( */}
                   <div
-                  style={{
-                    color: "white",
-                    overflow: "scroll",
-                    width: '100%',
-                  }}
-                >
+                    style={{
+                      opacity: this.state.selectedTab === SidebarTab.Element ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
+                      color: "white",
+                      overflow: "scroll",
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Element && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Element ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.Element && -1,
+                    }}
+                  >
                   <div style={{display: 'inline-block', width: '100%',}}>
                   <div style={{
                     display: 'flex',
@@ -4878,13 +4954,19 @@ handleToolbarResize = e => {
                     </div>
                   </div>
                 </div>
-                )
-                }
-                {this.state.selectedTab === SidebarTab.Video && (
+                {/* }
+                {this.state.selectedTab === SidebarTab.Video && ( */}
                   <div
                     style={{
+                      opacity: this.state.selectedTab === SidebarTab.Video ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
                       color: "white",
-                      height: '100%',
+                      overflow: "scroll",
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Video && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Video ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.Video && -1,
                     }}
                   >
                     <div style={{display: 'inline-block', width: '100%',}}>
@@ -4927,13 +5009,21 @@ handleToolbarResize = e => {
                     </ul>
                     </div>
                   </div>
-                )}
-                {this.state.selectedTab === SidebarTab.Upload && 
-                (<div
-                  style={{
-                    position: 'relative',
-                    zIndex: 123,
-                  }}>
+                {/* }
+                {this.state.selectedTab === SidebarTab.Upload &&  */}
+                <div
+                    style={{
+                      opacity: this.state.selectedTab === SidebarTab.Upload ? 1 : 0,
+                      position: 'absolute',
+                      width: '347px',
+                      color: "white",
+                      overflow: "scroll",
+                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                      transform: this.state.selectedTab !== SidebarTab.Upload && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Upload ? 40 : -40}px), 0px)`,
+                      top: '10px',
+                      zIndex: this.state.selectedTab !== SidebarTab.Upload && -1,
+                    }}
+                  >
                   <button
                     style={{
                       width: 'calc(100% - 13px)',
@@ -5055,8 +5145,7 @@ handleToolbarResize = e => {
                   </div>
                 </InfiniteScroll>
                 </div>
-
-                )}
+                {/* } */}
               </div>}
             </div>
           }
