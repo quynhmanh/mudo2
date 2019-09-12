@@ -4977,7 +4977,7 @@ handleToolbarResize = e => {
             <div
               style={{
                 width: "100%",
-                backgroundColor: "#fff",
+                backgroundColor: "#eee",
                 zIndex: 123123123,
                 boxShadow: "0 1px 0 rgba(14,19,24,.15)",
                 display: "inline-flex",
@@ -5000,7 +5000,6 @@ handleToolbarResize = e => {
                   padding: "3px",
                   paddingBottom: "0px",
                   marginRight: "6px",
-                  backgroundColor: "rgb(242, 242, 242)",
                   display: "inline-block",
                   cursor: "pointer",
                   color: 'black',
@@ -5045,7 +5044,6 @@ handleToolbarResize = e => {
                   padding: "3px",
                   paddingBottom: "0px",
                   marginRight: "6px",
-                  backgroundColor: "rgb(242, 242, 242)",
                   display: "inline-block",
                   cursor: "pointer",
                   color: 'black',
@@ -5093,7 +5091,6 @@ handleToolbarResize = e => {
                   padding: "3px",
                   paddingBottom: "0px",
                   marginRight: "6px",
-                  backgroundColor: "rgb(242, 242, 242)",
                   display: "inline-block",
                   cursor: "pointer",
                   color: 'black',
@@ -5142,7 +5139,6 @@ handleToolbarResize = e => {
                   padding: "3px",
                   paddingBottom: "0px",
                   marginRight: "6px",
-                  backgroundColor: "rgb(242, 242, 242)",
                   display: "inline-block",
                   cursor: "pointer",
                   color: 'black',
@@ -5364,7 +5360,6 @@ handleToolbarResize = e => {
                   padding: "3px",
                   paddingBottom: "0px",
                   marginRight: "6px",
-                  backgroundColor: "rgb(242, 242, 242)",
                   display: "inline-block",
                   cursor: "pointer",
                   color: 'black',
@@ -5398,7 +5393,6 @@ handleToolbarResize = e => {
                   padding: "3px",
                   paddingBottom: "0px",
                   marginRight: "6px",
-                  backgroundColor: "rgb(242, 242, 242)",
                   display: "inline-block",
                   cursor: "pointer",
                   color: 'black',
@@ -5432,7 +5426,6 @@ handleToolbarResize = e => {
                   padding: "3px",
                   paddingBottom: "0px",
                   marginRight: "6px",
-                  backgroundColor: "rgb(242, 242, 242)",
                   display: "inline-block",
                   cursor: "pointer",
                   color: 'black',
@@ -5478,6 +5471,7 @@ handleToolbarResize = e => {
                     height: '26px',
                     width: '30px',
                     padding: 0,
+                    backgroundColor: 'white',
                   }}
                   className="dropbtn-font dropbtn-font-size"
                   onClick={this.onClickTransparent.bind(this)}

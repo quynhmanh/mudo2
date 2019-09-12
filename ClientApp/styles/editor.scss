@@ -161,7 +161,7 @@ div[data-reactroot] {
 }
 
 .dropbtn-font-size {
-  background-color: rgb(242, 242, 242);
+  background-color: white;
   color: black; 
   font-size: 16px;
   border: none;
@@ -288,7 +288,7 @@ p.single-text:focus {
 
 .toolbar-btn {
   box-shadow: rgba(0, 0, 0, 0.36) 0px 1px 2px 0px;
-  background-color: rgb(242, 242, 242);
+  background-color: white;
   border: none;
   border-radius: 4px;
 }
@@ -299,7 +299,7 @@ p.single-text:focus {
 
 .toolbar-btn:hover {
   cursor: pointer;
-  background-color: rgb(235, 235, 235) !important;
+  background-color: rgba(0, 0, 0, .075) !important;
 }
 
 #sidebar-toggle:before, #sidebar-toggle:after {
