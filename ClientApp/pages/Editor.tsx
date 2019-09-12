@@ -2475,7 +2475,7 @@ html {
   };
 
   onClickDropDownFontSizeList = () => {
-    document.getElementById("myFontSizeList").classList.toggle("show");
+    document.getElementById("myFontSizeList").classList.toggle("show");
 
     const onDown = e => {
       if (!e.target.matches(".dropbtn-font-size")) {
@@ -5381,6 +5381,8 @@ handleToolbarResize = e => {
                   position: 'absolute',
                   marginTop: '-9px',
                   width: '95%',
+                  padding: '10px',
+                  background: 'white',
                 }} id="myFontSizeList" className="dropdown-content-font-size">
                   <p
                     style={{

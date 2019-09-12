@@ -482,3 +482,12 @@ button:focus {
 #object-container:hover::-webkit-scrollbar-thumb {
   display: block;
 }
+
+#myDownloadList {
+  ul {
+    margin: 0;
+    button:hover {
+      background-color: #eee;
+    }
+  }
+}
