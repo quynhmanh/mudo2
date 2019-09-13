@@ -19,7 +19,6 @@ export default class GuestLayout extends React.Component<Props, {}> {
                 <div
                   id="456"
                   style={{
-                    height: '1000px',
                     position: 'relative',
                   }}
                 >
