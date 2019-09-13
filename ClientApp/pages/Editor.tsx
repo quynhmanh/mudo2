@@ -4999,7 +4999,7 @@ handleToolbarResize = e => {
                         width: '100%',
                         marginTop: '10px',
                         overflow: 'scroll',
-                        height: '100%',
+                        height: 'calc(100% - 47px)',
                       }}
                     >
                   
