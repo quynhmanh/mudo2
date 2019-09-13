@@ -47,7 +47,7 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     render() {
         return <div className="navbar navbar-default">
             <div className="container container-fluid">
-                <div className="navbar-header">
+                <div className="navbar-header" style={{marginTop: '10px',}}>
                     <button ref={x => this.elCollapseButton = x} type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span className="sr-only">Toggle navigation</span>
                         <span className="icon-bar"></span>
@@ -60,8 +60,8 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     <g id="root" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="group" style={{transform:"translate(118px, 36px)"}}>
             <rect id="Rectangle-14" x="0" y="0" width="83" height="22"></rect>
-            <text id="headerText.primary" font-family="AvenirNextRoundedPro" font-weight="700" letter-spacing="10px" fill="#019fb6" data-text-alignment="C" style={{fontSize: 50}}>
-                <tspan x="0" y="30">draft</tspan>
+            <text id="headerText.primary" font-family="AvenirNextRoundedPro" font-weight="700" letter-spacing="10px" fill="#019fb6" data-text-alignment="C" style={{fontSize: 44}}>
+                <tspan x="0" y="30">DRAFT</tspan>
             </text>
         </g>
         <rect id="icon.primary" x="63" y="50" width="35" height="35" display="none" fill="#364f6b"></rect>
@@ -86,7 +86,7 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                 <div id="navbar" className="navbar-collapse collapse nav navbar-nav navbar-right">
                     <ul className="nav navbar-nav">
                         {/* <li><NavLink exact to={'/example'} activeClassName="active">Example</NavLink></li> */}
-                        <li><NavLink exact to={'/templates'} activeClassName="active">Mẫu thiết kế</NavLink></li>
+                        {/* <li><NavLink exact to={'/templates'} activeClassName="active">Mẫu thiết kế</NavLink></li> */}
                         {/* <li><NavLink exact to={'/editor'} activeClassName="active">Learn</NavLink></li> */}
                         {/* <li><NavLink exact to={'/cart'} activeClassName="active">Giỏ hàng</NavLink></li> */}
                         <li className="dropdown">

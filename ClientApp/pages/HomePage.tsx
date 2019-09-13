@@ -63,11 +63,16 @@ export default class HomePage extends React.Component<IProps, IState> {
               height: '300px',
             }}
           >
-            <div className="container" style={{height: '100%'}}>
+            <div className="container" 
+            style={{height: '100%',
+              borderRadius: '10px',
+              backgroundImage: "url('https://b.imge.to/2019/09/13/v3d8GY.jpg')",
+              backgroundSize: 'cover',
+            }}>
             <header 
               style={{
                 position: 'relative',
-                top: '70%',
+                top: '40%',
                 marginTop: 'auto',
                 marginBottom: 'auto',
                 transform: 'translateY(-50%)',
@@ -78,7 +83,7 @@ export default class HomePage extends React.Component<IProps, IState> {
             style={{
               textAlign: 'center',
               color: 'white',
-              fontSize: '60px',
+              fontSize: '40px',
               marginBottom: '20px',
               fontFamily: 'AvenirNextRoundedPro-Bold',
             }}
@@ -252,124 +257,260 @@ export default class HomePage extends React.Component<IProps, IState> {
           </div>
       <section style={{padding: '30px 0'}}>
       <div className="container">
-        <div >
-          {/* <div style={{display: 'flex'}} className="tile-rack__container layout--row-spacing u-display-flex u-flexWrap-wrap u-justifyContent-center js-tile-rack-slider" role="toolbar">
-            <div
-              style={{
-                background: 'rgba(255, 255, 255, 0.46)',
-                padding: '.75rem 2rem',
-                boxShadow: '0 0 10px rgba(0, 0, 0, 0.15)',
-              }}
-              className="tile-rack__tile-wrap tile-rack__svg-icons-tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide10">
-              <div href="/us/about/next-day-delivery" data-ga-event-action="tile" data-ga-event-label="/us/about/next-day-delivery || Next Day Delivery!" className="tile" data-di-id="di-id-4159d409-4571d809" tabIndex={-1}>
-                <div className="tile__body list-default__parent">
-                  <div className="tile__media-wrap">
-                    <figure className="tile__figure u-margin-0">
-                      <img style={{
-                        margin: '0 auto',
-                        display: 'block',
-                      }} src="https://www.moo.com/dam/jcr:54707c68-f16a-47e2-a6dd-33648d576e8b/home_page_OPT_stopwatch_rollover0.svg" alt="Next Day Delivery!" title="Next Day Delivery!" className="tile__image" />
-                      <figcaption style={{textAlign: 'center'}} className="u-visually-hidden">Giao hàng ngày hôm sau!</figcaption>
-                    </figure>
-                  </div>
-                  <div className="tile__text-wrap">
-                    <div className="tile__text-wrap-inner">
-                      <h3 style={{textAlign: 'center'}} className="h__block u-marginBottom-xxxs">
-                        Giao hàng ngày hôm sau!
-                      </h3>
-                      <p style={{textAlign: 'center'}}>Với một số sản phẩm. Được đặt hàng trước 2 giờ chiều thứ 2 - thứ 6.</p>
-                    </div>
-                  </div>
+        <div>
+        <div className="_30p__PONPi-YqVEVlgnN_6"
+                style={{
+                    padding: '20px',
+                }}
+            >
+    <div className="_22sigMUdyJNIFhyyvf2MEI GBHbdnAmvUa3G4DLXk6Mj">
+        <h3 className="_2lgTACDxLrI1ZOlITIhup- W9IR-ZsiAOretU6xTyjoD _2f7Wjwll8O11wJb1_gQkn1 _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _1fgQS83UQD74-sbLyIX6g2 _1kLjfztPsOUw9W-PSOI9Zu">Thiết kế ngay</h3></div>
+    <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
+        <div className="_3PK-lmKzpAGcI8WTdBQX4i">
+            <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Social Media" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Social Media">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Social Media</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-              </div>
-            </div><div className="tile-rack__tile-wrap tile-rack__svg-icons-tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide11">
-              <div href="/us/about/moo-promise" data-ga-event-action="tile" data-ga-event-label="/us/about/moo-promise || The MOO promise" className="tile
-                -borderless
-                -link
-                -link-whole-tile
-            u-textAlign-center
-            js-tile
-                js-ga-click-track
-            " data-di-id="di-id-22c4e32c-caada8f0" tabIndex={-1}>
-                <div className="tile__body list-default__parent">
-                  <div className="tile__media-wrap">
-                    <figure className="tile__figure u-margin-0">
-                      <img style={{
-                        margin: '0 auto',
-                        display: 'block',
-                      }}
-                      src="https://www.moo.com/dam/jcr:cc1583a7-545e-4cb3-9bf9-279d846d5978/home_page_OPT_diamond_rollover0.svg" alt="The MOO promise" title="The MOO promise" className="tile__image" />
-                      <figcaption style={{textAlign: 'center'}} className="u-visually-hidden">Lời hứa MUDO</figcaption>
-                    </figure>
-                  </div>
-                  <div className="tile__text-wrap">
-                    <div className="tile__text-wrap-inner">
-                      <h3 style={{textAlign: 'center'}} className="h__block u-marginBottom-xxxs">
-                        Lời hứa MUDO
-                      </h3>
-                      <p style={{textAlign: 'center'}}>Chúng tôi sẽ đảm bảo bạn sẽ hài lòng với những gì bạn nhận được!</p>
-                    </div>
-                  </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Presentation" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Presentation">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Presentation</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-              </div>
-            </div><div className="tile-rack__tile-wrap tile-rack__svg-icons-tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide12">
-              <div href="/us/about/printfinity" data-ga-event-action="tile" data-ga-event-label="/us/about/printfinity ||  Printfinity" className="tile
-                -borderless
-                -link
-                -link-whole-tile
-            u-textAlign-center
-            js-tile
-                js-ga-click-track
-            " data-di-id="di-id-22c4e32c-febbbf42" tabIndex={-1}>
-                <div className="tile__body list-default__parent">
-                  <div className="tile__media-wrap">
-                    <figure className="tile__figure u-margin-0">
-                      <img style={{
-                        margin: '0 auto',
-                        display: 'block',
-                      }}
-                      src="https://www.moo.com/dam/jcr:d9a54a38-d19d-4b8c-9e83-882a33ca9868/home_page_OPT_printfinity_rollover0.svg" alt=" Printfinity" title=" Printfinity" className="tile__image" />
-                      <figcaption style={{textAlign: 'center'}} className="u-visually-hidden"> Printfinity</figcaption>
-                    </figure>
-                  </div>
-                  <div className="tile__text-wrap">
-                    <div className="tile__text-wrap-inner">
-                      <h3 style={{textAlign: 'center'}} className="h__block u-marginBottom-xxxs">
-                        Printfinity
-                      </h3>
-                      <p style={{textAlign: 'center'}}>In nhiều thiết kế khác nhau MIỄN PHÍ. Một đơn với rất nhiều hình ảnh khác nhau!</p>
-                    </div>
-                  </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Poster" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Poster">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Poster</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-              </div>
-            </div><div className="tile-rack__tile-wrap tile-rack__svg-icons-tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide13">
-              <div className="tile
-                -borderless
-            u-textAlign-center
-            js-tile
-">
-                <div className="tile__body list-default__parent">
-                  <div className="tile__media-wrap">
-                    <figure className="tile__figure u-margin-0">
-                      <img style={{
-                        margin: '0 auto',
-                        display: 'block',
-                      }}
-                      src="https://www.moo.com/dam/jcr:ba300200-b969-4fc5-9e70-f3cf560b2cd4/home_page_OPT_trustpilot_rollover0.svg" alt="Customers trust us" title="Customers trust us" className="tile__image" />
-                      <figcaption style={{textAlign: 'center'}} className="u-visually-hidden">Khách hàng tin tưởng chúng tôi</figcaption>
-                    </figure>
-                  </div>
-                  <div className="tile__text-wrap">
-                    <div className="tile__text-wrap-inner">
-                      <h3 style={{textAlign: 'center'}} className="h__block u-marginBottom-xxxs">
-                        Khách hàng tin tưởng chúng tôi
-                      </h3>
-                      <p style={{textAlign: 'center'}}>That’s why they’ve rated us 9.5&nbsp;out of 10 on Trustpilot. Excellent stuff.</p>
-                    </div>
-                  </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a"target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpJEfIY/1/0/thumbnail_large-1.jpg" alt="Facebook Cover" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Facebook Cover">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Facebook Cover</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-              </div>
-            </div></div> */}
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a"target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPjqjKaE/1/0/thumbnail_large-1.jpg" alt="Flyer" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Flyer">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Flyer</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC4-jLh4zI/3/0/thumbnail_large.jpg" alt="Facebook Post" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Facebook Post">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Facebook Post</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a"target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACytlYGjpE/1/0/thumbnail_large-7.jpg" alt="Instagram Post" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Instagram Post">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Instagram Post</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhR9Ss1k/3/0/thumbnail_large.jpg" alt="Blog Banner" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Blog Banner">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Blog Banner</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPndQv8A/1/0/thumbnail_large-1.jpg" alt="Card" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Card">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Card</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADGeZLBv64/3/0/thumbnail_large.jpg" alt="Email Header" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Email Header">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Email Header</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC3Yq3okKs/1/0/thumbnail_large-5.jpg" alt="Twitter Post" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Twitter Post">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Twitter Post</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPn5AItM/3/0/thumbnail_large.jpg" alt="Pinterest Graphic" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Pinterest Graphic">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Pinterest Graphic</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC6SzsCfjk/1/0/thumbnail_large-2.jpg" alt="Facebook App Ad" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Facebook App Ad">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Facebook App Ad</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a"target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPuq6KoU/1/0/thumbnail_large-1.jpg" alt="Tumblr Graphic" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Tumblr Graphic">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Tumblr Graphic</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACzQ_XLjmU/1/0/thumbnail_large-7.jpg" alt="US Letter Document" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="US Letter Document">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>US Letter Document</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPra3zWc/1/0/thumbnail_large-1.jpg" alt="A4 Document" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="A4 Document">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>A4 Document</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" style={{maxHeight: '192px'}}>
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhfrXwUM/2/0/thumbnail_large.jpg" alt="Letterhead" draggable="false" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Letterhead">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Letterhead</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
+    </div>
+        </div>
         </div>
       </div>
       </section>

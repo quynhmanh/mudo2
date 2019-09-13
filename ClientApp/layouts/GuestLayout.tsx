@@ -19,23 +19,10 @@ export default class GuestLayout extends React.Component<Props, {}> {
                 <div
                   id="456"
                   style={{
-                    backgroundColor: '#558ca7',
-                    height: '600px',
+                    height: '1000px',
                     position: 'relative',
                   }}
                 >
-                  <img 
-                    style={{
-                      height: '100%',
-                      display: 'block',
-                      left: '30%',
-                      marginLeft: 'auto',
-                      marginRight: 'auto',
-                      transform: 'translateX(-50%)',
-                      maxWidth: 'none',
-                      position: 'absolute',
-                    }}
-                    src="images/ay6mRWZmdUCSc4SBvBhERw.png" />
                 <div className="container container-content">
                     {this.props.children}
                 </div>
