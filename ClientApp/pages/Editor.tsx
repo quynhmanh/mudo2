@@ -1670,6 +1670,7 @@ html {
       images = images.map(img => {
         if (img.innerHTML) {
           img.innerHTML = img.innerHTML.replace('#ffffff', 'black');
+          img.innerHTML = img.innerHTML.replace('rgb(255, 255, 255)', 'black');
         }
         return img;
       });
