@@ -156,8 +156,9 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                 <title>Đăng nhập</title>
             </Helmet>
             
-            <div id="loginContainer" style={{margin: 0}}>
-                <h1 style={{textAlign: 'center', marginTop: 0, marginBottom: '10px',}}>Đăng nhập</h1>
+            <div id="loginContainer" style={{margin: 0, paddingLeft: '80px',}}>
+                <h1 style={{fontFamily: 'AvenirNextRoundedPro-Bold', marginTop: 0, marginBottom: '10px',}}>Thiết kế mọi thứ.</h1>
+                <p>Tạo tài khoản ngay. Draft được mọi người yêu thích từ những người không chuyên đến những chuyên gia.</p>
                 <button 
                     style={{
                         width: '100%',

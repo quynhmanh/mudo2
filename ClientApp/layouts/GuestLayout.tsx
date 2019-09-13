@@ -23,7 +23,7 @@ export default class GuestLayout extends React.Component<Props, {}> {
                     position: 'relative',
                   }}
                 >
-                <div className="container container-content">
+                <div className="">
                     {this.props.children}
                 </div>
                 </div>
