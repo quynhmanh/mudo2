@@ -1,4 +1,4 @@
-FROM gcr.io/google-appengine/aspnetcore:2.2
+FROM gcr.io/google-appengine/aspnetcore:2.2.0
 ADD ./bin/Release/netcoreapp2.2/publish/ /app
 ENV ASPNETCORE_URLS=http://*:${PORT}
 WORKDIR /app
