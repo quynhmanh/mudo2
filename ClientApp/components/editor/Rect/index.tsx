@@ -566,7 +566,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgColor,
       showImage,
       backgroundColor,
-      opacity,
     } = this.props;
 
     var newWidth = width;
@@ -577,8 +576,9 @@ export default class Rect extends PureComponent<IProps, IState> {
       zIndex: selected ? 101 : 100,
       cursor: selected ? 'move' : null,
       outline: !showImage ? `rgb(1, 159, 182) ${objectType === 2 ? 'dotted' : 'solid'} ${2/scale}px` : null,
-      opacity: opacity ? opacity / 100 : 1,
     };
+
+    var opacity = this.props.opacity ? this.props.opacity / 100 : 1;
 
     const direction = zoomable
       .split(",")
@@ -700,7 +700,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                       // height: height * child.height2 / scaleY,
                       height: child.height,
                       outline: selected && childId === child._id ? `rgb(1, 159, 182) solid ${outlineWidth}px` : null,
-                      transform: `rotate(${rotateAngle}deg)`
+                      transform: `rotate(${rotateAngle}deg)`,
+                      opacity: opacity,
                     }}
                     className="text-container"
                   >
@@ -766,7 +767,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                       // height: height * child.height2 / scaleY,
                       height: child.height,
                       outline: selected && childId === child._id ? `rgb(1, 159, 182) solid ${outlineWidth}px` : null,
-                      transform: `rotate(${rotateAngle}deg)`
+                      transform: `rotate(${rotateAngle}deg)`,
+                      opacity: opacity,
                     }}
                     className="text-container"
                   >
@@ -1002,7 +1004,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                     display: "inline-block",
                     width: width / scaleX + "px",
                     margin: "0px",
-                    wordBreak: "break-word"
+                    wordBreak: "break-word",
+                    opacity,
                   }}
                 ></div>
                 }
@@ -1082,7 +1085,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                     display: "inline-block",
                     width: width / scaleX + "px",
                     margin: "0px",
-                    wordBreak: "break-word"
+                    wordBreak: "break-word",
+                    opacity,
                   }}
                 ></div>
                 }
@@ -1116,6 +1120,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: height / (src ? 1 : scaleY) + "px",
               position: 'absolute',
               overflow: !this.props.bleed && 'hidden',
+              opacity,
             }} >
             {showImage &&
             <img
@@ -1229,6 +1234,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 height: '100%',
                 transformOrigin: '0 0',
                 outline: cropMode ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
+                opacity,
               }}
             muted loop autoPlay preload="none" width="560" height="320"><source src={src} type="video/webm"/></video>
           </div>

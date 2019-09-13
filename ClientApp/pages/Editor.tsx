@@ -5760,7 +5760,7 @@ handleToolbarResize = e => {
                     width: '100%',
                   }}>
                   <div 
-                    id="myDropdownFontSize-3"
+                    id="myOpacity-3"
                     style={{
                       width: '200px',
                       borderRadius: '5px',
@@ -5772,8 +5772,8 @@ handleToolbarResize = e => {
                         var self = this;
                         const onMove = (e) => {
                           e.preventDefault();
-                          var rec1 = document.getElementById('myDropdownFontSize-3').getBoundingClientRect();
-                          var rec2 = document.getElementById('myDropdownFontSize-3slider');
+                          var rec1 = document.getElementById('myOpacity-3').getBoundingClientRect();
+                          var rec2 = document.getElementById('myOpacity-3slider');
                           var slide = e.pageX - rec1.left;
                           var scale = slide / rec1.width * 100;
                           console.log('scale ', scale, slide, rec1.width);
@@ -5796,7 +5796,7 @@ handleToolbarResize = e => {
                         document.addEventListener('mousemove', onMove);
                         document.addEventListener('mouseup', onUp);
                       }}
-                      id='myDropdownFontSize-3slider'
+                      id='myOpacity-3slider'
                       style={{
                         left: this.state.currentOpacity - 1 + '%',
                         backgroundColor: '#5c5c5f',
