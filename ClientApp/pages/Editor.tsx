@@ -1675,8 +1675,10 @@ html {
     if (this.state.mode === Mode.CreateTextTemplate || this.state.mode == Mode.EditTextTemplate) {
       images = images.map(img => {
         if (img.innerHTML) {
-          img.innerHTML = img.innerHTML.replace('#ffffff', 'black');
-          img.innerHTML = img.innerHTML.replace('rgb(255, 255, 255)', 'black');
+          img.innerHTML = img.innerHTML.replace(/#ffffff/g, 'black');
+          img.innerHTML = img.innerHTML.replace(/rgb(255, 255, 255)/g, 'black');
+
+          console.log('innerHTML ', img.innerHTML);
         }
         return img;
       });
