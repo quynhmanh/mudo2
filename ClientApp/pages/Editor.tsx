@@ -1400,6 +1400,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   downloadVideo = () => {
     document.getElementById("downloadPopup").style.display = "block";
+    document.getElementById("editor").classList.add("popup");
+
     var previousScale = this.state.scale;
     var self = this;
     this.doNoObjectSelected();
@@ -1434,6 +1436,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             );
             self.download(`test.mp4`, response.data);
             document.getElementById("downloadPopup").style.display = "none";
+            document.getElementById("editor").classList.remove("popup");
+
           })
       }
     );
@@ -1441,6 +1445,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   downloadPDF(bleed) {
     document.getElementById("downloadPopup").style.display = "block";
+    document.getElementById("editor").classList.add("popup");
+
     var previousScale = this.state.scale;
     var self = this;
     this.doNoObjectSelected();
@@ -1580,6 +1586,8 @@ html {
             );
             self.download("test.pdf", response.data);
             document.getElementById("downloadPopup").style.display = "none";
+            document.getElementById("editor").classList.remove("popup");
+
           })
       }
     );
@@ -1612,6 +1620,8 @@ html {
 
   async downloadPNG(transparent, png) {
     document.getElementById("downloadPopup").style.display = "block";
+    document.getElementById("editor").classList.add("popup");
+
     var previousScale = this.state.scale;
     var self = this;
     this.doNoObjectSelected();
@@ -1648,6 +1658,7 @@ html {
             self.download(`test.${png ? "png" : "jpeg"}`, response.data);
 
             document.getElementById("downloadPopup").style.display = "none";
+            document.getElementById("editor").classList.remove("popup");
           })
       }
     );
