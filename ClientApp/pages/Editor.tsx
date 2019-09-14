@@ -4377,7 +4377,7 @@ handleToolbarResize = e => {
                           <ImagePicker
                             key={key}
                             color={item.color}
-                            src={item.representativeThumbnail}
+                            src={item.representative}
                             height={imgWidth / (item.width / item.height)}
                             className="text-picker"
                             onPick={this.textOnMouseDown.bind(this, item.id)}
