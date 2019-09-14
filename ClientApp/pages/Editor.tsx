@@ -1788,7 +1788,7 @@ html {
               origin_height: self.state.rectHeight,
               left: 0,
               top: 0,
-              type: mode,
+              type: type,
               scaleX: 1,
               scaleY: 1,
               document_object: images,
