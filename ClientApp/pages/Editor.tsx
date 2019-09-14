@@ -4998,7 +4998,6 @@ handleToolbarResize = e => {
                       position: 'absolute',
                       width: '347px',
                       color: "white",
-                      overflow: "scroll",
                       transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
                       transform: this.state.selectedTab !== SidebarTab.Video && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Video ? 40 : -40}px), 0px)`,
                       top: '10px',
