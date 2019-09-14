@@ -424,12 +424,18 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         var mode;
         if (this.props.match.path == "/editor/design/:template_id") {
           mode = Mode.CreateDesign;
+
+          if (templateType == TemplateType.TextTemplate) {
+            mode = Mode.EditTextTemplate;
+          }
         }
         else if (templateType == TemplateType.Template) {
           mode = Mode.EditTemplate;
         } else if (templateType == TemplateType.TextTemplate) {
           mode = Mode.EditTextTemplate;
         }
+
+        console.log('mode ', mode);
 
         var document = JSON.parse(image.value.document)
         var scaleX = (width - 100) / document.width;
@@ -1729,7 +1735,7 @@ html {
         url = "/api/Template/Update";
       } else if (mode == Mode.CreateTemplate || mode == Mode.CreateTextTemplate) {
         url = "/api/Template/Add";
-      } else if (mode == Mode.EditTemplate) {
+      } else if (mode == Mode.EditTemplate || mode == Mode.EditTextTemplate) {
         url = "/api/Template/Update";
       }
 
