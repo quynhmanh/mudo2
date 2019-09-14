@@ -4505,7 +4505,23 @@ handleToolbarResize = e => {
                       height: '100%',
                     }}
                   >
-                    {
+                                          <input
+                      style={{
+                        zIndex: 11,
+                        width: 'calc(100% - 13px)',
+                        marginBottom: '8px',
+                        border: 'none',
+                        height: '37px',
+                        borderRadius: '6px',
+                        padding: '5px',
+                        fontSize: '13px',
+                        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+                      }}
+                      onKeyDown={this.handleQuery}
+                      type="text"
+                      onChange={(e) => {this.setState({query: e.target.value})}}
+                      value={this.state.query}
+                      />
                       <InfiniteScroll
                       scroll={true}
                       throttle={500}
@@ -4621,7 +4637,6 @@ handleToolbarResize = e => {
                         </div>
                       </div>
                     </InfiniteScroll>
-                    }
                   </div>
                 {/* } */}
                 {/* {this.state.selectedTab === SidebarTab.Background &&  */}
