@@ -3307,6 +3307,9 @@ handleToolbarResize = e => {
               currentGroupedTexts2Height += imgWidth / (currentItem.width / currentItem.height);
             }
           }
+          console.log('res 1', res1);
+          console.log('res 2', res2);
+
           this.setState(state => ({
             groupedTexts: [...state.groupedTexts, ...res1],
             groupedTexts2: [...state.groupedTexts2, ...res2],
@@ -4374,13 +4377,42 @@ handleToolbarResize = e => {
                           <ImagePicker
                             key={key}
                             color={item.color}
-                            src={item.representative}
+                            src={item.representativeThumbnail}
                             height={imgWidth / (item.width / item.height)}
                             className="text-picker"
                             onPick={this.textOnMouseDown.bind(this, item.id)}
                             onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
+                            delay={-1}
                           />
                         ))}
+                        {this.state.hasMoreTextTemplate && Array(1).fill(0).map((item, i) => (
+                        <ImagePicker
+                          key={i}
+                          id="sentinel"
+                          color="black"
+                          src={""}
+                          height={imgWidth}
+                          defaultHeight={imgWidth}
+                          className=""
+                          onPick={this.imgOnMouseDown.bind(this, null)}
+                          onEdit={this.handleEditmedia.bind(this, null)}
+                          delay={0}
+                        />))
+                        }
+                        {this.state.hasMoreTextTemplate && Array(10).fill(0).map((item, i) => (
+                        <ImagePicker
+                          key={i}
+                          id="sentinel"
+                          color="black"
+                          src={""}
+                          height={imgWidth}
+                          defaultHeight={imgWidth}
+                          className=""
+                          onPick={this.imgOnMouseDown.bind(this, null)}
+                          onEdit={this.handleEditmedia.bind(this, null)}
+                          delay={0}
+                        />))
+                        }
                       </div>
                       <div
                         style={{
@@ -4398,6 +4430,34 @@ handleToolbarResize = e => {
                             onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
                           />
                         ))}
+                        {this.state.hasMoreTextTemplate && Array(1).fill(0).map((item, i) => (
+                        <ImagePicker
+                          key={i}
+                          id="sentinel"
+                          color="black"
+                          src={""}
+                          height={imgWidth}
+                          defaultHeight={imgWidth}
+                          className=""
+                          onPick={this.imgOnMouseDown.bind(this, null)}
+                          onEdit={this.handleEditmedia.bind(this, null)}
+                          delay={-1}
+                        />))
+                        }
+                        {this.state.hasMoreTextTemplate && Array(10).fill(0).map((item, i) => (
+                        <ImagePicker
+                          key={i}
+                          id="sentinel"
+                          color="black"
+                          src={""}
+                          height={imgWidth}
+                          defaultHeight={imgWidth}
+                          className=""
+                          onPick={this.imgOnMouseDown.bind(this, null)}
+                          onEdit={this.handleEditmedia.bind(this, null)}
+                          delay={-1}
+                        />))
+                        }
                         </div>
                         {/* <button
                           style={{
