@@ -266,7 +266,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             userUpload2: [],
             currentUserUpload1: 0,
             currentUserUpload2: 0,
-            selectedTab: SidebarTab.Image,
+            selectedTab: SidebarTab.Text,
             rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 0,
             rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 0,
             toolbarOpened: true,
