@@ -1676,7 +1676,7 @@ html {
       images = images.map(img => {
         if (img.innerHTML) {
           img.innerHTML = img.innerHTML.replace(/#ffffff/g, 'black');
-          img.innerHTML = img.innerHTML.replace(/rgb(255, 255, 255)/g, 'black');
+          img.innerHTML = img.innerHTML.replace(/rgb\(255, 255, 255\)/g, 'black');
 
           console.log('innerHTML ', img.innerHTML);
         }
