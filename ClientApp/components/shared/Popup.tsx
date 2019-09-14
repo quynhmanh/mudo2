@@ -10,7 +10,6 @@ export interface IProps {
     handleDownloadPNGTransparent: any;
     handleDownloadPDFWithBleed: any;
     handleDownloadJPG: any;
-    isDownload: boolean;
     showPopup: boolean;
     handleDownloadVideo: any;
   }
