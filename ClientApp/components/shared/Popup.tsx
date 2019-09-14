@@ -22,9 +22,8 @@ export interface IProps {
 class Popup extends PureComponent<IProps, IState> {
   render() {  
         return (  
-           !this.props.showPopup ? null :
-            <PopupWrapper className='popup unblurred'>
-                <PopupWrapperBody />
+            <PopupWrapper style={{display: 'none',}} id="downloadPopup" className='popup unblurred'>
+                { this.props.isDownload && <PopupWrapperBody /> }
                 <div className='popup_inner unblurred' 
                   style={{
                      display: 'flex', 
@@ -83,12 +82,12 @@ class Popup extends PureComponent<IProps, IState> {
       padding: '39px 40px',
       height: '293px',
   }}
-   className="unblurred"><h1 style={{textAlign: 'center'}} className="unblurred">Đang tải</h1>
+   className="unblurred"><h1 style={{textAlign: 'center', fontSize: '20px',}} className="unblurred">Đang tải</h1>
       {/* <Loader className="unblurred" show={true} black={true}/> */}
       <svg
          style={{
-            width: '120px',
-            height: '150px',
+            width: '80px',
+            height: '80px',
             margin: 'auto',
             left: 0,
             right: 0,
@@ -131,8 +130,8 @@ const PopupWrapper = styled.div`
         bottom: 0;  
         margin: auto;  
         background-color: black;
-        width: 300px;
-        height: 317px;
+        width: 200px;
+        height: 200px;
     }
 
     .popup-background {
