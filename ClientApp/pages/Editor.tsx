@@ -1672,7 +1672,7 @@ html {
       images = newImages;
     }
 
-    if (this.state.mode === Mode.CreateTextTemplate) {
+    if (this.state.mode === Mode.CreateTextTemplate || this.state.mode == Mode.EditTextTemplate) {
       images = images.map(img => {
         if (img.innerHTML) {
           img.innerHTML = img.innerHTML.replace('#ffffff', 'black');
