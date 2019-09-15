@@ -5875,7 +5875,7 @@ handleToolbarResize = e => {
                   position: 'absolute',
                   marginTop: '-9px',
                   width: '350px',
-                  padding: '10px',
+                  padding: '10px 20px',
                   background: 'white',
                 }} id="myTransparent" className="dropdown-content-font-size">
                   <p
@@ -5936,7 +5936,7 @@ handleToolbarResize = e => {
                       }}
                       id='myOpacity-3slider'
                       style={{
-                        left: this.state.currentOpacity - 1 + '%',
+                        left: this.state.currentOpacity - 3 + '%',
                         backgroundColor: '#5c5c5f',
                         width: '10px',
                         height: '10px',
