@@ -4021,7 +4021,6 @@ handleToolbarResize = e => {
                   >
                   <div
                     style={{
-                      position: 'relative',
                       zIndex: 123,
                     }}>
                   <InfiniteScroll
@@ -4031,14 +4030,14 @@ handleToolbarResize = e => {
                     isLoading={this.state.isLoading}
                     hasMore={this.state.hasMoreImage}
                     onLoadMore={this.loadMore}
-                    height='calc(100% - 45px)'
+                    marginTop={30}
                     width={imgWidth}
                     refId="sentinel"
                   >
-                    <div id="image-container-picker" style={{display: 'flex', padding: '46px 13px 10px 0px',}}>
+                    <div id="image-container-picker" style={{display: 'flex', padding: '16px 13px 10px 0px',}}>
                     <div
                       style={{
-                        height: "calc(100% - 170px)",
+                        height: "100%",
                         width: '350px',
                         marginRight: '10px',
                       }}
@@ -4487,23 +4486,6 @@ handleToolbarResize = e => {
                       height: '100%',
                     }}
                   >
-                                          <input
-                      style={{
-                        zIndex: 11,
-                        width: 'calc(100% - 13px)',
-                        marginBottom: '8px',
-                        border: 'none',
-                        height: '37px',
-                        borderRadius: '6px',
-                        padding: '5px',
-                        fontSize: '13px',
-                        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
-                      }}
-                      onKeyDown={this.handleQuery}
-                      type="text"
-                      onChange={(e) => {this.setState({query: e.target.value})}}
-                      value={this.state.query}
-                      />
                       <InfiniteScroll
                       scroll={true}
                       throttle={500}
@@ -4511,21 +4493,10 @@ handleToolbarResize = e => {
                       isLoading={this.state.isTemplateLoading}
                       hasMore={this.state.hasMoreTemplate}
                       onLoadMore={this.loadMoreTemplate.bind(this)}
-                      height='100%'
+                      marginTop={30}
                       onEdit={null}
                     >
-                      {/* <input
-                      style={{
-                        width: '100%',
-                        marginBottom: '8px',
-                        border: 'none',
-                        height: '30px',
-                        borderRadius: '6px',
-                        padding: '5px',
-                        fontSize: '13px',
-                      }}
-                      type="text" /> */}
-                      <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
+                      <div id="image-container-picker" style={{display: 'flex', padding: '16px 13px 10px 0px',}}>
                       <div
                         style={{
                           width: '350px',
@@ -4619,6 +4590,25 @@ handleToolbarResize = e => {
                         </div>
                       </div>
                     </InfiniteScroll>
+                    <input
+                      style={{
+                        zIndex: 11,
+                        width: 'calc(100% - 13px)',
+                        marginBottom: '8px',
+                        border: 'none',
+                        height: '37px',
+                        borderRadius: '6px',
+                        padding: '5px',
+                        fontSize: '13px',
+                        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+                        position: 'absolute',
+                        top: 0,
+                      }}
+                      onKeyDown={this.handleQuery}
+                      type="text"
+                      onChange={(e) => {this.setState({query: e.target.value})}}
+                      value={this.state.query}
+                      />
                   </div>
                 {/* } */}
                 {/* {this.state.selectedTab === SidebarTab.Background &&  */}
@@ -5128,6 +5118,7 @@ handleToolbarResize = e => {
                       padding: '10px',
                       borderRadius: '5px',
                       height: '37px',
+                      boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
                     }}
                     onClick={() => {document.getElementById("image-file").click(); }}
                   >Tải lên một video</button>
@@ -5179,7 +5170,7 @@ handleToolbarResize = e => {
                   throttle={100}
                   threshold={0}
                   isLoading={this.state.isUserUploadLoading}
-                  height="calc(100% - 47px)"
+                  marginTop={30}
                   width={93}
                   hasMore={this.state.hasMoreUserUpload}
                   onLoadMore={this.loadmoreUserUpload}
@@ -5192,7 +5183,7 @@ handleToolbarResize = e => {
                     width: '100%',
                   }}
                 >
-                  <div id="image-container-picker" style={{display: 'flex', padding: '46px 13px 10px 0px',}}>
+                  <div id="image-container-picker" style={{display: 'flex', padding: '16px 13px 10px 0px',}}>
                     <div
                       style={{
                         height: "calc(100% - 170px)",
@@ -5295,6 +5286,7 @@ handleToolbarResize = e => {
                       marginBottom: '10px',
                       position: 'absolute',
                       top: 0,
+                      boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
                     }}
                     onClick={() => {document.getElementById("image-file").click(); }}
                   >Tải lên một hình ảnh</button>
