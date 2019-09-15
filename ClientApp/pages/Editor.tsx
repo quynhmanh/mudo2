@@ -4143,7 +4143,7 @@ handleToolbarResize = e => {
                         marginBottom: '8px',
                         border: 'none',
                         height: '37px',
-                        borderRadius: '6px',
+                        borderRadius: '3px',
                         padding: '5px',
                         fontSize: '13px',
                         boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
@@ -4566,7 +4566,7 @@ handleToolbarResize = e => {
                         marginBottom: '8px',
                         border: 'none',
                         height: '37px',
-                        borderRadius: '6px',
+                        borderRadius: '3px',
                         padding: '5px',
                         fontSize: '13px',
                         boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
@@ -5087,7 +5087,7 @@ handleToolbarResize = e => {
                       border: 'none',
                       color: 'black',
                       padding: '10px',
-                      borderRadius: '5px',
+                      borderRadius: '3px',
                       height: '37px',
                       boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
                     }}
@@ -5252,7 +5252,7 @@ handleToolbarResize = e => {
                       border: 'none',
                       color: 'black',
                       padding: '10px',
-                      borderRadius: '5px',
+                      borderRadius: '3px',
                       height: '37px',
                       marginBottom: '10px',
                       position: 'absolute',
@@ -5838,7 +5838,7 @@ handleToolbarResize = e => {
                           padding: '6px',
                           border: 'none',
                           backgroundColor: '#eee',
-                          borderRadius: '6px',
+                          borderRadius: '3px',
                           marginRight: '10px',
                           width: '135px',
                         }}
@@ -5856,7 +5856,7 @@ handleToolbarResize = e => {
                           padding: '6px',
                           border: 'none',
                           backgroundColor: '#eee',
-                          borderRadius: '6px',
+                          borderRadius: '3px',
                           width: '135px',
                         }}
                       onClick={this.backwardSelectedObject}>
