@@ -42,8 +42,6 @@ export interface InfiniteScrollProps {
    */
   component?: any;
 
-  height: string;
-
   scroll: boolean;
 
   loaderBlack: boolean;

@@ -89,7 +89,7 @@ endEditing() {
     setTimeout(() => {
       var res;
       var color;
-      var el = document.getElementById(_id).getElementsByTagName("font")[0];
+      var el:HTMLElement = document.getElementById(_id).getElementsByTagName("font")[0];
       if (!el) {
         el = document.getElementById(_id).getElementsByTagName("span")[0];
       }

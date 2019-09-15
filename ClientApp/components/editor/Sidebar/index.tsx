@@ -16,15 +16,18 @@ function mapEnum (enumerable: EnumType, fn: Function): any[] {
 }
 
 enum SidebarTab {
-    Image = 1,
-    Text = 2,
-    Template = 4,
-    Background = 8,
-    Element = 16,
-    Upload = 32,
-    // RemovedBackgroundImage = 64,
-    Video = 128,
-  }
+  Image = 1,
+  Text = 2,
+  Template = 4,
+  Background = 8,
+  Element = 16,
+  Upload = 32,
+  RemovedBackgroundImage = 64,
+  Video = 128,
+  Font = 248,
+  Color = 496,
+  Emoji = 992,
+}
 
 var SidebarName = [
     "Hình ảnh",

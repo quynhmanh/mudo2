@@ -82,6 +82,87 @@ export interface IProps {
   match: any;
 }
 
+interface ImageObject {
+  _id: string;
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  posX: number;
+  imgHeight: number;
+  posY: number;
+  imgWidth: number;
+  src: string;
+  origin_width: number;
+  origin_height: number;
+  type: TemplateType;
+  scaleX: number;
+  scaleY: number;
+  zIndex: number;
+  page: string;
+  backgroundColor: string;
+  rotateAngle: number;
+  document_object: any;
+  selected: boolean;
+  width2: number;
+  height2: number;
+  ref: any;
+  innerHTML: string;
+  color: string;
+  opacity: number;
+  childId: string;
+}
+
+interface StaticGuide {
+  x: any;
+  y: any;
+}
+
+interface Background {
+  width: number;
+  height: number;
+  _id: string;
+  color: string;
+  representative: string;
+  representativeThumbnail: string;
+}
+
+interface Template {
+  id: string;
+  document: any;
+  fontList: any;
+  color: string;
+  width: number;
+  height: number;
+  representative: string;
+  representativeThumbnail: string;
+}
+
+
+interface GroupedText {
+  id: string;
+  document: any;
+  fontList: any;
+  color: string;
+  representative: string;
+  width: number;
+  height: number;
+}
+
+interface UserUpload {
+  id: string;
+  document: any;
+  fontList: any;
+  color: string;
+  representative: string;
+  width: number;
+  height: number;
+}
+
+interface RemoveImage {
+  representative: string;
+}
+
 interface IState {
   subtype: SubType,
   query: string;
@@ -97,12 +178,12 @@ interface IState {
   isUserUploadLoading: boolean;
   mathjav: any;
   idObjectSelected: string;
-  images: Array<object>;
-  images2: Array<object>;
-  groupedTexts: Array<object>;
-  groupedTexts2: Array<object>;
-  templates: Array<object>;
-  templates2: Array<object>;
+  images: Array<ImageObject>;
+  images2: Array<ImageObject>;
+  groupedTexts: Array<GroupedText>;
+  groupedTexts2: Array<GroupedText>;
+  templates: Array<Template>;
+  templates2: Array<Template>;
   scale: number;
   fitScale: number;
   startX: number;
@@ -121,7 +202,7 @@ interface IState {
   uuid: string;
   templateType: string;
   mode: number,
-  staticGuides: object;
+  staticGuides: StaticGuide;
   deltaX: number;
   deltaY: number;
   editing: boolean;
@@ -155,14 +236,14 @@ interface IState {
   currentTemplatesHeight: number;
   currentTemplate2sHeight: number;
   hasMoreImage: boolean;
-  backgrounds1: Array<object>,
-  backgrounds2: Array<object>,
-  backgrounds3: Array<object>,
+  backgrounds1: Array<Background>,
+  backgrounds2: Array<Background>,
+  backgrounds3: Array<Background>,
   currentBackgroundHeights1: number,
   currentBackgroundHeights2: number,
   currentBackgroundHeights3: number,
-  userUpload1: Array<object>,
-  userUpload2: Array<object>,
+  userUpload1: Array<UserUpload>,
+  userUpload2: Array<UserUpload>,
   currentUserUpload1: number,
   currentUserUpload2: number,
   editingMedia: any;
@@ -172,8 +253,8 @@ interface IState {
   showFontEditPopup: boolean;
   videos: any;
   hasMoreVideos: boolean;
-  removeImages1: Array<object>;
-  removeImages2: Array<object>;
+  removeImages1: Array<RemoveImage>;
+  removeImages2: Array<RemoveImage>;
   currentHeightRemoveImage1: number;
   currentHeightRemoveImage2: number;
   hasMoreBackgrounds: boolean;
@@ -201,118 +282,119 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            hasMoreVideos: true,
-            isRemovedBackgroundLoading: false,
-            currentPrintStep: 1,
-            subtype: null,
-            bleed: false,
-            showMediaEditPopup: false,
-            hasMoreImage: true,
-            hasMoreTemplate: true,
-            hasMoreTextTemplate: true,
-            hasMoreFonts: true,
-            hasMoreBackgrounds: true,
-            totalFonts: 1000000,
-            query: "",
-            currentItemsHeight: 0,
-            currentGroupedTextsHeight: 0,
-            currentTemplatesHeight: 0,
-            items: [],
-            backgrounds1: [],
-            backgrounds2: [],
-            backgrounds3: [],
-            currentItems2Height: 0,
-            currentGroupedTexts2Height:0,
-            currentTemplate2sHeight: 0,
-            items2: [],
-            error: null,
-            cursor: false,
-            mathjav: null,
-            isLoading: false,
-            isTemplateLoading: false,
-            upperZIndex: 1,
-            activePageId: firstpage,
-            pages: [firstpage],
-            numOfPages: 1,
-            updateRect: false,
-            resizingInnerImage: false,
-            childId: null,
-            fontId: "O5mEMMs7UejmI1WeSKWQ",
-            fontName: "images/833bdf3b-7c22-4e79-9b0a-eece6711eacd.png",
-            isSaving: false,
-            showPopup: false,
-            showMediaEditingPopup: false,
-            fontColor: 'black',
-            fontSize: 0,
-            fontsList: [],
-            fonts: ["O5mEMMs7UejmI1WeSKWQ"],
-            unnormalizedImages: [],
-            templateType: null,
-            _id: null,
-            idObjectSelected: null,
-            typeObjectSelected: null,
-            scale: 1,
-            fitScale: 1,
-            startX: 0,
-            startY: 0,
-            images: [
-            ],
-            images2: [],
-            groupedTexts: [],
-            groupedTexts2: [],
-            templates: [],
-            templates2: [],
-            userUpload1: [],
-            userUpload2: [],
-            currentUserUpload1: 0,
-            currentUserUpload2: 0,
-            selectedTab: SidebarTab.Template,
-            rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 500,
-            rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 500,
-            toolbarOpened: true,
-            toolbarSize: 450,
-            scrollX: 16.67,
-            scrollY: 16.67,
-            resizing: false,
-            rotating: false,
-            dragging: false,
-            uuid: "",
-            mode: parseInt(this.props.match.params.mode) ||  Mode.CreateDesign,
-            staticGuides: {
-              x: [],
-              y: [],
-            },
-            deltaX: 0,
-            deltaY: 0,
-            editing: false,
-            canRenderClientSide: false,
-            cropMode: false,
-            currentBackgroundHeights1: 0,
-            currentBackgroundHeights2: 0,
-            currentBackgroundHeights3: 0,
-            editingMedia: null,
-            editingFont: null,
-            showTemplateEditPopup: false,
-            videos: [
-            ],
-            showPrintingSidebar: false,
-            orderStatus: '',
-            downloading: false,
-            imgBackgroundColor: 'white',
-            hasMoreUserUpload: true,
-            isTextTemplateLoading: false,
-            isBackgroundLoading: false,
-            currentHeightRemoveImage1: 0,
-            currentHeightRemoveImage2: 0,
-            hasMoreRemovedBackground: true,
-            removeImages1: [],
-            removeImages2: [],
-            showImageRemovalBackgroundPopup: false,
-            imageIdBackgroundRemoved: null,
-            mounted: false,
-            isUserUploadLoading: false,
-            showZoomPopup: false,
-            currentOpacity: 100,
+          showFontEditPopup: false,
+          hasMoreVideos: true,
+          isRemovedBackgroundLoading: false,
+          currentPrintStep: 1,
+          subtype: null,
+          bleed: false,
+          showMediaEditPopup: false,
+          hasMoreImage: true,
+          hasMoreTemplate: true,
+          hasMoreTextTemplate: true,
+          hasMoreFonts: true,
+          hasMoreBackgrounds: true,
+          totalFonts: 1000000,
+          query: "",
+          currentItemsHeight: 0,
+          currentGroupedTextsHeight: 0,
+          currentTemplatesHeight: 0,
+          items: [],
+          backgrounds1: [],
+          backgrounds2: [],
+          backgrounds3: [],
+          currentItems2Height: 0,
+          currentGroupedTexts2Height:0,
+          currentTemplate2sHeight: 0,
+          items2: [],
+          error: null,
+          cursor: false,
+          mathjav: null,
+          isLoading: false,
+          isTemplateLoading: false,
+          upperZIndex: 1,
+          activePageId: firstpage,
+          pages: [firstpage],
+          numOfPages: 1,
+          updateRect: false,
+          resizingInnerImage: false,
+          childId: null,
+          fontId: "O5mEMMs7UejmI1WeSKWQ",
+          fontName: "images/833bdf3b-7c22-4e79-9b0a-eece6711eacd.png",
+          isSaving: false,
+          showPopup: false,
+          showMediaEditingPopup: false,
+          fontColor: 'black',
+          fontSize: 0,
+          fontsList: [],
+          fonts: ["O5mEMMs7UejmI1WeSKWQ"],
+          unnormalizedImages: [],
+          templateType: null,
+          _id: null,
+          idObjectSelected: null,
+          typeObjectSelected: null,
+          scale: 1,
+          fitScale: 1,
+          startX: 0,
+          startY: 0,
+          images: [
+          ],
+          images2: [],
+          groupedTexts: [],
+          groupedTexts2: [],
+          templates: [],
+          templates2: [],
+          userUpload1: [],
+          userUpload2: [],
+          currentUserUpload1: 0,
+          currentUserUpload2: 0,
+          selectedTab: SidebarTab.Template,
+          rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 500,
+          rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 500,
+          toolbarOpened: true,
+          toolbarSize: 450,
+          scrollX: 16.67,
+          scrollY: 16.67,
+          resizing: false,
+          rotating: false,
+          dragging: false,
+          uuid: "",
+          mode: parseInt(this.props.match.params.mode) ||  Mode.CreateDesign,
+          staticGuides: {
+            x: [],
+            y: [],
+          },
+          deltaX: 0,
+          deltaY: 0,
+          editing: false,
+          canRenderClientSide: false,
+          cropMode: false,
+          currentBackgroundHeights1: 0,
+          currentBackgroundHeights2: 0,
+          currentBackgroundHeights3: 0,
+          editingMedia: null,
+          editingFont: null,
+          showTemplateEditPopup: false,
+          videos: [
+          ],
+          showPrintingSidebar: false,
+          orderStatus: '',
+          downloading: false,
+          imgBackgroundColor: 'white',
+          hasMoreUserUpload: true,
+          isTextTemplateLoading: false,
+          isBackgroundLoading: false,
+          currentHeightRemoveImage1: 0,
+          currentHeightRemoveImage2: 0,
+          hasMoreRemovedBackground: true,
+          removeImages1: [],
+          removeImages2: [],
+          showImageRemovalBackgroundPopup: false,
+          imageIdBackgroundRemoved: null,
+          mounted: false,
+          isUserUploadLoading: false,
+          showZoomPopup: false,
+          currentOpacity: 100,
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -445,11 +527,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           y: [[0,0], [document.height/ 2,0], [document.height,0]],
         }
 
-        // document.document_object = document.document_object.map(obj => {
-        //   obj.page = this.state.activePageId;
-        //   return obj;
-        // })
-
         if (image.value.fontList) {
           var fontList = image.value.fontList.forEach(id => { 
               var style = `@font-face {
@@ -558,6 +635,17 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             zIndex: 1,
             page: firstpage,
             backgroundColor: 'transparent',
+            posX: 0,
+            posY: 0,
+            document_object: [],
+            selected: false,
+            width2: 1,
+            height2: 1,
+            ref: null,
+            innerHTML: null,
+            color: null,
+            opacity: 1,
+            childId: null,
           }
         ]
       });
@@ -1348,7 +1436,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       if (image._id === img._id) {
         scaleY = image.scaleY;
         image.selected = true; 
-        image.fuck = 1;
       } else {
         image.selected = false;
       }
@@ -1359,7 +1446,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var font;
     var fontSize;
     var id = img._id;
-    var el = document.getElementById(img._id).getElementsByTagName("font")[0];
+    var el:HTMLElement = document.getElementById(img._id).getElementsByTagName("font")[0];
     if (!el) {
       el = document.getElementById(img._id).getElementsByTagName("span")[0];
     }
@@ -1705,51 +1792,6 @@ html {
     await setTimeout(async function() {
       var url;
       var _id = self.state._id;
-      // if (_id) {
-      //   url = "/api/Template/Update";
-
-      //   var res = JSON.stringify({
-      //     "Id": _id,
-      //     "CreatedAt": "2014-09-27T18:30:49-0300",
-      //     "CreatedBy": 2,
-      //     "UpdatedAt": "2014-09-27T18:30:49-0300",
-      //     "UpdatedBy": 3,
-      //     Type: self.state.templateType,
-      //     Document: JSON.stringify({
-      //       _id: self.state._id ? self.state._id : uuidv4(),
-      //       width: self.state.rectWidth,
-      //       origin_width: self.state.rectWidth,
-      //       height: self.state.rectHeight,
-      //       origin_height: self.state.rectHeight,
-      //       left: 0,
-      //       top: 0,
-      //       src: "",
-      //       type: self.state.templateType,
-      //       scaleX: 1,
-      //       scaleY: 1,
-      //       document_object: images,
-      //     }),
-      //     "FontList": self.state.fontsList.map(font=> font.id),
-      //     "Width": self.state.rectWidth,
-      //     "Height": self.state.rectHeight,
-      //     "Pages": self.state.pages,
-      //     "Representative": rep ? rep : `images/${uuidv4()}.png`,
-      //     "Representative2": `images/${uuidv4()}.png`,
-      //   });
-
-      //   axios.post(url, res, {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     }
-      //   })
-      //   .then(res => {
-      //     self.setState({isSaving: false})
-      //   })
-      //   .catch(res => {
-      //   })
-
-      //   return;
-      // }
 
       if (mode == Mode.CreateDesign) {
         url = "/api/Template/Update";
@@ -2152,23 +2194,10 @@ html {
               document.zIndex = this.state.upperZIndex + 1;
               document.width = rec2.width / self.state.scale;
               document.height = rec2.height / self.state.scale;
-              // document.width = rec2.width;
-              // document.height = rec2.height;
-              // document.origin_width = document.width / document.scaleX;
-              // document.origin_height = document.height / document.scaleY;
               document.scaleX = document.width / document.origin_width;
               document.scaleY = document.height / document.origin_height;
               document.left = (rec2.left - rec.left) / self.state.scale;
               document.top = (rec2.top - rectTop) / self.state.scale;
-              // document.scaleX = rec2.width / this.state.rectWidth;
-              // document.scaleY = rec2.height / this.state.rectHeight;
-              // document.scaleX = 1;
-              // document.scaleY = 1;
-              // document.document_object = document.document.map(obj => {
-              //   // obj.childId = uuidv4();
-              //   // obj._id = uuidv4();
-              //   return obj;
-              // })
 
               let images = [...this.state.images, document];
 
@@ -2249,6 +2278,15 @@ html {
       imgHeight: height,
       page: this.state.activePageId,
       zIndex: 1,
+      width2: 1,
+      height2: 1,
+      document_object: [],
+      ref: null,
+      innerHTML: null,
+      color: null,
+      opacity: 1,
+      backgroundColor: null,
+      childId: null,
     });
 
     this.setState({ images });
@@ -2285,10 +2323,6 @@ html {
 
           beingInScreenContainer = true;
 
-          // target.style.width = (rec2.width * self.state.scale) + 'px';
-          // target.style.height = (rec2.height * self.state.scale) + 'px';
-          // target.style.transitionDuration = '0.05s';
-
           setTimeout(() => {
             target.style.transitionDuration = '';
           }, 50);
@@ -2301,10 +2335,6 @@ html {
             recScreenContainer.bottom > rec2.bottom)
         ) {
           beingInScreenContainer = false;
-
-          // target.style.width = (rec2.width / self.state.scale) + 'px';
-          // target.style.height = (rec2.height / self.state.scale) + 'px';
-          // target.style.transitionDuration = '0.05s';
 
           setTimeout(() => {
             target.style.transitionDuration = '';
@@ -2353,6 +2383,15 @@ html {
             imgHeight: (rec2.height / self.state.scale),
             page: this.state.pages[i],
             zIndex: this.state.upperZIndex + 1,
+            backgroundColor: 'none',
+            document_object: [],
+            width2: 1,
+            height2: 1,
+            ref: null,
+            innerHTML: null,
+            color: null,
+            opacity: 1,
+            childId: null,
           });
 
           self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
@@ -2464,6 +2503,14 @@ html {
             imgHeight: (rec2.height / self.state.scale),
             page: this.state.pages[i],
             zIndex: this.state.upperZIndex + 1,
+            document_object: [],
+            width2: 1,
+            height2: 1,
+            ref: null,
+            innerHTML: null,
+            color: null,
+            opacity: 1,
+            childId: null,
           });
 
           self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
@@ -2944,7 +2991,7 @@ handleToolbarResize = e => {
     var defaultColor = 'black';
     var font;
     var fontSize;
-    var el = document.getElementById(childId).getElementsByTagName("font")[0];
+    var el:HTMLElement = document.getElementById(childId).getElementsByTagName("font")[0];
     if (!el) {
       el = document.getElementById(childId).getElementsByTagName("span")[0];
     }
@@ -3623,6 +3670,11 @@ handleToolbarResize = e => {
                       >
                     {this.state.backgrounds1.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        defaultHeight={93 / (item.width / item.height)}
+                        width={0}
+                        delay={0}
+                        id={item._id}
                         key={key}
                         color={item.color}
                         src={item.representative}
@@ -3640,6 +3692,11 @@ handleToolbarResize = e => {
                       >
                     {this.state.backgrounds2.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        defaultHeight={93 / (item.width / item.height)}
+                        width={0}
+                        delay={0}
+                        id={item._id}
                         key={key}
                         color={item.color}
                         src={item.representative}
@@ -3657,9 +3714,14 @@ handleToolbarResize = e => {
                       >
                     {this.state.backgrounds3.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        defaultHeight={93 / (item.width / item.height)}
+                        width={0}
+                        delay={0}
+                        id={item._id}
                         key={key}
                         color={item.color}
-                        src={}
+                        src={item.representative}
                         height={93 / (item.width / item.height)} 
                         onPick={this.backgroundOnMouseDown.bind(this)}
                         onEdit={this.handleEditmedia.bind(this, item)}
@@ -3776,7 +3838,7 @@ handleToolbarResize = e => {
               }
           <button
             onClick={this.handleDownloadList}
-            href="#" style={{
+            style={{
             float: 'right',
             color: 'white',
             marginTop: '4px',
@@ -4031,9 +4093,8 @@ handleToolbarResize = e => {
                     threshold={300}
                     isLoading={this.state.isLoading}
                     hasMore={this.state.hasMoreImage}
-                    onLoadMore={this.loadMore}
+                    onLoadMore={this.loadMore.bind(false)}
                     marginTop={30}
-                    width={imgWidth}
                     refId="sentinel"
                   >
                     <div id="image-container-picker" style={{display: 'flex', padding: '16px 13px 10px 0px',}}>
@@ -4046,10 +4107,12 @@ handleToolbarResize = e => {
                     >
                       {this.state.items.map((item, key) => (
                         <ImagePicker
+                          id={item._id}
                           key={key}
                           color={item.color}
                           src={item.representativeThumbnail}
                           height={imgWidth / (item.width / item.height)}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className="image-picker"
                           onPick={this.imgOnMouseDown.bind(this, item)}
@@ -4063,6 +4126,7 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
+                        width={imgWidth}
                         height={imgWidth}
                         defaultHeight={imgWidth}
                         className=""
@@ -4077,6 +4141,7 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
+                        width={imgWidth}
                         height={imgWidth}
                         defaultHeight={imgWidth}
                         className=""
@@ -4094,9 +4159,11 @@ handleToolbarResize = e => {
                     >
                       {this.state.items2.map((item, key) => (
                         <ImagePicker
+                          id={item._id}
                           key={key}
                           color={item.color}
                           src={item.representativeThumbnail}
+                          width={imgWidth}
                           height={imgWidth / (item.width / item.height)}
                           defaultHeight={imgWidth}
                           className="image-picker"
@@ -4111,6 +4178,7 @@ handleToolbarResize = e => {
                         id="sentinel"
                         color="black"
                         src={""}
+                        width={imgWidth}
                         height={imgWidth}
                         defaultHeight={imgWidth}
                         className=""
@@ -4126,6 +4194,7 @@ handleToolbarResize = e => {
                         color="black"
                         src={""}
                         height={imgWidth}
+                        width={imgWidth}
                         defaultHeight={imgWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4211,6 +4280,18 @@ handleToolbarResize = e => {
                             ref: this.state.idObjectSelected,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
+                            width2: 1,
+                            height2: 1,
+                            document_object: [],
+                            color: null,
+                            opacity: 1,
+                            backgroundColor: null,
+                            posX: 0,
+                            posY: 0,
+                            imgHeight: 0,
+                            imgWidth: 0,
+                            src: null,
+                            childId: null,
                           });
 
                           this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
@@ -4255,6 +4336,18 @@ handleToolbarResize = e => {
                             ref: this.state.idObjectSelected,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
+                            backgroundColor: 'none',
+                            document_object: [],
+                            width2: 1,
+                            height2: 1,
+                            color: null,
+                            opacity: 1,
+                            childId: null,
+                            posX: 0,
+                            posY: 0,
+                            imgWidth: 0,
+                            imgHeight: 0,
+                            src: null,
                           });
 
                           this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
@@ -4287,6 +4380,20 @@ handleToolbarResize = e => {
                             scaleY: scale,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
+                            backgroundColor: 'none',
+                            document_object: [],
+                            width2: 1,
+                            height2: 1,
+                            ref: null,
+                            color: null,
+                            opacity: 1,
+                            childId: null,
+                            posX: 0,
+                            posY: 0,
+                            imgWidth: 0,
+                            imgHeight: 0,
+                            src: null,
+                            selected: false,
                           });
 
                           this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
@@ -4320,6 +4427,20 @@ handleToolbarResize = e => {
                             scaleY: scale,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
+                            backgroundColor: 'none',
+                            document_object: [],
+                            width2: 1,
+                            height2: 1,
+                            ref: null,
+                            color: null,
+                            opacity: 1,
+                            childId: null,
+                            posX: 0,
+                            posY: 0,
+                            imgWidth: 0,
+                            imgHeight: 0,
+                            src: null,
+                            selected: false,
                           });
 
                           this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
@@ -4336,7 +4457,7 @@ handleToolbarResize = e => {
                       threshold={300}
                       isLoading={this.state.isTemplateLoading}
                       hasMore={this.state.hasMoreTextTemplate}
-                      onLoadMore={this.loadMoreTextTemplate}
+                      onLoadMore={this.loadMoreTextTemplate.bind(this, false)}
                       height='calc(100% - 180px)'
                       refId="sentinel"
                       marginTop={0}
@@ -4350,10 +4471,13 @@ handleToolbarResize = e => {
                       >
                         {this.state.groupedTexts.map((item, key) => (
                           <ImagePicker
+                            id=""
+                            defaultHeight={imgWidth}
                             key={key}
                             color={item.color}
                             src={item.representative}
                             height={imgWidth / (item.width / item.height)}
+                            width={imgWidth}
                             className="text-picker"
                             onPick={this.textOnMouseDown.bind(this, item.id)}
                             onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
@@ -4367,6 +4491,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={imgWidth}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4381,6 +4506,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={imgWidth}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4396,10 +4522,14 @@ handleToolbarResize = e => {
                       >
                         {this.state.groupedTexts2.map((item, key) => (
                           <ImagePicker
+                            id=""
                             key={key}
                             color={item.color}
                             className="text-picker"
                             height={imgWidth / (item.width / item.height)}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            delay={0}
                             src={item.representative}
                             onPick={this.textOnMouseDown.bind(this, item.id)}
                             onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
@@ -4412,6 +4542,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={imgWidth}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4426,6 +4557,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={imgWidth}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4460,7 +4592,7 @@ handleToolbarResize = e => {
                       threshold={300}
                       isLoading={this.state.isTemplateLoading}
                       hasMore={this.state.hasMoreTemplate}
-                      onLoadMore={this.loadMoreTemplate.bind(this)}
+                      onLoadMore={this.loadMoreTemplate.bind(this, false)}
                       marginTop={30}
                       onEdit={null}
                       refId="sentinel"
@@ -4478,6 +4610,10 @@ handleToolbarResize = e => {
                             color={item.color}
                             src={item.representative}
                             height={imgWidth / (item.width / item.height)}
+                            defaultHeight={imgWidth}
+                            width={imgWidth}
+                            id={""}
+                            delay={0}
                             className="template-picker"
                             onPick={this.templateOnMouseDown.bind(this, item.id)}
                             onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
@@ -4490,6 +4626,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={imgWidth}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4504,6 +4641,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={imgWidth}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4519,10 +4657,14 @@ handleToolbarResize = e => {
                       >
                         {this.state.templates2.map((item, key) => (
                           <ImagePicker
+                            id=""
                             key={key}
                             color={item.color}
                             className="template-picker"
                             height={imgWidth / (item.width / item.height)}
+                            defaultHeight={imgWidth}
+                            width={imgWidth}
+                            delay={0}
                             src={item.representative}
                             onPick={this.templateOnMouseDown.bind(this, item.id)}
                             onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
@@ -4535,6 +4677,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={imgWidth}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4549,6 +4692,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={imgWidth}
+                          width={imgWidth}
                           defaultHeight={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4600,10 +4744,8 @@ handleToolbarResize = e => {
                   throttle={100}
                   threshold={0}
                   isLoading={this.state.isBackgroundLoading}
-                  height="100%"
-                  width={93}
                   hasMore={this.state.hasMoreBackgrounds}
-                  onLoadMore={this.loadMoreBackground}
+                  onLoadMore={this.loadMoreBackground.bind(this, false)}
                   refId="sentinel"
                 >
                   <div
@@ -4621,6 +4763,8 @@ handleToolbarResize = e => {
                       >
                     {this.state.backgrounds1.map((item, key) => (
                       <ImagePicker
+                        id=""
+                        width={backgroundWidth}
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
@@ -4639,6 +4783,7 @@ handleToolbarResize = e => {
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4653,6 +4798,7 @@ handleToolbarResize = e => {
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4669,10 +4815,12 @@ handleToolbarResize = e => {
                       >
                     {this.state.backgrounds2.map((item, key) => (
                       <ImagePicker
+                        id=""
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
                         height={backgroundWidth / (item.width / item.height)}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
@@ -4681,12 +4829,13 @@ handleToolbarResize = e => {
                       />
                     ))}
                       {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
-<ImagePicker
+                      <ImagePicker
                         key={i}
                         id="sentinel"
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4695,12 +4844,13 @@ handleToolbarResize = e => {
                       />))
                       }
                       {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
-<ImagePicker
+                      <ImagePicker
                         key={i}
                         id="sentinel"
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4716,6 +4866,9 @@ handleToolbarResize = e => {
                       >
                     {this.state.backgrounds3.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        width={backgroundWidth}
+                        id=""
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
@@ -4727,12 +4880,13 @@ handleToolbarResize = e => {
                       />
                     ))}
                       {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
-<ImagePicker
+                      <ImagePicker
                         key={i}
                         id="sentinel"
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4741,12 +4895,13 @@ handleToolbarResize = e => {
                       />))
                       }
                       {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
-<ImagePicker
+                      <ImagePicker
                         key={i}
                         id="sentinel"
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -4758,8 +4913,6 @@ handleToolbarResize = e => {
                   </div>
                 </InfiniteScroll>
                 </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.Font && ( */}
                   <div
                     style={{
                       opacity: this.state.selectedTab === SidebarTab.Font ? 1 : 0,
@@ -4774,29 +4927,7 @@ handleToolbarResize = e => {
                       height: '100%',
                     }}
                   >
-                    <div
-                    style={{
-                    }}>
-                      
-                    {/* {
-                      this.state.fontsList.map(font => 
-                        <a 
-                          className="font-picker"
-                          style={{
-                            display: "flex",
-                          }} 
-                          href="#" 
-                          onClick={this.selectFont.bind(this, font.id)}><img 
-                          style={{
-                            height: '25px',
-                            margin: 'auto',
-                          }} src={font.representative} />
-                          {this.state.fontId === font.id ? <span style={{float: 'right', width: '25px', height: '25px', position: 'absolute', right: '10px'}}><svg style={{fill: 'white'}} version="1.1" viewBox="0 0 44 44" enable-background="new 0 0 44 44">
-  <path d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"/>
-</svg></span> : null}
-                          </a>
-                      )
-                    } */}
+                    <div>
                     <div
                       style={{
                         height: '100%',
@@ -4807,8 +4938,9 @@ handleToolbarResize = e => {
                     threshold={300}
                     isLoading={false}
                     hasMore={this.state.hasMoreFonts}
-                    onLoadMore={this.loadMoreFont}
-                    height='100%'
+                    onLoadMore={this.loadMoreFont.bind(this, false)}
+                    refId=""
+                    marginTop={0}
                   >
                     <div id="image-container-picker">
                     <div
@@ -4930,8 +5062,6 @@ handleToolbarResize = e => {
                     </ul>
                     </div>
                   </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.RemovedBackgroundImage &&  */}
                 <div
                     style={{
                       opacity: this.state.selectedTab === SidebarTab.RemovedBackgroundImage ? 1 : 0,
@@ -4952,8 +5082,7 @@ handleToolbarResize = e => {
                   threshold={300}
                   isLoading={this.state.isRemovedBackgroundLoading}
                   hasMore={this.state.hasMoreRemovedBackground}
-                  onLoadMore={this.loadMoreRemovedBackgroundImage}
-                  height='calc(100% - 55px)'
+                  onLoadMore={this.loadMoreRemovedBackgroundImage.bind(this, false)}
                 >
                   <div
                   style={{
@@ -4988,6 +5117,13 @@ handleToolbarResize = e => {
                       >
                     {this.state.removeImages1.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        height={null}
+                        defaultHeight={null}
+                        width={null}
+                        color={null}
+                        id=""
+                        delay={0}
                         key={key}
                         src={item.representative}
                         onPick={this.imgOnMouseDown.bind(this, item)}
@@ -5003,6 +5139,13 @@ handleToolbarResize = e => {
                       >
                     {this.state.removeImages2.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        height={null}
+                        defaultHeight={null}
+                        width={null}
+                        color={null}
+                        id=""
+                        delay={0}
                         key={key}
                         src={item.representative}
                         onPick={this.imgOnMouseDown.bind(this, item)}
@@ -5142,9 +5285,8 @@ handleToolbarResize = e => {
                   threshold={0}
                   isLoading={this.state.isUserUploadLoading}
                   marginTop={30}
-                  width={93}
                   hasMore={this.state.hasMoreUserUpload}
-                  onLoadMore={this.loadmoreUserUpload}
+                  onLoadMore={this.loadmoreUserUpload.bind(this, false)}
                   refId="sentinel"
                 >
                   <div
@@ -5164,7 +5306,13 @@ handleToolbarResize = e => {
                     >
                     {this.state.userUpload1.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        defaultHeight={imgWidth}
+                        color=""
                         height={imgWidth / (item.width / item.height)}
+                        width={imgWidth}
+                        id=""
+                        delay={0}
                         key={key}
                         src={item.representative}
                         onPick={this.imgOnMouseDown.bind(this, item)}
@@ -5172,12 +5320,13 @@ handleToolbarResize = e => {
                       />
                     ))}
                     {this.state.hasMoreUserUpload && Array(1).fill(0).map((item, i) => (
-<ImagePicker
+                      <ImagePicker
                         key={i}
                         id="sentinel"
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -5186,12 +5335,13 @@ handleToolbarResize = e => {
                       />))
                       }
                       {this.state.hasMoreUserUpload && Array(10).fill(0).map((item, i) => (
-<ImagePicker
+                      <ImagePicker
                         key={i}
                         id="sentinel"
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -5207,7 +5357,13 @@ handleToolbarResize = e => {
                       >
                     {this.state.userUpload2.map((item, key) => (
                       <ImagePicker
+                        id=""
+                        delay={0}
+                        className=""
+                        width={imgWidth}
+                        color=""
                         height={imgWidth / (item.width / item.height)}
+                        defaultHeight={imgWidth}
                         key={key}
                         src={item.representative}
                         onPick={this.imgOnMouseDown.bind(this, item)}
@@ -5220,6 +5376,7 @@ handleToolbarResize = e => {
                           color="black"
                           src={""}
                           height={backgroundWidth}
+                          width={backgroundWidth}
                           defaultHeight={backgroundWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, null)}
@@ -5234,6 +5391,7 @@ handleToolbarResize = e => {
                         color="black"
                         src={""}
                         height={backgroundWidth}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         className=""
                         onPick={this.imgOnMouseDown.bind(this, null)}
@@ -5612,7 +5770,6 @@ handleToolbarResize = e => {
                   <div 
                     id="myDropdownFontSize-2"
                     style={{
-                      width: '200px',
                       borderRadius: '5px',
                       width: '100%',
                     }}>
@@ -5900,7 +6057,6 @@ handleToolbarResize = e => {
                   <div 
                     id="myOpacity-3"
                     style={{
-                      width: '200px',
                       borderRadius: '5px',
                       width: '100%',
                     }}>
@@ -5991,7 +6147,7 @@ handleToolbarResize = e => {
                 }
               }}
             >
-              {this.renderCanvas()}
+              {this.renderCanvas(false, 0)}
             </div>
             <div
               style={{
@@ -6004,46 +6160,46 @@ handleToolbarResize = e => {
               {this.state.showZoomPopup &&
               <div style={{
               }}>
-                <ul style={{borderRadius: '5px', padding: '5px', listStyle: 'none', marginBottom: '5px', background: '#293039',}} class="zoomPercentPanel___2ZfEJ">
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 3, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_300" data-subcateg="bottomPanel">300%</button>
+                <ul style={{borderRadius: '5px', padding: '5px', listStyle: 'none', marginBottom: '5px', background: '#293039',}} className="zoomPercentPanel___2ZfEJ">
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 3, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_300" data-subcateg="bottomPanel">300%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 2, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_200" data-subcateg="bottomPanel">200%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 2, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_200" data-subcateg="bottomPanel">200%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 1.75, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_175" data-subcateg="bottomPanel">175%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 1.75, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_175" data-subcateg="bottomPanel">175%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 1.5, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_150" data-subcateg="bottomPanel">150%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 1.5, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_150" data-subcateg="bottomPanel">150%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 1.25, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_125" data-subcateg="bottomPanel">125%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 1.25, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_125" data-subcateg="bottomPanel">125%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 1, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_100" data-subcateg="bottomPanel">100%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 1, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_100" data-subcateg="bottomPanel">100%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 0.75, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_75" data-subcateg="bottomPanel">75%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 0.75, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_75" data-subcateg="bottomPanel">75%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 0.5, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_50" data-subcateg="bottomPanel">50%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 0.5, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_50" data-subcateg="bottomPanel">50%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 0.25, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_25" data-subcateg="bottomPanel">25%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 0.25, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_25" data-subcateg="bottomPanel">25%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: 0.1, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_10" data-subcateg="bottomPanel">10%</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: 0.1, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w" data-categ="tools" data-value="scalePercent_10" data-subcateg="bottomPanel">10%</button>
     </li>
-    <li class="zoomPercentPanelItem___29ZfQ">
-        <button onClick={(e) => {this.setState({scale: this.state.fitScale, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} class="scaleListButton___GEm7w scaleListButtonActive___2GxqI" data-categ="tools" data-value="scaleToFit" data-subcateg="bottomPanel">Fit</button>
+    <li className="zoomPercentPanelItem___29ZfQ">
+        <button onClick={(e) => {this.setState({scale: this.state.fitScale, showZoomPopup: false,})}} style={{width: '100%', color: 'white', border: 'none'}} className="scaleListButton___GEm7w scaleListButtonActive___2GxqI" data-categ="tools" data-value="scaleToFit" data-subcateg="bottomPanel">Fit</button>
     </li>
 </ul>
               </div>
               }
 
-                <div class="workSpaceBottomPanel___73_jE" data-bubble="false">
-    <div class="workSpaceButtons___f6jkZ">
+                <div className="workSpaceBottomPanel___73_jE" data-bubble="false">
+    <div className="workSpaceButtons___f6jkZ">
         <div style={{
             display: 'flex', 
             flexDirection: 'row',
@@ -6052,18 +6208,18 @@ handleToolbarResize = e => {
             padding: '5px',
             borderRadius: '5px',
           }} 
-            class="zoom___21DG8">
+          className="zoom___21DG8">
             <button onClick={(e) => { 
               if (this.state.scale - 0.15 > 0.2) {
                 this.setState({scale: this.state.scale - 0.15})};
               }
-            } style={{border: 'none', background: 'transparent'}} class="zoomMinus___1Ooi5" data-test="zoomMinus" data-categ="tools" data-value="zoomOut" data-subcateg="bottomPanel">
-                <svg viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
+            } style={{border: 'none', background: 'transparent'}} className="zoomMinus___1Ooi5" data-test="zoomMinus" data-categ="tools" data-value="zoomOut" data-subcateg="bottomPanel">
+                <svg viewBox="0 0 18 18" width="18" height="18" className="zoomSvg___1IAZj">
                     <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
                     <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
                 </svg>
             </button>
-            <div class="zoomPercent___3286Z">
+            <div className="zoomPercent___3286Z">
                 <button onClick={
                   (e) => {
                     var self = this;
@@ -6075,10 +6231,10 @@ handleToolbarResize = e => {
                     document.addEventListener("click", onDownload);
                   }
                 } 
-                style={{color: 'white', border: 'none', background: 'transparent', width: '50px'}} class="scaleListButton___GEm7w zoomMain___1z1vk" data-zoom="true" data-categ="tools" data-value="zoomPanelOpen" data-subcateg="bottomPanel">{Math.round(this.state.scale * 100)}%</button>
+                style={{color: 'white', border: 'none', background: 'transparent', width: '50px'}} className="scaleListButton___GEm7w zoomMain___1z1vk" data-zoom="true" data-categ="tools" data-value="zoomPanelOpen" data-subcateg="bottomPanel">{Math.round(this.state.scale * 100)}%</button>
             </div>
-            <button onClick={(e) => {this.setState({scale: this.state.scale + 0.15})}} style={{border: 'none', background: 'transparent'}} class="zoomPlus___1TbHD" data-test="zoomPlus" data-categ="tools" data-value="zoomIn" data-subcateg="bottomPanel">
-                <svg viewBox="0 0 18 18" width="18" height="18" class="zoomSvg___1IAZj">
+            <button onClick={(e) => {this.setState({scale: this.state.scale + 0.15})}} style={{border: 'none', background: 'transparent'}} className="zoomPlus___1TbHD" data-test="zoomPlus" data-categ="tools" data-value="zoomIn" data-subcateg="bottomPanel">
+                <svg viewBox="0 0 18 18" width="18" height="18" className="zoomSvg___1IAZj">
                     <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM13,13h0a7,7,0,1,1,2.09-5A7,7,0,0,1,13,13Z"></path>
                     <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
                 </svg>
@@ -6120,9 +6276,7 @@ handleToolbarResize = e => {
             <span>3</span>
           </span>
         </span>
-        {/* <span style={{marginRight: '5px',}} className="_2JPeE-06cfszm35uzXEvgC _2JAh8PyNfcg1Kun3J3uV1C">
-          <span className="_2EacSGMxQyBD7pSwvfkZz3 _3l4uYr79jSRjggcw5QCp88" style={{justifyContent: 'center', alignItems: 'center', display: 'flex', width: '20px', height: '20px', borderRadius: '50%', border: '12px solid transparent',backgroundColor: this.state.currentPrintStep >= 4 ? '#6bca2c' : 'rgba(14,19,24,.45)', }}>
-            <span>4</span></span></span> */}
+
     </div>
     <button
       style={{
@@ -6294,7 +6448,7 @@ handleToolbarResize = e => {
         <label className="_1lAKgn_4JnKMAytI-mxfqp">
           <p>Country</p>
           <div className="_3Tk7vFk3XB74DSjc-X114e fs-hide">
-            <div className>
+            <div>
               <button type="button" className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf"><span className="_11gYYV-YiJb7npRdslKTJX">  <div className="_16jC4NpI5ci7-HVASqeSUU">Singapore</div><span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z" /></svg></span></span>
               </button>
             </div>
