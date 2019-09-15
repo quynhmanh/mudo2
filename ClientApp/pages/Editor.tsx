@@ -3230,6 +3230,7 @@ handleToolbarResize = e => {
   }
 
   loadMoreTemplate = (initalLoad, subtype) => {
+    console.log('loadmoreTemplate' );
     let pageId;
     let count;
     if (initalLoad) {
@@ -4327,6 +4328,7 @@ handleToolbarResize = e => {
                       </div>
                     </div>
                     {
+                      <div style={{height: 'calc(100% - 180px)'}}>
                       <InfiniteScroll
                       scroll={true}
                       throttle={500}
@@ -4335,18 +4337,9 @@ handleToolbarResize = e => {
                       hasMore={this.state.hasMoreTextTemplate}
                       onLoadMore={this.loadMoreTextTemplate}
                       height='calc(100% - 180px)'
+                      refId="sentinel"
+                      marginTop={0}
                     >
-                      {/* <input
-                      style={{
-                        width: '100%',
-                        marginBottom: '8px',
-                        border: 'none',
-                        height: '30px',
-                        borderRadius: '6px',
-                        padding: '5px',
-                        fontSize: '13px',
-                      }}
-                      type="text" /> */}
                       <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
                       <div
                         style={{
@@ -4440,35 +4433,9 @@ handleToolbarResize = e => {
                         />))
                         }
                         </div>
-                        {/* <button
-                          style={{
-                            position: 'absolute',
-                            right: 0,
-                          }}
-                          onClick={this.handleRemoveAllMedia.bind(this, "Template")}
-                        >Remove</button> */}
-                      {/* <div
-                        id="image-container-picker"
-                        style={{
-                          // display: "flex",
-                          overflow: "scroll",
-                          // height: '200px',
-                          height: "100%",
-                          width: '350px',
-                          paddingLeft: '5px',
-                        }}
-                      >
-                        {this.state.items.map((item, key) => (
-                          <ImagePicker
-                            key={key}
-                            className=""
-                            src={item.urls.small}
-                            onPick={this.imgOnMouseDown.bind(this)}
-                          />
-                        ))}
-                      </div> */}
                       </div>
                     </InfiniteScroll>
+                    </div>
                     }
                   </div>
                   </div>
@@ -4495,6 +4462,7 @@ handleToolbarResize = e => {
                       onLoadMore={this.loadMoreTemplate.bind(this)}
                       marginTop={30}
                       onEdit={null}
+                      refId="sentinel"
                     >
                       <div id="image-container-picker" style={{display: 'flex', padding: '16px 13px 10px 0px',}}>
                       <div
