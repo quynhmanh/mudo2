@@ -3690,6 +3690,7 @@ handleToolbarResize = e => {
     ];
 
     return (
+      <div>
       <div
         id="editor"
         style={{ display: "flex", flexDirection: "column", height: "100%" }}
@@ -6344,18 +6345,6 @@ handleToolbarResize = e => {
         </div>
         }
         </div>
-        
-              <Popup  
-                showPopup={this.state.showPopup}
-                text='Click "Close Button" to hide popup'  
-                handleDownloadPDF={this.downloadPDF.bind(this, false)}
-                handleDownloadJPG={this.downloadPNG.bind(this, false, false)}
-                handleDownloadPNGTransparent={this.downloadPNG.bind(this, true, true)}
-                handleDownloadPNG={this.downloadPNG.bind(this, false, true)}
-                handleDownloadPDFWithBleed={this.downloadPDF.bind(this, true)}
-                handleDownloadVideo={this.downloadVideo.bind(this)}
-                closePopup={() => {this.setState({showPopup: false})}}  
-              />  
         {this.state.showMediaEditPopup ? 
           <MediaEditPopup
           item={this.state.editingMedia}
@@ -6382,6 +6371,18 @@ handleToolbarResize = e => {
           />
         }
       </div>
+      <Popup  
+      showPopup={this.state.showPopup}
+      text='Click "Close Button" to hide popup'  
+      handleDownloadPDF={this.downloadPDF.bind(this, false)}
+      handleDownloadJPG={this.downloadPNG.bind(this, false, false)}
+      handleDownloadPNGTransparent={this.downloadPNG.bind(this, true, true)}
+      handleDownloadPNG={this.downloadPNG.bind(this, false, true)}
+      handleDownloadPDFWithBleed={this.downloadPDF.bind(this, true)}
+      handleDownloadVideo={this.downloadVideo.bind(this)}
+      closePopup={() => {this.setState({showPopup: false})}}  
+    /> 
+    </div>
     );
   }
 }
