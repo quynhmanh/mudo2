@@ -5202,6 +5202,7 @@ handleToolbarResize = e => {
                     >
                     {this.state.userUpload1.map((item, key) => (
                       <ImagePicker
+                        height={imgWidth / (item.width / item.height)}
                         key={key}
                         src={item.representative}
                         onPick={this.imgOnMouseDown.bind(this, item)}
@@ -5244,6 +5245,7 @@ handleToolbarResize = e => {
                       >
                     {this.state.userUpload2.map((item, key) => (
                       <ImagePicker
+                        height={imgWidth / (item.width / item.height)}
                         key={key}
                         src={item.representative}
                         onPick={this.imgOnMouseDown.bind(this, item)}
