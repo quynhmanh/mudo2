@@ -3846,7 +3846,7 @@ handleToolbarResize = e => {
                       </button></li>
                       <li
                       ><button
-                      onClick={this.downloadPDF.bind(this, true)}
+                      onClick={this.downloadPDF.bind(this, false)}
                       style={{
                         width: '100%',
                         border: 'none',
@@ -3863,7 +3863,7 @@ handleToolbarResize = e => {
                         </button></li>
                       <li
                       ><button
-                      onClick={this.downloadPDF.bind(this, false)}
+                      onClick={this.downloadPDF.bind(this, true)}
                       style={{
                         width: '100%',
                         border: 'none',
