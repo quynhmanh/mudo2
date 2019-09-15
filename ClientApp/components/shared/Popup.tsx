@@ -73,7 +73,7 @@ const PopupWrapper = styled.div`
     right: 0;  
     bottom: 0;  
     margin: auto;  
-    background-color: rgba(14,19,24,.45);
+    background-color: rgba(14,19,24,.3);
 
     .popup_inner {  
         position: fixed;  
@@ -94,11 +94,11 @@ const PopupWrapper = styled.div`
 
 const PopupWrapperBody = createGlobalStyle`
     #editor.popup {
-        -webkit-filter: blur(2px);
-        -moz-filter: blur(2px);
-        -o-filter: blur(2px);
-        -ms-filter: blur(2px);
-        filter: blur(2px);    
+        -webkit-filter: blur(5px);
+        -moz-filter: blur(5px);
+        -o-filter: blur(5px);
+        -ms-filter: blur(5px);
+        filter: blur(5px);    
     }
 `;
 
