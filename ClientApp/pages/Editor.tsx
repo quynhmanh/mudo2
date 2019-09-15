@@ -4051,7 +4051,7 @@ handleToolbarResize = e => {
                           src={item.representativeThumbnail}
                           height={imgWidth / (item.width / item.height)}
                           defaultHeight={imgWidth}
-                          className=""
+                          className="image-picker"
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
                           delay={0}
@@ -4099,7 +4099,7 @@ handleToolbarResize = e => {
                           src={item.representativeThumbnail}
                           height={imgWidth / (item.width / item.height)}
                           defaultHeight={imgWidth}
-                          className=""
+                          className="image-picker"
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
                           delay={-1}
@@ -4629,6 +4629,7 @@ handleToolbarResize = e => {
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                         delay={0}
+                        className="image-picker"
                       />
                     ))}
                     {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
@@ -4676,6 +4677,7 @@ handleToolbarResize = e => {
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
                         delay={-1}
+                        className="image-picker"
                       />
                     ))}
                       {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
