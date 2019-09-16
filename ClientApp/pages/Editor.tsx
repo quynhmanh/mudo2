@@ -49,8 +49,8 @@ enum SidebarTab {
   Background = 8,
   Element = 16,
   Upload = 32,
-  RemovedBackgroundImage = 64,
-  Video = 128,
+  Video = 64,
+  RemovedBackgroundImage = 128,
   Font = 248,
   Color = 496,
   Emoji = 992,
@@ -5104,7 +5104,7 @@ handleToolbarResize = e => {
                       height: '37px',
                     }}
                     onClick={() => {document.getElementById("image-file").click(); }}
-                  >vềlên một hình ảnh</button>
+                  >Tải lên một hình ảnh</button>
                   <div style={{
                     display: 'flex',
                     marginTop: '10px',
