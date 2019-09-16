@@ -109,9 +109,13 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     const deltaH = length * Math.sin(beta) / scale
     var {aspectRatio} = this.props;
 
+    console.log('aspectRatio', backgroundColor, aspectRatio);
+
     if (this.props.cropMode || backgroundColor || cursor == 'e-resize' || cursor == 'w-resize') {
       aspectRatio = null
     }
+
+    console.log('aspectRatio ', aspectRatio)
 
     const ratio = isShiftKey && !aspectRatio ? rect.width / rect.height : aspectRatio
     const {

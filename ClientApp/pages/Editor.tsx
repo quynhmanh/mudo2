@@ -694,6 +694,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // handle the crop area
   handleResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
+    console.log('objectType ', objectType);
     if (this.switching) {
       return;
     }
@@ -2383,7 +2384,7 @@ html {
             imgHeight: (rec2.height / self.state.scale),
             page: this.state.pages[i],
             zIndex: this.state.upperZIndex + 1,
-            backgroundColor: 'none',
+            backgroundColor: null,
             document_object: [],
             width2: 1,
             height2: 1,
@@ -4336,7 +4337,7 @@ handleToolbarResize = e => {
                             ref: this.state.idObjectSelected,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
-                            backgroundColor: 'none',
+                            backgroundColor: null,
                             document_object: [],
                             width2: 1,
                             height2: 1,
@@ -4380,7 +4381,7 @@ handleToolbarResize = e => {
                             scaleY: scale,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
-                            backgroundColor: 'none',
+                            backgroundColor: null,
                             document_object: [],
                             width2: 1,
                             height2: 1,
@@ -4427,7 +4428,7 @@ handleToolbarResize = e => {
                             scaleY: scale,
                             page: this.state.activePageId,
                             zIndex: this.state.upperZIndex + 1,
-                            backgroundColor: 'none',
+                            backgroundColor: null,
                             document_object: [],
                             width2: 1,
                             height2: 1,
