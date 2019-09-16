@@ -22,11 +22,11 @@ enum SidebarTab {
   Background = 8,
   Element = 16,
   Upload = 32,
-  RemovedBackgroundImage = 64,
-  Video = 128,
-  Font = 248,
-  Color = 496,
-  Emoji = 992,
+  Video = 64,
+  // RemovedBackgroundImage = 128,
+  // Font = 248,
+  // Color = 496,
+  // Emoji = 992,
 }
 
 var SidebarName = [
