@@ -644,7 +644,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             ref: null,
             innerHTML: null,
             color: null,
-            opacity: 1,
+            opacity: 100,
             childId: null,
           }
         ]
@@ -2284,7 +2284,7 @@ html {
       ref: null,
       innerHTML: null,
       color: null,
-      opacity: 1,
+      opacity: 100,
       backgroundColor: null,
       childId: null,
     });
@@ -2390,7 +2390,7 @@ html {
             ref: null,
             innerHTML: null,
             color: null,
-            opacity: 1,
+            opacity: 100,
             childId: null,
           });
 
@@ -2509,7 +2509,7 @@ html {
             ref: null,
             innerHTML: null,
             color: null,
-            opacity: 1,
+            opacity: 100,
             childId: null,
           });
 
@@ -4284,7 +4284,7 @@ handleToolbarResize = e => {
                             height2: 1,
                             document_object: [],
                             color: null,
-                            opacity: 1,
+                            opacity: 100,
                             backgroundColor: null,
                             posX: 0,
                             posY: 0,
@@ -4341,7 +4341,7 @@ handleToolbarResize = e => {
                             width2: 1,
                             height2: 1,
                             color: null,
-                            opacity: 1,
+                            opacity: 100,
                             childId: null,
                             posX: 0,
                             posY: 0,
@@ -4386,7 +4386,7 @@ handleToolbarResize = e => {
                             height2: 1,
                             ref: null,
                             color: null,
-                            opacity: 1,
+                            opacity: 100,
                             childId: null,
                             posX: 0,
                             posY: 0,
@@ -4433,7 +4433,7 @@ handleToolbarResize = e => {
                             height2: 1,
                             ref: null,
                             color: null,
-                            opacity: 1,
+                            opacity: 100,
                             childId: null,
                             posX: 0,
                             posY: 0,
@@ -5716,7 +5716,6 @@ handleToolbarResize = e => {
                     boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
                     height: '26px',
                     top: 0,
-                    position: 'absolute',
                     width: '27px',
                     backgroundColor: this.state.imgBackgroundColor,
                   }}
