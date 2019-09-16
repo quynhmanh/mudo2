@@ -31,7 +31,7 @@ declare global {
 
 const thick = 16;
 const imgWidth = 161;
-const backgroundWidth = 106.33;
+const backgroundWidth = 103;
 
 enum SubType {
   BusinessCardReview = 0,
@@ -4747,6 +4747,7 @@ handleToolbarResize = e => {
                   hasMore={this.state.hasMoreBackgrounds}
                   onLoadMore={this.loadMoreBackground.bind(this, false)}
                   refId="sentinel"
+                  marginTop={0}
                 >
                   <div
                     id="image-container-picker"
