@@ -57,10 +57,10 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                     <NavLink exact to={'/'} className="navbar-brand" href="#">
                         <div style={{width: '153px', height:'70px', marginLeft: '6px', }}>
                     <svg id="logo" viewBox="0 0 300 100" version="1.1">
-    <g id="root" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="root" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="group" style={{transform:"translate(118px, 36px)"}}>
             <rect id="Rectangle-14" x="0" y="0" width="83" height="22"></rect>
-            <text id="headerText.primary" font-family="AvenirNextRoundedPro-Medium" font-weight="700" letter-spacing="10px" fill="#019fb6" data-text-alignment="C" style={{fontSize: 44}}>
+            <text id="headerText.primary" fontFamily="AvenirNextRoundedPro-Medium" fontWeight="700" letterSpacing="10px" fill="#019fb6" data-text-alignment="C" style={{fontSize: 44}}>
                 <tspan x="0" y="30">DRAFT</tspan>
             </text>
         </g>
