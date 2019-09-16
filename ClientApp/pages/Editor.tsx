@@ -30,7 +30,7 @@ declare global {
 }
 
 const thick = 16;
-const imgWidth = 167;
+const imgWidth = 161;
 const backgroundWidth = 106.33;
 
 enum SubType {
