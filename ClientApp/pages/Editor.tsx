@@ -4953,6 +4953,7 @@ handleToolbarResize = e => {
                     >
                       {this.state.fontsList.map((font, key) => (
                         <a 
+                          key={uuidv4()}
                           className="font-picker"
                           style={{
                             display: "flex",
@@ -5018,9 +5019,10 @@ handleToolbarResize = e => {
                       }}
                     >
                       {fontColors.map(font => 
-                          <a
-                        href="#"
-                        onClick={this.setSelectionColor.bind(this, font)}  
+                        <a
+                          key={uuidv4()}
+                          href="#"
+                          onClick={this.setSelectionColor.bind(this, font)}  
                       >
                       <li 
                         style={{
@@ -5045,9 +5047,10 @@ handleToolbarResize = e => {
                       }}
                     >
                       {allColors.map(font => 
-                          <a
-                        href="#"
-                        onClick={this.setSelectionColor.bind(this, font)}  
+                        <a
+                          key={uuidv4()}
+                          href="#"
+                          onClick={this.setSelectionColor.bind(this, font)}  
                       >
                       <li 
                         style={{
