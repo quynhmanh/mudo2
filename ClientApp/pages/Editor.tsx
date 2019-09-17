@@ -935,14 +935,20 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     );
   };
 
+  canvasRect = null;
+  left = null;
+  top = null;
+
   handleDragStart = (e, _id) => {
     const {scale} = this.state;
-    var canvasRect = getBoundingClientRect("canvas");
+    this.canvasRect = getBoundingClientRect("canvas");
+    this.left = this.canvasRect.left;
+    this.top = this.canvasRect.top;
     var deltaX, deltaY;
     this.state.images.forEach(image => {
       if (image._id === _id) {
-        deltaX = e.clientX - canvasRect.left - image.left * scale;
-        deltaY = e.clientY - canvasRect.top - image.top * scale;
+        deltaX = e.clientX - this.left - image.left * scale;
+        deltaY = e.clientY - this.top - image.top * scale;
       }
     })
     this.setState({ dragging: true, deltaX, deltaY});
@@ -988,6 +994,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   }
 
   handleDrag = (_id, clientX, clientY) : any => {
+    var t0 = performance.now();
+    var t1 = performance.now();
     const {scale, deltaX, deltaY} = this.state;
     var newLeft, newTop;
     var newLeft2, newTop2;
@@ -997,11 +1005,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var img;
     var updateStartPosX = false;
     var updateStartPosY = false;
-    var canvasRect = getBoundingClientRect("canvas");
+
     this.state.images.forEach(image => {
       if (image._id === _id) {
-        newLeft = (clientX - canvasRect.left - deltaX) / scale;
-        newTop = (clientY - canvasRect.top - deltaY) / scale;
+        newLeft = (clientX - this.left - deltaX) / scale;
+        newTop = (clientY - this.top - deltaY) / scale;
         newLeft2 = newLeft + image.width / 2;
         newLeft3 = newLeft + image.width;
         newTop2 = newTop + image.height / 2;
@@ -1022,6 +1030,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         }
       }
     });
+
+    console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
 
     if (img.type === TemplateType.BackgroundImage) {
       return;
@@ -1137,6 +1147,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
+    t1 = performance.now();
+    console.log("Call to doSomething took 2 " + (t1 - t0) + " milliseconds.");
+
     images = this.state.images.map(image => {
 
       if (image._id === _id) {
@@ -1185,7 +1198,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           return v;
         })
 
-        this.setState({staticGuides: {x, y}});
+        // this.setState({staticGuides: {x, y}});
         image.left = left;
         image.top = top;
       }
@@ -1193,7 +1206,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
+    t1 = performance.now();
+    console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
+
     this.setState({ images, dragging: true });
+
+    t1 = performance.now();
+    console.log("Call to doSomething took 4 " + (t1 - t0) + " milliseconds.");
 
     return {updateStartPosX: !updateStartPosX, updateStartPosY: !updateStartPosY};
   };
