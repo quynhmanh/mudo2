@@ -193,10 +193,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                             marginBottom: '-6px',
                             marginRight: '10px',
                         }}
-                        width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M20.64 12.2c0-.63-.06-1.25-.16-1.84H12v3.49h4.84a4.14 4.14 0 0 1-1.8 2.71v2.26h2.92a8.78 8.78 0 0 0 2.68-6.62z" fill="#4285F4"></path><path d="M12 21a8.6 8.6 0 0 0 5.96-2.18l-2.91-2.26a5.4 5.4 0 0 1-8.09-2.85h-3v2.33A9 9 0 0 0 12 21z" fill="#34A853"></path><path d="M6.96 13.71a5.41 5.41 0 0 1 0-3.42V7.96h-3a9 9 0 0 0 0 8.08l3-2.33z" fill="#FBBC05"></path><path d="M12 6.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59A9 9 0 0 0 3.96 7.95l3 2.34A5.36 5.36 0 0 1 12 6.58z" fill="#EA4335"></path></g></svg>
+                        width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M20.64 12.2c0-.63-.06-1.25-.16-1.84H12v3.49h4.84a4.14 4.14 0 0 1-1.8 2.71v2.26h2.92a8.78 8.78 0 0 0 2.68-6.62z" fill="#4285F4"></path><path d="M12 21a8.6 8.6 0 0 0 5.96-2.18l-2.91-2.26a5.4 5.4 0 0 1-8.09-2.85h-3v2.33A9 9 0 0 0 12 21z" fill="#34A853"></path><path d="M6.96 13.71a5.41 5.41 0 0 1 0-3.42V7.96h-3a9 9 0 0 0 0 8.08l3-2.33z" fill="#FBBC05"></path><path d="M12 6.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59A9 9 0 0 0 3.96 7.95l3 2.34A5.36 5.36 0 0 1 12 6.58z" fill="#EA4335"></path></g></svg>
                     <span>Đăng nhập với Google</span>
                 </button>
-                <div style={{position: 'relative', display: 'none',}} class="jsx-3592679178 separator"><hr className="jsx-3592679178"/>
+                <div style={{position: 'relative', display: 'none',}} className="jsx-3592679178 separator"><hr className="jsx-3592679178"/>
                 <span 
                     className="jsx-3592679178 text"
                     style={{
@@ -210,27 +210,6 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                         lineHeight: '2rem',
                     }}
                     >hoặc</span></div>
-                {/* <p style={{}} className="text-center">Nhập tên tài khoản và mật khẩu vào ô bên dưới để đăng nhập.</p>
-                <Form style={{}} ref={x => this.elForm = x}>
-                    <div style={{}} className="form-group">
-                        <label htmlFor="inputLogin">Địa chỉ email</label>
-                        <input type="text" name={nameof<ILoginModel>(x=>x.username)} data-value-type="string" className="form-control" id="inputLogin" data-val-required="true" data-msg-required="Login is required." />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="inputLogin">Mật khẩu</label>
-                        <input type="password" name={nameof<ILoginModel>(x=>x.password)} data-value-type="string" className="form-control" id="inputPassword" data-val-required="true" data-msg-required="Password is required." />
-                    </div>
-                    <div 
-                        className="form-inline"
-                        >
-                        <button
-                            style={{
-                                width: '100%',
-                                borderRadius: 0,
-                            }}
-                            className="btn btn-success" onClick={this.onClickSubmitBtn}>Sign in</button>
-                    </div>
-                </Form> */}
             </div>
             
             <aside style={{display: 'inline-block', width: 'calc(100% - 400px)',}} className="_1Y4htTbzPz3Jj9sPOFO_yz">
@@ -260,10 +239,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
         <div className="_3PK-lmKzpAGcI8WTdBQX4i">
             <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -274,10 +253,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -288,10 +267,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -302,10 +281,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpJEfIY/1/0/thumbnail_large-1.jpg" alt="Ảnh bìa Facebook" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpJEfIY/1/0/thumbnail_large-1.jpg" alt="Ảnh bìa Facebook" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -316,10 +295,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPjqjKaE/1/0/thumbnail_large-1.jpg" alt="Tờ rơi" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPjqjKaE/1/0/thumbnail_large-1.jpg" alt="Tờ rơi" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -330,10 +309,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a"  target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a"  target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC4-jLh4zI/3/0/thumbnail_large.jpg" alt="Bài đăng Facebook" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC4-jLh4zI/3/0/thumbnail_large.jpg" alt="Bài đăng Facebook" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -344,10 +323,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACytlYGjpE/1/0/thumbnail_large-7.jpg" alt="Bài đăng Instagram" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACytlYGjpE/1/0/thumbnail_large-7.jpg" alt="Bài đăng Instagram" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -358,10 +337,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhR9Ss1k/3/0/thumbnail_large.jpg" alt="Ảnh bìa blog" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhR9Ss1k/3/0/thumbnail_large.jpg" alt="Ảnh bìa blog" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -372,10 +351,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPndQv8A/1/0/thumbnail_large-1.jpg" alt="Thẻ" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPndQv8A/1/0/thumbnail_large-1.jpg" alt="Thẻ" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -386,10 +365,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADGeZLBv64/3/0/thumbnail_large.jpg" alt="Tiêu đề email" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADGeZLBv64/3/0/thumbnail_large.jpg" alt="Tiêu đề email" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -400,10 +379,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC3Yq3okKs/1/0/thumbnail_large-5.jpg" alt="Bài đăng twitter" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC3Yq3okKs/1/0/thumbnail_large-5.jpg" alt="Bài đăng twitter" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -414,10 +393,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPn5AItM/3/0/thumbnail_large.jpg" alt="Ảnh pinterest" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPn5AItM/3/0/thumbnail_large.jpg" alt="Ảnh pinterest" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -428,10 +407,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC6SzsCfjk/1/0/thumbnail_large-2.jpg" alt="Ảnh quảng cáo Facebook" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC6SzsCfjk/1/0/thumbnail_large-2.jpg" alt="Ảnh quảng cáo Facebook" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -442,10 +421,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPuq6KoU/1/0/thumbnail_large-1.jpg" alt="Ảnh Tumblr" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPuq6KoU/1/0/thumbnail_large-1.jpg" alt="Ảnh Tumblr" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -456,10 +435,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACzQ_XLjmU/1/0/thumbnail_large-7.jpg" alt="US Letter Document" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACzQ_XLjmU/1/0/thumbnail_large-7.jpg" alt="US Letter Document" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -470,10 +449,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPra3zWc/1/0/thumbnail_large-1.jpg" alt="Tài liệu A4" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPra3zWc/1/0/thumbnail_large-1.jpg" alt="Tài liệu A4" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -484,10 +463,10 @@ class LoginPage extends React.Component<{init: any, loginRequest: any, onLoginSu
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhfrXwUM/2/0/thumbnail_large.jpg" alt="Tiêu đề thư" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhfrXwUM/2/0/thumbnail_large.jpg" alt="Tiêu đề thư" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">

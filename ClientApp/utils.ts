@@ -371,6 +371,9 @@ export function positionRotated(left: number, top: number, width: number, height
 }
 
 export function getBoundingClientRect(id: string) {
+  if (!document.getElementById(id)) {
+    return null;
+  }
   return document.getElementById(id).getBoundingClientRect();
 }
 

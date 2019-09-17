@@ -672,8 +672,9 @@ export default class Rect extends PureComponent<IProps, IState> {
             // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
           }}
         >
-          {childrens && showImage && (
+          {childrens && childrens.length > 0 && showImage && (
             <div
+              id="hello-3"
               style={{
                 width: "100%",
                 height: "100%"
@@ -739,8 +740,9 @@ export default class Rect extends PureComponent<IProps, IState> {
               })}{" "}
             </div>
           )}
-          {childrens && !showImage && (
+          {childrens && childrens.length > 0 && !showImage && (
             <div
+              id="hello-2"
               style={{
                 width: "100%",
                 height: "100%"
