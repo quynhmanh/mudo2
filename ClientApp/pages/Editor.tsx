@@ -694,7 +694,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // handle the crop area
   handleResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
-    console.log('objectType ', objectType);
     if (this.switching) {
       return;
     }
