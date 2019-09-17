@@ -24,19 +24,17 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
 
     private elDropdown: HTMLAnchorElement;
     private elCollapseButton: HTMLButtonElement;
-    private dropdown: Dropdown;
-    private collapse: Collapse;
 
     componentDidMount() {
-        this.generateDropdownAndCollapse();
+        if (this.elDropdown)
+            var dropdown = new Dropdown(this.elDropdown);
+
+        if (this.elCollapseButton)
+            var collapse = new Collapse(this.elCollapseButton);
     }
 
-    generateDropdownAndCollapse() {
-        if (this.dropdown === undefined && this.elDropdown)
-            this.dropdown = new Dropdown(this.elDropdown);
-
-        if (this.collapse === undefined && this.elCollapseButton)
-            this.collapse = new Collapse(this.elCollapseButton);
+    getDisplayAttribute(cond: boolean) {
+        return cond === true ? "block" : "none";
     }
 
     componentDidUpdate() {
@@ -52,6 +50,8 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     timer = null
 
     render() {
+        const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
+
         return <div className="navbar navbar-default">
             <div className="container container-fluid">
                 <div className="navbar-header" style={{marginTop: '10px',}}>
@@ -97,14 +97,11 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                         {/* <li><NavLink exact to={'/editor'} activeClassName="active">Learn</NavLink></li> */}
                         {/* <li><NavLink exact to={'/cart'} activeClassName="active">Giỏ hàng</NavLink></li> */}
                         <li className="dropdown">
-                            {Globals.serviceUser && Globals.serviceUser.username ?
-                            <a href="#" ref={x => { this.elDropdown = x; this.generateDropdownAndCollapse(); }} className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" ref={x => this.elDropdown = x} className="dropdown-toggle" style={{display: this.getDisplayAttribute(loggedIn)}} data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {Globals.serviceUser && Globals.serviceUser.username}&nbsp;
                                 <span className="caret"></span>
                             </a>
-                            :
-                            <NavLink exact to={'/login'} activeClassName="active">Đăng nhập</NavLink>
-                            }
+                            <NavLink exact to={'/login'} activeClassName="active" style={{display: this.getDisplayAttribute(!loggedIn)}}>Đăng nhập</NavLink>
                             <ul className="dropdown-menu">
                                 <li><NavLink exact to={'/account'} activeClassName="active">Thông tin tài khoản</NavLink></li>
                                 <li><a href="#" onClick={this.onClickSignOut}>Quản lí đơn hàng</a></li>
