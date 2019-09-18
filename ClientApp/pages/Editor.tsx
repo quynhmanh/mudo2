@@ -1037,22 +1037,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         }
       }
     });
-
-    console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
-
     if (img.type === TemplateType.BackgroundImage) {
       return;
     }
-
-    console.log('scale ', scale, clientX, canvasRect.left, deltaX);
-    console.log('newLeft ', newLeft);
-    console.log('newTop ', newTop);
-    t1 = performance.now();
-    console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
-
-    t1 = performance.now();
-    console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
-
     images = images.map(image => {
       console.log('image ', image);
       if (image.page === img.page) {
@@ -1165,12 +1152,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-    t1 = performance.now();
-    console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
-
-    console.log('newLeft ', newLeft);
-    console.log('newTop ', newTop);
-
     images = images.map(image => {
 
       if (image._id === _id) {
@@ -1226,21 +1207,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
       return image;
     });
-
-    console.log('images ', images);
-
     this.props.images.replace(images);
 
-    // this.props.update(images[0]);
-
-    t1 = performance.now();
-    console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
-
     this.setState({ dragging: true }); 
-
-    t1 = performance.now();
-    console.log("Call to doSomething took 4 " + (t1 - t0) + " milliseconds.");
-
+    
     return {updateStartPosX: !updateStartPosX, updateStartPosY: !updateStartPosY};
   };
 
