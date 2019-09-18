@@ -24,6 +24,9 @@ import CanvasReview from '@Components/editor/CanvasReview';
 import Globals from '@Globals';
 import { Helmet } from "react-helmet";
 import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemovalEditor';
+import { observable, toJS } from "mobx";
+import { observer } from "mobx-react";
+import LeftSide from "@Components/editor/LeftSide";
 
 declare global {
   interface Window { paymentScope : any; }
@@ -76,33 +79,25 @@ enum TemplateType {
   Video = 9,
 }
 
-export interface IProps {
+interface IProps {
   rid: string;
   mode: string;
   match: any;
+  images: any;
+  firstpage: any;
+  addItem: any;
+  update: any;
+  replaceFirstItem: any;
 }
 
 interface IState {
   subtype: SubType,
   query: string;
   error: any;
-  items: any;
-  currentItemsHeight: number,
-  items2: any;
-  currentItems2Height: number;
   cursor: any;
-  isLoading: boolean;
-  isTextTemplateLoading: boolean;
-  isTemplateLoading: boolean;
-  isUserUploadLoading: boolean;
   mathjav: any;
   idObjectSelected: string;
   images: Array<object>;
-  images2: Array<object>;
-  groupedTexts: Array<object>;
-  groupedTexts2: Array<object>;
-  templates: Array<object>;
-  templates2: Array<object>;
   scale: number;
   fitScale: number;
   startX: number;
@@ -120,13 +115,12 @@ interface IState {
   dragging: boolean;
   uuid: string;
   templateType: string;
-  mode: number,
+  mode: number;
   staticGuides: object;
   deltaX: number;
   deltaY: number;
   editing: boolean;
   canRenderClientSide: boolean;
-  unnormalizedImages: any;
   fonts: any;
   fontsList: any;
   fontSize: number;
@@ -146,37 +140,12 @@ interface IState {
   activePageId: string,
   upperZIndex: number;
   totalFonts: number;
-  hasMoreFonts: boolean;
-  hasMoreTextTemplate: boolean;
-  hasMoreTemplate: boolean;
-  hasMoreUserUpload: boolean;
-  currentGroupedTextsHeight: number;
-  currentGroupedTexts2Height: number;
-  currentTemplatesHeight: number;
-  currentTemplate2sHeight: number;
-  hasMoreImage: boolean;
-  backgrounds1: Array<object>,
-  backgrounds2: Array<object>,
-  backgrounds3: Array<object>,
-  currentBackgroundHeights1: number,
-  currentBackgroundHeights2: number,
-  currentBackgroundHeights3: number,
-  userUpload1: Array<object>,
-  userUpload2: Array<object>,
-  currentUserUpload1: number,
-  currentUserUpload2: number,
   editingMedia: any;
   editingFont: any;
   showMediaEditPopup: boolean;
   showTemplateEditPopup: boolean;
   showFontEditPopup: boolean;
   videos: any;
-  hasMoreVideos: boolean;
-  removeImages1: Array<object>;
-  removeImages2: Array<object>;
-  currentHeightRemoveImage1: number;
-  currentHeightRemoveImage2: number;
-  hasMoreBackgrounds: boolean;
   typeObjectSelected: TemplateType;
   bleed: boolean;
   showPrintingSidebar: boolean;
@@ -184,55 +153,32 @@ interface IState {
   orderStatus: string;
   downloading: boolean;
   imgBackgroundColor: string;
-  isBackgroundLoading: boolean;
-  hasMoreRemovedBackground: boolean;
-  isRemovedBackgroundLoading: boolean;
   showImageRemovalBackgroundPopup: boolean;
   imageIdBackgroundRemoved: string;
   mounted: boolean;
   showZoomPopup: boolean;
 }
 
-let firstpage = uuidv4();
+const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
-const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`
-
+@observer
 class CanvaEditor  extends PureComponent<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            hasMoreVideos: true,
-            isRemovedBackgroundLoading: false,
+            showFontEditPopup: false,
             currentPrintStep: 1,
             subtype: null,
             bleed: false,
             showMediaEditPopup: false,
-            hasMoreImage: true,
-            hasMoreTemplate: true,
-            hasMoreTextTemplate: true,
-            hasMoreFonts: true,
-            hasMoreBackgrounds: true,
             totalFonts: 1000000,
             query: "",
-            currentItemsHeight: 0,
-            currentGroupedTextsHeight: 0,
-            currentTemplatesHeight: 0,
-            items: [],
-            backgrounds1: [],
-            backgrounds2: [],
-            backgrounds3: [],
-            currentItems2Height: 0,
-            currentGroupedTexts2Height:0,
-            currentTemplate2sHeight: 0,
-            items2: [],
             error: null,
             cursor: false,
             mathjav: null,
-            isLoading: false,
-            isTemplateLoading: false,
             upperZIndex: 1,
-            activePageId: firstpage,
-            pages: [firstpage],
+            activePageId: props.firstpage,
+            pages: [props.firstpage],
             numOfPages: 1,
             updateRect: false,
             resizingInnerImage: false,
@@ -246,7 +192,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             fontSize: 0,
             fontsList: [],
             fonts: ["O5mEMMs7UejmI1WeSKWQ"],
-            unnormalizedImages: [],
             templateType: null,
             _id: null,
             idObjectSelected: null,
@@ -255,17 +200,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             fitScale: 1,
             startX: 0,
             startY: 0,
-            images: [
-            ],
-            images2: [],
-            groupedTexts: [],
-            groupedTexts2: [],
-            templates: [],
-            templates2: [],
-            userUpload1: [],
-            userUpload2: [],
-            currentUserUpload1: 0,
-            currentUserUpload2: 0,
+            images: [],
             selectedTab: SidebarTab.Image,
             rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 0,
             rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 0,
@@ -287,26 +222,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             editing: false,
             canRenderClientSide: false,
             cropMode: false,
-            currentBackgroundHeights1: 0,
-            currentBackgroundHeights2: 0,
-            currentBackgroundHeights3: 0,
             editingMedia: null,
             editingFont: null,
             showTemplateEditPopup: false,
-            videos: [
-            ],
             showPrintingSidebar: false,
             orderStatus: '',
             downloading: false,
             imgBackgroundColor: 'white',
-            hasMoreUserUpload: true,
-            isTextTemplateLoading: false,
-            isBackgroundLoading: false,
-            currentHeightRemoveImage1: 0,
-            currentHeightRemoveImage2: 0,
-            hasMoreRemovedBackground: true,
-            removeImages1: [],
-            removeImages2: [],
             showImageRemovalBackgroundPopup: false,
             imageIdBackgroundRemoved: null,
             mounted: false,
@@ -324,6 +246,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   $container = null;
 
   async componentDidMount() {
+
+    console.log('this props', this.props);
 
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
@@ -439,11 +363,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           y: [[0,0], [document.height/ 2,0], [document.height,0]],
         }
 
-        // document.document_object = document.document_object.map(obj => {
-        //   obj.page = this.state.activePageId;
-        //   return obj;
-        // })
-
         if (image.value.fontList) {
           var fontList = image.value.fontList.forEach(id => { 
               var style = `@font-face {
@@ -523,9 +442,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         rectHeight = 1024;
       }
 
-      console.log('rectWidth ', rectWidth);
-      console.log('rectHeight ', rectHeight);
-
       var scaleX = (width - 100) / rectWidth;
       var scaleY = (height - 100) / rectHeight;
       self.setState({ 
@@ -550,21 +466,12 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             scaleX: 1,
             scaleY: 1,
             zIndex: 1,
-            page: firstpage,
+            page: this.props.firstpage,
             backgroundColor: 'transparent',
           }
         ]
       });
     }
-
-    this.loadMore.bind(this)(true);
-    this.loadMoreRemovedBackgroundImage.bind(this)(true);
-    this.loadMoreFont(true);
-    this.loadMoreTextTemplate(true);
-    this.loadMoreTemplate.bind(this)(true, subtype);
-    this.loadMoreBackground(true);
-    this.loadmoreUserUpload(true);
-    this.loadMoreVideo(true);
 
     document.addEventListener("keydown", this.removeImage.bind(this));
   }
@@ -607,7 +514,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     let { top, left, width, height } = style;
     var self = this;
     var temp = this.handleImageResize;
-    var images = this.state.images.map(image => {
+    var images = this.props.images.map(image => {
       if (image._id === _id) {
         
         var deltaLeft = left - image.left;
@@ -935,16 +842,22 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     );
   };
 
+  canvasRect = null;
+
   handleDragStart = (e, _id) => {
     const {scale} = this.state;
-    var canvasRect = getBoundingClientRect("canvas");
+    this.canvasRect = getBoundingClientRect("canvas");
     var deltaX, deltaY;
-    this.state.images.forEach(image => {
+    this.props.images.forEach(image => {
       if (image._id === _id) {
-        deltaX = e.clientX - canvasRect.left - image.left * scale;
-        deltaY = e.clientY - canvasRect.top - image.top * scale;
+        deltaX = e.clientX - this.canvasRect.left - image.left * scale;
+        deltaY = e.clientY - this.canvasRect.top - image.top * scale;
       }
-    })
+    });
+
+    console.log('deltaX', deltaX);
+    console.log('deltaY', deltaY);
+
     this.setState({ dragging: true, deltaX, deltaY});
   };
 
@@ -988,6 +901,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   }
 
   handleDrag = (_id, clientX, clientY) : any => {
+    var t0 = performance.now();
+    var t1;
+
     const {scale, deltaX, deltaY} = this.state;
     var newLeft, newTop;
     var newLeft2, newTop2;
@@ -997,8 +913,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var img;
     var updateStartPosX = false;
     var updateStartPosY = false;
-    var canvasRect = getBoundingClientRect("canvas");
-    this.state.images.forEach(image => {
+    var canvasRect = this.canvasRect;
+    let images = toJS(this.props.images);
+    images.forEach(image => {
       if (image._id === _id) {
         newLeft = (clientX - canvasRect.left - deltaX) / scale;
         newTop = (clientY - canvasRect.top - deltaY) / scale;
@@ -1027,9 +944,20 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return;
     }
 
-    let images = this.state.images.map(image => {
+    console.log('scale ', scale, clientX, canvasRect.left, deltaX);
+    console.log('newLeft ', newLeft);
+    console.log('newTop ', newTop);
+    t1 = performance.now();
+    console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
+
+    t1 = performance.now();
+    console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
+
+    images = images.map(image => {
+      console.log('image ', image);
       if (image.page === img.page) {
         var imageTransformed = this.tranformImage(image);
+        console.log('imageTransformed ', imageTransformed);
         if (image._id !== _id) {
           if ((!updateStartPosX) && Math.abs(newLeft - imageTransformed.x[0]) < 5) {
             left -= newLeft - imageTransformed.x[0];
@@ -1137,7 +1065,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-    images = this.state.images.map(image => {
+    t1 = performance.now();
+    console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
+
+    console.log('newLeft ', newLeft);
+    console.log('newTop ', newTop);
+
+    images = images.map(image => {
 
       if (image._id === _id) {
 
@@ -1193,7 +1127,16 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-    this.setState({ images, dragging: true });
+    console.log('images ', images);
+
+    this.props.images.replace(images);
+
+    // this.props.update(images[0]);
+
+    t1 = performance.now();
+    console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
+
+    this.setState({ dragging: true }); 
 
     return {updateStartPosX: !updateStartPosX, updateStartPosY: !updateStartPosY};
   };
@@ -1204,7 +1147,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     x = x.map(e => {e[1] = 0; return e});
     y = y.map(e => {e[1] = 0; return e});
 
-    var images = this.state.images.map(image => {
+    var images = this.props.images.map(image => {
       image[0] = 0;
       image[1] = 0;
       image[2] = 0;
@@ -1213,6 +1156,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       image[5] = 0;
       return image;
     })
+
+    this.props.images.replace(images);
 
     this.setState({ dragging: false, staticGuides: {x, y}, images});
   };
@@ -1294,7 +1239,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   doNoObjectSelected = () => {
     if (!this.state.rotating && !this.state.resizing) {
-      let images = this.state.images.map(image => {
+      let images = this.props.images.map(image => {
         image.selected = false;
         return image;
       });
@@ -1315,11 +1260,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
         (e.keyCode === 91 && OSNAME == "Windows"))
     ) {
-      let images = this.state.images.filter(
+      let images = this.props.images.filter(
         img => img._id !== this.state.idObjectSelected
       );
       this.doNoObjectSelected();
-      this.setState({ images });
+      this.props.images.replace(images);
     }
   }
   handleImageSelected = (img, event) => {
@@ -1338,7 +1283,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
     event.stopPropagation();
     var scaleY;
-    let images = this.state.images.map(image => {
+    let images = this.props.images.map(image => {
       if (image._id === img._id) {
         scaleY = image.scaleY;
         image.selected = true; 
@@ -1369,7 +1314,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
     console.log('img ', img);
 
-    this.setState({ images, idObjectSelected: img._id, typeObjectSelected: img.type, childId: null, currentOpacity: img.opacity ? img.opacity : 100, });
+    this.setState({ idObjectSelected: img._id, typeObjectSelected: img.type, childId: null, currentOpacity: img.opacity ? img.opacity : 100, });
   };
 
   removeTemplate = (e) => {
@@ -1679,51 +1624,6 @@ html {
     await setTimeout(async function() {
       var url;
       var _id = self.state._id;
-      // if (_id) {
-      //   url = "/api/Template/Update";
-
-      //   var res = JSON.stringify({
-      //     "Id": _id,
-      //     "CreatedAt": "2014-09-27T18:30:49-0300",
-      //     "CreatedBy": 2,
-      //     "UpdatedAt": "2014-09-27T18:30:49-0300",
-      //     "UpdatedBy": 3,
-      //     Type: self.state.templateType,
-      //     Document: JSON.stringify({
-      //       _id: self.state._id ? self.state._id : uuidv4(),
-      //       width: self.state.rectWidth,
-      //       origin_width: self.state.rectWidth,
-      //       height: self.state.rectHeight,
-      //       origin_height: self.state.rectHeight,
-      //       left: 0,
-      //       top: 0,
-      //       src: "",
-      //       type: self.state.templateType,
-      //       scaleX: 1,
-      //       scaleY: 1,
-      //       document_object: images,
-      //     }),
-      //     "FontList": self.state.fontsList.map(font=> font.id),
-      //     "Width": self.state.rectWidth,
-      //     "Height": self.state.rectHeight,
-      //     "Pages": self.state.pages,
-      //     "Representative": rep ? rep : `images/${uuidv4()}.png`,
-      //     "Representative2": `images/${uuidv4()}.png`,
-      //   });
-
-      //   axios.post(url, res, {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     }
-      //   })
-      //   .then(res => {
-      //     self.setState({isSaving: false})
-      //   })
-      //   .catch(res => {
-      //   })
-
-      //   return;
-      // }
 
       if (mode == Mode.CreateDesign) {
         url = "/api/Template/Update";
@@ -1995,460 +1895,6 @@ html {
   }
 
   imgDragging = null;
-
-  templateOnMouseDown(id, e) {
-    var ce = document.createElement.bind(document);
-    var ca = document.createAttribute.bind(document);
-    var ge = document.getElementsByTagName.bind(document);
-    e.preventDefault();
-
-    var self = this;
-    const url = `/api/Template/Get?id=${id}`;
-        const { rectWidth, rectHeight } = this.state;
-        var doc = this.state.templates.find(doc => doc.id == id);
-        if (!doc) {
-          doc = this.state.templates2.find(doc => doc.id == id);
-        }
-        var template = JSON.parse(doc.document)
-        var scaleX = rectWidth / template.width;
-        var scaleY = rectHeight / template.height;
-
-        template.document_object = template.document_object.map(doc => {
-          doc.width = doc.width * scaleX;
-          doc.height = doc.height * scaleY;
-          doc.top = doc.top * scaleY;
-          doc.left = doc.left * scaleX;
-          doc.scaleX = doc.scaleX * scaleX;
-          doc.scaleY = doc.scaleY * scaleY;
-          doc.page = this.state.activePageId;
-          doc.imgWidth = doc.imgWidth * scaleX;
-          doc.imgHeight = doc.imgHeight * scaleY;
-
-          return doc;
-        });
-
-        if (doc.fontList) {
-          var fontList = doc.fontList.forEach(id => { 
-              var style = `@font-face {
-                font-family: '${id}';
-                src: url('/fonts/${id}.ttf');
-              }`;
-              var styleEle = ce("style");
-              var type = ca("type");
-              type.value = "text/css";
-              styleEle.attributes.setNamedItem(type)
-              styleEle.innerHTML = style;
-              var head = document.head || ge('head')[0];
-              head.appendChild(styleEle);
-
-              var link = ce('link');
-              link.id = id;
-              link.rel = 'preload';
-              link.href = `/fonts/${id}.ttf`
-              link.media = 'all';
-              link.as = "font";
-              link.crossOrigin = "anonymous";
-              head.appendChild(link);
-            return {
-            id: id,
-            }
-          });
-        }
-
-        var id = template.id;
-        var images = this.state.images.filter(image => {
-          return image.page !== this.state.activePageId;
-        })
-        self.setState(state => ({ 
-          fonts: doc.fontList,
-          images: [...images, ...template.document_object], 
-          _id: id,
-          idObjectSelected: null,
-        }));
-      // });
-  }
-
-  textOnMouseDown(id, e) {
-    var ce = document.createElement.bind(document);
-    var ca = document.createAttribute.bind(document);
-    var ge = document.getElementsByTagName.bind(document);
-
-    e.preventDefault();
-    var target = e.target.cloneNode(true);
-    target.style.zIndex = "11111111111";
-    target.style.width = e.target.getBoundingClientRect().width + 'px';
-    document.body.appendChild(target);
-    var self = this;
-    this.imgDragging = target;
-    var posX = e.pageX - e.target.getBoundingClientRect().left;
-    var dragging = true;
-    var posY = e.pageY - e.target.getBoundingClientRect().top;
-
-    const onMove = e => {
-      if (dragging) {
-        target.style.left = e.pageX - posX + "px";
-        target.style.top = e.pageY - posY + "px";
-        target.style.position = "absolute";
-      }
-    };
-
-    const onUp = e => {
-      dragging = false;
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-
-        var recs = document.getElementsByClassName("alo");
-        var rec2 = this.imgDragging.getBoundingClientRect();
-        for (var i = 0; i < recs.length; ++i) {
-          var rec = recs[i].getBoundingClientRect();
-          var rec3 = recs[i];
-        if (
-        rec.left < e.pageX &&
-        e.pageX < rec.left + rec.width &&
-        rec.top < e.pageY &&
-        e.pageY < rec.top + rec.height
-        ) {
-          const url = `/api/Template/Get?id=${id}`;
-          var rectTop = rec.top;
-          var index = i;
-          fetch(url)
-            .then(
-              response => response.text()
-            )
-            .then(html => {
-              var doc = this.state.groupedTexts.find(doc => doc.id == id);
-              if (!doc) {
-                doc = this.state.groupedTexts2.find(doc => doc.id == id);
-              }
-              var document = JSON.parse(doc.document)
-              document._id = uuidv4();
-              document.page = self.state.pages[index];
-              document.zIndex = this.state.upperZIndex + 1;
-              document.width = rec2.width / self.state.scale;
-              document.height = rec2.height / self.state.scale;
-              // document.width = rec2.width;
-              // document.height = rec2.height;
-              // document.origin_width = document.width / document.scaleX;
-              // document.origin_height = document.height / document.scaleY;
-              document.scaleX = document.width / document.origin_width;
-              document.scaleY = document.height / document.origin_height;
-              document.left = (rec2.left - rec.left) / self.state.scale;
-              document.top = (rec2.top - rectTop) / self.state.scale;
-              // document.scaleX = rec2.width / this.state.rectWidth;
-              // document.scaleY = rec2.height / this.state.rectHeight;
-              // document.scaleX = 1;
-              // document.scaleY = 1;
-              // document.document_object = document.document.map(obj => {
-              //   // obj.childId = uuidv4();
-              //   // obj._id = uuidv4();
-              //   return obj;
-              // })
-
-              let images = [...this.state.images, document];
-
-              if (doc.fontList) {
-                var fontList = doc.fontList.forEach(id => { 
-                    var style = `@font-face {
-                      font-family: '${id}';
-                      src: url('/fonts/${id}.ttf');
-                    }`;
-                    var styleEle = ce("style");
-                    var type = ca("type");
-                    type.value = "text/css";
-                    styleEle.attributes.setNamedItem(type)
-                    styleEle.innerHTML = style;
-                    var head = document.head || ge('head')[0];
-                    head.appendChild(styleEle);
-      
-                    var link = ce('link');
-                    link.id = id;
-                    link.rel = 'preload';
-                    link.href = `/fonts/${id}.ttf`
-                    link.media = 'all';
-                    link.as = "font";
-                    link.crossOrigin = "anonymous";
-                    head.appendChild(link);
-                  return {
-                  id: id,
-                  }
-                });
-              }
-
-              self.setState({ 
-                images,
-                fonts: doc.fontList,
-                upperZIndex: this.state.upperZIndex + 1,
-              });
-            });
-        }
-      }
-
-      target.remove();
-    };
-
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  }
-
-  backgroundOnMouseDown(item, e) {
-    var rec2 = e.target.getBoundingClientRect();
-    var self = this;
-    let images = [...this.state.images];
-    var {rectWidth, rectHeight} = this.state;
-    var ratio = rectWidth / rectHeight;
-    var imgRatio = rec2.width / rec2.height;
-    var width = rectWidth;
-    var height = rectWidth / imgRatio;
-    if (height < rectHeight) {
-      height = rectHeight;
-      width = imgRatio * height;
-    }
-    images.push({
-      _id: uuidv4(),
-      type: TemplateType.BackgroundImage,
-      width: rectWidth,
-      height: rectHeight,
-      origin_width: width,
-      origin_height: height,
-      left: 0,
-      top:  0,
-      rotateAngle: 0.0,
-      src: window.location.origin + "/" + item.representative,
-      selected: false,
-      scaleX: 1,
-      scaleY: 1,
-      posX: -(width - rectWidth) / 2,
-      posY: -(height - rectHeight) / 2,
-      imgWidth: width,
-      imgHeight: height,
-      page: this.state.activePageId,
-      zIndex: 1,
-    });
-
-    this.setState({ images });
-  }
-
-  videoOnMouseDown(e) {
-    e.preventDefault();
-
-    var target = e.target.cloneNode(true);
-
-    target.style.zIndex = "11111111111";
-    target.src = e.target.getElementsByTagName("source")[0].getAttribute("src");
-    target.style.width = e.target.getBoundingClientRect().width + 'px';
-    document.body.appendChild(target);
-    var self = this;
-    this.imgDragging = target;
-    var posX = e.pageX - e.target.getBoundingClientRect().left;
-    var dragging = true;
-    var posY = e.pageY - e.target.getBoundingClientRect().top;
-
-    var recScreenContainer = document.getElementById('screen-container-parent').getBoundingClientRect(); 
-    var beingInScreenContainer = false; 
-
-    const onMove = e => {
-      if (dragging) {
-        var rec2 = self.imgDragging.getBoundingClientRect();
-        if (
-          beingInScreenContainer === false &&
-          recScreenContainer.left < rec2.left &&
-          recScreenContainer.right > rec2.right &&
-          recScreenContainer.top < rec2.top &&
-          recScreenContainer.bottom > rec2.bottom
-        ) {
-
-          beingInScreenContainer = true;
-
-          // target.style.width = (rec2.width * self.state.scale) + 'px';
-          // target.style.height = (rec2.height * self.state.scale) + 'px';
-          // target.style.transitionDuration = '0.05s';
-
-          setTimeout(() => {
-            target.style.transitionDuration = '';
-          }, 50);
-        }
-
-        if (beingInScreenContainer === true &&
-          !(recScreenContainer.left < rec2.left &&
-            recScreenContainer.right > rec2.right &&
-            recScreenContainer.top < rec2.top &&
-            recScreenContainer.bottom > rec2.bottom)
-        ) {
-          beingInScreenContainer = false;
-
-          // target.style.width = (rec2.width / self.state.scale) + 'px';
-          // target.style.height = (rec2.height / self.state.scale) + 'px';
-          // target.style.transitionDuration = '0.05s';
-
-          setTimeout(() => {
-            target.style.transitionDuration = '';
-          }, 50);
-        }
-
-        target.style.left = e.pageX - posX + "px";
-        target.style.top = e.pageY - posY + "px";
-        target.style.position = "absolute";
-      }
-    };
-
-    const onUp = e => {
-      dragging = false;
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-
-      var recs = document.getElementsByClassName("alo");
-      var rec2 = self.imgDragging.getBoundingClientRect();
-      for (var i = 0; i < recs.length; ++i){
-        var rec = recs[i].getBoundingClientRect();
-        if (
-          rec.left < rec2.right &&
-          rec.right > rec2.left &&
-          rec.top < rec2.bottom &&
-          rec.bottom > rec2.top
-        ) {
-          let images = [...this.state.images];
-          images.push({
-            _id: uuidv4(),
-            type: TemplateType.RemovedBackgroundImage,
-            width: rec2.width / self.state.scale,
-            height: rec2.height / self.state.scale,
-            origin_width: rec2.width / self.state.scale,
-            origin_height: rec2.height / self.state.scale,
-            left: (rec2.left - rec.left) / self.state.scale,
-            top: (rec2.top - rec.top) / self.state.scale,
-            rotateAngle: 0.0,
-            src: target.src,
-            selected: false,
-            scaleX: 1,
-            scaleY: 1,
-            posX: 0,
-            posY: 0,
-            imgWidth: (rec2.width / self.state.scale),
-            imgHeight: (rec2.height / self.state.scale),
-            page: this.state.pages[i],
-            zIndex: this.state.upperZIndex + 1,
-          });
-
-          self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
-        }
-      }
-
-      self.imgDragging.remove();
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  }
-
-  imgOnMouseDown(img, e) {
-    e.preventDefault();
-    var target = e.target.cloneNode(true);
-    target.style.zIndex = "11111111111";
-    target.src = img.representativeThumbnail;
-    target.style.width = e.target.getBoundingClientRect().width + 'px';
-    target.style.backgroundColor = e.target.style.backgroundColor;
-    document.body.appendChild(target);
-    var self = this;
-    this.imgDragging = target;
-    var posX = e.pageX - e.target.getBoundingClientRect().left;
-    var dragging = true;
-    var posY = e.pageY - e.target.getBoundingClientRect().top;
-
-    var recScreenContainer = document.getElementById('screen-container-parent').getBoundingClientRect(); 
-    var beingInScreenContainer = false; 
-
-    const onMove = e => {
-      if (dragging) {
-        var rec2 = self.imgDragging.getBoundingClientRect();
-        if (
-          beingInScreenContainer === false &&
-          recScreenContainer.left < rec2.left &&
-          recScreenContainer.right > rec2.right &&
-          recScreenContainer.top < rec2.top &&
-          recScreenContainer.bottom > rec2.bottom
-        ) {
-
-          beingInScreenContainer = true;
-
-          // target.style.width = (rec2.width * self.state.scale) + 'px';
-          // target.style.height = (rec2.height * self.state.scale) + 'px';
-          // target.style.transitionDuration = '0.05s';
-
-          setTimeout(() => {
-            target.style.transitionDuration = '';
-          }, 50);
-        }
-
-        if (beingInScreenContainer === true &&
-          !(recScreenContainer.left < rec2.left &&
-            recScreenContainer.right > rec2.right &&
-            recScreenContainer.top < rec2.top &&
-            recScreenContainer.bottom > rec2.bottom)
-        ) {
-          beingInScreenContainer = false;
-
-          // target.style.width = (rec2.width / self.state.scale) + 'px';
-          // target.style.height = (rec2.height / self.state.scale) + 'px';
-          // target.style.transitionDuration = '0.05s';
-
-          setTimeout(() => {
-            target.style.transitionDuration = '';
-          }, 50);
-        }
-
-        target.style.left = e.pageX - posX + "px";
-        target.style.top = e.pageY - posY + "px";
-        target.style.position = "absolute";
-      }
-    };
-
-    const onUp = e => {
-      dragging = false;
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-
-      var recs = document.getElementsByClassName("alo");
-      var rec2 = self.imgDragging.getBoundingClientRect();
-      for (var i = 0; i < recs.length; ++i){
-        var rec = recs[i].getBoundingClientRect();
-        if (
-          rec.left < rec2.right &&
-          rec.right > rec2.left &&
-          rec.top < rec2.bottom &&
-          rec.bottom > rec2.top
-        ) {
-          let images = [...this.state.images];
-          images.push({
-            _id: uuidv4(),
-            type: TemplateType.Image,
-            width: rec2.width / self.state.scale,
-            height: rec2.height / self.state.scale,
-            origin_width: rec2.width / self.state.scale,
-            origin_height: rec2.height / self.state.scale,
-            left: (rec2.left - rec.left) / self.state.scale,
-            top: (rec2.top - rec.top) / self.state.scale,
-            rotateAngle: 0.0,
-            src: (!img.representative.startsWith("data") ? (window.location.origin + "/" + img.representative) : img.representative),
-            backgroundColor: target.style.backgroundColor,
-            selected: false,
-            scaleX: 1,
-            scaleY: 1,
-            posX: 0,
-            posY: 0,
-            imgWidth: (rec2.width / self.state.scale),
-            imgHeight: (rec2.height / self.state.scale),
-            page: this.state.pages[i],
-            zIndex: this.state.upperZIndex + 1,
-          });
-
-          self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
-        }
-      }
-
-      self.imgDragging.remove();
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  }
 
   onClickDropDownList = e => {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -2731,19 +2177,6 @@ handleToolbarResize = e => {
   getSnapshotBeforeUpdate(prevProps, prevState) {
     // this.getBottomOfScreenContainer();
   }
-
-
-  // getBottomOfScreenContainer = () => {
-  //   const { rectHeight, scale } = this.state;
-  //   var rec1 = document.getElementById("screen-container-parent").getBoundingClientRect();
-  //   var res = null;
-  //   if (rec1.height >= rectHeight * scale + 40) {
-  //     res = '0px';
-  //   }
-
-  //   document.getElementById("screen-container").style.bottom = res;
-  //   document.getElementById("guide-container").style.bottom = res;
-  // }
 
   normalize2(image: any, images: any, scaleX: number, scaleY: number, scale: number, width: number, height: number) : any {
     var result = [];
@@ -3041,364 +2474,11 @@ handleToolbarResize = e => {
     this.setState({images, upperZIndex: this.state.upperZIndex + 1});
   }
 
-  loadMoreFont = (initialLoad) => {
-    let pageId;
-    let count;
-    if (initialLoad) {
-      pageId = 1;
-      count = 30;
-    } else {
-      pageId = (this.state.fontsList.length) / 30 + 1;
-      count = 30;
-    }
-    // this.setState({ isLoading: true, error: undefined });
-    const url = `/api/Font/Search?page=${pageId}&perPage=${count}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        res => {
-          this.setState(state => ({
-            fontsList: [...state.fontsList, ...res.value.key],
-            totalFonts: res.value.value,
-            hasMoreFonts: res.value.value > state.fontsList.length + res.value.key.length,
-          }))
-        },
-        error => {
-          // this.setState({ isLoading: false, error })
-        }
-    )
-  }
-
-  loadMoreVideo = (initialLoad) => {
-    let pageId;
-    let count;
-    if (initialLoad) {
-      pageId = 1;
-      count = 30;
-    } else {
-      pageId = (this.state.fontsList.length) / 30 + 1;
-      count = 30;
-    }
-    // this.setState({ isLoading: true, error: undefined });
-    const url = `/api/Media/Search?page=${pageId}&perPage=${count}&type=${TemplateType.Video}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        res => {
-          console.log('loadMoreVideo ', url ,res);
-          this.setState(state => ({
-            videos: [...state.videos, ...res.value.key],
-            hasMoreVideos: res.value.value > state.videos.length + res.value.key.length,
-          }))
-        },
-        error => {
-          // this.setState({ isLoading: false, error })
-        }
-    )
-  }
-
-  loadmoreUserUpload = (initialload) => {
-    let pageId;
-    let count;
-    if (initialload) {
-      pageId = 1;
-      count = 15;
-    } else {
-      pageId = (this.state.userUpload1.length + this.state.userUpload2.length) / 15 + 1;
-      count = 15;
-    }
-    this.setState({ isUserUploadLoading: true, error: undefined });
-    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
-    const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${count}&userEmail=${Globals.serviceUser.username}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        res => {
-          var result = res.value.key;
-          var currentUserUpload1 = this.state.currentUserUpload1;
-          var currentUserUpload2 = this.state.currentUserUpload2;
-          var res1 = [];
-          var res2 = [];
-          for (var i = 0; i < result.length; ++i) {
-            var currentItem = result[i];
-            if (currentUserUpload1 <= currentUserUpload2) {
-              res1.push(currentItem);
-              currentUserUpload1 += imgWidth / (currentItem.width / currentItem.height);
-            } else {
-              res2.push(currentItem);
-              currentUserUpload2 += imgWidth / (currentItem.width / currentItem.height);
-            }
-          }
-
-          this.setState(state => ({
-            userUpload1: [...state.userUpload1, ...res1],
-            userUpload2: [...state.userUpload2, ...res2],
-            currentUserUpload1,
-            currentUserUpload2,
-            cursor: res.cursor,
-            isUserUploadLoading: false,
-            hasMoreUserUpload: res.value.value > state.userUpload2.length + state.userUpload1.length + res.value.key.length,
-          }))
-        },
-        error => {
-          this.setState({ isUserUploadLoading: false, error })
-        }
-    )
-  }
-
-  loadMoreBackground = (initialload) => {
-    console.log('loadmorebackground')
-    let pageId;
-    let count;
-    if (initialload) {
-      pageId = 1;
-      count = 30;
-    } else {
-      pageId = (this.state.backgrounds1.length + this.state.backgrounds2.length + this.state.backgrounds3.length) / 5 + 1;
-      count = 15;
-    }
-    this.setState({ isBackgroundLoading: true, error: undefined });
-    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
-    const url = `/api/Media/Search?type=${TemplateType.BackgroundImage}&page=${pageId}&perPage=${count}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        res => {
-          console.log('ress ', res);
-          var result = res.value.key;
-          var currentBackgroundHeights1 = this.state.currentBackgroundHeights1;
-          var currentBackgroundHeights2 = this.state.currentBackgroundHeights2;
-          var currentBackgroundHeights3 = this.state.currentBackgroundHeights3;
-          var res1 = [];
-          var res2 = [];
-          var res3 = [];
-          for (var i = 0; i < result.length; ++i) {
-            var currentItem = result[i];
-            if (currentBackgroundHeights1 <= currentBackgroundHeights2 && currentBackgroundHeights1 <= currentBackgroundHeights3) {
-              res1.push(currentItem);
-              currentBackgroundHeights1 += backgroundWidth / (currentItem.width / currentItem.height);
-            } else if (currentBackgroundHeights2 <= currentBackgroundHeights1 && currentBackgroundHeights2 <= currentBackgroundHeights3) {
-              res2.push(currentItem);
-              currentBackgroundHeights2 += backgroundWidth / (currentItem.width / currentItem.height);
-            } else {
-              res3.push(currentItem);
-              currentBackgroundHeights3 += backgroundWidth / (currentItem.width / currentItem.height);
-            }
-          }
-          this.setState(state => ({
-            backgrounds1: [...state.backgrounds1, ...res1],
-            backgrounds2: [...state.backgrounds2, ...res2],
-            backgrounds3: [...state.backgrounds3, ...res3],
-            currentBackgroundHeights1,
-            currentBackgroundHeights2,
-            currentBackgroundHeights3,
-            cursor: res.cursor,
-            isBackgroundLoading: false,
-            hasMoreBackgrounds: res.value.value > state.items.length + state.items2.length + res.value.key.length,
-          }))
-        },
-        error => {
-          this.setState({ isBackgroundLoading: false, error })
-        }
-    )
-  }
-
-  loadMoreTemplate = (initalLoad, subtype) => {
-    let pageId;
-    let count;
-    if (initalLoad) {
-      pageId = 1;
-      count = 10;
-    } else {
-      pageId = Math.round((this.state.templates.length + this.state.templates2.length) / 5) + 1;
-      count = 5;
-    }
-    this.setState({ isTemplateLoading: true, error: undefined });
-    const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype ? subtype : this.state.subtype}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        res => {
-          var result = res.value.key;
-          var currentTemplatesHeight = this.state.currentTemplatesHeight;
-          var currentTemplate2sHeight = this.state.currentTemplate2sHeight;
-          var res1 = [];
-          var res2 = [];
-          for (var i = 0; i < result.length; ++i) {
-            var currentItem = result[i];
-            if (currentTemplatesHeight <= currentTemplate2sHeight) {
-              res1.push(currentItem);
-              currentTemplatesHeight += imgWidth / (currentItem.width / currentItem.height);
-            } else {
-              res2.push(currentItem);
-              currentTemplate2sHeight += imgWidth / (currentItem.width / currentItem.height);
-            }
-          }
-          this.setState(state => ({
-            templates: [...state.templates, ...res1],
-            templates2: [...state.templates2, ...res2],
-            currentTemplatesHeight,
-            currentTemplate2sHeight,
-            isTemplateLoading: false,
-            hasMoreTemplate: res.value.value > state.templates.length + state.templates2.length + res.value.key.length,
-          }))
-        },
-        error => {
-          // this.setState({ isLoading: false, error })
-        }
-    )
-  }
-
-  loadMoreTextTemplate = (initalLoad) => {
-    let pageId;
-    let count;
-    if (initalLoad) {
-      pageId = 1;
-      count = 10;
-    } else {
-      pageId = (this.state.groupedTexts.length + this.state.groupedTexts2.length) / 1 + 1;
-      count = 1;
-    }
-    this.setState({ isTextTemplateLoading: true, error: undefined });
-    const url = `/api/Template/Search?Type=${TemplateType.TextTemplate}&page=${pageId}&perPage=${count}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        res => {
-          var result = res.value.key;
-          var currentGroupedTextsHeight = this.state.currentGroupedTextsHeight;
-          var currentGroupedTexts2Height = this.state.currentGroupedTexts2Height;
-          var res1 = [];
-          var res2 = [];
-          for (var i = 0; i < result.length; ++i) {
-            var currentItem = result[i];
-            
-            if (currentGroupedTextsHeight <= currentGroupedTexts2Height) {
-              res1.push(currentItem);
-              currentGroupedTextsHeight += imgWidth / (currentItem.width / currentItem.height);
-            } else {
-              res2.push(currentItem);
-              currentGroupedTexts2Height += imgWidth / (currentItem.width / currentItem.height);
-            }
-          }
-          this.setState(state => ({
-            groupedTexts: [...state.groupedTexts, ...res1],
-            groupedTexts2: [...state.groupedTexts2, ...res2],
-            currentGroupedTextsHeight,
-            currentGroupedTexts2Height,
-            isTextTemplateLoading: false,
-            hasMoreTextTemplate: res.value.value > state.groupedTexts.length + state.groupedTexts2.length + res.value.key.length,
-          }))
-        },
-        error => {
-          this.setState({ isTextTemplateLoading: false, error })
-        }
-    )
-  }
-
-  loadMore = (initialLoad: Boolean) => {
-    console.log('loadMore ');
-    let pageId;
-    let count;
-    if (initialLoad) {
-      pageId = 1;
-      count = 15;
-    } else {
-      pageId = (this.state.items.length + this.state.items2.length) / 15 + 1;
-      count = 15;
-    }
-    this.setState({ isLoading: true, error: undefined });
-    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
-    const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        res => {
-          var result = res.value.key;
-          var currentItemsHeight = this.state.currentItemsHeight;
-          var currentItems2Height = this.state.currentItems2Height;
-          var res1 = [];
-          var res2 = [];
-          for (var i = 0; i < result.length; ++i) {
-            var currentItem = result[i];
-            if (currentItemsHeight <= currentItems2Height) {
-              res1.push(currentItem);
-              currentItemsHeight += imgWidth / (currentItem.width / currentItem.height);
-            } else {
-              res2.push(currentItem);
-              currentItems2Height += imgWidth / (currentItem.width / currentItem.height);
-            }
-          }
-          this.setState(state => ({
-            items: [...state.items, ...res1],
-            items2: [...state.items2, ...res2],
-            currentItemsHeight,
-            currentItems2Height,
-            cursor: res.cursor,
-            isLoading: false,
-            hasMoreImage: res.value.value > state.items.length + state.items2.length + res.value.key.length,
-          }))
-        },
-        error => {
-          this.setState({ isLoading: false, error })
-        }
-    )
-  }
-
-  loadMoreRemovedBackgroundImage = (initialLoad: Boolean) => {
-    let pageId;
-    let count;
-    if (initialLoad) {
-      pageId = 1;
-      count = 15;
-    } else {
-      pageId = (this.state.items.length + this.state.items2.length) / 15 + 1;
-      count = 15;
-    }
-    this.setState({ isRemovedBackgroundLoading: true, error: undefined });
-    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
-    const url = `/api/Media/Search?type=${TemplateType.RemovedBackgroundImage}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        res => {
-          console.log('loadMoreRemovedBackgroundImage res', res)
-          var result = res.value.key;
-          var currentHeightRemoveImage1 = this.state.currentHeightRemoveImage1;
-          var currentHeightRemoveImage2 = this.state.currentHeightRemoveImage2;
-          var res1 = [];
-          var res2 = [];
-          for (var i = 0; i < result.length; ++i) {
-            var currentItem = result[i];
-            if (currentHeightRemoveImage1 <= currentHeightRemoveImage2) {
-              res1.push(currentItem);
-              currentHeightRemoveImage1 += imgWidth / (currentItem.width / currentItem.height);
-            } else {
-              res2.push(currentItem);
-              currentHeightRemoveImage2 += imgWidth / (currentItem.width / currentItem.height);
-            }
-          }
-          this.setState(state => ({
-            removeImages1: [...state.removeImages1, ...res1],
-            removeImages2: [...state.removeImages2, ...res2],
-            currentHeightRemoveImage1,
-            currentHeightRemoveImage2,
-            cursor: res.cursor,
-            isLoading: false,
-            hasMoreRemovedBackground: res.value.value > state.items.length + state.items2.length + res.value.key.length,
-          }))
-        },
-        error => {
-          this.setState({ isRemovedBackgroundLoading: false, error })
-        }
-    )
-  }
-
-  handleQuery = (e) => {
-    if (e.key === "Enter") {
-      this.setState({query: e.target.value, items: [], items2: [],}, () => {this.loadMore(true)});
-    }
-  }
+  // handleQuery = (e) => {
+  //   if (e.key === "Enter") {
+  //     this.setState({query: e.target.value, items: [], items2: [],}, () => {this.loadMore(true)});
+  //   }
+  // }
 
   renderCanvas(preview, index) {
     var res = [];
@@ -3416,7 +2496,7 @@ handleToolbarResize = e => {
         index={i}
         id={this.state.pages[i]}
         addAPage={this.addAPage}
-        images={this.state.images.filter(img => img.page === this.state.pages[i])}
+        images={this.props.images.filter(img => img.page === this.state.pages[i])}
         mode={this.state.mode}
         rectWidth={this.state.rectWidth}
         rectHeight={this.state.rectHeight}
@@ -3646,7 +2726,11 @@ handleToolbarResize = e => {
   refPhoneNumber = null;
 
   render() {
-    const { scale, staticGuides, rectWidth, rectHeight, images, cropMode, pages, } = this.state; 
+
+    console.log('rendering');
+    const { scale, staticGuides, rectWidth, rectHeight, cropMode, pages, } = this.state; 
+
+    const { images } = this.props;
 
     const adminEmail = "llaugusty@gmail.com";
     
@@ -3900,1267 +2984,21 @@ handleToolbarResize = e => {
             width: `100%`
           }}
         >
-          {
-            <div
-              style={{
-                left: "-1px",
-                backgroundColor: "#293039",
-                flexDirection: "row",
-                zIndex: 11111,
-                width: this.state.toolbarOpened
-                  ? `${this.state.toolbarSize}px`
-                  : '80px',
-                height: "100%",
-                position: "absolute",
-                display: 'flex'
-              }}
-            >
-              <TopMenu
-                mode={this.state.mode}
-                toolbarSize={this.state.toolbarSize}
-                selectedTab={this.state.selectedTab}
-                onClick={this.handleSidebarSelectorClicked}
-              /> 
-              <div
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      zIndex: 1111111112,
-                      backgroundColor: 'white',
-                      width: '100%',
-                      display: Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username === adminEmail ?  "block" : "none",
-                    }}
-                  >
-                    <input 
-                      id="image-file" 
-                      type="file"
-                      onLoad={(data) => {}}
-                      onLoadedData={(data) => {}}
-                      onChange={(e) => {this.state.selectedTab === SidebarTab.Video ? this.uploadVideo() :
-                        this.state.selectedTab === SidebarTab.Font ? this.uploadFont(e) :
-                        this.uploadImage(this.state.selectedTab === SidebarTab.Image ? TemplateType.Image :
-                          (this.state.selectedTab === SidebarTab.Upload ? TemplateType.UserUpload : 
-                          (this.state.selectedTab === SidebarTab.Background ? TemplateType.BackgroundImage :
-                            (this.state.selectedTab === SidebarTab.RemovedBackgroundImage ? TemplateType.RemovedBackgroundImage : TemplateType.RemovedBackgroundImage))), false, e)}}
-                      style={{
-                        bottom: 0,
-                      }}
-                      />
-                    <button
-                      style={{
-                        bottom: 0,
-                      }}
-                      type="submit" 
-                      onClick={
-                        this.state.selectedTab === SidebarTab.Font ? 
-                        this.uploadFont.bind(this) :
-                        this.uploadImage.bind(this, this.state.selectedTab === SidebarTab.Image ? TemplateType.Image : TemplateType.BackgroundImage, false)}>
-                        Upload
-                    </button>
-                    <button
-                    style={{
-                      bottom: 0,
-                      right: 0,
-                    }}
-                    onClick={this.handleRemoveAllMedia.bind(this)}>
-                      RemoveAll
-                      </button>
-                    </div>
-                    { this.state.toolbarOpened && 
-              <div
-                id="sidebar-content"
-                style={{
-                  position: "relative",
-                  height: `calc(100% - ${Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail ? 78 : 0}px)`,
-                  width: '370px',
-                  padding: '10px 5px 0px 18px',
-                  transitionDuration: "10s, 10s",
-                }}
-              >
-                {/* {this.state.selectedTab === SidebarTab.Image && ( */}
-                  <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Image ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Image && `translate3d(0px, calc(-${this.state.selectedTab > SidebarTab.Image ? 40 : -40}px), 0px)`,
-                      zIndex: this.state.selectedTab !== SidebarTab.Image && -1,
-                      top: '10px',
-                      height: '100%',
-                    }}
-                  >
-                  <div
-                    style={{
-                      position: 'relative',
-                      zIndex: 123,
-                    }}>
-                      <input
-                      style={{
-                        zIndex: 11,
-                        width: 'calc(100% - 13px)',
-                        marginBottom: '8px',
-                        border: 'none',
-                        height: '37px',
-                        borderRadius: '6px',
-                        padding: '5px',
-                        fontSize: '13px',
-                        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
-                      }}
-                      onKeyDown={this.handleQuery}
-                      type="text"
-                      onChange={(e) => {this.setState({query: e.target.value})}}
-                      value={this.state.query}
-                      />
-                  <InfiniteScroll
-                    scroll={true}
-                    throttle={500}
-                    threshold={300}
-                    isLoading={this.state.isLoading}
-                    hasMore={this.state.hasMoreImage}
-                    onLoadMore={this.loadMore}
-                    height='calc(100% - 45px)'
-                    width={imgWidth}
-                    refId="sentinel"
-                  >
-                    <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
-                    <div
-                      style={{
-                        height: "calc(100% - 170px)",
-                        width: '350px',
-                        marginRight: '10px',
-                      }}
-                    >
-                      {this.state.items.map((item, key) => (
-                        <ImagePicker
-                          key={key}
-                          color={item.color}
-                          src={item.representativeThumbnail}
-                          height={imgWidth / (item.width / item.height)}
-                          defaultHeight={imgWidth}
-                          className=""
-                          onPick={this.imgOnMouseDown.bind(this, item)}
-                          onEdit={this.handleEditmedia.bind(this, item)}
-                          delay={0}
-                        />
-                      ))}
-                      {this.state.mounted && this.state.hasMoreImage && Array(1).fill(0).map((item, i) => (
-                      <ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={imgWidth}
-                        defaultHeight={imgWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={0}
-                      />))
-                      }
-                      {this.state.mounted && this.state.hasMoreImage && Array(10).fill(0).map((item, i) => (
-                      <ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={imgWidth}
-                        defaultHeight={imgWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={0}
-                      />))
-                      }
-                    </div>
-                    <div
-                      style={{
-                        height: "calc(100% - 170px)",
-                        width: '350px',
-                      }}
-                    >
-                      {this.state.items2.map((item, key) => (
-                        <ImagePicker
-                          key={key}
-                          color={item.color}
-                          src={item.representativeThumbnail}
-                          height={imgWidth / (item.width / item.height)}
-                          defaultHeight={imgWidth}
-                          className=""
-                          onPick={this.imgOnMouseDown.bind(this, item)}
-                          onEdit={this.handleEditmedia.bind(this, item)}
-                          delay={-1}
-                        />
-                      ))}
-                      {this.state.mounted && this.state.hasMoreImage && Array(1).fill(0).map((item, i) => (
-                      <ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={imgWidth}
-                        defaultHeight={imgWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={-1}
-                      />))
-                      }
-                      {this.state.mounted && this.state.hasMoreImage && Array(10).fill(0).map((item, i) => (
-                      <ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={imgWidth}
-                        defaultHeight={imgWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={-1}
-                      />))
-                      }
-                      </div>
-                    {/* <div
-                      id="image-container-picker"
-                      style={{
-                        // display: "flex",
-                        overflow: "scroll",
-                        // height: '200px',
-                        height: "100%",
-                        width: '350px',
-                        paddingLeft: '5px',
-                      }}
-                    >
-                      {this.state.items.map((item, key) => (
-                        <ImagePicker
-                          key={key}
-                          className=""
-                          src={item.urls.small}
-                          onPick={this.imgOnMouseDown.bind(this)}
-                        />
-                      ))}
-                    </div> */}
-                    </div>
-                  </InfiniteScroll>
-                  </div>
-                  </div>
-                {/* } */}
-                {/* {this.state.selectedTab === SidebarTab.Text && ( */}
-                  <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Text ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Text && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Text ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.Text && -1,
-                      height: '100%',
-                    }}
-                  >
-                  <div style={{ color: "white" }}>
-                    <div style={{marginBottom: '10px'}}>
-                      <p>Nhấn để thêm chữ vào trang</p>
-                      <div
-                        style={{
-                          fontSize: '28px',
-                          width: '100%',
-                          cursor: 'pointer',
-                        }}
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-
-                          var _id = uuidv4();
-
-                          let images = this.state.images.map(img => {
-                            if (img._id === this.state.idObjectSelected) {
-                              img.childId = _id;
-                            }
-                            return img;
-                          });
-
-                          var scale = this.state.rectWidth / e.target.getBoundingClientRect().width;
-
-                          images.push({
-                            _id,
-                            type: TemplateType.Latex,
-                            width: 200 * scale,
-                            origin_width: 200,
-                            height: 40 * scale,
-                            origin_height: 40,
-                            left: 0,
-                            top: 0,
-                            rotateAngle: 0.0,
-                            innerHTML: "Phương trình: $$ f(x) = x^2 $$",
-                            scaleX: scale,
-                            scaleY: scale,
-                            selected: false,
-                            ref: this.state.idObjectSelected,
-                            page: this.state.activePageId,
-                            zIndex: this.state.upperZIndex + 1,
-                          });
-
-                          this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
-                        }}
-                      >
-                          Thêm LaTeX
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '28px',
-                          width: '100%',
-                          cursor: 'pointer',
-                        }}
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-
-                          var _id = uuidv4();
-
-                          let images = this.state.images.map(img => {
-                            if (img._id === this.state.idObjectSelected) {
-                              img.childId = _id;
-                            }
-                            return img;
-                          });
-
-                          var scale = this.state.rectWidth / e.target.getBoundingClientRect().width;
-
-                          images.push({
-                            _id,
-                            type: TemplateType.Heading,
-                            width: 200 * scale,
-                            origin_width: 200,
-                            height: 40 * scale,
-                            origin_height: 40,
-                            left: 0,
-                            top: 0,
-                            rotateAngle: 0.0,
-                            innerHTML: "<font face=\"O5mEMMs7UejmI1WeSKWQ\" style=\"font-size: 26px\">Add a heading</font>",
-                            scaleX: scale,
-                            scaleY: scale,
-                            selected: false,
-                            ref: this.state.idObjectSelected,
-                            page: this.state.activePageId,
-                            zIndex: this.state.upperZIndex + 1,
-                          });
-
-                          this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
-                        }}
-                      >
-                          Thêm tiêu đề
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '22px',
-                          width: '100%',
-                          cursor: 'pointer',
-                        }}
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          var scale = this.state.rectWidth / e.target.getBoundingClientRect().width - 0.3;
-                          let images = [...this.state.images];
-                          images.push({
-                            _id: uuidv4(),
-                            type: TemplateType.Heading,
-                            width: 190 * scale,
-                            origin_width: 190,
-                            height: 35 * scale,
-                            origin_height: 35,
-                            left: 0,
-                            top: 0,
-                            rotateAngle: 0.0,
-                            innerHTML: "<font face=\"O5mEMMs7UejmI1WeSKWQ\" style=\"font-size: 22px\">Add a subheading</font>",
-                            scaleX: scale,
-                            scaleY: scale,
-                            page: this.state.activePageId,
-                            zIndex: this.state.upperZIndex + 1,
-                          });
-
-                          this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
-                        }}
-                      >
-                      Thêm tiêu đề con
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '16px',
-                          width: '100%',
-                          cursor: 'pointer',
-                          marginTop: '7px',
-                        }}
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          var scale = this.state.rectWidth / e.target.getBoundingClientRect().width - 0.6;
-                          let images = [...this.state.images];
-                          images.push({
-                            _id: uuidv4(),
-                            type: TemplateType.Heading,
-                            width: 200 * scale,
-                            origin_width: 200,
-                            height: 22 * scale,
-                            origin_height: 22,
-                            left: 0,
-                            top: 0,
-                            rotateAngle: 0.0,
-                            innerHTML: "<font face=\"O5mEMMs7UejmI1WeSKWQ\" style=\"font-size: 16px\">Add a little bit of body text</font>",
-                            scaleX: scale,
-                            scaleY: scale,
-                            page: this.state.activePageId,
-                            zIndex: this.state.upperZIndex + 1,
-                          });
-
-                          this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
-                        }}
-                      >
-                      Thêm đoạn văn
-                      </div>
-                    </div>
-                    {
-                      <InfiniteScroll
-                      scroll={true}
-                      throttle={500}
-                      threshold={300}
-                      isLoading={this.state.isTemplateLoading}
-                      hasMore={this.state.hasMoreTextTemplate}
-                      onLoadMore={this.loadMoreTextTemplate}
-                      height='calc(100% - 180px)'
-                    >
-                      {/* <input
-                      style={{
-                        width: '100%',
-                        marginBottom: '8px',
-                        border: 'none',
-                        height: '30px',
-                        borderRadius: '6px',
-                        padding: '5px',
-                        fontSize: '13px',
-                      }}
-                      type="text" /> */}
-                      <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
-                      <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                        {this.state.groupedTexts.map((item, key) => (
-                          <ImagePicker
-                            key={key}
-                            color={item.color}
-                            src={item.representative}
-                            height={imgWidth / (item.width / item.height)}
-                            className="text-picker"
-                            onPick={this.textOnMouseDown.bind(this, item.id)}
-                            onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
-                          />
-                        ))}
-                      </div>
-                      <div
-                        style={{
-                          width: '350px',
-                        }}
-                      >
-                        {this.state.groupedTexts2.map((item, key) => (
-                          <ImagePicker
-                            key={key}
-                            color={item.color}
-                            className="text-picker"
-                            height={imgWidth / (item.width / item.height)}
-                            src={item.representative}
-                            onPick={this.textOnMouseDown.bind(this, item.id)}
-                            onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
-                          />
-                        ))}
-                        </div>
-                        {/* <button
-                          style={{
-                            position: 'absolute',
-                            right: 0,
-                          }}
-                          onClick={this.handleRemoveAllMedia.bind(this, "Template")}
-                        >Remove</button> */}
-                      {/* <div
-                        id="image-container-picker"
-                        style={{
-                          // display: "flex",
-                          overflow: "scroll",
-                          // height: '200px',
-                          height: "100%",
-                          width: '350px',
-                          paddingLeft: '5px',
-                        }}
-                      >
-                        {this.state.items.map((item, key) => (
-                          <ImagePicker
-                            key={key}
-                            className=""
-                            src={item.urls.small}
-                            onPick={this.imgOnMouseDown.bind(this)}
-                          />
-                        ))}
-                      </div> */}
-                      </div>
-                    </InfiniteScroll>
-                    }
-                  </div>
-                  </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.Template && ( */}
-                    <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Template ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Template && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Template ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.Template && -1,
-                      height: '100%',
-                    }}
-                  >
-                    {
-                      <InfiniteScroll
-                      scroll={true}
-                      throttle={500}
-                      threshold={300}
-                      isLoading={this.state.isTemplateLoading}
-                      hasMore={this.state.hasMoreTemplate}
-                      onLoadMore={this.loadMoreTemplate.bind(this)}
-                      height='100%'
-                      onEdit={null}
-                    >
-                      {/* <input
-                      style={{
-                        width: '100%',
-                        marginBottom: '8px',
-                        border: 'none',
-                        height: '30px',
-                        borderRadius: '6px',
-                        padding: '5px',
-                        fontSize: '13px',
-                      }}
-                      type="text" /> */}
-                      <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
-                      <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                        {this.state.templates.map((item, key) => (
-                          <ImagePicker
-                            key={key}
-                            color={item.color}
-                            src={item.representative}
-                            height={imgWidth / (item.width / item.height)}
-                            className="template-picker"
-                            onPick={this.templateOnMouseDown.bind(this, item.id)}
-                            onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
-                          />
-                        ))}
-                      </div>
-                      <div
-                        style={{
-                          width: '350px',
-                        }}
-                      >
-                        {this.state.templates2.map((item, key) => (
-                          <ImagePicker
-                            key={key}
-                            color={item.color}
-                            className="template-picker"
-                            height={imgWidth / (item.width / item.height)}
-                            src={item.representative}
-                            onPick={this.templateOnMouseDown.bind(this, item.id)}
-                            onEdit={() => {this.setState({showTemplateEditPopup: true, editingMedia: item})}}
-                          />
-                        ))}
-                        </div>
-                      </div>
-                    </InfiniteScroll>
-                    }
-                  </div>
-                {/* } */}
-                {/* {this.state.selectedTab === SidebarTab.Background &&  */}
-                <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Background ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      color: "white",
-                      overflow: "scroll",
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Background && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Background ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.Background && -1,
-                      height: '100%',
-                    }}
-                  >
-                  <InfiniteScroll
-                  scroll={true}
-                  throttle={100}
-                  threshold={0}
-                  isLoading={this.state.isBackgroundLoading}
-                  height="100%"
-                  width={93}
-                  hasMore={this.state.hasMoreBackgrounds}
-                  onLoadMore={this.loadMoreBackground}
-                  refId="sentinel"
-                >
-                  <div
-                    id="image-container-picker"
-                    style={{
-                      display: "flex",
-                      padding: '0px 13px 10px 0px',
-                    }}
-                  >
-                    <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                    {this.state.backgrounds1.map((item, key) => (
-                      <ImagePicker
-                        key={key}
-                        color={item.color}
-                        src={item.representativeThumbnail}
-                        height={backgroundWidth / (item.width / item.height)}
-                        defaultHeight={backgroundWidth}
-                        onPick={this.backgroundOnMouseDown.bind(this, item)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                        delay={0}
-                      />
-                    ))}
-                    {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
-                      <ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={0}
-                      />))
-                      }
-                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
-                      <ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={0}
-                      />))
-                      }
-                    </div>
-                    <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                    {this.state.backgrounds2.map((item, key) => (
-                      <ImagePicker
-                        key={key}
-                        color={item.color}
-                        src={item.representativeThumbnail}
-                        height={backgroundWidth / (item.width / item.height)}
-                        defaultHeight={backgroundWidth}
-                        onPick={this.backgroundOnMouseDown.bind(this, item)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                        delay={-1}
-                      />
-                    ))}
-                      {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
-<ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={-1}
-                      />))
-                      }
-                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
-<ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={-1}
-                      />))
-                      }
-                    </div>
-                    <div
-                        style={{
-                          width: '350px',
-                        }}
-                      >
-                    {this.state.backgrounds3.map((item, key) => (
-                      <ImagePicker
-                        key={key}
-                        color={item.color}
-                        src={item.representativeThumbnail}
-                        height={backgroundWidth / (item.width / item.height)} 
-                        defaultHeight={backgroundWidth}
-                        onPick={this.backgroundOnMouseDown.bind(this, item)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                        delay={-2}
-                      />
-                    ))}
-                      {this.state.hasMoreBackgrounds && Array(1).fill(0).map((item, i) => (
-<ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={-2}
-                      />))
-                      }
-                      {this.state.hasMoreBackgrounds && Array(10).fill(0).map((item, i) => (
-<ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={-2}
-                      />))
-                      }
-                    </div>
-                  </div>
-                </InfiniteScroll>
-                </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.Font && ( */}
-                  <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Font ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      color: "white",
-                      overflow: "scroll",
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Font && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Font ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.Font && -1,
-                      height: '100%',
-                    }}
-                  >
-                    <div
-                    style={{
-                    }}>
-                      
-                    {/* {
-                      this.state.fontsList.map(font => 
-                        <a 
-                          className="font-picker"
-                          style={{
-                            display: "flex",
-                          }} 
-                          href="#" 
-                          onClick={this.selectFont.bind(this, font.id)}><img 
-                          style={{
-                            height: '25px',
-                            margin: 'auto',
-                          }} src={font.representative} />
-                          {this.state.fontId === font.id ? <span style={{float: 'right', width: '25px', height: '25px', position: 'absolute', right: '10px'}}><svg style={{fill: 'white'}} version="1.1" viewBox="0 0 44 44" enable-background="new 0 0 44 44">
-  <path d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"/>
-</svg></span> : null}
-                          </a>
-                      )
-                    } */}
-                    <div
-                      style={{
-                        height: '100%',
-                      }}
-                    ><InfiniteScroll
-                    scroll={true}
-                    throttle={500}
-                    threshold={300}
-                    isLoading={false}
-                    hasMore={this.state.hasMoreFonts}
-                    onLoadMore={this.loadMoreFont}
-                    height='100%'
-                  >
-                    <div id="image-container-picker">
-                    <div
-                      style={{
-                        // height: "calc(100% - 170px)",
-                        marginRight: '10px',
-                      }}
-                    >
-                      {this.state.fontsList.map((font, key) => (
-                        <a 
-                          className="font-picker"
-                          style={{
-                            display: "flex",
-                            position: 'relative',
-                          }} 
-                          href="#" 
-                          onClick={this.selectFont.bind(this, font.id)}>
-                            { Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail &&
-                            <button
-                              style={{
-                                position: 'absolute',
-                                top: '5px',
-                                left: '5px',
-                                borderRadius: '13px',
-                                border: 'none',
-                                padding: '0 4px',
-                                boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
-                              }}
-                              onClick={this.handleEditFont.bind(this, font)}
-                            ><span>
-                <svg width="25" height="25" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fill-rule="evenodd"></use></svg>
-                            </span>
-                            </button>
-                            }
-                            <img 
-                              style={{
-                                height: '25px',
-                                margin: 'auto',
-                              }} src={font.representative} />
-                              {this.state.fontId === font.id ? <span style={{position: 'absolute', float: 'right', width: '25px', height: '25px', right: '10px'}}><svg style={{fill: 'white'}} version="1.1" viewBox="0 0 44 44" enable-background="new 0 0 44 44">
-  <path d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"/>
-</svg></span> : null}
-                          </a>
-                      ))}
-                    </div>
-                    </div>
-                  </InfiniteScroll>
-                  </div>
-                    </div>
-                  </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.Color && ( */}
-                  <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Color ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      color: "white",
-                      overflow: "scroll",
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Color && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Color ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.Color && -1,
-                      height: '100%',
-                    }}
-                  >
-                    <div style={{display: 'inline-block'}}>
-                    <p>Quick Picks</p>
-                    <ul
-                      style={{
-                        listStyle: 'none',
-                        padding: 0,
-                      }}
-                    >
-                      {fontColors.map(font => 
-                          <a
-                        href="#"
-                        onClick={this.setSelectionColor.bind(this, font)}  
-                      >
-                      <li 
-                        style={{
-                          width: '25px',
-                          height: '25px',
-                          backgroundColor: font,
-                          float: 'left',
-                          marginLeft: '5px',
-                          marginTop: '5px',
-                        }}
-                      >
-                      </li>
-                      </a>)}
-                    </ul>
-                    </div>
-                    <div style={{display: 'inline-block'}}>
-                    <p>All Colors</p>
-                    <ul
-                      style={{
-                        listStyle: 'none',
-                        padding: 0,
-                      }}
-                    >
-                      {allColors.map(font => 
-                          <a
-                        href="#"
-                        onClick={this.setSelectionColor.bind(this, font)}  
-                      >
-                      <li 
-                        style={{
-                          width: '25px',
-                          height: '25px',
-                          backgroundColor: font,
-                          float: 'left',
-                          marginLeft: '5px',
-                          marginTop: '5px',
-                        }}
-                      >
-                      </li>
-                      </a>)}
-                    </ul>
-                    </div>
-                  </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.RemovedBackgroundImage &&  */}
-                <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.RemovedBackgroundImage ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      color: "white",
-                      overflow: "scroll",
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.RemovedBackgroundImage && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.RemovedBackgroundImage ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.RemovedBackgroundImage && -1,
-                      height: '100%',
-                    }}
-                  >
-                <InfiniteScroll
-                  scroll={true}
-                  throttle={500}
-                  threshold={300}
-                  isLoading={this.state.isRemovedBackgroundLoading}
-                  hasMore={this.state.hasMoreRemovedBackground}
-                  onLoadMore={this.loadMoreRemovedBackgroundImage}
-                  height='calc(100% - 55px)'
-                >
-                  <div
-                  style={{
-                    color: "white",
-                    overflow: "scroll",
-                    width: '100%',
-                  }}
-                >
-                  <div style={{display: 'inline-block', width: '100%',}}>
-                  <button
-                    style={{
-                      width: 'calc(100% - 13px)',
-                      backgroundColor: 'white',
-                      border: 'none',
-                      color: 'black',
-                      padding: '10px',
-                      borderRadius: '5px',
-                      height: '37px',
-                    }}
-                    onClick={() => {document.getElementById("image-file").click(); }}
-                  >vềlên một hình ảnh</button>
-                  <div style={{
-                    display: 'flex',
-                    marginTop: '10px',
-                    overflow: 'scroll',
-                  }}>
-                  <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                    {this.state.removeImages1.map((item, key) => (
-                      <ImagePicker
-                        key={key}
-                        src={item.representative}
-                        onPick={this.imgOnMouseDown.bind(this, item)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                      />
-                    ))}
-                    </div>
-                    <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                    {this.state.removeImages2.map((item, key) => (
-                      <ImagePicker
-                        key={key}
-                        src={item.representative}
-                        onPick={this.imgOnMouseDown.bind(this, item)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                      />
-                    ))}
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                </InfiniteScroll>
-                </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.Element && ( */}
-                  <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Element ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      color: "white",
-                      overflow: "scroll",
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Element && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Element ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.Element && -1,
-                      height: '100%',
-                    }}
-                  >
-                  <div style={{display: 'inline-block', width: '100%',}}>
-                  <div style={{
-                    display: 'flex',
-                    marginTop: '10px',
-                    height: 'calc(100% - 35px)',
-                    overflow: 'scroll',
-                  }}>
-                  <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                        <img
-                          onMouseDown={this.imgOnMouseDown.bind(this, {representative: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="})}
-                          style={{
-                            width: '160px',
-                            height: imgWidth + 'px',
-                            backgroundColor: '#019fb6',
-                          }}
-                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="/>
-                    </div>
-                    <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                    
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.Video && ( */}
-                  <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Video ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      color: "white",
-                      overflow: "scroll",
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Video && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Video ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.Video && -1,
-                      height: '100%',
-                    }}
-                  >
-                    <div style={{display: 'inline-block', width: '100%',}}>
-                    <button
-                    style={{
-                      width: 'calc(100% - 13px)',
-                      backgroundColor: 'white',
-                      border: 'none',
-                      color: 'black',
-                      padding: '10px',
-                      borderRadius: '5px',
-                      height: '37px',
-                    }}
-                    onClick={() => {document.getElementById("image-file").click(); }}
-                  >Tải lên một video</button>
-                    <ul
-                      style={{
-                        listStyle: 'none',
-                        padding: '0px 13px 10px 0px',
-                        width: '100%',
-                        marginTop: '10px',
-                        overflow: 'scroll',
-                        height: 'calc(100% - 47px)',
-                      }}
-                    >
-                  
-                      {this.state.videos.map(video => 
-                          <video
-                            style={{
-                              width: '100%',
-                              marginBottom: '10px',
-                            }}
-                            onMouseDown={this.videoOnMouseDown.bind(this)}
-                            muted 
-                            // autoPlay={true} preload="none" 
-                            ><source src={video.representative} type="video/webm">
-                          </source>
-                          </video>
-                      )}
-                    </ul>
-                    </div>
-                  </div>
-                {/* }
-                {this.state.selectedTab === SidebarTab.Upload &&  */}
-                <div
-                    style={{
-                      opacity: this.state.selectedTab === SidebarTab.Upload ? 1 : 0,
-                      position: 'absolute',
-                      width: '347px',
-                      color: "white",
-                      overflow: "scroll",
-                      transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
-                      transform: this.state.selectedTab !== SidebarTab.Upload && `translate3d(0px, calc(${this.state.selectedTab < SidebarTab.Upload ? 40 : -40}px), 0px)`,
-                      top: '10px',
-                      zIndex: this.state.selectedTab !== SidebarTab.Upload && -1,
-                      height: '100%',
-                    }}
-                  >
-                  <button
-                    style={{
-                      width: 'calc(100% - 13px)',
-                      backgroundColor: 'white',
-                      border: 'none',
-                      color: 'black',
-                      padding: '10px',
-                      borderRadius: '5px',
-                      height: '37px',
-                      marginBottom: '10px',
-                    }}
-                    onClick={() => {document.getElementById("image-file").click(); }}
-                  >Tải lên một hình ảnh</button>
-                  <InfiniteScroll
-                  scroll={true}
-                  throttle={100}
-                  threshold={0}
-                  isLoading={this.state.isUserUploadLoading}
-                  height="calc(100% - 47px)"
-                  width={93}
-                  hasMore={this.state.hasMoreUserUpload}
-                  onLoadMore={this.loadmoreUserUpload}
-                  refId="sentinel"
-                >
-                  <div
-                  style={{
-                    color: "white",
-                    overflow: "scroll",
-                    width: '100%',
-                  }}
-                >
-                  <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
-                    <div
-                      style={{
-                        height: "calc(100% - 170px)",
-                        width: '350px',
-                        marginRight: '10px',
-                      }}
-                    >
-                    {this.state.userUpload1.map((item, key) => (
-                      <ImagePicker
-                        key={key}
-                        src={item.representative}
-                        onPick={this.imgOnMouseDown.bind(this, item)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                      />
-                    ))}
-                    {this.state.hasMoreUserUpload && Array(1).fill(0).map((item, i) => (
-<ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={0}
-                      />))
-                      }
-                      {this.state.hasMoreUserUpload && Array(10).fill(0).map((item, i) => (
-<ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={0}
-                      />))
-                      }
-                    </div>
-                    <div
-                        style={{
-                          width: '350px',
-                        }}
-                      >
-                    {this.state.userUpload2.map((item, key) => (
-                      <ImagePicker
-                        key={key}
-                        src={item.representative}
-                        onPick={this.imgOnMouseDown.bind(this, item)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                      />))}
-                      {this.state.hasMoreUserUpload && Array(1).fill(0).map((item, i) => (
-                        <ImagePicker
-                          key={i}
-                          id="sentinel"
-                          color="black"
-                          src={""}
-                          height={backgroundWidth}
-                          defaultHeight={backgroundWidth}
-                          className=""
-                          onPick={this.imgOnMouseDown.bind(this, null)}
-                          onEdit={this.handleEditmedia.bind(this, null)}
-                          delay={-1}
-                        />))
-                        }
-                        {this.state.hasMoreUserUpload && Array(10).fill(0).map((item, i) => (
-                        <ImagePicker
-                        key={i}
-                        id="sentinel"
-                        color="black"
-                        src={""}
-                        height={backgroundWidth}
-                        defaultHeight={backgroundWidth}
-                        className=""
-                        onPick={this.imgOnMouseDown.bind(this, null)}
-                        onEdit={this.handleEditmedia.bind(this, null)}
-                        delay={-1}
-                      />))
-                      }
-                    </div>
-                    </div>
-                  </div>
-                </InfiniteScroll>
-                </div>
-                {/* } */}
-              </div>}
-            </div>
-          }
+          <LeftSide
+            upperZIndex={this.state.upperZIndex}
+            idObjectSelected={this.state.idObjectSelected}
+            childId={this.state.childId} 
+            pages={this.state.pages}
+            rectWidth={this.state.rectWidth}
+            rectHeight={this.state.rectHeight}
+            activePageId={this.state.activePageId} 
+            addItem={this.props.addItem} 
+            toolbarOpened={this.state.toolbarOpened} 
+            toolbarSize={this.state.toolbarSize} 
+            mode={this.state.mode} 
+            scale={this.state.scale}
+            selectedTab={this.state.selectedTab} 
+            handleSidebarSelectorClicked={this.handleSidebarSelectorClicked} />
           <div
             style={{
               boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 2px 0px",
@@ -5223,8 +3061,8 @@ handleToolbarResize = e => {
                 marginBottom: '10px',
               }}
             >
-              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
-              (this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Latex) ||
+              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              (this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Latex) ||
               this.state.childId) &&
               <a
                 href="#"
@@ -5268,7 +3106,7 @@ handleToolbarResize = e => {
                 ></div>
               </a>
               }
-              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&
               <a
                 href="#"
@@ -5315,7 +3153,7 @@ handleToolbarResize = e => {
                 </svg>
               </a>
               }
-              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&
               <a
                 href='#'
@@ -5362,7 +3200,7 @@ handleToolbarResize = e => {
                 </svg>
               </a>
               }
-              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&
                 <a
                 href='#'
@@ -5380,7 +3218,7 @@ handleToolbarResize = e => {
                   <img style={{height: '21px', filter: 'invert(1)'}} src={this.state.fontName} />
                   </a>
               }
-              {(this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Image) &&
+              {(this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Image) &&
                 <div style={{
                   position: 'relative',
                 }}>
@@ -5444,7 +3282,7 @@ handleToolbarResize = e => {
                   }
                 </div>
               }
-              {this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).backgroundColor && 
+              {this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).backgroundColor && 
               <div style={{
                 position: 'relative',
               }}> 
@@ -5463,7 +3301,7 @@ handleToolbarResize = e => {
                 </button>
                 </div>
               }
-              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&              
               <div>
                 <button
@@ -5569,7 +3407,7 @@ handleToolbarResize = e => {
                 </div>
               </div>
               }
-              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&
                 <a
                 href='#'
@@ -5602,7 +3440,7 @@ handleToolbarResize = e => {
                 }}>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M20.25 5.25a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5zm0 4a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5z"></path></svg>                  
             </a>}
-              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&
                 <a
                 href='#'
@@ -5635,7 +3473,7 @@ handleToolbarResize = e => {
                 }}>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M3.75 5.25h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5zm-4 4h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z"></path></svg>              
               </a>}
-              {((this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&
                 <a
                 href='#'

@@ -669,7 +669,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
           }}
         >
-          {childrens && showImage && (
+          {childrens && childrens.length > 0 && showImage && (
             <div
               style={{
                 width: "100%",
@@ -736,7 +736,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               })}{" "}
             </div>
           )}
-          {childrens && !showImage && (
+          {childrens && childrens.length > 0 && !showImage && (
             <div
               style={{
                 width: "100%",
@@ -803,7 +803,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               })}{" "}
             </div>
           )}
-          {cropMode && <div style={{
+          {cropMode && <div id="halo1" style={{
           width: '100%',
           height: '100%',
           position: 'absolute',
@@ -850,52 +850,6 @@ export default class Rect extends PureComponent<IProps, IState> {
             );
           })}
         </div>}
-          {/* {!showController && src && cropMode && !selected &&
-            <div
-            style={{
-              transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-              width: imgWidth + 'px',
-              height: imgHeight + 'px',
-            }} >
-                {cropMode && selected ? imgResizeDirection.map(d => {
-                  const cursor = `${getCursor(
-                    rotateAngle + parentRotateAngle,
-                    d
-                  )}-resize`;
-                  return (
-                    <div
-                      key={d}
-                      style={{
-                        cursor,
-                        transform: `scaleX(${1 / scale}) scaleY(${1  / scale})`
-                      }}
-                      className={`${zoomableMap[d]} resizable-handler-container hehe`}
-                      onMouseDown={e => this.startResizeImage(e, cursor)}
-                    >
-                      <div
-                        key={d}
-                        style={{ cursor }}
-                        className={`${zoomableMap[d]} resizable-handler`}
-                        onMouseDown={e => this.startResizeImage(e, cursor)}
-                      />
-                    </div>
-                  );
-                }) : null}
-              <img
-              id="hihi"
-              style={{
-                width: '100%',
-                height: '100%',
-                opacity: 0.5,
-                // transform: `scaleX(${1/scaleX}) scaleY(${1/scaleY})`,
-                transformOrigin: '0 0',
-                outline: cropMode ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
-              }}
-            onDoubleClick={enableCropMode}
-            onMouseDown={cropMode ? this.handleImageDrag.bind(this) : null}
-            src={src} />
-            </div>
-          } */}
           {!showImage && cropMode && selected &&
             <div
             style={{

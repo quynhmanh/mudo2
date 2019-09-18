@@ -8,6 +8,7 @@ import { Switch } from 'react-router-dom';
 import HomePage from '@Pages/HomePage';
 import ExamplePage from '@Pages/ExamplePage';
 import Editor from '@Pages/Editor';
+import EditorContainer from '@Pages/EditorContainer';
 import EditorLayout from '@Layouts/EditorLayout';
 import TemplatesPage from '@Pages/TemplatesPage';
 import TemplatesListPage from '@Pages/TemplatesListPage';
@@ -17,17 +18,16 @@ import PricingPage from '@Pages/PricingPage';
 import AccountPage from '@Pages/AccountPage';
 import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemovalEditor';
 
-
 export const routes = <Switch>
     <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/login" component={LoginPage} />
     <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/" component={HomePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/home" component={HomePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/example" component={ExamplePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/editor" component={TemplatesPage}/>
-    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:template_id" component={Editor} />
-    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/design/:template_id" component={Editor} />
-    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={Editor} />
-    <AppRoute authorizedRequired={false} layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={Editor} />
+    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:template_id" component={EditorContainer}/>
+    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/design/:template_id" component={EditorContainer} />
+    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={EditorContainer} />
+    <AppRoute authorizedRequired={false} layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={EditorContainer} />
     <AppRoute authorizedRequired={false} layout={AuthorizedLayout} path="/templates" component={TemplatesPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/account" component={AccountPage}/>
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} path="/account/:info" component={AccountPage}/>
