@@ -178,16 +178,7 @@ interface IState {
   cursor: any;
   mathjav: any;
   idObjectSelected: string;
-<<<<<<< HEAD
   images: Array<object>;
-=======
-  images: Array<ImageObject>;
-  images2: Array<ImageObject>;
-  groupedTexts: Array<GroupedText>;
-  groupedTexts2: Array<GroupedText>;
-  templates: Array<Template>;
-  templates2: Array<Template>;
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
   scale: number;
   fitScale: number;
   startX: number;
@@ -205,13 +196,8 @@ interface IState {
   dragging: boolean;
   uuid: string;
   templateType: string;
-<<<<<<< HEAD
   mode: number;
   staticGuides: object;
-=======
-  mode: number,
-  staticGuides: StaticGuide;
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
   deltaX: number;
   deltaY: number;
   editing: boolean;
@@ -235,43 +221,12 @@ interface IState {
   activePageId: string,
   upperZIndex: number;
   totalFonts: number;
-<<<<<<< HEAD
-=======
-  hasMoreFonts: boolean;
-  hasMoreTextTemplate: boolean;
-  hasMoreTemplate: boolean;
-  hasMoreUserUpload: boolean;
-  currentGroupedTextsHeight: number;
-  currentGroupedTexts2Height: number;
-  currentTemplatesHeight: number;
-  currentTemplate2sHeight: number;
-  hasMoreImage: boolean;
-  backgrounds1: Array<Background>,
-  backgrounds2: Array<Background>,
-  backgrounds3: Array<Background>,
-  currentBackgroundHeights1: number,
-  currentBackgroundHeights2: number,
-  currentBackgroundHeights3: number,
-  userUpload1: Array<UserUpload>,
-  userUpload2: Array<UserUpload>,
-  currentUserUpload1: number,
-  currentUserUpload2: number,
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
   editingMedia: any;
   editingFont: any;
   showMediaEditPopup: boolean;
   showTemplateEditPopup: boolean;
   showFontEditPopup: boolean;
   videos: any;
-<<<<<<< HEAD
-=======
-  hasMoreVideos: boolean;
-  removeImages1: Array<RemoveImage>;
-  removeImages2: Array<RemoveImage>;
-  currentHeightRemoveImage1: number;
-  currentHeightRemoveImage2: number;
-  hasMoreBackgrounds: boolean;
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
   typeObjectSelected: TemplateType;
   bleed: boolean;
   showPrintingSidebar: boolean;
@@ -292,7 +247,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-<<<<<<< HEAD
             showFontEditPopup: false,
             currentPrintStep: 1,
             subtype: null,
@@ -362,121 +316,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             isUserUploadLoading: false,
             showZoomPopup: false,
             currentOpacity: 100,
-=======
-          showFontEditPopup: false,
-          hasMoreVideos: true,
-          isRemovedBackgroundLoading: false,
-          currentPrintStep: 1,
-          subtype: null,
-          bleed: false,
-          showMediaEditPopup: false,
-          hasMoreImage: true,
-          hasMoreTemplate: true,
-          hasMoreTextTemplate: true,
-          hasMoreFonts: true,
-          hasMoreBackgrounds: true,
-          totalFonts: 1000000,
-          query: "",
-          currentItemsHeight: 0,
-          currentGroupedTextsHeight: 0,
-          currentTemplatesHeight: 0,
-          items: [],
-          backgrounds1: [],
-          backgrounds2: [],
-          backgrounds3: [],
-          currentItems2Height: 0,
-          currentGroupedTexts2Height:0,
-          currentTemplate2sHeight: 0,
-          items2: [],
-          error: null,
-          cursor: false,
-          mathjav: null,
-          isLoading: false,
-          isTemplateLoading: false,
-          upperZIndex: 1,
-          activePageId: firstpage,
-          pages: [firstpage],
-          numOfPages: 1,
-          updateRect: false,
-          resizingInnerImage: false,
-          childId: null,
-          fontId: "O5mEMMs7UejmI1WeSKWQ",
-          fontName: "images/833bdf3b-7c22-4e79-9b0a-eece6711eacd.png",
-          isSaving: false,
-          showPopup: false,
-          showMediaEditingPopup: false,
-          fontColor: 'black',
-          fontSize: 0,
-          fontsList: [],
-          fonts: ["O5mEMMs7UejmI1WeSKWQ"],
-          unnormalizedImages: [],
-          templateType: null,
-          _id: null,
-          idObjectSelected: null,
-          typeObjectSelected: null,
-          scale: 1,
-          fitScale: 1,
-          startX: 0,
-          startY: 0,
-          images: [
-          ],
-          images2: [],
-          groupedTexts: [],
-          groupedTexts2: [],
-          templates: [],
-          templates2: [],
-          userUpload1: [],
-          userUpload2: [],
-          currentUserUpload1: 0,
-          currentUserUpload2: 0,
-          selectedTab: SidebarTab.Template,
-          rectWidth: this.props.match.params.width ? parseInt(this.props.match.params.width) : 500,
-          rectHeight: this.props.match.params.height ? parseInt(this.props.match.params.height) : 500,
-          toolbarOpened: true,
-          toolbarSize: 450,
-          scrollX: 16.67,
-          scrollY: 16.67,
-          resizing: false,
-          rotating: false,
-          dragging: false,
-          uuid: "",
-          mode: parseInt(this.props.match.params.mode) ||  Mode.CreateDesign,
-          staticGuides: {
-            x: [],
-            y: [],
-          },
-          deltaX: 0,
-          deltaY: 0,
-          editing: false,
-          canRenderClientSide: false,
-          cropMode: false,
-          currentBackgroundHeights1: 0,
-          currentBackgroundHeights2: 0,
-          currentBackgroundHeights3: 0,
-          editingMedia: null,
-          editingFont: null,
-          showTemplateEditPopup: false,
-          videos: [
-          ],
-          showPrintingSidebar: false,
-          orderStatus: '',
-          downloading: false,
-          imgBackgroundColor: 'white',
-          hasMoreUserUpload: true,
-          isTextTemplateLoading: false,
-          isBackgroundLoading: false,
-          currentHeightRemoveImage1: 0,
-          currentHeightRemoveImage2: 0,
-          hasMoreRemovedBackground: true,
-          removeImages1: [],
-          removeImages2: [],
-          showImageRemovalBackgroundPopup: false,
-          imageIdBackgroundRemoved: null,
-          mounted: false,
-          isUserUploadLoading: false,
-          showZoomPopup: false,
-          currentOpacity: 100,
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -1102,30 +941,15 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   };
 
   canvasRect = null;
-<<<<<<< HEAD
-=======
-  left = null;
-  top = null;
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
 
   handleDragStart = (e, _id) => {
     const {scale} = this.state;
     this.canvasRect = getBoundingClientRect("canvas");
-<<<<<<< HEAD
-=======
-    this.left = this.canvasRect.left;
-    this.top = this.canvasRect.top;
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
     var deltaX, deltaY;
     this.props.images.forEach(image => {
       if (image._id === _id) {
-<<<<<<< HEAD
         deltaX = e.clientX - this.canvasRect.left - image.left * scale;
         deltaY = e.clientY - this.canvasRect.top - image.top * scale;
-=======
-        deltaX = e.clientX - this.left - image.left * scale;
-        deltaY = e.clientY - this.top - image.top * scale;
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
       }
     });
 
@@ -1176,12 +1000,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   handleDrag = (_id, clientX, clientY) : any => {
     var t0 = performance.now();
-<<<<<<< HEAD
     var t1;
 
-=======
-    var t1 = performance.now();
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
     const {scale, deltaX, deltaY} = this.state;
     var newLeft, newTop;
     var newLeft2, newTop2;
@@ -1191,14 +1011,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var img;
     var updateStartPosX = false;
     var updateStartPosY = false;
-<<<<<<< HEAD
     var canvasRect = this.canvasRect;
     let images = toJS(this.props.images);
     images.forEach(image => {
-=======
-
-    this.state.images.forEach(image => {
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
       if (image._id === _id) {
         newLeft = (clientX - this.left - deltaX) / scale;
         newTop = (clientY - this.top - deltaY) / scale;
@@ -1351,18 +1166,12 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     });
 
     t1 = performance.now();
-<<<<<<< HEAD
     console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
 
     console.log('newLeft ', newLeft);
     console.log('newTop ', newTop);
 
     images = images.map(image => {
-=======
-    console.log("Call to doSomething took 2 " + (t1 - t0) + " milliseconds.");
-
-    images = this.state.images.map(image => {
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
 
       if (image._id === _id) {
 
@@ -1418,7 +1227,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-<<<<<<< HEAD
     console.log('images ', images);
 
     this.props.images.replace(images);
@@ -1429,12 +1237,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
 
     this.setState({ dragging: true }); 
-=======
-    t1 = performance.now();
-    console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
-
-    this.setState({ images, dragging: true });
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
 
     t1 = performance.now();
     console.log("Call to doSomething took 4 " + (t1 - t0) + " milliseconds.");
@@ -2216,468 +2018,6 @@ html {
 
   imgDragging = null;
 
-<<<<<<< HEAD
-=======
-  templateOnMouseDown(id, e) {
-    var ce = document.createElement.bind(document);
-    var ca = document.createAttribute.bind(document);
-    var ge = document.getElementsByTagName.bind(document);
-    e.preventDefault();
-
-    var self = this;
-    const url = `/api/Template/Get?id=${id}`;
-        const { rectWidth, rectHeight } = this.state;
-        var doc = this.state.templates.find(doc => doc.id == id);
-        if (!doc) {
-          doc = this.state.templates2.find(doc => doc.id == id);
-        }
-        var template = JSON.parse(doc.document)
-        var scaleX = rectWidth / template.width;
-        var scaleY = rectHeight / template.height;
-
-        template.document_object = template.document_object.map(doc => {
-          doc.width = doc.width * scaleX;
-          doc.height = doc.height * scaleY;
-          doc.top = doc.top * scaleY;
-          doc.left = doc.left * scaleX;
-          doc.scaleX = doc.scaleX * scaleX;
-          doc.scaleY = doc.scaleY * scaleY;
-          doc.page = this.state.activePageId;
-          doc.imgWidth = doc.imgWidth * scaleX;
-          doc.imgHeight = doc.imgHeight * scaleY;
-
-          return doc;
-        });
-
-        if (doc.fontList) {
-          var fontList = doc.fontList.forEach(id => { 
-              var style = `@font-face {
-                font-family: '${id}';
-                src: url('/fonts/${id}.ttf');
-              }`;
-              var styleEle = ce("style");
-              var type = ca("type");
-              type.value = "text/css";
-              styleEle.attributes.setNamedItem(type)
-              styleEle.innerHTML = style;
-              var head = document.head || ge('head')[0];
-              head.appendChild(styleEle);
-
-              var link = ce('link');
-              link.id = id;
-              link.rel = 'preload';
-              link.href = `/fonts/${id}.ttf`
-              link.media = 'all';
-              link.as = "font";
-              link.crossOrigin = "anonymous";
-              head.appendChild(link);
-            return {
-            id: id,
-            }
-          });
-        }
-
-        var id = template.id;
-        var images = this.state.images.filter(image => {
-          return image.page !== this.state.activePageId;
-        })
-        self.setState(state => ({ 
-          fonts: doc.fontList,
-          images: [...images, ...template.document_object], 
-          _id: id,
-          idObjectSelected: null,
-        }));
-      // });
-  }
-
-  textOnMouseDown(id, e) {
-    var ce = document.createElement.bind(document);
-    var ca = document.createAttribute.bind(document);
-    var ge = document.getElementsByTagName.bind(document);
-
-    e.preventDefault();
-    var target = e.target.cloneNode(true);
-    target.style.zIndex = "11111111111";
-    target.style.width = e.target.getBoundingClientRect().width + 'px';
-    document.body.appendChild(target);
-    var self = this;
-    this.imgDragging = target;
-    var posX = e.pageX - e.target.getBoundingClientRect().left;
-    var dragging = true;
-    var posY = e.pageY - e.target.getBoundingClientRect().top;
-
-    const onMove = e => {
-      if (dragging) {
-        target.style.left = e.pageX - posX + "px";
-        target.style.top = e.pageY - posY + "px";
-        target.style.position = "absolute";
-      }
-    };
-
-    const onUp = e => {
-      dragging = false;
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-
-        var recs = document.getElementsByClassName("alo");
-        var rec2 = this.imgDragging.getBoundingClientRect();
-        for (var i = 0; i < recs.length; ++i) {
-          var rec = recs[i].getBoundingClientRect();
-          var rec3 = recs[i];
-        if (
-        rec.left < e.pageX &&
-        e.pageX < rec.left + rec.width &&
-        rec.top < e.pageY &&
-        e.pageY < rec.top + rec.height
-        ) {
-          const url = `/api/Template/Get?id=${id}`;
-          var rectTop = rec.top;
-          var index = i;
-          fetch(url)
-            .then(
-              response => response.text()
-            )
-            .then(html => {
-              var doc = this.state.groupedTexts.find(doc => doc.id == id);
-              if (!doc) {
-                doc = this.state.groupedTexts2.find(doc => doc.id == id);
-              }
-              var document = JSON.parse(doc.document)
-              document._id = uuidv4();
-              document.page = self.state.pages[index];
-              document.zIndex = this.state.upperZIndex + 1;
-              document.width = rec2.width / self.state.scale;
-              document.height = rec2.height / self.state.scale;
-              document.scaleX = document.width / document.origin_width;
-              document.scaleY = document.height / document.origin_height;
-              document.left = (rec2.left - rec.left) / self.state.scale;
-              document.top = (rec2.top - rectTop) / self.state.scale;
-
-              let images = [...this.state.images, document];
-
-              if (doc.fontList) {
-                var fontList = doc.fontList.forEach(id => { 
-                    var style = `@font-face {
-                      font-family: '${id}';
-                      src: url('/fonts/${id}.ttf');
-                    }`;
-                    var styleEle = ce("style");
-                    var type = ca("type");
-                    type.value = "text/css";
-                    styleEle.attributes.setNamedItem(type)
-                    styleEle.innerHTML = style;
-                    var head = document.head || ge('head')[0];
-                    head.appendChild(styleEle);
-      
-                    var link = ce('link');
-                    link.id = id;
-                    link.rel = 'preload';
-                    link.href = `/fonts/${id}.ttf`
-                    link.media = 'all';
-                    link.as = "font";
-                    link.crossOrigin = "anonymous";
-                    head.appendChild(link);
-                  return {
-                  id: id,
-                  }
-                });
-              }
-
-              self.setState({ 
-                images,
-                fonts: doc.fontList,
-                upperZIndex: this.state.upperZIndex + 1,
-              });
-            });
-        }
-      }
-
-      target.remove();
-    };
-
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  }
-
-  backgroundOnMouseDown(item, e) {
-    var rec2 = e.target.getBoundingClientRect();
-    var self = this;
-    let images = [...this.state.images];
-    var {rectWidth, rectHeight} = this.state;
-    var ratio = rectWidth / rectHeight;
-    var imgRatio = rec2.width / rec2.height;
-    var width = rectWidth;
-    var height = rectWidth / imgRatio;
-    if (height < rectHeight) {
-      height = rectHeight;
-      width = imgRatio * height;
-    }
-    images.push({
-      _id: uuidv4(),
-      type: TemplateType.BackgroundImage,
-      width: rectWidth,
-      height: rectHeight,
-      origin_width: width,
-      origin_height: height,
-      left: 0,
-      top:  0,
-      rotateAngle: 0.0,
-      src: window.location.origin + "/" + item.representative,
-      selected: false,
-      scaleX: 1,
-      scaleY: 1,
-      posX: -(width - rectWidth) / 2,
-      posY: -(height - rectHeight) / 2,
-      imgWidth: width,
-      imgHeight: height,
-      page: this.state.activePageId,
-      zIndex: 1,
-      width2: 1,
-      height2: 1,
-      document_object: [],
-      ref: null,
-      innerHTML: null,
-      color: null,
-      opacity: 100,
-      backgroundColor: null,
-      childId: null,
-    });
-
-    this.setState({ images });
-  }
-
-  videoOnMouseDown(e) {
-    e.preventDefault();
-
-    var target = e.target.cloneNode(true);
-
-    target.style.zIndex = "11111111111";
-    target.src = e.target.getElementsByTagName("source")[0].getAttribute("src");
-    target.style.width = e.target.getBoundingClientRect().width + 'px';
-    document.body.appendChild(target);
-    var self = this;
-    this.imgDragging = target;
-    var posX = e.pageX - e.target.getBoundingClientRect().left;
-    var dragging = true;
-    var posY = e.pageY - e.target.getBoundingClientRect().top;
-
-    var recScreenContainer = document.getElementById('screen-container-parent').getBoundingClientRect(); 
-    var beingInScreenContainer = false; 
-
-    const onMove = e => {
-      if (dragging) {
-        var rec2 = self.imgDragging.getBoundingClientRect();
-        if (
-          beingInScreenContainer === false &&
-          recScreenContainer.left < rec2.left &&
-          recScreenContainer.right > rec2.right &&
-          recScreenContainer.top < rec2.top &&
-          recScreenContainer.bottom > rec2.bottom
-        ) {
-
-          beingInScreenContainer = true;
-
-          setTimeout(() => {
-            target.style.transitionDuration = '';
-          }, 50);
-        }
-
-        if (beingInScreenContainer === true &&
-          !(recScreenContainer.left < rec2.left &&
-            recScreenContainer.right > rec2.right &&
-            recScreenContainer.top < rec2.top &&
-            recScreenContainer.bottom > rec2.bottom)
-        ) {
-          beingInScreenContainer = false;
-
-          setTimeout(() => {
-            target.style.transitionDuration = '';
-          }, 50);
-        }
-
-        target.style.left = e.pageX - posX + "px";
-        target.style.top = e.pageY - posY + "px";
-        target.style.position = "absolute";
-      }
-    };
-
-    const onUp = e => {
-      dragging = false;
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-
-      var recs = document.getElementsByClassName("alo");
-      var rec2 = self.imgDragging.getBoundingClientRect();
-      for (var i = 0; i < recs.length; ++i){
-        var rec = recs[i].getBoundingClientRect();
-        if (
-          rec.left < rec2.right &&
-          rec.right > rec2.left &&
-          rec.top < rec2.bottom &&
-          rec.bottom > rec2.top
-        ) {
-          let images = [...this.state.images];
-          images.push({
-            _id: uuidv4(),
-            type: TemplateType.RemovedBackgroundImage,
-            width: rec2.width / self.state.scale,
-            height: rec2.height / self.state.scale,
-            origin_width: rec2.width / self.state.scale,
-            origin_height: rec2.height / self.state.scale,
-            left: (rec2.left - rec.left) / self.state.scale,
-            top: (rec2.top - rec.top) / self.state.scale,
-            rotateAngle: 0.0,
-            src: target.src,
-            selected: false,
-            scaleX: 1,
-            scaleY: 1,
-            posX: 0,
-            posY: 0,
-            imgWidth: (rec2.width / self.state.scale),
-            imgHeight: (rec2.height / self.state.scale),
-            page: this.state.pages[i],
-            zIndex: this.state.upperZIndex + 1,
-            backgroundColor: null,
-            document_object: [],
-            width2: 1,
-            height2: 1,
-            ref: null,
-            innerHTML: null,
-            color: null,
-            opacity: 100,
-            childId: null,
-          });
-
-          self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
-        }
-      }
-
-      self.imgDragging.remove();
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  }
-
-  imgOnMouseDown(img, e) {
-    e.preventDefault();
-    var target = e.target.cloneNode(true);
-    target.style.zIndex = "11111111111";
-    target.src = img.representativeThumbnail;
-    target.style.width = e.target.getBoundingClientRect().width + 'px';
-    target.style.backgroundColor = e.target.style.backgroundColor;
-    document.body.appendChild(target);
-    var self = this;
-    this.imgDragging = target;
-    var posX = e.pageX - e.target.getBoundingClientRect().left;
-    var dragging = true;
-    var posY = e.pageY - e.target.getBoundingClientRect().top;
-
-    var recScreenContainer = document.getElementById('screen-container-parent').getBoundingClientRect(); 
-    var beingInScreenContainer = false; 
-
-    const onMove = e => {
-      if (dragging) {
-        var rec2 = self.imgDragging.getBoundingClientRect();
-        if (
-          beingInScreenContainer === false &&
-          recScreenContainer.left < rec2.left &&
-          recScreenContainer.right > rec2.right &&
-          recScreenContainer.top < rec2.top &&
-          recScreenContainer.bottom > rec2.bottom
-        ) {
-
-          beingInScreenContainer = true;
-
-          // target.style.width = (rec2.width * self.state.scale) + 'px';
-          // target.style.height = (rec2.height * self.state.scale) + 'px';
-          // target.style.transitionDuration = '0.05s';
-
-          setTimeout(() => {
-            target.style.transitionDuration = '';
-          }, 50);
-        }
-
-        if (beingInScreenContainer === true &&
-          !(recScreenContainer.left < rec2.left &&
-            recScreenContainer.right > rec2.right &&
-            recScreenContainer.top < rec2.top &&
-            recScreenContainer.bottom > rec2.bottom)
-        ) {
-          beingInScreenContainer = false;
-
-          // target.style.width = (rec2.width / self.state.scale) + 'px';
-          // target.style.height = (rec2.height / self.state.scale) + 'px';
-          // target.style.transitionDuration = '0.05s';
-
-          setTimeout(() => {
-            target.style.transitionDuration = '';
-          }, 50);
-        }
-
-        target.style.left = e.pageX - posX + "px";
-        target.style.top = e.pageY - posY + "px";
-        target.style.position = "absolute";
-      }
-    };
-
-    const onUp = e => {
-      dragging = false;
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-
-      var recs = document.getElementsByClassName("alo");
-      var rec2 = self.imgDragging.getBoundingClientRect();
-      for (var i = 0; i < recs.length; ++i){
-        var rec = recs[i].getBoundingClientRect();
-        if (
-          rec.left < rec2.right &&
-          rec.right > rec2.left &&
-          rec.top < rec2.bottom &&
-          rec.bottom > rec2.top
-        ) {
-          let images = [...this.state.images];
-          images.push({
-            _id: uuidv4(),
-            type: TemplateType.Image,
-            width: rec2.width / self.state.scale,
-            height: rec2.height / self.state.scale,
-            origin_width: rec2.width / self.state.scale,
-            origin_height: rec2.height / self.state.scale,
-            left: (rec2.left - rec.left) / self.state.scale,
-            top: (rec2.top - rec.top) / self.state.scale,
-            rotateAngle: 0.0,
-            src: (!img.representative.startsWith("data") ? (window.location.origin + "/" + img.representative) : img.representative),
-            backgroundColor: target.style.backgroundColor,
-            selected: false,
-            scaleX: 1,
-            scaleY: 1,
-            posX: 0,
-            posY: 0,
-            imgWidth: (rec2.width / self.state.scale),
-            imgHeight: (rec2.height / self.state.scale),
-            page: this.state.pages[i],
-            zIndex: this.state.upperZIndex + 1,
-            document_object: [],
-            width2: 1,
-            height2: 1,
-            ref: null,
-            innerHTML: null,
-            color: null,
-            opacity: 100,
-            childId: null,
-          });
-
-          self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
-        }
-      }
-
-      self.imgDragging.remove();
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  }
-
->>>>>>> adfb930d26de70238c91c5f3f2236427b169cd7f
   onClickDropDownList = e => {
     document.getElementById("myDropdown").classList.toggle("show");
 
