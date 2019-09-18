@@ -1015,8 +1015,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     let images = toJS(this.props.images);
     images.forEach(image => {
       if (image._id === _id) {
-        newLeft = (clientX - this.left - deltaX) / scale;
-        newTop = (clientY - this.top - deltaY) / scale;
+        newLeft = (clientX - this.canvasRect.left - deltaX) / scale;
+        newTop = (clientY - this.canvasRect.top - deltaY) / scale;
         newLeft2 = newLeft + image.width / 2;
         newLeft3 = newLeft + image.width;
         newTop2 = newTop + image.height / 2;
