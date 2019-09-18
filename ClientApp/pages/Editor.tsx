@@ -3327,7 +3327,7 @@ handleToolbarResize = e => {
                   { !this.state.cropMode &&
                   <button
                   style={{
-                    boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
+                    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
                     height: '26px',
                     top: 0,
                   }}
@@ -3390,7 +3390,7 @@ handleToolbarResize = e => {
               }}> 
                   <button
                   style={{
-                    boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
+                    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
                     height: '26px',
                     top: 0,
                     width: '27px',
@@ -3407,7 +3407,7 @@ handleToolbarResize = e => {
               <div>
                 <button
                   style={{
-                    boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
+                    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
                     height: '26px',
                   }}
                   className="dropbtn-font dropbtn-font-size"
@@ -3531,8 +3531,7 @@ handleToolbarResize = e => {
                 }}
                 style={{
                   borderRadius: "4px",
-                  padding: "3px",
-                  paddingBottom: "0px",
+                  padding: "2px 3px 0px",
                   marginRight: "6px",
                   display: "inline-block",
                   cursor: "pointer",
@@ -3564,8 +3563,7 @@ handleToolbarResize = e => {
                 }}
                 style={{
                   borderRadius: "4px",
-                  padding: "3px",
-                  paddingBottom: "0px",
+                  padding: "2px 3px 0px",
                   marginRight: "6px",
                   display: "inline-block",
                   cursor: "pointer",
@@ -3597,8 +3595,7 @@ handleToolbarResize = e => {
                 }}
                 style={{
                   borderRadius: "4px",
-                  padding: "3px",
-                  paddingBottom: "0px",
+                  padding: "2px 3px 0px",
                   marginRight: "6px",
                   display: "inline-block",
                   cursor: "pointer",
@@ -3641,7 +3638,7 @@ handleToolbarResize = e => {
                 >Vị trí</button>
                 <button
                   style={{
-                    boxShadow: 'rgba(0, 0, 0, 0.36) 0px 1px 2px 0px',
+                    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
                     height: '26px',
                     width: '30px',
                     padding: 0,
