@@ -1194,26 +1194,8 @@ handleQuery = (e) => {
         >
         <div
           style={{
-            position: 'relative',
             zIndex: 123,
           }}>
-            <input
-            style={{
-              zIndex: 11,
-              width: 'calc(100% - 13px)',
-              marginBottom: '8px',
-              border: 'none',
-              height: '37px',
-              borderRadius: '6px',
-              padding: '5px',
-              fontSize: '13px',
-              boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
-            }}
-            onKeyDown={this.handleQuery}
-            type="text"
-            onChange={(e) => {this.setState({query: e.target.value})}}
-            value={""}
-            />
         <InfiniteScroll
           scroll={true}
           throttle={500}
@@ -1224,8 +1206,9 @@ handleQuery = (e) => {
           height='calc(100% - 45px)'
           width={imgWidth}
           refId="sentinel"
+          marginTop={30}
         >
-          <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
+          <div id="image-container-picker" style={{display: 'flex', padding: '16px 13px 10px 0px',}}>
           <div
             style={{
               height: "calc(100% - 170px)",
@@ -1325,6 +1308,25 @@ handleQuery = (e) => {
             </div>
           </div>
         </InfiniteScroll>
+        <input
+          style={{
+            zIndex: 11,
+            width: 'calc(100% - 13px)',
+            marginBottom: '8px',
+            border: 'none',
+            height: '37px',
+            borderRadius: '3px',
+            padding: '5px',
+            fontSize: '13px',
+            boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+            position: 'absolute',
+            top: 0,
+          }}
+          onKeyDown={this.handleQuery}
+          type="text"
+          onChange={(e) => {this.setState({query: e.target.value})}}
+          value={this.state.query}
+          />
         </div>
         </div>
         <div
@@ -1498,15 +1500,17 @@ handleQuery = (e) => {
             Thêm đoạn văn
             </div>
           </div>
-          {
-            <InfiniteScroll
+          {<div style={{height: 'calc(100% - 180px)'}}>
+          <InfiniteScroll
             scroll={true}
             throttle={500}
             threshold={300}
             isLoading={this.state.isTemplateLoading}
             hasMore={this.state.hasMoreTextTemplate}
-            onLoadMore={this.loadMoreTextTemplate}
+            onLoadMore={this.loadMoreTextTemplate.bind(this, false)}
             height='calc(100% - 180px)'
+            refId="sentinel"
+            marginTop={0}
           >
             <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
             <div
@@ -1546,6 +1550,7 @@ handleQuery = (e) => {
               </div>
             </div>
           </InfiniteScroll>
+          </div>
           }
         </div>
         </div>
@@ -1561,18 +1566,18 @@ handleQuery = (e) => {
             height: '100%',
           }}
         >
-          {
-            <InfiniteScroll
+          {<InfiniteScroll
             scroll={true}
             throttle={500}
             threshold={300}
             isLoading={this.state.isTemplateLoading}
             hasMore={this.state.hasMoreTemplate}
-            onLoadMore={this.loadMoreTemplate.bind(this)}
-            height='100%'
+            onLoadMore={this.loadMoreTemplate.bind(this, false)}
+            marginTop={30}
             onEdit={null}
+            refId="sentinel"
           >
-            <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
+            <div id="image-container-picker" style={{display: 'flex', padding: '16px 13px 10px 0px',}}>
             <div
               style={{
                 width: '350px',
@@ -1627,16 +1632,15 @@ handleQuery = (e) => {
           }}
         >
         <InfiniteScroll
-        scroll={true}
-        throttle={100}
-        threshold={0}
-        isLoading={this.state.isBackgroundLoading}
-        height="100%"
-        width={93}
-        hasMore={this.state.hasMoreBackgrounds}
-        onLoadMore={this.loadMoreBackground.bind(this, false)}
-        refId="sentinel"
-      >
+          scroll={true}
+          throttle={100}
+          threshold={0}
+          isLoading={this.state.isBackgroundLoading}
+          hasMore={this.state.hasMoreBackgrounds}
+          onLoadMore={this.loadMoreBackground.bind(this, false)}
+          refId="sentinel"
+          marginTop={0}
+        >
         <div
           id="image-container-picker"
           style={{
@@ -1806,15 +1810,17 @@ handleQuery = (e) => {
             style={{
               height: '100%',
             }}
-          ><InfiniteScroll
-          scroll={true}
-          throttle={500}
-          threshold={300}
-          isLoading={false}
-          hasMore={this.state.hasMoreFonts}
-          onLoadMore={this.loadMoreFont}
-          height='100%'
-        >
+          >
+          <InfiniteScroll
+            scroll={true}
+            throttle={500}
+            threshold={300}
+            isLoading={false}
+            hasMore={this.state.hasMoreFonts}
+            onLoadMore={this.loadMoreFont.bind(this, false)}
+            refId=""
+            marginTop={0}
+          >
           <div id="image-container-picker">
           <div
             style={{
@@ -1955,8 +1961,7 @@ handleQuery = (e) => {
         threshold={300}
         isLoading={this.state.isRemovedBackgroundLoading}
         hasMore={this.state.hasMoreRemovedBackground}
-        onLoadMore={this.loadMoreRemovedBackgroundImage}
-        height='calc(100% - 55px)'
+        onLoadMore={this.loadMoreRemovedBackgroundImage.bind(this, false)}
       >
         <div
         style={{
@@ -1977,7 +1982,7 @@ handleQuery = (e) => {
             height: '37px',
           }}
           onClick={() => {document.getElementById("image-file").click(); }}
-        >vềlên một hình ảnh</button>
+        >Tải lên một hình ảnh</button>
         <div style={{
           display: 'flex',
           marginTop: '10px',
@@ -2133,30 +2138,16 @@ handleQuery = (e) => {
             height: '100%',
           }}
         >
-        <button
-          style={{
-            width: 'calc(100% - 13px)',
-            backgroundColor: 'white',
-            border: 'none',
-            color: 'black',
-            padding: '10px',
-            borderRadius: '5px',
-            height: '37px',
-            marginBottom: '10px',
-          }}
-          onClick={() => {document.getElementById("image-file").click(); }}
-        >Tải lên một hình ảnh</button>
         <InfiniteScroll
-        scroll={true}
-        throttle={100}
-        threshold={0}
-        isLoading={this.state.isUserUploadLoading}
-        height="calc(100% - 47px)"
-        width={93}
-        hasMore={this.state.hasMoreUserUpload}
-        onLoadMore={this.loadmoreUserUpload}
-        refId="sentinel"
-      >
+          scroll={true}
+          throttle={100}
+          threshold={0}
+          isLoading={this.state.isUserUploadLoading}
+          marginTop={30}
+          hasMore={this.state.hasMoreUserUpload}
+          onLoadMore={this.loadmoreUserUpload.bind(this, false)}
+          refId="sentinel"
+        >
         <div
         style={{
           color: "white",
@@ -2164,7 +2155,7 @@ handleQuery = (e) => {
           width: '100%',
         }}
       >
-        <div id="image-container-picker" style={{display: 'flex', padding: '0px 13px 10px 0px',}}>
+        <div id="image-container-picker" style={{display: 'flex', padding: '16px 13px 10px 0px',}}>
           <div
             style={{
               height: "calc(100% - 170px)",
@@ -2253,6 +2244,22 @@ handleQuery = (e) => {
           </div>
         </div>
       </InfiniteScroll>
+      <button
+        style={{
+          width: 'calc(100% - 13px)',
+          backgroundColor: 'white',
+          border: 'none',
+          color: 'black',
+          padding: '10px',
+          borderRadius: '3px',
+          height: '37px',
+          marginBottom: '10px',
+          position: 'absolute',
+          top: 0,
+          boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+        }}
+        onClick={() => {document.getElementById("image-file").click(); }}
+      >Tải lên một hình ảnh</button>
       </div>
       {/* } */}
     </div>}
