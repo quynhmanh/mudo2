@@ -192,37 +192,37 @@ export default class PricingPage extends React.Component<IProps, IState> {
           </div>
           <div className="row justify-content-lg-center">
             <div className="col-md-6 mb-7">
-              <div className>
+              <div>
                 <h3 className="h5">Can I cancel at anytime</h3>
                 <p className="mb-1">Yes, you can cancel your subscription in your dashboard at anytime, no questions asked.</p>
               </div>
             </div>
             <div className="col-md-6 mb-7">
-              <div className>
+              <div>
                 <h3 className="h5">Can I print with you? <span className="badge badge-success font-weight-medium badge-pill ml-1"><small>Popular</small></span></h3>
                 <p className="mb-1">Of course! We provide print services in the United States and Canada. <a href="/print">Learn More</a></p>
               </div>
             </div>
             <div className="col-md-6 mb-7">
-              <div className>
+              <div>
                 <h3 className="h5">Do your store my projects forever?</h3>
                 <p className="mb-1">Yes, we won't ever delete projects from your account, regardless if you've canceled your account or not.</p>
               </div>
             </div>
             <div className="col-md-6 mb-7">
-              <div className>
+              <div>
                 <h3 className="h5">Can I make changes to my designs?</h3>
                 <p className="mb-1">As long as you have an active subscription you can make as many changes to your projects as needed.</p>
               </div>
             </div>
             <div className="col-md-6 mb-7">
-              <div className>
+              <div>
                 <h3 className="h5">Will my subscription auto-renew?</h3>
                 <p className="mb-1">Yes, your subscription will automatically renew monthly or annually depending on your billing plan.</p>
               </div>
             </div>
             <div className="col-md-6 mb-7">
-              <div className>
+              <div>
                 <h3 className="h5">How can I contact you?</h3>
                 <p className="mb-1">
                   We'd love to hear from you.<br />
@@ -238,7 +238,7 @@ export default class PricingPage extends React.Component<IProps, IState> {
               <div className="col-lg-4 mb-7 mb-lg-0">
                 <div className="pr-lg-4">
                   <figure className="mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="80px" height="80px" viewBox="0 0 8 8" style={{enableBackground: 'new 0 0 8 8'}} xmlSpace="preserve">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="80px" height="80px" viewBox="0 0 8 8" xmlSpace="preserve">
                       <path className="fill-gray-300" d="M3,1.3C2,1.7,1.2,2.7,1.2,3.6c0,0.2,0,0.4,0.1,0.5c0.2-0.2,0.5-0.3,0.9-0.3c0.8,0,1.5,0.6,1.5,1.5c0,0.9-0.7,1.5-1.5,1.5
                             C1.4,6.9,1,6.6,0.7,6.1C0.4,5.6,0.3,4.9,0.3,4.5c0-1.6,0.8-2.9,2.5-3.7L3,1.3z M7.1,1.3c-1,0.4-1.8,1.4-1.8,2.3
                             c0,0.2,0,0.4,0.1,0.5c0.2-0.2,0.5-0.3,0.9-0.3c0.8,0,1.5,0.6,1.5,1.5c0,0.9-0.7,1.5-1.5,1.5c-0.7,0-1.1-0.3-1.4-0.8

@@ -26,10 +26,15 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     private elCollapseButton: HTMLButtonElement;
 
     componentDidMount() {
-        if (this.elDropdown) {
+        if (this.elDropdown)
             var dropdown = new Dropdown(this.elDropdown);
-        }
-        var collapse = new Collapse(this.elCollapseButton);
+
+        if (this.elCollapseButton)
+            var collapse = new Collapse(this.elCollapseButton);
+    }
+
+    getDisplayAttribute(cond: boolean) {
+        return cond === true ? "block" : "none";
     }
 
     componentDidUpdate() {
@@ -45,6 +50,8 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     timer = null
 
     render() {
+        const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
+
         return <div className="navbar navbar-default">
             <div className="container container-fluid">
                 <div className="navbar-header" style={{marginTop: '10px',}}>
@@ -57,10 +64,10 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                     <NavLink exact to={'/'} className="navbar-brand" href="#">
                         <div style={{width: '153px', height:'70px', marginLeft: '6px', }}>
                     <svg id="logo" viewBox="0 0 300 100" version="1.1">
-    <g id="root" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="root" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="group" style={{transform:"translate(118px, 36px)"}}>
             <rect id="Rectangle-14" x="0" y="0" width="83" height="22"></rect>
-            <text id="headerText.primary" font-family="AvenirNextRoundedPro-Medium" font-weight="700" letter-spacing="10px" fill="#019fb6" data-text-alignment="C" style={{fontSize: 44}}>
+            <text id="headerText.primary" fontFamily="AvenirNextRoundedPro-Medium" fontWeight="700" letterSpacing="10px" fill="#019fb6" data-text-alignment="C" style={{fontSize: 44}}>
                 <tspan x="0" y="30">DRAFT</tspan>
             </text>
         </g>
@@ -90,14 +97,11 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
                         {/* <li><NavLink exact to={'/editor'} activeClassName="active">Learn</NavLink></li> */}
                         {/* <li><NavLink exact to={'/cart'} activeClassName="active">Giỏ hàng</NavLink></li> */}
                         <li className="dropdown">
-                            {Globals.serviceUser && Globals.serviceUser.username ?
-                            <a href="#" ref={x => this.elDropdown = x} className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" ref={x => this.elDropdown = x} className="dropdown-toggle" style={{display: this.getDisplayAttribute(loggedIn)}} data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 {Globals.serviceUser && Globals.serviceUser.username}&nbsp;
                                 <span className="caret"></span>
                             </a>
-                            :
-                            <NavLink exact to={'/login'} activeClassName="active">Đăng nhập</NavLink>
-                            }
+                            <NavLink exact to={'/login'} activeClassName="active" style={{display: this.getDisplayAttribute(!loggedIn)}}>Đăng nhập</NavLink>
                             <ul className="dropdown-menu">
                                 <li><NavLink exact to={'/account'} activeClassName="active">Thông tin tài khoản</NavLink></li>
                                 <li><a href="#" onClick={this.onClickSignOut}>Quản lí đơn hàng</a></li>

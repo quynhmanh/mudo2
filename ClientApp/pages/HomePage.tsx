@@ -269,10 +269,10 @@ export default class HomePage extends React.Component<IProps, IState> {
         <div className="_3PK-lmKzpAGcI8WTdBQX4i">
             <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -283,10 +283,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -297,10 +297,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -311,10 +311,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpJEfIY/1/0/thumbnail_large-1.jpg" alt="Ảnh bìa Facebook" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpJEfIY/1/0/thumbnail_large-1.jpg" alt="Ảnh bìa Facebook" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -325,10 +325,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPjqjKaE/1/0/thumbnail_large-1.jpg" alt="Tờ rơi" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPjqjKaE/1/0/thumbnail_large-1.jpg" alt="Tờ rơi" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -339,10 +339,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a"  target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a"  target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC4-jLh4zI/3/0/thumbnail_large.jpg" alt="Bài đăng Facebook" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC4-jLh4zI/3/0/thumbnail_large.jpg" alt="Bài đăng Facebook" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -353,10 +353,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACytlYGjpE/1/0/thumbnail_large-7.jpg" alt="Bài đăng Instagram" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACytlYGjpE/1/0/thumbnail_large-7.jpg" alt="Bài đăng Instagram" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -367,10 +367,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhR9Ss1k/3/0/thumbnail_large.jpg" alt="Ảnh bìa blog" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhR9Ss1k/3/0/thumbnail_large.jpg" alt="Ảnh bìa blog" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -381,10 +381,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPndQv8A/1/0/thumbnail_large-1.jpg" alt="Thẻ" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPndQv8A/1/0/thumbnail_large-1.jpg" alt="Thẻ" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -395,10 +395,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADGeZLBv64/3/0/thumbnail_large.jpg" alt="Tiêu đề email" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADGeZLBv64/3/0/thumbnail_large.jpg" alt="Tiêu đề email" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -409,10 +409,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC3Yq3okKs/1/0/thumbnail_large-5.jpg" alt="Bài đăng twitter" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC3Yq3okKs/1/0/thumbnail_large-5.jpg" alt="Bài đăng twitter" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -423,10 +423,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPn5AItM/3/0/thumbnail_large.jpg" alt="Ảnh pinterest" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPn5AItM/3/0/thumbnail_large.jpg" alt="Ảnh pinterest" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -437,10 +437,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC6SzsCfjk/1/0/thumbnail_large-2.jpg" alt="Ảnh quảng cáo Facebook" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC6SzsCfjk/1/0/thumbnail_large-2.jpg" alt="Ảnh quảng cáo Facebook" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -451,10 +451,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPuq6KoU/1/0/thumbnail_large-1.jpg" alt="Ảnh Tumblr" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPuq6KoU/1/0/thumbnail_large-1.jpg" alt="Ảnh Tumblr" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -465,10 +465,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACzQ_XLjmU/1/0/thumbnail_large-7.jpg" alt="US Letter Document" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACzQ_XLjmU/1/0/thumbnail_large-7.jpg" alt="US Letter Document" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -479,10 +479,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPra3zWc/1/0/thumbnail_large-1.jpg" alt="Tài liệu A4" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPra3zWc/1/0/thumbnail_large-1.jpg" alt="Tài liệu A4" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -493,10 +493,10 @@ export default class HomePage extends React.Component<IProps, IState> {
                     </a>
                 </div>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" draggable="false" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhfrXwUM/2/0/thumbnail_large.jpg" alt="Tiêu đề thư" draggable="false" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhfrXwUM/2/0/thumbnail_large.jpg" alt="Tiêu đề thư" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
@@ -508,7 +508,7 @@ export default class HomePage extends React.Component<IProps, IState> {
                 </div>
             </div>
         </div>
-        <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
+        <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
     </div>
         </div>
         </div>

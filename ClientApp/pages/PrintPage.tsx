@@ -85,7 +85,7 @@ export default class PrintPage extends React.Component<IProps, IState> {
           <div className="card shadow mb-3 mb-lg-0">
             <div className="card-body p-5">
               <figure className="ie-height-56 w-100 max-width-8 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" style={{enableBackground: 'new 0 0 120 120'}} xmlSpace="preserve" className="injected-svg js-svg-injector" data-parent="#SVGkeyFeatures">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xmlSpace="preserve" className="injected-svg js-svg-injector" data-parent="#SVGkeyFeatures">
                   <style type="text/css" dangerouslySetInnerHTML={{__html: "\n\t.icon-46-0{fill:#BDC5D1;stroke:#BDC5D1;}\n\t.icon-46-1{fill:#FFFFFF;stroke:#BDC5D1;}\n\t.icon-46-2{fill:#377DFF;}\n\t.icon-46-3{fill:#FFFFFF;}\n\t.icon-46-4{fill:none;stroke:377DFF;}\n" }} />
                   <path className="icon-46-0 fill-gray-400 stroke-gray-400" opacity=".4" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} d="M99.8,100.9c-7.4,7.8-16.6,13.9-26.9,17.6C46.2,109,27,83.6,27,53.9V28.6l45.8-15.2l45.8,15.2v25.3  c0,9.2-1.8,18-5.2,26C113.5,79.9,107.6,93.8,99.8,100.9z" />
                   <path className="icon-46-1 fill-white stroke-gray-400" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} d="M82.4,98.9c-8.3,8.7-18.5,15.5-30,19.6c-29.6-10.5-51-38.8-51-71.9V18.3l51-16.9l51,16.9v28.2  c0,10.2-2.1,20-5.8,29C97.7,75.5,91.2,91,82.4,98.9z" />
@@ -111,7 +111,7 @@ export default class PrintPage extends React.Component<IProps, IState> {
           <div className="card bg-primary text-white shadow-primary-lg mb-3 mb-lg-0">
             <div className="card-body p-5">
               <figure className="ie-height-56 w-100 max-width-8 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" style={{enableBackground: 'new 0 0 120 120'}} xmlSpace="preserve" className="injected-svg js-svg-injector" data-parent="#SVGkeyFeatures">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xmlSpace="preserve" className="injected-svg js-svg-injector" data-parent="#SVGkeyFeatures">
                   <style type="text/css" dangerouslySetInnerHTML={{__html: "\n\t.icon-white-21-0{fill:#FFFFFF;}\n\t.icon-white-21-1{fill:#377DFF;}\n\t.icon-white-21-2{fill:none;stroke:#FFFFFF;}\n" }} />
                   <path className="icon-white-21-0 fill-white" opacity=".15" d="M59.3,90.9L59.3,90.9c-4.6,4.6-12.5,1.7-13.1-4.8l0,0c-0.4-4.2-4.1-7.3-8.3-7l0,0c-6.5,0.5-10.7-6.7-7-12.1l0,0  c2.4-3.5,1.6-8.2-1.9-10.7l0,0c-5.3-3.8-3.9-12,2.4-13.7l0,0c4.1-1.1,6.5-5.3,5.4-9.4l0,0c-1.7-6.3,4.8-11.7,10.7-8.9l0,0  c3.8,1.8,8.4,0.1,10.2-3.7l0,0c2.8-5.9,11.2-5.9,13.9,0l0,0c1.8,3.8,6.4,5.5,10.2,3.7l0,0c5.9-2.7,12.3,2.7,10.7,8.9l0,0  c-1.1,4.1,1.3,8.3,5.4,9.4l0,0c6.3,1.7,7.7,10,2.4,13.7l0,0c-3.5,2.4-4.3,7.2-1.9,10.7l0,0c3.7,5.3-0.5,12.6-7,12.1l0,0  c-4.2-0.4-7.9,2.8-8.3,7l0,0c-0.6,6.5-8.5,9.3-13.1,4.8l0,0C67.1,87.9,62.3,87.9,59.3,90.9z" />
                   <path className="icon-white-21-0 fill-white" d="M54.6,79.8L54.6,79.8C50,84.4,42.1,81.5,41.5,75l0,0c-0.4-4.2-4.1-7.3-8.3-7l0,0c-6.5,0.5-10.7-6.7-7-12.1l0,0  c2.4-3.5,1.6-8.2-1.9-10.7l0,0c-5.3-3.8-3.9-12,2.4-13.7l0,0c4.1-1.1,6.5-5.3,5.4-9.4l0,0c-1.7-6.3,4.8-11.7,10.7-8.9l0,0  c3.8,1.8,8.4,0.1,10.2-3.7l0,0c2.8-5.9,11.2-5.9,13.9,0l0,0c1.8,3.8,6.3,5.5,10.2,3.7l0,0c5.9-2.7,12.3,2.7,10.7,8.9l0,0  c-1.1,4.1,1.3,8.3,5.4,9.4l0,0c6.3,1.7,7.7,10,2.4,13.7l0,0c-3.5,2.4-4.3,7.2-1.9,10.7l0,0c3.7,5.3-0.5,12.6-7,12.1l0,0  c-4.2-0.4-7.9,2.8-8.3,7l0,0c-0.6,6.5-8.5,9.3-13.1,4.8l0,0C62.4,76.8,57.6,76.8,54.6,79.8z" />
@@ -127,7 +127,7 @@ export default class PrintPage extends React.Component<IProps, IState> {
           <div className="card shadow mb-3 mb-lg-0">
             <div className="card-body p-5">
               <figure className="ie-height-56 w-100 max-width-8 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" style={{enableBackground: 'new 0 0 120 120'}} xmlSpace="preserve" className="injected-svg js-svg-injector" data-parent="#SVGkeyFeatures">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xmlSpace="preserve" className="injected-svg js-svg-injector" data-parent="#SVGkeyFeatures">
                   <style type="text/css" dangerouslySetInnerHTML={{__html: "\n\t.icon-23-0{fill:none;stroke:#377DFF;}\n\t.icon-23-1{fill:#BDC5D1;}\n\t.icon-23-2{fill:#377DFF;}\n\t.icon-23-3{fill:none;stroke:#FFFFFF;}\n\t.icon-23-4{fill:none;stroke:#BDC5D1;}\n" }} />
                   <g>
                     <g>
@@ -605,7 +605,7 @@ export default class PrintPage extends React.Component<IProps, IState> {
           <div className="col-sm-6">
             <div className="text-center px-lg-5">
               <figure id="icon12" className="ie-height-72 max-width-10 mx-auto mb-3" style={{}}>
-                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" style={{enableBackground: 'new 0 0 120 120'}} xmlSpace="preserve" className="injected-svg js-svg-injector" data-parent="#icon12">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xmlSpace="preserve" className="injected-svg js-svg-injector" data-parent="#icon12">
                   <style type="text/css" dangerouslySetInnerHTML={{__html: "\n\t.icon-62-0{fill:none;stroke:#BDC5D1;}\n\t.icon-62-1{fill:none;stroke:#377DFF;}\n\t.icon-62-2{fill:#BDC5D1;}\n\t.icon-62-3{fill:#FFFFFF;stroke:#377DFF;}\n\t.icon-62-4{fill:#377DFF;stroke:#377DFF;}\n" }} />
                   <path className="icon-62-0 fill-none stroke-gray-400" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} d="M53.2,48.2c-0.7-0.8-1.8-1.3-3.1-1.3c-1.3,0-2.4,0.5-3.1,1.3" />
                   <path className="icon-62-0 fill-none stroke-gray-400" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} d="M71.9,48.2c-0.7-0.8-1.8-1.3-3.1-1.3c-1.3,0-2.4,0.5-3.1,1.3" />

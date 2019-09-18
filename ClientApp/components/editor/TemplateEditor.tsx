@@ -149,6 +149,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                                 marginRight: '15px',
                             }}
                             className='unblurred' onClick={this.handleSubmit}>OK</button>
+                        <a className='unblurred' href={`/editor/design/${this.props.item.id}`}>Edit</a>
                         <button className='unblurred' onClick={this.handleAddNewKeyword}>Add new keyword</button>
                         <button className='unblurred' onClick={this.handleDeleteTemplate}>Delete</button>
                     </div>

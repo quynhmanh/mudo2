@@ -135,10 +135,10 @@ export default class Rect extends PureComponent<IProps, IState> {
       const deltaX = clientX - startX;
       const deltaY = clientY - startY;
       var update = this.props.onDrag(clientX, clientY);
-      if (update.updateStartPosY) {
+      if (update && update.updateStartPosY) {
         startY = clientY;
       }
-      if (update.updateStartPosX) {
+      if (update && update.updateStartPosX) {
         startX = clientX;
       }
     };
@@ -401,31 +401,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       objectType
     } = this.props;
 
-    var a = throttle(function() {
-      var selectionScaleY = 1;
-      if (self.state && self.state.selectionScaleY) {
-        selectionScaleY = self.state.selectionScaleY;
-      }
-
-      var a = document.getSelection();
-      var res;
-        if (a && a.type === "Range") {
-        } else {
-          var el = document.getElementById(self.props._id).getElementsByTagName('font')[0];
-          var sel = window.getSelection();
-          var range = document.createRange();
-          range.selectNodeContents(el);
-          sel.removeAllRanges();
-          sel.addRange(range);
-          var a = document.getSelection();
-          const size = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
-          res = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
-          sel.removeAllRanges();
-      }
-
-      self.props.onFontSizeChange(res);
-    }, 50);
-
     const { clientX: startX, clientY: startY } = e;
     const type = e.target.getAttribute("class").split(" ")[0];
     this.props.onResizeStart && this.props.onResizeStart(startX, startY);
@@ -454,7 +429,35 @@ export default class Rect extends PureComponent<IProps, IState> {
         this.props.backgroundColor,
       );
 
-      a();
+      if (this.props.objectType !== 4) {
+
+        var a = throttle(function() {
+          var selectionScaleY = 1;
+          if (self.state && self.state.selectionScaleY) {
+            selectionScaleY = self.state.selectionScaleY;
+          }
+    
+          var a = document.getSelection();
+          var res;
+            if (a && a.type === "Range") {
+            } else {
+              var el = document.getElementById(self.props._id).getElementsByTagName('font')[0];
+              var sel = window.getSelection();
+              var range = document.createRange();
+              range.selectNodeContents(el);
+              sel.removeAllRanges();
+              sel.addRange(range);
+              var a = document.getSelection();
+              const size = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
+              res = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
+              sel.removeAllRanges();
+          }
+    
+          self.props.onFontSizeChange(res);
+        }, 50);
+
+        a();
+      }
 
     };
 
@@ -671,6 +674,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         >
           {childrens && childrens.length > 0 && showImage && (
             <div
+              id="hello-3"
               style={{
                 width: "100%",
                 height: "100%"
@@ -738,6 +742,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           )}
           {childrens && childrens.length > 0 && !showImage && (
             <div
+              id="hello-2"
               style={{
                 width: "100%",
                 height: "100%"

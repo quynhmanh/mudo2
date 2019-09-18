@@ -231,7 +231,7 @@ js-ga-click-track" data-ga-event-action="sticky-nav" data-ga-event-label="#shopb
               <p style={{textAlign: 'center'}} className="p__lead">You can’t go wrong. We start at premium and go all the way to extra fancy.</p>
             </header>
           </div>
-          <div className>
+          <div>
             <div style={{display: 'flex'}} className="tile-rack__container layout--row-spacing u-display-flex u-flexWrap-wrap  js-tile-rack-slider" role="toolbar">
               <div style={{width: '25%', paddingLeft: '10px', display: 'table',}} className="tile-rack__tile-wrap layout__item u-display-flex u-1/4@medium js-tile-wrap" tabIndex={-1} role="option" aria-describedby="slick-slide40">
                 <div className="tile
@@ -768,7 +768,7 @@ js-ga-click-track" data-ga-event-action="size-block" data-ga-event-label="/us/bu
               <p className="p__lead">Whether you’re a total beginner or a creative professional, we’ve design options for any skill level.</p>
             </header>
           </div>
-          <div className>
+          <div>
             <div style={{display: 'flex'}} className="layout layout--row-spacing u-display-flex u-flexWrap-wrap">
               <div className="tile-rack__tile-wrap block__wrap-mob layout__item -animate u-display-flex u-1/3@medium">
                 <div className="tile
