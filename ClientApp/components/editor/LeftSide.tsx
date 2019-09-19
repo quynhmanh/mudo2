@@ -30,6 +30,7 @@ export interface IProps {
     handleFontColorChange: any;
     selectFont: any;
     fontsList: any;
+    fonts: any;
 }
   
 interface IState {
@@ -660,6 +661,10 @@ handleQuery = (e) => {
 
               this.props.images.replace(images);
 
+              var fonts = toJS(this.props.fonts);
+              fonts = [...fonts, ...doc.fontList];
+              this.props.fonts.replace(fonts);
+
               // self.setState({ 
               //   fonts: doc.fontList,
               //   upperZIndex: this.state.upperZIndex + 1,
@@ -819,8 +824,7 @@ handleQuery = (e) => {
   }
 
   selectFont = (id, e) => {
-    this.setState({fontId: id});
-
+    console.log('selectFont LeftSide');
     var font = this.props.fontsList.find(font => font.id === id);
 
     var a = document.getSelection();
@@ -855,8 +859,6 @@ handleQuery = (e) => {
 
     font1.remove();
   }
-
-    this.setState({fontName: font.representative});
 
     e.preventDefault();
     var style = `@font-face {

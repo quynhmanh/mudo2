@@ -90,6 +90,8 @@ interface IProps {
   replaceFirstItem: any;
   fontsList: any;
   addFontItem: any;
+  fonts: any;
+  addFont: any;
 }
 
 interface ImageObject {
@@ -578,6 +580,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
 
   selectFont = (id, e) => {
+    console.log('selectFont Editor');
     this.setState({fontId: id});
 
     var fontsList = toJS(this.props.fontsList);
@@ -643,9 +646,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     link.crossOrigin = "anonymous";
     head.appendChild(link);
     
-    var fonts = [...this.state.fonts];
-    fonts.push(id);
-    this.setState({fonts});
+    this.props.addFont(id);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -1684,7 +1685,7 @@ html {
         </body></html>`;
 
         axios.post(`/api/Design/Download?width=${this.state.rectWidth + (bleed ? 20 : 0)}&height=${this.state.rectHeight + (bleed ? 20 : 0)}`, 
-        {fonts: self.state.fonts,template, canvas},
+        {fonts: toJS(self.props.fonts),template, canvas},
         {
           headers: {
             'Content-Type': 'text/html',
@@ -1756,7 +1757,7 @@ html {
 
         axios.post(`/api/Design/DownloadPNG?width=${this.state.rectWidth}&height=${this.state.rectHeight}&transparent=${transparent}&download=true&png=${png}`, 
         {
-          fonts: self.state.fonts,
+          fonts: toJS(self.props.fonts),
           canvas, 
           additionalStyle: a[0].outerHTML, 
           transparent
@@ -3184,6 +3185,7 @@ handleToolbarResize = e => {
           }}
         >
           <LeftSide
+            fonts={this.props.fonts}
             fontsList={this.props.fontsList}
             selectFont={this.selectFont.bind(this)}
             handleFontColorChange={this.handleFontColorChange.bind(this)}
