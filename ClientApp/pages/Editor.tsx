@@ -88,6 +88,8 @@ interface IProps {
   addItem: any;
   update: any;
   replaceFirstItem: any;
+  fontsList: any;
+  addFontItem: any;
 }
 
 interface ImageObject {
@@ -574,6 +576,60 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     document.addEventListener("keydown", this.removeImage.bind(this));
   }
 
+
+  selectFont = (id, e) => {
+    this.setState({fontId: id});
+
+    var fontsList = toJS(this.props.fontsList);
+    var font = fontsList.find(font => font.id === id);
+
+    console.log('font ', id, font);
+    console.log('fontList ', fontsList);
+
+    var a = document.getSelection();
+    if (a && a.type === "Range") {
+      document.execCommand("FontName", false, id);
+    } else {
+      var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
+      var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0]; 
+      var sel = window.getSelection();
+      var range = document.createRange();
+      range.selectNodeContents(el);
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand('FontName', false, id);
+      sel.removeAllRanges();
+    }
+
+    this.setState({fontName: font.representative});
+
+    e.preventDefault();
+    var style = `@font-face {
+      font-family: '${id}';
+      src: url('/fonts/${id}.ttf');
+    }`;
+    var styleEle = document.createElement("style");
+    var type = document.createAttribute("type");
+    type.value = "text/css";
+    styleEle.attributes.setNamedItem(type)
+    styleEle.innerHTML = style;
+    var head = document.head || document.getElementsByTagName('head')[0];
+    head.appendChild(styleEle);
+
+    var link = document.createElement('link');
+    link.id = id;
+    link.rel = 'preload';
+    link.href = `/fonts/${id}.ttf`
+    link.media = 'all';
+    link.as = "font";
+    link.crossOrigin = "anonymous";
+    head.appendChild(link);
+    
+    var fonts = [...this.state.fonts];
+    fonts.push(id);
+    this.setState({fonts});
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.scale !== prevState.scale) {
       this.handleScroll();
@@ -1041,10 +1097,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return;
     }
     images = images.map(image => {
-      console.log('image ', image);
       if (image.page === img.page) {
         var imageTransformed = this.tranformImage(image);
-        console.log('imageTransformed ', imageTransformed);
         if (image._id !== _id) {
           if ((!updateStartPosX) && Math.abs(newLeft - imageTransformed.x[0]) < 5) {
             left -= newLeft - imageTransformed.x[0];
@@ -2390,55 +2444,6 @@ handleToolbarResize = e => {
     }
   }
 
-  selectFont = (id, e) => {
-    this.setState({fontId: id});
-
-    var font = this.state.fontsList.find(font => font.id === id);
-
-    var a = document.getSelection();
-    if (a && a.type === "Range") {
-      document.execCommand("FontName", false, id);
-    } else {
-      var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
-      var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0]; 
-      var sel = window.getSelection();
-      var range = document.createRange();
-      range.selectNodeContents(el);
-      sel.removeAllRanges();
-      sel.addRange(range);
-      document.execCommand('FontName', false, id);
-      sel.removeAllRanges();
-    }
-
-    this.setState({fontName: font.representative});
-
-    e.preventDefault();
-    var style = `@font-face {
-      font-family: '${id}';
-      src: url('/fonts/${id}.ttf');
-    }`;
-    var styleEle = document.createElement("style");
-    var type = document.createAttribute("type");
-    type.value = "text/css";
-    styleEle.attributes.setNamedItem(type)
-    styleEle.innerHTML = style;
-    var head = document.head || document.getElementsByTagName('head')[0];
-    head.appendChild(styleEle);
-
-    var link = document.createElement('link');
-    link.id = id;
-    link.rel = 'preload';
-    link.href = `/fonts/${id}.ttf`
-    link.media = 'all';
-    link.as = "font";
-    link.crossOrigin = "anonymous";
-    head.appendChild(link);
-    
-    var fonts = [...this.state.fonts];
-    fonts.push(id);
-    this.setState({fonts});
-  }
-
   handleChildIdSelected = (childId) => {
     var defaultColor = 'black';
     var font;
@@ -2828,7 +2833,6 @@ handleToolbarResize = e => {
 
   render() {
 
-    console.log('rendering');
     const { scale, staticGuides, rectWidth, rectHeight, cropMode, pages, } = this.state; 
 
     const { images } = this.props;
@@ -3087,6 +3091,8 @@ handleToolbarResize = e => {
           }}
         >
           <LeftSide
+            fontsList={this.props.fontsList}
+            selectFont={this.selectFont.bind(this)}
             handleFontColorChange={this.handleFontColorChange.bind(this)}
             typeObjectSelected={this.state.typeObjectSelected}
             images={this.props.images}
@@ -3098,6 +3104,7 @@ handleToolbarResize = e => {
             rectHeight={this.state.rectHeight}
             activePageId={this.state.activePageId} 
             addItem={this.props.addItem} 
+            addFontItem={this.props.addFontItem}
             toolbarOpened={this.state.toolbarOpened} 
             toolbarSize={this.state.toolbarSize} 
             mode={this.state.mode} 

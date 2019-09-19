@@ -6,10 +6,15 @@ import uuidv4 from "uuid/v4";
 
 class Images {
   @observable images = [];
+  @observable fontsList = [];
 
   @action addItem = (item) => {
     console.log('addItem ', item);
       this.images.push(item);
+  }
+
+  @action addFontItem = (item) => {
+    this.fontsList.push(item);
   }
 
   @action update = (images) => {
@@ -57,7 +62,9 @@ export default class EditorContainer extends React.Component<IProps, IState> {
         mode={this.props.mode} 
         match={this.props.match} 
         addItem={store.addItem} 
-        images={store.images} 
+        addFontItem={store.addFontItem}
+        images={store.images}
+        fontsList={store.fontsList} 
         update={store.update}
         replaceFirstItem={store.replaceFirstItem}
         firstpage={firstpage} />

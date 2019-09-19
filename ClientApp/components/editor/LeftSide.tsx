@@ -18,6 +18,7 @@ export interface IProps {
     activePageId: string;
     rectWidth: number;
     addItem: any;
+    addFontItem: any;
     rectHeight: number;
     pages: any;
     scale: number;
@@ -27,6 +28,8 @@ export interface IProps {
     images: any;
     typeObjectSelected: any;
     handleFontColorChange: any;
+    selectFont: any;
+    fontsList: any;
 }
   
 interface IState {
@@ -784,14 +787,14 @@ handleQuery = (e) => {
   selectFont = (id, e) => {
     this.setState({fontId: id});
 
-    var font = this.state.fontsList.find(font => font.id === id);
+    var font = this.props.fontsList.find(font => font.id === id);
 
     var a = document.getSelection();
     if (a && a.type === "Range") {
       document.execCommand("FontName", false, id);
     } else {
       var childId = this.props.childId ? this.props.childId : this.props.idObjectSelected;
-      var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0]; 
+      var el = this.props.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0]; 
       var sel = window.getSelection();
       var range = document.createRange();
       range.selectNodeContents(el);
@@ -1088,7 +1091,7 @@ handleQuery = (e) => {
       pageId = 1;
       count = 30;
     } else {
-      pageId = (this.state.fontsList.length) / 30 + 1;
+      pageId = (this.props.fontsList.length) / 30 + 1;
       count = 30;
     }
     // this.setState({ isLoading: true, error: undefined });
@@ -1097,11 +1100,15 @@ handleQuery = (e) => {
       .then(res => res.json())
       .then(
         res => {
-          this.setState(state => ({
-            fontsList: [...state.fontsList, ...res.value.key],
-            totalFonts: res.value.value,
-            hasMoreFonts: res.value.value > state.fontsList.length + res.value.key.length,
-          }))
+          // this.setState(state => ({
+          //   fontsList: [...state.fontsList, ...res.value.key],
+          //   totalFonts: res.value.value,
+          //   hasMoreFonts: res.value.value > state.fontsList.length + res.value.key.length,
+          // }));
+
+          for (var i = 0; i < res.value.key.length; ++i) {
+            this.props.addFontItem(res.value.key[i]);
+          }
         },
         error => {
           // this.setState({ isLoading: false, error })
@@ -1833,7 +1840,7 @@ handleQuery = (e) => {
               marginRight: '10px',
             }}
           >
-            {this.state.fontsList.map((font, key) => (
+            {this.props.fontsList.map((font, key) => (
               <button 
                 className="font-picker"
                 style={{
@@ -1844,7 +1851,7 @@ handleQuery = (e) => {
                     backgroundColor: 'transparent',
                 }} 
                 href="#" 
-                onClick={this.selectFont.bind(this, font.id)}>
+                onClick={(e) => {this.props.selectFont(font.id, e) } }>
                   { Globals.serviceUser && Globals.serviceUser.username && Globals.serviceUser.username == adminEmail &&
                   <button
                     style={{
