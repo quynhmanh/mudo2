@@ -61,6 +61,9 @@ interface IState {
     currentBackgroundHeights1: number;
     currentBackgroundHeights2: number;
     currentBackgroundHeights3: number;
+    isTextTemplateLoading: boolean;
+    currentGroupedTextsHeight: number;
+    currentGroupedTexts2Height: number;
 }
 
 const imgWidth = 167;
@@ -138,6 +141,8 @@ class LeftSide extends PureComponent<IProps, IState> {
         currentBackgroundHeights1: 0,
         currentBackgroundHeights2: 0,
         currentBackgroundHeights3: 0,
+        currentGroupedTextsHeight: 0,
+        currentGroupedTexts2Height: 0,
     }
 
     componentDidMount() {
@@ -145,6 +150,7 @@ class LeftSide extends PureComponent<IProps, IState> {
         this.loadMoreBackground.bind(this)(true);
         // this.loadMoreTemplate(this)(true);
         this.loadMoreFont.bind(this)(true);
+        this.loadMoreTextTemplate.bind(this)(true);
 ;    }
 
     handleRemoveAllMedia = () => {
@@ -511,12 +517,12 @@ handleQuery = (e) => {
           images.push({
             _id: uuidv4(),
             type: TemplateType.RemovedBackgroundImage,
-            width: rec2.width / self.state.scale,
-            height: rec2.height / self.state.scale,
-            origin_width: rec2.width / self.state.scale,
-            origin_height: rec2.height / self.state.scale,
-            left: (rec2.left - rec.left) / self.state.scale,
-            top: (rec2.top - rec.top) / self.state.scale,
+            width: rec2.width / self.props.scale,
+            height: rec2.height / self.props.scale,
+            origin_width: rec2.width / self.props.scale,
+            origin_height: rec2.height / self.props.scale,
+            left: (rec2.left - rec.left) / self.props.scale,
+            top: (rec2.top - rec.top) / self.props.scale,
             rotateAngle: 0.0,
             src: target.src,
             selected: false,
@@ -524,8 +530,8 @@ handleQuery = (e) => {
             scaleY: 1,
             posX: 0,
             posY: 0,
-            imgWidth: (rec2.width / self.state.scale),
-            imgHeight: (rec2.height / self.state.scale),
+            imgWidth: (rec2.width / self.props.scale),
+            imgHeight: (rec2.height / self.props.scale),
             page: this.state.pages[i],
             zIndex: this.state.upperZIndex + 1,
           });
@@ -595,18 +601,18 @@ handleQuery = (e) => {
               }
               var document = JSON.parse(doc.document)
               document._id = uuidv4();
-              document.page = self.state.pages[index];
-              document.zIndex = this.state.upperZIndex + 1;
-              document.width = rec2.width / self.state.scale;
-              document.height = rec2.height / self.state.scale;
+              document.page = self.props.pages[index];
+              document.zIndex = this.props.upperZIndex + 1;
+              document.width = rec2.width / self.props.scale;
+              document.height = rec2.height / self.props.scale;
               // document.width = rec2.width;
               // document.height = rec2.height;
               // document.origin_width = document.width / document.scaleX;
               // document.origin_height = document.height / document.scaleY;
               document.scaleX = document.width / document.origin_width;
               document.scaleY = document.height / document.origin_height;
-              document.left = (rec2.left - rec.left) / self.state.scale;
-              document.top = (rec2.top - rectTop) / self.state.scale;
+              document.left = (rec2.left - rec.left) / self.props.scale;
+              document.top = (rec2.top - rectTop) / self.props.scale;
               // document.scaleX = rec2.width / this.state.rectWidth;
               // document.scaleY = rec2.height / this.state.rectHeight;
               // document.scaleX = 1;
@@ -617,7 +623,7 @@ handleQuery = (e) => {
               //   return obj;
               // })
 
-              let images = [...this.state.images, document];
+              let images = [...this.props.images, document];
 
               if (doc.fontList) {
                 var fontList = doc.fontList.forEach(id => { 
@@ -647,11 +653,12 @@ handleQuery = (e) => {
                 });
               }
 
-              self.setState({ 
-                images,
-                fonts: doc.fontList,
-                upperZIndex: this.state.upperZIndex + 1,
-              });
+              this.props.images.replace(images);
+
+              // self.setState({ 
+              //   fonts: doc.fontList,
+              //   upperZIndex: this.state.upperZIndex + 1,
+              // });
             });
         }
       }
@@ -1433,7 +1440,7 @@ handleQuery = (e) => {
                     left: 0,
                     top: 0,
                     rotateAngle: 0.0,
-                    innerHTML: "<font face=\"O5mEMMs7UejmI1WeSKWQ\" style=\"font-size: 26px\">Add a heading</font>",
+                    innerHTML: "<div style=\"text-align: left;\"><span style=\"font-size: 26px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a heading</span></div>",
                     scaleX: scale,
                     scaleY: scale,
                     selected: false,
@@ -1467,7 +1474,7 @@ handleQuery = (e) => {
                   left: 0,
                   top: 0,
                   rotateAngle: 0.0,
-                  innerHTML: "<font face=\"O5mEMMs7UejmI1WeSKWQ\" style=\"font-size: 22px\">Add a subheading</font>",
+                  innerHTML: "<div style=\"text-align: left;\"><span style=\"font-size: 22px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a subheading</span></div>",
                   scaleX: scale,
                   scaleY: scale,
                   page: this.props.activePageId,
@@ -1500,7 +1507,7 @@ handleQuery = (e) => {
                   left: 0,
                   top: 0,
                   rotateAngle: 0.0,
-                  innerHTML: "<font face=\"O5mEMMs7UejmI1WeSKWQ\" style=\"font-size: 16px\">Add a little bit of body text</font>",
+                  innerHTML: "<div style=\"text-align: left;\"><span style=\"font-size: 16px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a little bit of body text</span></div>",
                   scaleX: scale,
                   scaleY: scale,
                   page: this.props.activePageId,

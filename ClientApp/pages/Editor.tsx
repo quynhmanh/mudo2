@@ -661,6 +661,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // handle the crop area
   handleResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
+    var t0 = performance.now();
+    var t1 = performance.now();
     if (this.switching) {
       return;
     }
@@ -782,7 +784,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           image.scaleY = (image.height) / image.origin_height;
         } else {
           if (objectType == TemplateType.Heading) {
-            // var rec = document.getElementById(_id).getElementsByClassName('text')[0].getBoundingClientRect();
             var rec = document.getElementById(_id).getElementsByClassName('text')[0].getBoundingClientRect();
             var as = Math.abs(Math.sin(image.rotateAngle / 360 * Math.PI));
             var cs = Math.abs(Math.cos(image.rotateAngle / 360 * Math.PI));
@@ -819,7 +820,15 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-    this.setState({ images, updateRect: self.switching, },
+    t1 = performance.now();
+  console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
+
+    t1 = performance.now();
+    console.log("Call to doSomething took 2 " + (t1 - t0) + " milliseconds.");
+
+    console.log('switching ', self.switching);
+
+    this.setState({updateRect: self.switching, },
       () => {
         if (self.switching) {
           self.handleImageResize = temp;
@@ -830,6 +839,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           }, 1);
         }
       });
+
+      t1 = performance.now();
+    console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
+    
+      this.props.images.replace(images);
+      t1 = performance.now();
+  console.log("Call to doSomething took 4 " + (t1 - t0) + " milliseconds.");
   };
 
   onResizeInnerImageStart = (startX, startY) => {
@@ -1261,7 +1277,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
       return image;
     });
+
+    var t0 = performance.now();
+
     this.props.images.replace(images);
+
+    var t1 = performance.now();
+    console.log("Call to doSomething took he " + (t1 - t0) + " milliseconds.");
 
     this.setState({ dragging: true }); 
     
@@ -1284,7 +1306,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     })
 
+    var t0 = performance.now();
+
     this.props.images.replace(images);
+
+    var t1 = performance.now();
+    console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
+
 
     this.setState({ dragging: false, staticGuides: {x, y}, images});
   };
