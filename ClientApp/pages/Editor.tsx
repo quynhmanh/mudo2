@@ -679,6 +679,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // handle the crop area
   handleResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
+    console.log('handleResize ');
     var t0 = performance.now();
     var t1 = performance.now();
     if (this.switching) {
@@ -824,7 +825,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             var newDocumentObjects = [];
             for (var i = 0; i < texts.length; ++i) {
               var d = texts[i];
-              if (d.ref === null) {
+              if (!d.ref) {
                 newDocumentObjects.push(...this.normalize2(d, texts, image.scaleX, image.scaleY, scale, image.width, image.height));
               }
             }
@@ -861,6 +862,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       t1 = performance.now();
     console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
     
+    console.log('handleResize 2');
       this.props.images.replace(images);
       t1 = performance.now();
   console.log("Call to doSomething took 4 " + (t1 - t0) + " milliseconds.");
@@ -1298,6 +1300,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
     var t0 = performance.now();
 
+    console.log('handleDrag 1');
     this.props.images.replace(images);
 
     var t1 = performance.now();
@@ -1326,6 +1329,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
     var t0 = performance.now();
 
+    console.log('handleDrag 2');
     this.props.images.replace(images);
 
     var t1 = performance.now();
@@ -1913,6 +1917,7 @@ html {
   }
 
   onTextChange(parentIndex, e, key) {
+    console.log('onTextChange ');
     const { scale } = this.state;
     let images = this.state.images.map(image => {
       if (image._id === parentIndex) {
@@ -1968,12 +1973,17 @@ html {
   }
 
   onSingleTextChange(thisImage, e, childId) {
+    console.log('ToJS', toJS(this.props.images));
+    console.log('onSingleTextChange ', arguments);
     var els;
     if (childId){
       els = document.getElementById(childId).getElementsByTagName('font');
     } else {
       els = document.getElementById(this.state.idObjectSelected).getElementsByTagName('font');
     }
+
+    thisImage = toJS(thisImage);
+    console.log('thisImage ', thisImage);
 
     var scaleChildY = 1;
     if (childId) {
@@ -1989,11 +1999,15 @@ html {
       els[i].style.fontSize = this.state.fontSize / thisImage.scaleY / scaleChildY + 'px';
     }
 
+    console.log('ToJS', toJS(this.props.images));
+
     e.persist();
     setTimeout(() => {
       const { scale } = this.state;
       if (!childId) {
-        let images = this.state.images.map(image => {
+        let images = toJS(this.props.images);
+        console.log('images 3', images);
+        images = images.map(image => {
           if (image._id === thisImage._id) {
             var centerX = image.left + image.width / 2;
             var centerY = image.top + image.height / 2;
@@ -2032,31 +2046,38 @@ html {
           }
           return image;
         });
+
+        console.log('images 2', images);
+
+        this.props.images.replace(images);
   
-        this.setState({ images, editing: true });
+        // this.setState({ images, editing: true });
       } else {
-        let images = this.state.images.map(image => {
+        let images = toJS(this.props.images);
+        console.log('images ', images);
+        images = images.map(image => {
           if (image._id === thisImage._id) {
             var scaleY = image.height / image.origin_height;
+
+            console.log('image ', image);
   
             let texts = image.document_object.map(text => {
               if (text._id === childId) {
-                // var fontElements = window.getSelection().anchorNode.parentNode;
-                // var a = fontElements as HTMLElement
-                // a.removeAttribute("size");
-                // a.style.fontSize = this.state.fontSize / image.scaleY / text.scaleY + 'px';
-                
                 text.innerHTML = e.target.innerHTML;
                 text.height = e.target.offsetHeight * text.scaleY;
               }
               return text;
             });
+
+            console.log('texts ', texts);
   
             var newDocumentObjects = [];
             for (var i = 0; i < texts.length; ++i) {
               var d = texts[i];
-              if (d.ref === null) {
-                newDocumentObjects.push(...this.normalize2(d, texts, image.scaleX, image.scaleY, scale, image.width, image.height));
+              if (!d.ref) {
+                console.log('allo ', )
+                var imgs = this.normalize2(d, texts, image.scaleX, image.scaleY, this.state.scale, image.width, image.height);
+                newDocumentObjects.push(...imgs);
               }
             }
   
@@ -2085,7 +2106,10 @@ html {
           }
           return image;
         });
-    
+
+        console.log('images ', images);
+        console.log('onSingleTextChange 2');
+        this.props.images.replace(images);
         this.setState({ images });
       }
     }, 50);

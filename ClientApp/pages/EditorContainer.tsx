@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import Editor from "@Pages/Editor";
-import { observable, action } from "mobx";
+import { observable, action, autorun } from "mobx";
 import uuidv4 from "uuid/v4";
 
 class Images {
@@ -26,6 +26,10 @@ class Images {
     this.images[0] = image;
   }
 }
+
+autorun(() => {
+  console.log('images', this.images);
+})
 
 type Props = RouteComponentProps<{}>;
 

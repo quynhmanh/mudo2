@@ -1940,6 +1940,7 @@ html {
   }
 
   onSingleTextChange(thisImage, e, childId) {
+    console.log('onSingleTextChange');
     var els;
     if (childId){
       els = document.getElementById(childId).getElementsByTagName('font');

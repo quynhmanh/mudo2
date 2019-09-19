@@ -7,7 +7,7 @@ import InfiniteScroll from '@Components/shared/InfiniteScroll';
 import axios from 'axios';
 import uuidv4 from "uuid/v4";
 import {getMostProminentColor} from '@Utils';
-
+import { toJS } from "mobx";
 
 export interface IProps {
     toolbarOpened: any;
@@ -759,7 +759,7 @@ handleQuery = (e) => {
         }
         return img;
       });
-
+      console.log('setSelectionColor 1');
       this.props.images.replace(images);
     } else if (this.props.typeObjectSelected === TemplateType.Image || this.props.typeObjectSelected === TemplateType.BackgroundImage) {
       var images = this.props.images.map(img => {
@@ -769,6 +769,7 @@ handleQuery = (e) => {
         return img;
       });
 
+      console.log('setSelectionColor 2');
       this.props.images.replace(images);
       // this.setState({images});
     }
@@ -791,6 +792,9 @@ handleQuery = (e) => {
         sel.removeAllRanges();
       }
     }
+
+    let images2 = toJS(this.props.images);
+    console.log('images 4', images2);
 
     function insertAfter(newNode, referenceNode) {
       referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
