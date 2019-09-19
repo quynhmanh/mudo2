@@ -154,13 +154,16 @@ class LeftSide extends PureComponent<IProps, IState> {
 ;    }
 
     handleRemoveAllMedia = () => {
+      console.log('handleRemoveAllMedia');
         var model;
         if (this.props.selectedTab === SidebarTab.Image || this.props.selectedTab === SidebarTab.Background) {
           model = "Media";
-        } else if (this.props.selectedTab === SidebarTab.Template) {  
+        } else if (this.props.selectedTab === SidebarTab.Template || this.props.selectedTab === SidebarTab.Text) {  
           model = "Template";
         }
         const url = `/api/${model}/RemoveAll`;
+
+        console.log('url   ', url);
         fetch(url);
       }
 
@@ -1418,7 +1421,7 @@ handleQuery = (e) => {
                 var _id = uuidv4();
 
                 let images = this.state.images.map(img => {
-                  if (img._id === this.state.idObjectSelected) {
+                  if (img._id === this.props.idObjectSelected) {
                     img.childId = _id;
                   }
                   return img;
@@ -1440,7 +1443,7 @@ handleQuery = (e) => {
                     scaleX: scale,
                     scaleY: scale,
                     selected: false,
-                    ref: this.state.idObjectSelected,
+                    ref: this.props.idObjectSelected,
                     page: this.props.activePageId,
                     zIndex: this.state.upperZIndex + 1,
                     width2: 1,
@@ -1470,26 +1473,37 @@ handleQuery = (e) => {
               }}
               onMouseDown={(e) => {
                 e.preventDefault();
+                var _id = uuidv4();
+                let images = this.props.images.map(img => {
+                  if (img._id === this.props.idObjectSelected) {
+                    img.childId = _id;
+                  }
+                  return img;
+                });
                 var scale = this.props.rectWidth / e.target.getBoundingClientRect().width;
 
-                this.props.addItem({
-                    _id: uuidv4(),
-                    type: TemplateType.Heading,
-                    width: 200 * scale,
-                    origin_width: 200,
-                    height: 40 * scale,
-                    origin_height: 40,
-                    left: 0,
-                    top: 0,
-                    rotateAngle: 0.0,
-                    innerHTML: "<div style=\"text-align: left;\"><span style=\"font-size: 26px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a heading</span></div>",
-                    scaleX: scale,
-                    scaleY: scale,
-                    selected: false,
-                    ref: this.state.idObjectSelected,
-                    page: this.props.activePageId,
-                    zIndex: this.props.upperZIndex + 1,
+                images.push({
+                  _id,
+                  type: TemplateType.Heading,
+                  width: 200 * scale,
+                  origin_width: 200,
+                  height: 40 * scale,
+                  origin_height: 40,
+                  left: 0,
+                  top: 0,
+                  rotateAngle: 0.0,
+                  innerHTML: "<div style=\"text-align: left;\"><span style=\"font-size: 26px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a heading</span></div>",
+                  scaleX: scale,
+                  scaleY: scale,
+                  selected: false,
+                  ref: this.props.idObjectSelected,
+                  page: this.props.activePageId,
+                  zIndex: this.props.upperZIndex + 1,
                 });
+
+                console.log('images ', images);
+
+                this.props.images.replace(images);
 
                 // this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
               }}
@@ -1504,10 +1518,17 @@ handleQuery = (e) => {
               }}
               onMouseDown={(e) => {
                 e.preventDefault();
+                var _id = uuidv4();
+                let images = this.props.images.map(img => {
+                  if (img._id === this.props.idObjectSelected) {
+                    img.childId = _id;
+                  }
+                  return img;
+                });
                 var scale = this.props.rectWidth / e.target.getBoundingClientRect().width - 0.3;
 
-                this.props.addItem({
-                  _id: uuidv4(),
+                images.push({
+                  _id,
                   type: TemplateType.Heading,
                   width: 190 * scale,
                   origin_width: 190,
@@ -1521,9 +1542,12 @@ handleQuery = (e) => {
                   scaleY: scale,
                   page: this.props.activePageId,
                   zIndex: 1,
-                });
+                  ref: this.props.idObjectSelected,
+                })
 
-                // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
+                this.props.images.replace(images);
+
+                // thi`s`.setState({ upperZIndex: this.state.upperZIndex + 1 });
               }}
             >
             Thêm tiêu đề con
@@ -1537,10 +1561,16 @@ handleQuery = (e) => {
               }}
               onMouseDown={(e) => {
                 e.preventDefault();
+                var _id = uuidv4();
+                let images = this.props.images.map(img => {
+                  if (img._id === this.props.idObjectSelected) {
+                    img.childId = _id;
+                  }
+                  return img;
+                });
                 var scale = this.props.rectWidth / e.target.getBoundingClientRect().width - 0.6;
-
-                this.props.addItem({
-                  _id: uuidv4(),
+                images.push({
+                  _id,
                   type: TemplateType.Heading,
                   width: 200 * scale,
                   origin_width: 200,
@@ -1554,7 +1584,10 @@ handleQuery = (e) => {
                   scaleY: scale,
                   page: this.props.activePageId,
                   zIndex: this.state.upperZIndex + 1,
-                });
+                  ref: this.props.idObjectSelected,
+                })
+
+                this.props.images.replace(images);
 
                 this.setState({ upperZIndex: this.state.upperZIndex + 1 });
               }}
