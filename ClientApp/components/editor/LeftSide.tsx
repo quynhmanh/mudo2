@@ -1896,11 +1896,11 @@ handleQuery = (e) => {
             transform: this.props.selectedTab !== SidebarTab.Color && `translate3d(0px, calc(${this.props.selectedTab < SidebarTab.Color ? 40 : -40}px), 0px)`,
             top: '10px',
             zIndex: this.props.selectedTab !== SidebarTab.Color && -1,
-            height: '100%',
+            height: '98%',
           }}
         >
           <div style={{display: 'inline-block'}}>
-          <p>Quick Picks</p>
+          <p style={{margin: '5px',}}>Chọn nhanh</p>
           <ul
             style={{
               listStyle: 'none',
@@ -1927,7 +1927,7 @@ handleQuery = (e) => {
           </ul>
           </div>
           <div style={{display: 'inline-block'}}>
-          <p>All Colors</p>
+          <p style={{margin: '5px',}}>Tất cả các màu</p>
           <ul
             style={{
               listStyle: 'none',
