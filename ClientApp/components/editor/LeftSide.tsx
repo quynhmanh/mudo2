@@ -623,6 +623,8 @@ handleQuery = (e) => {
               //   return obj;
               // })
 
+              console.log('docuemnt ', document);
+
               let images = [...this.props.images, document];
 
               if (doc.fontList) {
@@ -789,6 +791,24 @@ handleQuery = (e) => {
         sel.removeAllRanges();
       }
     }
+
+    function insertAfter(newNode, referenceNode) {
+      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+
+  var fonts = document.getElementsByTagName("font");
+  for (var i = 0; i < fonts.length; ++i) {
+    var font = fonts[i];
+    console.log('font ', font.style);
+    var div = document.createElement("div");
+    div.style.fontSize = font.style.fontSize;
+    div.style.color = color;
+    div.innerText = font.innerText;
+
+    insertAfter(div, font);
+
+    font.remove();
+  }
   }
 
   selectFont = (id, e) => {
@@ -810,6 +830,24 @@ handleQuery = (e) => {
       document.execCommand('FontName', false, id);
       sel.removeAllRanges();
     }
+
+    function insertAfter(newNode, referenceNode) {
+      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+
+  var fonts = document.getElementsByTagName("font");
+  for (var i = 0; i < fonts.length; ++i) {
+    var font1 = fonts[i];
+    console.log('font ', font1.style);
+    var div = document.createElement("div");
+    div.style.fontSize = font1.style.fontSize;
+    div.style.fontFamily = id;
+    div.innerText = font1.innerText;
+
+    insertAfter(div, font1);
+
+    font1.remove();
+  }
 
     this.setState({fontName: font.representative});
 

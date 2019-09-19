@@ -601,6 +601,24 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       sel.removeAllRanges();
     }
 
+    function insertAfter(newNode, referenceNode) {
+      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+
+  var fonts = document.getElementsByTagName("font");
+  for (var i = 0; i < fonts.length; ++i) {
+    var font1 = fonts[i];
+    console.log('font ', font1.style);
+    var div = document.createElement("div");
+    div.style.fontSize = font1.style.fontSize;
+    div.style.fontFamily = id;
+    div.innerText = font1.innerText;
+
+    insertAfter(div, font1);
+
+    font1.remove();
+  }
+
     this.setState({fontName: font.representative});
 
     e.preventDefault();
@@ -1766,17 +1784,20 @@ html {
 
     const { rectWidth, rectHeight } = this.state;
 
-    let images = self.state.images.map(image => {
+    let images = toJS(self.props.images);
+    images = images.map(image => {
       image.width2 = image.width / rectWidth;
       image.height2 = image.height / rectHeight;
       return image;
     })
 
+    console.log('images ', images);
+
     if (mode === Mode.CreateTextTemplate || mode === Mode.EditTextTemplate) {
       var newImages = [];
       for (var i = 0; i < images.length; ++i ) {
         var image = images[i];
-        if (image.ref === null) {
+        if (!image.ref) {
           newImages.push(...this.normalize(image, images));
         }
       }
@@ -1794,6 +1815,8 @@ html {
         return img;
       });
     }
+
+    console.log('images ', images);
 
     await setTimeout(async function() {
       var url;
@@ -2376,6 +2399,7 @@ handleToolbarResize = e => {
   }
 
   normalize(image: any, images: any) : any {
+    console.log('normalize ', image, images);
     var result = [];
     var norm = (image, parent) => {
       var res = {...image};
@@ -2544,6 +2568,23 @@ handleToolbarResize = e => {
         document.execCommand('foreColor', false, color);
         sel.removeAllRanges();
       }
+    }
+
+    function insertAfter(newNode, referenceNode) {
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+
+    var fonts = document.getElementsByTagName("font");
+    for (var i = 0; i < fonts.length; ++i) {
+      var font = fonts[i];
+      var div = document.createElement("div");
+      div.style.fontSize = font.style.fontSize;
+      div.style.color = font.style.color;
+      div.innerText = font.innerText;
+
+      insertAfter(div, font);
+
+      font.remove();
     }
   }
 
