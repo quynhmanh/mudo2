@@ -24,6 +24,9 @@ export interface IProps {
     idObjectSelected: string;
     childId: string;
     upperZIndex: number;
+    images: any;
+    typeObjectSelected: any;
+    handleFontColorChange: any;
 }
   
 interface IState {
@@ -736,39 +739,42 @@ handleQuery = (e) => {
 
 
   setSelectionColor = (color, e) => {
-    if (this.state.typeObjectSelected === TemplateType.Latex) {
-      var images = this.state.images.map(img => {
-        if (img._id === this.state.idObjectSelected) {
+    console.log('setSelectionColor ', this.props.typeObjectSelected, color);
+    if (this.props.typeObjectSelected === TemplateType.Latex) {
+      var images = this.props.images.map(img => {
+        if (img._id === this.props.idObjectSelected) {
           img.color = color;
         }
         return img;
       });
 
-      this.setState({images});
-    } else if (this.state.typeObjectSelected === TemplateType.Image || this.state.typeObjectSelected === TemplateType.BackgroundImage) {
-      var images = this.state.images.map(img => {
-        if (img._id === this.state.idObjectSelected) {
+      this.props.images.replace(images);
+    } else if (this.props.typeObjectSelected === TemplateType.Image || this.props.typeObjectSelected === TemplateType.BackgroundImage) {
+      var images = this.props.images.map(img => {
+        if (img._id === this.props.idObjectSelected) {
           img.backgroundColor = color;
         }
         return img;
       });
-      this.setState({images});
+
+      this.props.images.replace(images);
+      // this.setState({images});
     }
     e.preventDefault();
     document.execCommand('foreColor', false, color);
-    if (this.state.typeObjectSelected === TemplateType.Heading || this.state.typeObjectSelected === TemplateType.TextTemplate) {
+    if (this.props.typeObjectSelected === TemplateType.Heading || this.props.typeObjectSelected === TemplateType.TextTemplate) {
       var a = document.getSelection();
       if (a && a.type === "Range") {
-        this.handleFontColorChange(color);
+        this.props.handleFontColorChange(color);
       } else {
-        var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
-        var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];
+        var childId = this.props.childId ? this.props.childId : this.props.idObjectSelected;
+        var el = this.props.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];
         var sel = window.getSelection();
         var range = document.createRange();
         range.selectNodeContents(el);
         sel.removeAllRanges();
         sel.addRange(range);
-        this.handleFontColorChange(color);
+        this.props.handleFontColorChange(color);
         document.execCommand('foreColor', false, color);
         sel.removeAllRanges();
       }

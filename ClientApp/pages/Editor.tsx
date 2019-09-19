@@ -3087,6 +3087,9 @@ handleToolbarResize = e => {
           }}
         >
           <LeftSide
+            handleFontColorChange={this.handleFontColorChange.bind(this)}
+            typeObjectSelected={this.state.typeObjectSelected}
+            images={this.props.images}
             upperZIndex={this.state.upperZIndex}
             idObjectSelected={this.state.idObjectSelected}
             childId={this.state.childId} 
