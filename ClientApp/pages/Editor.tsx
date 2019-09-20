@@ -1481,31 +1481,33 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-    var defaultColor = 'black';
-    var font;
-    var fontSize;
-    var id = img._id;
-    var a = document.getSelection();
-        if (a && a.type === "Range") {
-        } else {
-          // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
-          var el = document.getElementById(id).getElementsByClassName("font")[0];
-          console.log('document.getElementById(self.props._id) ', document.getElementById(id));
-          console.log('ellll ', el);
-          var sel = window.getSelection();
-          var range = document.createRange();
-          range.selectNodeContents(el);
-          sel.removeAllRanges();
-          sel.addRange(range);
-          var a = document.getSelection();
-          fontSize = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
-          defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
+    if (img.type != TemplateType.Image) {
+      var defaultColor = 'black';
+      var font;
+      var fontSize;
+      var id = img._id;
+      var a = document.getSelection();
+          if (a && a.type === "Range") {
+          } else {
+            // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
+            var el = document.getElementById(id).getElementsByClassName("font")[0];
+            console.log('document.getElementById(self.props._id) ', document.getElementById(id));
+            console.log('ellll ', el);
+            var sel = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            var a = document.getSelection();
+            fontSize = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
+            defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
 
-          sel.removeAllRanges();
-      }
-    this.handleFontFamilyChange(font);
-    this.handleFontColorChange(defaultColor);
-    this.setState({fontSize});
+            sel.removeAllRanges();
+        }
+      this.handleFontFamilyChange(font);
+      this.handleFontColorChange(defaultColor);
+      this.setState({fontSize});
+    }
 
     console.log('img ', img);
 
