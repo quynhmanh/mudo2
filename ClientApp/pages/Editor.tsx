@@ -1485,7 +1485,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       var defaultColor = 'black';
       var font;
       var fontSize;
-      var id = img._id;
+      var id = this.state.childId ? this.state.childId : img._id;
       var a = document.getSelection();
           if (a && a.type === "Range") {
           } else {
@@ -2545,18 +2545,40 @@ handleToolbarResize = e => {
     var defaultColor = 'black';
     var font;
     var fontSize;
-    var el:HTMLElement = document.getElementById(childId).getElementsByTagName("font")[0];
-    if (!el) {
-      el = document.getElementById(childId).getElementsByTagName("span")[0];
-    }
-    if (el) {
-      defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
-      font = window.getComputedStyle(el, null).getPropertyValue("font-family");
-      fontSize = window.getComputedStyle(el, null).getPropertyValue("font-size");
-    }
-    this.handleFontFamilyChange(font);
-    this.handleFontColorChange(defaultColor);
-    this.setState({childId});
+    // var el:HTMLElement = document.getElementById(childId).getElementsByTagName("font")[0];
+    // if (!el) {
+    //   el = document.getElementById(childId).getElementsByTagName("span")[0];
+    // }
+    // if (el) {
+    //   defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
+    //   font = window.getComputedStyle(el, null).getPropertyValue("font-family");
+    //   fontSize = window.getComputedStyle(el, null).getPropertyValue("font-size");
+    // }
+    // this.handleFontFamilyChange(font);
+    // this.handleFontColorChange(defaultColor);
+    // this.setState({childId});
+
+    var id = childId;
+      var a = document.getSelection();
+          if (a && a.type === "Range") {
+          } else {
+            // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
+            var el = document.getElementById(id).getElementsByClassName("font")[0];
+            console.log('document.getElementById(self.props._id) ', document.getElementById(id));
+            console.log('ellll ', el);
+            var sel = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            var a = document.getSelection();
+            fontSize = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
+            defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
+
+            sel.removeAllRanges();
+        }
+      this.handleFontColorChange(defaultColor);
+      this.setState({childId});
   }
 
   handleFontSizeChange = (fontSize) => {

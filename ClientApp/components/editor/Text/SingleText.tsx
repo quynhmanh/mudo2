@@ -92,11 +92,8 @@ endEditing() {
     setTimeout(() => {
       var res;
       var color;
-      var el:HTMLElement = document.getElementById(_id).getElementsByTagName("font")[0];
-      if (!el) {
-        el = document.getElementById(_id).getElementsByTagName("span")[0];
-      }
-      console.log('_id ', _id);
+      var el = document.getElementById(_id).getElementsByClassName("font")[0];
+      console.log('_id ', el, _id);
       const size = window.getComputedStyle(el, null).getPropertyValue('font-size');
       color = window.getComputedStyle(el, null).getPropertyValue('color');
       var fontFace = window.getComputedStyle(el, null).getPropertyValue('font-family');
