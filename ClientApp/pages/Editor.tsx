@@ -1888,7 +1888,7 @@ html {
               scaleY: 1,
               document_object: images,
             }),
-            "FontList": self.state.fonts,
+            "FontList": toJS(self.props.fonts),
             "Width": self.state.rectWidth,
             "Height": self.state.rectHeight,
             "Id": _id,
