@@ -31,6 +31,7 @@ export interface IProps {
     selectFont: any;
     fontsList: any;
     fonts: any;
+    subtype: any;
 }
   
 interface IState {
@@ -65,6 +66,9 @@ interface IState {
     isTextTemplateLoading: boolean;
     currentGroupedTextsHeight: number;
     currentGroupedTexts2Height: number;
+    hasMoreTemplate: boolean;
+    isTemplateLoading: any;
+    prevState: any;
 }
 
 const imgWidth = 167;
@@ -144,6 +148,11 @@ class LeftSide extends PureComponent<IProps, IState> {
         currentBackgroundHeights3: 0,
         currentGroupedTextsHeight: 0,
         currentGroupedTexts2Height: 0,
+        currentTemplatesHeight: 0,
+        currentTemplate2sHeight: 0,
+        hasMoreTemplate: true,
+        isTemplateLoading: false,
+        subtype: null,
     }
 
     componentDidMount() {
@@ -152,8 +161,17 @@ class LeftSide extends PureComponent<IProps, IState> {
         // this.loadMoreTemplate(this)(true);
         this.loadMoreFont.bind(this)(true);
         this.loadMoreTextTemplate.bind(this)(true);
-;    }
+        this.loadMoreTemplate.bind(this)(true, this.props.subtype);
+        console.log('props', this.props);
+    }
 
+    componentDidUpdate(prevProps, prevState) {
+      console.log('prevProps ', prevProps);
+      if (this.props.subtype !== prevProps.subtype) {
+        this.loadMoreTemplate.bind(this)(true, this.state.subtype);
+      }
+    }
+    
     handleRemoveAllMedia = () => {
       console.log('handleRemoveAllMedia');
         var model;
@@ -899,11 +917,13 @@ handleQuery = (e) => {
       count = 5;
     }
     this.setState({ isTemplateLoading: true, error: undefined });
-    const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype ? subtype : this.state.subtype}`;
+    const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype ? subtype : this.props.subtype}`;
+    console.log('loadmoretemplate url ', url, subtype, this.props.subtype);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
+          console.log('loadmoretemplate res', res);
           var result = res.value.key;
           var currentTemplatesHeight = this.state.currentTemplatesHeight;
           var currentTemplate2sHeight = this.state.currentTemplate2sHeight;
@@ -1663,7 +1683,7 @@ handleQuery = (e) => {
             height: '100%',
           }}
         >
-          {<InfiniteScroll
+          <InfiniteScroll
             scroll={true}
             throttle={500}
             threshold={300}
@@ -1712,7 +1732,25 @@ handleQuery = (e) => {
               </div>
             </div>
           </InfiniteScroll>
-          }
+          <input
+          style={{
+            zIndex: 11,
+            width: 'calc(100% - 13px)',
+            marginBottom: '8px',
+            border: 'none',
+            height: '37px',
+            borderRadius: '3px',
+            padding: '5px',
+            fontSize: '13px',
+            boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+            position: 'absolute',
+            top: 0,
+          }}
+          onKeyDown={this.handleQuery}
+          type="text"
+          onChange={(e) => {this.setState({query: e.target.value})}}
+          value={this.state.query}
+          />
         </div>
       <div
           style={{

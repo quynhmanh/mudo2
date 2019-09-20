@@ -3185,6 +3185,7 @@ handleToolbarResize = e => {
           }}
         >
           <LeftSide
+            subtype={this.state.subtype}
             fonts={this.props.fonts}
             fontsList={this.props.fontsList}
             selectFont={this.selectFont.bind(this)}
