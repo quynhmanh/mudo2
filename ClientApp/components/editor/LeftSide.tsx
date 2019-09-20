@@ -704,6 +704,7 @@ handleQuery = (e) => {
   }
 
   templateOnMouseDown(id, e) {
+    console.log('templateOnMouseDown');
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
@@ -711,7 +712,7 @@ handleQuery = (e) => {
 
     var self = this;
     const url = `/api/Template/Get?id=${id}`;
-        const { rectWidth, rectHeight } = this.state;
+        const { rectWidth, rectHeight } = this.props;
         var doc = this.state.templates.find(doc => doc.id == id);
         if (!doc) {
           doc = this.state.templates2.find(doc => doc.id == id);
@@ -727,7 +728,7 @@ handleQuery = (e) => {
           doc.left = doc.left * scaleX;
           doc.scaleX = doc.scaleX * scaleX;
           doc.scaleY = doc.scaleY * scaleY;
-          doc.page = this.state.activePageId;
+          doc.page = this.props.activePageId;
           doc.imgWidth = doc.imgWidth * scaleX;
           doc.imgHeight = doc.imgHeight * scaleY;
 
@@ -763,9 +764,14 @@ handleQuery = (e) => {
         }
 
         var id = template.id;
-        var images = this.state.images.filter(image => {
-          return image.page !== this.state.activePageId;
-        })
+        var images = toJS(this.props.images);
+        images = images.filter(image => {
+          return image.page !== this.props.activePageId;
+        });
+
+        images = [...images, ...template.document_object];
+        this.props.images.replace(images);
+
         self.setState(state => ({ 
           fonts: doc.fontList,
           images: [...images, ...template.document_object], 
