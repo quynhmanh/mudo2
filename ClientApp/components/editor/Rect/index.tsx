@@ -738,7 +738,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       width: width * child.width2 / scaleX,
                       // height: height * child.height2 / scaleY,
                       height: child.height,
-                      outline: selected && childId === child._id ? `rgb(1, 159, 182) solid ${outlineWidth}px` : null,
+                      outline: selected && childId === child._id ? `rgb(1, 159, 182) solid ${2/scale}px` : null,
                       transform: `rotate(${rotateAngle}deg)`,
                       opacity: opacity,
                     }}
@@ -807,7 +807,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       width: width * child.width2 / scaleX,
                       // height: height * child.height2 / scaleY,
                       height: child.height,
-                      outline: selected && childId === child._id ? `rgb(1, 159, 182) solid ${outlineWidth}px` : null,
+                      outline: selected && childId === child._id ? `rgb(1, 159, 182) solid ${2/scale}px` : null,
                       transform: `rotate(${rotateAngle}deg)`,
                       opacity: opacity,
                     }}
