@@ -606,6 +606,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     }
 
     function insertAfter(newNode, referenceNode) {
+      referenceNode.parentNode.className = "";
       referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   }
 
@@ -613,12 +614,20 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   for (var i = 0; i < fonts.length; ++i) {
     var font1 = fonts[i];
     console.log('font ', font1.style);
-    var div = document.createElement("div");
-    div.style.fontSize = font1.style.fontSize;
-    div.style.fontFamily = id;
-    div.innerText = font1.innerText;
+    // var div = document.createElement("div");
+    // div.style.fontSize = font1.style.fontSize;
+    // div.style.fontFamily = id;
+    // div.innerText = font1.innerText;
+    // div.className = "font";
 
-    insertAfter(div, font1);
+    console.log('font1 ', font1.parentNode);
+
+    // font1.parentNode.style.fontSize = font1.style.fontSize;
+    font1.parentNode.style.fontFamily = id;
+    font1.parentNode.innerText = font1.innerText;
+    // font1.parentNode.className = "font";
+
+    // insertAfter(div, font1);
 
     font1.remove();
   }
@@ -1476,16 +1485,24 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var font;
     var fontSize;
     var id = img._id;
-    var el:HTMLElement = document.getElementById(img._id).getElementsByTagName("font")[0];
-    if (!el) {
-      el = document.getElementById(img._id).getElementsByTagName("span")[0];
-    }
-    if (el) {
-      defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
-      font = window.getComputedStyle(el, null).getPropertyValue("font-family");
-      fontSize = window.getComputedStyle(el, null).getPropertyValue("font-size");
-      fontSize = parseInt(fontSize.substring(0, fontSize.length)) * scaleY;
-    }
+    var a = document.getSelection();
+        if (a && a.type === "Range") {
+        } else {
+          // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
+          var el = document.getElementById(id).getElementsByClassName("font")[0];
+          console.log('document.getElementById(self.props._id) ', document.getElementById(id));
+          console.log('ellll ', el);
+          var sel = window.getSelection();
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          var a = document.getSelection();
+          fontSize = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
+          defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
+
+          sel.removeAllRanges();
+      }
     this.handleFontFamilyChange(font);
     this.handleFontColorChange(defaultColor);
     this.setState({fontSize});
@@ -2545,12 +2562,15 @@ handleToolbarResize = e => {
   }
 
   handleFontColorChange = (fontColor) => {
+    console.log('handleFontColorChange ', fontColor);
     this.setState({fontColor});
   }
 
   handleFontFamilyChange = (fontId) => {
+    console.log('fontId ', fontId);
     if (fontId) {
-      var font = this.state.fontsList.find(font => font.id === fontId);
+      var font = toJS(this.props.fontsList).find(font => font.id === fontId);
+      console.log('font ', font);
       if (font) {
         this.setState({fontName: font.representative, fontId});
       }
@@ -2596,22 +2616,26 @@ handleToolbarResize = e => {
       }
     }
 
-    function insertAfter(newNode, referenceNode) {
-        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
-
     var fonts = document.getElementsByTagName("font");
-    for (var i = 0; i < fonts.length; ++i) {
-      var font = fonts[i];
-      var div = document.createElement("div");
-      div.style.fontSize = font.style.fontSize;
-      div.style.color = font.style.color;
-      div.innerText = font.innerText;
+  for (var i = 0; i < fonts.length; ++i) {
+    var font1 = fonts[i];
+    console.log('font ', font1.style);
+    // var div = document.createElement("div");
+    // div.style.fontSize = font1.style.fontSize;
+    // div.style.fontFamily = id;
+    // div.innerText = font1.innerText;
+    // div.className = "font";
 
-      insertAfter(div, font);
+    console.log('font1 ', font1);
 
-      font.remove();
-    }
+    // font1.parentNode.style.fontSize = font1.style.fontSize;
+    font1.parentNode.style.color = font1.style.color;
+    // font1.parentNode.className = "font";
+
+    // insertAfter(div, font1);
+
+    font1.remove();
+  }
   }
 
   enableCropMode = (e) => {

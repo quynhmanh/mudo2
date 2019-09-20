@@ -836,19 +836,27 @@ handleQuery = (e) => {
       referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   }
 
-  // var fonts = document.getElementsByTagName("font");
-  // for (var i = 0; i < fonts.length; ++i) {
-  //   var font = fonts[i];
-  //   console.log('font ', font.style);
-  //   var div = document.createElement("div");
-  //   div.style.fontSize = font.style.fontSize;
-  //   div.style.color = color;
-  //   div.innerText = font.innerText;
+  var fonts = document.getElementsByTagName("font");
+  for (var i = 0; i < fonts.length; ++i) {
+    var font1 = fonts[i];
+    console.log('font ', font1.style);
+    // var div = document.createElement("div");
+    // div.style.fontSize = font1.style.fontSize;
+    // div.style.fontFamily = id;
+    // div.innerText = font1.innerText;
+    // div.className = "font";
 
-  //   insertAfter(div, font);
+    console.log('font1 ', font1);
 
-  //   font.remove();
-  // }
+    // font1.parentNode.style.fontSize = font1.style.fontSize;
+    font1.parentNode.style.color = color;
+    font1.parentNode.innerText = font1.innerText;
+    // font1.parentNode.className = "font";
+
+    // insertAfter(div, font1);
+
+    font1.remove();
+    }
   }
 
   selectFont = (id, e) => {
@@ -870,23 +878,23 @@ handleQuery = (e) => {
       sel.removeAllRanges();
     }
 
-    function insertAfter(newNode, referenceNode) {
-      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-  }
+  //   function insertAfter(newNode, referenceNode) {
+  //     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  // }
 
-  var fonts = document.getElementsByTagName("font");
-  for (var i = 0; i < fonts.length; ++i) {
-    var font1 = fonts[i];
-    console.log('font ', font1.style);
-    var div = document.createElement("div");
-    div.style.fontSize = font1.style.fontSize;
-    div.style.fontFamily = id;
-    div.innerText = font1.innerText;
+  // var fonts = document.getElementsByTagName("font");
+  // for (var i = 0; i < fonts.length; ++i) {
+  //   var font1 = fonts[i];
+  //   console.log('font ', font1.style);
+  //   var div = document.createElement("div");
+  //   div.style.fontSize = font1.style.fontSize;
+  //   div.style.fontFamily = id;
+  //   div.innerText = font1.innerText;
 
-    insertAfter(div, font1);
+  //   insertAfter(div, font1);
 
-    font1.remove();
-  }
+  //   font1.remove();
+  // }
 
     e.preventDefault();
     var style = `@font-face {
@@ -1524,7 +1532,7 @@ handleQuery = (e) => {
                   left: 0,
                   top: 0,
                   rotateAngle: 0.0,
-                  innerHTML: "<div style=\"text-align: left;\"><span class=\"font\" style=\"font-size: 26px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a heading</span></div>",
+                  innerHTML: "<div style=\"text-align: left;\"><div class=\"font\" style=\"font-size: 26px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a heading</div></div>",
                   scaleX: scale,
                   scaleY: scale,
                   selected: false,

@@ -507,6 +507,8 @@ export default class Rect extends PureComponent<IProps, IState> {
     console.log('onMouseDown');
     var self = this;
     var size;
+    var fontFace;
+    var fontColor;
     if (this.props.objectType !== 4) {
 
       var selectionScaleY = 1;
@@ -514,10 +516,13 @@ export default class Rect extends PureComponent<IProps, IState> {
         selectionScaleY = self.state.selectionScaleY;
       }
 
-      var a = document.getSelection();
+        var a = document.getSelection();
         if (a && a.type === "Range") {
         } else {
-          var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
+          // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
+          var el = document.getElementById(self.props._id).getElementsByClassName("font")[0];
+          console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id));
+          console.log('ellll ', el);
           var sel = window.getSelection();
           var range = document.createRange();
           range.selectNodeContents(el);
@@ -525,8 +530,17 @@ export default class Rect extends PureComponent<IProps, IState> {
           sel.addRange(range);
           var a = document.getSelection();
           size = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
+          fontFace = window.getComputedStyle(el, null).getPropertyValue("font-family");
+          fontColor = window.getComputedStyle(el, null).getPropertyValue("color");
+
           sel.removeAllRanges();
       }
+
+      console.log('fontFace ', fontFace);
+      console.log('fontColor ', fontColor);
+
+      this.props.handleFontFaceChange(fontFace);
+      this.props.handleFontColorChange(fontColor);
 
       var fontSize = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
       document.getElementById("fontSizeButton").innerText = `${Math.round(fontSize * 10) / 10}`;
