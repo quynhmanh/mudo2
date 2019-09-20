@@ -68,7 +68,6 @@ interface IState {
     currentGroupedTexts2Height: number;
     hasMoreTemplate: boolean;
     isTemplateLoading: any;
-    prevState: any;
 }
 
 const imgWidth = 167;
@@ -153,6 +152,7 @@ class LeftSide extends PureComponent<IProps, IState> {
         hasMoreTemplate: true,
         isTemplateLoading: false,
         subtype: null,
+        isTextTemplateLoading: false,
     }
 
     componentDidMount() {
@@ -214,6 +214,7 @@ class LeftSide extends PureComponent<IProps, IState> {
   }
 
   uploadImage = (type, removeBackground, e) => {
+    console.log('uploadImage ', type);
     var self = this;``
     var fileUploader = document.getElementById("image-file") as HTMLInputElement;
     var file = fileUploader.files[0];
@@ -770,6 +771,10 @@ handleQuery = (e) => {
 
         images = [...images, ...template.document_object];
         this.props.images.replace(images);
+        
+        var fonts = toJS(this.props.fonts);
+        fonts = [...fonts, ...doc.fontList];
+        this.props.fonts.replace(fonts);
 
         self.setState(state => ({ 
           fonts: doc.fontList,
@@ -831,19 +836,19 @@ handleQuery = (e) => {
       referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   }
 
-  var fonts = document.getElementsByTagName("font");
-  for (var i = 0; i < fonts.length; ++i) {
-    var font = fonts[i];
-    console.log('font ', font.style);
-    var div = document.createElement("div");
-    div.style.fontSize = font.style.fontSize;
-    div.style.color = color;
-    div.innerText = font.innerText;
+  // var fonts = document.getElementsByTagName("font");
+  // for (var i = 0; i < fonts.length; ++i) {
+  //   var font = fonts[i];
+  //   console.log('font ', font.style);
+  //   var div = document.createElement("div");
+  //   div.style.fontSize = font.style.fontSize;
+  //   div.style.color = color;
+  //   div.innerText = font.innerText;
 
-    insertAfter(div, font);
+  //   insertAfter(div, font);
 
-    font.remove();
-  }
+  //   font.remove();
+  // }
   }
 
   selectFont = (id, e) => {

@@ -1996,10 +1996,10 @@ html {
       }
     }
 
-    for (var i = 0; i < els.length; ++i) {
-      els[i].removeAttribute("size");
-      els[i].style.fontSize = this.state.fontSize / thisImage.scaleY / scaleChildY + 'px';
-    }
+    // for (var i = 0; i < els.length; ++i) {
+    //   els[i].removeAttribute("size");
+    //   els[i].style.fontSize = this.state.fontSize / thisImage.scaleY / scaleChildY + 'px';
+    // }
 
     // console.log('ToJS', toJS(this.props.images));
 
