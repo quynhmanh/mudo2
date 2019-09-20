@@ -101,7 +101,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     this.props.onRotate(rotateAngle, _id)
   }
 
-  handleResize = (length, alpha, rect, type, isShiftKey, cursor, objectType, e, backgroundColor) => {
+  handleResize = (length, alpha, rect, type, isShiftKey, cursor, objectType, e, backgroundColor, fontSize) => {
     if (!this.props.onResize) return
     const { rotateAngle, minWidth, minHeight, parentRotateAngle, scale, _id } = this.props
     const beta = alpha - degToRadian(rotateAngle + parentRotateAngle)
@@ -117,7 +117,10 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     const {
       position: { centerX, centerY },
       size: { width, height }
-    } = getNewStyle(type, { ...rect, rotateAngle }, deltaW, deltaH, ratio, minWidth, minHeight)
+    } = getNewStyle(type, { ...rect, rotateAngle }, deltaW, deltaH, ratio, minWidth, minHeight);
+
+    // console.log('width newWidth', width, rect.width, fontSize);
+    // document.getElementById("fontSizeButton").innerText = `${fontSize * rect.height / height}px`;
     
     this.props.onResize(centerToTL({ centerX, centerY, width, height, rotateAngle }), isShiftKey, type, _id, deltaW / width, deltaH / height, cursor, objectType, e)
   }

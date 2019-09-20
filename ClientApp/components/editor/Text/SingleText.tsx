@@ -26,7 +26,9 @@ export interface IProps {
   handleFontColorChange(_id: string, fontColor: string): void;
   handleFontFaceChange(fontFace: string): void;
   parentScaleX: number;
+  parentScaleY: number;
   handleChildIdSelected(childId: string): void;
+  selectionScaleY: any;
 }
 
 export interface IState {
@@ -84,7 +86,8 @@ endEditing() {
   }
 
   onMouseDown() {
-    const { handleChildIdSelected, onFontSizeChange, _id, scaleY, parentScaleX, handleFontColorChange, handleFontFaceChange } = this.props;
+    console.log('onMouseDown');
+    const { handleChildIdSelected, onFontSizeChange, _id, scaleY, parentScaleX, parentScaleY, handleFontColorChange, handleFontFaceChange } = this.props;
     var self = this;
     setTimeout(() => {
       var res;
@@ -97,11 +100,15 @@ endEditing() {
       const size = window.getComputedStyle(el, null).getPropertyValue('font-size');
       color = window.getComputedStyle(el, null).getPropertyValue('color');
       var fontFace = window.getComputedStyle(el, null).getPropertyValue('font-family');
-      res = parseInt(size.substring(0, size.length - 2)) * self.props.scaleY;
+      res = parseInt(size.substring(0, size.length - 2)) * self.props.scaleY * parentScaleY;
       onFontSizeChange(res, scaleY);
       handleFontColorChange(_id, color);
       handleFontFaceChange(fontFace);
-      handleChildIdSelected(_id)
+      handleChildIdSelected(_id);
+
+      console.log('ress ', res, scaleY, self.props.scaleY, parentScaleY);
+
+      document.getElementById("fontSizeButton").innerText = `${Math.round(res * 10) / 10}`;
     }, 50);
   }
 
@@ -110,18 +117,11 @@ endEditing() {
       selected,
       onInput,
       onBlur,
-      onMouseDown,
       _id,
       width, 
-      height,
-      rotateAngle,
-      centerX,
-      centerY,
       zIndex,
-      outlineWidth,
       scaleX,
       scaleY,
-      onFontSizeChange,
     } = this.props
 
     const style = {

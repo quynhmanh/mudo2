@@ -166,7 +166,6 @@ class LeftSide extends PureComponent<IProps, IState> {
     }
 
     componentDidUpdate(prevProps, prevState) {
-      console.log('prevProps ', prevProps);
       if (this.props.subtype !== prevProps.subtype) {
         this.loadMoreTemplate.bind(this)(true, this.state.subtype);
       }
@@ -1520,7 +1519,7 @@ handleQuery = (e) => {
                   left: 0,
                   top: 0,
                   rotateAngle: 0.0,
-                  innerHTML: "<div style=\"text-align: left;\"><span style=\"font-size: 26px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a heading</span></div>",
+                  innerHTML: "<div style=\"text-align: left;\"><span class=\"font\" style=\"font-size: 26px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a heading</span></div>",
                   scaleX: scale,
                   scaleY: scale,
                   selected: false,

@@ -27,6 +27,7 @@ import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemo
 import { observable, toJS } from "mobx";
 import { observer } from "mobx-react";
 import LeftSide from "@Components/editor/LeftSide";
+import FontSize from "@Components/editor/FontSize";
 
 declare global {
   interface Window { paymentScope : any; }
@@ -1092,8 +1093,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   }
 
   handleDrag = (_id, clientX, clientY) : any => {
-    var t0 = performance.now();
-    var t1;
+    // var t0 = performance.now();
+    // var t1;
 
     const {scale, deltaX, deltaY} = this.state;
     var newLeft, newTop;
@@ -1299,13 +1300,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-    var t0 = performance.now();
+    // var t0 = performance.now();
 
-    console.log('handleDrag 1');
+    // console.log('handleDrag 1');
     this.props.images.replace(images);
 
-    var t1 = performance.now();
-    console.log("Call to doSomething took he " + (t1 - t0) + " milliseconds.");
+    // var t1 = performance.now();
+    // console.log("Call to doSomething took he " + (t1 - t0) + " milliseconds.");
 
     this.setState({ dragging: true }); 
     
@@ -1328,13 +1329,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     })
 
-    var t0 = performance.now();
+    // var t0 = performance.now();
 
-    console.log('handleDrag 2');
+    // console.log('handleDrag 2');
     this.props.images.replace(images);
 
-    var t1 = performance.now();
-    console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
+    // var t1 = performance.now();
+    // console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
 
 
     this.setState({ dragging: false, staticGuides: {x, y}, images});
@@ -1974,8 +1975,8 @@ html {
   }
 
   onSingleTextChange(thisImage, e, childId) {
-    console.log('ToJS', toJS(this.props.images));
-    console.log('onSingleTextChange ', arguments);
+    // console.log('ToJS', toJS(this.props.images));
+    // console.log('onSingleTextChange ', arguments);
     var els;
     if (childId){
       els = document.getElementById(childId).getElementsByTagName('font');
@@ -1984,7 +1985,7 @@ html {
     }
 
     thisImage = toJS(thisImage);
-    console.log('thisImage ', thisImage);
+    // console.log('thisImage ', thisImage);
 
     var scaleChildY = 1;
     if (childId) {
@@ -2000,14 +2001,14 @@ html {
       els[i].style.fontSize = this.state.fontSize / thisImage.scaleY / scaleChildY + 'px';
     }
 
-    console.log('ToJS', toJS(this.props.images));
+    // console.log('ToJS', toJS(this.props.images));
 
     e.persist();
     setTimeout(() => {
       const { scale } = this.state;
       if (!childId) {
         let images = toJS(this.props.images);
-        console.log('images 3', images);
+        // console.log('images 3', images);
         images = images.map(image => {
           if (image._id === thisImage._id) {
             var centerX = image.left + image.width / 2;
@@ -2048,19 +2049,19 @@ html {
           return image;
         });
 
-        console.log('images 2', images);
+        // console.log('images 2', images);
 
         this.props.images.replace(images);
   
         // this.setState({ images, editing: true });
       } else {
         let images = toJS(this.props.images);
-        console.log('images ', images);
+        // console.log('images ', images);
         images = images.map(image => {
           if (image._id === thisImage._id) {
             var scaleY = image.height / image.origin_height;
 
-            console.log('image ', image);
+            // console.log('image ', image);
   
             let texts = image.document_object.map(text => {
               if (text._id === childId) {
@@ -2070,13 +2071,13 @@ html {
               return text;
             });
 
-            console.log('texts ', texts);
+            // console.log('texts ', texts);
   
             var newDocumentObjects = [];
             for (var i = 0; i < texts.length; ++i) {
               var d = texts[i];
               if (!d.ref) {
-                console.log('allo ', )
+                // console.log('allo ', )
                 var imgs = this.normalize2(d, texts, image.scaleX, image.scaleY, this.state.scale, image.width, image.height);
                 newDocumentObjects.push(...imgs);
               }
@@ -2108,8 +2109,8 @@ html {
           return image;
         });
 
-        console.log('images ', images);
-        console.log('onSingleTextChange 2');
+        // console.log('images ', images);
+        // console.log('onSingleTextChange 2');
         this.props.images.replace(images);
         this.setState({ images });
       }
@@ -3508,10 +3509,15 @@ handleToolbarResize = e => {
                 </button>
                 </div>
               }
-              {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
-                this.state.childId) &&              
-              <div>
-                <button
+              {/* {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+                this.state.childId) &&               */}
+              <div 
+                style={{
+                  position: 'relative',
+                  display: ((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
+                  this.state.childId) ? "block" : "none",
+                }}>
+                {/* <button
                   style={{
                     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
                     height: '26px',
@@ -3520,17 +3526,66 @@ handleToolbarResize = e => {
                   onClick={this.onClickDropDownFontSizeList.bind(this)}
                 >
                   {Math.round(this.state.fontSize)}px
-                </button>
+                </button> */}
+                <FontSize fontSize={this.state.fontSize}/>
                 <div style={{
                   height: '50px', 
-                  left: '10px', 
-                  position: 'absolute',
-                  marginTop: '-9px',
-                  width: '95%',
-                  padding: '10px',
+                  left: '0px', 
+                  top: 'calc(100% + 8px)',
+                  width: '100px',
+                  padding: '0',
                   background: 'white',
                 }} id="myFontSizeList" className="dropdown-content-font-size">
-                  <p
+                  <ul
+                    style={{
+                      listStyle: 'none',
+                      margin: 0,
+                      width: '100%',
+                      padding: 0,
+                    }}
+                  >
+                    <li><button
+                      onClick={(e) => {
+                        function insertAfter(newNode, referenceNode) {
+                          referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+                        }
+
+                        var scale = 6;
+                        var a = document.getSelection();
+                        if (a && a.type === "Range") {
+                          document.execCommand("FontSize", false, "7");
+                        } else {
+                          var id = this.state.childId ? this.state.childId : this.state.idObjectSelected;
+                          var el = this.state.childId ? document.getElementById(id) : document.getElementById(id).getElementsByClassName('text')[0];
+                          var sel = window.getSelection();
+                          var range = document.createRange();
+                          range.selectNodeContents(el);
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                          document.execCommand("FontSize", false, "7");
+                          sel.removeAllRanges();
+                        }
+                        var fonts = document.getElementsByTagName("font");
+                        // console.log("fonts ", fonts);
+                        for (var i = 0; i < fonts.length; ++i) {
+                          var font = fonts[i];
+                          var div = document.createElement("div");
+                          div.className = "font";
+                          div.style.fontSize = font.style.fontSize;
+                          div.style.color = font.style.color;
+                          div.innerText = font.innerText;
+
+                          insertAfter(div, font);
+
+                          font.remove();
+                        }
+
+                        this.setState({fontSize: scale});
+                      }}
+                      className="fontsize-picker" style={{height: '30px', width: '100%', border: 'none'}}>6</button></li>
+                    <li><button className="fontsize-picker" style={{height: '30px', width: '100%', border: 'none'}}>8</button></li>
+                  </ul>
+                  {/* <p
                     style={{
                       display: 'inline-block',
                       margin: 0,
@@ -3557,14 +3612,21 @@ handleToolbarResize = e => {
                     }}>
                   <div 
                       onMouseDown={(e) => {
+
+                        function insertAfter(newNode, referenceNode) {
+                          referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+                      }
+
                         e.preventDefault();
                         var self = this;
+                        var rect = document.getElementById('myDropdownFontSize-2').getBoundingClientRect();
+                        var left = rect.left;
+                        var width = rect.width;
                         const onMove = (e) => {
+                          var t0 = performance.now();
                           e.preventDefault();
-                          var rec1 = document.getElementById('myDropdownFontSize-2').getBoundingClientRect();
-                          var rec2 = document.getElementById('myDropdownFontSize-2slider');
-                          var slide = e.pageX - rec1.left;
-                          var scale = slide / rec1.width * 170;
+                          var slide = e.pageX - left;
+                          var scale = slide / width * 170;
                           scale = Math.max(1, scale)
                           scale = Math.min(165, scale);
 
@@ -3582,9 +3644,24 @@ handleToolbarResize = e => {
                             document.execCommand("FontSize", false, "7");
                             sel.removeAllRanges();
                           }
+                          var fonts = document.getElementsByTagName("font");
+                          // console.log("fonts ", fonts);
+                          for (var i = 0; i < fonts.length; ++i) {
+                            var font = fonts[i];
+                            var div = document.createElement("div");
+                            div.style.fontSize = font.style.fontSize;
+                            div.style.color = font.style.color;
+                            div.innerText = font.innerText;
 
-                          // document.execCommand("FontSize", false, "7");
-                          this.setState({fontSize: scale})
+                            insertAfter(div, font);
+
+                            font.remove();
+                          }
+
+                          this.setState({fontSize: scale});
+
+                          var t1 = performance.now();
+                          console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
                         }
 
                         const onUp = (e) => {
@@ -3609,10 +3686,10 @@ handleToolbarResize = e => {
                         position: 'absolute',
                       }}></div>
                       </div>
-                    </div>
+                    </div> */}
                 </div>
               </div>
-              }
+              {/* } */}
               {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
                 this.state.childId) &&
                 <a

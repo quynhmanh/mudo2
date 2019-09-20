@@ -41,6 +41,7 @@ export interface IProps {
     objectType: number,
     e: any,
     backgroundColor: string,
+    fontSize: number,
   ): void;
   onResizeInnerImageStart(startX: number, startY: number): void;
   onImageResize(
@@ -119,6 +120,8 @@ export default class Rect extends PureComponent<IProps, IState> {
     if (this.props.innerHTML && this.$textEle) {
       this.$textEle.innerHTML = this.props.innerHTML;
     }
+
+    this.startEditing = this.startEditing.bind(this);
   }
 
   // Drag
@@ -388,6 +391,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   // Resize
   startResize = (e, cursor) => {
+    var self = this;
     e.preventDefault();
     e.stopPropagation();
     if (e.button !== 0) return;
@@ -401,11 +405,46 @@ export default class Rect extends PureComponent<IProps, IState> {
       objectType
     } = this.props;
 
+    var res;
+    var size;
+      if (this.props.objectType !== 4) {
+
+      var selectionScaleY = 1;
+      if (self.state && self.state.selectionScaleY) {
+        selectionScaleY = self.state.selectionScaleY;
+      }
+
+      if (this.props.childId) {
+        selectionScaleY = this.props.childrens.find(child => child._id === this.props.childId).scaleY;
+      }
+
+      console.log('selectionScaleY', selectionScaleY);
+
+      var a = document.getSelection();
+        if (a && a.type === "Range") {
+        } else {
+          var id = this.props.childId ? this.props.childId : this.props._id;
+          var el = document.getElementById(id).getElementsByClassName('font')[0];
+          var sel = window.getSelection();
+          var range = document.createRange();
+          console.log('el id', el, id);
+          range.selectNodeContents(el);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          var a = document.getSelection();
+          size = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
+          res = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
+          sel.removeAllRanges();
+      }
+
+      // document.getElementById("fontSizeButton").innerText = `${res}px`;
+      // self.props.onFontSizeChange(res);
+    }
+
     const { clientX: startX, clientY: startY } = e;
     const type = e.target.getAttribute("class").split(" ")[0];
     this.props.onResizeStart && this.props.onResizeStart(startX, startY);
     this._isMouseDown = true;
-    var self = this;
     const onMove = e => {
       e.preventDefault();
       if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
@@ -427,38 +466,15 @@ export default class Rect extends PureComponent<IProps, IState> {
         objectType,
         e,
         this.props.backgroundColor,
+        res,
       );
 
       if (this.props.objectType !== 4) {
 
-        var a = throttle(function() {
-          var selectionScaleY = 1;
-          if (self.state && self.state.selectionScaleY) {
-            selectionScaleY = self.state.selectionScaleY;
-          }
-    
-          var a = document.getSelection();
-          var res;
-            if (a && a.type === "Range") {
-            } else {
-              var el = document.getElementById(self.props._id).getElementsByTagName('font')[0];
-              var sel = window.getSelection();
-              var range = document.createRange();
-              range.selectNodeContents(el);
-              sel.removeAllRanges();
-              sel.addRange(range);
-              var a = document.getSelection();
-              const size = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
-              res = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
-              sel.removeAllRanges();
-          }
-    
-          self.props.onFontSizeChange(res);
-        }, 50);
-
-        a();
+          var fontSize = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
+          console.log('fontSize ', fontSize, this.props.childId);
+          document.getElementById("fontSizeButton").innerText = `${Math.round(fontSize * 10) / 10}`;
       }
-
     };
 
     const onUp = e => {
@@ -483,19 +499,38 @@ export default class Rect extends PureComponent<IProps, IState> {
   endEditing = e => {};
 
   startEditing = selectionScaleY => {
-    this.setState({selectionScaleY});
+    console.log('selectionScaleY ', selectionScaleY);
+    this.setState({selectionScaleY: 2});
   };
 
   onMouseDown = () => {
-    const { onFontSizeChange, } = this.props;
+    console.log('onMouseDown');
     var self = this;
-    setTimeout(() => {
-      var el = document.getElementById(this.props._id).getElementsByTagName('font')[0];
-      const size = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
-      var res = parseInt(size.substring(0, size.length - 2)) * self.props.scaleY;
+    var size;
+    if (this.props.objectType !== 4) {
 
-      onFontSizeChange(res);
-    }, 50);
+      var selectionScaleY = 1;
+      if (self.state && self.state.selectionScaleY) {
+        selectionScaleY = self.state.selectionScaleY;
+      }
+
+      var a = document.getSelection();
+        if (a && a.type === "Range") {
+        } else {
+          var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
+          var sel = window.getSelection();
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          var a = document.getSelection();
+          size = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
+          sel.removeAllRanges();
+      }
+
+      var fontSize = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
+      document.getElementById("fontSizeButton").innerText = `${Math.round(fontSize * 10) / 10}`;
+    }
   }
 
   handleImageDrag = (e) => {
@@ -711,6 +746,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   >
                     
                     <SingleText
+                      selectionScaleY={this.state.selectionScaleY}
                       zIndex={zIndex}
                       scaleX={child.scaleX}
                       scaleY={child.scaleY}
@@ -729,7 +765,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       onBlur={this.endEditing.bind(this)}
                       onMouseDown={this.startEditing.bind(this)}
                       outlineWidth={outlineWidth}
-                      onFontSizeChange={(fontSize, scaleY) => {onFontSizeChange(fontSize * this.props.scaleY); this.startEditing(scaleY)}}
+                      onFontSizeChange={(fontSize, scaleY) => {console.log('onFontSizeChange'); onFontSizeChange(fontSize * this.props.scaleY); this.startEditing(scaleY)}}
                       handleFontColorChange={handleFontColorChange}
                       handleFontFaceChange={handleFontFaceChange}
                       handleChildIdSelected={handleChildIdSelected}
@@ -797,7 +833,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       onBlur={this.endEditing.bind(this)}
                       onMouseDown={this.startEditing.bind(this)}
                       outlineWidth={outlineWidth}
-                      onFontSizeChange={(fontSize, scaleY) => {onFontSizeChange(fontSize * this.props.scaleY); this.startEditing(scaleY)}}
+                      onFontSizeChange={(fontSize, scaleY) => {console.log('onFontSizeChange'); onFontSizeChange(fontSize * this.props.scaleY); this.startEditing(scaleY)}}
                       handleFontColorChange={handleFontColorChange}
                       handleFontFaceChange={handleFontFaceChange}
                       handleChildIdSelected={handleChildIdSelected}
