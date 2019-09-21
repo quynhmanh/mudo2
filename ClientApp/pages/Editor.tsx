@@ -202,7 +202,7 @@ interface IState {
   uuid: string;
   templateType: string;
   mode: number;
-  staticGuides: object;
+  staticGuides: any;
   deltaX: number;
   deltaY: number;
   editing: boolean;
@@ -231,7 +231,6 @@ interface IState {
   showMediaEditPopup: boolean;
   showTemplateEditPopup: boolean;
   showFontEditPopup: boolean;
-  videos: any;
   typeObjectSelected: TemplateType;
   bleed: boolean;
   showPrintingSidebar: boolean;
@@ -318,7 +317,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
             showImageRemovalBackgroundPopup: false,
             imageIdBackgroundRemoved: null,
             mounted: false,
-            isUserUploadLoading: false,
             showZoomPopup: false,
             currentOpacity: 100,
         };
@@ -612,23 +610,9 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   var fonts = document.getElementsByTagName("font");
   for (var i = 0; i < fonts.length; ++i) {
-    var font1 = fonts[i];
-    console.log('font ', font1.style);
-    // var div = document.createElement("div");
-    // div.style.fontSize = font1.style.fontSize;
-    // div.style.fontFamily = id;
-    // div.innerText = font1.innerText;
-    // div.className = "font";
-
-    console.log('font1 ', font1.parentNode);
-
-    // font1.parentNode.style.fontSize = font1.style.fontSize;
+    var font1:any = fonts[i];
     font1.parentNode.style.fontFamily = id;
     font1.parentNode.innerText = font1.innerText;
-    // font1.parentNode.className = "font";
-
-    // insertAfter(div, font1);
-
     font1.remove();
   }
 
@@ -712,9 +696,6 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
   // handle the crop area
   handleResize = (style, isShiftKey, type, _id, scaleX, scaleY, cursor, objectType, e) => {
-    console.log('handleResize ');
-    var t0 = performance.now();
-    var t1 = performance.now();
     if (this.switching) {
       return;
     }
@@ -837,7 +818,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
           var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
           for (var i = 0; i < rectalos.length; ++i) {
-            var cur = rectalos[i];
+            var cur:any = rectalos[i];
             cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
           }
 
@@ -923,18 +904,10 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
     var rectalos = document.getElementsByClassName(_id + "rect-alo");
     for (var i = 0; i < rectalos.length; ++i) {
-      var cur = rectalos[i];
+      var cur:any = rectalos[i];
       cur.style.width = width + "px";
       cur.style.height = height + "px";
     }
-
-    t1 = performance.now();
-  console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
-
-    t1 = performance.now();
-    console.log("Call to doSomething took 2 " + (t1 - t0) + " milliseconds.");
-
-    console.log('switching ', self.switching);
 
     this.setState({updateRect: self.switching, },
       () => {
@@ -947,14 +920,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
           }, 1);
         }
       });
-
-      t1 = performance.now();
-    console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
-    
-    console.log('handleResize 2');
       this.props.images.replace(images);
-      t1 = performance.now();
-  console.log("Call to doSomething took 4 " + (t1 - t0) + " milliseconds.");
   };
 
   onResizeInnerImageStart = (startX, startY) => {
@@ -972,7 +938,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     var self = this;
     var switching = false;
     var temp = this.handleResize;
-    var images = this.state.images.map(image => {
+    let images = toJS(this.props.images);
+    images = images.map(image => {
       if (image._id === _id) {
 
         if (image.height - top - height > 0 &&
@@ -1098,7 +1065,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   };
 
   handleRotate = (rotateAngle, _id) => {
-    var images = this.state.images.map(image => {
+    let images = toJS(this.props.images);
+    images = images.map(image => {
       if (image._id === _id) {
         image.rotateAngle = rotateAngle;
       }
@@ -1158,7 +1126,8 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
   }
 
   handleImageDrag = (_id, newPosX, newPosY) => {
-    var images = this.state.images.map(img => {
+    let images = toJS(this.props.images);
+    images = images.map(img => {
       if (img._id === _id) {
         if (newPosX > 0) {
           newPosX = 0;
@@ -2022,7 +1991,8 @@ html {
   onTextChange(parentIndex, e, key) {
     console.log('onTextChange ');
     const { scale } = this.state;
-    let images = this.state.images.map(image => {
+    let images = toJS(this.props.images);
+    images = images.map(image => {
       if (image._id === parentIndex) {
         var newHeight = 0;
         var changedText;
@@ -2560,69 +2530,6 @@ handleToolbarResize = e => {
     }
   }
 
-  uploadImage = (type, removeBackground, e) => {
-    var self = this;``
-    var fileUploader = document.getElementById("image-file") as HTMLInputElement;
-    var file = fileUploader.files[0];
-    var fr = new FileReader();
-    fr.readAsDataURL(file);
-    fr.onload = () => {
-      var url = `/api/Media/Add`;
-      if (type === TemplateType.RemovedBackgroundImage) {
-        url = `/api/Media/Add2`;
-      }
-      var i = new Image(); 
-
-      console.log('url   ', type, url);
-
-      self.setState({userUpload1: [{representative: fr.result}, ...self.state.userUpload1]})
-
-      i.onload = function(){
-        var prominentColor = getMostProminentColor(i);
-        axios.post(url, {id: uuidv4(), ext: file.name.split('.')[1], userEmail: Globals.serviceUser.username, color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`, data: fr.result, width: i.width, height: i.height, type, keywords: ["123", "123"], title: 'Manh quynh'})
-        .then(() => {
-          // url = `/api/Font/Search`;
-          // fetch(url, {
-          //   mode: 'cors'
-          // })
-          //   .then(response => response.text())
-          //   .then(html => {
-          //     var fontsList = JSON.parse(html).value;
-          //     self.setState({ fontsList });
-          //   });
-        });
-      };
-      
-
-      i.src = fr.result.toString();
-  }
-}
-
-  uploadFont = (e) => {
-    var self = this;
-    var fileUploader = document.getElementById("image-file") as HTMLInputElement;
-    var file = fileUploader.files[0];
-    var fr = new FileReader();
-    fr.readAsDataURL(file);
-    fr.onload = () => {
-      var url = `/api/Font/Add`;
-      axios.post(url, {id: uuidv4(), data: fr.result})
-        .then(() => {
-          // url = `/api/Font/Search`;
-          // fetch(url, {
-          //   mode: 'cors'
-          // })
-          //   .then(response => response.text())
-          //   .then(html => {
-          //     var fontsList = JSON.parse(html).value;
-          //     self.setState({ fontsList });
-          //   });
-
-          self.setState({hasMoreFonts: true,})
-        });
-    }
-  }
-
   handleChildIdSelected = (childId) => {
     var defaultColor = 'black';
     var font;
@@ -2683,82 +2590,12 @@ handleToolbarResize = e => {
     }
   }
 
-  setSelectionColor = (color, e) => {
-    if (this.state.typeObjectSelected === TemplateType.Latex) {
-      var images = this.state.images.map(img => {
-        if (img._id === this.state.idObjectSelected) {
-          img.color = color;
-        }
-        return img;
-      });
-
-      this.setState({images});
-    } else if (this.state.typeObjectSelected === TemplateType.Image || this.state.typeObjectSelected === TemplateType.BackgroundImage) {
-      var images = this.state.images.map(img => {
-        if (img._id === this.state.idObjectSelected) {
-          img.backgroundColor = color;
-        }
-        return img;
-      });
-      this.setState({images});
-    }
-    e.preventDefault();
-    document.execCommand('foreColor', false, color);
-    if (this.state.typeObjectSelected === TemplateType.Heading || this.state.typeObjectSelected === TemplateType.TextTemplate) {
-      var a = document.getSelection();
-      if (a && a.type === "Range") {
-        this.handleFontColorChange(color);
-      } else {
-        var childId = this.state.childId ? this.state.childId : this.state.idObjectSelected;
-        var el = this.state.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0];
-        var sel = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        sel.removeAllRanges();
-        sel.addRange(range);
-        this.handleFontColorChange(color);
-        document.execCommand('foreColor', false, color);
-        sel.removeAllRanges();
-      }
-    }
-
-    var fonts = document.getElementsByTagName("font");
-  for (var i = 0; i < fonts.length; ++i) {
-    var font1 = fonts[i];
-    console.log('font ', font1.style);
-    // var div = document.createElement("div");
-    // div.style.fontSize = font1.style.fontSize;
-    // div.style.fontFamily = id;
-    // div.innerText = font1.innerText;
-    // div.className = "font";
-
-    console.log('font1 ', font1);
-
-    // font1.parentNode.style.fontSize = font1.style.fontSize;
-    font1.parentNode.style.color = font1.style.color;
-    // font1.parentNode.className = "font";
-
-    // insertAfter(div, font1);
-
-    font1.remove();
-  }
-  }
-
   enableCropMode = (e) => {
     this.setState({cropMode: true});
   }
 
   toggleImageResizing = (e) => {
     this.setState({resizingInnerImage: !this.state.resizingInnerImage});
-  }
-
-  handleChangeSide = (e) => {
-    this.doNoObjectSelected();
-    e.preventDefault();
-    this.setState({
-      images: this.state.images2,
-      images2: this.state.images,
-    });
   }
 
   addAPage = (e, id) => {
@@ -2775,7 +2612,8 @@ handleToolbarResize = e => {
   }
 
   forwardSelectedObject = (id) => {
-    let images = this.state.images.map(img => {
+    let images = toJS(this.props.images);
+    images = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.zIndex = this.state.upperZIndex + 1;
       }
@@ -2786,7 +2624,8 @@ handleToolbarResize = e => {
   }
 
   backwardSelectedObject = (id) => {
-    let images = this.state.images.map(img => {
+    let images = toJS(this.props.images);
+    images = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.zIndex = 0;
       }
@@ -2962,7 +2801,8 @@ handleToolbarResize = e => {
   }
 
   handleOpacityChange = (opacity) => {
-    var images = this.state.images.map(img => {
+    let images = toJS(this.props.images);
+    images = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.opacity = opacity;
       }
@@ -2970,87 +2810,6 @@ handleToolbarResize = e => {
     });
 
     this.setState({images});
-  }
-
-  handleRemaining = () => {
-    return (
-      <div
-                    id="image-container-picker"
-                    style={{
-                      display: "flex",
-                      overflow: "scroll",
-                      // height: '200px',
-                      height: "100%"
-                    }}
-                  >
-                    <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                    {this.state.backgrounds1.map((item, key) => (
-                      <ImagePicker
-                        className=""
-                        defaultHeight={93 / (item.width / item.height)}
-                        width={0}
-                        delay={0}
-                        id={item._id}
-                        key={key}
-                        color={item.color}
-                        src={item.representative}
-                        height={93 / (item.width / item.height)}
-                        onPick={this.backgroundOnMouseDown.bind(this)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                      />
-                    ))}
-                    </div>
-                    <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                    {this.state.backgrounds2.map((item, key) => (
-                      <ImagePicker
-                        className=""
-                        defaultHeight={93 / (item.width / item.height)}
-                        width={0}
-                        delay={0}
-                        id={item._id}
-                        key={key}
-                        color={item.color}
-                        src={item.representative}
-                        height={93 / (item.width / item.height)}
-                        onPick={this.backgroundOnMouseDown.bind(this)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                      />
-                    ))}
-                    </div>
-                    <div
-                        style={{
-                          width: '350px',
-                          marginRight: '10px',
-                        }}
-                      >
-                    {this.state.backgrounds3.map((item, key) => (
-                      <ImagePicker
-                        className=""
-                        defaultHeight={93 / (item.width / item.height)}
-                        width={0}
-                        delay={0}
-                        id={item._id}
-                        key={key}
-                        color={item.color}
-                        src={item.representative}
-                        height={93 / (item.width / item.height)} 
-                        onPick={this.backgroundOnMouseDown.bind(this)}
-                        onEdit={this.handleEditmedia.bind(this, item)}
-                      />
-                    ))}
-                    </div>
-                  </div>
-    );
   }
 
   refFullName = null;

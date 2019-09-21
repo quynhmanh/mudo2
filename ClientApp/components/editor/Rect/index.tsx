@@ -278,6 +278,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           objectType,
           e,
           this.props.backgroundColor,
+          null,
         );
       } else {
         this.props.onImageResize(
@@ -371,6 +372,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           objectType,
           e,
           this.props.backgroundColor,
+          null,
         );
       } else {
         this.props.onImageResize(
@@ -537,9 +539,9 @@ export default class Rect extends PureComponent<IProps, IState> {
         } else {
           // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
           var el = document.getElementById(self.props._id).getElementsByClassName("font")[0];
-          console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id));
-          console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id).getElementById("hihi3"));
-          console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id).getElementsByClassName("font"));
+          // console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id));
+          // console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id).getElementById("hihi3"));
+          // console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id).getElementsByClassName("font"));
           console.log('ellll ', self.props._id, el);
           var sel = window.getSelection();
           var range = document.createRange();
@@ -863,6 +865,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   >
                     
                     <SingleText
+                      selectionScaleY={this.state.selectionScaleY}
                       zIndex={zIndex}
                       scaleX={child.scaleX}
                       scaleY={child.scaleY}
