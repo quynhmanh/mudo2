@@ -3,6 +3,7 @@ import Rect from './Rect'
 import { centerToTL, tLToCenter, getNewStyle, degToRadian } from '@Utils';
 
 export interface IProps {
+    id: string;
     childId: string;
     zoomable: string;
     rotatable: boolean;
@@ -174,7 +175,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       outlineWidth, onFontSizeChange, handleFontColorChange, handleFontFaceChange, handleChildIdSelected, 
       childId, posX, posY, handleImageDrag, enableCropMode, cropMode, imgWidth, imgHeight,
       showImage, resizingInnerImage, onResizeInnerImageStart, startX, startY, updateRect, imgColor, hidden, bleed,
-      backgroundColor, opacity,
+      backgroundColor, opacity, id,
     } = this.props;
 
     const styles = tLToCenter({ top, left, width, height, rotateAngle })
@@ -182,6 +183,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
 
     return (
       <Rect
+        id={id}
         opacity={opacity}
         hidden={hidden}
         objectType={objectType}

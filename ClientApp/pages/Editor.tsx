@@ -872,6 +872,35 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
+    document.getElementById(_id + "_").style.top = top * scale + "px";
+    document.getElementById(_id + "_").style.left = left * scale + "px";
+    document.getElementById(_id + "_").style.width = width * scale + "px";
+    document.getElementById(_id + "_").style.height = height * scale + "px";
+
+    document.getElementById(_id + "__").style.top = top * scale + "px";
+    document.getElementById(_id + "__").style.left = left * scale + "px";
+    document.getElementById(_id + "__").style.width = width * scale + "px";
+    document.getElementById(_id + "__").style.height = height * scale + "px";
+
+    document.getElementById(_id + "___").style.width = width + "px";
+    document.getElementById(_id + "___").style.height = height + "px";
+
+    document.getElementById(_id + "____").style.width = width + "px";
+    document.getElementById(_id + "____").style.height = height + "px";
+
+    document.getElementById(_id + "_1").style.width = width + "px";
+    document.getElementById(_id + "_1").style.height = height + "px";
+
+    document.getElementById(_id + "_2").style.width = width + "px";
+    document.getElementById(_id + "_2").style.height = height + "px";
+
+    var rectalos = document.getElementsByClassName("rect-alo");
+    for (var i = 0; i < rectalos.length; ++i) {
+      var cur = rectalos[i];
+      cur.style.width = width + "px";
+      cur.style.height = height + "px";
+    }
+
     t1 = performance.now();
   console.log("Call to doSomething took 1 " + (t1 - t0) + " milliseconds.");
 
@@ -1335,6 +1364,11 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
 
     // console.log('handleDrag 1');
     this.props.images.replace(images);
+
+    document.getElementById(_id + "_").style.top = top * scale + "px";
+    document.getElementById(_id + "_").style.left = left * scale + "px";
+    document.getElementById(_id + "__").style.top = top * scale + "px";
+    document.getElementById(_id + "__").style.left = left * scale + "px";
 
     // var t1 = performance.now();
     // console.log("Call to doSomething took he " + (t1 - t0) + " milliseconds.");
@@ -2743,6 +2777,8 @@ handleToolbarResize = e => {
       }
 
       res.push(<Canvas
+        resizing={this.state.resizing}
+        dragging={this.state.dragging}
         isSaving={this.state.isSaving}
         downloading={this.state.downloading}
         bleed={this.state.bleed}

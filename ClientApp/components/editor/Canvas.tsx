@@ -55,6 +55,8 @@ showPopup: boolean;
 preview: boolean;
 downloading: boolean;
 isSaving: boolean;
+resizing: boolean;
+dragging: boolean;
 }
 
 export interface IState {
@@ -82,7 +84,16 @@ enum Mode {
   }
   
 
-export default class Canvas extends PureComponent<IProps, IState> {
+export default class Canvas extends Component<IProps, IState> {
+
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.dragging || nextProps.resizing) {
+      return false;
+    }
+    return true;
+  }
+
 
   tranformImage = (image: any) => {
     var centerX = image.left + image.width / 2;
@@ -283,12 +294,13 @@ export default class Canvas extends PureComponent<IProps, IState> {
                   .map(img => (
 <ResizableRectWrapper
   className="9876"
+  id={img._id + "_"}
   downloading={this.props.downloading}
   isSaving={this.props.isSaving}
   selected={img.selected}
   outlineWidth={Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}
   style={{
-    zIndex: img.selected ? 99999999 + 1 : 99999999,
+    zIndex: img.selected ? 99999999 : img.zIndex,
     // outline: img.selected ? `rgb(1, 159, 182) solid ${Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}px` : null, 
     width: img.width * scale + 'px',
     height: img.height * scale + 'px',
@@ -298,6 +310,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
     transform: `rotate(${img.rotateAngle ? img.rotateAngle : 0 }deg)`,
   }}>
 <div
+  id={img._id + "____"}
   style={{
     width: img.width + 'px',
     height: img.height + 'px',
@@ -308,6 +321,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
   onMouseDown={this.props.handleImageSelected.bind(this, img)}
 >
   <ResizableRect
+    id={img._id + "_1"}
     opacity={img.opacity}
     showImage={false}
     hidden={true}
@@ -392,6 +406,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
                     <div>
 <ResizableRectWrapper
   className="9876"
+  id={img._id + "__"}
   downloading={this.props.downloading}
   isSaving={this.props.isSaving}
   selected={img.selected}
@@ -406,6 +421,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
     transform: `rotate(${img.rotateAngle ? img.rotateAngle : 0 }deg)`,
   }}>
 <div
+  id={img._id + "___"}
   style={{
     width: img.width + 'px',
     height: img.height + 'px',
@@ -416,6 +432,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
   onMouseDown={this.props.handleImageSelected.bind(this, img)}
 >
   <ResizableRect
+    id={img._id + "_2"}
     opacity={img.opacity}
     bleed={this.props.bleed}
     showImage={true}
