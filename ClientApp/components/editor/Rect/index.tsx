@@ -54,7 +54,7 @@ export interface IProps {
     objectType: number,
     e: any,
   ): void;
-  onResizeEnd(): void;
+  onResizeEnd(fontSize): void;
 
   selected: boolean;
   zoomable: string;
@@ -120,8 +120,17 @@ export default class Rect extends PureComponent<IProps, IState> {
     if (this.props.innerHTML && this.$textEle) {
       this.$textEle.innerHTML = this.props.innerHTML;
     }
+    if (this.props.innerHTML && this.$textEle2) {
+      this.$textEle2.innerHTML = this.props.innerHTML;
+    }
 
     this.startEditing = this.startEditing.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.objectType === 3 && this.props.selected && !prevProps.selected) {
+      this.$textEle2.innerHTML = this.props.innerHTML;
+    }
   }
 
   // Drag
@@ -290,7 +299,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       document.removeEventListener("mouseup", onUp);
       if (!this._isMouseDown) return;
       this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd();
+      this.props.onResizeEnd && this.props.onResizeEnd(null);
     };
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", onUp);
@@ -383,7 +392,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       document.removeEventListener("mouseup", onUp);
       if (!this._isMouseDown) return;
       this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd();
+      this.props.onResizeEnd && this.props.onResizeEnd(null);
     };
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", onUp);
@@ -425,6 +434,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         } else {
           var id = this.props.childId ? this.props.childId : this.props._id;
           var el = document.getElementById(id).getElementsByClassName('font')[0];
+          console.log('document.getElementById(id) ', document.getElementById(id));
           var sel = window.getSelection();
           var range = document.createRange();
           console.log('el id', el, id);
@@ -445,6 +455,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     const type = e.target.getAttribute("class").split(" ")[0];
     this.props.onResizeStart && this.props.onResizeStart(startX, startY);
     this._isMouseDown = true;
+    var fontSize;
     const onMove = e => {
       e.preventDefault();
       if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
@@ -470,8 +481,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       );
 
       if (this.props.objectType !== 4) {
-
-          var fontSize = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
+          fontSize = parseInt(size.substring(0, size.length - 2)) * selectionScaleY * self.props.scaleY;
           console.log('fontSize ', fontSize, this.props.childId);
           document.getElementById("fontSizeButton").innerText = `${Math.round(fontSize * 10) / 10}`;
       }
@@ -484,16 +494,21 @@ export default class Rect extends PureComponent<IProps, IState> {
       document.removeEventListener("mouseup", onUp);
       if (!this._isMouseDown) return;
       this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd();
+      this.props.onResizeEnd && this.props.onResizeEnd(fontSize);
     };
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", onUp);
   };
 
   $textEle = null;
+  $textEle2 = null;
 
   setTextElementRef = ref => {
     this.$textEle = ref;
+  };
+
+  setTextElementRef2 = ref => {
+    this.$textEle2 = ref;
   };
 
   endEditing = e => {};
@@ -522,7 +537,9 @@ export default class Rect extends PureComponent<IProps, IState> {
           // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
           var el = document.getElementById(self.props._id).getElementsByClassName("font")[0];
           console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id));
-          console.log('ellll ', el);
+          console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id).getElementById("hihi3"));
+          console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id).getElementsByClassName("font"));
+          console.log('ellll ', self.props._id, el);
           var sel = window.getSelection();
           var range = document.createRange();
           range.selectNodeContents(el);
@@ -707,6 +724,22 @@ export default class Rect extends PureComponent<IProps, IState> {
               </div>
             );
           })}
+        { objectType === 3 && !selected && 
+          <div
+          onMouseDown={(e) => { e.preventDefault(); this.startDrag(e);}}
+          // onMouseDown={this.onMouseDown.bind(this)}
+          style={{
+            // zIndex: selected && objectType !== 4 ? 1 : 0,
+            zIndex: 9999999,
+            transformOrigin: "0 0",
+            transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
+            position: "absolute",
+            width: width / (src ? 1 : scaleX) + "px",
+            height: height / (src ? 1 : scaleY) + "px",
+            // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
+          }}
+        ></div>
+        }
         <div
           id={_id}
           onMouseDown={!selected || (src && !cropMode) ? this.startDrag : this.handleImageDrag.bind(this)}
@@ -999,13 +1032,13 @@ export default class Rect extends PureComponent<IProps, IState> {
                   </div>
                 </MathJax.Context>
                 }
-                {objectType === 3 &&  
+                {objectType === 3 && showImage &&
                 <div
                   id="hihi3"
                   spellCheck={false}
                   onInput={onTextChange}
                   contentEditable={selected}
-                  ref={this.setTextElementRef.bind(this)}
+                  ref={this.setTextElementRef2.bind(this)}
                   onMouseDown={this.onMouseDown.bind(this)}
                   className="text single-text"
                   style={{
@@ -1080,13 +1113,13 @@ export default class Rect extends PureComponent<IProps, IState> {
                 </div>
               </MathJax.Context>
                 }
-                {objectType === 3 &&  
+                {objectType === 3 && selected &&
                 <div
                   id="hihi3"
                   spellCheck={false}
                   onInput={onTextChange}
                   contentEditable={selected}
-                  ref={this.setTextElementRef.bind(this)}
+                  ref={this.setTextElementRef2.bind(this)}
                   onMouseDown={this.onMouseDown.bind(this)}
                   className="text single-text"
                   style={{

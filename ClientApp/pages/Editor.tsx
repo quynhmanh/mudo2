@@ -632,6 +632,17 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     font1.remove();
   }
 
+    let images = toJS(this.props.images);
+    images = images.map(img => {
+      if (img._id === this.state.idObjectSelected) {
+        img.fontFace = id;
+        img.fontRepresentative = font.representative;
+      }
+      return img;
+    });
+
+    this.props.images.replace(images);
+
     this.setState({fontName: font.representative});
 
     e.preventDefault();
@@ -659,6 +670,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     this.props.addFont(id);
   }
 
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.scale !== prevState.scale) {
       this.handleScroll();
@@ -677,7 +689,17 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     this.setState({ resizing: true, resizingInnerImage: false, startX, startY });
   }
 
-  handleResizeEnd = () => {
+  handleResizeEnd = (fontSize) => {
+
+    let images = toJS(this.props.images);
+    images = images.map(img => {
+      if (img._id === this.state.idObjectSelected) {
+        img.fontSize = fontSize;
+      }
+      return img;
+    });
+    this.props.images.replace(images);
+
     setTimeout(
       function() {
         this.setState({ resizing: false });
@@ -1481,34 +1503,33 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-    if (img.type != TemplateType.Image) {
-      var defaultColor = 'black';
-      var font;
-      var fontSize;
-      var id = this.state.childId ? this.state.childId : img._id;
-      var a = document.getSelection();
-          if (a && a.type === "Range") {
-          } else {
-            // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
-            var el = document.getElementById(id).getElementsByClassName("font")[0];
-            console.log('document.getElementById(self.props._id) ', document.getElementById(id));
-            console.log('ellll ', el);
-            var sel = window.getSelection();
-            var range = document.createRange();
-            range.selectNodeContents(el);
-            sel.removeAllRanges();
-            sel.addRange(range);
-            var a = document.getSelection();
-            fontSize = window.getComputedStyle(el, null).getPropertyValue('font-size'); 
-            defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
+    // if (img.type != TemplateType.Image) {
+    //   var defaultColor = 'black';
+    //   var font;
+    //   var fontSize;
+    //   var id = this.state.childId ? this.state.childId : img._id;
+    //   var a = document.getSelection();
+    //       if (a && a.type === "Range") {
+    //       } else {
+    //         // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
+    //         var el = document.getElementById(id).getElementsByClassName("font")[0];
+    //         console.log('document.getElementById(self.props._id) ', document.getElementById(id));
+    //         console.log('ellll ', el);
+    //         console.log('img innerHTML', img.innerHTML);
 
-            sel.removeAllRanges();
-        }
-      this.handleFontFamilyChange(font);
-      this.handleFontColorChange(defaultColor);
-      this.setState({fontSize});
-    }
+    //         var div = document.createElement('div');
+    //         div.innerHTML = img.innerHTML.trim();
 
+    //         fontSize = window.getComputedStyle(div, null).getPropertyValue('font-size'); 
+    //         defaultColor = window.getComputedStyle(div, null).getPropertyValue("color");
+    //     }
+    //   this.handleFontFamilyChange(font);
+    //   this.handleFontColorChange(defaultColor);
+    //   this.setState({fontSize});
+    // }
+
+    this.setState({fontColor: img.color, fontName: img.fontRepresentative});
+    document.getElementById("fontSizeButton").innerText = `${Math.round(img.fontSize * 10) / 10}`;
     console.log('img ', img);
 
     this.setState({ idObjectSelected: img._id, typeObjectSelected: img.type, childId: null, currentOpacity: img.opacity ? img.opacity : 100, });
@@ -1996,12 +2017,12 @@ html {
   onSingleTextChange(thisImage, e, childId) {
     // console.log('ToJS', toJS(this.props.images));
     // console.log('onSingleTextChange ', arguments);
-    var els;
-    if (childId){
-      els = document.getElementById(childId).getElementsByTagName('font');
-    } else {
-      els = document.getElementById(this.state.idObjectSelected).getElementsByTagName('font');
-    }
+    // var els;
+    // if (childId){
+    //   els = document.getElementById(childId).getElementsByTagName('font');
+    // } else {
+    //   els = document.getElementById(this.state.idObjectSelected).getElementsByTagName('font');
+    // }
 
     thisImage = toJS(thisImage);
     // console.log('thisImage ', thisImage);

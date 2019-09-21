@@ -342,7 +342,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
     innerHTML={img.innerHTML}
     scaleX={img.scaleX}
     scaleY={img.scaleY}
-    zIndex={1}
+    zIndex={img.zIndex}
     childrens={img.document_object}
     outlineWidth={Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}
     handleFontColorChange={this.props.handleFontColorChange}

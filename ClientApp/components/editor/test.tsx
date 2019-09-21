@@ -5646,7 +5646,7 @@ handleToolbarResize = e => {
                   cursor: "pointer",
                   color: 'black',
                 }}>
-                  <img style={{height: '21px', filter: 'invert(1)'}} src={this.state.fontName} />
+                  <img style={{height: '21px', filter: 'invert(1)'}} src={`/images/${this.state.fontName}.png`} />
                   </a>
               }
               {(this.state.idObjectSelected && this.state.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Image) &&

@@ -788,27 +788,28 @@ handleQuery = (e) => {
 
   setSelectionColor = (color, e) => {
     console.log('setSelectionColor ', this.props.typeObjectSelected, color);
-    if (this.props.typeObjectSelected === TemplateType.Latex) {
-      var images = this.props.images.map(img => {
-        if (img._id === this.props.idObjectSelected) {
-          img.color = color;
-        }
-        return img;
-      });
-      console.log('setSelectionColor 1');
-      this.props.images.replace(images);
-    } else if (this.props.typeObjectSelected === TemplateType.Image || this.props.typeObjectSelected === TemplateType.BackgroundImage) {
-      var images = this.props.images.map(img => {
-        if (img._id === this.props.idObjectSelected) {
-          img.backgroundColor = color;
-        }
-        return img;
-      });
+    // if (this.props.typeObjectSelected === TemplateType.Latex) {
+    var images = this.props.images.map(img => {
+      if (img._id === this.props.idObjectSelected) {
+        img.color = color;
+        img.backgroundColor = color;
+      }
+      return img;
+    });
+    console.log('setSelectionColor 1');
+    this.props.images.replace(images);
+    // } else if (this.props.typeObjectSelected === TemplateType.Image || this.props.typeObjectSelected === TemplateType.BackgroundImage) {
+    //   var images = this.props.images.map(img => {
+    //     if (img._id === this.props.idObjectSelected) {
+    //       img.backgroundColor = color;
+    //     }
+    //     return img;
+    //   });
 
-      console.log('setSelectionColor 2');
-      this.props.images.replace(images);
-      // this.setState({images});
-    }
+    //   console.log('setSelectionColor 2');
+    //   this.props.images.replace(images);
+    //   // this.setState({images});
+    // }
     e.preventDefault();
     document.execCommand('foreColor', false, color);
     if (this.props.typeObjectSelected === TemplateType.Heading || this.props.typeObjectSelected === TemplateType.TextTemplate) {
@@ -858,71 +859,6 @@ handleQuery = (e) => {
     font1.remove();
     }
   }
-
-  selectFont = (id, e) => {
-    console.log('selectFont LeftSide');
-    var font = this.props.fontsList.find(font => font.id === id);
-
-    var a = document.getSelection();
-    if (a && a.type === "Range") {
-      document.execCommand("FontName", false, id);
-    } else {
-      var childId = this.props.childId ? this.props.childId : this.props.idObjectSelected;
-      var el = this.props.childId ? document.getElementById(childId) : document.getElementById(childId).getElementsByClassName('text')[0]; 
-      var sel = window.getSelection();
-      var range = document.createRange();
-      range.selectNodeContents(el);
-      sel.removeAllRanges();
-      sel.addRange(range);
-      document.execCommand('FontName', false, id);
-      sel.removeAllRanges();
-    }
-
-  //   function insertAfter(newNode, referenceNode) {
-  //     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-  // }
-
-  // var fonts = document.getElementsByTagName("font");
-  // for (var i = 0; i < fonts.length; ++i) {
-  //   var font1 = fonts[i];
-  //   console.log('font ', font1.style);
-  //   var div = document.createElement("div");
-  //   div.style.fontSize = font1.style.fontSize;
-  //   div.style.fontFamily = id;
-  //   div.innerText = font1.innerText;
-
-  //   insertAfter(div, font1);
-
-  //   font1.remove();
-  // }
-
-    e.preventDefault();
-    var style = `@font-face {
-      font-family: '${id}';
-      src: url('/fonts/${id}.ttf');
-    }`;
-    var styleEle = document.createElement("style");
-    var type = document.createAttribute("type");
-    type.value = "text/css";
-    styleEle.attributes.setNamedItem(type)
-    styleEle.innerHTML = style;
-    var head = document.head || document.getElementsByTagName('head')[0];
-    head.appendChild(styleEle);
-
-    var link = document.createElement('link');
-    link.id = id;
-    link.rel = 'preload';
-    link.href = `/fonts/${id}.ttf`
-    link.media = 'all';
-    link.as = "font";
-    link.crossOrigin = "anonymous";
-    head.appendChild(link);
-    
-    var fonts = [...this.state.fonts];
-    fonts.push(id);
-    this.setState({fonts});
-  }
-
 
   loadMoreTemplate = (initalLoad, subtype) => {
     let pageId;
@@ -1449,7 +1385,7 @@ handleQuery = (e) => {
         <div style={{ color: "white" }}>
           <div style={{marginBottom: '10px'}}>
             <p>Nhấn để thêm chữ vào trang</p>
-            <div
+            {/* <div
               style={{
                 fontSize: '28px',
                 width: '100%',
@@ -1504,7 +1440,7 @@ handleQuery = (e) => {
               }}
             >
                 Thêm LaTeX
-            </div>
+            </div> */}
             <div
               style={{
                 fontSize: '28px',
@@ -1525,20 +1461,22 @@ handleQuery = (e) => {
                 images.push({
                   _id,
                   type: TemplateType.Heading,
-                  width: 200 * scale,
-                  origin_width: 200,
-                  height: 40 * scale,
-                  origin_height: 40,
+                  width: 300 * 1,
+                  origin_width: 300,
+                  height: 60 * 1,
+                  origin_height: 60,
                   left: 0,
                   top: 0,
                   rotateAngle: 0.0,
-                  innerHTML: "<div style=\"text-align: left;\"><div class=\"font\" style=\"font-size: 26px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a heading</div></div>",
-                  scaleX: scale,
-                  scaleY: scale,
+                  innerHTML: "<div class=\"font\" style=\"text-align: left;font-size: 42px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Thêm tiêu đề</div>",
+                  scaleX: 1,
+                  scaleY: 1,
                   selected: false,
                   ref: this.props.idObjectSelected,
                   page: this.props.activePageId,
                   zIndex: this.props.upperZIndex + 1,
+                  color: 'black',
+                  fontSize: 42,
                 });
 
                 console.log('images ', images);
@@ -1570,19 +1508,21 @@ handleQuery = (e) => {
                 images.push({
                   _id,
                   type: TemplateType.Heading,
-                  width: 190 * scale,
+                  width: 190 * 1,
                   origin_width: 190,
-                  height: 35 * scale,
-                  origin_height: 35,
+                  height: 32 * 1,
+                  origin_height: 32,
                   left: 0,
                   top: 0,
                   rotateAngle: 0.0,
-                  innerHTML: "<div style=\"text-align: left;\"><span style=\"font-size: 22px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a subheading</span></div>",
-                  scaleX: scale,
-                  scaleY: scale,
+                  innerHTML: "<div class=\"font\" style=\"text-align: left;font-size: 24px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Thêm tiêu đề con</div>",
+                  scaleX: 1,
+                  scaleY: 1,
                   page: this.props.activePageId,
                   zIndex: 1,
                   ref: this.props.idObjectSelected,
+                  color: 'black',
+                  fontSize: 24,
                 })
 
                 this.props.images.replace(images);
@@ -1612,19 +1552,21 @@ handleQuery = (e) => {
                 images.push({
                   _id,
                   type: TemplateType.Heading,
-                  width: 200 * scale,
+                  width: 200 * 1,
                   origin_width: 200,
-                  height: 22 * scale,
+                  height: 22 * 1,
                   origin_height: 22,
                   left: 0,
                   top: 0,
                   rotateAngle: 0.0,
-                  innerHTML: "<div style=\"text-align: left;\"><span style=\"font-size: 16px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Add a little bit of body text</span></div>",
-                  scaleX: scale,
-                  scaleY: scale,
+                  innerHTML: "<div class=\"font\" style=\"text-align: left;font-size: 16px; font-family: O5mEMMs7UejmI1WeSKWQ;\">Thêm đoạn văn</div>",
+                  scaleX: 1,
+                  scaleY: 1,
                   page: this.props.activePageId,
                   zIndex: this.state.upperZIndex + 1,
                   ref: this.props.idObjectSelected,
+                  color: 'black',
+                  fontSize: 16,
                 })
 
                 this.props.images.replace(images);
