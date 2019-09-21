@@ -834,6 +834,13 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
         if (cursor != "e-resize" && cursor != "w-resize") {
           image.scaleX = (image.width) / image.origin_width;
           image.scaleY = (image.height) / image.origin_height;
+
+          var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
+          for (var i = 0; i < rectalos.length; ++i) {
+            var cur = rectalos[i];
+            cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
+          }
+
         } else {
           if (objectType == TemplateType.Heading) {
             var rec = document.getElementById(_id).getElementsByClassName('text')[0].getBoundingClientRect();
@@ -872,29 +879,49 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
       return image;
     });
 
-    document.getElementById(_id + "_").style.top = top * scale + "px";
-    document.getElementById(_id + "_").style.left = left * scale + "px";
-    document.getElementById(_id + "_").style.width = width * scale + "px";
-    document.getElementById(_id + "_").style.height = height * scale + "px";
+    var el;
 
-    document.getElementById(_id + "__").style.top = top * scale + "px";
-    document.getElementById(_id + "__").style.left = left * scale + "px";
-    document.getElementById(_id + "__").style.width = width * scale + "px";
-    document.getElementById(_id + "__").style.height = height * scale + "px";
+    el = document.getElementById(_id + "_");
+    if (el) {
+      el.style.top = top * scale + "px";
+      el.style.left = left * scale + "px";
+      el.style.width = width * scale + "px";
+      el.style.height = height * scale + "px";
+    }
 
-    document.getElementById(_id + "___").style.width = width + "px";
-    document.getElementById(_id + "___").style.height = height + "px";
+    el = document.getElementById(_id + "__");
+    if (el) {
+      el.style.top = top * scale + "px";
+      el.style.left = left * scale + "px";
+      el.style.width = width * scale + "px";
+      el.style.height = height * scale + "px";
+    }
 
-    document.getElementById(_id + "____").style.width = width + "px";
-    document.getElementById(_id + "____").style.height = height + "px";
+    el = document.getElementById(_id + "___");
+    if (el) {
+      el.style.width = width + "px";
+      el.style.height = height + "px";
+    }
 
-    document.getElementById(_id + "_1").style.width = width + "px";
-    document.getElementById(_id + "_1").style.height = height + "px";
+    el = document.getElementById(_id + "____");
+    if (el) {
+      el.style.width = width + "px";
+      el.style.height = height + "px";
+    }
 
-    document.getElementById(_id + "_2").style.width = width + "px";
-    document.getElementById(_id + "_2").style.height = height + "px";
+    el = document.getElementById(_id + "_1");
+    if (el) {
+      el.style.width = width + "px";
+      el.style.height = height + "px";
+    }
 
-    var rectalos = document.getElementsByClassName("rect-alo");
+    el = document.getElementById(_id + "_2")
+    if (el) {
+      el.style.width = width + "px";
+      el.style.height = height + "px";
+    }
+
+    var rectalos = document.getElementsByClassName(_id + "rect-alo");
     for (var i = 0; i < rectalos.length; ++i) {
       var cur = rectalos[i];
       cur.style.width = width + "px";

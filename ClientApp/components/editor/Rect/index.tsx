@@ -725,6 +725,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           })}
         { objectType === 3 && !selected && 
           <div
+          className={_id + "scaleX-scaleY"}
           onMouseDown={(e) => { e.preventDefault(); this.startDrag(e);}}
           // onMouseDown={this.onMouseDown.bind(this)}
           style={{
@@ -741,6 +742,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         }
         <div
           id={_id}
+          className={src ? null : _id + "scaleX-scaleY"}
           onMouseDown={!selected || (src && !cropMode) ? this.startDrag : this.handleImageDrag.bind(this)}
           style={{
             // zIndex: selected && objectType !== 4 ? 1 : 0,
@@ -1138,7 +1140,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         {src && (objectType === 4 || objectType === 6) &&
         <div
           id={_id}
-          className="rect-alo"
+          className={_id +"rect-alo"}
           onMouseDown={!selected || src ? this.startDrag : null}
           style={{
             zIndex: selected && objectType !== 4 ? 1 : 0,
@@ -1150,7 +1152,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         >
           <div
             id="test"
-            className="rect-alo"
+            className={_id +"rect-alo"}
             style={{
               width: width / (src ? 1 : scaleX) + "px",
               height: height / (src ? 1 : scaleY) + "px",
@@ -1158,7 +1160,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             }} >
           </div>
           <div
-            className="rect-alo"
+            className={_id +"rect-alo"}
             style={{
               width: width / (src ? 1 : scaleX) + "px",
               height: height / (src ? 1 : scaleY) + "px",
@@ -1169,7 +1171,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             {showImage &&
             <img
             id="1235"
-            className="rect-alo"
+            className={_id +"rect-alo"}
             style={{
               width: imgWidth + 'px',
               height: imgHeight + 'px',
@@ -1185,7 +1187,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             }
             </div>
             <div
-            className="rect-alo"
+            className={_id +"rect-alo"}
             style={{
               width: width / (src ? 1 : scaleX) + "px",
               height: height / (src ? 1 : scaleY) + "px",
@@ -1194,7 +1196,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             {(!showImage && cropMode && selected) &&
             <img
             id="1236"
-            className="rect-alo"
+            className={_id +"rect-alo"}
             style={{
               width: imgWidth + 'px',
               height: imgHeight + 'px',
@@ -1209,7 +1211,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             }
           </div>
           <div
-            className="rect-alo"
+            className={_id +"rect-alo"}
             style={{
               width: width / (src ? 1 : scaleX) + "px",
               height: height / (src ? 1 : scaleY) + "px",
@@ -1218,7 +1220,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             }} >
             {(!showImage && cropMode) &&
             <img
-            className="rect-alo"
+            className={_id +"rect-alo"}
             id="1234"
             style={{
               width: imgWidth + 'px',
@@ -1248,7 +1250,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           }}
         >
           <div
-            className="rect-alo"
+            className={_id +"rect-alo"}
             style={{
               transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
               width: imgWidth + 'px',

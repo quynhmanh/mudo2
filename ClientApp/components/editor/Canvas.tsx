@@ -412,7 +412,7 @@ export default class Canvas extends Component<IProps, IState> {
   selected={img.selected}
   outlineWidth={Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}
   style={{
-    zIndex: img.zIndex,
+    // zIndex: img.zIndex,
     width: img.width * scale + 'px',
     height: img.height * scale + 'px',
     left: img.left * scale + 'px',
