@@ -627,7 +627,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       height: Math.abs(newHeight),
       zIndex: selected ? 101 : 100,
       cursor: selected ? 'move' : null,
-      outline: !showImage ? `rgb(1, 159, 182) ${objectType === 2 ? 'dotted' : 'solid'} ${2/scale}px` : null,
+      outline: !showImage ? `#00d9e1 ${objectType === 2 ? 'dotted' : 'solid'} ${2/scale}px` : null,
     };
 
     var opacity = this.props.opacity ? this.props.opacity / 100 : 1;
@@ -752,7 +752,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       width: width * child.width2 / scaleX,
                       // height: height * child.height2 / scaleY,
                       height: child.height,
-                      outline: selected && childId === child._id ? `rgb(1, 159, 182) solid ${2/scale}px` : null,
+                      outline: selected && childId === child._id ? `#00d9e1 solid ${2/scale}px` : null,
                       transform: `rotate(${rotateAngle}deg)`,
                       opacity: opacity,
                     }}
@@ -821,7 +821,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       width: width * child.width2 / scaleX,
                       // height: height * child.height2 / scaleY,
                       height: child.height,
-                      outline: selected && childId === child._id ? `rgb(1, 159, 182) solid ${2/scale/Math.min(scaleX, scaleY)}px` : null,
+                      outline: selected && childId === child._id ? `#00d9e1 solid ${2/scale/Math.min(scaleX, scaleY)}px` : null,
                       transform: `rotate(${rotateAngle}deg)`,
                       opacity: opacity,
                     }}
@@ -1139,7 +1139,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: imgHeight + 'px',
               transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
               opacity: selected || !cropMode ? 1 : 0.5,
-              outline: cropMode && selected ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
+              outline: cropMode && selected ? `#00d9e1 solid ${outlineWidth-1}px` : null,
               transformOrigin: '0 0',
               backgroundColor: backgroundColor,
             }}
@@ -1162,7 +1162,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: imgHeight + 'px',
               transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
               opacity: 0.7,
-              outline: cropMode && selected ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
+              outline: cropMode && selected ? `#00d9e1 solid ${outlineWidth-1}px` : null,
               transformOrigin: '0 0',
             }}
           onDoubleClick={enableCropMode}
@@ -1185,7 +1185,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: imgHeight + 'px',
               transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
               opacity: 1,
-              outline: cropMode && selected ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
+              outline: cropMode && selected ? `#00d9e1 solid ${outlineWidth-1}px` : null,
               transformOrigin: '0 0',
             }}
           onDoubleClick={enableCropMode}
@@ -1242,7 +1242,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 width: '100%',
                 height: '100%',
                 transformOrigin: '0 0',
-                outline: cropMode ? `rgb(1, 159, 182) solid ${outlineWidth-1}px` : null,
+                outline: cropMode ? `#00d9e1 solid ${outlineWidth-1}px` : null,
                 opacity,
               }}
             muted loop autoPlay preload="none" width="560" height="320"><source src={src} type="video/webm"/></video>

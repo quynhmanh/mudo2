@@ -501,7 +501,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
 
 const ResizableRectWrapper = StyledComponent.div`
   :hover {
-    outline: ${props => (props.isSaving || props.selected || props.downloading) ? 'none' : `rgb(1, 159, 182) solid ${props.outlineWidth}px`};
+    outline: ${props => (props.isSaving || props.selected || props.downloading) ? 'none' : `#00d9e1 solid ${props.outlineWidth}px`};
   }
 `;
 

@@ -3306,7 +3306,7 @@ handleToolbarResize = e => {
             <div
               style={{
                 width: "100%",
-                backgroundColor: "#eee",
+                backgroundColor: "white",
                 zIndex: 123123123,
                 boxShadow: "0 1px 0 rgba(14,19,24,.15)",
                 display: "inline-flex",
