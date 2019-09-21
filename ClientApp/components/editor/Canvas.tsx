@@ -288,7 +288,7 @@ export default class Canvas extends PureComponent<IProps, IState> {
   selected={img.selected}
   outlineWidth={Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}
   style={{
-    zIndex: 99999999,
+    zIndex: img.selected ? 99999999 + 1 : 99999999,
     // outline: img.selected ? `rgb(1, 159, 182) solid ${Math.min(2, Math.min(rectHeight * scale, rectWidth * scale) / 100)}px` : null, 
     width: img.width * scale + 'px',
     height: img.height * scale + 'px',
