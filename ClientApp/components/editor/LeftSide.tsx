@@ -1698,6 +1698,7 @@ class LeftSide extends PureComponent<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
+          console.log('loadmoretexttemplate ', res);
           var result = res.value.key;
           var currentGroupedTextsHeight = this.state.currentGroupedTextsHeight;
           var currentGroupedTexts2Height = this.state
@@ -1717,14 +1718,14 @@ class LeftSide extends PureComponent<IProps, IState> {
                 imgWidth / (currentItem.width / currentItem.height);
             }
           }
-          // this.setState(state => ({
-          //   groupedTexts: [...state.groupedTexts, ...res1],
-          //   groupedTexts2: [...state.groupedTexts2, ...res2],
-          //   currentGroupedTextsHeight,
-          //   currentGroupedTexts2Height,
-          //   isTextTemplateLoading: false,
-          //   hasMoreTextTemplate: res.value.value > state.groupedTexts.length + state.groupedTexts2.length + res.value.key.length,
-          // }))
+          this.setState(state => ({
+            groupedTexts: [...state.groupedTexts, ...res1],
+            groupedTexts2: [...state.groupedTexts2, ...res2],
+            currentGroupedTextsHeight,
+            currentGroupedTexts2Height,
+            isTextTemplateLoading: false,
+            hasMoreTextTemplate: res.value.value > state.groupedTexts.length + state.groupedTexts2.length + res.value.key.length,
+          }))
         },
         error => {
           this.setState({ isTextTemplateLoading: false, error });

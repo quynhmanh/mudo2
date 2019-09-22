@@ -140,6 +140,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   // Drag
   startDrag = e => {
+    console.log('startDrag ');
     // e.preventDefault();
     let { clientX: startX, clientY: startY } = e;
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
@@ -160,6 +161,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       }
     };
     const onUp = e => {
+      console.log('onUPPPPP');
       e.preventDefault();
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseup", onUp);
@@ -593,6 +595,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = e => {
+    console.log('handleImageDrag');
     // e.preventDefault();
     var self = this;
     let { clientX: startX, clientY: startY } = e;
@@ -775,11 +778,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         <div
           id={_id}
           className={src ? null : _id + "scaleX-scaleY"}
-          onMouseDown={
-            !selected || (src && !cropMode)
-              ? this.startDrag
-              : this.handleImageDrag.bind(this)
-          }
+          onMouseDown={this.startDrag}
           style={{
             // zIndex: selected && objectType !== 4 ? 1 : 0,
             zIndex: 999999,
