@@ -1719,6 +1719,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
+    if (this.state.idObjectSelected && img._id !== this.state.idObjectSelected) {
+      document.getElementById(this.state.idObjectSelected + "_1").style.outline = null;
+    }
+    console.log('handleImageSelected');
     if (img._id === this.state.idObjectSelected) {
       return;
     }

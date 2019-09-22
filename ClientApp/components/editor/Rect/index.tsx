@@ -677,9 +677,9 @@ export default class Rect extends PureComponent<IProps, IState> {
       height: Math.abs(newHeight),
       zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
-      outline: selected
+      outline: !showImage && (selected
         ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2 / scale}px`
-        : null
+        : null)
     };
 
     var opacity = this.props.opacity ? this.props.opacity / 100 : 1;
