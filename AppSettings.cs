@@ -145,7 +145,6 @@ namespace RCB.TypeScript
                 ";
 
         public static string templateDownload = @"<html><head>
-          [ADDITIONAL_STYLE]
         </head>
         <style type=""text/css"">
         body {

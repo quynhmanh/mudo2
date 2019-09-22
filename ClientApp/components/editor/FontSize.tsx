@@ -57,8 +57,9 @@ export default class FontSize extends PureComponent<IProps, IState> {
         <button
             id="fontSizeButton"
             style={{
-            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-            height: '26px',
+              boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+              height: '26px',
+              backgroundColor: '#33333314',
             }}
             className="dropbtn-font dropbtn-font-size"
             onClick={this.onClickDropDownFontSizeList.bind(this)}
