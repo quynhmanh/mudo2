@@ -2314,8 +2314,8 @@ class LeftSide extends PureComponent<IProps, IState> {
                       images.push({
                         _id,
                         type: TemplateType.Heading,
-                        width: 190 * 1,
-                        origin_width: 190,
+                        width: 200 * 1,
+                        origin_width: 200,
                         height: 32 * 1,
                         origin_height: 32,
                         left: 0,
