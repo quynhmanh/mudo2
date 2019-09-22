@@ -399,7 +399,7 @@ export default class Canvas extends Component<IProps, IState> {
                     isSaving={this.props.isSaving}
                     selected={img.selected}
                     outlineWidth={Math.min(
-                      2,
+                      1,
                       Math.min(rectHeight * scale, rectWidth * scale) / 100
                     )}
                     style={{
@@ -539,7 +539,7 @@ export default class Canvas extends Component<IProps, IState> {
                       isSaving={this.props.isSaving}
                       selected={img.selected}
                       outlineWidth={Math.min(
-                        2,
+                        1,
                         Math.min(rectHeight * scale, rectWidth * scale) / 100
                       )}
                       style={{
