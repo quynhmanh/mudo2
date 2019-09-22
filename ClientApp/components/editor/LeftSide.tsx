@@ -2390,7 +2390,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   </div>
                 </div>
                 {
-                  <div style={{ height: "calc(100% - 180px)" }}>
+                  <div style={{ height: "calc(100% - 152px)" }}>
                     <InfiniteScroll
                       scroll={true}
                       throttle={500}
@@ -2398,7 +2398,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                       isLoading={this.state.isTemplateLoading}
                       hasMore={this.state.hasMoreTextTemplate}
                       onLoadMore={this.loadMoreTextTemplate.bind(this, false)}
-                      height="calc(100% - 180px)"
+                      height="calc(100% - 152px)"
                       refId="sentinel"
                       marginTop={0}
                     >
