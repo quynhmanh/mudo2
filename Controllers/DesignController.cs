@@ -264,10 +264,11 @@ namespace RCB.TypeScript.Controllers
 
                 }
 
-                string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
-                    .Replace("[FONT_FACE]", style)
-                    .Replace("[RECT_WIDTH]", width)
-                    .Replace("[RECT_HEIGHT]", height);
+                string template =
+                    AppSettings.templateDownload
+                        .Replace("[FONT_FACE]", style)
+                        .Replace("[RECT_WIDTH]", width)
+                        .Replace("[RECT_HEIGHT]", height);
 
                 byte[] data = null;
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())

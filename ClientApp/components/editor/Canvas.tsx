@@ -376,7 +376,7 @@ export default class Canvas extends Component<IProps, IState> {
             )}
             <div
               id="canvas"
-              className="unblurred"
+              className="canvas unblurred"
               style={{
                 width: rectWidth * scale + "px",
                 height: rectHeight * scale + "px",
@@ -512,7 +512,7 @@ export default class Canvas extends Component<IProps, IState> {
             </div>
             <div
               id="canvas"
-              className="unblurred"
+              className="canvas unblurred"
               style={{
                 width: rectWidth * scale + "px",
                 height: rectHeight * scale + "px",

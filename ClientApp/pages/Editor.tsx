@@ -1748,31 +1748,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    // if (img.type != TemplateType.Image) {
-    //   var defaultColor = 'black';
-    //   var font;
-    //   var fontSize;
-    //   var id = this.state.childId ? this.state.childId : img._id;
-    //   var a = document.getSelection();
-    //       if (a && a.type === "Range") {
-    //       } else {
-    //         // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
-    //         var el = document.getElementById(id).getElementsByClassName("font")[0];
-    //         console.log('document.getElementById(self.props._id) ', document.getElementById(id));
-    //         console.log('ellll ', el);
-    //         console.log('img innerHTML', img.innerHTML);
-
-    //         var div = document.createElement('div');
-    //         div.innerHTML = img.innerHTML.trim();
-
-    //         fontSize = window.getComputedStyle(div, null).getPropertyValue('font-size');
-    //         defaultColor = window.getComputedStyle(div, null).getPropertyValue("color");
-    //     }
-    //   this.handleFontFamilyChange(font);
-    //   this.handleFontColorChange(defaultColor);
-    //   this.setState({fontSize});
-    // }
-
     this.setState({ fontColor: img.color, fontName: img.fontRepresentative });
     document.getElementById("fontSizeButton").innerText = `${Math.round(
       img.fontSize * 10
@@ -1877,116 +1852,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           return style.attributes.getNamedItem("data-styled") !== null;
         });
 
-        var template = `<html><head>
-          ${a[0].outerHTML}
-        </head>
-        <style type="text/css">
-        .mjx-chtml {display: inline-block; line-height: 0; text-indent: 0; text-align: left; text-transform: none; font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; letter-spacing: normal; word-wrap: normal; word-spacing: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; margin: 0; padding: 1px 0}
-.MJXc-display {display: block; text-align: center; margin: 0; padding: 0}
-.mjx-chtml[tabindex]:focus, body :focus .mjx-chtml[tabindex] {display: inline-table}
-.mjx-full-width {text-align: center; display: table-cell!important; width: 10000em}
-.mjx-math {display: inline-block; border-collapse: separate; border-spacing: 0}
-.mjx-math * {display: inline-block; -webkit-box-sizing: content-box!important; -moz-box-sizing: content-box!important; box-sizing: content-box!important; text-align: left}
-.mjx-numerator {display: block; text-align: center}
-.mjx-denominator {display: block; text-align: center}
-.MJXc-stacked {height: 0; position: relative}
-.MJXc-stacked > * {position: absolute}
-.MJXc-bevelled > * {display: inline-block}
-.mjx-stack {display: inline-block}
-.mjx-op {display: block}
-.mjx-under {display: table-cell}
-.mjx-over {display: block}
-.mjx-over > * {padding-left: 0px!important; padding-right: 0px!important}
-.mjx-under > * {padding-left: 0px!important; padding-right: 0px!important}
-.mjx-stack > .mjx-sup {display: block}
-.mjx-stack > .mjx-sub {display: block}
-.mjx-prestack > .mjx-presup {display: block}
-.mjx-prestack > .mjx-presub {display: block}
-.mjx-delim-h > .mjx-char {display: inline-block}
-.mjx-surd {vertical-align: top}
-.mjx-mphantom * {visibility: hidden}
-.mjx-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 2px 3px; font-style: normal; font-size: 90%}
-.mjx-annotation-xml {line-height: normal}
-.mjx-menclose > svg {fill: none; stroke: currentColor}
-.mjx-mtr {display: table-row}
-.mjx-mlabeledtr {display: table-row}
-.mjx-mtd {display: table-cell; text-align: center}
-.mjx-label {display: table-row}
-.mjx-box {display: inline-block}
-.mjx-block {display: block}
-.mjx-span {display: inline}
-.mjx-char {display: block; white-space: pre}
-.mjx-itable {display: inline-table; width: auto}
-.mjx-row {display: table-row}
-.mjx-cell {display: table-cell}
-.mjx-table {display: table; width: 100%}
-.mjx-line {display: block; height: 0}
-.mjx-strut {width: 0; padding-top: 1em}
-.mjx-vsize {width: 0}
-.MJXc-space1 {margin-left: .167em}
-.MJXc-space2 {margin-left: .222em}
-.MJXc-space3 {margin-left: .278em}
-.mjx-ex-box-test {position: absolute; overflow: hidden; width: 1px; height: 60ex}
-.mjx-line-box-test {display: table!important}
-.mjx-line-box-test span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
-.MJXc-TeX-unknown-R {font-family: STIXGeneral; font-style: normal; font-weight: normal}
-.MJXc-TeX-unknown-I {font-family: monospace; font-style: italic; font-weight: normal}
-.MJXc-TeX-unknown-B {font-family: monospace; font-style: normal; font-weight: bold}
-.MJXc-TeX-unknown-BI {font-family: monospace; font-style: italic; font-weight: bold}
-.MJXc-TeX-ams-R {font-family: MJXc-TeX-ams-R,MJXc-TeX-ams-Rw}
-.MJXc-TeX-cal-B {font-family: MJXc-TeX-cal-B,MJXc-TeX-cal-Bx,MJXc-TeX-cal-Bw}
-.MJXc-TeX-frak-R {font-family: MJXc-TeX-frak-R,MJXc-TeX-frak-Rw}
-.MJXc-TeX-frak-B {font-family: MJXc-TeX-frak-B,MJXc-TeX-frak-Bx,MJXc-TeX-frak-Bw}
-.MJXc-TeX-math-BI {font-family: MJXc-TeX-math-BI,MJXc-TeX-math-BIx,MJXc-TeX-math-BIw}
-.MJXc-TeX-sans-R {font-family: MJXc-TeX-sans-R,MJXc-TeX-sans-Rw}
-.MJXc-TeX-sans-B {font-family: MJXc-TeX-sans-B,MJXc-TeX-sans-Bx,MJXc-TeX-sans-Bw}
-.MJXc-TeX-sans-I {font-family: MJXc-TeX-sans-I,MJXc-TeX-sans-Ix,MJXc-TeX-sans-Iw}
-.MJXc-TeX-script-R {font-family: MJXc-TeX-script-R,MJXc-TeX-script-Rw}
-.MJXc-TeX-type-R {font-family: MJXc-TeX-type-R,MJXc-TeX-type-Rw}
-.MJXc-TeX-cal-R {font-family: MJXc-TeX-cal-R,MJXc-TeX-cal-Rw}
-.MJXc-TeX-main-B {font-family: MJXc-TeX-main-B,MJXc-TeX-main-Bx,MJXc-TeX-main-Bw}
-.MJXc-TeX-main-I {font-family: MJXc-TeX-main-I,MJXc-TeX-main-Ix,MJXc-TeX-main-Iw}
-.MJXc-TeX-main-R {font-family: MJXc-TeX-main-R,MJXc-TeX-main-Rw}
-.MJXc-TeX-math-I {font-family: MJXc-TeX-math-I,MJXc-TeX-math-Ix,MJXc-TeX-math-Iw}
-.MJXc-TeX-size1-R {font-family: MJXc-TeX-size1-R,MJXc-TeX-size1-Rw}
-.MJXc-TeX-size2-R {font-family: MJXc-TeX-size2-R,MJXc-TeX-size2-Rw}
-.MJXc-TeX-size3-R {font-family: MJXc-TeX-size3-R,MJXc-TeX-size3-Rw}
-.MJXc-TeX-size4-R {font-family: MJXc-TeX-size4-R,MJXc-TeX-size4-Rw}
-.MJXc-TeX-vec-R {font-family: MJXc-TeX-vec-R,MJXc-TeX-vec-Rw}
-.MJXc-TeX-vec-B {font-family: MJXc-TeX-vec-B,MJXc-TeX-vec-Bx,MJXc-TeX-vec-Bw}
-.MJX_Assistive_MathML {
-  position: absolute!important;
-  top: 0;
-  left: 0;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 1px 0 0 0!important;
-  border: 0!important;
-  height: 1px!important;
-}
-html {
-          -webkit-print-color-adjust: exact;
-        }
-        @font-face {
-          font-family: 'Amatic SC';
-          src: url('localhost:64099/fonts/broadb.ttf')
-        }
-        [FONT_FACE]
-        body {
-          width: ${this.state.rectWidth + (bleed ? 20 : 0)}px;
-          height: ${this.state.rectHeight + (bleed ? 20 : 0)}px;
-          line-height: 1.42857143;
-        }
-        </style>
-        <body style="margin: 0;">
-          [CANVAS]
-        </body></html>`;
-
         axios
           .post(
             `/api/Design/Download?width=${this.state.rectWidth +
               (bleed ? 20 : 0)}&height=${this.state.rectHeight +
               (bleed ? 20 : 0)}`,
-            { fonts: toJS(self.props.fonts), template, canvas },
+            { fonts: toJS(self.props.fonts), canvas },
             {
               headers: {
                 "Content-Type": "text/html"

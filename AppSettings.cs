@@ -233,6 +233,9 @@ padding: 1px 0 0 0!important;
   border: 0!important;
   height: 1px!important;
 }
+.canvas {
+  overflow: hidden;
+}
 html {
           -webkit-print-color-adjust: exact;
         }
