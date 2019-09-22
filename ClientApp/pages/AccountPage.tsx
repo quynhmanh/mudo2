@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import logo from "@Images/logo.png";
 import TreeViewContainer from "@Components/shared/TreeViewContainer";
 import axios from "axios";
+import uuidv4 from "uuid/v4";
 
 type Props = RouteComponentProps<{}>;
 
@@ -111,6 +112,7 @@ export default class AccountPage extends React.Component<Props, {orders, selecte
                 }
                 {this.state.selectedTab === 2 && this.state.orders.map(order => 
                     <div
+                        key={uuidv4()}
                         style={{
                             display: 'flex',
                             justifyContent: 'space-between',

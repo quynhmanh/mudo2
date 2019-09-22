@@ -4794,7 +4794,7 @@ html {
                     >
                       <path
                         fill="currentColor"
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M20.25 5.25a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5zm0 4a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5z"
                       ></path>
                     </svg>
@@ -4848,7 +4848,7 @@ html {
                     >
                       <path
                         fill="currentColor"
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M3.75 5.25h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5zm-4 4h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z"
                       ></path>
                     </svg>
@@ -4910,7 +4910,7 @@ html {
                       <use
                         fill="currentColor"
                         xlinkHref="#_3487901159__a"
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                       ></use>
                     </svg>
                   </a>
@@ -4974,7 +4974,7 @@ html {
                         height="24"
                         viewBox="0 0 24 24"
                       >
-                        <g fill="currentColor" fill-rule="evenodd">
+                        <g fill="currentColor" fillRule="evenodd">
                           <path d="M3 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"></path>
                           <path
                             d="M11 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"

@@ -2803,6 +2803,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                       >
                         {this.props.fontsList.map((font, key) => (
                           <button
+                            key={uuidv4()}
                             className="font-picker"
                             style={{
                               display: "flex",
@@ -2847,7 +2848,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                                       <use
                                         fill="black"
                                         xlinkHref="#_2658783389__a"
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                       ></use>
                                     </svg>
                                   </span>
@@ -2917,6 +2918,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 >
                   {fontColors.map(font => (
                     <a
+                      key={uuidv4()}
                       href="#"
                       onClick={this.setSelectionColor.bind(this, font)}
                     >
@@ -2944,6 +2946,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 >
                   {allColors.map(font => (
                     <a
+                      key={uuidv4()}
                       href="#"
                       onClick={this.setSelectionColor.bind(this, font)}
                     >
@@ -3170,6 +3173,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 >
                   {this.state.videos.map(video => (
                     <video
+                      key={uuidv4()}
                       style={{
                         width: "100%",
                         marginBottom: "10px"

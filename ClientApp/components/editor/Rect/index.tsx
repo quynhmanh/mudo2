@@ -1027,7 +1027,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                             </feMerge>
                           </filter>
                         </defs>
-                        <g fill="none" fill-rule="evenodd">
+                        <g fill="none" fillRule="evenodd">
                           <use
                             className={`${zoomableMap[d]}`}
                             style={{

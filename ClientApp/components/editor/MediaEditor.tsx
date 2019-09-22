@@ -117,7 +117,8 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     </span>
                     <p ref={i => this.ref = i} className='unblurred' contentEditable={true}>{this.state.title}</p>
                     <p className='unblurred' >Keywords:</p>
-                    {this.state.keywords.map((kw, index) => <div 
+                    {this.state.keywords.map((kw, index) => <div
+                        key={index} 
                         style={{
                             marginBottom: '10px',
                         }}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
+import uuidv4 from "uuid/v4";
 
 import AppComponent from "@Components/shared/AppComponent";
 
@@ -82,7 +83,7 @@ class TreeView extends AppComponent<IProps, IState> {
           {collapsed ? null : children}
         </div>
         {!collapsed && this.props.childs && this.props.childs.map(child =>
-            <div style={{marginLeft: '10px'}}>
+            <div key={uuidv4()} style={{marginLeft: '10px'}}>
                 <TreeView path={child.path} childs={child.childs} collapsed={false} defaultCollapsed={true} nodeLabel={child.title} className="asd" itemClassName="asd" childrenClassName="asd" treeViewClassName="ads" onClick={null}>
                 </TreeView>
             </div>

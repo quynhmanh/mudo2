@@ -7,6 +7,8 @@ import AppComponent from "@Components/shared/AppComponent";
 import TreeView from '@Components/shared/TreeView';
 import Loader from '@Components/shared/Loader';
 import InfiniteScroll from '@Components/shared/InfiniteScroll';
+import { uuid } from 'htmltoimage/utils';
+import uuidv4 from "uuid/v4";
 
 export interface IProps {
     filePath: string;
@@ -1010,7 +1012,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
             }} 
             >
                 {tree.map(ele => 
-                <TreeView path={ele.path} childs={ele.childs} collapsed={this.props.filePath.indexOf(ele.path) === -1} defaultCollapsed={true} nodeLabel={ele.title} className="asd" itemClassName="asd" childrenClassName="asd" treeViewClassName="ads" onClick={null}>
+                <TreeView key={uuidv4()} path={ele.path} childs={ele.childs} collapsed={this.props.filePath.indexOf(ele.path) === -1} defaultCollapsed={true} nodeLabel={ele.title} className="asd" itemClassName="asd" childrenClassName="asd" treeViewClassName="ads" onClick={null}>
                 </TreeView>
                 )}
             </div>
@@ -1046,7 +1048,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                         marginRight: '10px',
                       }}
                     >
-                      {this.state.templates.map(template => <ImgContainer href={`/editor/design/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
+                      {this.state.templates.map(template => <ImgContainer key={uuidv4()} href={`/editor/design/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
                 <img
                     style={{
                         width: '350px',
@@ -1063,7 +1065,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                         width: '350px',
                       }}
                     >
-                      {this.state.templates2.map(template => <ImgContainer href={`/editor/design/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
+                      {this.state.templates2.map(template => <ImgContainer key={uuidv4()} href={`/editor/design/${template.id}`} style={{marginRight: '20px', marginBottom: '20px', textDecoration: 'none', display: 'inline-block',}}>
                 <img
                     style={{
                         width: '350px',
