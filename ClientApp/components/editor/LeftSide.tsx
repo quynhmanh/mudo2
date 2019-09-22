@@ -2270,7 +2270,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                         top: 0,
                         rotateAngle: 0.0,
                         innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 42px; font-family: O5mEMMs7UejmI1WeSKWQ;">Thêm tiêu đề</div>',
+                          '<div class="font" style="text-align: left;font-size: 42px; font-family: AvenirNextRoundedPro;">Thêm tiêu đề</div>',
                         scaleX: 1,
                         scaleY: 1,
                         selected: false,
@@ -2278,7 +2278,8 @@ class LeftSide extends PureComponent<IProps, IState> {
                         page: this.props.activePageId,
                         zIndex: this.props.upperZIndex + 1,
                         color: "black",
-                        fontSize: 42
+                        fontSize: 42,
+                        fontRepresentative: "images/default.png",
                       });
 
                       console.log("images ", images);
@@ -2321,14 +2322,15 @@ class LeftSide extends PureComponent<IProps, IState> {
                         top: 0,
                         rotateAngle: 0.0,
                         innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 24px; font-family: O5mEMMs7UejmI1WeSKWQ;">Thêm tiêu đề con</div>',
+                          '<div class="font" style="text-align: left;font-size: 24px; font-family: AvenirNextRoundedPro;">Thêm tiêu đề con</div>',
                         scaleX: 1,
                         scaleY: 1,
                         page: this.props.activePageId,
                         zIndex: 1,
                         ref: this.props.idObjectSelected,
                         color: "black",
-                        fontSize: 24
+                        fontSize: 24,
+                        fontRepresentative: "images/default.png",
                       });
 
                       this.props.images.replace(images);
@@ -2369,14 +2371,15 @@ class LeftSide extends PureComponent<IProps, IState> {
                         top: 0,
                         rotateAngle: 0.0,
                         innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 16px; font-family: O5mEMMs7UejmI1WeSKWQ;">Thêm đoạn văn</div>',
+                          '<div class="font" style="text-align: left;font-size: 16px; font-family: AvenirNextRoundedPro;">Thêm đoạn văn</div>',
                         scaleX: 1,
                         scaleY: 1,
                         page: this.props.activePageId,
                         zIndex: this.state.upperZIndex + 1,
                         ref: this.props.idObjectSelected,
                         color: "black",
-                        fontSize: 16
+                        fontSize: 16,
+                        fontRepresentative: "images/default.png",
                       });
 
                       this.props.images.replace(images);
