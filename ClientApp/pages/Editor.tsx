@@ -872,7 +872,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         if (cursor != "e-resize" && cursor != "w-resize") {
           image.scaleX = image.width / image.origin_width;
           image.scaleY = image.height / image.origin_height;
-          (window as any).scaleY = image.scaleY;
 
           var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
           for (var i = 0; i < rectalos.length; ++i) {
@@ -930,6 +929,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           image.origin_width = image.width / image.scaleX;
           image.origin_height = image.height / image.scaleY;
         }
+
+        (window as any).scaleY = image.scaleY;
       }
       return image;
     });
@@ -1459,7 +1460,19 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           } else {
             image[5] = 0;
           }
+
+          for (var ii = 0; ii < 6; ++ii) {
+            if (image[ii] == 1) {
+              document.getElementById(image._id + "guide_" + ii).style.display = "block";
+            } else {
+              document.getElementById(image._id + "guide_" + ii).style.display = "none";
+            }
+          }
         }
+
+        // for (var ii = 0; ii < 6; ++ii) {
+        //   document.getElementById(_id + "guide_" + ii).style.display = "none";
+        // }
       }
       return image;
     });
@@ -1540,6 +1553,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleDragEnd = () => {
+    console.log('handleDragEnd ');
     let {
       staticGuides: { x, y }
     } = this.state;
@@ -1554,12 +1568,17 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     });
 
     var images = this.props.images.map(image => {
-      image[0] = 0;
-      image[1] = 0;
-      image[2] = 0;
-      image[3] = 0;
-      image[4] = 0;
-      image[5] = 0;
+      for (var ii = 0; ii < 6; ++ii) {
+        image[ii] = 0;
+        document.getElementById(image._id + "guide_" + ii).style.display = "none";
+      }
+      // image[0] = 0;
+      // image[1] = 0;
+      // image[2] = 0;
+      // image[3] = 0;
+      // image[4] = 0;
+      // image[5] = 0;
+      // document.getElementById(image._id + "guide_" + ii).style.display = "none";
       return image;
     });
 
@@ -2809,49 +2828,49 @@ html {
   };
 
   handleChildIdSelected = childId => {
-    var defaultColor = "black";
-    var font;
-    var fontSize;
-    // var el:HTMLElement = document.getElementById(childId).getElementsByTagName("font")[0];
-    // if (!el) {
-    //   el = document.getElementById(childId).getElementsByTagName("span")[0];
+    // var defaultColor = "black";
+    // var font;
+    // var fontSize;
+    // // var el:HTMLElement = document.getElementById(childId).getElementsByTagName("font")[0];
+    // // if (!el) {
+    // //   el = document.getElementById(childId).getElementsByTagName("span")[0];
+    // // }
+    // // if (el) {
+    // //   defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
+    // //   font = window.getComputedStyle(el, null).getPropertyValue("font-family");
+    // //   fontSize = window.getComputedStyle(el, null).getPropertyValue("font-size");
+    // // }
+    // // this.handleFontFamilyChange(font);
+    // // this.handleFontColorChange(defaultColor);
+    // // this.setState({childId});
+
+    // var id = childId;
+    // var a = document.getSelection();
+    // if (a && a.type === "Range") {
+    // } else {
+    //   // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
+    //   var el = document.getElementById(id).getElementsByClassName("font")[0];
+    //   console.log(
+    //     "document.getElementById(self.props._id) ",
+    //     document.getElementById(id)
+    //   );
+    //   console.log("ellll ", el);
+    //   var sel = window.getSelection();
+    //   var range = document.createRange();
+    //   range.selectNodeContents(el);
+    //   sel.removeAllRanges();
+    //   sel.addRange(range);
+    //   var a = document.getSelection();
+    //   fontSize = window
+    //     .getComputedStyle(el, null)
+    //     .getPropertyValue("font-size");
+    //   defaultColor = window
+    //     .getComputedStyle(el, null)
+    //     .getPropertyValue("color");
+
+    //   sel.removeAllRanges();
     // }
-    // if (el) {
-    //   defaultColor = window.getComputedStyle(el, null).getPropertyValue("color");
-    //   font = window.getComputedStyle(el, null).getPropertyValue("font-family");
-    //   fontSize = window.getComputedStyle(el, null).getPropertyValue("font-size");
-    // }
-    // this.handleFontFamilyChange(font);
     // this.handleFontColorChange(defaultColor);
-    // this.setState({childId});
-
-    var id = childId;
-    var a = document.getSelection();
-    if (a && a.type === "Range") {
-    } else {
-      // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
-      var el = document.getElementById(id).getElementsByClassName("font")[0];
-      console.log(
-        "document.getElementById(self.props._id) ",
-        document.getElementById(id)
-      );
-      console.log("ellll ", el);
-      var sel = window.getSelection();
-      var range = document.createRange();
-      range.selectNodeContents(el);
-      sel.removeAllRanges();
-      sel.addRange(range);
-      var a = document.getSelection();
-      fontSize = window
-        .getComputedStyle(el, null)
-        .getPropertyValue("font-size");
-      defaultColor = window
-        .getComputedStyle(el, null)
-        .getPropertyValue("color");
-
-      sel.removeAllRanges();
-    }
-    this.handleFontColorChange(defaultColor);
     this.setState({ childId });
   };
 

@@ -214,72 +214,82 @@ export default class Canvas extends Component<IProps, IState> {
             )}
             {images.map(g => {
               var transformImage = this.tranformImage(g);
-              return g[0] !== 1 ? null : (
-                <div
+              return (<div
+                  id={g._id + "guide_0"}
                   className="guide axis-x static"
                   style={{
+                    display: 'none',
                     left: `${transformImage.x[0] * scale}px`,
-                    border: g[0] === 1 ? "0.5px dashed #B14AED" : null
+                    border: "0.5px dashed #B14AED"
                   }}
                 ></div>
               );
             })}
             {images.map(g => {
               var transformImage = this.tranformImage(g);
-              return g[1] !== 1 ? null : (
-                <div
+              return (<div
+                  id={g._id + "guide_1"}
                   className="guide axis-x static"
                   style={{
+                    display: 'none',
                     left: `${transformImage.x[1] * scale}px`,
-                    border: g[1] === 1 ? "0.5px dashed #B14AED" : null
+                    border: "0.5px dashed #B14AED",
                   }}
                 ></div>
               );
             })}
             {images.map(g => {
               var transformImage = this.tranformImage(g);
-              return g[2] !== 1 ? null : (
+              return (
                 <div
+                id={g._id + "guide_2"}
                   className="guide axis-x static"
                   style={{
+                    display: 'none',
                     left: `${transformImage.x[2] * scale}px`,
-                    border: g[2] === 1 ? "0.5px dashed #B14AED" : null
+                    border: "0.5px dashed #B14AED"
                   }}
                 ></div>
               );
             })}
             {images.map(g => {
               var transformImage = this.tranformImage(g);
-              return g[3] !== 1 ? null : (
+              return (
                 <div
+                id={g._id + "guide_3"}
                   className="guide axis-y static"
                   style={{
+                    display: 'none',
                     top: `${transformImage.y[0] * scale}px`,
-                    border: g[3] === 1 ? "0.5px dashed #B14AED" : null
+                    border: "0.5px dashed #B14AED"
                   }}
                 ></div>
               );
             })}
             {images.map(g => {
               var transformImage = this.tranformImage(g);
-              return g[4] !== 1 ? null : (
+              return (
                 <div
+                id={g._id + "guide_4"}
                   className="guide axis-y static"
                   style={{
+                    display: 'none',
                     top: `${transformImage.y[1] * scale}px`,
-                    border: g[4] === 1 ? "0.5px dashed #B14AED" : null
+                    border: "0.5px dashed #B14AED"
                   }}
                 ></div>
               );
             })}
             {images.map(g => {
               var transformImage = this.tranformImage(g);
-              return g[5] !== 1 ? null : (
+              return (
                 <div
+                id={g._id + "guide_5"}
                   className="guide axis-y static"
                   style={{
+                    display: 'none',
                     top: `${transformImage.y[2] * scale}px`,
-                    border: g[5] === 1 ? "0.5px dashed #B14AED" : null
+                    border: "0.5px dashed #B14AED"
                   }}
                 ></div>
               );

@@ -23,7 +23,7 @@ export interface IProps {
   centerY: number;
   outlineWidth: number;
   onFontSizeChange(fontSize: number, scaleY: number): void;
-  handleFontColorChange(_id: string, fontColor: string): void;
+  handleFontColorChange(fontColor: string): void;
   handleFontFaceChange(fontFace: string): void;
   parentScaleX: number;
   parentScaleY: number;
@@ -99,7 +99,7 @@ endEditing() {
       var fontFace = window.getComputedStyle(el, null).getPropertyValue('font-family');
       res = parseInt(size.substring(0, size.length - 2)) * self.props.scaleY * parentScaleY;
       onFontSizeChange(res, scaleY);
-      handleFontColorChange(_id, color);
+      handleFontColorChange(color);
       handleFontFaceChange(fontFace);
       handleChildIdSelected(_id);
 
@@ -146,7 +146,8 @@ endEditing() {
           className="text" 
           contentEditable={selected} 
           onBlur={onBlur}
-          onMouseDown={this.onMouseDown.bind(this)} >
+          onMouseDown={this.onMouseDown.bind(this)} 
+          >
           </div>
         
       </div>
