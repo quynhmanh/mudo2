@@ -495,10 +495,11 @@ export default class Rect extends PureComponent<IProps, IState> {
       );
 
       if (this.props.objectType !== 4) {
+        var scaleY = (window as any).scaleY;
         fontSize =
           parseInt(size.substring(0, size.length - 2)) *
           selectionScaleY *
-          self.props.scaleY;
+          scaleY;
         console.log("fontSize ", fontSize, this.props.childId);
         document.getElementById("fontSizeButton").innerText = `${Math.round(
           fontSize * 10

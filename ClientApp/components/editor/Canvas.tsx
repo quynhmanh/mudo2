@@ -83,7 +83,9 @@ enum TemplateType {
 
 export default class Canvas extends Component<IProps, IState> {
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.dragging || nextProps.resizing) {
+    if (nextProps.dragging
+      // nextProps.resizing
+      ) {
       return false;
     }
     return true;

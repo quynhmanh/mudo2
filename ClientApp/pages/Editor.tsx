@@ -685,6 +685,18 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleResizeStart = (startX: number, startY: number) => {
+    var resizers = document.getElementsByClassName("resizable-handler-container");
+    for (var i = 0; i < resizers.length; ++i) {
+      var cur:any = resizers[i];
+      cur.style.opacity = 0;
+    }
+    
+    var rotators = document.getElementsByClassName("rotate-container");
+    for (var i = 0; i < rotators.length; ++i) {
+      var cur:any = rotators[i];
+      cur.style.opacity = 0;
+    }
+
     this.setState({
       resizing: true,
       resizingInnerImage: false,
@@ -702,6 +714,18 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return img;
     });
     this.props.images.replace(images);
+
+    var resizers = document.getElementsByClassName("resizable-handler-container");
+    for (var i = 0; i < resizers.length; ++i) {
+      var cur:any = resizers[i];
+      cur.style.opacity = 1;
+    }
+    
+    var rotators = document.getElementsByClassName("rotate-container");
+    for (var i = 0; i < rotators.length; ++i) {
+      var cur:any = rotators[i];
+      cur.style.opacity = 1;
+    }
 
     setTimeout(
       function() {
@@ -848,6 +872,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         if (cursor != "e-resize" && cursor != "w-resize") {
           image.scaleX = image.width / image.origin_width;
           image.scaleY = image.height / image.origin_height;
+          (window as any).scaleY = image.scaleY;
 
           var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
           for (var i = 0; i < rectalos.length; ++i) {
@@ -909,47 +934,46 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    var el;
+    // var el;
+    // el = document.getElementById(_id + "_");
+    // if (el) {
+    //   el.style.top = top * scale + "px";
+    //   el.style.left = left * scale + "px";
+    //   el.style.width = width * scale + "px";
+    //   el.style.height = height * scale + "px";
+    // }
 
-    el = document.getElementById(_id + "_");
-    if (el) {
-      el.style.top = top * scale + "px";
-      el.style.left = left * scale + "px";
-      el.style.width = width * scale + "px";
-      el.style.height = height * scale + "px";
-    }
+    // el = document.getElementById(_id + "__");
+    // if (el) {
+    //   el.style.top = top * scale + "px";
+    //   el.style.left = left * scale + "px";
+    //   el.style.width = width * scale + "px";
+    //   el.style.height = height * scale + "px";
+    // }
 
-    el = document.getElementById(_id + "__");
-    if (el) {
-      el.style.top = top * scale + "px";
-      el.style.left = left * scale + "px";
-      el.style.width = width * scale + "px";
-      el.style.height = height * scale + "px";
-    }
+    // el = document.getElementById(_id + "___");
+    // if (el) {
+    //   el.style.width = width + "px";
+    //   el.style.height = height + "px";
+    // }
 
-    el = document.getElementById(_id + "___");
-    if (el) {
-      el.style.width = width + "px";
-      el.style.height = height + "px";
-    }
+    // el = document.getElementById(_id + "____");
+    // if (el) {
+    //   el.style.width = width + "px";
+    //   el.style.height = height + "px";
+    // }
 
-    el = document.getElementById(_id + "____");
-    if (el) {
-      el.style.width = width + "px";
-      el.style.height = height + "px";
-    }
+    // el = document.getElementById(_id + "_1");
+    // if (el) {
+    //   el.style.width = width + "px";
+    //   el.style.height = height + "px";
+    // }
 
-    el = document.getElementById(_id + "_1");
-    if (el) {
-      el.style.width = width + "px";
-      el.style.height = height + "px";
-    }
-
-    el = document.getElementById(_id + "_2");
-    if (el) {
-      el.style.width = width + "px";
-      el.style.height = height + "px";
-    }
+    // el = document.getElementById(_id + "_2");
+    // if (el) {
+    //   el.style.width = width + "px";
+    //   el.style.height = height + "px";
+    // }
 
     var rectalos = document.getElementsByClassName(_id + "rect-alo");
     for (var i = 0; i < rectalos.length; ++i) {
@@ -1121,6 +1145,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleRotate = (rotateAngle, _id) => {
+    console.log('handleRotate ');
     let images = toJS(this.props.images);
     images = images.map(image => {
       if (image._id === _id) {
@@ -1129,14 +1154,37 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    this.setState({ images });
+    this.props.images.replace(images);
+    // this.setState({ images });
   };
 
   handleRotateStart = () => {
+    var resizers = document.getElementsByClassName("resizable-handler-container");
+    for (var i = 0; i < resizers.length; ++i) {
+      var cur:any = resizers[i];
+      cur.style.opacity = 0;
+    }
+    
+    var rotators = document.getElementsByClassName("rotate-container");
+    for (var i = 0; i < rotators.length; ++i) {
+      var cur:any = rotators[i];
+      cur.style.opacity = 0;
+    }
     this.setState({ rotating: true });
   };
 
   handleRotateEnd = () => {
+    var resizers = document.getElementsByClassName("resizable-handler-container");
+    for (var i = 0; i < resizers.length; ++i) {
+      var cur:any = resizers[i];
+      cur.style.opacity = 1;
+    }
+    
+    var rotators = document.getElementsByClassName("rotate-container");
+    for (var i = 0; i < rotators.length; ++i) {
+      var cur:any = rotators[i];
+      cur.style.opacity = 1;
+    }
     setTimeout(
       function() {
         this.setState({ rotating: false });
@@ -1160,6 +1208,18 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     console.log("deltaX", deltaX);
     console.log("deltaY", deltaY);
+
+    var resizers = document.getElementsByClassName("resizable-handler-container");
+    for (var i = 0; i < resizers.length; ++i) {
+      var cur:any = resizers[i];
+      cur.style.opacity = 0;
+    }
+
+    var rotators = document.getElementsByClassName("rotate-container");
+    for (var i = 0; i < rotators.length; ++i) {
+      var cur:any = rotators[i];
+      cur.style.opacity = 0;
+    }
 
     this.setState({ dragging: true, deltaX, deltaY });
   };
@@ -1510,6 +1570,18 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     // var t1 = performance.now();
     // console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
+
+    var resizers = document.getElementsByClassName("resizable-handler-container");
+    for (var i = 0; i < resizers.length; ++i) {
+      var cur:any = resizers[i];
+      cur.style.opacity = 1;
+    }
+    
+    var rotators = document.getElementsByClassName("rotate-container");
+    for (var i = 0; i < rotators.length; ++i) {
+      var cur:any = rotators[i];
+      cur.style.opacity = 1;
+    }
 
     this.setState({ dragging: false, staticGuides: { x, y }, images });
   };
