@@ -844,6 +844,7 @@ class LeftSide extends PureComponent<IProps, IState> {
     this.loadMoreFont.bind(this)(true);
     this.loadMoreTextTemplate.bind(this)(true);
     this.loadMoreTemplate.bind(this)(true, this.props.subtype);
+    this.loadmoreUserUpload.bind(this)(true);
     console.log("props", this.props);
   }
 
@@ -1778,6 +1779,7 @@ class LeftSide extends PureComponent<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
+          console.log('loadmoreUserUpload res ', res);
           var result = res.value.key;
           var currentUserUpload1 = this.state.currentUserUpload1;
           var currentUserUpload2 = this.state.currentUserUpload2;
