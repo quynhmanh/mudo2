@@ -83,7 +83,7 @@ interface IState {
   currentTemplate2sHeight: number;
 }
 
-const imgWidth = 160;
+const imgWidth = 162;
 const backgroundWidth = 103;
 
 enum TemplateType {
@@ -2050,7 +2050,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   hasMore={this.state.hasMoreImage}
                   onLoadMore={this.loadMore.bind(this, false)}
                   refId="sentinel"
-                  marginTop={30}
+                  marginTop={35}
                 >
                   <div
                     id="image-container-picker"
@@ -2605,7 +2605,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 isLoading={this.state.isTemplateLoading}
                 hasMore={this.state.hasMoreTemplate}
                 onLoadMore={this.loadMoreTemplate.bind(this, false)}
-                marginTop={30}
+                marginTop={35}
                 refId="sentinel"
               >
                 <div
@@ -2796,7 +2796,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   id="image-container-picker"
                   style={{
                     display: "flex",
-                    padding: "0px 13px 10px 0px"
+                    padding: "10px 13px 10px 0px"
                   }}
                 >
                   <div
@@ -3425,7 +3425,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 throttle={100}
                 threshold={0}
                 isLoading={this.state.isUserUploadLoading}
-                marginTop={30}
+                marginTop={35}
                 hasMore={this.state.hasMoreUserUpload}
                 onLoadMore={this.loadmoreUserUpload.bind(this, false)}
                 refId="sentinel"
