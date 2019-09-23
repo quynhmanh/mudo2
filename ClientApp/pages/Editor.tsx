@@ -2778,6 +2778,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   addAPage = (e, id) => {
+    console.log('addAPage');
     e.preventDefault();
     let pages = [...this.state.pages];
     var newPageId = uuidv4();
@@ -5088,7 +5089,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     }
                   }}
                 >
-                  {this.renderCanvas(false, 0)}
+                  {this.renderCanvas(false, -1)}
                 </div>
                 <div
                   style={{
