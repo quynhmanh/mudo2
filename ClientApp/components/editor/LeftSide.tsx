@@ -2684,7 +2684,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                       <ImagePicker
                         id=""
                         defaultHeight={imgWidth}
-                        delay={0}
+                        delay={-1}
                         width={imgWidth}
                         key={key}
                         color={item.color}
