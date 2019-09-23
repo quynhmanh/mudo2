@@ -287,7 +287,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       startX: 0,
       startY: 0,
       images: [],
-      selectedTab: SidebarTab.Image,
+      selectedTab: SidebarTab.Template,
       rectWidth: this.props.match.params.width
         ? parseInt(this.props.match.params.width)
         : 0,
@@ -4838,7 +4838,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         height: "26px",
                         width: "30px",
                         padding: 0,
-                        backgroundColor: "white"
                       }}
                       className="dropbtn-font dropbtn-font-size"
                       onClick={this.onClickTransparent.bind(this)}
