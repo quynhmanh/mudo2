@@ -1022,7 +1022,7 @@ class LeftSide extends PureComponent<IProps, IState> {
     e.preventDefault();
     var target = e.target.cloneNode(true);
     target.style.zIndex = "11111111111";
-    target.src = img.representativeThumbnail;
+    target.src = img.representativeThumbnail ? img.representativeThumbnail : e.target.src;
     target.style.width = e.target.getBoundingClientRect().width + "px";
     target.style.backgroundColor = e.target.style.backgroundColor;
     document.body.appendChild(target);
