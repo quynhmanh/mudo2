@@ -1761,6 +1761,12 @@ class LeftSide extends PureComponent<IProps, IState> {
   };
 
   loadmoreUserUpload = initialload => {
+    if (!Globals.serviceUser.username) {
+      this.setState(state => ({
+        isUserUploadLoading: false,
+        hasMoreUserUpload: false,
+      }));
+    }
     let pageId;
     let count;
     if (initialload) {
