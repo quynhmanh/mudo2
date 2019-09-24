@@ -21,13 +21,13 @@ export interface IProps {
 class Popup extends PureComponent<IProps, IState> {
   render() {  
         return (  
-            <PopupWrapper style={{display: 'none',}} id="downloadPopup" className='popup unblurred'>
+            <PopupWrapper style={{display: 'none', zIndex: 12312312312,}} id="downloadPopup" className='popup unblurred'>
                 <PopupWrapperBody />
                 <div className='popup_inner unblurred' 
                   style={{
                      display: 'flex', 
-                     borderRadius: '13px',
-                     background: 'linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #5affb7 75%)',
+                     borderRadius: '7px',
+                     background: 'rgba(242, 241, 238, 0.94)',
                   }} >  
                     <div className="unblurred" style={{width: '100%', position: 'relative'}}>
 
@@ -36,7 +36,7 @@ class Popup extends PureComponent<IProps, IState> {
       padding: '39px 40px',
       height: '293px',
   }}
-   className="unblurred"><h1 style={{textAlign: 'center', fontSize: '20px',}} className="unblurred">Đang tải</h1>
+   className="unblurred"><h1 style={{textAlign: 'center', fontSize: '30px',}} className="unblurred">Đang tải</h1>
       {/* <Loader className="unblurred" show={true} black={true}/> */}
       <svg
          style={{
@@ -73,7 +73,7 @@ const PopupWrapper = styled.div`
     right: 0;  
     bottom: 0;  
     margin: auto;  
-    background-color: rgba(14,19,24,.3);
+    background-color: rgba(15, 15, 15, 0.6);
 
     .popup_inner {  
         position: fixed;  
@@ -87,19 +87,9 @@ const PopupWrapper = styled.div`
         height: 200px;
     }
 
-    .popup-background {
-        filter: blur(5px);
-    }
 `;
 
 const PopupWrapperBody = createGlobalStyle`
-    #editor.popup {
-        -webkit-filter: blur(10px);
-        -moz-filter: blur(10px);
-        -o-filter: blur(10px);
-        -ms-filter: blur(10px);
-        filter: blur(10px);    
-    }
 `;
 
 

@@ -571,11 +571,11 @@ button:focus {
 @-webkit-keyframes bounce {
 	0% {
     opacity: 0;
-    -webkit-transform:scale(0.80) translateY(-20%) translateX(5%);
+    -webkit-transform:scale(0.80) translateY(-10%) translateX(5%);
 	}
 	5% {
     opacity: 0.8;
-    -webkit-transform: scale(1.02) translateY(5px);
+    -webkit-transform: scale(1.02) translateY(1px);
   }
   10% {
     opacity: 1;
