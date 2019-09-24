@@ -19,6 +19,7 @@ const zoomableMap = {
 };
 
 export interface IProps {
+  dragging: boolean;
   id: string;
   childId: string;
   _id: string;
@@ -94,6 +95,7 @@ export interface IProps {
   bleed: boolean;
   backgroundColor: string;
   opacity: number;
+  resizing: boolean;
 }
 
 export interface IState {
@@ -667,7 +669,9 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgColor,
       showImage,
       backgroundColor,
-      id
+      id,
+      dragging,
+      resizing,
     } = this.props;
 
     var newWidth = width;
@@ -702,6 +706,8 @@ export default class Rect extends PureComponent<IProps, IState> {
         ref={this.setElementRef}
         className="rect single-resizer"
         style={style}
+        dragging={dragging}
+        resizing={resizing}
       >
         {!cropMode && rotatable && showController && objectType !== 6 && (
           <div

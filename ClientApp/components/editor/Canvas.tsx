@@ -1,16 +1,6 @@
-import React, { Component, PureComponent } from "react";
-import styled from "styled-components";
+import React, { Component } from "react";
 import ResizableRect from "@Components/editor/ResizableRect";
-import uuidv4 from "uuid/v4";
-import Tooltip from "@Components/shared/Tooltip";
-import { htmlToImage, getBoundingClientRect } from "@Utils";
-import "@Styles/editor.scss";
-import TopMenu from "@Components/editor/Sidebar";
-import axios from "axios";
 import StyledComponent from "styled-components";
-import Popup from "@Components/shared/Popup";
-import { object } from "prop-types";
-const thick = 16;
 
 export interface IProps {
   id: string;
@@ -90,7 +80,7 @@ export default class Canvas extends Component<IProps, IState> {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.dragging
+    if (this.props.dragging
       // nextProps.resizing
       ) {
       return false;
@@ -441,6 +431,7 @@ export default class Canvas extends Component<IProps, IState> {
                       )}
                     >
                       <ResizableRect
+                        dragging={this.props.dragging}
                         id={img._id + "_1"}
                         opacity={img.opacity}
                         showImage={false}
@@ -581,6 +572,8 @@ export default class Canvas extends Component<IProps, IState> {
                       )}
                     >
                       <ResizableRect
+                        resizing={this.props.resizing}
+                        dragging={this.props.dragging}
                         id={img._id + "_1"}
                         opacity={img.opacity}
                         showImage={false}
@@ -722,6 +715,7 @@ export default class Canvas extends Component<IProps, IState> {
                         )}
                       >
                         <ResizableRect
+                          resizing={this.props.resizing}
                           id={img._id + "_2"}
                           opacity={img.opacity}
                           bleed={this.props.bleed}
