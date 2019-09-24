@@ -2849,6 +2849,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
       res.push(
         <Canvas
+          rotating={this.state.rotating}
           resizing={this.state.resizing}
           dragging={this.state.dragging}
           isSaving={this.state.isSaving}
