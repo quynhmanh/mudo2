@@ -570,56 +570,62 @@ button:focus {
 
 @-webkit-keyframes bounce {
 	0% {
-    // opacity: 0.5;
-    -webkit-transform: scaleY(0.9) translateY(-10%);
+    opacity: 0;
+    -webkit-transform:scale(0.80) translateY(-20%) translateX(5%);
 	}
 	5% {
-    // opacity: 1;
-    -webkit-transform: scale(1) translateY(5px);
+    opacity: 0.8;
+    -webkit-transform: scale(1.02) translateY(5px);
+  }
+  10% {
+    opacity: 1;
+    -webkit-transform: scale(1) translateY(0px);
 	}
-	20% {
-	}
-	25% {
-		-webkit-transform:translateY(0%);
-	}
-	30% {
-	}
-	35% {
-		-webkit-transform:translateY(0%);
-	}
-	40% {
-	}
-	45% {
-		-webkit-transform:translateY(0%);
-	}
-	50% {
-	}
-	55% {
-		-webkit-transform:translateY(0%);
-	}
-	60% {
-	}
-	65% {
-		-webkit-transform:translateY(0%);
-	}
-	70% {
-	}
-	75% {
-		-webkit-transform:translateY(0);
-	}
-	80% {
-	}
-	85% {
-		-webkit-transform:translateY(0);
-	}
-	90% {
-	}
-	95% {
-		-webkit-transform:translateY(0);
-	}
-	100% {
-		-webkit-transform:translateY(0);
-	}
+	// 20% {
+  //   // opacity: 0.9;
+  //   // -webkit-transform: scale(1) translateY(3px);
+	// }
+	// 25% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 30% {
+	// }
+	// 35% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 40% {
+	// }
+	// 45% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 50% {
+	// }
+	// 55% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 60% {
+	// }
+	// 65% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 70% {
+	// }
+	// 75% {
+	// 	-webkit-transform:translateY(0);
+	// }
+	// 80% {
+	// }
+	// 85% {
+	// 	-webkit-transform:translateY(0);
+	// }
+	// 90% {
+	// }
+	// 95% {
+	// 	-webkit-transform:translateY(0);
+	// }
+	// 100% {
+	// 	-webkit-transform:translateY(0);
+	// }
 }
 
 // /* Mozilla Firefox 15 below */
