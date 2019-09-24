@@ -8,6 +8,7 @@ class Images {
   @observable images = [];
   @observable fontsList = [];
   @observable fonts = [];
+  @observable upperZIndex = 1;
 
   @action addItem = (item) => {
     console.log('addItem ', item);
@@ -30,6 +31,11 @@ class Images {
 
   @action replaceFirstItem = (image) => {
     this.images[0] = image;
+  }
+
+  @action increaseUpperzIndex = () => {
+    this.upperZIndex += 1;
+    console.log('increaseUppperzIndex ', this.upperZIndex);
   }
 }
 
@@ -68,6 +74,8 @@ export default class EditorContainer extends React.Component<IProps, IState> {
   render() {
     return (
       <Editor 
+        upperZIndex={store.upperZIndex}
+        store={store}
         rid={this.props.rid} 
         mode={this.props.mode} 
         match={this.props.match} 
@@ -79,7 +87,9 @@ export default class EditorContainer extends React.Component<IProps, IState> {
         fonts={store.fonts}
         update={store.update}
         replaceFirstItem={store.replaceFirstItem}
-        firstpage={firstpage} />
+        firstpage={firstpage} 
+        increaseUpperzIndex={store.increaseUpperzIndex}
+      />
     );
   }
 }

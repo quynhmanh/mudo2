@@ -95,6 +95,9 @@ interface IProps {
   addFontItem: any;
   fonts: any;
   addFont: any;
+  upperZIndex: number;
+  increaseUpperzIndex: any;
+  store: any;
 }
 
 interface ImageObject {
@@ -243,6 +246,7 @@ interface IState {
   imageIdBackgroundRemoved: string;
   mounted: boolean;
   showZoomPopup: boolean;
+  selectedImage: any;
 }
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
@@ -252,6 +256,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
+      selectedImage: null,
       showFontEditPopup: false,
       currentPrintStep: 1,
       subtype: null,
@@ -1780,6 +1785,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     console.log("img ", img);
 
     this.setState({
+      selectedImage: img,
       idObjectSelected: img._id,
       typeObjectSelected: img.type,
       childId: null,
@@ -2820,24 +2826,33 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     let images = toJS(this.props.images);
     images = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
-        img.zIndex = this.state.upperZIndex + 1;
+        img.zIndex = this.props.store.upperZIndex + 1;
       }
       return img;
     });
 
-    this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
+    console.log('images ', images);
+
+    this.props.images.replace(images);
+    this.props.increaseUpperzIndex();
+
+    // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
   };
 
   backwardSelectedObject = id => {
     let images = toJS(this.props.images);
     images = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
-        img.zIndex = 0;
+        img.zIndex = 2;
+      } else {
+        img.zIndex += 1;
       }
       return img;
     });
 
-    this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
+    this.props.images.replace(images);
+
+    // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
   };
 
   renderCanvas(preview, index) {
@@ -3028,7 +3043,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return img;
     });
 
-    this.setState({ images });
+    this.props.images.replace(images);
+
+    // this.setState({ images });
   };
 
   refFullName = null;
@@ -4045,7 +4062,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               handleFontColorChange={this.handleFontColorChange.bind(this)}
               typeObjectSelected={this.state.typeObjectSelected}
               images={this.props.images}
-              upperZIndex={this.state.upperZIndex}
+              upperZIndex={this.props.store.upperZIndex}
               idObjectSelected={this.state.idObjectSelected}
               childId={this.state.childId}
               pages={this.state.pages}
@@ -4060,6 +4077,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               scale={this.state.scale}
               selectedTab={this.state.selectedTab}
               handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
+              increaseUpperzIndex={this.props.increaseUpperzIndex}
             />
             <div
               style={{
@@ -4403,10 +4421,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       )}
                     </div>
                   )}
-                {this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).backgroundColor && (
+                {this.state.selectedImage && this.state.selectedImage.type === TemplateType.Image && this.state.selectedImage.backgroundColor && (
                     <div
                       style={{
                         position: "relative"

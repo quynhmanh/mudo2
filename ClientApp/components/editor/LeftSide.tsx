@@ -33,6 +33,7 @@ export interface IProps {
   fonts: any;
   subtype: any;
   dragging: boolean;
+  increaseUpperzIndex: any;
 }
 
 interface IState {
@@ -1117,6 +1118,8 @@ class LeftSide extends PureComponent<IProps, IState> {
             zIndex: this.props.upperZIndex + 1
           });
 
+          this.props.increaseUpperzIndex();
+
           // self.setState({upperZIndex: this.state.upperZIndex + 1, });
         }
       }
@@ -1176,8 +1179,6 @@ class LeftSide extends PureComponent<IProps, IState> {
       backgroundColor: null,
       childId: null
     });
-
-    this.setState({ images });
   }
 
   videoOnMouseDown(e) {
@@ -1353,23 +1354,10 @@ class LeftSide extends PureComponent<IProps, IState> {
               document.zIndex = this.props.upperZIndex + 1;
               document.width = rec2.width / self.props.scale;
               document.height = rec2.height / self.props.scale;
-              // document.width = rec2.width;
-              // document.height = rec2.height;
-              // document.origin_width = document.width / document.scaleX;
-              // document.origin_height = document.height / document.scaleY;
               document.scaleX = document.width / document.origin_width;
               document.scaleY = document.height / document.origin_height;
               document.left = (rec2.left - rec.left) / self.props.scale;
               document.top = (rec2.top - rectTop) / self.props.scale;
-              // document.scaleX = rec2.width / this.state.rectWidth;
-              // document.scaleY = rec2.height / this.state.rectHeight;
-              // document.scaleX = 1;
-              // document.scaleY = 1;
-              // document.document_object = document.document.map(obj => {
-              //   // obj.childId = uuidv4();
-              //   // obj._id = uuidv4();
-              //   return obj;
-              // })
 
               console.log("docuemnt ", document);
 
@@ -1409,10 +1397,7 @@ class LeftSide extends PureComponent<IProps, IState> {
               fonts = [...fonts, ...doc.fontList];
               this.props.fonts.replace(fonts);
 
-              // self.setState({
-              //   fonts: doc.fontList,
-              //   upperZIndex: this.state.upperZIndex + 1,
-              // });
+              this.props.increaseUpperzIndex();
             });
         }
       }
@@ -2335,6 +2320,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                       console.log("images ", images);
 
                       this.props.images.replace(images);
+                      this.props.increaseUpperzIndex();
 
                       // this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
                     }}
@@ -2384,8 +2370,9 @@ class LeftSide extends PureComponent<IProps, IState> {
                       });
 
                       this.props.images.replace(images);
+                      this.props.increaseUpperzIndex();
 
-                      // thi`s`.setState({ upperZIndex: this.state.upperZIndex + 1 });
+                      // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
                     }}
                   >
                     Thêm tiêu đề con
