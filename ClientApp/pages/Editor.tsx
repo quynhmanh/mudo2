@@ -3856,24 +3856,29 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   </button>
                 )}
               <button
+                id="download-btn"
                 onClick={this.handleDownloadList}
                 style={{
                   float: "right",
                   color: "white",
                   marginTop: "4px",
                   marginRight: "6px",
-                  padding: "5px",
+                  padding: "8px",
                   borderRadius: "4px",
                   textDecoration: "none",
                   fontSize: "13px",
                   fontFamily: "AvenirNextRoundedPro-Medium",
-                  background: "transparent",
+                  background: "#0000004a",
                   border: "none"
                 }}
               >
                 {" "}
                 <svg
-                  style={{ fill: "white" }}
+                  style={{ 
+                    fill: "white",
+                    width: '20px',
+                    height: '20px',
+                  }}
                   height="25px"
                   viewBox="0 0 512 512"
                   width="25px"
@@ -3885,7 +3890,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               <div
                 id="myDownloadList"
                 style={{
-                  right: "10px",
+                  right: "5px",
                   zIndex: 9999999999,
                   background: "white",
                   display: "none"

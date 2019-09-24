@@ -94,11 +94,11 @@ const PopupWrapper = styled.div`
 
 const PopupWrapperBody = createGlobalStyle`
     #editor.popup {
-        -webkit-filter: blur(5px);
-        -moz-filter: blur(5px);
-        -o-filter: blur(5px);
-        -ms-filter: blur(5px);
-        filter: blur(5px);    
+        -webkit-filter: blur(10px);
+        -moz-filter: blur(10px);
+        -o-filter: blur(10px);
+        -ms-filter: blur(10px);
+        filter: blur(10px);    
     }
 `;
 
