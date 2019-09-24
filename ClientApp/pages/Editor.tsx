@@ -3785,13 +3785,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      fontSize: "12px",
+                      fontSize: "14px",
                       fontFamily: "AvenirNextRoundedPro-Medium"
                     }}
                   >
                     <span>
                       <svg
-                        style={{ height: "20px", width: "16px" }}
+                        style={{ height: "24px", width: "24px" }}
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -3803,7 +3803,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         ></path>
                       </svg>
                     </span>
-                    TRANG CHỦ
+                    Trang chủ
                   </div>
                 </span>
               </a>

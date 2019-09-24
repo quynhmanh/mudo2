@@ -303,7 +303,7 @@ export default class Canvas extends Component<IProps, IState> {
                 !this.props.showPopup &&
                 (mode == Mode.CreateTextTemplate ||
                 mode == Mode.EditTextTemplate
-                  ? "black"
+                  ? "#00000030"
                   : this.props.cropMode
                   ? "rgba(14, 19, 24, 0.2)"
                   : "white"),
