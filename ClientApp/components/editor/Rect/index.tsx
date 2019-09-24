@@ -96,6 +96,7 @@ export interface IProps {
   backgroundColor: string;
   opacity: number;
   resizing: boolean;
+  rotating: boolean;
 }
 
 export interface IState {
@@ -634,7 +635,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     var decodedString = dom.body.textContent;
     return decodedString;
   };
-  
+
   render() {
     const {
       styles: {
@@ -673,6 +674,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       id,
       dragging,
       resizing,
+      rotating,
     } = this.props;
 
     var newWidth = width;
@@ -709,6 +711,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         style={style}
         dragging={dragging}
         resizing={resizing}
+        rotating={rotating}
       >
         {!cropMode && rotatable && showController && objectType !== 6 && (
           <div

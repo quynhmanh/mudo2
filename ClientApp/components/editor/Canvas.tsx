@@ -47,6 +47,7 @@ export interface IProps {
   isSaving: boolean;
   resizing: boolean;
   dragging: boolean;
+  rotating: boolean;
 }
 
 export interface IState {
@@ -432,6 +433,7 @@ export default class Canvas extends Component<IProps, IState> {
                     >
                       <ResizableRect
                         dragging={this.props.dragging}
+                        resizing={this.props.resizing}
                         id={img._id + "_1"}
                         opacity={img.opacity}
                         showImage={false}
@@ -572,6 +574,7 @@ export default class Canvas extends Component<IProps, IState> {
                       )}
                     >
                       <ResizableRect
+                        rotating={this.props.rotating}
                         resizing={this.props.resizing}
                         dragging={this.props.dragging}
                         id={img._id + "_1"}
@@ -715,6 +718,7 @@ export default class Canvas extends Component<IProps, IState> {
                         )}
                       >
                         <ResizableRect
+                          rotating={this.props.rotating}
                           dragging={this.props.dragging}
                           resizing={this.props.resizing}
                           id={img._id + "_2"}
