@@ -119,6 +119,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     posY: 0
   };
 
+
   componentDidMount() {
     if (this.props.innerHTML && this.$textEle) {
       this.$textEle.innerHTML = this.props.innerHTML;
@@ -633,7 +634,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     var decodedString = dom.body.textContent;
     return decodedString;
   };
-
+  
   render() {
     const {
       styles: {
@@ -704,7 +705,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       <StyledRect
         id={id}
         ref={this.setElementRef}
-        className="rect single-resizer"
+        className={`${_id}-styledrect rect single-resizer ${selected && "selected"}`}
         style={style}
         dragging={dragging}
         resizing={resizing}

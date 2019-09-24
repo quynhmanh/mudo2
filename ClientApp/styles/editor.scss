@@ -553,3 +553,11 @@ button:focus {
 .fontsize-picker:hover {
   background-color: #ddd;
 }
+
+.disable-hover:hover {
+  outline: none !important;
+}
+
+.single-resizer.selected {
+  outline: rgb(0, 217, 225) solid 2px;
+}

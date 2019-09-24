@@ -80,7 +80,7 @@ export default class Canvas extends Component<IProps, IState> {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.dragging
+    if (nextProps.dragging
       // nextProps.resizing
       ) {
       return false;
@@ -715,6 +715,7 @@ export default class Canvas extends Component<IProps, IState> {
                         )}
                       >
                         <ResizableRect
+                          dragging={this.props.dragging}
                           resizing={this.props.resizing}
                           id={img._id + "_2"}
                           opacity={img.opacity}

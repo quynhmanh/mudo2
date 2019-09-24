@@ -32,6 +32,7 @@ export interface IProps {
   fontsList: any;
   fonts: any;
   subtype: any;
+  dragging: boolean;
 }
 
 interface IState {
@@ -1908,7 +1909,17 @@ class LeftSide extends PureComponent<IProps, IState> {
       );
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.dragging
+      // nextProps.resizing
+      ) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
+    console.log('leftside render');
     return (
       <div
         style={{
