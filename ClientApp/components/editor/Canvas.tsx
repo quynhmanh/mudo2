@@ -409,7 +409,7 @@ export default class Canvas extends Component<IProps, IState> {
                     isSaving={this.props.isSaving}
                     selected={img.selected}
                     outlineWidth={Math.min(
-                      1,
+                      2,
                       Math.min(rectHeight * scale, rectWidth * scale) / 100
                     )}
                     style={{
@@ -549,7 +549,7 @@ export default class Canvas extends Component<IProps, IState> {
                     isSaving={this.props.isSaving}
                     selected={img.selected}
                     outlineWidth={Math.min(
-                      1,
+                      2,
                       Math.min(rectHeight * scale, rectWidth * scale) / 100
                     )}
                     style={{
@@ -834,12 +834,7 @@ export default class Canvas extends Component<IProps, IState> {
 }
 
 const ResizableRectWrapper = StyledComponent.div`
-  :hover {
-    outline: ${props =>
-      props.isSaving || props.selected || props.downloading
-        ? "none"
-        : `#00d9e1 solid ${props.outlineWidth}px`};
-  }
+  
 `;
 
 const ResizableRectContainer = StyledComponent.div`

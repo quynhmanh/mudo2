@@ -678,7 +678,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
       outline: !showImage && (selected
-        ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2 / scale}px`
+        ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} 2px`
         : null)
     };
 
@@ -709,15 +709,15 @@ export default class Rect extends PureComponent<IProps, IState> {
             style={{
               width: 18 / scale + "px",
               height: 18 / scale + "px",
-              left: `calc(50% - ${10 / scale}px)`,
-              top: `-${30 / scale}px`
+              left: `calc(50% - ${18 / scale / 2}px)`,
+              bottom: `-${40 / scale}px`
             }}
             onMouseDown={this.startRotate}
           >
             <div
               className="rotate"
               style={{
-                transform: `scale(${1 / scale})`,
+                transform: `scale(${1 / scale + 0.15})`,
                 padding: "3px"
               }}
             >
@@ -743,7 +743,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 key={d}
                 style={{
                   cursor,
-                  transform: `scale(${1 / scale})`
+                  transform: `scale(${1 / scale + 0.15})`
                 }}
                 className={`${zoomableMap[d]} resizable-handler-container`}
                 onMouseDown={e => this.startResize(e, cursor)}
