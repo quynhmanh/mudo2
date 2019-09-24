@@ -2046,7 +2046,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   hasMore={this.state.hasMoreImage}
                   onLoadMore={this.loadMore.bind(this, false)}
                   refId="sentinel"
-                  marginTop={35}
+                  marginTop={45}
                 >
                   <div
                     id="image-container-picker"
@@ -2188,7 +2188,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                     boxShadow:
                       "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
                     position: "absolute",
-                    top: 0
+                    top: "6px",
                   }}
                   onKeyDown={this.handleQuery}
                   type="text"
@@ -2331,7 +2331,8 @@ class LeftSide extends PureComponent<IProps, IState> {
                     style={{
                       fontSize: "22px",
                       width: "100%",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      marginTop: '6px',
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
@@ -2382,7 +2383,8 @@ class LeftSide extends PureComponent<IProps, IState> {
                       fontSize: "16px",
                       width: "100%",
                       cursor: "pointer",
-                      marginTop: "7px"
+                      marginTop: "10px",
+                      marginBottom: '18px',
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
@@ -2603,7 +2605,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 isLoading={this.state.isTemplateLoading}
                 hasMore={this.state.hasMoreTemplate}
                 onLoadMore={this.loadMoreTemplate.bind(this, false)}
-                marginTop={35}
+                marginTop={45}
                 refId="sentinel"
               >
                 <div
@@ -2750,7 +2752,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   boxShadow:
                     "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
                   position: "absolute",
-                  top: 0
+                  top: "6px",
                 }}
                 onKeyDown={this.handleQuery}
                 type="text"
@@ -3569,7 +3571,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   height: "37px",
                   marginBottom: "10px",
                   position: "absolute",
-                  top: 0,
+                  top: "6px",
                   boxShadow:
                     "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
                 }}
@@ -3577,7 +3579,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   document.getElementById("image-file").click();
                 }}
               >
-                Tải lên một hình ảnh
+                Tải lên một ảnh
               </button>
             </div>
             {/* } */}

@@ -3753,9 +3753,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             style={{
               backgroundImage:
                 "linear-gradient(to right, rgb(67, 198, 172), rgb(25, 22, 84))",
-              height: "45px",
+              height: "55px",
               padding: "5px",
-              display: "flex"
+              display: "flex",
             }}
           >
             <div
@@ -3868,8 +3868,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   textDecoration: "none",
                   fontSize: "13px",
                   fontFamily: "AvenirNextRoundedPro-Medium",
-                  background: "#0000004a",
-                  border: "none"
+                  background: "#ebebeb0f",
+                  border: "none",
+                  height: '46px',
+                  width: '44px',
                 }}
               >
                 {" "}
@@ -4506,17 +4508,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             </div>
           </div>
           <div
-            style={{
-              backgroundColor: "#1a2b34",
-              top: "45px",
-              width: `100%`
-            }}
-          ></div>
-          <div
             className="wrapper"
             style={{
-              top: "45px",
-              width: `100%`
+              top: "55px",
+              width: `100%`,
+              height: "calc(100% - 55px)",
+              display: "flex",
             }}
           >
             <LeftSide
@@ -5858,7 +5855,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                           boxShadow:
                             "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
                           background: "#293039",
-                          padding: "5px",
                           borderRadius: "5px"
                         }}
                         className="zoom___21DG8"
@@ -5877,6 +5873,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                           data-subcateg="bottomPanel"
                         >
                           <svg
+                            style={{
+                              width: '25px',
+                              height: '25px',
+                            }}
                             viewBox="0 0 18 18"
                             width="18"
                             height="18"
@@ -5901,10 +5901,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                               document.addEventListener("click", onDownload);
                             }}
                             style={{
+                              height: '40px',
                               color: "white",
                               border: "none",
                               background: "transparent",
-                              width: "50px"
+                              width: "55px",
+                              fontSize: "16px",
                             }}
                             className="scaleListButton___GEm7w zoomMain___1z1vk"
                             data-zoom="true"
@@ -5919,7 +5921,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                           onClick={e => {
                             this.setState({ scale: this.state.scale + 0.15 });
                           }}
-                          style={{ border: "none", background: "transparent" }}
+                          style={{ 
+                            border: "none", 
+                            background: "transparent",
+                            height: '40px',
+                          }}
                           className="zoomPlus___1TbHD"
                           data-test="zoomPlus"
                           data-categ="tools"
@@ -5927,6 +5933,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                           data-subcateg="bottomPanel"
                         >
                           <svg
+                            style={{
+                              width: '25px',
+                              height: '25px',
+                            }}
                             viewBox="0 0 18 18"
                             width="18"
                             height="18"
