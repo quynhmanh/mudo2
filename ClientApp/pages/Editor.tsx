@@ -1197,6 +1197,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
+    console.log('handleDragStart ');
     const { scale } = this.state;
     this.canvasRect = getBoundingClientRect("canvas");
     var deltaX, deltaY;
@@ -1220,6 +1221,24 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     for (var i = 0; i < rotators.length; ++i) {
       var cur:any = rotators[i];
       cur.style.opacity = 0;
+    }
+
+
+    var rects = document.getElementsByClassName("rect");
+    for (var i = 0; i < rects.length; ++i) {
+      var curRect = rects[i];
+      curRect.classList.remove("disable-hover");
+      curRect.classList.remove("selected");
+
+    }
+
+    document.getElementById(_id + "_1").classList.add("selected");
+
+    for (var i = 0; i < rects.length; ++i) {
+      var curRect = rects[i];
+      if (!curRect.classList.contains(_id + "-styledrect")) {
+        curRect.classList.add("disable-hover");
+      }
     }
 
     this.setState({ dragging: true, deltaX, deltaY });
@@ -1589,6 +1608,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     // var t1 = performance.now();
     // console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
+
+    var rects = document.getElementsByClassName("rect");
+    for (var i = 0; i < rects.length; ++i) {
+      var curRect = rects[i];
+      curRect.classList.remove("disable-hover");
+    }
 
     var resizers = document.getElementsByClassName("resizable-handler-container");
     for (var i = 0; i < resizers.length; ++i) {
@@ -4011,6 +4036,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             }}
           >
             <LeftSide
+              dragging={this.state.dragging}
               subtype={this.state.subtype}
               fonts={this.props.fonts}
               fontsList={this.props.fontsList}
