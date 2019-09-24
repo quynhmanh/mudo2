@@ -236,7 +236,10 @@ namespace RCB.TypeScript.Services
             {
                 style += @"
     #alo {
-        background-color: black !important;
+        background-color: rgb(33, 39, 46) !important;
+    }
+    body {
+        background: #293039;
     }
 ";
             }
