@@ -2215,7 +2215,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   `translate3d(0px, calc(${
                     this.props.selectedTab < SidebarTab.Text ? 40 : -40
                   }px), 0px)`,
-                top: "10px",
+                top: "20px",
                 zIndex: this.props.selectedTab !== SidebarTab.Text && -1,
                 height: "100%"
               }}

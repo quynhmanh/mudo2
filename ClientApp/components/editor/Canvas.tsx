@@ -116,6 +116,7 @@ export default class Canvas extends Component<IProps, IState> {
   };
 
   render() {
+    console.log('rendering');
     const {
       mode,
       rectWidth,
@@ -391,8 +392,8 @@ export default class Canvas extends Component<IProps, IState> {
                 position: "absolute",
                 // overflow: !this.state.hoveringCanvas && "hidden",
               }}
-              onMouseEnter={(e) => { console.log('123'); this.setState({hoveringCanvas: true,})}}
-              onMouseLeave={(e) => { this.setState({hoveringCanvas: false,})}}
+              // onMouseEnter={(e) => {this.setState({hoveringCanvas: true,})}}
+              // onMouseLeave={(e) => { this.setState({hoveringCanvas: false,})}}
               onClick={e => {
                 if ((e.target as Element).id === "canvas") {
                   this.props.doNoObjectSelected();
@@ -531,7 +532,7 @@ export default class Canvas extends Component<IProps, IState> {
                 overflow: !this.state.hoveringCanvas && "hidden",
                 // overflow: 'hidden',
               }}
-              onMouseEnter={(e) => { console.log('123'); this.setState({hoveringCanvas: true,})}}
+              onMouseEnter={(e) => { this.setState({hoveringCanvas: true,})}}
               onMouseLeave={(e) => { this.setState({hoveringCanvas: false,})}}
               onClick={e => {
                 if ((e.target as Element).id === "canvas") {
@@ -670,8 +671,8 @@ export default class Canvas extends Component<IProps, IState> {
                 position: "relative",
                 overflow: !this.props.bleed && "hidden"
               }}
-              onMouseEnter={(e) => { console.log('456'); this.setState({hoveringCanvas: true,})}}
-              onMouseLeave={(e) => {this.setState({hoveringCanvas: false,})}}
+              // onMouseEnter={(e) => {this.setState({hoveringCanvas: true,})}}
+              // onMouseLeave={(e) => {this.setState({hoveringCanvas: false,})}}
               onClick={e => {
                 if ((e.target as Element).id === "canvas") {
                   this.props.doNoObjectSelected();
