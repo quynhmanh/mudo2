@@ -107,7 +107,6 @@ export default class Canvas extends Component<IProps, IState> {
   };
 
   render() {
-    console.log('rendering');
     const {
       mode,
       rectWidth,

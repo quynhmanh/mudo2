@@ -11,7 +11,6 @@ class Images {
   @observable upperZIndex = 1;
 
   @action addItem = (item) => {
-    console.log('addItem ', item);
       this.images.push(item);
   }
 
@@ -20,12 +19,10 @@ class Images {
   }
 
   @action addFontItem = (item) => {
-    console.log('addFontItem item ', item);
     this.fontsList.push(item);
   }
 
   @action update = (images) => {
-    console.log('images ', images);
     this.images = images;
   }
 
@@ -35,7 +32,6 @@ class Images {
 
   @action increaseUpperzIndex = () => {
     this.upperZIndex += 1;
-    console.log('increaseUppperzIndex ', this.upperZIndex);
   }
 }
 
