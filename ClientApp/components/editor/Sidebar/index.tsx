@@ -104,6 +104,14 @@ export default class TopMenu extends PureComponent<IProps, IState> {
                 />
             })
         }
+        <div
+          style={{
+            height: 'calc(100% - 480px)',
+            backgroundColor: 'rgb(14, 19, 24)',
+          }}
+        >
+
+        </div>
       </div>
     );
   }
