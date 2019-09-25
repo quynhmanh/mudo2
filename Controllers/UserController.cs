@@ -130,7 +130,7 @@ namespace RCB.TypeScript.Controllers
                     
                 }
             }
-,
+
             JObject json = JObject.Parse(result);
             if (result.Contains("email")) {
                 string email = (string) json.GetValue("email");
