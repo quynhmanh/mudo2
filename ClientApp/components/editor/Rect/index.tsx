@@ -1,9 +1,8 @@
-import React, { PureComponent, FormEvent } from "react";
+import React, { PureComponent } from "react";
 import { getLength, getAngle, getCursor, tLToCenter } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import MathJax from "react-mathjax2";
-import { throttle } from "lodash";
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 

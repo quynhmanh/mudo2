@@ -36,7 +36,15 @@ class TopEditorMenu extends React.Component<{}, { logoutAction: boolean }> {
         if (this.state.logoutAction)
             return <Redirect to="/login" />;
 
-        return <div className="navbar navbar-default">
+        return <div style={{
+            color: '#3e3e3e',
+            border: 'none',
+            borderRadius: 0,
+            minHeight: '40px',
+            backgroundColor: 'white',
+            height: '100px',
+            marginBottom: 0,
+        }} className="navbar navbar-default">
             <div className="container-fluid">
                 <div className="navbar-header">
                     <button ref={x => this.elCollapseButton = x} type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
