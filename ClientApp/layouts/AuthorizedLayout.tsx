@@ -90,19 +90,18 @@ export default class AuthorizedLayout extends React.Component<Props, {}> {
     public render() {
 
         return <div id="authorizedLayout" className="layout">
-            <TopMenu />
+            {/* <TopMenu /> */}
             <div className="container container-content">
             <Breadcrumbs />
             </div>
             <div
                 style={{
-                    backgroundColor: 'rgb(205, 220, 223)',
                 }}
                 id='content-container'>
                     {this.props.children}
             </div>
-            <ToastContainer />
-            <Footer />
+            {/* <ToastContainer /> */}
+            {/* <Footer /> */}
         </div>;
     }
 }
