@@ -89,8 +89,8 @@ body {
 }
 
 .text-picker {
-  background-color:#00000082;
-  border-radius: 4px;
+  background-color:#00000082 !important;
+  // border-radius: 4px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0), 0 3px 6px rgba(0, 0, 0, 0.09);
 }
 

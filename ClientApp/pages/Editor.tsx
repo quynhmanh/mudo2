@@ -3752,7 +3752,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             id="editor-navbar"
             style={{
               backgroundImage:
-                "linear-gradient(to right, rgb(67, 198, 172), rgb(25, 22, 84))",
+                "linear-gradient(to right, rgb(67, 198, 172), rgb(48, 45, 111))",
               height: "55px",
               padding: "5px",
               display: "flex",
@@ -3861,8 +3861,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 style={{
                   float: "right",
                   color: "white",
-                  marginTop: "4px",
-                  marginRight: "6px",
+                  marginTop: "8px",
+                  marginRight: "10px",
                   padding: "8px",
                   borderRadius: "4px",
                   textDecoration: "none",
@@ -3870,8 +3870,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   fontFamily: "AvenirNextRoundedPro-Medium",
                   background: "#ebebeb0f",
                   border: "none",
-                  height: '46px',
-                  width: '44px',
+                  height: '35px',
+                  width: '36px',
                 }}
               >
                 {" "}
@@ -4100,7 +4100,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 </g>
 </svg>
 
-                          <div><p style={{ marginBottom: "4px" }}>PNG</p>
+                          <div><p style={{ marginBottom: "0px" }}>PNG</p>
                           <span
                             style={{
                               fontSize: "12px"
@@ -4195,7 +4195,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 </g>
 </svg>
                           <div>
-                          <p style={{ marginBottom: "4px" }}>JPG</p>
+                          <p style={{ marginBottom: "0px" }}>JPG</p>
                           <span
                             style={{
                               fontSize: "12px"
@@ -4289,7 +4289,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 </svg>
 
 <div>
-                          <p style={{ marginBottom: "4px" }}>PDF Standard</p>
+                          <p style={{ marginBottom: "0px" }}>PDF Standard</p>
                           <span
                             style={{
                               fontSize: "12px"
@@ -4382,7 +4382,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 </g>
 </svg>
 <div>
-                          <p style={{ marginBottom: "4px" }}>PDF Print</p>
+                          <p style={{ marginBottom: "0px" }}>PDF Print</p>
                           <span
                             style={{
                               fontSize: "12px"
