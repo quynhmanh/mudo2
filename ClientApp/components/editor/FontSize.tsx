@@ -54,17 +54,23 @@ export default class FontSize extends PureComponent<IProps, IState> {
 
   render () {
     return (
+        <div>
+        <svg style={{
+          pointerEvents: 'none',
+          position: 'absolute',
+          right: '10px',
+          top: '4px',
+        }} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"></path></svg>
         <button
             id="fontSizeButton"
             style={{
-              boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
               height: '26px',
-              backgroundColor: '#33333314',
             }}
             className="dropbtn-font dropbtn-font-size"
             onClick={this.onClickDropDownFontSizeList.bind(this)}
         >
         </button>
+        </div>
     );
   }
 }
