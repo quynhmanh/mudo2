@@ -53,7 +53,7 @@ const Container = styled.div`
   background: #fff;
   opacity ${props => props.loaded ? 1 : 0.15};
   animation-name: XhtCamN749DcvC-ecDUzp;
-  animation: LuuT-RWT7fXcJFhRfuaKV 1.4s infinite
+  animation: ${props => props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
   animation-delay: ${props => props.delay}ms;
   :hover button {
     visibility: visible;
