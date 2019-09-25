@@ -20,7 +20,7 @@ import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemo
 
 export const routes = <Switch>
     <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/login" component={LoginPage} />
-    <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/" component={HomePage} />
+    <AppRoute authorizedRequired={false} layout={AuthorizedLayout} exact path="/" component={HomePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/home" component={HomePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/example" component={ExamplePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/editor" component={TemplatesPage}/>

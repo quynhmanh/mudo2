@@ -28,7 +28,7 @@ namespace RCB.TypeScript.Controllers
         [HttpPost("[action]")]
         public IActionResult Login([FromBody]User userParam)
         {
-            var user = _userService.Login(HttpContext, userParam.Username, userParam.Password);
+            var user = _userService.Login(HttpContext, userParam.Username, userParam.Password, null);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -130,11 +130,12 @@ namespace RCB.TypeScript.Controllers
                     
                 }
             }
-
+,
             JObject json = JObject.Parse(result);
             if (result.Contains("email")) {
                 string email = (string) json.GetValue("email");
-                return Ok(_userService.Login(HttpContext, email, null));
+                string name = (string)json.GetValue("name");
+                return Ok(_userService.Login(HttpContext, email, null, null));
             }
 
             return BadRequest(new { message = "Invalid Access Token!" });
@@ -185,9 +186,10 @@ namespace RCB.TypeScript.Controllers
             {
                 string aud = (string)data.GetValue("aud");
                 string email = (string)data.GetValue("email");
+                string name;
                 if (aud.Equals(CLIENT_ID))
                 {
-                    return Ok(_userService.Login(HttpContext, email, null));
+                    return Ok(_userService.Login(HttpContext, email, null, null));
                 }
             }
 

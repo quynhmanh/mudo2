@@ -476,7 +476,7 @@ button:focus {
   display: block;
 }
 
-#myDownloadList {
+#myDownloadList, #homepage_list {
   ul {
     margin: 0;
     button:hover {
@@ -484,6 +484,13 @@ button:focus {
     }
   }
 
+  -webkit-animation: bounce 1.2s ease-out;
+	-moz-animation: bounce 800ms ease-out;
+	-o-animation: bounce 800ms ease-out;
+	animation: bounce 1.2s ease-out;
+}
+
+#myLogoLogin {
   -webkit-animation: bounce 1.2s ease-out;
 	-moz-animation: bounce 800ms ease-out;
 	-o-animation: bounce 800ms ease-out;
