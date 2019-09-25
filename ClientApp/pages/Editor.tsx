@@ -5388,7 +5388,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       id="myPositionList"
                       style={{
                         right: "10px",
-                        backgroundColor: "white"
+                        backgroundColor: "white",
+                        animation: 'bounce 1.2s ease-out',
                       }}
                       className="dropdown-content-font-size"
                     >
@@ -5468,7 +5469,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         marginTop: "-9px",
                         width: "350px",
                         padding: "10px 20px",
-                        background: "white"
+                        background: "white",
+                        animation: 'bounce 1.2s ease-out',
                       }}
                       id="myTransparent"
                       className="dropdown-content-font-size"
@@ -5916,7 +5918,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                               border: "none",
                               background: "transparent",
                               width: "55px",
-                              fontSize: "16px",
+                              fontSize: "18px",
                             }}
                             className="scaleListButton___GEm7w zoomMain___1z1vk"
                             data-zoom="true"
