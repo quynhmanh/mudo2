@@ -42,31 +42,39 @@ export default class Selector extends PureComponent<IProps, IState> {
             borderTopRightRadius: prevSelected ? "9px" : null,
             borderBottomRightRadius: nextSelected ? "9px" : null,
             textAlign: 'center',
-            backgroundColor: !selected ? '#0e1318' : 'rgb(41, 48, 57)'
+            backgroundColor: !selected ? '#0e1318' : 'rgb(41, 48, 57)',
+            height: '70px',
           }}
           onClick={disabled ? null : onClick}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          > 
-          {(typeof sideBarIcon === "string" && <path
-              fill="currentColor"
-              d={sideBarIcon}
-            ></path>
-            )}
-            {(Array.isArray(sideBarIcon) && 
-            sideBarIcon.map((icon, i) => {
-                return <path
-                key={i}
-              fill={icon["color"]}
-              d={icon["path"]}
-            ></path>})
-            )}
-          </svg>
-          <span style={{ fontSize: "11px" }}>{content}</span>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            margin: 'auto',
+          }}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            > 
+            {(typeof sideBarIcon === "string" && <path
+                fill="currentColor"
+                d={sideBarIcon}
+              ></path>
+              )}
+              {(Array.isArray(sideBarIcon) && 
+              sideBarIcon.map((icon, i) => {
+                  return <path
+                  key={i}
+                fill={icon["color"]}
+                d={icon["path"]}
+              ></path>})
+              )}
+            </svg>
+            <span style={{ fontSize: "11px" }}>{content}</span>
+          </div>
         </div>
     );
   }
