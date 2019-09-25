@@ -1641,68 +1641,71 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   handleScroll = () => {
     const screensRect = getBoundingClientRect("screens");
     const canvasRect = getBoundingClientRect("canvas");
-    const { scale } = this.state;
-    const startX = (screensRect.left + thick - canvasRect.left) / scale;
-    const startY = (screensRect.top + thick - canvasRect.top) / scale;
+    if (screensRect && canvasRect) {
+      const canvasRect = getBoundingClientRect("canvas");
+      const { scale } = this.state;
+      const startX = (screensRect.left + thick - canvasRect.left) / scale;
+      const startY = (screensRect.top + thick - canvasRect.top) / scale;
 
-    function elementIsVisible(element, container, partial) {
-      var contHeight = container.offsetHeight,
-        elemTop = offset(element).top - offset(container).top,
-        elemBottom = elemTop + element.offsetHeight;
-      return (
-        (elemTop >= 0 && elemBottom <= contHeight) ||
-        (partial &&
-          ((elemTop < 0 && elemBottom > 0) ||
-            (elemTop > 0 && elemTop <= contHeight)))
-      );
-    }
-
-    // checks window
-    function isWindow(obj) {
-      return obj != null && obj === obj.window;
-    }
-
-    // returns corresponding window
-    function getWindow(elem) {
-      return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-    }
-
-    // taken from jquery
-    // @returns {{top: number, left: number}}
-    function offset(elem) {
-      var docElem,
-        win,
-        box = { top: 0, left: 0 },
-        doc = elem && elem.ownerDocument;
-
-      docElem = doc.documentElement;
-
-      if (typeof elem.getBoundingClientRect !== typeof undefined) {
-        box = elem.getBoundingClientRect();
+      function elementIsVisible(element, container, partial) {
+        var contHeight = container.offsetHeight,
+          elemTop = offset(element).top - offset(container).top,
+          elemBottom = elemTop + element.offsetHeight;
+        return (
+          (elemTop >= 0 && elemBottom <= contHeight) ||
+          (partial &&
+            ((elemTop < 0 && elemBottom > 0) ||
+              (elemTop > 0 && elemTop <= contHeight)))
+        );
       }
-      win = getWindow(doc);
-      return {
-        top: box.top + win.pageYOffset - docElem.clientTop,
-        left: box.left + win.pageXOffset - docElem.clientLeft
-      };
-    }
 
-    var activePageId = this.state.pages[0];
-    if (this.state.pages.length > 1) {
-      var container = document.getElementById("screen-container-parent");
-      for (var i = 0; i < this.state.pages.length; ++i) {
-        var pageId = this.state.pages[i];
-        var canvas = document.getElementById(pageId);
-        if (canvas) {
-          if (elementIsVisible(canvas, container, true)) {
-            activePageId = pageId;
+      // checks window
+      function isWindow(obj) {
+        return obj != null && obj === obj.window;
+      }
+
+      // returns corresponding window
+      function getWindow(elem) {
+        return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
+      }
+
+      // taken from jquery
+      // @returns {{top: number, left: number}}
+      function offset(elem) {
+        var docElem,
+          win,
+          box = { top: 0, left: 0 },
+          doc = elem && elem.ownerDocument;
+
+        docElem = doc.documentElement;
+
+        if (typeof elem.getBoundingClientRect !== typeof undefined) {
+          box = elem.getBoundingClientRect();
+        }
+        win = getWindow(doc);
+        return {
+          top: box.top + win.pageYOffset - docElem.clientTop,
+          left: box.left + win.pageXOffset - docElem.clientLeft
+        };
+      }
+
+      var activePageId = this.state.pages[0];
+      if (this.state.pages.length > 1) {
+        var container = document.getElementById("screen-container-parent");
+        for (var i = 0; i < this.state.pages.length; ++i) {
+          var pageId = this.state.pages[i];
+          var canvas = document.getElementById(pageId);
+          if (canvas) {
+            if (elementIsVisible(canvas, container, true)) {
+              activePageId = pageId;
+            }
           }
         }
       }
-    }
 
-    this.setState({ startX, startY, activePageId });
-  };
+      this.setState({ startX, startY, activePageId });
+    };
+  }
   handleWheel = e => {
     if (e.ctrlKey || e.metaKey) {
       const nextScale = parseFloat(
@@ -3764,6 +3767,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 alignItems: "center"
               }}
             >
+              { this.state.mounted && 
               <a
                 id="logo-editor"
                 style={{
@@ -3806,7 +3810,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     Trang chủ
                   </div>
                 </span>
-              </a>
+              </a>}
             </div>
             <div
               style={{
@@ -4514,9 +4518,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               width: `100%`,
               height: "calc(100% - 55px)",
               display: "flex",
+              overflow: 'hidden',
             }}
           >
             <LeftSide
+              mounted={this.state.mounted}
               dragging={this.state.dragging}
               subtype={this.state.subtype}
               fonts={this.props.fonts}
@@ -4549,9 +4555,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 width: `calc(100% - ${(this.state.toolbarOpened
                   ? this.state.toolbarSize
                   : 80) + (this.state.showPrintingSidebar ? 330 : 0)}px)`,
-                left: `${
-                  this.state.toolbarOpened ? this.state.toolbarSize - 2 : 80
-                }px`
+                // left: `${
+                //   this.state.toolbarOpened ? this.state.toolbarSize - 2 : 80
+                // }px`,
+                backgroundColor: '#ECF0F2',
+                position: 'relative',
+                height: '100%',
               }}
               ref={this.setAppRef}
               id="screens"
@@ -4572,7 +4581,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       zIndex: 1,
                       top: "43%",
                       position: "absolute",
-                      left: "-16px"
+                      left: "-18px"
                     }}
                   >
                     <path
@@ -5574,7 +5583,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     this.state.cropMode && "rgba(14, 19, 24, 0.2)"
                 }}
               >
-                <div
+                {this.state.mounted && <div
                   id="screen-container"
                   className="screen-container"
                   style={{
@@ -5595,7 +5604,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   }}
                 >
                   {this.renderCanvas(false, -1)}
-                </div>
+                </div>}
                 <div
                   style={{
                     position: "fixed",
@@ -5842,7 +5851,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       </ul>
                     </div>
                   )}
-
+                  {
+                    this.state.mounted &&
                   <div
                     className="workSpaceBottomPanel___73_jE"
                     data-bubble="false"
@@ -5949,6 +5959,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       </div>
                     </div>
                   </div>
+                  }
                 </div>
               </div>
             </div>

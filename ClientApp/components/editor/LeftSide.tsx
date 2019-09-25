@@ -34,6 +34,7 @@ export interface IProps {
   subtype: any;
   dragging: boolean;
   increaseUpperzIndex: any;
+  mounted: boolean;
 }
 
 interface IState {
@@ -1904,6 +1905,9 @@ class LeftSide extends PureComponent<IProps, IState> {
   }
 
   render() {
+    // if (!this.props.mounted) {
+    //   return null;
+    // }
     console.log('leftside render');
     return (
       <div
@@ -1916,11 +1920,12 @@ class LeftSide extends PureComponent<IProps, IState> {
             ? `${this.props.toolbarSize}px`
             : "80px",
           height: "100%",
-          position: "absolute",
+          position: "relative",
           display: "flex"
         }}
       >
         <TopMenu
+          mounted={this.props.mounted}
           mode={this.props.mode}
           toolbarSize={this.props.toolbarSize}
           selectedTab={this.props.selectedTab}

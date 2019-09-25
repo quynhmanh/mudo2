@@ -62,6 +62,7 @@ export interface IProps {
     selectedTab: SidebarTab;
     mode: Mode;
     onClick(selectedTab : SidebarTab, e : any): void;
+    mounted: boolean;
 }
 
 export interface IState {
@@ -88,7 +89,7 @@ export default class TopMenu extends PureComponent<IProps, IState> {
           flexDirection: 'column',
         }}
       >
-        {
+        { this.props.mounted && 
             mapEnum(SidebarTab, (i, sidebarName, sideBarIcon, prevTab, currentTab, nextTab) => {
                 return <Selector 
                     key={i}
@@ -106,11 +107,10 @@ export default class TopMenu extends PureComponent<IProps, IState> {
         }
         <div
           style={{
-            height: 'calc(100% - 480px)',
+            height: this.props.mounted ? 'calc(100% - 480px)' : '100%',
             backgroundColor: 'rgb(14, 19, 24)',
           }}
         >
-
         </div>
       </div>
     );

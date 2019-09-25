@@ -16,7 +16,7 @@ export default class Loader extends AppComponent<IProps, {}> {
     }
 
     render() {
-
+        return null;
         // var css = {"display": "none"};
         var css = { "display": (this.props.show ? "block" : "none") }
 
