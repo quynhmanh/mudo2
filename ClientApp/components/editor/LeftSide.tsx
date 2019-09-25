@@ -2004,7 +2004,7 @@ class LeftSide extends PureComponent<IProps, IState> {
             RemoveAll
           </button>
         </div>
-        {this.props.toolbarOpened && (
+        {this.props.mounted && this.props.toolbarOpened && (
           <div
             id="sidebar-content"
             style={{
