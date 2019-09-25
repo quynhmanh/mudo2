@@ -86,7 +86,7 @@ interface IState {
 }
 
 const imgWidth = 162;
-const backgroundWidth = 103;
+const backgroundWidth = 105;
 
 enum TemplateType {
   Template = 1,
@@ -2150,7 +2150,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
-                              delay={-1}
+                              delay={150}
                             />
                           ))}
                       {this.state.mounted &&
@@ -2169,7 +2169,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
-                              delay={-1}
+                              delay={150}
                             />
                           ))}
                     </div>
@@ -2553,7 +2553,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-1}
+                            delay={150}
                           />
                         ))}
                     {this.state.hasMoreTextTemplate &&
@@ -2571,7 +2571,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-1}
+                            delay={150}
                           />
                         ))}
                         </div>
@@ -2715,7 +2715,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-1}
+                            delay={150}
                           />
                         ))}
                     {this.state.hasMoreTemplate &&
@@ -2733,7 +2733,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-1}
+                            delay={150}
                           />
                         ))}
                   </div>
@@ -2802,7 +2802,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   <div
                     style={{
                       width: "350px",
-                      marginRight: "10px"
+                      marginRight: "8px"
                     }}
                   >
                     {this.state.backgrounds1.map((item, key) => (
@@ -2860,7 +2860,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   <div
                     style={{
                       width: "350px",
-                      marginRight: "10px"
+                      marginRight: "8px"
                     }}
                   >
                     {this.state.backgrounds2.map((item, key) => (
@@ -2875,7 +2875,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                         defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
-                        delay={-1}
+                        delay={150}
                       />
                     ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2893,7 +2893,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             width={backgroundWidth}
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-1}
+                            delay={150}
                           />
                         ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2911,7 +2911,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-1}
+                            delay={150}
                           />
                         ))}
                   </div>
@@ -2932,7 +2932,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                         defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
-                        delay={-2}
+                        delay={300}
                       />
                     ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2950,7 +2950,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-2}
+                            delay={300}
                           />
                         ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2968,7 +2968,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-2}
+                            delay={300}
                           />
                         ))}
                   </div>
