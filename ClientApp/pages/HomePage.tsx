@@ -122,12 +122,10 @@ handleScroll = () => {
         </Helmet>
         <div
         style={{
-          boxShadow: '0 1px 8px rgba(38,49,71,.08)',
         }}>
           <div
             className="container"
             style={{
-              padding: '10px',
             }}
           >
             <div style={{
@@ -186,6 +184,7 @@ handleScroll = () => {
             }}>
             <header 
               style={{
+                padding: '20px 50px',
                 position: 'relative',
                 top: '50%',
                 marginTop: 'auto',
@@ -376,6 +375,7 @@ handleScroll = () => {
               position: 'relative',
             }}
           >
+        {this.state.mounted && 
           <div 
           className="renderView___1QdJs"
           style={{
@@ -803,9 +803,9 @@ handleScroll = () => {
         </div>
     </li>
 </ul>
+          </div>}
           </div>
           </div>
-        </div>
       </header>
             </div>
           </div>
