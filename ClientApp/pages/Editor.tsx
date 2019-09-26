@@ -495,6 +495,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           }
 
           this.props.images.replace(document.document_object);
+          this.props.fonts.replace(image.value.fontList);
 
           subtype = res.data.value.printType;
           self.setState({
@@ -2125,6 +2126,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           Representative: rep ? rep : `images/${uuidv4()}.jpeg`,
           Representative2: `images/${uuidv4()}.jpeg`
         });
+
+        console.log('save image ', res);
 
         axios
           .post(url, res, {
