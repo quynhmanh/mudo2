@@ -196,3 +196,40 @@ html {
   ._3PK-lmKzpAGcI8WTdBQX4i {
     border-bottom: 1px solid #d8d8d8d6;
   }
+
+  .templateList___2swQr {
+    position: relative;
+    z-index: 1;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    margin-top: 1px;
+    transition: .5s cubic-bezier(.68,-.55,.265,1.55);
+}
+
+.templateWrapper___3Fitk {
+    position: relative;
+    height: 160px;
+    margin-right: 16px;
+    transition: .3s;
+}
+
+.preview___37TNk, .previewWrapper___mbAh5 {
+    position: relative;
+    height: 160px;
+    border-radius: 8px;
+}
+
+.templateList___2swQr {
+    list-style: none;
+    padding: 0;
+}
+
+.renderView___1QdJs {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin-right: 0px;
+    overflow: scroll;
+}
