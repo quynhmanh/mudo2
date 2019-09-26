@@ -813,13 +813,79 @@ handleScroll = () => {
           <nav className="container">
           <ul style={{
             borderBottom: '1px solid #ddd',
+            listStyle: 'none',
+            display: 'flex',
+            margin: 0,
+            padding: 0,
           }}>
-          <li>SOCIAL MEDIA</li>
-          <li>PROMOTION</li>
-          <li>OFFICE</li>
-          <li>WEB</li>
-          <li>PERSONAL</li>
-          <li>VIDEO</li>
+          <li
+            style={{
+                height: '100%',
+                flex: 1,
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+            }}
+          >SOCIAL MEDIA</li>
+          <li style={{
+                height: '100%',
+                flex: 1,
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+            }}>PROMOTION</li>
+          <li style={{
+                height: '100%',
+                flex: 1,
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+            }}>OFFICE</li>
+          <li style={{
+                height: '100%',
+                flex: 1,
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+            }}>WEB</li>
+          <li style={{
+                height: '100%',
+                flex: 1,
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+            }}>PERSONAL</li>
+          <li style={{
+                height: '100%',
+                flex: 1,
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+            }}>VIDEO</li>
           </ul>
           </nav>
           <div style={{
