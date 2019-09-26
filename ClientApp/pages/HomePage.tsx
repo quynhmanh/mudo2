@@ -122,6 +122,7 @@ handleScroll = () => {
         </Helmet>
         <div
         style={{
+            boxShadow: '0 1px 8px rgba(38,49,71,.08)',
         }}>
           <div
             className="container"
@@ -130,13 +131,20 @@ handleScroll = () => {
           >
             <div style={{
                 height: '50px',
+                display: 'flex',
+                justifyContent: 'space-between',
             }}>
+                <div style={{
+    height: '39px',
+    textAlign: 'center',
+    lineHeight: '39px',
+    fontSize: '16px',
+}}>
+    <a>Menu</a>
+</div>
 <svg style={{
     transform: 'scale(0.65)',
-    position: 'absolute',
-    margin: 'auto',
-    left: 0,
-    right: 0,
+    transformOrigin: 'center 10px',
 }} width="160" height="60" xmlns="http://www.w3.org/2000/svg">
  <metadata id="metadata190397">image/svg+xml</metadata>
 
@@ -158,6 +166,14 @@ handleScroll = () => {
   </g>
  </g>
 </svg>
+<div style={{
+    height: '39px',
+    textAlign: 'center',
+    lineHeight: '39px',
+    fontSize: '16px',
+}}>
+    <a>Login</a>
+</div>
 </div>
           </div>
         </div>
@@ -165,7 +181,6 @@ handleScroll = () => {
           style={{
             width: "100%",
             position: "relative",
-            background: 'white',
           }}
         >
             <div className="">
@@ -810,9 +825,12 @@ handleScroll = () => {
             </div>
           </div>
           </div>
-          <nav className="container">
+          <nav 
+            style={{
+                boxShadow: '0 1px 8px rgba(38,49,71,.08)',
+            }}
+            className="">
           <ul style={{
-            borderBottom: '1px solid #ddd',
             listStyle: 'none',
             display: 'flex',
             margin: 0,
