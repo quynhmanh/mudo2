@@ -436,6 +436,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       await axios
         .get(url)
         .then(res => {
+          console.log('template res', res);
           if (res.data.errors.length > 0) {
             throw new Error(res.data.errors.join("\n"));
           }
@@ -492,6 +493,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               };
             });
           }
+
+          this.props.images.replace(document.document_object);
 
           subtype = res.data.value.printType;
           self.setState({
