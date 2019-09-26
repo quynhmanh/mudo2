@@ -135,11 +135,12 @@ handleScroll = () => {
                 justifyContent: 'space-between',
             }}>
                 <div style={{
-    height: '39px',
-    textAlign: 'center',
-    lineHeight: '39px',
-    fontSize: '16px',
-}}>
+                    width: '41px',
+                    height: '39px',
+                    textAlign: 'center',
+                    lineHeight: '39px',
+                    fontSize: '16px',
+                }}>
     {/* <a>Menu</a> */}
 </div>
 <svg style={{
@@ -211,9 +212,9 @@ handleScroll = () => {
           <h2
             style={{
               textAlign: 'center',
-              fontSize: '40px',
+              fontSize: '35px',
               marginBottom: '25px',
-              fontFamily: 'AvenirNextRoundedPro-Medium',
+              fontFamily: 'Lobster-Regular',
             }}
           >Bắt đầu thiết kế</h2>
           <div
