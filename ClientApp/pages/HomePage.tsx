@@ -169,7 +169,7 @@ handleScroll = () => {
           style={{
             width: "100%",
             position: "relative",
-            background: 'rgba(244, 244, 246, 0.58)',
+            background: 'white',
           }}
         >
             <div className="container">

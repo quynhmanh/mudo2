@@ -97,7 +97,7 @@ export default class AuthorizedLayout extends React.Component<Props, {}> {
             <div
                 style={{
                 }}
-                id='content-container'>
+                id=''>
                     {this.props.children}
             </div>
             {/* <ToastContainer /> */}
