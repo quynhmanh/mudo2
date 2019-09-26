@@ -3940,7 +3940,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                             display: "flex",
                           }}
                         >
-                          <svg style={{width: '40px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 58 58" xmlSpace="preserve">
 <g>
 	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
@@ -4135,7 +4135,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                             display: 'flex',
                           }}
                         >
-                          <svg style={{width: '40px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 58 58" xmlSpace="preserve">
 <g>
 	<path d="M50.949,12.187l-5.818-5.818l-5.047-5.048l0,0l-0.77-0.77C38.964,0.201,38.48,0,37.985,0H8.963
@@ -4230,7 +4230,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                             display: 'flex',
                           }}
                         >
-                          <svg style={{width: '40px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 58 58" xmlSpace="preserve">
 <g>
 	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
@@ -4324,7 +4324,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                             display: "flex",
                           }}
                         >
-                          <svg style={{width: '40px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 58 58" xmlSpace="preserve">
 <g>
 	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
@@ -4417,7 +4417,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                             display: "flex",
                           }}
                         >
-                          <svg style={{width: '40px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 58 58" xmlSpace="preserve">
 <g>
 	<path d="M50.95,12.187l-0.77-0.77l0,0L40.084,1.321c0,0-0.001-0.001-0.002-0.001l-0.768-0.768C38.965,0.201,38.48,0,37.985,0H8.963
