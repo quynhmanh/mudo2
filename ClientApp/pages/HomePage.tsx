@@ -140,7 +140,7 @@ handleScroll = () => {
     lineHeight: '39px',
     fontSize: '16px',
 }}>
-    <a>Menu</a>
+    {/* <a>Menu</a> */}
 </div>
 <svg style={{
     transform: 'scale(0.65)',
