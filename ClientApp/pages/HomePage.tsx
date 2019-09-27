@@ -833,6 +833,7 @@ handleScroll = () => {
           id="hello-world"
           style={{
             boxShadow: '0 1px 8px rgba(38,49,71,.08)',
+            background: '#f4f4f6',
         }}>
           <div style={{padding: 0,}} className="container">
           <nav 
@@ -845,6 +846,7 @@ handleScroll = () => {
             display: 'flex',
             margin: 0,
             padding: 0,
+            borderBottom: '1px solid #e0e2e7',
           }}>
           <li
             style={{
@@ -856,6 +858,7 @@ handleScroll = () => {
                 padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
+                marginRight: '20px',
             }}
           >SOCIAL MEDIA</li>
           <li style={{
@@ -867,6 +870,7 @@ handleScroll = () => {
                 padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
+                marginRight: '20px',
             }}>PROMOTION</li>
           <li style={{
                 height: '100%',
@@ -877,6 +881,7 @@ handleScroll = () => {
                 padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
+                marginRight: '20px',
             }}>OFFICE</li>
           <li style={{
                 height: '100%',
@@ -887,6 +892,7 @@ handleScroll = () => {
                 padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
+                marginRight: '20px',
             }}>WEB</li>
           <li style={{
                 height: '100%',
@@ -897,6 +903,7 @@ handleScroll = () => {
                 padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
+                marginRight: '20px',
             }}>PERSONAL</li>
           <li style={{
                 height: '100%',
@@ -907,6 +914,7 @@ handleScroll = () => {
                 padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
+                marginRight: '20px',
             }}>VIDEO</li>
           </ul>
           </nav>
