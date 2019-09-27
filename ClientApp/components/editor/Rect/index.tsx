@@ -678,13 +678,14 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     var newWidth = width;
     var newHeight = height;
+    var outlineWidth2 = Math.max(2, 2/scale);
     var style = {
       width: Math.abs(newWidth),
       height: Math.abs(newHeight),
       zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
       outline: !showImage && (selected
-        ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} 2px`
+        ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${outlineWidth2}px`
         : null)
     };
 
@@ -711,6 +712,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         dragging={dragging}
         resizing={resizing}
         rotating={rotating}
+        outlineWidth={outlineWidth2}
       >
         {!cropMode && rotatable && showController && objectType !== 6 && (
           <div
