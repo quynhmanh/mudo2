@@ -53,80 +53,154 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     render() {
         const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
 
-        return <Wrapper
+        return <div
+        style={{
+          boxShadow: "0 1px 8px rgba(38,49,71,.08)"
+        }}
+      >
+        <div className="container" style={{}}>
+          <div
             style={{
-                color: '#3e3e3e',
-                border: 'none',
-                borderRadius: 0,
-                minHeight: '40px',
-                backgroundColor: 'white',
-                height: '100px',
-                marginBottom: 0,
+              height: "50px",
+              display: "flex",
+              justifyContent: "space-between"
             }}
-            className="navbar navbar-default">
-            <Font />
-            <div className="container container-fluid">
-                <div className="navbar-header" style={{marginTop: '10px',}}>
-                    <button ref={x => this.elCollapseButton = x} type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span className="sr-only">Toggle navigation</span>
-                        <span className="icon-bar"></span>
-                        <span className="icon-bar"></span>
-                        <span className="icon-bar"></span>
-                    </button>
-                    <NavLink exact to={'/'} className="navbar-brand" href="#">
-                        <div style={{width: '153px', height:'70px', marginLeft: '6px', }}>
-                    <svg id="logo" viewBox="0 0 300 100" version="1.1">
-    <g id="root" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-        <g id="group" style={{transform:"translate(118px, 36px)"}}>
-            <rect id="Rectangle-14" x="0" y="0" width="83" height="22"></rect>
-            <text id="headerText.primary" fontFamily="AvenirNextRoundedPro-Medium" fontWeight="700" letterSpacing="10px" fill="#019fb6" data-text-alignment="C" style={{fontSize: 44}}>
-                <tspan x="0" y="30">DRAFT</tspan>
-            </text>
-        </g>
-        <rect id="icon.primary" x="63" y="50" width="35" height="35" display="none" fill="#364f6b"></rect>
-        <svg viewBox="0 0 30 30" version="1.1" fill="#364f6b" id="svg_icon.primary" x="3" y="1" width="120" height="100">
-            <g id="surface1" fill="#364f6b">
-                <path
-                    style={{
-                        stroke: 'rgb(1, 159, 182)',
-                        strokeWidth: '1.6px',
-                        strokeLinejoin: 'round',
-                        fill: 'none',
-                        border: '1px solid black',
-                    }}
-                    d="M 2.1875 2 C 0.988281 2 0 2.492188 0 4.09375 C 0 13.792969 1.085938 15.5 8.1875 15.5 C 3.085938 15.5 2.3125 19.113281 2.8125 20.3125 C 3.8125 22.8125 5.988281 25 7.6875 25 C 8.332031 25 11.71875 23.097656 13 18.90625 C 14.28125 23.097656 17.667969 25 18.3125 25 C 20.011719 25 22.1875 22.8125 23.1875 20.3125 C 23.6875 19.113281 22.914063 15.5 17.8125 15.5 C 24.914063 15.5 26 13.792969 26 4.09375 C 26 2.492188 25.011719 2 23.8125 2 C 21.242188 2 14.800781 7.496094 13 12.84375 C 11.199219 7.496094 4.757813 2 2.1875 2 Z " fill="#019fb6"></path>
-            </g>
-        </svg>
-    </g>
-</svg>
-</div>
-                    </NavLink>
-                </div>
-                <div id="navbar" className="navbar-collapse collapse nav navbar-nav navbar-right">
-                    <ul className="nav navbar-nav">
-                        {/* <li><NavLink exact to={'/example'} activeClassName="active">Example</NavLink></li> */}
-                        {/* <li><NavLink exact to={'/templates'} activeClassName="active">Mẫu thiết kế</NavLink></li> */}
-                        {/* <li><NavLink exact to={'/editor'} activeClassName="active">Learn</NavLink></li> */}
-                        {/* <li><NavLink exact to={'/cart'} activeClassName="active">Giỏ hàng</NavLink></li> */}
-                        <li className="dropdown">
-                            <a href="#" ref={x => this.elDropdown = x} className="dropdown-toggle" style={{display: this.getDisplayAttribute(loggedIn)}} data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                {Globals.serviceUser && Globals.serviceUser.username}&nbsp;
-                                <span className="caret"></span>
-                            </a>
-                            <NavLink exact to={'/login'} activeClassName="active" style={{display: this.getDisplayAttribute(!loggedIn)}}>Đăng nhập</NavLink>
-                            <ul className="dropdown-menu">
-                                <li><NavLink exact to={'/account'} activeClassName="active">Thông tin tài khoản</NavLink></li>
-                                <li><a href="#" onClick={this.onClickSignOut}>Quản lí đơn hàng</a></li>
-                                <li><a href="#" onClick={this.onClickSignOut}>Địa chỉ của tôi</a></li>
-                                <li><a href="#" onClick={this.onClickSignOut}>Thẻ của tôi</a></li>
-                                <li><a href="#" onClick={this.onClickSignOut}>Mã quà tặng</a></li>
-                                <li><a href="#" onClick={this.onClickSignOut}>Thoát</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+          >
+            <div
+              style={{
+                width: "105px",
+                height: "39px",
+                textAlign: "center",
+                lineHeight: "39px",
+                fontSize: "16px"
+              }}
+            ></div>
+            <a id="logo" href="/">
+            <svg
+              style={{
+                transform: "scale(0.5)",
+                transformOrigin: "center 20px"
+              }}
+              width="160"
+              height="60"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <metadata id="metadata190397">image/svg+xml</metadata>
+
+              <g>
+                <title>background</title>
+                <rect
+                  fill="none"
+                  id="canvas_background"
+                  height="62"
+                  width="162"
+                  y="-1"
+                  x="-1"
+                />
+              </g>
+              <g>
+                <title>Layer 1</title>
+                <g stroke="null" id="logo-group">
+                  <g
+                    stroke="null"
+                    font-style="normal"
+                    font-weight="700"
+                    font-size="72px"
+                    font-family="'Brandmark1 Bold'"
+                    text-anchor="middle"
+                    id="title"
+                  >
+                    <path
+                      stroke="null"
+                      fill="#56aaff"
+                      transform="translate(0,365.45123291015625) "
+                      d="m4.52583,-318.85031c1.04036,2.24451 2.4275,4.29098 4.23078,6.00737c1.87264,1.71639 3.95335,3.10271 6.31149,4.02692c2.4275,0.99023 5.06306,1.45233 7.69863,1.45233c2.63557,0 5.27114,-0.46211 7.69863,-1.45233c2.35814,-0.92421 4.43885,-2.31053 6.31149,-4.02692c1.80328,-1.71639 3.19042,-3.76286 4.23078,-6.00737c1.04036,-2.31053 1.52586,-4.75308 1.52586,-7.32767l0,-32.0173l-10.40356,-3.30075l0,18.74828c-0.55486,-0.26406 -1.10971,-0.52812 -1.66457,-0.72617c-2.4275,-0.99023 -4.99371,-1.45233 -7.69863,-1.45233c-2.63557,0 -5.27114,0.46211 -7.69863,1.45233c-2.35814,0.92421 -4.43885,2.31053 -6.31149,4.02692c-1.80328,1.71639 -3.19042,3.76286 -4.23078,6.00737c-0.971,2.31053 -1.52586,4.75308 -1.52586,7.26166c0,2.57459 0.55486,5.01714 1.52586,7.32767zm18.2409,-16.2397c5.13242,0 9.3632,4.02692 9.3632,8.91203c0,4.95113 -4.23078,8.91203 -9.3632,8.91203c-5.13242,0 -9.3632,-3.9609 -9.3632,-8.91203c0,-4.88511 4.23078,-8.91203 9.3632,-8.91203z"
+                      id="path190399"
+                    />
+                    <path
+                      stroke="null"
+                      fill="#56aaff"
+                      transform="translate(0,365.45123291015625) "
+                      d="m58.15835,-307.8258l0,0l0,-16.2397c0,-6.33745 5.40985,-11.55263 12.13748,-11.55263l0,-9.90226c-3.05171,0 -6.03406,0.59414 -8.80834,1.71639c-2.63557,1.05624 -5.06306,2.6406 -7.14378,4.62105c-2.08071,1.91444 -3.67592,4.22496 -4.85499,6.79955c-1.17907,2.6406 -1.73393,5.41323 -1.73393,8.3179l0,16.2397l10.40356,0z"
+                      id="path190401"
+                    />
+                    <path
+                      stroke="null"
+                      fill="#56aaff"
+                      transform="translate(0,365.45123291015625) "
+                      d="m97.54557,-344.99227l0.06936,2.11248c-2.77428,-1.3203 -5.82599,-2.04647 -8.94706,-2.04647c-2.63557,0 -5.27114,0.46211 -7.69863,1.45233c-2.35814,0.99023 -4.43885,2.31053 -6.31149,4.02692c-1.80328,1.71639 -3.19042,3.76286 -4.23078,6.00737c-0.971,2.31053 -1.52586,4.8191 -1.52586,7.32767c0,2.50857 0.55486,5.01714 1.52586,7.32767c1.04036,2.24451 2.4275,4.22496 4.23078,6.00737c1.87264,1.71639 3.95335,3.03669 6.31149,4.02692c2.4275,0.92421 5.06306,1.45233 7.69863,1.45233c3.12107,0 6.17278,-0.72617 8.94706,-2.04647l-0.06936,1.51835l10.40356,0l0,-37.16648l-10.40356,0zm-4.16142,26.53805c-1.38714,0.79218 -3.05171,1.25429 -4.71628,1.25429c-5.13242,0 -9.3632,-4.02692 -9.3632,-8.91203c0,-4.88511 4.23078,-8.91203 9.3632,-8.91203c1.80328,0 3.60657,0.46211 5.06306,1.45233c1.52586,0.8582 2.70492,2.1785 3.3985,3.69684c0.62421,1.18827 0.90164,2.44256 0.90164,3.76286c0,1.58436 -0.41614,3.10271 -1.24843,4.48902c-0.83228,1.3203 -1.942,2.44256 -3.3985,3.16872z"
+                      id="path190403"
+                    />
+                    <path
+                      stroke="null"
+                      fill="#56aaff"
+                      transform="translate(0,365.45123291015625) "
+                      d="m124.14507,-344.46415l0,-0.06602c0,-5.74331 4.92435,-10.49639 11.02777,-10.49639l0,-9.90226c-2.913,0 -5.75663,0.59414 -8.3922,1.65038c-2.56621,0.99023 -4.85499,2.44256 -6.79699,4.35699c-1.942,1.84842 -3.53721,4.02692 -4.57757,6.46948c-1.10971,2.50857 -1.66457,5.21519 -1.66457,7.92181l0,36.70437l10.40356,0l0,-27.39625l11.02777,0l0,-9.24211l-11.02777,0z"
+                      id="path190405"
+                    />
+                    <path
+                      stroke="null"
+                      fill="#56aaff"
+                      transform="translate(0,365.45123291015625) "
+                      d="m157.99997,-335.35407l0,-9.24211l-11.02777,0l0,-11.81669l-10.40356,3.30075l0,25.61384c0,2.77263 0.55486,5.41323 1.66457,7.92181c1.04036,2.44256 2.63557,4.62105 4.57757,6.46948c1.942,1.91444 4.23078,3.36677 6.79699,4.42301c2.63557,1.05624 5.47921,1.58436 8.3922,1.58436l0,-9.90226c-6.10342,0 -11.02777,-4.68707 -11.02777,-10.49639l0,-7.85579l11.02777,0z"
+                      id="path190407"
+                    />
+                  </g>
+                  <g
+                    stroke="null"
+                    font-style="normal"
+                    font-weight="400"
+                    font-size="32px"
+                    font-family="Montserrat"
+                    text-anchor="middle"
+                    id="tagline"
+                  />
+                </g>
+              </g>
+            </svg>
+            </a>
+            <div
+              style={{
+                height: "100%",
+                textAlign: "center",
+                lineHeight: "39px",
+                fontSize: "16px",
+                padding: "10px"
+              }}
+            >
+              {!loggedIn ? <button
+        id="login-btn"
+        style={{
+            height: '30px',
+            lineHeight: '30px',
+            border: 'none',
+            fontSize: '15px',
+            borderRadius: '4px',
+            fontFamily: 'AvenirNextRoundedPro-Medium',
+            color: 'black',
+            display: 'block',
+            padding: '0 5px',
+        }}
+        onClick={() => {location.href='/login';}}
+    >Đăng nhập</button>
+    :
+    <button
+        style={{
+            height: '30px',
+            lineHeight: '25px',
+            border: 'none',
+            fontSize: '15px',
+            borderRadius: '4px',
+            // background: 'rgba(55, 53, 47, 0.08)',
+            fontFamily: 'AvenirNextRoundedPro-Medium',
+        }}
+        className="button-list"
+        onClick={this.onClickSignOut}
+    >Đăng xuất</button>}
             </div>
-        </Wrapper>;
+          </div>
+        </div>
+      </div>;
     }
 }
 

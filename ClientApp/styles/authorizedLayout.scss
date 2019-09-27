@@ -322,3 +322,12 @@ html {
 .button-list:hover {
     background: rgba(55, 53, 47, 0.08) !important;
 }
+
+#login-btn:hover {
+    text-decoration: none;
+    background: rgba(55, 53, 47, 0.08);
+}
+
+#logo:hover {
+    filter: brightness(1.2);
+}

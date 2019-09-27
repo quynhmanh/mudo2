@@ -152,6 +152,7 @@ handleScroll = () => {
                 }}>
     {/* <a>Menu</a> */}
 </div>
+<a id="logo" href="/">
 <svg style={{
     transform: 'scale(0.5)',
     transformOrigin: 'center 20px',
@@ -176,6 +177,7 @@ handleScroll = () => {
   </g>
  </g>
 </svg>
+</a>
 <div style={{
     height: '100%',
     textAlign: 'center',
@@ -183,18 +185,22 @@ handleScroll = () => {
     fontSize: '16px',
     padding: '10px',
 }}>
-    {loggedIn && <button
+    {!loggedIn ? <button
+        id="login-btn"
         style={{
             height: '30px',
-            lineHeight: '25px',
+            lineHeight: '30px',
             border: 'none',
             fontSize: '15px',
             borderRadius: '4px',
-            background: 'rgba(55, 53, 47, 0.08)',
             fontFamily: 'AvenirNextRoundedPro-Medium',
+            color: 'black',
+            display: 'block',
+            padding: '0 5px',
         }}
-    >Đăng nhập</button>
-    }
+        onClick={() => {location.href='/login';}}
+    >Đăng nhập</button>
+    :
     <button
         style={{
             height: '30px',
@@ -208,6 +214,7 @@ handleScroll = () => {
         className="button-list"
         onClick={this.onClickSignOut}
     >Đăng xuất</button>
+    }
 </div>
 </div>
           </div>
