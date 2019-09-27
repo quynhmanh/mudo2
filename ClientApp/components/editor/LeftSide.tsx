@@ -108,8 +108,8 @@ enum SidebarTab {
   Background = 8,
   Element = 16,
   Upload = 32,
-  RemovedBackgroundImage = 64,
-  Video = 128,
+  Video = 64,
+  RemovedBackgroundImage = 128,
   Font = 248,
   Color = 496,
   Emoji = 992
@@ -848,6 +848,7 @@ class LeftSide extends PureComponent<IProps, IState> {
     this.loadMoreTextTemplate.bind(this)(true);
     this.loadMoreTemplate.bind(this)(true, this.props.subtype);
     this.loadmoreUserUpload.bind(this)(true);
+    this.loadMoreVideo.bind(this)(true);
     console.log("props", this.props);
   }
 
@@ -855,6 +856,34 @@ class LeftSide extends PureComponent<IProps, IState> {
     if (this.props.subtype !== prevProps.subtype) {
       this.loadMoreTemplate.bind(this)(true, this.state.subtype);
     }
+  }
+
+  loadMoreVideo = (initialLoad) => {
+    let pageId;
+    let count;
+    if (initialLoad) {
+      pageId = 1;
+      count = 30;
+    } else {
+      pageId = (this.state.fontsList.length) / 30 + 1;
+      count = 30;
+    }
+    // this.setState({ isLoading: true, error: undefined });
+    const url = `/api/Media/Search?page=${pageId}&perPage=${count}&type=${TemplateType.Video}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        res => {
+          console.log('loadMoreVideo ', url ,res);
+          this.setState(state => ({
+            videos: [...state.videos, ...res.value.key],
+            hasMoreVideos: res.value.value > state.videos.length + res.value.key.length,
+          }))
+        },
+        error => {
+          // this.setState({ isLoading: false, error })
+        }
+    )
   }
 
   handleRemoveAllMedia = () => {
