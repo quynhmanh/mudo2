@@ -1293,8 +1293,8 @@ class LeftSide extends PureComponent<IProps, IState> {
           rec.top < rec2.bottom &&
           rec.bottom > rec2.top
         ) {
-          let images = [...this.state.images];
-          images.push({
+
+          this.props.addItem({
             _id: uuidv4(),
             type: TemplateType.RemovedBackgroundImage,
             width: rec2.width / self.props.scale,
@@ -1315,8 +1315,6 @@ class LeftSide extends PureComponent<IProps, IState> {
             page: this.props.pages[i],
             zIndex: this.props.upperZIndex + 1
           });
-
-          this.props.images.replace(images);
 
           // self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
         }
