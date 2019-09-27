@@ -4,8 +4,8 @@ import { Route, Link } from "react-router-dom";
 import Globals from "@Globals";
 import AccountService from "@Services/AccountService";
 import { Helmet } from "react-helmet";
-import TopMenu from "@Components/shared/TopMenu";
 import bind from 'bind-decorator';
+import LoginPopup from "@Components/shared/LoginPopup";
 
 type Props = RouteComponentProps<{}>;
 
@@ -121,6 +121,11 @@ handleScroll = () => {
   }
 }
 
+handleLogin = () => {
+    document.getElementById("downloadPopup").style.display = "block";
+    // document.getElementById("editor").classList.add("popup");
+}
+
   render() {
     const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
 
@@ -200,7 +205,8 @@ handleScroll = () => {
             display: 'block',
             padding: '0 5px',
         }}
-        onClick={() => {location.href='/login';}}
+        // onClick={() => {location.href='/login';}}
+        onClick={this.handleLogin}
     >Đăng nhập</button>
     :
     <button
@@ -1346,6 +1352,7 @@ handleScroll = () => {
       </section>
       </div>
       </div>
+      <LoginPopup onLoginSuccess={(user) => { window['publicSession'] = {serviceUser: user};  Globals.reset(); Globals.init({public: window['publicSession']}); this.forceUpdate();}} />
       </div>
     );
   }
