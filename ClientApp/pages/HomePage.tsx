@@ -16,6 +16,7 @@ interface IState {
   focusing: boolean;
   mounted: boolean;
   navTop: number;
+  externalProviderCompleted: boolean;
 }
 
 
@@ -36,6 +37,7 @@ export default class HomePage extends React.Component<IProps, IState> {
     focusing: false,
     mounted: false,
     navTop: 0,
+    externalProviderCompleted: false,
   };
 
   constructor(props) {
@@ -54,6 +56,9 @@ export default class HomePage extends React.Component<IProps, IState> {
       e.preventDefault();
 
       await AccountService.logout();
+
+      this.forceUpdate();
+      this.setState({externalProviderCompleted: false,})
   }
 
   onClickDropDownFontSizeList = () => {
@@ -124,6 +129,11 @@ handleScroll = () => {
 handleLogin = () => {
     document.getElementById("downloadPopup").style.display = "block";
     // document.getElementById("editor").classList.add("popup");
+}
+
+handleUpdateCompleted = () => {
+    console.log('handleUpdateCompleted');
+    this.setState({externalProviderCompleted: true,})
 }
 
   render() {
@@ -1352,7 +1362,7 @@ handleLogin = () => {
       </section>
       </div>
       </div>
-      <LoginPopup onLoginSuccess={(user) => { window['publicSession'] = {serviceUser: user};  Globals.reset(); Globals.init({public: window['publicSession']}); this.forceUpdate();}} />
+      <LoginPopup handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={(user) => { this.setState({externalProviderCompleted: true}); window['publicSession'] = {serviceUser: user};  Globals.reset(); Globals.init({public: window['publicSession']}); this.forceUpdate();}} />
       </div>
     );
   }

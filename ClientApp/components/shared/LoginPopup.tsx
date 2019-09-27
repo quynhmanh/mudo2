@@ -5,15 +5,15 @@ import Loader from './Loader';
 
 export interface IProps {
     onLoginSuccess: any;
+    externalProviderCompleted: boolean;
+    handleUpdateCompleted: any;
   }
   
   interface IState {
-    externalProviderCompleted: boolean,
   }
 
 class LoginPopup extends PureComponent<IProps, IState> {
     state = {
-        externalProviderCompleted: false,
     }
     facebook() {
         const nonce = uuidv4();
@@ -83,7 +83,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
       })
     };
 
-    this.setState({externalProviderCompleted: true,})
+    this.props.handleUpdateCompleted();
 
     fetch(`/users/authenticate/external/verify`, requestOptions)
       .then(this.handleResponse)
@@ -133,7 +133,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                      borderRadius: '7px',
                      background: 'white',
                   }} >
-                    {!this.state.externalProviderCompleted ?   
+                    {!this.props.externalProviderCompleted ?   
                     <div id="loginContainer" 
             style={{
                 width: '350px',
