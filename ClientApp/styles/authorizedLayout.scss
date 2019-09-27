@@ -284,6 +284,8 @@ html {
 .small___1Vvfz {
     font-size: 14px;
     line-height: 21px;
+    font-weight: 900;
+    margin-bottom: 0;
 }
 
 .iconPlay___RdcjT {
@@ -311,4 +313,12 @@ html {
     bottom: 0px;
     margin-right: 0px;
     overflow: scroll;
+}
+
+.button-list {
+    background: none;
+}
+
+.button-list:hover {
+    background: rgba(55, 53, 47, 0.08) !important;
 }

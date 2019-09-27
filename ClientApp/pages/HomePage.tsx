@@ -4,8 +4,8 @@ import { Route, Link } from "react-router-dom";
 import Globals from "@Globals";
 import AccountService from "@Services/AccountService";
 import { Helmet } from "react-helmet";
-import styled from "styled-components";
 import TopMenu from "@Components/shared/TopMenu";
+import bind from 'bind-decorator';
 
 type Props = RouteComponentProps<{}>;
 
@@ -30,12 +30,14 @@ const crumb = (part, partIndex, parts) => {
       return <Link key={path} to={path} >{part}</Link>}
 
 export default class HomePage extends React.Component<IProps, IState> {
+
   state = {
     tab: "find",
     focusing: false,
     mounted: false,
     navTop: 0,
   };
+
   constructor(props) {
     super(props);
   }
@@ -45,6 +47,13 @@ export default class HomePage extends React.Component<IProps, IState> {
     const navTop = nav.offsetTop;
     this.setState({mounted: true, navTop});
     window.addEventListener('scroll', this.handleScroll);
+  }
+
+  @bind
+  async onClickSignOut(e: React.MouseEvent<HTMLAnchorElement>) {
+      e.preventDefault();
+
+      await AccountService.logout();
   }
 
   onClickDropDownFontSizeList = () => {
@@ -135,7 +144,7 @@ handleScroll = () => {
                 justifyContent: 'space-between',
             }}>
                 <div style={{
-                    width: '41px',
+                    width: '105px',
                     height: '39px',
                     textAlign: 'center',
                     lineHeight: '39px',
@@ -144,8 +153,8 @@ handleScroll = () => {
     {/* <a>Menu</a> */}
 </div>
 <svg style={{
-    transform: 'scale(0.6)',
-    transformOrigin: 'center 15px',
+    transform: 'scale(0.5)',
+    transformOrigin: 'center 20px',
 }} width="160" height="60" xmlns="http://www.w3.org/2000/svg">
  <metadata id="metadata190397">image/svg+xml</metadata>
 
@@ -168,12 +177,37 @@ handleScroll = () => {
  </g>
 </svg>
 <div style={{
-    height: '39px',
+    height: '100%',
     textAlign: 'center',
     lineHeight: '39px',
     fontSize: '16px',
+    padding: '10px',
 }}>
-    <a>Login</a>
+    {loggedIn && <button
+        style={{
+            height: '30px',
+            lineHeight: '25px',
+            border: 'none',
+            fontSize: '15px',
+            borderRadius: '4px',
+            background: 'rgba(55, 53, 47, 0.08)',
+            fontFamily: 'AvenirNextRoundedPro-Medium',
+        }}
+    >Đăng nhập</button>
+    }
+    <button
+        style={{
+            height: '30px',
+            lineHeight: '25px',
+            border: 'none',
+            fontSize: '15px',
+            borderRadius: '4px',
+            // background: 'rgba(55, 53, 47, 0.08)',
+            fontFamily: 'AvenirNextRoundedPro-Medium',
+        }}
+        className="button-list"
+        onClick={this.onClickSignOut}
+    >Đăng xuất</button>
 </div>
 </div>
           </div>
@@ -189,7 +223,7 @@ handleScroll = () => {
             style={{
               position: 'relative',
               width: '100%',
-              height: '500px',
+              height: '420px',
             }}
           >
             <div 
@@ -200,12 +234,10 @@ handleScroll = () => {
             }}>
             <header 
               style={{
-                padding: '20px 50px',
                 position: 'relative',
-                top: '50%',
                 marginTop: 'auto',
                 marginBottom: 'auto',
-                transform: 'translateY(-50%)',
+                padding: '20px 50px 0px',
               }}
             className="offset-header__header u-last-child-margin-bottom-0 u-textAlign-left@medium">
         <div className="h__hero u-color-inherit@medium ">
@@ -220,7 +252,7 @@ handleScroll = () => {
           <div
             id="search-icon"
             style={{
-                boxShadow: '0 0 0 1px rgba(14, 19, 24, 0.11), 0 2px 3px rgba(14, 19, 24, 0.08)',
+                boxShadow: '0 0 0 1px rgba(14,19,24,.02), 0 2px 8px rgba(14,19,24,.15)',
                 padding: '10px 34px',
                 marginBottom: '44px',
                 backgroundColor: 'white',
@@ -244,7 +276,7 @@ handleScroll = () => {
             style={{
               width: '100%',
               position: 'absolute',
-              marginLeft: '-20px',
+              left: '0',
               zIndex: 99999,
             }}
           >
@@ -259,6 +291,7 @@ handleScroll = () => {
           height: '214px',
           overflow: 'scroll',
           borderRadius: '5px',
+          boxShadow: '0 0 0 1px rgba(14,19,24,.02), 0 2px 8px rgba(14,19,24,.15)',
         }}
       className="_10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88">
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
@@ -385,12 +418,12 @@ handleScroll = () => {
       </ul>
           </div>}
           <h5 style={{
-            marginTop: '50px',
+            marginTop: '35px',
             fontWeight: 'bold',
           }}>THÔNG DỤNG</h5>
           <div
             style={{
-              height: '250px',
+              height: '210px',
               position: 'relative',
             }}
           >
@@ -860,7 +893,18 @@ handleScroll = () => {
                 cursor: 'pointer',
                 marginRight: '20px',
             }}
-          >SOCIAL MEDIA</li>
+          >
+            <button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+              SOCIAL MEDIA
+              </button>
+        </li>
           <li style={{
                 height: '100%',
                 textAlign: 'center',
@@ -871,7 +915,18 @@ handleScroll = () => {
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
                 marginRight: '20px',
-            }}>PROMOTION</li>
+            }}>
+                <button 
+                className="button-list"
+                style={{
+                    borderRadius: '4px',
+                    border: 'none',
+                    fontFamily: 'AvenirNextRoundedPro-Medium',
+                    background: 'none',
+                }}>
+                    PROMOTION
+                </button>
+        </li>
           <li style={{
                 height: '100%',
                 textAlign: 'center',
@@ -882,7 +937,16 @@ handleScroll = () => {
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
                 marginRight: '20px',
-            }}>OFFICE</li>
+            }}><button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+                OFFICE
+            </button></li>
           <li style={{
                 height: '100%',
                 textAlign: 'center',
@@ -893,7 +957,16 @@ handleScroll = () => {
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
                 marginRight: '20px',
-            }}>WEB</li>
+            }}><button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+                WEB
+            </button></li>
           <li style={{
                 height: '100%',
                 textAlign: 'center',
@@ -904,7 +977,16 @@ handleScroll = () => {
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
                 marginRight: '20px',
-            }}>PERSONAL</li>
+            }}><button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+                PERSONAL
+            </button></li>
           <li style={{
                 height: '100%',
                 textAlign: 'center',
@@ -915,7 +997,16 @@ handleScroll = () => {
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
                 marginRight: '20px',
-            }}>VIDEO</li>
+            }}><button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+                VIDEO
+            </button></li>
           </ul>
           </nav>
           </div>
