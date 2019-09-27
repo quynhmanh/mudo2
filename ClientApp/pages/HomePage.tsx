@@ -43,8 +43,8 @@ export default class HomePage extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    const nav = document.querySelector('nav');
-    const navTop = nav.offsetTop;
+    // const nav = document.querySelector('nav');
+    const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
     this.setState({mounted: true, navTop});
     window.addEventListener('scroll', this.handleScroll);
   }
@@ -112,10 +112,12 @@ handleScroll = () => {
   const navTop = this.state.navTop;
   if (window.scrollY > navTop) {
     nav.classList.add('fixed-nav');
-    document.body.style.paddingTop = nav.offsetHeight+'px';
+    // document.body.style.paddingTop = nav.offsetHeight+'px';
+    document.getElementById("main-container").style.paddingTop= "43px";
   } else {
+      console.log('remove class');
     nav.classList.remove('fixed-nav');
-    document.body.style.paddingTop = "0px";
+    document.getElementById("main-container").style.paddingTop= "0px";
   }
 }
 
@@ -1018,7 +1020,7 @@ handleScroll = () => {
           </nav>
           </div>
           </div>
-          <div style={{
+          <div id="main-container" style={{
             background: '#f4f4f6',
           }}>
       <section 
