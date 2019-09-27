@@ -144,8 +144,8 @@ handleScroll = () => {
     {/* <a>Menu</a> */}
 </div>
 <svg style={{
-    transform: 'scale(0.65)',
-    transformOrigin: 'center 10px',
+    transform: 'scale(0.6)',
+    transformOrigin: 'center 15px',
 }} width="160" height="60" xmlns="http://www.w3.org/2000/svg">
  <metadata id="metadata190397">image/svg+xml</metadata>
 
