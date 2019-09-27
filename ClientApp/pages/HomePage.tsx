@@ -423,7 +423,7 @@ handleScroll = () => {
           }}>THÔNG DỤNG</h5>
           <div
             style={{
-              height: '210px',
+              height: '220px',
               position: 'relative',
             }}
           >
