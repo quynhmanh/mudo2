@@ -160,37 +160,44 @@ html {
   header {
     padding: 20px 50px;
   }
+
+  #hello-world {
+    background: #f4f4f6;
+  }
   
   nav {
     width: 100%;
     margin: 0;
     top: 0;
-    background: white;
 
     ul {
         list-style: none;
         display: flex;
         margin: 0;
         padding: 0;
+        border-bottom: 1px solid rgb(224, 226, 231);
       }
       
       li {
         height: 100%;
-        flex: 1;
         text-align: center;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px;
+        padding: 10px 0px;
         transition: all 0.3s ease-in;
         cursor: pointer;
+        margin-right: 20px;
       }
   }
   
   .fixed-nav {
     left: 0;
+    right: 0;
+    top: 0;
     position: fixed;
     z-index: 123123;
+    background: white !important;
   }
 
   ._3PK-lmKzpAGcI8WTdBQX4i {

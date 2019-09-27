@@ -99,7 +99,7 @@ onClickLogoLogin = () => {
 
 handleScroll = () => {
   console.log('handleScroll')
-  const nav = document.querySelector('nav');
+  const nav = document.getElementById("hello-world");
   const navTop = this.state.navTop;
   if (window.scrollY > navTop) {
     nav.classList.add('fixed-nav');
@@ -220,13 +220,16 @@ handleScroll = () => {
           <div
             id="search-icon"
             style={{
-              boxShadow: '0 0 0 1px rgba(14, 19, 24, 0.11), 0 2px 3px rgba(14, 19, 24, 0.08)',
-              padding: '10px 34px',
-              marginBottom: '44px',
-              backgroundColor: 'white',
-              borderRadius: '5px',
-              width: '450px',
-              margin: 'auto',
+                boxShadow: '0 0 0 1px rgba(14, 19, 24, 0.11), 0 2px 3px rgba(14, 19, 24, 0.08)',
+                padding: '10px 34px',
+                marginBottom: '44px',
+                backgroundColor: 'white',
+                borderRadius: '5px',
+                width: '450px',
+                margin: 'auto',
+                backgroundImage: "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath fill='currentColor' d='M15.2 16.34a7.5 7.5 0 1 1 1.38-1.45l4.2 4.2a1 1 0 1 1-1.42 1.41l-4.16-4.16zm-4.7.16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z'/%3E%3C/svg%3E\")",
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: '6px 7px',
               // height: this.state.focusing && '400px',
             }}
             onFocus={() => {this.setState({focusing: true,})}}
@@ -826,10 +829,16 @@ handleScroll = () => {
             </div>
           </div>
           </div>
+          <div
+          id="hello-world"
+          style={{
+            boxShadow: '0 1px 8px rgba(38,49,71,.08)',
+        }}>
+          <div style={{padding: 0,}} className="container">
           <nav 
-            style={{
-                boxShadow: '0 1px 8px rgba(38,49,71,.08)',
-            }}
+            // style={{
+            //     boxShadow: '0 1px 8px rgba(38,49,71,.08)',
+            // }}
             className="">
           <ul style={{
             listStyle: 'none',
@@ -840,73 +849,69 @@ handleScroll = () => {
           <li
             style={{
                 height: '100%',
-                flex: 1,
                 textAlign: 'center',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '10px',
+                padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
             }}
           >SOCIAL MEDIA</li>
           <li style={{
                 height: '100%',
-                flex: 1,
                 textAlign: 'center',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '10px',
+                padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
             }}>PROMOTION</li>
           <li style={{
                 height: '100%',
-                flex: 1,
                 textAlign: 'center',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '10px',
+                padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
             }}>OFFICE</li>
           <li style={{
                 height: '100%',
-                flex: 1,
                 textAlign: 'center',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '10px',
+                padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
             }}>WEB</li>
           <li style={{
                 height: '100%',
-                flex: 1,
                 textAlign: 'center',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '10px',
+                padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
             }}>PERSONAL</li>
           <li style={{
                 height: '100%',
-                flex: 1,
                 textAlign: 'center',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '10px',
+                padding: '10px 0px',
                 transition: 'all 0.3s ease-in',
                 cursor: 'pointer',
             }}>VIDEO</li>
           </ul>
           </nav>
+          </div>
+          </div>
           <div style={{
             background: '#f4f4f6',
           }}>
