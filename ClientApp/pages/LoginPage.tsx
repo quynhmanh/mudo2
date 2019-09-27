@@ -21,11 +21,12 @@ declare global {
 
 class LoginPage extends React.Component<
   { init: any; loginRequest: any; onLoginSuccess: any; indicators: any },
-  { user: any; isLoggedIn: boolean }
+  { user: any; isLoggedIn: boolean, externalProviderCompleted: boolean, }
 > {
   state = {
     user: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    externalProviderCompleted: false,
   };
 
   constructor(props) {
@@ -123,6 +124,8 @@ class LoginPage extends React.Component<
       })
     };
 
+    this.setState({externalProviderCompleted: true,})
+
     fetch(`/users/authenticate/external/verify`, requestOptions)
       .then(this.handleResponse)
       .then(user => {
@@ -184,6 +187,12 @@ class LoginPage extends React.Component<
           <Helmet>
             <title>Đăng nhập</title>
           </Helmet>
+          {this.state.externalProviderCompleted ?
+          <div style={{
+              height: '300px',
+          }}>
+              <Loader show={true} black={true} className="" />
+          </div> :
           <div id="loginContainer" 
             style={{
                 padding: '100px 0px', 
@@ -243,7 +252,7 @@ class LoginPage extends React.Component<
                         lineHeight: '2rem',
                     }}
                     >hoặc</span></div>
-            </div>
+            </div>}
         </div>
       </div>
     );
