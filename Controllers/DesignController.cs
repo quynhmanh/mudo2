@@ -493,6 +493,11 @@ namespace RCB.TypeScript.Controllers
                             }
                         }
 
+                        if (backgroundPageTarget == null)
+                        {
+                            throw new Exception("Cannot get background pages.");
+                        }
+
                         var backgroundPage = await backgroundPageTarget.PageAsync();
 
                         var messages = new List<ConsoleMessage>();
