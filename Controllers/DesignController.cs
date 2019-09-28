@@ -524,6 +524,9 @@ namespace RCB.TypeScript.Controllers
                                 break;
                             }
                         }
+
+                        await backgroundPage.CloseAsync();
+                        await page.CloseAsync();
                     }
                 }
 
