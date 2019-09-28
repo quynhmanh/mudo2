@@ -503,8 +503,21 @@ namespace RCB.TypeScript.Controllers
                             return Promise.resolve(42);
                         }");
 
-                        await backgroundPage.WaitForTimeoutAsync(7 * 1000);
-                        await browser.CloseAsync();
+                        while (true)
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                            var inp = "/app/wwwroot/" + videoId + ".webm";
+                            if (HostingEnvironment.IsDevelopment())
+                            {
+                                inp = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
+                            }
+
+                            if (System.IO.File.Exists(inp))
+                            {
+                                await browser.CloseAsync();
+                                break;
+                            }
+                        }
                     }
                 }
 
