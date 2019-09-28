@@ -282,7 +282,7 @@ handleUpdateCompleted = () => {
                 marginBottom: '44px',
                 backgroundColor: 'white',
                 borderRadius: '5px',
-                width: '450px',
+                width: '500px',
                 margin: 'auto',
                 backgroundImage: "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath fill='currentColor' d='M15.2 16.34a7.5 7.5 0 1 1 1.38-1.45l4.2 4.2a1 1 0 1 1-1.42 1.41l-4.16-4.16zm-4.7.16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z'/%3E%3C/svg%3E\")",
                 backgroundRepeat: 'no-repeat',
@@ -302,6 +302,7 @@ handleUpdateCompleted = () => {
               width: '100%',
               position: 'absolute',
               left: '0',
+              marginTop: '1px',
               zIndex: 99999,
             }}
           >
@@ -309,7 +310,7 @@ handleUpdateCompleted = () => {
       <ul
         style={{
           listStyle: 'none',
-          width: '450px',
+          width: '500px',
           margin: 'auto',
           padding: 0,
           backgroundColor: 'white',
@@ -323,7 +324,12 @@ handleUpdateCompleted = () => {
           <ul className="_3iAhdo5irp6o991TKYLo_G _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88" />
         </li>
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-          <div className="_1ERFI8bZ2yaDXttvzi0r56"><span className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Gợi ý</span></div>
+          <div className="_1ERFI8bZ2yaDXttvzi0r56">
+              <span style={{
+                  marginLeft: '5px',
+                  fontFamily: 'AvenirNextRoundedPro-Medium',
+              }} className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Gợi ý</span>
+            </div>
         </li>
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
           <ul style={{listStyle: 'none', padding: 0,}} className="_35hMZzDjUCiFAL0T8RAwqY _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88">
