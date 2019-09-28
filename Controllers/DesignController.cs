@@ -473,6 +473,7 @@ namespace RCB.TypeScript.Controllers
                             new NavigationOptions()
                             {
                                 WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                Timeout = 0,
                             });
 
                         var targets = browser.Targets();
