@@ -131,6 +131,29 @@ handleLogin = () => {
     // document.getElementById("editor").classList.add("popup");
 }
 
+handleProfilePopup = () => {
+    document.getElementById("myProfilePopup").classList.toggle("show");
+
+    const onDown = e => {
+      if (!e.target.matches(".dropbtn-font-size")) {
+        var dropdowns = document.getElementsByClassName(
+          "dropdown-content-font-size"
+        );
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+
+        document.removeEventListener("mouseup", onDown);
+      }
+    };
+
+    document.addEventListener("mouseup", onDown);
+}
+
 handleUpdateCompleted = () => {
     console.log('handleUpdateCompleted');
     this.setState({externalProviderCompleted: true,})
@@ -160,13 +183,13 @@ handleUpdateCompleted = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
             }}>
-                <div style={{
-                    width: '105px',
-                    height: '39px',
-                    textAlign: 'center',
-                    lineHeight: '39px',
-                    fontSize: '16px',
-                }}>
+            <div style={{
+                height: '39px',
+                textAlign: 'center',
+                lineHeight: '39px',
+                fontSize: '16px',
+                width: '200px',
+            }}>
     {/* <a>Menu</a> */}
 </div>
 <a id="logo" href="/">
@@ -201,6 +224,8 @@ handleUpdateCompleted = () => {
     lineHeight: '39px',
     fontSize: '16px',
     padding: '10px',
+    width: '200px',
+    position: 'relative',
 }}>
     {!loggedIn ? <button
         id="login-btn"
@@ -230,9 +255,41 @@ handleUpdateCompleted = () => {
             fontFamily: 'AvenirNextRoundedPro-Medium',
         }}
         className="button-list"
+        onClick={this.handleProfilePopup}
+    >{Globals.serviceUser.username}</button>
+    }
+    <div id="myProfilePopup"
+    className="dropdown-content-font-size"
+     style={{
+        display: 'none',
+        position: 'absolute',
+        top: '100%',
+        textAlign: 'center',
+        backgroundColor: 'rgb(255, 255, 255)',
+        lineHeight: '2rem',
+        boxShadow: 'rgba(14, 19, 24, 0.02) 0px 0px 0px 1px, rgba(14, 19, 24, 0.15) 0px 2px 8px',
+        width: '100%',
+        background: 'white',
+        padding: '10px',
+        zIndex: 999999,
+    }}>
+        <button
+        id="login-btn"
+        style={{
+            height: '30px',
+            lineHeight: '30px',
+            border: 'none',
+            fontSize: '15px',
+            borderRadius: '4px',
+            fontFamily: 'AvenirNextRoundedPro-Medium',
+            color: 'black',
+            display: 'block',
+            padding: '0 5px',
+        }}
+        // onClick={() => {location.href='/login';}}
         onClick={this.onClickSignOut}
     >Đăng xuất</button>
-    }
+    </div>
 </div>
 </div>
           </div>
