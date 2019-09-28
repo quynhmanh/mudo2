@@ -477,6 +477,8 @@ namespace RCB.TypeScript.Controllers
                                 Timeout = 0,
                             });
 
+                        await page.WaitForTimeoutAsync(5000);
+
                         var targets = browser.Targets();
                         Target backgroundPageTarget = null;
                         var len = targets.Length;
