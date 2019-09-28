@@ -1845,7 +1845,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             this.state.rectHeight
           }&videoId=${uuidv4()}`,
           {
-            fonts: self.state.fonts,
+            fonts: toJS(self.props.fonts),
             canvas,
             additionalStyle: a[0].outerHTML
           },
