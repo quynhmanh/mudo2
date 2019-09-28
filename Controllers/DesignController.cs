@@ -466,13 +466,14 @@ namespace RCB.TypeScript.Controllers
                             Args = arguments.ToArray(),
                             Headless = false,
                             IgnoredDefaultArgs = new string[] { "--disable-extensions" },
+                            
                         });
 
                         var page = await browser.NewPageAsync();
                         await page.SetContentAsync(html,
                             new NavigationOptions()
                             {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle2, },
                                 Timeout = 0,
                             });
 
