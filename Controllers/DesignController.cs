@@ -473,7 +473,7 @@ namespace RCB.TypeScript.Controllers
                         await page.SetContentAsync(html,
                             new NavigationOptions()
                             {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle2, },
+                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
                                 Timeout = 0,
                             });
 

@@ -692,7 +692,7 @@ export default class Canvas extends Component<IProps, IState> {
                         Math.min(rectHeight * scale, rectWidth * scale) / 100
                       )}
                       style={{
-                        // zIndex: img.zIndex,
+                        zIndex: img.zIndex,
                         width: img.width * scale + "px",
                         height: img.height * scale + "px",
                         left: img.left * scale + "px",
@@ -761,7 +761,7 @@ export default class Canvas extends Component<IProps, IState> {
                           innerHTML={img.innerHTML}
                           scaleX={img.scaleX}
                           scaleY={img.scaleY}
-                          zIndex={1}
+                          zIndex={img.zIndex}
                           childrens={img.document_object}
                           outlineWidth={Math.min(
                             2,
