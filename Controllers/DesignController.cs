@@ -471,8 +471,8 @@ namespace RCB.TypeScript.Controllers
 
                         Target backgroundPageTarget = null;
                         int cnt = 0;
-                        while (backgroundPageTarget == null)
-                        {
+                        //while (backgroundPageTarget == null)
+                        //{
                             var targets = browser.Targets();
                             var len = targets.Length;
                             if (targets != null)
@@ -493,7 +493,7 @@ namespace RCB.TypeScript.Controllers
                             {
                                 break;
                             } 
-                        }
+                        //}
 
                         var backgroundPage = await backgroundPageTarget.PageAsync();
 
