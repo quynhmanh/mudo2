@@ -3374,7 +3374,6 @@ class LeftSide extends PureComponent<IProps, IState> {
                 position: "absolute",
                 width: "347px",
                 color: "white",
-                overflow: "scroll",
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
