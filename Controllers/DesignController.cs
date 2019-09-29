@@ -469,18 +469,21 @@ namespace RCB.TypeScript.Controllers
                             
                         });
 
-                        var targets = browser.Targets();
                         Target backgroundPageTarget = null;
-                        var len = targets.Length;
-                        if (targets != null)
+                        while (backgroundPageTarget == null)
                         {
-                            for (int t = 0; t < len; ++t)
+                            var targets = browser.Targets();
+                            var len = targets.Length;
+                            if (targets != null)
                             {
-                                if (targets[t] != null)
+                                for (int t = 0; t < len; ++t)
                                 {
-                                    if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
+                                    if (targets[t] != null)
                                     {
-                                        backgroundPageTarget = targets[t];
+                                        if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
+                                        {
+                                            backgroundPageTarget = targets[t];
+                                        }
                                     }
                                 }
                             }
@@ -490,11 +493,11 @@ namespace RCB.TypeScript.Controllers
 
                         var page = await browser.NewPageAsync();
                         await page.SetContentAsync(html,
-                            new NavigationOptions()
-                            {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
-                                Timeout = 0,
-                            }
+                                new NavigationOptions()
+                                {
+                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                    Timeout = 0,
+                                }
                             );
 
                         await page.WaitForTimeoutAsync(5000);
