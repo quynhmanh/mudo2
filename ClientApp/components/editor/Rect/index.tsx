@@ -428,7 +428,8 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     var res;
     var size;
-    if (this.props.objectType !== 4) {
+    console.log('thjis.props.objectType ', this.props.objectType);
+    if (this.props.objectType !== 4 && this.props.objectType !== 9) {
       var selectionScaleY = 1;
       if (self.state && self.state.selectionScaleY) {
         selectionScaleY = self.state.selectionScaleY;
@@ -499,7 +500,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         res
       );
 
-      if (this.props.objectType !== 4) {
+      if (this.props.objectType !== 4 && this.props.objectType !== 9) {
         var scaleY = (window as any).scaleY;
         fontSize =
           parseInt(size.substring(0, size.length - 2)) *
@@ -1382,7 +1383,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           </div>
         )}
-        {src && objectType === 7 && (
+        {src && objectType === 9 && (
           <div
             id={_id}
             onMouseDown={!selected || src ? this.startDrag : null}

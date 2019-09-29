@@ -852,7 +852,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           }
         }
 
-        if ((objectType === 4 || objectType === 7) && !this.state.cropMode) {
+        if ((objectType === 4 || objectType === 9) && !this.state.cropMode) {
           var scaleWidth = image.imgWidth / image.width;
           var scaleHeight = image.imgHeight / image.height;
           var scaleLeft = image.posX / image.imgWidth;

@@ -1296,7 +1296,7 @@ class LeftSide extends PureComponent<IProps, IState> {
 
           this.props.addItem({
             _id: uuidv4(),
-            type: TemplateType.RemovedBackgroundImage,
+            type: TemplateType.Video,
             width: rec2.width / self.props.scale,
             height: rec2.height / self.props.scale,
             origin_width: rec2.width / self.props.scale,
