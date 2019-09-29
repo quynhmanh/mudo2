@@ -270,7 +270,7 @@ handleUpdateCompleted = () => {
         boxShadow: 'rgba(14, 19, 24, 0.02) 0px 0px 0px 1px, rgba(14, 19, 24, 0.15) 0px 2px 8px',
         width: '100%',
         background: 'white',
-        padding: '10px',
+        padding: '10px 0',
         zIndex: 999999,
     }}>
         <button
@@ -284,7 +284,9 @@ handleUpdateCompleted = () => {
             fontFamily: 'AvenirNextRoundedPro-Medium',
             color: 'black',
             display: 'block',
-            padding: '0 5px',
+            padding: '0 20px',
+            width: '100%',
+            textAlign: 'left',
         }}
         // onClick={() => {location.href='/login';}}
         onClick={this.onClickSignOut}
