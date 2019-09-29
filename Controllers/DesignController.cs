@@ -469,16 +469,6 @@ namespace RCB.TypeScript.Controllers
                             
                         });
 
-                        var page = await browser.NewPageAsync();
-                        await page.SetContentAsync(html,
-                            new NavigationOptions()
-                            {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
-                                Timeout = 0,
-                            });
-
-                        await page.WaitForTimeoutAsync(5000);
-
                         var targets = browser.Targets();
                         Target backgroundPageTarget = null;
                         var len = targets.Length;
@@ -496,12 +486,24 @@ namespace RCB.TypeScript.Controllers
                             }
                         }
 
+                        var backgroundPage = await backgroundPageTarget.PageAsync();
+
+                        var page = await browser.NewPageAsync();
+                        await page.SetContentAsync(html,
+                            new NavigationOptions()
+                            {
+                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                Timeout = 0,
+                            }
+                            );
+
+                        await page.WaitForTimeoutAsync(5000);
+
+
                         if (backgroundPageTarget == null)
                         {
                             throw new Exception("Cannot get background pages.");
                         }
-
-                        var backgroundPage = await backgroundPageTarget.PageAsync();
 
                         var messages = new List<ConsoleMessage>();
 
