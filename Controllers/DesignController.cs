@@ -473,27 +473,32 @@ namespace RCB.TypeScript.Controllers
                         int cnt = 0;
                         //while (backgroundPageTarget == null)
                         //{
-                            var targets = browser.Targets();
-                            var len = targets.Length;
-                            if (targets != null)
+                        var targets = browser.Targets();
+                        var len = targets.Length;
+                        if (targets != null)
+                        {
+                            for (int t = 0; t < len; ++t)
                             {
-                                for (int t = 0; t < len; ++t)
+                                if (targets[t] != null)
                                 {
-                                    if (targets[t] != null)
+                                    if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
                                     {
-                                        if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
-                                        {
-                                            backgroundPageTarget = targets[t];
-                                        }
+                                        backgroundPageTarget = targets[t];
                                     }
                                 }
                             }
-                            ++cnt;
-                            if (cnt > 5)
-                            {
-                                break;
-                            } 
+                        }
                         //}
+                        //++cnt;
+                        //if (cnt > 5)
+                        //{
+                        //    break;
+                        //} 
+                        //}
+                        if (backgroundPageTarget == null)
+                        {
+                            throw new Exception("Cannot get background pages.");
+                        }
 
                         var backgroundPage = await backgroundPageTarget.PageAsync();
 
