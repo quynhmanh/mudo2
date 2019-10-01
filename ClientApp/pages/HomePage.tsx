@@ -559,6 +559,7 @@ handleUpdateCompleted = () => {
           <h5 style={{
             marginTop: '35px',
             fontWeight: 'bold',
+            color: 'white',
           }}>THÔNG DỤNG</h5>
           <div
             style={{
@@ -1010,6 +1011,14 @@ handleUpdateCompleted = () => {
             </div>
           </div>
           </div>
+          <h2 
+            style={{
+                margin: 0,
+                padding: '30px', 
+                textAlign: 'center', 
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: '#f4f4f6',
+            }}>Chọn loại thiết kế mà bạn muốn</h2>
           <div
           id="hello-world"
           style={{
@@ -1050,7 +1059,7 @@ handleUpdateCompleted = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-              SOCIAL MEDIA
+              MẠNG XÃ HỘI
               </button>
         </li>
           <li style={{
@@ -1072,7 +1081,7 @@ handleUpdateCompleted = () => {
                     fontFamily: 'AvenirNextRoundedPro-Medium',
                     background: 'none',
                 }}>
-                    PROMOTION
+                    KHUYẾN MÃI
                 </button>
         </li>
           <li style={{
@@ -1093,7 +1102,7 @@ handleUpdateCompleted = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                OFFICE
+                VĂN PHÒNG
             </button></li>
           <li style={{
                 height: '100%',
@@ -1133,7 +1142,7 @@ handleUpdateCompleted = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                PERSONAL
+                CÁ NHÂN
             </button></li>
           <li style={{
                 height: '100%',
@@ -1176,7 +1185,7 @@ handleUpdateCompleted = () => {
                     padding: '0px',
                 }}
             >
-        <h4>Fits all social media</h4>
+        <h4>Vừa với mọi mạng xã hội</h4>
 
     {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
         <div className="_3PK-lmKzpAGcI8WTdBQX4i">
@@ -1377,7 +1386,7 @@ handleUpdateCompleted = () => {
         </div>
         <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
     </div>}
-    <h4>Other social media</h4>
+    <h4>Mạng xã hội khác</h4>
     {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
         <div className="_3PK-lmKzpAGcI8WTdBQX4i">
             <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
@@ -1427,7 +1436,7 @@ handleUpdateCompleted = () => {
         </div>
         <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
     </div>}
-    <h4>Online marketing</h4>
+    <h4>Quảng cáo online</h4>
     {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
         <div className="_3PK-lmKzpAGcI8WTdBQX4i">
             <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
