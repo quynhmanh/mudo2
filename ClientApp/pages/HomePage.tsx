@@ -182,6 +182,7 @@ handleUpdateCompleted = () => {
                 height: '50px',
                 display: 'flex',
                 justifyContent: 'space-between',
+                position: 'relative',
             }}>
             <div style={{
                 height: '39px',
@@ -192,10 +193,21 @@ handleUpdateCompleted = () => {
             }}>
     {/* <a>Menu</a> */}
 </div>
-<a id="logo" href="/">
+<a style={{
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    margin: 'auto',
+    width: '200px',
+    height: '100%',
+}} id="logo" href="/">
 <svg style={{
     transform: 'scale(0.5)',
     transformOrigin: 'center 20px',
+    position: 'absolute',
+    left: 0, 
+    right: 0,
+    margin: 'auto',
 }} width="160" height="60" xmlns="http://www.w3.org/2000/svg">
  <metadata id="metadata190397">image/svg+xml</metadata>
 
@@ -276,8 +288,8 @@ handleUpdateCompleted = () => {
             onClick={this.handleProfilePopup}
         ><span style={{marginRight: '10px',}}>{Globals.serviceUser.username}</span>
         <img style={{
-            width: '30px',
-            height: '30px',
+            width: '29px',
+            height: '29px',
             borderRadius: '50%',
         }} src="https://www.google.com/s2/photos/private/AIbEiAIAAABDCOiLwpvLu8CPRCILdmNhcmRfcGhvdG8qKGUxNjQ2YjUwNTQwNTVmNGVlZjdkMTQxNDcxYzhjNzg1YmU4OWRjODQwAQZAjaC_9irsFzfZrYEDu9rc_9V6/s100" />
         </button>
