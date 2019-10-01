@@ -1022,7 +1022,7 @@ handleUpdateCompleted = () => {
           <div
           id="hello-world"
           style={{
-            boxShadow: '0 1px 8px rgba(38,49,71,.08)',
+            // boxShadow: '0 1px 8px rgba(38,49,71,.08)',
             background: '#f4f4f6',
         }}>
           <div style={{padding: 0,}} className="container">
