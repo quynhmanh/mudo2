@@ -583,7 +583,7 @@ handleUpdateCompleted = () => {
             />  
               </li> */}
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/artboard/?template=5d1b70ef8cba87f943f3451b">
+        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/42b2cbbb-f74f-49b2-83a6-aca7315824ef.mp4" poster="https://cdn.crello.com/common/6f8d2178-c251-4c68-a191-0f923e08ee30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -606,7 +606,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/artboard/?template=5c179552133a7853929258d4">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}><img alt="Facebook Post Home stuff 788px 940px" src="https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
             </div>
@@ -624,7 +624,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/artboard/?template=5c8b8de285ea3c16f95d1481">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/5cf49544-381a-4790-903a-bc062d28ea97.mp4" poster="https://cdn.crello.com/common/edf74691-5af9-4554-8ef6-f6f4728c307d_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -647,7 +647,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramSM" data-subcateg="home" href="/artboard/?template=5bdc5a6c9259f9ba5482c192">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}><img alt="Instagram Post Real estate & Building 1080px 1080px" src="https://cdn.crello.com/common/06179643-bda5-4edd-8816-84b8fc4d44db_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
             </div>
@@ -665,7 +665,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/artboard/?template=5cec02477d4459dfe1542af0">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/1adfb977-370f-4db0-ab86-04bcfa8ae6b9.mp4" poster="https://cdn.crello.com/common/f6238807-ceec-4eaf-9aa3-34afe8f25c30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -688,7 +688,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/artboard/?template=5c1783f8133a785392266363">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}><img alt="Facebook Ad Fashion & Style 628px 1200px" src="https://cdn.crello.com/common/a7613810-fa5f-450b-b482-2a6ed4fd897d_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
             </div>
@@ -706,7 +706,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/artboard/?template=5d1b2df48cba87f94364f10f">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/46a49129-6cf5-490d-8103-a34fc91cd63d.mp4" poster="https://cdn.crello.com/common/8714fed0-471e-4a67-9176-2897fc0dbc37_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -729,7 +729,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramStorySM" data-subcateg="home" href="/artboard/?template=5c49ceba048d064dbc2629f0">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramStorySM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}><img alt="Instagram Story Food & Drinks 1920px 1080px" src="https://cdn.crello.com/common/8d368594-f89e-4e3e-affa-7021c4120744_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
             </div>
@@ -747,7 +747,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/artboard/?template=5a0339fed8141396fe98924f">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}><img alt="Facebook Ad Sport & Extreme 628px 1200px" src="https://cdn.crello.com/common/ca029acb-09a0-4b7f-8fa9-389ea5477ac3_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
             </div>
@@ -765,7 +765,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/artboard/?template=5bc9c99478e1194aa6890f1c">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/b2a03204-5f88-4522-a3b2-c6a6e20e800b.mp4" poster="https://cdn.crello.com/common/23b1a253-5b1f-4ab6-949b-c71b40301b8b_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -788,7 +788,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramADSMA" data-subcateg="home" href="/artboard/?template=5c1e1a43133a7853923e5d8a">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}><img alt="Instagram Ad Home stuff 1080px 1080px" src="https://cdn.crello.com/common/52f3771f-658a-4b4c-9df8-b7dceb4bd581_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
             </div>
@@ -806,7 +806,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/artboard/?template=5d0242108cba87f94324488e">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/8714f27a-96e2-421e-bc0c-a62bb6734be4.mp4" poster="https://cdn.crello.com/common/9306da81-1cc9-4ee2-a135-970d8d62a0a2_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -829,7 +829,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/artboard/?template=5d1c50518cba87f94315e669">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/84f08efe-1289-4a19-ac4b-89060140dc66.mp4" poster="https://cdn.crello.com/common/534f5b80-3a47-436b-bab1-9561c122cfed_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -852,7 +852,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/artboard/?template=5d7ba5e5abc8ea6d1c28dbd5">
+        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/f7bfb9ea-09e1-423e-a735-989fed4ad1e1.mp4" poster="https://cdn.crello.com/common/d1c132f6-8b1f-48a4-99b8-fd0682425ca5_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -875,7 +875,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/artboard/?template=5bcd89f178e1194aa645c587">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/bd52c4e4-8151-41cf-96d4-5d6cc144bcdb.mp4" poster="https://cdn.crello.com/common/9fd87f37-1194-462a-b751-110f725cacb8_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -898,7 +898,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/artboard/?template=5ba0f40c18654940f722bbd2">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}><img alt="Facebook Ad Industry 628px 1200px" src="https://cdn.crello.com/common/04eb5b1d-cf71-4114-a9d6-71a651c5203a_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
             </div>
@@ -916,7 +916,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/artboard/?template=5d70d851abc8ea6d1c416f6c">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/c604a4a4-b56f-44e7-b6cf-f5c5d1d735ac.mp4" poster="https://cdn.crello.com/common/890793ba-a8e7-4c3a-a1a0-1e9281d766bd_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -939,7 +939,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/artboard/?template=5d0256218cba87f943559de7">
+        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/0b07ba68-96d6-4196-b462-55e1662cad0b.mp4" poster="https://cdn.crello.com/common/61785313-5b0c-4cd8-b9e7-613e40144e10_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
@@ -962,7 +962,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/artboard/?template=5b51e14300f9c6103a9d6446">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}><img alt="Facebook Post Beauty 788px 940px" src="https://cdn.crello.com/common/92e717c0-ba32-4db7-b5bd-f60f07d4bb5e_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
             </div>
@@ -980,7 +980,7 @@ handleUpdateCompleted = () => {
         </div>
     </li>
     <li className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/artboard/?template=5d00bb2e8cba87f94380a4b7">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <video src="https://cdn.crello.com/video-producer-script/f55e8cd3-1970-40d3-b57c-d271d89d4a33.mp4" poster="https://cdn.crello.com/common/82356167-f8e5-4876-b15f-2930fd80f6d3_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
