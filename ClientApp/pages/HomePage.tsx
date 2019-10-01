@@ -198,7 +198,6 @@ handleUpdateCompleted = () => {
     position: 'absolute',
     left: 0,
     right: 0,
-    margin: 'auto',
     width: '200px',
     height: '100%',
 }} id="logo" href="/">
@@ -369,7 +368,7 @@ handleUpdateCompleted = () => {
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
-                backgroundImage: 'url(https://images.unsplash.com/photo-1475669698648-2f144fcaaeb1?ixlib=rb-1.2.1)',
+                backgroundImage: 'url(https://images.unsplash.com/photo-1493932484895-752d1471eab5?ixlib=rb-1.2.1)',
               }}
             className="offset-header__header u-last-child-margin-bottom-0 u-textAlign-left@medium">
         <div className="h__hero u-color-inherit@medium ">
