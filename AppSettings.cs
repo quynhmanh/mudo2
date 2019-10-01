@@ -145,7 +145,6 @@ namespace RCB.TypeScript
                 ";
 
         public static string templateDownload = @"<html><head>
-          [ADDITIONAL_STYLE]
         </head>
         <style type=""text/css"">
         body {
@@ -232,6 +231,9 @@ namespace RCB.TypeScript
 padding: 1px 0 0 0!important;
   border: 0!important;
   height: 1px!important;
+}
+.canvas {
+  overflow: hidden;
 }
 html {
           -webkit-print-color-adjust: exact;

@@ -8,9 +8,9 @@ class Images {
   @observable images = [];
   @observable fontsList = [];
   @observable fonts = [];
+  @observable upperZIndex = 1;
 
   @action addItem = (item) => {
-    console.log('addItem ', item);
       this.images.push(item);
   }
 
@@ -19,17 +19,19 @@ class Images {
   }
 
   @action addFontItem = (item) => {
-    console.log('addFontItem item ', item);
     this.fontsList.push(item);
   }
 
   @action update = (images) => {
-    console.log('images ', images);
     this.images = images;
   }
 
   @action replaceFirstItem = (image) => {
     this.images[0] = image;
+  }
+
+  @action increaseUpperzIndex = () => {
+    this.upperZIndex += 1;
   }
 }
 
@@ -68,6 +70,8 @@ export default class EditorContainer extends React.Component<IProps, IState> {
   render() {
     return (
       <Editor 
+        upperZIndex={store.upperZIndex}
+        store={store}
         rid={this.props.rid} 
         mode={this.props.mode} 
         match={this.props.match} 
@@ -79,7 +83,9 @@ export default class EditorContainer extends React.Component<IProps, IState> {
         fonts={store.fonts}
         update={store.update}
         replaceFirstItem={store.replaceFirstItem}
-        firstpage={firstpage} />
+        firstpage={firstpage} 
+        increaseUpperzIndex={store.increaseUpperzIndex}
+      />
     );
   }
 }

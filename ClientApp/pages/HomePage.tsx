@@ -1,10 +1,12 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Route, Link } from "react-router-dom";
-
+import Globals from "@Globals";
+import AccountService from "@Services/AccountService";
 import { Helmet } from "react-helmet";
-import styled from "styled-components";
-import TopMenu from "@Components/shared/TopMenu";
+import bind from 'bind-decorator';
+import LoginPopup from "@Components/shared/LoginPopup";
+import ImagePicker from "@Components/shared/ImagePicker";
 
 type Props = RouteComponentProps<{}>;
 
@@ -13,6 +15,9 @@ export interface IProps {}
 interface IState {
   tab: string;
   focusing: boolean;
+  mounted: boolean;
+  navTop: number;
+  externalProviderCompleted: boolean;
 }
 
 
@@ -27,77 +32,368 @@ const crumb = (part, partIndex, parts) => {
       return <Link key={path} to={path} >{part}</Link>}
 
 export default class HomePage extends React.Component<IProps, IState> {
+
   state = {
     tab: "find",
     focusing: false,
+    mounted: false,
+    navTop: 0,
+    externalProviderCompleted: false,
   };
+
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // const nav = document.querySelector('nav');
+    const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
+    this.setState({mounted: true, navTop});
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  @bind
+  async onClickSignOut(e: React.MouseEvent<HTMLAnchorElement>) {
+      e.preventDefault();
+
+      await AccountService.logout();
+
+      this.forceUpdate();
+      this.setState({externalProviderCompleted: false,})
+  }
+
+  onClickDropDownFontSizeList = () => {
+    document.getElementById("myDownloadList").classList.toggle("show");
+
+    const onDown = e => {
+      if (!e.target.matches(".dropbtn-font-size")) {
+        var dropdowns = document.getElementsByClassName(
+          "dropdown-content-font-size"
+        );
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+
+        document.removeEventListener("mouseup", onDown);
+      }
+    };
+
+    document.addEventListener("mouseup", onDown);
+  };
+
+  getDisplayAttribute(cond: boolean) {
+    return cond === true ? "block" : "none";
+}
+
+onClickLogoLogin = () => {
+  document.getElementById("myLogoLogin").classList.toggle("show");
+
+    const onDown = e => {
+      if (!e.target.matches(".dropbtn-font-size")) {
+        var dropdowns = document.getElementsByClassName(
+          "dropdown-content-font-size"
+        );
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+
+        document.removeEventListener("mouseup", onDown);
+      }
+    };
+
+    document.addEventListener("mouseup", onDown);
+}
+
+handleScroll = () => {
+  console.log('handleScroll')
+  const nav = document.getElementById("hello-world");
+  const navTop = this.state.navTop;
+  if (window.scrollY > navTop) {
+    nav.classList.add('fixed-nav');
+    // document.body.style.paddingTop = nav.offsetHeight+'px';
+    document.getElementById("main-container").style.paddingTop= "43px";
+  } else {
+      console.log('remove class');
+    nav.classList.remove('fixed-nav');
+    document.getElementById("main-container").style.paddingTop= "0px";
+  }
+}
+
+handleLogin = () => {
+    document.getElementById("downloadPopup").style.display = "block";
+    // document.getElementById("editor").classList.add("popup");
+}
+
+handleProfilePopup = () => {
+    document.getElementById("myProfilePopup").classList.toggle("show");
+
+    const onDown = e => {
+      if (!e.target.matches(".dropbtn-font-size")) {
+        var dropdowns = document.getElementsByClassName(
+          "dropdown-content-font-size"
+        );
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+
+        document.removeEventListener("mouseup", onDown);
+      }
+    };
+
+    document.addEventListener("mouseup", onDown);
+}
+
+handleUpdateCompleted = () => {
+    console.log('handleUpdateCompleted');
+    this.setState({externalProviderCompleted: true,})
+}
 
   render() {
+    const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
+
+    console.log('user ', Globals.serviceUser);
+
     return (
       <div>
         <Helmet>
           <title>Draft website thiết kế mọi thứ</title>
         </Helmet>
         <div
+        style={{
+            boxShadow: '0 1px 8px rgba(38,49,71,.08)',
+        }}>
+          <div
+            className="container"
+            style={{
+            }}
+          >
+            <div style={{
+                height: '50px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                position: 'relative',
+            }}>
+            <div style={{
+                height: '39px',
+                textAlign: 'center',
+                lineHeight: '39px',
+                fontSize: '16px',
+                width: '200px',
+            }}>
+    {/* <a>Menu</a> */}
+</div>
+<a style={{
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    width: '200px',
+    height: '100%',
+}} id="logo" href="/">
+<svg style={{
+    transform: 'scale(0.5)',
+    transformOrigin: 'center 20px',
+    position: 'absolute',
+    left: 0, 
+    right: 0,
+    margin: 'auto',
+}} width="160" height="60" xmlns="http://www.w3.org/2000/svg">
+ <metadata id="metadata190397">image/svg+xml</metadata>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="62" width="162" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g stroke="null" id="logo-group">
+   <g stroke="null" font-style="normal" font-weight="700" font-size="72px" font-family="'Brandmark1 Bold'" text-anchor="middle" id="title">
+    <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m4.52583,-318.85031c1.04036,2.24451 2.4275,4.29098 4.23078,6.00737c1.87264,1.71639 3.95335,3.10271 6.31149,4.02692c2.4275,0.99023 5.06306,1.45233 7.69863,1.45233c2.63557,0 5.27114,-0.46211 7.69863,-1.45233c2.35814,-0.92421 4.43885,-2.31053 6.31149,-4.02692c1.80328,-1.71639 3.19042,-3.76286 4.23078,-6.00737c1.04036,-2.31053 1.52586,-4.75308 1.52586,-7.32767l0,-32.0173l-10.40356,-3.30075l0,18.74828c-0.55486,-0.26406 -1.10971,-0.52812 -1.66457,-0.72617c-2.4275,-0.99023 -4.99371,-1.45233 -7.69863,-1.45233c-2.63557,0 -5.27114,0.46211 -7.69863,1.45233c-2.35814,0.92421 -4.43885,2.31053 -6.31149,4.02692c-1.80328,1.71639 -3.19042,3.76286 -4.23078,6.00737c-0.971,2.31053 -1.52586,4.75308 -1.52586,7.26166c0,2.57459 0.55486,5.01714 1.52586,7.32767zm18.2409,-16.2397c5.13242,0 9.3632,4.02692 9.3632,8.91203c0,4.95113 -4.23078,8.91203 -9.3632,8.91203c-5.13242,0 -9.3632,-3.9609 -9.3632,-8.91203c0,-4.88511 4.23078,-8.91203 9.3632,-8.91203z" id="path190399"/>
+    <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m58.15835,-307.8258l0,0l0,-16.2397c0,-6.33745 5.40985,-11.55263 12.13748,-11.55263l0,-9.90226c-3.05171,0 -6.03406,0.59414 -8.80834,1.71639c-2.63557,1.05624 -5.06306,2.6406 -7.14378,4.62105c-2.08071,1.91444 -3.67592,4.22496 -4.85499,6.79955c-1.17907,2.6406 -1.73393,5.41323 -1.73393,8.3179l0,16.2397l10.40356,0z" id="path190401"/>
+    <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m97.54557,-344.99227l0.06936,2.11248c-2.77428,-1.3203 -5.82599,-2.04647 -8.94706,-2.04647c-2.63557,0 -5.27114,0.46211 -7.69863,1.45233c-2.35814,0.99023 -4.43885,2.31053 -6.31149,4.02692c-1.80328,1.71639 -3.19042,3.76286 -4.23078,6.00737c-0.971,2.31053 -1.52586,4.8191 -1.52586,7.32767c0,2.50857 0.55486,5.01714 1.52586,7.32767c1.04036,2.24451 2.4275,4.22496 4.23078,6.00737c1.87264,1.71639 3.95335,3.03669 6.31149,4.02692c2.4275,0.92421 5.06306,1.45233 7.69863,1.45233c3.12107,0 6.17278,-0.72617 8.94706,-2.04647l-0.06936,1.51835l10.40356,0l0,-37.16648l-10.40356,0zm-4.16142,26.53805c-1.38714,0.79218 -3.05171,1.25429 -4.71628,1.25429c-5.13242,0 -9.3632,-4.02692 -9.3632,-8.91203c0,-4.88511 4.23078,-8.91203 9.3632,-8.91203c1.80328,0 3.60657,0.46211 5.06306,1.45233c1.52586,0.8582 2.70492,2.1785 3.3985,3.69684c0.62421,1.18827 0.90164,2.44256 0.90164,3.76286c0,1.58436 -0.41614,3.10271 -1.24843,4.48902c-0.83228,1.3203 -1.942,2.44256 -3.3985,3.16872z" id="path190403"/>
+    <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m124.14507,-344.46415l0,-0.06602c0,-5.74331 4.92435,-10.49639 11.02777,-10.49639l0,-9.90226c-2.913,0 -5.75663,0.59414 -8.3922,1.65038c-2.56621,0.99023 -4.85499,2.44256 -6.79699,4.35699c-1.942,1.84842 -3.53721,4.02692 -4.57757,6.46948c-1.10971,2.50857 -1.66457,5.21519 -1.66457,7.92181l0,36.70437l10.40356,0l0,-27.39625l11.02777,0l0,-9.24211l-11.02777,0z" id="path190405"/>
+    <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m157.99997,-335.35407l0,-9.24211l-11.02777,0l0,-11.81669l-10.40356,3.30075l0,25.61384c0,2.77263 0.55486,5.41323 1.66457,7.92181c1.04036,2.44256 2.63557,4.62105 4.57757,6.46948c1.942,1.91444 4.23078,3.36677 6.79699,4.42301c2.63557,1.05624 5.47921,1.58436 8.3922,1.58436l0,-9.90226c-6.10342,0 -11.02777,-4.68707 -11.02777,-10.49639l0,-7.85579l11.02777,0z" id="path190407"/>
+   </g>
+   <g stroke="null" font-style="normal" font-weight="400" font-size="32px" font-family="Montserrat" text-anchor="middle" id="tagline"/>
+  </g>
+ </g>
+</svg>
+</a>
+<div style={{
+    height: '100%',
+    textAlign: 'center',
+    lineHeight: '39px',
+    fontSize: '16px',
+    padding: '10px',
+    position: 'relative',
+}}>
+    {!loggedIn ? <div style={{display: 'flex',}}>
+        <div 
+            style={{
+                borderRight: '1px solid rgb(221, 221, 221)', 
+                height: '19px', 
+                marginLeft: '10px', 
+                marginRight: '10px',
+                marginTop: '6px',
+            }} />
+        <button
+        id="login-btn"
+        style={{
+            height: '30px',
+            lineHeight: '30px',
+            border: 'none',
+            fontSize: '14px',
+            fontWeight: 500,
+            borderRadius: '4px',
+            fontFamily: 'AvenirNextRoundedPro',
+            color: 'black',
+            display: 'block',
+            padding: '0 10px',
+        }}
+        // onClick={() => {location.href='/login';}}
+        onClick={this.handleLogin}
+    >Đăng nhập</button></div>
+    :
+    <div style={{display: 'flex',}}>
+        <div 
+            style={{
+                borderRight: '1px solid rgb(221, 221, 221)', 
+                height: '19px', 
+                marginLeft: '10px', 
+                marginRight: '10px',
+                marginTop: '6px',
+            }} />
+        <button
+            style={{
+                height: '30px',
+                lineHeight: '25px',
+                border: 'none',
+                fontSize: '14px',
+                borderRadius: '4px',
+                fontWeight: '500',
+                fontFamily: 'AvenirNextRoundedPro',
+            }}
+            className="button-list"
+            onClick={this.handleProfilePopup}
+        ><span style={{marginRight: '10px',}}>{Globals.serviceUser.username}</span>
+        <img style={{
+            width: '29px',
+            height: '29px',
+            borderRadius: '50%',
+        }} src="https://www.google.com/s2/photos/private/AIbEiAIAAABDCOiLwpvLu8CPRCILdmNhcmRfcGhvdG8qKGUxNjQ2YjUwNTQwNTVmNGVlZjdkMTQxNDcxYzhjNzg1YmU4OWRjODQwAQZAjaC_9irsFzfZrYEDu9rc_9V6/s100" />
+        </button>
+    </div>}
+    <div id="myProfilePopup"
+    className="dropdown-content-font-size"
+     style={{
+        display: 'none',
+        position: 'absolute',
+        top: '100%',
+        textAlign: 'center',
+        backgroundColor: 'rgb(255, 255, 255)',
+        lineHeight: '2rem',
+        boxShadow: 'rgba(14, 19, 24, 0.02) 0px 0px 0px 1px, rgba(14, 19, 24, 0.15) 0px 2px 8px',
+        width: '100%',
+        background: 'white',
+        padding: '10px 0',
+        zIndex: 999999,
+    }}>
+        <button
+        id="login-btn"
+        style={{
+            height: '30px',
+            lineHeight: '30px',
+            border: 'none',
+            fontSize: '14px',
+            fontFamily: 'AvenirNextRoundedPro',
+            color: 'black',
+            display: 'block',
+            padding: '0 12px',
+            width: '100%',
+            textAlign: 'left',
+        }}
+        // onClick={() => {location.href='/login';}}
+        onClick={this.onClickSignOut}
+    >Đăng xuất</button>
+    </div>
+</div>
+</div>
+          </div>
+        </div>
+        <div
           style={{
             width: "100%",
             position: "relative",
           }}
         >
-          <div
-            style={{
-              position: 'absolute',
-              width: '100%',
-            }}
-          >
-          </div>
+            <div className="">
           <div
             style={{
               position: 'relative',
               width: '100%',
-              height: '300px',
+              height: '420px',
             }}
           >
-            <div className="container" 
+            <div 
+            // className="container" 
             style={{height: '100%',
               borderRadius: '10px',
-              backgroundImage: "url('https://b.imge.to/2019/09/13/v3d8GY.jpg')",
               backgroundSize: 'cover',
             }}>
             <header 
               style={{
                 position: 'relative',
-                top: '40%',
                 marginTop: 'auto',
                 marginBottom: 'auto',
-                transform: 'translateY(-50%)',
+                padding: '20px 50px 0px',
+                content: "",
+                display: 'block',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 1,
+                opacity: .9,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                backgroundImage: 'url(https://images.unsplash.com/photo-1493932484895-752d1471eab5?ixlib=rb-1.2.1)',
               }}
             className="offset-header__header u-last-child-margin-bottom-0 u-textAlign-left@medium">
         <div className="h__hero u-color-inherit@medium ">
           <h2
             style={{
-              textAlign: 'center',
-              color: 'white',
-              fontSize: '40px',
-              marginBottom: '20px',
-              fontFamily: 'AvenirNextRoundedPro-Bold',
+                color: 'white', 
+                textAlign: 'center',
+                fontSize: '35px',
+                marginBottom: '25px',
+                fontFamily: 'Lobster-Regular',
             }}
-          >Thiết kế mọi thứ</h2>
+          >Bắt đầu thiết kế</h2>
           <div
             id="search-icon"
             style={{
-              boxShadow: '0 0 0 1px rgba(14,19,24,.02), 0 2px 8px rgba(14,19,24,.15)',
-              padding: '10px 34px',
-              marginBottom: '44px',
-              backgroundColor: 'white',
-              borderRadius: '5px',
-              width: '450px',
-              margin: 'auto',
+                boxShadow: '0 0 0 1px rgba(14,19,24,.02), 0 2px 8px rgba(14,19,24,.15)',
+                padding: '10px 34px',
+                marginBottom: '44px',
+                backgroundColor: 'white',
+                borderRadius: '5px',
+                width: '500px',
+                margin: 'auto',
+                backgroundImage: "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath fill='currentColor' d='M15.2 16.34a7.5 7.5 0 1 1 1.38-1.45l4.2 4.2a1 1 0 1 1-1.42 1.41l-4.16-4.16zm-4.7.16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z'/%3E%3C/svg%3E\")",
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: '6px 7px',
               // height: this.state.focusing && '400px',
             }}
             onFocus={() => {this.setState({focusing: true,})}}
@@ -108,30 +404,39 @@ export default class HomePage extends React.Component<IProps, IState> {
             }
             contentEditable={true}></div>
           {this.state.focusing && <div
+            id="homepage_list"
             style={{
               width: '100%',
               position: 'absolute',
-              marginTop: '-5px',
+              left: '0',
+              marginTop: '1px',
+              zIndex: 99999,
             }}
           >
             
       <ul
         style={{
           listStyle: 'none',
-          width: '450px',
+          width: '500px',
           margin: 'auto',
           padding: 0,
           backgroundColor: 'white',
           height: '214px',
           overflow: 'scroll',
           borderRadius: '5px',
+          boxShadow: '0 0 0 1px rgba(14,19,24,.02), 0 2px 8px rgba(14,19,24,.15)',
         }}
       className="_10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88">
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
           <ul className="_3iAhdo5irp6o991TKYLo_G _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88" />
         </li>
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-          <div className="_1ERFI8bZ2yaDXttvzi0r56"><span className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Gợi ý</span></div>
+          <div className="_1ERFI8bZ2yaDXttvzi0r56">
+              <span style={{
+                  marginLeft: '5px',
+                  fontFamily: 'AvenirNextRoundedPro-Medium',
+              }} className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Gợi ý</span>
+            </div>
         </li>
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
           <ul style={{listStyle: 'none', padding: 0,}} className="_35hMZzDjUCiFAL0T8RAwqY _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88">
@@ -249,23 +554,639 @@ export default class HomePage extends React.Component<IProps, IState> {
           <ul className="_3ojNQJCHMpm1Q_3Zp_wYzn _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88" />
         </li>
       </ul>
-          </div>
-          }
+          </div>}
+          <h5 style={{
+            marginTop: '35px',
+            fontWeight: 'bold',
+            color: 'white',
+          }}>THÔNG DỤNG</h5>
+          <div
+            style={{
+              height: '220px',
+              position: 'relative',
+            }}
+          >
+        {this.state.mounted && 
+          <div 
+          className="renderView___1QdJs"
+          style={{
+            overflow: 'scroll',
+          }}>
+          <ul className="templateList___2swQr">
+          {/* <li className="templateWrapper___3Fitk">
+            <ImagePicker
+                src="https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg"
+                height={160}
+                defaultHeight={160}
+                width={100}
+            />  
+              </li> */}
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/42b2cbbb-f74f-49b2-83a6-aca7315824ef.mp4" poster="https://cdn.crello.com/common/6f8d2178-c251-4c68-a191-0f923e08ee30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Video Full HD</p>
+            <p className="x-small___1lJKy size___1sVBg">1920x1080 px</p>
         </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}><img alt="Facebook Post Home stuff 788px 940px" src="https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Post</p>
+            <p className="x-small___1lJKy size___1sVBg">940x788 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/5cf49544-381a-4790-903a-bc062d28ea97.mp4" poster="https://cdn.crello.com/common/edf74691-5af9-4554-8ef6-f6f4728c307d_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}><img alt="Instagram Post Real estate & Building 1080px 1080px" src="https://cdn.crello.com/common/06179643-bda5-4edd-8816-84b8fc4d44db_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Post</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/1adfb977-370f-4db0-ab86-04bcfa8ae6b9.mp4" poster="https://cdn.crello.com/common/f6238807-ceec-4eaf-9aa3-34afe8f25c30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}><img alt="Facebook Ad Fashion & Style 628px 1200px" src="https://cdn.crello.com/common/a7613810-fa5f-450b-b482-2a6ed4fd897d_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Ad</p>
+            <p className="x-small___1lJKy size___1sVBg">1200x628 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/46a49129-6cf5-490d-8103-a34fc91cd63d.mp4" poster="https://cdn.crello.com/common/8714fed0-471e-4a67-9176-2897fc0dbc37_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Square Video Post</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramStorySM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}><img alt="Instagram Story Food & Drinks 1920px 1080px" src="https://cdn.crello.com/common/8d368594-f89e-4e3e-affa-7021c4120744_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Story</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}><img alt="Facebook Ad Sport & Extreme 628px 1200px" src="https://cdn.crello.com/common/ca029acb-09a0-4b7f-8fa9-389ea5477ac3_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Ad</p>
+            <p className="x-small___1lJKy size___1sVBg">1200x628 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/b2a03204-5f88-4522-a3b2-c6a6e20e800b.mp4" poster="https://cdn.crello.com/common/23b1a253-5b1f-4ab6-949b-c71b40301b8b_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}><img alt="Instagram Ad Home stuff 1080px 1080px" src="https://cdn.crello.com/common/52f3771f-658a-4b4c-9df8-b7dceb4bd581_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Ad</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/8714f27a-96e2-421e-bc0c-a62bb6734be4.mp4" poster="https://cdn.crello.com/common/9306da81-1cc9-4ee2-a135-970d8d62a0a2_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Square Video Post</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/84f08efe-1289-4a19-ac4b-89060140dc66.mp4" poster="https://cdn.crello.com/common/534f5b80-3a47-436b-bab1-9561c122cfed_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Square Video Post</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/f7bfb9ea-09e1-423e-a735-989fed4ad1e1.mp4" poster="https://cdn.crello.com/common/d1c132f6-8b1f-48a4-99b8-fd0682425ca5_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Video Full HD</p>
+            <p className="x-small___1lJKy size___1sVBg">1920x1080 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/bd52c4e4-8151-41cf-96d4-5d6cc144bcdb.mp4" poster="https://cdn.crello.com/common/9fd87f37-1194-462a-b751-110f725cacb8_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}><img alt="Facebook Ad Industry 628px 1200px" src="https://cdn.crello.com/common/04eb5b1d-cf71-4114-a9d6-71a651c5203a_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Ad</p>
+            <p className="x-small___1lJKy size___1sVBg">1200x628 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/c604a4a4-b56f-44e7-b6cf-f5c5d1d735ac.mp4" poster="https://cdn.crello.com/common/890793ba-a8e7-4c3a-a1a0-1e9281d766bd_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/0b07ba68-96d6-4196-b462-55e1662cad0b.mp4" poster="https://cdn.crello.com/common/61785313-5b0c-4cd8-b9e7-613e40144e10_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Video Full HD</p>
+            <p className="x-small___1lJKy size___1sVBg">1920x1080 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}><img alt="Facebook Post Beauty 788px 940px" src="https://cdn.crello.com/common/92e717c0-ba32-4db7-b5bd-f60f07d4bb5e_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Post</p>
+            <p className="x-small___1lJKy size___1sVBg">940x788 px</p>
+        </div>
+    </li>
+    <li className="templateWrapper___3Fitk">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+            <div className="previewWrapper___mbAh5">
+                <div style={{paddingTop: 0}}>
+                    <video src="https://cdn.crello.com/video-producer-script/f55e8cd3-1970-40d3-b57c-d271d89d4a33.mp4" poster="https://cdn.crello.com/common/82356167-f8e5-4876-b15f-2930fd80f6d3_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
+                    <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
+            </div>
+            <div className="editTemplateWrapper___29oLU">
+                <div className="editTemplate___3q0zy">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                        <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        <div className="templateInfo___2YZSg">
+            <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Square Video Post</p>
+            <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
+        </div>
+    </li>
+</ul>
+          </div>
+            } 
+          </div>
+          </div>
       </header>
             </div>
           </div>
-      <section style={{padding: '30px 0'}}>
-      <div className="container">
+          </div>
+          <h2 
+            style={{
+                margin: 0,
+                padding: '30px', 
+                textAlign: 'center', 
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: '#f4f4f6',
+            }}>Chọn loại thiết kế mà bạn muốn</h2>
+          <div
+          id="hello-world"
+          style={{
+            // boxShadow: '0 1px 8px rgba(38,49,71,.08)',
+            background: '#f4f4f6',
+        }}>
+          <div style={{padding: 0,}} className="container">
+          <nav 
+            // style={{
+            //     boxShadow: '0 1px 8px rgba(38,49,71,.08)',
+            // }}
+            className="">
+          <ul style={{
+            listStyle: 'none',
+            display: 'flex',
+            margin: 0,
+            padding: 0,
+            borderBottom: '1px solid #e0e2e7',
+          }}>
+          <li
+            style={{
+                height: '100%',
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px 0px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+                marginRight: '20px',
+            }}
+          >
+            <button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+              MẠNG XÃ HỘI
+              </button>
+        </li>
+          <li style={{
+                height: '100%',
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px 0px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+                marginRight: '20px',
+            }}>
+                <button 
+                className="button-list"
+                style={{
+                    borderRadius: '4px',
+                    border: 'none',
+                    fontFamily: 'AvenirNextRoundedPro-Medium',
+                    background: 'none',
+                }}>
+                    KHUYẾN MÃI
+                </button>
+        </li>
+          <li style={{
+                height: '100%',
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px 0px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+                marginRight: '20px',
+            }}><button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+                VĂN PHÒNG
+            </button></li>
+          <li style={{
+                height: '100%',
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px 0px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+                marginRight: '20px',
+            }}><button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+                WEB
+            </button></li>
+          <li style={{
+                height: '100%',
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px 0px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+                marginRight: '20px',
+            }}><button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+                CÁ NHÂN
+            </button></li>
+          <li style={{
+                height: '100%',
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px 0px',
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+                marginRight: '20px',
+            }}><button 
+            className="button-list"
+            style={{
+                borderRadius: '4px',
+                border: 'none',
+                fontFamily: 'AvenirNextRoundedPro-Medium',
+                background: 'none',
+            }}>
+                VIDEO
+            </button></li>
+          </ul>
+          </nav>
+          </div>
+          </div>
+          <div id="main-container" style={{
+            background: '#f4f4f6',
+          }}>
+      <section 
+        className="container"
+        style={{
+          padding: '30px 0',
+        }}>
+      <div 
+      // className="container"
+      >
         <div>
         <div className="_30p__PONPi-YqVEVlgnN_6"
                 style={{
-                    padding: '20px',
+                    padding: '0px',
                 }}
             >
-    <div className="_22sigMUdyJNIFhyyvf2MEI GBHbdnAmvUa3G4DLXk6Mj">
-        <h3 className="_2lgTACDxLrI1ZOlITIhup- W9IR-ZsiAOretU6xTyjoD _2f7Wjwll8O11wJb1_gQkn1 _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _1fgQS83UQD74-sbLyIX6g2 _1kLjfztPsOUw9W-PSOI9Zu">Bạn sẽ thiết kế gì ?</h3></div>
-    <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
+        <h4>Vừa với mọi mạng xã hội</h4>
+
+    {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
         <div className="_3PK-lmKzpAGcI8WTdBQX4i">
             <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
@@ -310,16 +1231,24 @@ export default class HomePage extends React.Component<IProps, IState> {
                         </div>
                     </a>
                 </div>
+            </div>
+        </div>
+        <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
+    </div>}
+    <h4>Facebook</h4>
+    {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
+        <div className="_3PK-lmKzpAGcI8WTdBQX4i">
+            <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
                 <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
                     <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpJEfIY/1/0/thumbnail_large-1.jpg" alt="Ảnh bìa Facebook" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Facebook Cover">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Ảnh bìa Facebook</p>
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Mạng xã hội">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Mạng xã hội</p>
                             </div>
                         </div>
                     </a>
@@ -328,26 +1257,12 @@ export default class HomePage extends React.Component<IProps, IState> {
                     <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPjqjKaE/1/0/thumbnail_large-1.jpg" alt="Tờ rơi" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Flyer">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Tờ rơi</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a"  target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC4-jLh4zI/3/0/thumbnail_large.jpg" alt="Bài đăng Facebook" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Facebook Post">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Bài đăng Facebook</p>
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Presentation">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Thuyết trình</p>
                             </div>
                         </div>
                     </a>
@@ -356,152 +1271,12 @@ export default class HomePage extends React.Component<IProps, IState> {
                     <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
                         <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
                             <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACytlYGjpE/1/0/thumbnail_large-7.jpg" alt="Bài đăng Instagram" /></div>
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" /></div>
                             </div>
                         </div>
                         <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Bài đăng Instagram">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Bài đăng Instagram</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhR9Ss1k/3/0/thumbnail_large.jpg" alt="Ảnh bìa blog" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Ảnh bìa blog">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Ảnh bìa blog</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPndQv8A/1/0/thumbnail_large-1.jpg" alt="Thẻ" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Thẻ">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Thẻ</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADGeZLBv64/3/0/thumbnail_large.jpg" alt="Tiêu đề email" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Tiêu đề email">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Tiêu đề email</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC3Yq3okKs/1/0/thumbnail_large-5.jpg" alt="Bài đăng twitter" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Bài đăng twitter">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Bài đăng twitter</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPn5AItM/3/0/thumbnail_large.jpg" alt="Ảnh pinterest" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Ảnh pinterest">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Ảnh pinterest</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC6SzsCfjk/1/0/thumbnail_large-2.jpg" alt="Ảnh quảng cáo Facebook" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Ảnh quảng cáo Facebook">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Ảnh quảng cáo Facebook</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPuq6KoU/1/0/thumbnail_large-1.jpg" alt="Ảnh Tumblr" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Ảnh Tumblr">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Ảnh Tumblr</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MACzQ_XLjmU/1/0/thumbnail_large-7.jpg" alt="US Letter Document" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="US Letter Document">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>US Letter Document</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPra3zWc/1/0/thumbnail_large-1.jpg" alt="Tài liệu A4" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Tài liệu A4">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Tài liệu A4</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
-                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
-                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
-                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
-                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADLhfrXwUM/2/0/thumbnail_large.jpg" alt="Tiêu đề thư" /></div>
-                            </div>
-                        </div>
-                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
-                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Tiêu đề thư">
-                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Tiêu đề thư</p>
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Poster">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Áp phích</p>
                             </div>
                         </div>
                     </a>
@@ -509,67 +1284,216 @@ export default class HomePage extends React.Component<IProps, IState> {
             </div>
         </div>
         <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
+    </div>}
+    <h4>Instagram</h4>
+    {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
+        <div className="_3PK-lmKzpAGcI8WTdBQX4i">
+            <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Mạng xã hội">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Mạng xã hội</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Presentation">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Thuyết trình</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Poster">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Áp phích</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
+    </div>}
+    <h4>Twitter</h4>
+    {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
+        <div className="_3PK-lmKzpAGcI8WTdBQX4i">
+            <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Mạng xã hội">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Mạng xã hội</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Presentation">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Thuyết trình</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Poster">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Áp phích</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
+    </div>}
+    <h4>Mạng xã hội khác</h4>
+    {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
+        <div className="_3PK-lmKzpAGcI8WTdBQX4i">
+            <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Mạng xã hội">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Mạng xã hội</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Presentation">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Thuyết trình</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Poster">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Áp phích</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
+    </div>}
+    <h4>Quảng cáo online</h4>
+    {this.state.mounted && <div className="-ePYCIKwmKaSsQTHX72YG putVYyFpLWTsqziLXPxhR">
+        <div className="_3PK-lmKzpAGcI8WTdBQX4i">
+            <div className="_1sza4uX0yqDVxS7xsxMj-L" style={{transform: 'translateX(0px)', marginLeft: '-16px'}}>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg" alt="Mạng xã hội" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Mạng xã hội">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Mạng xã hội</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg" alt="Thuyết trình" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Presentation">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Thuyết trình</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div className="_1sXEXOyAuGxKeBcoq3FFet" style={{width: '260px', padding: '0px 16px'}}>
+                    <a href="/editor/design/0adbe687-162d-41e6-9269-8949eee2795a" target="_blank" rel="noopener" className="W56bwmOoUEWuw0JBlRz-2 _2aKg0X_H8NWpvhkrUx-RCx GmbHrxVFwcwmq3F1bJOZX">
+                        <div className="_2lzBIR6ocB6IHyiSQO14y4 _2dZ0q_go7R7wdHwlcrMMCe" >
+                            <div className="KsKYqtasMRtnJj6_FSCbm _1IeZR-KFbU_ixJO0DOAKpv">
+                                <div className="_1IeZR-KFbU_ixJO0DOAKpv"><img className="_3o3qNO09RZSy4GD3c_VsI8" crossOrigin="anonymous" src="https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg" alt="Áp phích" /></div>
+                            </div>
+                        </div>
+                        <div className="_13_0Qr0UHa9ciVx-UoPbt6">
+                            <div className="_2_AI1Qtuteq5eFV-UJKpRD" title="Poster">
+                                <p className="_5mwGlnrCD5Xe7VPI_nx_5 W9IR-ZsiAOretU6xTyjoD _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 dFR9ZpYFSrlcob8ppV9jE _2E01o2wzyojtKLJx9bUZGP _1kLjfztPsOUw9W-PSOI9Zu _1gVgCtIuBtlNl2_uDIWl5J" style={{WebkitLineClamp: 2, maxHeight: 'calc(3.2em)'}}>Áp phích</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div className="_1e9RJ140GkyvDh6KOo5VX6 _3olv_1czQo3hEv28-Bjg7P" style={{display: 'none', top: 'calc(calc(50% - 20px) + -20px)', right: '-24px'}}><span className="_1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh _3afRAIYF_d3AMkQFT_AuCI"><svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z" /></svg></span></div>
+    </div>}
+    <div>
     </div>
         </div>
         </div>
       </div>
       </section>
-{/*           
-      <div className="jsx-104637934 footer-section">
-        <div className="jsx-104637934 container">
-          <div className="jsx-104637934 upper">
-            <div className="jsx-104637934 row">
-              <div className="jsx-104637934 col-md-2 col-4 contact">
-                <h4 className="jsx-104637934 title">Liên hệ</h4>
-                <div className="jsx-104637934 body">
-                  <ul className="jsx-104637934 list-unstyled">
-                    <li className="jsx-104637934"><a href="mailto:19006710" className="jsx-104637934">19006710</a></li>
-                    <li className="jsx-104637934"><a href="mailto:help@mudo.vn" className="jsx-104637934">help@mudo.vn</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div className="jsx-104637934 col-md-2 col-4 company">
-                <h4 className="jsx-104637934 title">Doanh nghiệp</h4>
-                <div className="jsx-104637934 body">
-                  <ul className="jsx-104637934 list-unstyled">
-                    <li className="jsx-104637934"><a href="https://pages.mudo.vn/about-us" className="jsx-104637934">Về Leflair</a></li>
-                    <li className="jsx-104637934"><a href="https://styleguide.mudo.vn/" className="jsx-104637934">Style Guide</a></li>
-                    <li className="jsx-104637934"><a href="https://pages.mudo.vn/partners" className="jsx-104637934">Hợp tác</a></li>
-                    <li className="jsx-104637934"><a href="https://pages.mudo.vn/genuine-guarantee" className="jsx-104637934">Chính hãng</a></li>
-                    <li className="jsx-104637934"><a href="https://careers.mudo.vn" className="jsx-104637934">Tuyển dụng</a></li>
-                    <li className="jsx-104637934"><a className="jsx-104637934" href="/vn/brands">Thương hiệu</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div className="jsx-104637934 col-md-2 col-4 customer-service">
-                <h4 className="jsx-104637934 title">Chăm sóc khách hàng</h4>
-                <div className="jsx-104637934 body">
-                  <ul className="jsx-104637934 list-unstyled">
-                    <li className="jsx-104637934"><a target="_blank" href="https://support.mudo.vn/hc/vi" className="jsx-104637934">Hỏi đáp</a></li>
-                    <li className="jsx-104637934"><a target="_blank" href="https://support.mudo.vn/hc/vi/articles/214167448-Ch%C3%ADnh-s%C3%A1ch-tr%E1%BA%A3-h%C3%A0ng-v%C3%A0-ho%C3%A0n-ti%E1%BB%81n" className="jsx-104637934">Đổi trả</a></li>
-                    <li className="jsx-104637934"><a target="_blank" href="https://support.mudo.vn/hc/vi/articles/214857097-%C4%90i%E1%BB%81u-kho%E1%BA%A3n-v%C3%A0-quy-%C4%91%E1%BB%8Bnh-chung" className="jsx-104637934">Điều khoản &amp; quy định</a></li>
-                    <li className="jsx-104637934"><a target="_blank" href="https://support.mudo.vn/hc/vi/articles/214167378-Ch%C3%ADnh-s%C3%A1ch-giao-v%C3%A0-nh%E1%BA%ADn-h%C3%A0ng" className="jsx-104637934">Giao hàng</a></li>
-                    <li className="jsx-104637934"><a target="_blank" href="https://support.mudo.vn/hc/vi/articles/214113678-T%C3%B4i-c%C3%B3-nh%E1%BA%ADn-%C4%91%C6%B0%E1%BB%A3c-h%C3%B3a-%C4%91%C6%A1n-GTGT-trong-b%C6%B0u-ki%E1%BB%87n-kh%C3%B4ng-" className="jsx-104637934">Thuế</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="jsx-104637934 lower">
-            <div className="jsx-104637934 row">
-              <div className="jsx-104637934 col-md-8">
-                <div className="jsx-104637934 row">
-                  <div className="jsx-104637934 col-md-6 copyright">
-                    <a href="http://www.online.gov.vn/HomePage/CustomWebsiteDisplay.aspx?DocId=19306" target="_blank" rel="noreferrer" className="jsx-104637934 gov-link"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABLCAMAAAACojjaAAABWVBMVEVHcEz////////////////////k7/kAgc7///////////////////8Ags3///////////////////////////////91rdX///////8Ags7///8Ags4AhNL///8Ag8////8Ag9D///8Ags0Ag9AAgs7d7/mKyOj///8aj9PU6vcAfMwNiNAAecvS6Paez+2j0e1Sqt5oteJWrN8vmNfl8vpstuOQyOq83fLP5/b///8Af80AfcwAgM0GhM8Agc4QidEAgs4JhtAAfs32+v0Ti9KNxulMp915veUWjNKTyurG4vQqltYiktTa7fjB4POu1+80m9g+oNq32/EZjtNfsOAAh9Wy2fCZzOuAwOfY6/f7/f+o1O74/P45ntnz+f1HpNyFw+hbrt9Cotvf7/kllNXd7vkDg87K5PXw+PwAg9FyueQfkNQAhtSJxeni8PpjsuHp9Pvn8/rt9vz3DzTLAAAAKHRSTlMA6vW2p1IOWcD9NQceyOF0lBcrgkHVBtljwIkw82itbIBb50xi42/IiaMvjgAADoRJREFUeF7U1VduwkAUBVDb2IgxiBJCCQkJfESs4c2MC733Tnrvdf8lioTMOCSEP8ZnB1f3XT1hNa9vOx2OIQDJlVTUkOBIXjUgxySwICRmgopPcBg1EUHwAwIEoivuoGLcaQ+CP4lB1SE3lYzAapLshChKBv4nBXkfi0+G9fjjfNfhh7XJ/K4+Gkaw5PSjOW2+fs5gSYzXpbhlsLtvFS9OnoysljX69VK5fQU2SEoLPAp5gJXvDRo6IZjq3ygmJGdcVm1ZEDrgMUcGGO/FOiXUtNMJKbzdAQMF+Lsrto98tUGw+RtKtMGUTRLn7Quy+2h12DKWajHOj8EiKQJXEmCZTbQcUwHWTUqITjHTSpcpRdwSOKKgxTpKRGdyVLoF3J88atddpiRSGYHlcGeT9lO77D9f/MGbDjHnctikjdrRGI+K7fJZLdvr4Nt5RqyNwfLy8Lw5w+FeKmoFkb+INdPm1JErDFcqVUkqU1kmmUryYTJZKlXBkjAYsKEXtTYEYl8HzL4J4YGY7f8vOdplwL53UlM35wMWpxf106fP2y1h5FvN9DkYS6UwOfTMeWVgJNuV+rYsqvqMw26kaCloM56o8v/Rfvj+uz9dLaxMhfgpnW8nWhZZ3rX2i+zD/ZM0WIEEbJaHoqtnlN0HJGWRye8YJiqFBh+YysHcfLZhjlw7v/+7p7zBsV1betWwsuXrib5i7O7bvUolUcpbm1K6Kpa3mVZrhplNomQDkgci3zbaOrSMZJPJ7xpJ6Trc9TONFPRng17F5J+/cED+hnx79Hs0873X5Xn5uF2QmEVt1ZJ5q9syzvtJ/jiyeGbD7vZ+u5V0e6hkC4UaKlvye0Yf0VkbFz4zJngyHC/ojZD8ywlIkOkNytxoW3fxkpZqlx9FKvvtmIyx1F/idu05sXWASTI4SYIjNEwcg75oYZTcjvoV6qq2ZxQ7hXYVWmmMqpNGosMYfAUc5wOunSqOuW1Ut+fnUVpw+nJrhCGxQf4SCG8Vu9W7hdn0dbOp8oRdbobcor0dlL0AkCBNanxYk3ZLYK8LHobPtV5f9S5x3GbJMzNVeupQti29SpRO9EZjnsa081QqLVWrWFpgKj2O2omu6OCDB+x5JjN7YCVdt6OHjS3UWISpadl7+r8vppXhwnH23ObhXvK1KaKuVbA35E6wuFJhSEjDdW0M6qIOHNFWZ37dGTjTmG3QMMY9OkGdJrk0/OkRq4YSXN49zo2cBQkex/p2gO2CBpHp7s6tIcq+Acg3vmQNvFkVMZntuweYkFvGcKvgD5pU4sizNg1BRmh4r5cRmhOZwR/0EqNORPTXNkLZV716j4YVDEUvnfwZHYvzKbBWgOjckePoXthCrS0oiXMfK45envpHhCaY5U/QW1yUSQkgtkCVJBGQ37+VHsbXUxzdbrn3Mw77I56ckG+aSSMg450Qe0F1SvNHtEKopbrrWkghdBAIl/BB8hOESoLQQ9rOBBCUwjYItDcFAHv2QNayUESoS3BzONyj6Y5C06MkQITnEZBf/Bm5tpeoEw9xtnp+Ao5PGpkcUWiPJApiqtIJlZl969dhUEa6znSREKQFg+GcBgAyRiMHpIG0KjER0n0QnjvYIND8BLEAsd6gjESgrR4B+bW7snwnbpUL1XrDYp/maEU5UBtHQapc3gaBW5+XL+j+GsTk1LoL8hqAtIcnI+eDKIeHJvVALE6HsGKio1wSUplzQZZvQX7nn3knzkiY8XiqzxT6YznQMe+xM6mHxrOOA8I9oTuphsryFUi31YpfghRXKLnxQJRqp8PLLsh0lB0P+5aMs6ix02BaboL8HLl252gZSR03o2ySfAbHGb21luqVlBBY2QGhWdTj2uho0AsQxy5BFgmUKLsgneRY07wccasuMONXaM7WaCPfAAl3w5Ljo8Z8XTLUT3MsA47LPVF9PKLhpmSDUH6P5oKOhk18CbKq1bQrkCTK7D2QwhSyxwM5Pz/foeGSq4zRgsva03ID5A/++/aF47MKqWV/hv8HDoj4VY5gkJ6kI1Xkcmk1RbF8CdKVoFdvaYmTMZqHqtWy1S0JqSXMbSG+AfKNnyJp7JyN6u27NPkkx+wFXVmdvVEtG4RAao6eGgg9XYFUVHYFchB6AQipaiEIjyEYI+EZje+f6va03AD5h39+d04duF0Qijr5URx+bGoKi4Bw/BGVublXlqUfyS8XgBx8kB2pRiKiECgdgd/PAgBRuDfyG2yHOcsR3+S6vZnhH8OhbwPZoiFIy+gOUYProYyuP2XQnmc3QQxYe1kpZuuXDcLtpjZIHw0XIlR99ED21U4RbkQHKK7rfQ3VSRtpMxF82xDkt2/nDFcXTfIJjkKUo8QlvatpNQRB0yl4CvbJSSDCyFu41yAdkDV0Ah1PEEA6EPgKIEuEhqshejGpp1ov0JvWjGmoKHAkB9FIwfc9smsEIP522PCUigqWIeMPOaZRDkb8s+DY9EESmjYev+S6pHrWYM7IVtNcQScLTTuA416bAkhWO8XIrgfdvSQkUplqXUIeNK1P8MMaUOLuyrA2dm/neoGbadrMbZxWt4AxzEGNAAR5lvA339TdsW2Sz+WgTF36cuGfiZlRBYuJhCnVKs9kxlerTgbClWnCFTNMU5TlmFkVZUqrrckOU1k0TZ4xxTQNJhOp2Uor3tTuTNOsdmSVSU4rljdNhZE81BChxlVERp6uHIZ23lbeIyHJKMcTZTKAXEREpo7ZQ3c/mfsnvILS4FOmGDD8usx1Mqxi9qY3t7HfR1AjBPkZcq2HA44PSEhSi+Y5ZXaILnNEZl/MQpTgRVCdOuvKf3ZdV8gnOV4pcxPYtbPhgyj5L2VSCOI/5w4UJjPxDqEPSEjqDYcbWlL0WwT7yPbuS1mCXuzs7lMc4zMosFWaXHGMIxxzfPHcXvbjzKTYl7K8HD1rhYdX3Efvk5DFJYdrm1D3fBIaGKcGl1HfT2VMvj79boktj20U2j5NPs1BY2fPVbyRVfSQVq99FfD91AbPI1HZom9JIps86UY5nn2OULTQ7E1EnHJabPQqEVH2fbZQuzVC4Y3qtiezfrGMsae9FgtaeZ4Q5I/+UcmgDkkPhZZpktscKgsAS75oxYJ+lU6sw9tVWCpdSGMXTjXSHQd/kU5WwGeI8EU0LBj9Lp137iPGYp0OLHzLEO1eDKdYtgxrWeDEiikLxS3Pw12cciKlq4xGQL55+2aKKlGSE5BccxRDDsavAv0OReE4GAyeFIZT8UFt5J4lrfk6vtYt2fEl8lgZ9FUZtwYSNhq1+LoIlfBkMFhB05JUa2EIdU5u3fGM8XetxraZq62zydWsFJdsz1LFD7V4rb0LVStMkjaWb5BMSLhPBsnAIjtL6A1X4T5mTM4HYTLt8rt6gzoivU+LldMWfAu+Wm9gZY8KBC+PEmnUY+JynCJ2fPLFdceQjPMSQFIreXmyQfbxdjrzLBl99MAlkE4Yf5pxM60gGu06C0GCLVFL+yQNFNpxQj7gkKmfU+M0DkHWlAh1XRiNOEbMKWQJU1YHTua2I26UAF9laorrck0iMNLdFKJOtge7OeMeBjKjxrnFYS4JIBkbJPPAFXOYYT4zE0bxc4vYFw3oRzX7PAtAwrXVJ/Itkpbw8C6HOvGLylZEFzKtyWOtie8eiMzEFUw23Z0dUNEaHGzfPmllUuW+sDwps6PEMBE4t+nDwJIB5KHZbBbXPshS6JWgXK0/C43S80BUMjMCfTPCCdGIfOX/OjL1J5WKo+jq0qMcoNIRo73wNWVUqMvlfV2y1l1wigP4pNWzrV4MsBY2yDplZQoVbTI5KYUTr6b01ySOgBwHm82mNmAeyIzLvhIAyb4KjXurNrcyM7o+cDtdL0o0AAnfbCFYzbdI0LscpOAzZvIsEpG1yJRsn1xFxFIiEUkK83gho0CaAMigQaIRWVILQ474IJGIwGOXtlxDRB4BJDGsRkG+/lkoXB+TDLeEReMhDYINkshREJkKxRzn5shLNEdcX+XFFDNJouQ2K74zXXKqoL8FsVULcqR1liiVzkuhGMcU86ckgBBSqh1nQqLHUWF39kF+AI5wK0H7GA5IEjc4Hi8OLaUgkWI0CpKJGc2aLjSnXSmqWunTIzcBX7U+wsoxScgEgWqVBmmxU0+4II81G+TFUa29KO3nPD9fSTh2AtW6jysEQKhUQzOuOX3glYPm3fc/3zkgX/sKjNoWC0k+ybEYRrU3IsmZXG4AgkKSd3FvH2HWvJYbzO195G6wHklUyRWITOYDuHqCkp5J3TmoA0h+MAGQwkZUJ5t4vNzEMp5sarWsicn9E7SaZVpYLeTi8fiByS6I91v7X5FvOg5IrPsLjocLjsmLX1STaLRElPJ5Z2dXlUIFU39nr+SJ4zNjtk8SbbdkOSUxSv2m8GFJoneJRdO0MHzBluns47xiD80uV6FI8Ub0/W+836e/+hW6nlsg+ZCjsgrKLt8V+89uTMy5aRecqMIzkvfFLaFh00hZWDlsFZaHD9A/fAsBcQ0O875t1UhMPuKoBWX3WH7PdvwX+H+Bb3/pc0R/oUZzRgOSfsBxeMvBtfZBg1rnv9XbWUvDQBSG4dMs1SwkIbEqqQoiGL2RqEU5mRDqRmNVUUyttgWpgIhEqv7/xTXJBFrMjTh5/sF7883NmbgzSdz5a/HCUh0oAqb6YbrCQXdsh++NHjHBrU79p5U65FQdTK3fEz8p+VrYQUR3BCTsYmYR2KLWMNU7XiP+T8lOD9+GdAdpDs8wYwFrzDnMNFoh8b634cI93aduzh7udjEjGQBsl2DjebtJPl8Vj6QLSMjVqI00G1ikOkgbtFuXhwFJeHsnUf8FaZJelgtmfD3fuNncct3o6ej69gDzKsvALJ3DwhwTGCZPYzGcVQWmKbqGBfAyME+1K/gLR4RSUC0NJ5N4USnRdzGhMr6iZstQLqpoOPkYSeN1WYESmlVn5i1D4D8Ihi6aDO/UO5ZV7qarrJrFAAAAAElFTkSuQmCC" alt="copyright" className="jsx-104637934 image" /></a><span className="jsx-104637934 text">Copyright @ 2019 mudo.vn</span></div>
-                  <div className="jsx-104637934 col-md-6 address">Công ty Cổ phần Leflair - Tầng 16, Tháp A2, Tòa nhà Viettel, 285 Cách Mạng Tháng Tám, P.12, Q.10, TP.HCM</div>
-                </div>
-              </div>
-              <div className="jsx-104637934 col-md-4">Cơ quan cấp: Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh</div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-        </div>
+      </div>
+      </div>
+      <LoginPopup handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={(user) => { this.setState({externalProviderCompleted: true}); window['publicSession'] = {serviceUser: user};  Globals.reset(); Globals.init({public: window['publicSession']}); this.forceUpdate();}} />
       </div>
     );
   }

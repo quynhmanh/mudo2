@@ -58,7 +58,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
 
       rect = svgElement.getBoundingClientRect();
       console.log("mouseDOwn");
-      bufferSize = document.getElementById("cmbBufferSize").value;
+      // bufferSize = document.getElementById("cmbBufferSize").value;
       path = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
       path.setAttribute("fill", "none");
       path.setAttribute("stroke", "#000");
@@ -99,7 +99,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
       };
       rect = svgElement.getBoundingClientRect();
       console.log("mouseDOwn");
-      bufferSize = document.getElementById("cmbBufferSize").value;
+      // bufferSize = document.getElementById("cmbBufferSize").value;
       path = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
       path.setAttribute("fill", "none");
       path.setAttribute("stroke", "#000");

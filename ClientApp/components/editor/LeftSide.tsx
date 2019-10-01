@@ -32,6 +32,9 @@ export interface IProps {
   fontsList: any;
   fonts: any;
   subtype: any;
+  dragging: boolean;
+  increaseUpperzIndex: any;
+  mounted: boolean;
 }
 
 interface IState {
@@ -41,6 +44,9 @@ interface IState {
   items2: any;
   hasMoreFonts: boolean;
   userUpload1: any;
+  userUpload2: any;
+  currentUserUpload1: number;
+  currentUserUpload2: number;
   currentItemsHeight: any;
   currentItems2Height: any;
   cursor: any;
@@ -68,10 +74,20 @@ interface IState {
   currentGroupedTexts2Height: number;
   hasMoreTemplate: boolean;
   isTemplateLoading: any;
+  hasMoreTextTemplate: boolean;
+  isUserUploadLoading: boolean;
+  hasMoreUserUpload: boolean;
+  isRemovedBackgroundImageLoading: boolean;
+  hasMoreRemovedBackground: boolean;
+  currentHeightRemoveImage1: number;
+  currentHeightRemoveImage2: number;
+  hasMoreBackgrounds: boolean;
+  currentTemplatesHeight: number;
+  currentTemplate2sHeight: number;
 }
 
-const imgWidth = 167;
-const backgroundWidth = 106.33;
+const imgWidth = 162;
+const backgroundWidth = 105;
 
 enum TemplateType {
   Template = 1,
@@ -92,8 +108,8 @@ enum SidebarTab {
   Background = 8,
   Element = 16,
   Upload = 32,
-  RemovedBackgroundImage = 64,
-  Video = 128,
+  Video = 64,
+  RemovedBackgroundImage = 128,
   Font = 248,
   Color = 496,
   Emoji = 992
@@ -811,7 +827,17 @@ class LeftSide extends PureComponent<IProps, IState> {
     hasMoreTemplate: true,
     isTemplateLoading: false,
     subtype: null,
-    isTextTemplateLoading: false
+    isTextTemplateLoading: false,
+    hasMoreTextTemplate: true,
+    currentHeightRemoveImage1: 0,
+    currentHeightRemoveImage2:0 ,
+    currentUserUpload1: 0,
+    currentUserUpload2: 0,
+    hasMoreBackgrounds: true,
+    isUserUploadLoading: false,
+    hasMoreUserUpload: true,
+    isRemovedBackgroundImageLoading: false,
+    hasMoreRemovedBackground: true,
   };
 
   componentDidMount() {
@@ -821,6 +847,8 @@ class LeftSide extends PureComponent<IProps, IState> {
     this.loadMoreFont.bind(this)(true);
     this.loadMoreTextTemplate.bind(this)(true);
     this.loadMoreTemplate.bind(this)(true, this.props.subtype);
+    this.loadmoreUserUpload.bind(this)(true);
+    this.loadMoreVideo.bind(this)(true);
     console.log("props", this.props);
   }
 
@@ -828,6 +856,34 @@ class LeftSide extends PureComponent<IProps, IState> {
     if (this.props.subtype !== prevProps.subtype) {
       this.loadMoreTemplate.bind(this)(true, this.state.subtype);
     }
+  }
+
+  loadMoreVideo = (initialLoad) => {
+    let pageId;
+    let count;
+    if (initialLoad) {
+      pageId = 1;
+      count = 30;
+    } else {
+      pageId = (this.state.fontsList.length) / 30 + 1;
+      count = 30;
+    }
+    // this.setState({ isLoading: true, error: undefined });
+    const url = `/api/Media/Search?page=${pageId}&perPage=${count}&type=${TemplateType.Video}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        res => {
+          console.log('loadMoreVideo ', url ,res);
+          this.setState(state => ({
+            videos: [...state.videos, ...res.value.key],
+            hasMoreVideos: res.value.value > state.videos.length + res.value.key.length,
+          }))
+        },
+        error => {
+          // this.setState({ isLoading: false, error })
+        }
+    )
   }
 
   handleRemoveAllMedia = () => {
@@ -998,7 +1054,7 @@ class LeftSide extends PureComponent<IProps, IState> {
     e.preventDefault();
     var target = e.target.cloneNode(true);
     target.style.zIndex = "11111111111";
-    target.src = img.representativeThumbnail;
+    target.src = img.representativeThumbnail ? img.representativeThumbnail : e.target.src;
     target.style.width = e.target.getBoundingClientRect().width + "px";
     target.style.backgroundColor = e.target.style.backgroundColor;
     document.body.appendChild(target);
@@ -1092,6 +1148,8 @@ class LeftSide extends PureComponent<IProps, IState> {
             zIndex: this.props.upperZIndex + 1
           });
 
+          this.props.increaseUpperzIndex();
+
           // self.setState({upperZIndex: this.state.upperZIndex + 1, });
         }
       }
@@ -1151,8 +1209,6 @@ class LeftSide extends PureComponent<IProps, IState> {
       backgroundColor: null,
       childId: null
     });
-
-    this.setState({ images });
   }
 
   videoOnMouseDown(e) {
@@ -1237,10 +1293,10 @@ class LeftSide extends PureComponent<IProps, IState> {
           rec.top < rec2.bottom &&
           rec.bottom > rec2.top
         ) {
-          let images = [...this.state.images];
-          images.push({
+
+          this.props.addItem({
             _id: uuidv4(),
-            type: TemplateType.RemovedBackgroundImage,
+            type: TemplateType.Video,
             width: rec2.width / self.props.scale,
             height: rec2.height / self.props.scale,
             origin_width: rec2.width / self.props.scale,
@@ -1259,8 +1315,6 @@ class LeftSide extends PureComponent<IProps, IState> {
             page: this.props.pages[i],
             zIndex: this.props.upperZIndex + 1
           });
-
-          this.props.images.replace(images);
 
           // self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
         }
@@ -1328,23 +1382,10 @@ class LeftSide extends PureComponent<IProps, IState> {
               document.zIndex = this.props.upperZIndex + 1;
               document.width = rec2.width / self.props.scale;
               document.height = rec2.height / self.props.scale;
-              // document.width = rec2.width;
-              // document.height = rec2.height;
-              // document.origin_width = document.width / document.scaleX;
-              // document.origin_height = document.height / document.scaleY;
               document.scaleX = document.width / document.origin_width;
               document.scaleY = document.height / document.origin_height;
               document.left = (rec2.left - rec.left) / self.props.scale;
               document.top = (rec2.top - rectTop) / self.props.scale;
-              // document.scaleX = rec2.width / this.state.rectWidth;
-              // document.scaleY = rec2.height / this.state.rectHeight;
-              // document.scaleX = 1;
-              // document.scaleY = 1;
-              // document.document_object = document.document.map(obj => {
-              //   // obj.childId = uuidv4();
-              //   // obj._id = uuidv4();
-              //   return obj;
-              // })
 
               console.log("docuemnt ", document);
 
@@ -1384,10 +1425,7 @@ class LeftSide extends PureComponent<IProps, IState> {
               fonts = [...fonts, ...doc.fontList];
               this.props.fonts.replace(fonts);
 
-              // self.setState({
-              //   fonts: doc.fontList,
-              //   upperZIndex: this.state.upperZIndex + 1,
-              // });
+              this.props.increaseUpperzIndex();
             });
         }
       }
@@ -1566,11 +1604,15 @@ class LeftSide extends PureComponent<IProps, IState> {
       count = 5;
     }
     this.setState({ isTemplateLoading: true, error: undefined });
+    var subtype = subtype ? subtype : this.props.subtype;
     const url = `/api/Template/Search?Type=${
       TemplateType.Template
-    }&page=${pageId}&perPage=${count}&printType=${
-      subtype ? subtype : this.props.subtype
-    }`;
+    }&page=${pageId}&perPage=${count}&printType=${subtype}`;
+
+    if (!subtype) {
+      return;
+    }
+
     console.log("loadmoretemplate url ", url, subtype, this.props.subtype);
     fetch(url)
       .then(res => res.json())
@@ -1594,14 +1636,14 @@ class LeftSide extends PureComponent<IProps, IState> {
                 imgWidth / (currentItem.width / currentItem.height);
             }
           }
-          // this.setState(state => ({
-          //   templates: [...state.templates, ...res1],
-          //   templates2: [...state.templates2, ...res2],
-          //   currentTemplatesHeight,
-          //   currentTemplate2sHeight,
-          //   isTemplateLoading: false,
-          //   hasMoreTemplate: res.value.value > state.templates.length + state.templates2.length + res.value.key.length,
-          // }))
+          this.setState(state => ({
+            templates: [...state.templates, ...res1],
+            templates2: [...state.templates2, ...res2],
+            currentTemplatesHeight,
+            currentTemplate2sHeight,
+            isTemplateLoading: false,
+            hasMoreTemplate: res.value.value > state.templates.length + state.templates2.length + res.value.key.length,
+          }))
         },
         error => {
           // this.setState({ isLoading: false, error })
@@ -1628,11 +1670,11 @@ class LeftSide extends PureComponent<IProps, IState> {
     this.setState({ isBackgroundLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.BackgroundImage}&page=${pageId}&perPage=${count}`;
-    fetch(url)
+    fetch(url)  
       .then(res => res.json())
       .then(
         res => {
-          console.log("ress ", res);
+          console.log("loadMoreBackground ress ", res);
           var result = res.value.key;
           var currentBackgroundHeights1 = this.state.currentBackgroundHeights1;
           var currentBackgroundHeights2 = this.state.currentBackgroundHeights2;
@@ -1662,17 +1704,16 @@ class LeftSide extends PureComponent<IProps, IState> {
                 backgroundWidth / (currentItem.width / currentItem.height);
             }
           }
-          // this.setState(state => ({
-          //   backgrounds1: [...state.backgrounds1, ...res1],
-          //   backgrounds2: [...state.backgrounds2, ...res2],
-          //   backgrounds3: [...state.backgrounds3, ...res3],
-          //   currentBackgroundHeights1,
-          //   currentBackgroundHeights2,
-          //   currentBackgroundHeights3,
-          //   cursor: res.cursor,
-          //   isBackgroundLoading: false,
-          //   hasMoreBackgrounds: res.value.value > state.items.length + state.items2.length + res.value.key.length,
-          // }))
+          this.setState(state => ({
+            backgrounds1: [...state.backgrounds1, ...res1],
+            backgrounds2: [...state.backgrounds2, ...res2],
+            backgrounds3: [...state.backgrounds3, ...res3],
+            currentBackgroundHeights1,
+            currentBackgroundHeights2,
+            currentBackgroundHeights3,
+            isBackgroundLoading: false,
+            hasMoreBackgrounds: res.value.value > state.items.length + state.items2.length + res.value.key.length,
+          }))
         },
         error => {
           this.setState({ isBackgroundLoading: false, error });
@@ -1734,6 +1775,13 @@ class LeftSide extends PureComponent<IProps, IState> {
   };
 
   loadmoreUserUpload = initialload => {
+    if (!Globals.serviceUser || !Globals.serviceUser.username) {
+      this.setState(state => ({
+        isUserUploadLoading: false,
+        hasMoreUserUpload: false,
+      }));
+      return;
+    }
     let pageId;
     let count;
     if (initialload) {
@@ -1752,6 +1800,7 @@ class LeftSide extends PureComponent<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
+          console.log('loadmoreUserUpload res ', res);
           var result = res.value.key;
           var currentUserUpload1 = this.state.currentUserUpload1;
           var currentUserUpload2 = this.state.currentUserUpload2;
@@ -1775,7 +1824,6 @@ class LeftSide extends PureComponent<IProps, IState> {
             userUpload2: [...state.userUpload2, ...res2],
             currentUserUpload1,
             currentUserUpload2,
-            cursor: res.cursor,
             isUserUploadLoading: false,
             hasMoreUserUpload:
               res.value.value >
@@ -1800,7 +1848,7 @@ class LeftSide extends PureComponent<IProps, IState> {
       pageId = (this.state.items.length + this.state.items2.length) / 15 + 1;
       count = 15;
     }
-    this.setState({ isRemovedBackgroundLoading: true, error: undefined });
+    this.setState({ isRemovedBackgroundImageLoading: true, error: undefined });
     // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.RemovedBackgroundImage}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
     fetch(url)
@@ -1830,15 +1878,14 @@ class LeftSide extends PureComponent<IProps, IState> {
             removeImages2: [...state.removeImages2, ...res2],
             currentHeightRemoveImage1,
             currentHeightRemoveImage2,
-            cursor: res.cursor,
-            isLoading: false,
+            isRemovedBackgroundImageLoading: false,
             hasMoreRemovedBackground:
               res.value.value >
               state.items.length + state.items2.length + res.value.key.length
           }));
         },
         error => {
-          this.setState({ isRemovedBackgroundLoading: false, error });
+          this.setState({ isRemovedBackgroundImageLoading: false, error });
         }
       );
   };
@@ -1875,7 +1922,20 @@ class LeftSide extends PureComponent<IProps, IState> {
       );
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.dragging
+      // nextProps.resizing
+      ) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
+    // if (!this.props.mounted) {
+    //   return null;
+    // }
+    console.log('leftside render');
     return (
       <div
         style={{
@@ -1887,11 +1947,12 @@ class LeftSide extends PureComponent<IProps, IState> {
             ? `${this.props.toolbarSize}px`
             : "80px",
           height: "100%",
-          position: "absolute",
+          position: "relative",
           display: "flex"
         }}
       >
         <TopMenu
+          mounted={this.props.mounted}
           mode={this.props.mode}
           toolbarSize={this.props.toolbarSize}
           selectedTab={this.props.selectedTab}
@@ -1970,7 +2031,7 @@ class LeftSide extends PureComponent<IProps, IState> {
             RemoveAll
           </button>
         </div>
-        {this.props.toolbarOpened && (
+        {this.props.mounted && this.props.toolbarOpened && (
           <div
             id="sidebar-content"
             style={{
@@ -2016,10 +2077,8 @@ class LeftSide extends PureComponent<IProps, IState> {
                   isLoading={this.state.isLoading}
                   hasMore={this.state.hasMoreImage}
                   onLoadMore={this.loadMore.bind(this, false)}
-                  height="calc(100% - 45px)"
-                  width={imgWidth}
                   refId="sentinel"
-                  marginTop={30}
+                  marginTop={45}
                 >
                   <div
                     id="image-container-picker"
@@ -2034,11 +2093,13 @@ class LeftSide extends PureComponent<IProps, IState> {
                     >
                       {this.state.items.map((item, key) => (
                         <ImagePicker
+                          id=""
                           key={key}
                           color={item.color}
                           src={item.representativeThumbnail}
                           height={imgWidth / (item.width / item.height)}
                           defaultHeight={imgWidth}
+                          width={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
@@ -2057,9 +2118,10 @@ class LeftSide extends PureComponent<IProps, IState> {
                               src={""}
                               height={imgWidth}
                               defaultHeight={imgWidth}
+                              width={imgWidth}
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
-                              //   onEdit={this.handleEditmedia.bind(this, null)}
+                              onEdit={this.handleEditmedia.bind(this, null)}
                               delay={0}
                             />
                           ))}
@@ -2075,9 +2137,10 @@ class LeftSide extends PureComponent<IProps, IState> {
                               src={""}
                               height={imgWidth}
                               defaultHeight={imgWidth}
+                              width={imgWidth}
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
-                              //   onEdit={this.handleEditmedia.bind(this, null)}
+                                onEdit={this.handleEditmedia.bind(this, null)}
                               delay={0}
                             />
                           ))}
@@ -2090,14 +2153,16 @@ class LeftSide extends PureComponent<IProps, IState> {
                     >
                       {this.state.items2.map((item, key) => (
                         <ImagePicker
+                          id=""
                           key={key}
                           color={item.color}
                           src={item.representativeThumbnail}
                           height={imgWidth / (item.width / item.height)}
                           defaultHeight={imgWidth}
+                          width={imgWidth}
                           className=""
                           onPick={this.imgOnMouseDown.bind(this, item)}
-                          // onEdit={this.handleEditmedia.bind(this, item)}
+                          onEdit={this.handleEditmedia.bind(this, item)}
                           delay={-1}
                         />
                       ))}
@@ -2113,10 +2178,11 @@ class LeftSide extends PureComponent<IProps, IState> {
                               src={""}
                               height={imgWidth}
                               defaultHeight={imgWidth}
+                              width={imgWidth}
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
-                              delay={-1}
+                              delay={150}
                             />
                           ))}
                       {this.state.mounted &&
@@ -2131,10 +2197,11 @@ class LeftSide extends PureComponent<IProps, IState> {
                               src={""}
                               height={imgWidth}
                               defaultHeight={imgWidth}
+                              width={imgWidth}
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
-                              delay={-1}
+                              delay={150}
                             />
                           ))}
                     </div>
@@ -2153,7 +2220,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                     boxShadow:
                       "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
                     position: "absolute",
-                    top: 0
+                    top: "6px",
                   }}
                   onKeyDown={this.handleQuery}
                   type="text"
@@ -2176,7 +2243,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   `translate3d(0px, calc(${
                     this.props.selectedTab < SidebarTab.Text ? 40 : -40
                   }px), 0px)`,
-                top: "10px",
+                top: "20px",
                 zIndex: this.props.selectedTab !== SidebarTab.Text && -1,
                 height: "100%"
               }}
@@ -2257,7 +2324,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                       });
                       var scale =
                         this.props.rectWidth /
-                        e.target.getBoundingClientRect().width;
+                        (e.target as HTMLElement).getBoundingClientRect().width;
 
                       images.push({
                         _id,
@@ -2270,7 +2337,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                         top: 0,
                         rotateAngle: 0.0,
                         innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 42px; font-family: O5mEMMs7UejmI1WeSKWQ;">Thêm tiêu đề</div>',
+                          '<div class="font" style="text-align: left;font-size: 42px; font-family: AvenirNextRoundedPro;">Thêm tiêu đề</div>',
                         scaleX: 1,
                         scaleY: 1,
                         selected: false,
@@ -2278,12 +2345,14 @@ class LeftSide extends PureComponent<IProps, IState> {
                         page: this.props.activePageId,
                         zIndex: this.props.upperZIndex + 1,
                         color: "black",
-                        fontSize: 42
+                        fontSize: 42,
+                        fontRepresentative: "images/default.png",
                       });
 
                       console.log("images ", images);
 
                       this.props.images.replace(images);
+                      this.props.increaseUpperzIndex();
 
                       // this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
                     }}
@@ -2294,7 +2363,8 @@ class LeftSide extends PureComponent<IProps, IState> {
                     style={{
                       fontSize: "22px",
                       width: "100%",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      marginTop: '6px',
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
@@ -2307,33 +2377,35 @@ class LeftSide extends PureComponent<IProps, IState> {
                       });
                       var scale =
                         this.props.rectWidth /
-                          e.target.getBoundingClientRect().width -
+                          (e.target as HTMLElement).getBoundingClientRect().width -
                         0.3;
 
                       images.push({
                         _id,
                         type: TemplateType.Heading,
-                        width: 190 * 1,
-                        origin_width: 190,
+                        width: 200 * 1,
+                        origin_width: 200,
                         height: 32 * 1,
                         origin_height: 32,
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
                         innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 24px; font-family: O5mEMMs7UejmI1WeSKWQ;">Thêm tiêu đề con</div>',
+                          '<div class="font" style="text-align: left;font-size: 24px; font-family: AvenirNextRoundedPro;">Thêm tiêu đề con</div>',
                         scaleX: 1,
                         scaleY: 1,
                         page: this.props.activePageId,
                         zIndex: 1,
                         ref: this.props.idObjectSelected,
                         color: "black",
-                        fontSize: 24
+                        fontSize: 24,
+                        fontRepresentative: "images/default.png",
                       });
 
                       this.props.images.replace(images);
+                      this.props.increaseUpperzIndex();
 
-                      // thi`s`.setState({ upperZIndex: this.state.upperZIndex + 1 });
+                      // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
                     }}
                   >
                     Thêm tiêu đề con
@@ -2343,7 +2415,8 @@ class LeftSide extends PureComponent<IProps, IState> {
                       fontSize: "16px",
                       width: "100%",
                       cursor: "pointer",
-                      marginTop: "7px"
+                      marginTop: "10px",
+                      marginBottom: '18px',
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
@@ -2356,7 +2429,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                       });
                       var scale =
                         this.props.rectWidth /
-                          e.target.getBoundingClientRect().width -
+                        (e.target as HTMLElement).getBoundingClientRect().width -
                         0.6;
                       images.push({
                         _id,
@@ -2369,28 +2442,29 @@ class LeftSide extends PureComponent<IProps, IState> {
                         top: 0,
                         rotateAngle: 0.0,
                         innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 16px; font-family: O5mEMMs7UejmI1WeSKWQ;">Thêm đoạn văn</div>',
+                          '<div class="font" style="text-align: left;font-size: 16px; font-family: AvenirNextRoundedPro;">Thêm đoạn văn</div>',
                         scaleX: 1,
                         scaleY: 1,
                         page: this.props.activePageId,
-                        zIndex: this.state.upperZIndex + 1,
+                        zIndex: this.props.upperZIndex + 1,
                         ref: this.props.idObjectSelected,
                         color: "black",
-                        fontSize: 16
+                        fontSize: 16,
+                        fontRepresentative: "images/default.png",
                       });
 
                       this.props.images.replace(images);
 
-                      this.setState({
-                        upperZIndex: this.state.upperZIndex + 1
-                      });
+                      // this.setState({
+                      //   upperZIndex: this.state.upperZIndex + 1
+                      // });
                     }}
                   >
                     Thêm đoạn văn
                   </div>
                 </div>
                 {
-                  <div style={{ height: "calc(100% - 180px)" }}>
+                  <div style={{ height: "calc(100% - 152px)" }}>
                     <InfiniteScroll
                       scroll={true}
                       throttle={500}
@@ -2398,7 +2472,6 @@ class LeftSide extends PureComponent<IProps, IState> {
                       isLoading={this.state.isTemplateLoading}
                       hasMore={this.state.hasMoreTextTemplate}
                       onLoadMore={this.loadMoreTextTemplate.bind(this, false)}
-                      height="calc(100% - 180px)"
                       refId="sentinel"
                       marginTop={0}
                     >
@@ -2417,20 +2490,60 @@ class LeftSide extends PureComponent<IProps, IState> {
                         >
                           {this.state.groupedTexts.map((item, key) => (
                             <ImagePicker
+                              id=""
                               key={key}
                               color={item.color}
                               src={item.representative}
                               height={imgWidth / (item.width / item.height)}
+                              defaultHeight={imgWidth}
+                              width={imgWidth}
+                              delay={0}
                               className="text-picker"
                               onPick={this.textOnMouseDown.bind(this, item.id)}
                               onEdit={() => {
-                                this.setState({
-                                  showTemplateEditPopup: true,
-                                  editingMedia: item
-                                });
+                                // this.setState({
+                                //   showTemplateEditPopup: true,
+                                //   editingMedia: item
+                                // });
                               }}
                             />
                           ))}
+                          {this.state.hasMoreTextTemplate &&
+                      Array(1)
+                        .fill(0)
+                        .map((item, i) => (
+                          <ImagePicker
+                            key={i}
+                            id="sentinel"
+                            color="black"
+                            src={""}
+                            height={imgWidth}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            className=""
+                            onPick={this.imgOnMouseDown.bind(this, null)}
+                            onEdit={this.handleEditmedia.bind(this, null)}
+                            delay={0}
+                          />
+                        ))}
+                    {this.state.hasMoreTextTemplate &&
+                      Array(10)
+                        .fill(0)
+                        .map((item, i) => (
+                          <ImagePicker
+                            key={i}
+                            id="sentinel"
+                            color="black"
+                            src={""}
+                            height={imgWidth}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            className=""
+                            onPick={this.imgOnMouseDown.bind(this, null)}
+                            onEdit={this.handleEditmedia.bind(this, null)}
+                            delay={0}
+                          />
+                        ))}
                         </div>
                         <div
                           style={{
@@ -2439,6 +2552,10 @@ class LeftSide extends PureComponent<IProps, IState> {
                         >
                           {this.state.groupedTexts2.map((item, key) => (
                             <ImagePicker
+                              id=""
+                              defaultHeight={imgWidth}
+                              delay={0}
+                              width={imgWidth}
                               key={key}
                               color={item.color}
                               className="text-picker"
@@ -2446,13 +2563,49 @@ class LeftSide extends PureComponent<IProps, IState> {
                               src={item.representative}
                               onPick={this.textOnMouseDown.bind(this, item.id)}
                               onEdit={() => {
-                                this.setState({
-                                  showTemplateEditPopup: true,
-                                  editingMedia: item
-                                });
+                                // this.setState({
+                                //   showTemplateEditPopup: true,
+                                //   editingMedia: item
+                                // });
                               }}
                             />
                           ))}
+                          {this.state.hasMoreTextTemplate &&
+                      Array(1)
+                        .fill(0)
+                        .map((item, i) => (
+                          <ImagePicker
+                            key={i}
+                            id="sentinel"
+                            color="black"
+                            src={""}
+                            height={imgWidth}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            className=""
+                            onPick={this.imgOnMouseDown.bind(this, null)}
+                            onEdit={this.handleEditmedia.bind(this, null)}
+                            delay={150}
+                          />
+                        ))}
+                    {this.state.hasMoreTextTemplate &&
+                      Array(10)
+                        .fill(0)
+                        .map((item, i) => (
+                          <ImagePicker
+                            key={i}
+                            id="sentinel"
+                            color="black"
+                            src={""}
+                            height={imgWidth}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            className=""
+                            onPick={this.imgOnMouseDown.bind(this, null)}
+                            onEdit={this.handleEditmedia.bind(this, null)}
+                            delay={150}
+                          />
+                        ))}
                         </div>
                       </div>
                     </InfiniteScroll>
@@ -2484,8 +2637,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 isLoading={this.state.isTemplateLoading}
                 hasMore={this.state.hasMoreTemplate}
                 onLoadMore={this.loadMoreTemplate.bind(this, false)}
-                marginTop={30}
-                onEdit={null}
+                marginTop={45}
                 refId="sentinel"
               >
                 <div
@@ -2500,6 +2652,10 @@ class LeftSide extends PureComponent<IProps, IState> {
                   >
                     {this.state.templates.map((item, key) => (
                       <ImagePicker
+                        id=""
+                        defaultHeight={imgWidth}
+                        delay={0}
+                        width={imgWidth}
                         key={key}
                         color={item.color}
                         src={item.representative}
@@ -2507,13 +2663,49 @@ class LeftSide extends PureComponent<IProps, IState> {
                         className="template-picker"
                         onPick={this.templateOnMouseDown.bind(this, item.id)}
                         onEdit={() => {
-                          this.setState({
-                            showTemplateEditPopup: true,
-                            editingMedia: item
-                          });
+                          // this.setState({
+                          //   showTemplateEditPopup: true,
+                          //   editingMedia: item
+                          // });
                         }}
                       />
                     ))}
+                    {this.state.hasMoreTemplate &&
+                      Array(1)
+                        .fill(0)
+                        .map((item, i) => (
+                          <ImagePicker
+                            key={i}
+                            id="sentinel"
+                            color="black"
+                            src={""}
+                            height={imgWidth}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            className=""
+                            onPick={this.imgOnMouseDown.bind(this, null)}
+                            onEdit={this.handleEditmedia.bind(this, null)}
+                            delay={0}
+                          />
+                        ))}
+                    {this.state.hasMoreTemplate &&
+                      Array(10)
+                        .fill(0)
+                        .map((item, i) => (
+                          <ImagePicker
+                            key={i}
+                            id="sentinel"
+                            color="black"
+                            src={""}
+                            height={imgWidth}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            className=""
+                            onPick={this.imgOnMouseDown.bind(this, null)}
+                            onEdit={this.handleEditmedia.bind(this, null)}
+                            delay={0}
+                          />
+                        ))}
                   </div>
                   <div
                     style={{
@@ -2522,6 +2714,10 @@ class LeftSide extends PureComponent<IProps, IState> {
                   >
                     {this.state.templates2.map((item, key) => (
                       <ImagePicker
+                        id=""
+                        defaultHeight={imgWidth}
+                        delay={-1}
+                        width={imgWidth}
                         key={key}
                         color={item.color}
                         className="template-picker"
@@ -2529,13 +2725,49 @@ class LeftSide extends PureComponent<IProps, IState> {
                         src={item.representative}
                         onPick={this.templateOnMouseDown.bind(this, item.id)}
                         onEdit={() => {
-                          this.setState({
-                            showTemplateEditPopup: true,
-                            editingMedia: item
-                          });
+                          // this.setState({
+                          //   showTemplateEditPopup: true,
+                          //   editingMedia: item
+                          // });
                         }}
                       />
                     ))}
+                    {this.state.hasMoreTemplate &&
+                      Array(1)
+                        .fill(0)
+                        .map((item, i) => (
+                          <ImagePicker
+                            key={i}
+                            id="sentinel"
+                            color="black"
+                            src={""}
+                            height={imgWidth}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            className=""
+                            onPick={this.imgOnMouseDown.bind(this, null)}
+                            onEdit={this.handleEditmedia.bind(this, null)}
+                            delay={150}
+                          />
+                        ))}
+                    {this.state.hasMoreTemplate &&
+                      Array(10)
+                        .fill(0)
+                        .map((item, i) => (
+                          <ImagePicker
+                            key={i}
+                            id="sentinel"
+                            color="black"
+                            src={""}
+                            height={imgWidth}
+                            width={imgWidth}
+                            defaultHeight={imgWidth}
+                            className=""
+                            onPick={this.imgOnMouseDown.bind(this, null)}
+                            onEdit={this.handleEditmedia.bind(this, null)}
+                            delay={150}
+                          />
+                        ))}
                   </div>
                 </div>
               </InfiniteScroll>
@@ -2552,7 +2784,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   boxShadow:
                     "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
                   position: "absolute",
-                  top: 0
+                  top: "6px",
                 }}
                 onKeyDown={this.handleQuery}
                 type="text"
@@ -2596,17 +2828,21 @@ class LeftSide extends PureComponent<IProps, IState> {
                   id="image-container-picker"
                   style={{
                     display: "flex",
-                    padding: "0px 13px 10px 0px"
+                    padding: "10px 13px 10px 0px"
                   }}
                 >
                   <div
                     style={{
                       width: "350px",
-                      marginRight: "10px"
+                      marginRight: "8px"
                     }}
                   >
                     {this.state.backgrounds1.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        id=""
+                        delay={0}
+                        width={backgroundWidth}
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
@@ -2614,7 +2850,6 @@ class LeftSide extends PureComponent<IProps, IState> {
                         defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
-                        delay={0}
                       />
                     ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2627,6 +2862,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             color="black"
                             src={""}
                             height={backgroundWidth}
+                            width={backgroundWidth}
                             defaultHeight={backgroundWidth}
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
@@ -2644,6 +2880,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                             color="black"
                             src={""}
                             height={backgroundWidth}
+                            width={backgroundWidth}
                             defaultHeight={backgroundWidth}
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
@@ -2655,11 +2892,14 @@ class LeftSide extends PureComponent<IProps, IState> {
                   <div
                     style={{
                       width: "350px",
-                      marginRight: "10px"
+                      marginRight: "8px"
                     }}
                   >
                     {this.state.backgrounds2.map((item, key) => (
                       <ImagePicker
+                        className=""
+                        width={backgroundWidth}
+                        id=""
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
@@ -2667,7 +2907,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                         defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
-                        delay={-1}
+                        delay={150}
                       />
                     ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2682,9 +2922,10 @@ class LeftSide extends PureComponent<IProps, IState> {
                             height={backgroundWidth}
                             defaultHeight={backgroundWidth}
                             className=""
+                            width={backgroundWidth}
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-1}
+                            delay={150}
                           />
                         ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2697,11 +2938,12 @@ class LeftSide extends PureComponent<IProps, IState> {
                             color="black"
                             src={""}
                             height={backgroundWidth}
+                            width={backgroundWidth}
                             defaultHeight={backgroundWidth}
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-1}
+                            delay={150}
                           />
                         ))}
                   </div>
@@ -2712,14 +2954,17 @@ class LeftSide extends PureComponent<IProps, IState> {
                   >
                     {this.state.backgrounds3.map((item, key) => (
                       <ImagePicker
+                        id=""
+                        className=""
                         key={key}
                         color={item.color}
                         src={item.representativeThumbnail}
                         height={backgroundWidth / (item.width / item.height)}
+                        width={backgroundWidth}
                         defaultHeight={backgroundWidth}
                         onPick={this.backgroundOnMouseDown.bind(this, item)}
                         onEdit={this.handleEditmedia.bind(this, item)}
-                        delay={-2}
+                        delay={300}
                       />
                     ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2733,10 +2978,11 @@ class LeftSide extends PureComponent<IProps, IState> {
                             src={""}
                             height={backgroundWidth}
                             defaultHeight={backgroundWidth}
+                            width={backgroundWidth}
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-2}
+                            delay={300}
                           />
                         ))}
                     {this.state.hasMoreBackgrounds &&
@@ -2750,10 +2996,11 @@ class LeftSide extends PureComponent<IProps, IState> {
                             src={""}
                             height={backgroundWidth}
                             defaultHeight={backgroundWidth}
+                            width={backgroundWidth}
                             className=""
                             onPick={this.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
-                            delay={-2}
+                            delay={300}
                           />
                         ))}
                   </div>
@@ -2812,7 +3059,6 @@ class LeftSide extends PureComponent<IProps, IState> {
                               border: "none",
                               backgroundColor: "transparent"
                             }}
-                            href="#"
                             onClick={e => {
                               this.props.selectFont(font.id, e);
                             }}
@@ -2861,7 +3107,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                               }}
                               src={font.representative}
                             />
-                            {this.state.fontId === font.id ? (
+                            {this.props.fontId === font.id ? (
                               <span
                                 style={{
                                   position: "absolute",
@@ -2965,7 +3211,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 </ul>
               </div>
             </div>
-            <div
+            {/* <div
               style={{
                 opacity:
                   this.props.selectedTab === SidebarTab.RemovedBackgroundImage
@@ -2996,7 +3242,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 scroll={true}
                 throttle={500}
                 threshold={300}
-                isLoading={this.state.isRemovedBackgroundLoading}
+                isLoading={this.state.isRemovedBackgroundImageLoading}
                 hasMore={this.state.hasMoreRemovedBackground}
                 onLoadMore={this.loadMoreRemovedBackgroundImage.bind(
                   this,
@@ -3068,7 +3314,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   </div>
                 </div>
               </InfiniteScroll>
-            </div>
+            </div> */}
             <div
               style={{
                 opacity: this.props.selectedTab === SidebarTab.Element ? 1 : 0,
@@ -3131,7 +3377,6 @@ class LeftSide extends PureComponent<IProps, IState> {
                 position: "absolute",
                 width: "347px",
                 color: "white",
-                overflow: "scroll",
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
@@ -3215,7 +3460,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                 throttle={100}
                 threshold={0}
                 isLoading={this.state.isUserUploadLoading}
-                marginTop={30}
+                marginTop={35}
                 hasMore={this.state.hasMoreUserUpload}
                 onLoadMore={this.loadmoreUserUpload.bind(this, false)}
                 refId="sentinel"
@@ -3240,6 +3485,13 @@ class LeftSide extends PureComponent<IProps, IState> {
                     >
                       {this.state.userUpload1.map((item, key) => (
                         <ImagePicker
+                          id=""
+                          className=""
+                          height={imgWidth}
+                          defaultHeight={imgWidth}
+                          color=""
+                          delay={0}
+                          width={imgWidth}
                           key={key}
                           src={item.representative}
                           onPick={this.imgOnMouseDown.bind(this, item)}
@@ -3255,8 +3507,9 @@ class LeftSide extends PureComponent<IProps, IState> {
                               id="sentinel"
                               color="black"
                               src={""}
-                              height={backgroundWidth}
-                              defaultHeight={backgroundWidth}
+                              height={imgWidth}
+                              defaultHeight={imgWidth}
+                              width={imgWidth}
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
@@ -3272,8 +3525,9 @@ class LeftSide extends PureComponent<IProps, IState> {
                               id="sentinel"
                               color="black"
                               src={""}
-                              height={backgroundWidth}
-                              defaultHeight={backgroundWidth}
+                              height={imgWidth}
+                              defaultHeight={imgWidth}
+                              width={imgWidth}
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
@@ -3288,6 +3542,13 @@ class LeftSide extends PureComponent<IProps, IState> {
                     >
                       {this.state.userUpload2.map((item, key) => (
                         <ImagePicker
+                          id=""
+                          className=""
+                          height={imgWidth}
+                          defaultHeight={imgWidth}
+                          color=""
+                          width={imgWidth}
+                          delay={0}
                           key={key}
                           src={item.representative}
                           onPick={this.imgOnMouseDown.bind(this, item)}
@@ -3303,8 +3564,9 @@ class LeftSide extends PureComponent<IProps, IState> {
                               id="sentinel"
                               color="black"
                               src={""}
-                              height={backgroundWidth}
-                              defaultHeight={backgroundWidth}
+                              height={imgWidth}
+                              defaultHeight={imgWidth}
+                              width={imgWidth}
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
@@ -3320,8 +3582,9 @@ class LeftSide extends PureComponent<IProps, IState> {
                               id="sentinel"
                               color="black"
                               src={""}
-                              height={backgroundWidth}
-                              defaultHeight={backgroundWidth}
+                              height={imgWidth}
+                              defaultHeight={imgWidth}
+                              width={imgWidth}
                               className=""
                               onPick={this.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
@@ -3343,7 +3606,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   height: "37px",
                   marginBottom: "10px",
                   position: "absolute",
-                  top: 0,
+                  top: "6px",
                   boxShadow:
                     "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
                 }}
@@ -3351,7 +3614,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                   document.getElementById("image-file").click();
                 }}
               >
-                Tải lên một hình ảnh
+                Tải lên một ảnh
               </button>
             </div>
             {/* } */}

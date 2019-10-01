@@ -43,7 +43,7 @@ body {
   .wrapper {
     background-color: #f5f5f5;
     position: absolute;
-    height: calc(100% - 45px);
+    height: calc(100% - 55px);
     top: 40px;
   }
   
@@ -71,7 +71,7 @@ body {
 .rotate {
     background: white;
     border-radius: 50%;
-    box-shadow: 0 0 5px 1px rgba(14,19,24,.15), 0 0 0 1px rgba(14,19,24,.15);
+    box-shadow: 0 0 5px 1px rgba(14, 19, 24, 0.06), 0 0 0 1px rgba(14, 19, 24, 0.11);
 }
 
 .rect2:hover {
@@ -89,8 +89,9 @@ body {
 }
 
 .text-picker {
-  background-color:#00000082;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  background-color:#00000082 !important;
+  // border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0), 0 3px 6px rgba(0, 0, 0, 0.09);
 }
 
 .template-picker {
@@ -145,7 +146,6 @@ div[data-reactroot] {
 }
 
 .dropbtn-font {
-  background-color: rgb(242, 242, 242);
   color: black;
   font-size: 16px;
   border: none;
@@ -157,7 +157,6 @@ div[data-reactroot] {
 }
 
 .dropbtn-font-size {
-  background-color: white;
   color: black; 
   font-size: 16px;
   border: none;
@@ -167,7 +166,7 @@ div[data-reactroot] {
   width: 70px;
 }
 
-#myDropdownFontSize-2, #myDropdownFontSize-3, #myOpacity-3,  {
+#myDropdownFontSize-2, #myDropdownFontSize-3, #myOpacity-3 {
   position: relative;
 }
 
@@ -231,9 +230,9 @@ div[data-reactroot] {
 .dropdown-content-font-size {
   position: absolute;
   background-color: #f1f1f1;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
   z-index: 1;
-  top: calc(100% + 20px);
+  top: calc(100% + 10px);
   border-radius: 3px;
   display: none;
   width: 300px;
@@ -283,7 +282,6 @@ p.single-text:focus {
 }
 
 .toolbar-btn {
-background-color: #33333314;
   border: none;
   border-radius: 4px;
 }
@@ -408,7 +406,7 @@ input:focus {
 }
 
 #logo-editor:hover {
-  background-color: #00000070;
+  background-color: rgba(0, 0, 0, 0.17);
 }
 
 #map {
@@ -478,13 +476,25 @@ button:focus {
   display: block;
 }
 
-#myDownloadList {
+#myDownloadList, #homepage_list {
   ul {
     margin: 0;
     button:hover {
       background-color: #eee;
     }
   }
+
+  -webkit-animation: bounce 1.2s ease-out;
+	-moz-animation: bounce 800ms ease-out;
+	-o-animation: bounce 800ms ease-out;
+	animation: bounce 1.2s ease-out;
+}
+
+#myLogoLogin {
+  -webkit-animation: bounce 1.2s ease-out;
+	-moz-animation: bounce 800ms ease-out;
+	-o-animation: bounce 800ms ease-out;
+	animation: bounce 1.2s ease-out;
 }
 
 ._1sXEXOyAuGxKeBcoq3FFet {
@@ -534,6 +544,10 @@ button:focus {
   box-shadow: 0 4px 12px 0 rgba(14,19,24,.15);
 }
 
+._3o3qNO09RZSy4GD3c_VsI8 {
+  box-shadow: 0 4px 12px 0 rgba(14,19,24,.15);
+}
+
 ._13_0Qr0UHa9ciVx-UoPbt6 {
   margin-top: 8px;
 }
@@ -552,4 +566,331 @@ button:focus {
 
 .fontsize-picker:hover {
   background-color: #ddd;
+}
+
+.disable-hover:hover {
+  outline: none !important;
+}
+
+.single-resizer.selected {
+  outline: rgb(0, 217, 225) solid 2px;
+}
+
+
+@-webkit-keyframes bounce {
+	0% {
+    opacity: 0;
+    -webkit-transform:scale(0.80) translateY(-5%) translateX(5%);
+	}
+	3% {
+    opacity: 0.8;
+    -webkit-transform: scale(1.01) translateY(1px);
+  }
+  6% {
+    opacity: 1;
+    -webkit-transform: scale(1) translateY(0px);
+	}
+	// 20% {
+  //   // opacity: 0.9;
+  //   // -webkit-transform: scale(1) translateY(3px);
+	// }
+	// 25% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 30% {
+	// }
+	// 35% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 40% {
+	// }
+	// 45% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 50% {
+	// }
+	// 55% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 60% {
+	// }
+	// 65% {
+	// 	-webkit-transform:translateY(0%);
+	// }
+	// 70% {
+	// }
+	// 75% {
+	// 	-webkit-transform:translateY(0);
+	// }
+	// 80% {
+	// }
+	// 85% {
+	// 	-webkit-transform:translateY(0);
+	// }
+	// 90% {
+	// }
+	// 95% {
+	// 	-webkit-transform:translateY(0);
+	// }
+	// 100% {
+	// 	-webkit-transform:translateY(0);
+	// }
+}
+
+// /* Mozilla Firefox 15 below */
+// @-moz-keyframes bounce {
+//   0% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	5% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	15% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	20% {
+// 	}
+// 	25% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	30% {
+// 	}
+// 	35% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	40% {
+// 	}
+// 	45% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	50% {
+// 	}
+// 	55% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	60% {
+// 	}
+// 	65% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	70% {
+// 	}
+// 	75% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	80% {
+// 	}
+// 	85% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	90% {
+// 	}
+// 	95% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	100% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// }
+
+// /* Opera 12.0 */
+// @-o-keyframes bounce {
+//   0% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	5% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	15% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	20% {
+// 	}
+// 	25% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	30% {
+// 	}
+// 	35% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	40% {
+// 	}
+// 	45% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	50% {
+// 	}
+// 	55% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	60% {
+// 	}
+// 	65% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	70% {
+// 	}
+// 	75% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	80% {
+// 	}
+// 	85% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	90% {
+// 	}
+// 	95% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	100% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// }
+
+// /* W3, Opera 12+, Firefox 16+ */
+// @keyframes bounce {
+//   0% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	5% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	15% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	20% {
+// 	}
+// 	25% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	30% {
+// 	}
+// 	35% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	40% {
+// 	}
+// 	45% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	50% {
+// 	}
+// 	55% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	60% {
+// 	}
+// 	65% {
+// 		-webkit-transform:translateY(0%);
+// 	}
+// 	70% {
+// 	}
+// 	75% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	80% {
+// 	}
+// 	85% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	90% {
+// 	}
+// 	95% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// 	100% {
+// 		-webkit-transform:translateY(0);
+// 	}
+// }
+
+#download-btn:hover{
+  background: rgba(0, 0, 0, 0.43) !important;
+}
+
+.zoomPercentPanelItem___29ZfQ {
+  font-size: 16px;
+}
+
+
+@-webkit-keyframes XhtCamN749DcvC-ecDUzp {
+  0% {
+      opacity: .15
+  }
+
+  25% {
+      opacity: .1
+  }
+
+  50% {
+      opacity: .15
+  }
+
+  to {
+      opacity: .15
+  }
+}
+
+@keyframes XhtCamN749DcvC-ecDUzp {
+  0% {
+      opacity: .15
+  }
+
+  25% {
+      opacity: .1
+  }
+
+  50% {
+      opacity: .15
+  }
+
+  to {
+      opacity: .15
+  }
+}
+
+
+@-webkit-keyframes LuuT-RWT7fXcJFhRfuaKV {
+  0% {
+      opacity: .07
+  }
+
+  25% {
+      opacity: .025
+  }
+
+  50% {
+      opacity: .07
+  }
+
+  to {
+      opacity: .07
+  }
+}
+
+@keyframes LuuT-RWT7fXcJFhRfuaKV {
+  0% {
+      opacity: .07
+  }
+
+  25% {
+      opacity: .025
+  }
+
+  50% {
+      opacity: .07
+  }
+
+  to {
+      opacity: .07
+  }
+}
+
+#fontSizeButton {
+  top: 4px;
+}
+
+#fontSizeButton:hover {
+  background-color: #ececec;
 }

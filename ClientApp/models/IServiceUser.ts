@@ -2,4 +2,5 @@
     username: string;
     token: string;
     refreshToken: string;
+    name: string;
 }

@@ -1,9 +1,8 @@
-import React, { PureComponent, FormEvent } from "react";
+import React, { PureComponent } from "react";
 import { getLength, getAngle, getCursor, tLToCenter } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import MathJax from "react-mathjax2";
-import { throttle } from "lodash";
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -19,6 +18,7 @@ const zoomableMap = {
 };
 
 export interface IProps {
+  dragging: boolean;
   id: string;
   childId: string;
   _id: string;
@@ -94,6 +94,8 @@ export interface IProps {
   bleed: boolean;
   backgroundColor: string;
   opacity: number;
+  resizing: boolean;
+  rotating: boolean;
 }
 
 export interface IState {
@@ -116,6 +118,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     posX: 0,
     posY: 0
   };
+
 
   componentDidMount() {
     if (this.props.innerHTML && this.$textEle) {
@@ -425,7 +428,8 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     var res;
     var size;
-    if (this.props.objectType !== 4) {
+    console.log('thjis.props.objectType ', this.props.objectType);
+    if (this.props.objectType !== 4 && this.props.objectType !== 9) {
       var selectionScaleY = 1;
       if (self.state && self.state.selectionScaleY) {
         selectionScaleY = self.state.selectionScaleY;
@@ -496,7 +500,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         res
       );
 
-      if (this.props.objectType !== 4) {
+      if (this.props.objectType !== 4 && this.props.objectType !== 9) {
         var scaleY = (window as any).scaleY;
         fontSize =
           parseInt(size.substring(0, size.length - 2)) *
@@ -667,19 +671,23 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgColor,
       showImage,
       backgroundColor,
-      id
+      id,
+      dragging,
+      resizing,
+      rotating,
     } = this.props;
 
     var newWidth = width;
     var newHeight = height;
+    var outlineWidth2 = Math.max(2, 2/scale);
     var style = {
       width: Math.abs(newWidth),
       height: Math.abs(newHeight),
       zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
-      outline: selected
-        ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2 / scale}px`
-        : null
+      outline: !showImage && (selected
+        ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${outlineWidth2}px`
+        : null)
     };
 
     var opacity = this.props.opacity ? this.props.opacity / 100 : 1;
@@ -700,8 +708,12 @@ export default class Rect extends PureComponent<IProps, IState> {
       <StyledRect
         id={id}
         ref={this.setElementRef}
-        className="rect single-resizer"
+        className={`${_id}-styledrect rect single-resizer ${selected && "selected"}`}
         style={style}
+        dragging={dragging}
+        resizing={resizing}
+        rotating={rotating}
+        outlineWidth={outlineWidth2}
       >
         {!cropMode && rotatable && showController && objectType !== 6 && (
           <div
@@ -709,19 +721,21 @@ export default class Rect extends PureComponent<IProps, IState> {
             style={{
               width: 18 / scale + "px",
               height: 18 / scale + "px",
-              left: `calc(50% - ${10 / scale}px)`,
-              top: `-${30 / scale}px`
+              left: `calc(50% - ${18 / scale / 2}px)`,
+              bottom: `-${40 / scale}px`
             }}
             onMouseDown={this.startRotate}
           >
             <div
               className="rotate"
               style={{
-                transform: `scale(${1 / scale})`,
+                transform: `scale(${1 / scale + 0.15})`,
                 padding: "3px"
               }}
             >
-              <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+              <svg style={{
+                transform: 'scale(0.9)',
+              }} width="14" height="14" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M10.536 3.464A5 5 0 1 0 11 10l1.424 1.425a7 7 0 1 1-.475-9.374L13.659.34A.2.2 0 0 1 14 .483V5.5a.5.5 0 0 1-.5.5H8.483a.2.2 0 0 1-.142-.341l2.195-2.195z"
                   fillRule="nonzero"
@@ -741,7 +755,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 key={d}
                 style={{
                   cursor,
-                  transform: `scale(${1 / scale})`
+                  transform: `scale(${1 / scale + 0.15})`
                 }}
                 className={`${zoomableMap[d]} resizable-handler-container`}
                 onMouseDown={e => this.startResize(e, cursor)}
@@ -1369,7 +1383,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           </div>
         )}
-        {src && objectType === 7 && (
+        {src && objectType === 9 && (
           <div
             id={_id}
             onMouseDown={!selected || src ? this.startDrag : null}

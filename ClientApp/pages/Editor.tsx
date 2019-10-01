@@ -95,6 +95,9 @@ interface IProps {
   addFontItem: any;
   fonts: any;
   addFont: any;
+  upperZIndex: number;
+  increaseUpperzIndex: any;
+  store: any;
 }
 
 interface ImageObject {
@@ -243,6 +246,7 @@ interface IState {
   imageIdBackgroundRemoved: string;
   mounted: boolean;
   showZoomPopup: boolean;
+  selectedImage: any;
 }
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
@@ -252,6 +256,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
+      selectedImage: null,
       showFontEditPopup: false,
       currentPrintStep: 1,
       subtype: null,
@@ -287,7 +292,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       startX: 0,
       startY: 0,
       images: [],
-      selectedTab: SidebarTab.Image,
+      selectedTab: SidebarTab.Template,
       rectWidth: this.props.match.params.width
         ? parseInt(this.props.match.params.width)
         : 0,
@@ -431,6 +436,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       await axios
         .get(url)
         .then(res => {
+          console.log('template res', res);
           if (res.data.errors.length > 0) {
             throw new Error(res.data.errors.join("\n"));
           }
@@ -487,6 +493,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               };
             });
           }
+
+          this.props.images.replace(document.document_object);
+          this.props.fonts.replace(image.value.fontList);
 
           subtype = res.data.value.printType;
           self.setState({
@@ -843,7 +852,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           }
         }
 
-        if ((objectType === 4 || objectType === 7) && !this.state.cropMode) {
+        if ((objectType === 4 || objectType === 9) && !this.state.cropMode) {
           var scaleWidth = image.imgWidth / image.width;
           var scaleHeight = image.imgHeight / image.height;
           var scaleLeft = image.posX / image.imgWidth;
@@ -1197,6 +1206,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
+    console.log('handleDragStart ');
     const { scale } = this.state;
     this.canvasRect = getBoundingClientRect("canvas");
     var deltaX, deltaY;
@@ -1220,6 +1230,24 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     for (var i = 0; i < rotators.length; ++i) {
       var cur:any = rotators[i];
       cur.style.opacity = 0;
+    }
+
+
+    var rects = document.getElementsByClassName("rect");
+    for (var i = 0; i < rects.length; ++i) {
+      var curRect = rects[i];
+      curRect.classList.remove("disable-hover");
+      curRect.classList.remove("selected");
+
+    }
+
+    document.getElementById(_id + "_1").classList.add("selected");
+
+    for (var i = 0; i < rects.length; ++i) {
+      var curRect = rects[i];
+      if (!curRect.classList.contains(_id + "-styledrect")) {
+        curRect.classList.add("disable-hover");
+      }
     }
 
     this.setState({ dragging: true, deltaX, deltaY });
@@ -1590,6 +1618,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // var t1 = performance.now();
     // console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
 
+    var rects = document.getElementsByClassName("rect");
+    for (var i = 0; i < rects.length; ++i) {
+      var curRect = rects[i];
+      curRect.classList.remove("disable-hover");
+    }
+
     var resizers = document.getElementsByClassName("resizable-handler-container");
     for (var i = 0; i < resizers.length; ++i) {
       var cur:any = resizers[i];
@@ -1611,68 +1645,71 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   handleScroll = () => {
     const screensRect = getBoundingClientRect("screens");
     const canvasRect = getBoundingClientRect("canvas");
-    const { scale } = this.state;
-    const startX = (screensRect.left + thick - canvasRect.left) / scale;
-    const startY = (screensRect.top + thick - canvasRect.top) / scale;
+    if (screensRect && canvasRect) {
+      const canvasRect = getBoundingClientRect("canvas");
+      const { scale } = this.state;
+      const startX = (screensRect.left + thick - canvasRect.left) / scale;
+      const startY = (screensRect.top + thick - canvasRect.top) / scale;
 
-    function elementIsVisible(element, container, partial) {
-      var contHeight = container.offsetHeight,
-        elemTop = offset(element).top - offset(container).top,
-        elemBottom = elemTop + element.offsetHeight;
-      return (
-        (elemTop >= 0 && elemBottom <= contHeight) ||
-        (partial &&
-          ((elemTop < 0 && elemBottom > 0) ||
-            (elemTop > 0 && elemTop <= contHeight)))
-      );
-    }
-
-    // checks window
-    function isWindow(obj) {
-      return obj != null && obj === obj.window;
-    }
-
-    // returns corresponding window
-    function getWindow(elem) {
-      return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-    }
-
-    // taken from jquery
-    // @returns {{top: number, left: number}}
-    function offset(elem) {
-      var docElem,
-        win,
-        box = { top: 0, left: 0 },
-        doc = elem && elem.ownerDocument;
-
-      docElem = doc.documentElement;
-
-      if (typeof elem.getBoundingClientRect !== typeof undefined) {
-        box = elem.getBoundingClientRect();
+      function elementIsVisible(element, container, partial) {
+        var contHeight = container.offsetHeight,
+          elemTop = offset(element).top - offset(container).top,
+          elemBottom = elemTop + element.offsetHeight;
+        return (
+          (elemTop >= 0 && elemBottom <= contHeight) ||
+          (partial &&
+            ((elemTop < 0 && elemBottom > 0) ||
+              (elemTop > 0 && elemTop <= contHeight)))
+        );
       }
-      win = getWindow(doc);
-      return {
-        top: box.top + win.pageYOffset - docElem.clientTop,
-        left: box.left + win.pageXOffset - docElem.clientLeft
-      };
-    }
 
-    var activePageId = this.state.pages[0];
-    if (this.state.pages.length > 1) {
-      var container = document.getElementById("screen-container-parent");
-      for (var i = 0; i < this.state.pages.length; ++i) {
-        var pageId = this.state.pages[i];
-        var canvas = document.getElementById(pageId);
-        if (canvas) {
-          if (elementIsVisible(canvas, container, true)) {
-            activePageId = pageId;
+      // checks window
+      function isWindow(obj) {
+        return obj != null && obj === obj.window;
+      }
+
+      // returns corresponding window
+      function getWindow(elem) {
+        return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
+      }
+
+      // taken from jquery
+      // @returns {{top: number, left: number}}
+      function offset(elem) {
+        var docElem,
+          win,
+          box = { top: 0, left: 0 },
+          doc = elem && elem.ownerDocument;
+
+        docElem = doc.documentElement;
+
+        if (typeof elem.getBoundingClientRect !== typeof undefined) {
+          box = elem.getBoundingClientRect();
+        }
+        win = getWindow(doc);
+        return {
+          top: box.top + win.pageYOffset - docElem.clientTop,
+          left: box.left + win.pageXOffset - docElem.clientLeft
+        };
+      }
+
+      var activePageId = this.state.pages[0];
+      if (this.state.pages.length > 1) {
+        var container = document.getElementById("screen-container-parent");
+        for (var i = 0; i < this.state.pages.length; ++i) {
+          var pageId = this.state.pages[i];
+          var canvas = document.getElementById(pageId);
+          if (canvas) {
+            if (elementIsVisible(canvas, container, true)) {
+              activePageId = pageId;
+            }
           }
         }
       }
-    }
 
-    this.setState({ startX, startY, activePageId });
-  };
+      this.setState({ startX, startY, activePageId });
+    };
+  }
   handleWheel = e => {
     if (e.ctrlKey || e.metaKey) {
       const nextScale = parseFloat(
@@ -1719,6 +1756,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
+    if (this.state.idObjectSelected && img._id !== this.state.idObjectSelected) {
+      document.getElementById(this.state.idObjectSelected + "_1").style.outline = null;
+    }
+    console.log('handleImageSelected');
     if (img._id === this.state.idObjectSelected) {
       return;
     }
@@ -1744,31 +1785,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    // if (img.type != TemplateType.Image) {
-    //   var defaultColor = 'black';
-    //   var font;
-    //   var fontSize;
-    //   var id = this.state.childId ? this.state.childId : img._id;
-    //   var a = document.getSelection();
-    //       if (a && a.type === "Range") {
-    //       } else {
-    //         // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
-    //         var el = document.getElementById(id).getElementsByClassName("font")[0];
-    //         console.log('document.getElementById(self.props._id) ', document.getElementById(id));
-    //         console.log('ellll ', el);
-    //         console.log('img innerHTML', img.innerHTML);
-
-    //         var div = document.createElement('div');
-    //         div.innerHTML = img.innerHTML.trim();
-
-    //         fontSize = window.getComputedStyle(div, null).getPropertyValue('font-size');
-    //         defaultColor = window.getComputedStyle(div, null).getPropertyValue("color");
-    //     }
-    //   this.handleFontFamilyChange(font);
-    //   this.handleFontColorChange(defaultColor);
-    //   this.setState({fontSize});
-    // }
-
     this.setState({ fontColor: img.color, fontName: img.fontRepresentative });
     document.getElementById("fontSizeButton").innerText = `${Math.round(
       img.fontSize * 10
@@ -1776,6 +1792,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     console.log("img ", img);
 
     this.setState({
+      selectedImage: img,
       idObjectSelected: img._id,
       typeObjectSelected: img.type,
       childId: null,
@@ -1828,7 +1845,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             this.state.rectHeight
           }&videoId=${uuidv4()}`,
           {
-            fonts: self.state.fonts,
+            fonts: toJS(self.props.fonts),
             canvas,
             additionalStyle: a[0].outerHTML
           },
@@ -1873,116 +1890,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           return style.attributes.getNamedItem("data-styled") !== null;
         });
 
-        var template = `<html><head>
-          ${a[0].outerHTML}
-        </head>
-        <style type="text/css">
-        .mjx-chtml {display: inline-block; line-height: 0; text-indent: 0; text-align: left; text-transform: none; font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; letter-spacing: normal; word-wrap: normal; word-spacing: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; margin: 0; padding: 1px 0}
-.MJXc-display {display: block; text-align: center; margin: 0; padding: 0}
-.mjx-chtml[tabindex]:focus, body :focus .mjx-chtml[tabindex] {display: inline-table}
-.mjx-full-width {text-align: center; display: table-cell!important; width: 10000em}
-.mjx-math {display: inline-block; border-collapse: separate; border-spacing: 0}
-.mjx-math * {display: inline-block; -webkit-box-sizing: content-box!important; -moz-box-sizing: content-box!important; box-sizing: content-box!important; text-align: left}
-.mjx-numerator {display: block; text-align: center}
-.mjx-denominator {display: block; text-align: center}
-.MJXc-stacked {height: 0; position: relative}
-.MJXc-stacked > * {position: absolute}
-.MJXc-bevelled > * {display: inline-block}
-.mjx-stack {display: inline-block}
-.mjx-op {display: block}
-.mjx-under {display: table-cell}
-.mjx-over {display: block}
-.mjx-over > * {padding-left: 0px!important; padding-right: 0px!important}
-.mjx-under > * {padding-left: 0px!important; padding-right: 0px!important}
-.mjx-stack > .mjx-sup {display: block}
-.mjx-stack > .mjx-sub {display: block}
-.mjx-prestack > .mjx-presup {display: block}
-.mjx-prestack > .mjx-presub {display: block}
-.mjx-delim-h > .mjx-char {display: inline-block}
-.mjx-surd {vertical-align: top}
-.mjx-mphantom * {visibility: hidden}
-.mjx-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 2px 3px; font-style: normal; font-size: 90%}
-.mjx-annotation-xml {line-height: normal}
-.mjx-menclose > svg {fill: none; stroke: currentColor}
-.mjx-mtr {display: table-row}
-.mjx-mlabeledtr {display: table-row}
-.mjx-mtd {display: table-cell; text-align: center}
-.mjx-label {display: table-row}
-.mjx-box {display: inline-block}
-.mjx-block {display: block}
-.mjx-span {display: inline}
-.mjx-char {display: block; white-space: pre}
-.mjx-itable {display: inline-table; width: auto}
-.mjx-row {display: table-row}
-.mjx-cell {display: table-cell}
-.mjx-table {display: table; width: 100%}
-.mjx-line {display: block; height: 0}
-.mjx-strut {width: 0; padding-top: 1em}
-.mjx-vsize {width: 0}
-.MJXc-space1 {margin-left: .167em}
-.MJXc-space2 {margin-left: .222em}
-.MJXc-space3 {margin-left: .278em}
-.mjx-ex-box-test {position: absolute; overflow: hidden; width: 1px; height: 60ex}
-.mjx-line-box-test {display: table!important}
-.mjx-line-box-test span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
-.MJXc-TeX-unknown-R {font-family: STIXGeneral; font-style: normal; font-weight: normal}
-.MJXc-TeX-unknown-I {font-family: monospace; font-style: italic; font-weight: normal}
-.MJXc-TeX-unknown-B {font-family: monospace; font-style: normal; font-weight: bold}
-.MJXc-TeX-unknown-BI {font-family: monospace; font-style: italic; font-weight: bold}
-.MJXc-TeX-ams-R {font-family: MJXc-TeX-ams-R,MJXc-TeX-ams-Rw}
-.MJXc-TeX-cal-B {font-family: MJXc-TeX-cal-B,MJXc-TeX-cal-Bx,MJXc-TeX-cal-Bw}
-.MJXc-TeX-frak-R {font-family: MJXc-TeX-frak-R,MJXc-TeX-frak-Rw}
-.MJXc-TeX-frak-B {font-family: MJXc-TeX-frak-B,MJXc-TeX-frak-Bx,MJXc-TeX-frak-Bw}
-.MJXc-TeX-math-BI {font-family: MJXc-TeX-math-BI,MJXc-TeX-math-BIx,MJXc-TeX-math-BIw}
-.MJXc-TeX-sans-R {font-family: MJXc-TeX-sans-R,MJXc-TeX-sans-Rw}
-.MJXc-TeX-sans-B {font-family: MJXc-TeX-sans-B,MJXc-TeX-sans-Bx,MJXc-TeX-sans-Bw}
-.MJXc-TeX-sans-I {font-family: MJXc-TeX-sans-I,MJXc-TeX-sans-Ix,MJXc-TeX-sans-Iw}
-.MJXc-TeX-script-R {font-family: MJXc-TeX-script-R,MJXc-TeX-script-Rw}
-.MJXc-TeX-type-R {font-family: MJXc-TeX-type-R,MJXc-TeX-type-Rw}
-.MJXc-TeX-cal-R {font-family: MJXc-TeX-cal-R,MJXc-TeX-cal-Rw}
-.MJXc-TeX-main-B {font-family: MJXc-TeX-main-B,MJXc-TeX-main-Bx,MJXc-TeX-main-Bw}
-.MJXc-TeX-main-I {font-family: MJXc-TeX-main-I,MJXc-TeX-main-Ix,MJXc-TeX-main-Iw}
-.MJXc-TeX-main-R {font-family: MJXc-TeX-main-R,MJXc-TeX-main-Rw}
-.MJXc-TeX-math-I {font-family: MJXc-TeX-math-I,MJXc-TeX-math-Ix,MJXc-TeX-math-Iw}
-.MJXc-TeX-size1-R {font-family: MJXc-TeX-size1-R,MJXc-TeX-size1-Rw}
-.MJXc-TeX-size2-R {font-family: MJXc-TeX-size2-R,MJXc-TeX-size2-Rw}
-.MJXc-TeX-size3-R {font-family: MJXc-TeX-size3-R,MJXc-TeX-size3-Rw}
-.MJXc-TeX-size4-R {font-family: MJXc-TeX-size4-R,MJXc-TeX-size4-Rw}
-.MJXc-TeX-vec-R {font-family: MJXc-TeX-vec-R,MJXc-TeX-vec-Rw}
-.MJXc-TeX-vec-B {font-family: MJXc-TeX-vec-B,MJXc-TeX-vec-Bx,MJXc-TeX-vec-Bw}
-.MJX_Assistive_MathML {
-  position: absolute!important;
-  top: 0;
-  left: 0;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 1px 0 0 0!important;
-  border: 0!important;
-  height: 1px!important;
-}
-html {
-          -webkit-print-color-adjust: exact;
-        }
-        @font-face {
-          font-family: 'Amatic SC';
-          src: url('localhost:64099/fonts/broadb.ttf')
-        }
-        [FONT_FACE]
-        body {
-          width: ${this.state.rectWidth + (bleed ? 20 : 0)}px;
-          height: ${this.state.rectHeight + (bleed ? 20 : 0)}px;
-          line-height: 1.42857143;
-        }
-        </style>
-        <body style="margin: 0;">
-          [CANVAS]
-        </body></html>`;
-
         axios
           .post(
             `/api/Design/Download?width=${this.state.rectWidth +
               (bleed ? 20 : 0)}&height=${this.state.rectHeight +
               (bleed ? 20 : 0)}`,
-            { fonts: toJS(self.props.fonts), template, canvas },
+            { fonts: toJS(self.props.fonts), canvas },
             {
               headers: {
                 "Content-Type": "text/html"
@@ -2213,6 +2126,8 @@ html {
           Representative: rep ? rep : `images/${uuidv4()}.jpeg`,
           Representative2: `images/${uuidv4()}.jpeg`
         });
+
+        console.log('save image ', res);
 
         axios
           .post(url, res, {
@@ -2903,6 +2818,7 @@ html {
   };
 
   addAPage = (e, id) => {
+    console.log('addAPage');
     e.preventDefault();
     let pages = [...this.state.pages];
     var newPageId = uuidv4();
@@ -2919,24 +2835,33 @@ html {
     let images = toJS(this.props.images);
     images = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
-        img.zIndex = this.state.upperZIndex + 1;
+        img.zIndex = this.props.store.upperZIndex + 1;
       }
       return img;
     });
 
-    this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
+    console.log('images ', images);
+
+    this.props.images.replace(images);
+    this.props.increaseUpperzIndex();
+
+    // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
   };
 
   backwardSelectedObject = id => {
     let images = toJS(this.props.images);
     images = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
-        img.zIndex = 0;
+        img.zIndex = 2;
+      } else {
+        img.zIndex += 1;
       }
       return img;
     });
 
-    this.setState({ images, upperZIndex: this.state.upperZIndex + 1 });
+    this.props.images.replace(images);
+
+    // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
   };
 
   renderCanvas(preview, index) {
@@ -2948,6 +2873,7 @@ html {
 
       res.push(
         <Canvas
+          rotating={this.state.rotating}
           resizing={this.state.resizing}
           dragging={this.state.dragging}
           isSaving={this.state.isSaving}
@@ -3126,7 +3052,9 @@ html {
       return img;
     });
 
-    this.setState({ images });
+    this.props.images.replace(images);
+
+    // this.setState({ images });
   };
 
   refFullName = null;
@@ -3143,7 +3071,7 @@ html {
       cropMode,
       pages
     } = this.state;
-
+    
     const { images } = this.props;
 
     const adminEmail = "llaugusty@gmail.com";
@@ -3833,10 +3761,10 @@ html {
             id="editor-navbar"
             style={{
               backgroundImage:
-                "linear-gradient(to right, rgb(67, 198, 172), rgb(25, 22, 84))",
-              height: "45px",
+                "linear-gradient(to right, rgb(67, 198, 172), rgb(48, 45, 111))",
+              height: "55px",
               padding: "5px",
-              display: "flex"
+              display: "flex",
             }}
           >
             <div
@@ -3845,6 +3773,7 @@ html {
                 alignItems: "center"
               }}
             >
+              { this.state.mounted && 
               <a
                 id="logo-editor"
                 style={{
@@ -3866,13 +3795,13 @@ html {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      fontSize: "12px",
+                      fontSize: "14px",
                       fontFamily: "AvenirNextRoundedPro-Medium"
                     }}
                   >
                     <span>
                       <svg
-                        style={{ height: "20px", width: "16px" }}
+                        style={{ height: "24px", width: "24px" }}
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -3884,10 +3813,10 @@ html {
                         ></path>
                       </svg>
                     </span>
-                    TRANG CHỦ
+                    Trang chủ
                   </div>
                 </span>
-              </a>
+              </a>}
             </div>
             <div
               style={{
@@ -3937,24 +3866,31 @@ html {
                   </button>
                 )}
               <button
+                id="download-btn"
                 onClick={this.handleDownloadList}
                 style={{
                   float: "right",
                   color: "white",
-                  marginTop: "4px",
-                  marginRight: "6px",
-                  padding: "5px",
+                  marginTop: "8px",
+                  marginRight: "10px",
+                  padding: "8px",
                   borderRadius: "4px",
                   textDecoration: "none",
                   fontSize: "13px",
                   fontFamily: "AvenirNextRoundedPro-Medium",
-                  background: "transparent",
-                  border: "none"
+                  background: "#ebebeb0f",
+                  border: "none",
+                  height: '35px',
+                  width: '36px',
                 }}
               >
                 {" "}
                 <svg
-                  style={{ fill: "white" }}
+                  style={{ 
+                    fill: "white",
+                    width: '20px',
+                    height: '20px',
+                  }}
                   height="25px"
                   viewBox="0 0 512 512"
                   width="25px"
@@ -3966,7 +3902,7 @@ html {
               <div
                 id="myDownloadList"
                 style={{
-                  right: "10px",
+                  right: "5px",
                   zIndex: 9999999999,
                   background: "white",
                   display: "none"
@@ -3989,17 +3925,192 @@ html {
                         width: "100%"
                       }}
                     >
-                      <li>
+                      <li 
+                      style={{
+                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
+                        marginBottom: '1px',
+                      }}>
                         <button
                           onClick={this.downloadPNG.bind(this, true, true)}
                           style={{
                             width: "100%",
                             border: "none",
                             textAlign: "left",
-                            padding: "5px 12px"
+                            padding: "5px 12px",
+                            display: "flex",
                           }}
                         >
-                          <p style={{ marginBottom: "4px" }}>PNG</p>
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 58 58" xmlSpace="preserve">
+<g>
+	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
+		v16.537V56c0,0.837,0.842,1.653,1.838,1.91c0.05,0.013,0.098,0.032,0.15,0.042C8.644,57.983,8.803,58,8.963,58h40.074
+		c0.16,0,0.319-0.017,0.475-0.048c0.052-0.01,0.1-0.029,0.15-0.042C50.658,57.653,51.5,56.837,51.5,56v-0.463V39V13.978
+		C51.5,13.211,51.408,12.645,50.95,12.187z M47.935,12H39.5V3.565L47.935,12z M11.5,2c0,0.552,0.448,1,1,1s1-0.448,1-1h2
+		c0,0.552,0.448,1,1,1s1-0.448,1-1h2c0,0.552,0.448,1,1,1s1-0.448,1-1h2c0,0.552,0.448,1,1,1s1-0.448,1-1h2c0,0.552,0.448,1,1,1
+		s1-0.448,1-1h2c0,0.552,0.448,1,1,1s1-0.448,1-1h2c0,0.552,0.448,1,1,1s1-0.448,1-1h0.058C37.525,2.126,37.5,2.256,37.5,2.391V6v4
+		v4h2c0,0.552,0.448,1,1,1s1-0.448,1-1h2c0,0.552,0.448,1,1,1s1-0.448,1-1h2c0,0.552,0.448,1,1,1s1-0.448,1-1
+		c0-0.02-0.01-0.037-0.011-0.057c0.003-0.001,0.007-0.001,0.01-0.002c0,0.015,0.001,0.021,0.001,0.036V14v4v4v4v0.67l-0.163-0.155
+		C49.431,26.362,49.5,26.193,49.5,26c0-0.552-0.448-1-1-1c-0.211,0-0.395,0.08-0.557,0.191l-0.648-0.615
+		C47.415,24.411,47.5,24.219,47.5,24c0-0.552-0.448-1-1-1c-0.238,0-0.447,0.095-0.618,0.233l-0.627-0.596
+		C45.401,22.463,45.5,22.246,45.5,22c0-0.552-0.448-1-1-1c-0.264,0-0.501,0.107-0.68,0.275l-0.607-0.577
+		C43.39,20.518,43.5,20.272,43.5,20c0-0.552-0.448-1-1-1c-0.291,0-0.547,0.129-0.73,0.327l-0.581-0.552
+		c-0.013-0.012-0.029-0.016-0.042-0.027C41.359,18.565,41.5,18.302,41.5,18c0-0.552-0.448-1-1-1s-1,0.448-1,1
+		c0,0.306,0.145,0.57,0.361,0.753c-0.031,0.027-0.071,0.042-0.099,0.073l-0.5,0.548C39.078,19.151,38.811,19,38.5,19
+		c-0.552,0-1,0.448-1,1c0,0.344,0.184,0.632,0.448,0.812l-0.613,0.671C37.159,21.199,36.859,21,36.5,21c-0.552,0-1,0.448-1,1
+		c0,0.39,0.23,0.72,0.556,0.884l-0.647,0.708C35.253,23.245,34.906,23,34.5,23c-0.552,0-1,0.448-1,1c0,0.44,0.288,0.802,0.683,0.936
+		l-0.735,0.805C33.332,25.318,32.96,25,32.5,25c-0.552,0-1,0.448-1,1c0,0.492,0.362,0.882,0.83,0.966l-0.85,0.931
+		C31.425,27.396,31.016,27,30.5,27c-0.552,0-1,0.448-1,1c0,0.544,0.436,0.982,0.976,0.995l-0.509,0.558l-4.743-4.743
+		c-0.369-0.369-0.958-0.392-1.355-0.055l-6.412,5.457C17.473,30.142,17.5,30.075,17.5,30c0-0.552-0.448-1-1-1s-1,0.448-1,1
+		c0,0.552,0.448,1,1,1c0.015,0,0.027-0.008,0.042-0.008l-1.063,0.904C15.425,31.395,15.015,31,14.5,31c-0.552,0-1,0.448-1,1
+		c0,0.461,0.318,0.832,0.743,0.948l-0.815,0.694C13.283,33.268,12.925,33,12.5,33c-0.552,0-1,0.448-1,1
+		c0,0.369,0.209,0.678,0.507,0.851l-0.697,0.593C11.129,35.183,10.842,35,10.5,35c-0.552,0-1,0.448-1,1
+		c0,0.284,0.121,0.538,0.311,0.72L8.5,37.836V35c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1v-2c0.552,0,1-0.448,1-1
+		c0-0.552-0.448-1-1-1v-2c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1v-2c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1v-2
+		c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1v-2c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1v-2c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1
+		V7c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1V3c0.552,0,1-0.448,1-1H11.5z M8.963,56c-0.071,0-0.135-0.026-0.198-0.049
+		C8.609,55.877,8.5,55.721,8.5,55.537V41h41v14.537c0,0.184-0.109,0.339-0.265,0.414C49.172,55.974,49.108,56,49.037,56H8.963z
+		 M10.218,39l14.134-12.03C24.403,26.978,24.448,27,24.5,27c0.025,0,0.047-0.013,0.071-0.014L34.776,37.19
+		c0.391,0.391,1.023,0.391,1.414,0s0.391-1.023,0-1.414l-4.807-4.807l9.168-10.041L49.5,29.43V39H10.218z"/>
+	<path d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
+		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
+		c0-0.483-0.103-0.918-0.308-1.306S22.375,45.018,22.042,44.744z M21.42,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
+		c-0.164,0.155-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
+		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
+		C21.57,47.451,21.52,47.795,21.42,48.073z"/>
+	<polygon points="30.648,50.869 26.697,43.924 25.029,43.924 25.029,54 26.697,54 26.697,47.055 30.648,54 32.316,54 32.316,43.924 
+		30.648,43.924 	"/>
+	<path d="M38.824,49.926h1.709v2.488c-0.073,0.101-0.187,0.178-0.342,0.232c-0.155,0.055-0.317,0.098-0.485,0.13
+		c-0.169,0.032-0.337,0.055-0.506,0.068c-0.169,0.014-0.303,0.021-0.403,0.021c-0.328,0-0.641-0.077-0.937-0.232
+		c-0.296-0.155-0.561-0.392-0.793-0.711s-0.415-0.729-0.547-1.23c-0.132-0.501-0.203-1.094-0.212-1.777
+		c0.009-0.702,0.082-1.294,0.219-1.777s0.326-0.877,0.567-1.183c0.241-0.306,0.515-0.521,0.82-0.649
+		c0.305-0.128,0.626-0.191,0.964-0.191c0.301,0,0.592,0.06,0.875,0.178c0.282,0.118,0.533,0.31,0.752,0.574l1.135-1.012
+		c-0.374-0.364-0.798-0.638-1.271-0.82c-0.474-0.183-0.984-0.273-1.531-0.273c-0.593,0-1.144,0.111-1.654,0.335
+		c-0.511,0.224-0.955,0.549-1.333,0.978c-0.378,0.429-0.675,0.964-0.889,1.606c-0.214,0.643-0.321,1.388-0.321,2.235
+		s0.107,1.595,0.321,2.242c0.214,0.647,0.51,1.185,0.889,1.613c0.378,0.429,0.82,0.752,1.326,0.971s1.06,0.328,1.661,0.328
+		c0.301,0,0.604-0.022,0.909-0.068c0.305-0.046,0.602-0.123,0.889-0.232s0.561-0.248,0.82-0.417s0.494-0.385,0.704-0.649v-3.896
+		h-3.336V49.926z"/>
+	<circle cx="10.5" cy="4" r="1"/>
+	<circle cx="14.5" cy="4" r="1"/>
+	<circle cx="18.5" cy="4" r="1"/>
+	<circle cx="22.5" cy="4" r="1"/>
+	<circle cx="26.5" cy="4" r="1"/>
+	<circle cx="30.5" cy="4" r="1"/>
+	<circle cx="34.5" cy="4" r="1"/>
+	<circle cx="36.5" cy="6" r="1"/>
+	<circle cx="32.5" cy="6" r="1"/>
+	<circle cx="28.5" cy="6" r="1"/>
+	<circle cx="24.5" cy="6" r="1"/>
+	<circle cx="20.5" cy="6" r="1"/>
+	<circle cx="16.5" cy="6" r="1"/>
+	<circle cx="12.5" cy="6" r="1"/>
+	<circle cx="10.5" cy="8" r="1"/>
+	<circle cx="14.5" cy="8" r="1"/>
+	<circle cx="18.5" cy="8" r="1"/>
+	<circle cx="22.5" cy="8" r="1"/>
+	<circle cx="26.5" cy="8" r="1"/>
+	<circle cx="30.5" cy="8" r="1"/>
+	<circle cx="34.5" cy="8" r="1"/>
+	<circle cx="36.5" cy="10" r="1"/>
+	<circle cx="32.5" cy="10" r="1"/>
+	<circle cx="28.5" cy="10" r="1"/>
+	<circle cx="24.5" cy="10" r="1"/>
+	<circle cx="20.5" cy="10" r="1"/>
+	<circle cx="16.5" cy="10" r="1"/>
+	<circle cx="12.5" cy="10" r="1"/>
+	<circle cx="10.5" cy="12" r="1"/>
+	<circle cx="22.5" cy="12" r="1"/>
+	<circle cx="26.5" cy="12" r="1"/>
+	<circle cx="30.5" cy="12" r="1"/>
+	<circle cx="34.5" cy="12" r="1"/>
+	<circle cx="36.5" cy="14" r="1"/>
+	<circle cx="32.5" cy="14" r="1"/>
+	<circle cx="28.5" cy="14" r="1"/>
+	<circle cx="24.5" cy="14" r="1"/>
+	<circle cx="26.5" cy="16" r="1"/>
+	<circle cx="30.5" cy="16" r="1"/>
+	<circle cx="34.5" cy="16" r="1"/>
+	<circle cx="38.5" cy="16" r="1"/>
+	<circle cx="42.5" cy="16" r="1"/>
+	<circle cx="44.5" cy="18" r="1"/>
+	<circle cx="48.5" cy="22" r="1"/>
+	<circle cx="46.5" cy="20" r="1"/>
+	<circle cx="48.5" cy="18" r="1"/>
+	<circle cx="46.5" cy="16" r="1"/>
+	<circle cx="36.5" cy="18" r="1"/>
+	<circle cx="32.5" cy="18" r="1"/>
+	<circle cx="28.5" cy="18" r="1"/>
+	<circle cx="24.5" cy="18" r="1"/>
+	<path d="M10.5,21c0.426,0,0.784-0.269,0.928-0.644c0.136,0.301,0.296,0.589,0.481,0.858C11.667,21.397,11.5,21.673,11.5,22
+		c0,0.552,0.448,1,1,1c0.322,0,0.595-0.162,0.778-0.398c0.258,0.184,0.533,0.345,0.822,0.484C13.747,23.241,13.5,23.591,13.5,24
+		c0,0.552,0.448,1,1,1s1-0.448,1-1c0-0.178-0.059-0.336-0.14-0.481c0.368,0.077,0.749,0.118,1.14,0.118s0.772-0.041,1.14-0.118
+		C17.559,23.664,17.5,23.822,17.5,24c0,0.552,0.448,1,1,1s1-0.448,1-1c0-0.409-0.247-0.759-0.599-0.914
+		c0.288-0.139,0.563-0.299,0.822-0.484C19.905,22.838,20.178,23,20.5,23c0.552,0,1-0.448,1-1c0-0.327-0.167-0.603-0.409-0.785
+		c0.185-0.27,0.345-0.557,0.481-0.858C21.716,20.731,22.074,21,22.5,21c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1
+		c-0.205,0-0.385,0.077-0.543,0.182c0.073-0.36,0.112-0.732,0.112-1.114c0-0.441-0.057-0.868-0.154-1.28
+		C22.081,16.913,22.277,17,22.5,17c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1c-0.46,0-0.831,0.318-0.948,0.741
+		c-0.148-0.321-0.326-0.625-0.53-0.909C21.303,14.654,21.5,14.356,21.5,14c0-0.552-0.448-1-1-1c-0.361,0-0.664,0.202-0.839,0.489
+		c-0.298-0.207-0.617-0.385-0.954-0.531C19.156,12.86,19.5,12.479,19.5,12c0-0.552-0.448-1-1-1s-1,0.448-1,1
+		c0,0.25,0.101,0.472,0.253,0.647C17.349,12.554,16.931,12.5,16.5,12.5s-0.849,0.054-1.253,0.147C15.399,12.472,15.5,12.25,15.5,12
+		c0-0.552-0.448-1-1-1s-1,0.448-1,1c0,0.479,0.344,0.86,0.793,0.958c-0.337,0.146-0.655,0.324-0.954,0.531
+		C13.164,13.202,12.861,13,12.5,13c-0.552,0-1,0.448-1,1c0,0.356,0.197,0.654,0.478,0.832c-0.204,0.284-0.381,0.589-0.53,0.909
+		C11.331,15.318,10.96,15,10.5,15c-0.552,0-1,0.448-1,1c0,0.552,0.448,1,1,1c0.223,0,0.419-0.087,0.585-0.211
+		c-0.097,0.412-0.154,0.839-0.154,1.28c0,0.381,0.039,0.754,0.112,1.114C10.885,19.077,10.705,19,10.5,19c-0.552,0-1,0.448-1,1
+		C9.5,20.552,9.948,21,10.5,21z M16.5,14.5c1.968,0,3.569,1.601,3.569,3.569s-1.601,3.569-3.569,3.569s-3.569-1.601-3.569-3.569
+		S14.532,14.5,16.5,14.5z"/>
+	<circle cx="26.5" cy="20" r="1"/>
+	<circle cx="30.5" cy="20" r="1"/>
+	<circle cx="34.5" cy="20" r="1"/>
+	<circle cx="32.5" cy="22" r="1"/>
+	<circle cx="28.5" cy="22" r="1"/>
+	<circle cx="24.5" cy="22" r="1"/>
+	<circle cx="10.5" cy="24" r="1"/>
+	<circle cx="22.5" cy="24" r="1"/>
+	<circle cx="26.5" cy="24" r="1"/>
+	<circle cx="30.5" cy="24" r="1"/>
+	<circle cx="28.5" cy="26" r="1"/>
+	<circle cx="20.5" cy="26" r="1"/>
+	<circle cx="16.5" cy="26" r="1"/>
+	<circle cx="12.5" cy="26" r="1"/>
+	<circle cx="10.5" cy="28" r="1"/>
+	<circle cx="14.5" cy="28" r="1"/>
+	<circle cx="18.5" cy="28" r="1"/>
+	<circle cx="12.5" cy="30" r="1"/>
+	<circle cx="10.5" cy="32" r="1"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+
+                          <div><p style={{ marginBottom: "0px" }}>PNG</p>
                           <span
                             style={{
                               fontSize: "12px"
@@ -4007,19 +4118,94 @@ html {
                           >
                             Ảnh chất lượng cao
                           </span>
+                          </div>
                         </button>
                       </li>
-                      <li>
+                      <li style={{
+                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
+                        marginBottom: '1px',
+                      }}>
                         <button
                           onClick={this.downloadPNG.bind(this, false, false)}
                           style={{
                             width: "100%",
                             border: "none",
                             textAlign: "left",
-                            padding: "5px 12px"
+                            padding: "5px 12px",
+                            display: 'flex',
                           }}
                         >
-                          <p style={{ marginBottom: "4px" }}>JPG</p>
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 58 58" xmlSpace="preserve">
+<g>
+	<path d="M50.949,12.187l-5.818-5.818l-5.047-5.048l0,0l-0.77-0.77C38.964,0.201,38.48,0,37.985,0H8.963
+		C7.777,0,6.5,0.916,6.5,2.926V39v16.537V56c0,0.837,0.842,1.653,1.838,1.91c0.05,0.013,0.098,0.032,0.15,0.042
+		C8.644,57.983,8.803,58,8.963,58h40.074c0.16,0,0.319-0.017,0.475-0.048c0.052-0.01,0.101-0.029,0.152-0.043
+		C50.659,57.652,51.5,56.837,51.5,56v-0.463V39V13.978C51.5,13.211,51.407,12.644,50.949,12.187z M47.935,12H39.5V3.565l4.248,4.249
+		L47.935,12z M8.963,2h28.595C37.525,2.126,37.5,2.256,37.5,2.391V14h11.608c0.135,0,0.265-0.025,0.391-0.058
+		c0,0.015,0.001,0.021,0.001,0.036v12.693l-8.311-7.896c-0.195-0.185-0.445-0.284-0.725-0.274c-0.269,0.01-0.521,0.127-0.703,0.325
+		l-9.795,10.727l-4.743-4.743c-0.369-0.369-0.958-0.392-1.355-0.055L8.5,37.836V2.926C8.5,2.709,8.533,2,8.963,2z M8.963,56
+		c-0.071,0-0.135-0.026-0.198-0.049C8.609,55.877,8.5,55.721,8.5,55.537V41h41v14.537c0,0.184-0.11,0.34-0.265,0.414
+		C49.172,55.975,49.108,56,49.037,56H8.963z M10.218,39l14.245-12.124L34.776,37.19c0.391,0.391,1.023,0.391,1.414,0
+		s0.391-1.023,0-1.414l-4.807-4.807l9.168-10.041l8.949,8.501V39H10.218z"/>
+	<path d="M19.354,51.43c-0.019,0.446-0.171,0.764-0.458,0.95s-0.672,0.28-1.155,0.28c-0.191,0-0.396-0.022-0.615-0.068
+		s-0.429-0.098-0.629-0.157c-0.201-0.06-0.385-0.123-0.554-0.191c-0.169-0.068-0.299-0.135-0.39-0.198l-0.697,1.107
+		c0.182,0.137,0.405,0.26,0.67,0.369c0.264,0.109,0.54,0.207,0.827,0.294s0.565,0.15,0.834,0.191
+		c0.269,0.041,0.503,0.062,0.704,0.062c0.401,0,0.791-0.039,1.169-0.116c0.378-0.077,0.713-0.214,1.005-0.41
+		c0.292-0.196,0.524-0.456,0.697-0.779c0.173-0.323,0.26-0.723,0.26-1.196v-7.848h-1.668V51.43z"/>
+	<path d="M28.767,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
+		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
+		c0-0.483-0.103-0.918-0.308-1.306S29.099,45.018,28.767,44.744z M28.145,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
+		s-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
+		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
+		C28.295,47.451,28.245,47.795,28.145,48.073z"/>
+	<path d="M35.76,49.926h1.709v2.488c-0.073,0.101-0.187,0.178-0.342,0.232c-0.155,0.055-0.317,0.098-0.485,0.13
+		c-0.169,0.032-0.337,0.055-0.506,0.068c-0.169,0.014-0.303,0.021-0.403,0.021c-0.328,0-0.641-0.077-0.937-0.232
+		c-0.296-0.155-0.561-0.392-0.793-0.711s-0.415-0.729-0.547-1.23c-0.132-0.501-0.203-1.094-0.212-1.777
+		c0.009-0.702,0.082-1.294,0.219-1.777s0.326-0.877,0.567-1.183c0.241-0.306,0.515-0.521,0.82-0.649
+		c0.305-0.128,0.626-0.191,0.964-0.191c0.301,0,0.592,0.06,0.875,0.178c0.282,0.118,0.533,0.31,0.752,0.574l1.135-1.012
+		c-0.374-0.364-0.798-0.638-1.271-0.82c-0.474-0.183-0.984-0.273-1.531-0.273c-0.593,0-1.144,0.111-1.654,0.335
+		c-0.511,0.224-0.955,0.549-1.333,0.978c-0.378,0.429-0.675,0.964-0.889,1.606c-0.214,0.643-0.321,1.388-0.321,2.235
+		s0.107,1.595,0.321,2.242c0.214,0.647,0.51,1.185,0.889,1.613c0.378,0.429,0.82,0.752,1.326,0.971s1.06,0.328,1.661,0.328
+		c0.301,0,0.604-0.022,0.909-0.068c0.305-0.046,0.602-0.123,0.889-0.232s0.561-0.248,0.82-0.417s0.494-0.385,0.704-0.649v-3.896
+		H35.76V49.926z"/>
+	<path d="M19.069,23.638c3.071,0,5.569-2.498,5.569-5.569S22.14,12.5,19.069,12.5S13.5,14.998,13.5,18.069
+		S15.998,23.638,19.069,23.638z M19.069,14.5c1.968,0,3.569,1.601,3.569,3.569s-1.601,3.569-3.569,3.569S15.5,20.037,15.5,18.069
+		S17.101,14.5,19.069,14.5z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+                          <div>
+                          <p style={{ marginBottom: "0px" }}>JPG</p>
                           <span
                             style={{
                               fontSize: "12px"
@@ -4027,19 +4213,93 @@ html {
                           >
                             Kích thước tập tin ảnh nhỏ
                           </span>
+                          </div>
                         </button>
                       </li>
-                      <li>
+                      <li style={{
+                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
+                        marginBottom: '1px',
+                      }}>
                         <button
                           onClick={this.downloadPDF.bind(this, false)}
                           style={{
                             width: "100%",
                             border: "none",
                             textAlign: "left",
-                            padding: "5px 12px"
+                            padding: "5px 12px",
+                            display: 'flex',
                           }}
                         >
-                          <p style={{ marginBottom: "4px" }}>PDF Standard</p>
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 58 58" xmlSpace="preserve">
+<g>
+	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
+		v16.537V56c0,0.837,0.842,1.653,1.838,1.91c0.05,0.013,0.098,0.032,0.15,0.042C8.644,57.983,8.803,58,8.963,58h40.074
+		c0.16,0,0.319-0.017,0.475-0.048c0.052-0.01,0.1-0.029,0.15-0.042C50.658,57.653,51.5,56.837,51.5,56v-0.463V39V13.978
+		C51.5,13.211,51.408,12.645,50.95,12.187z M47.935,12H39.5V3.565L47.935,12z M8.963,56c-0.071,0-0.135-0.026-0.198-0.049
+		C8.609,55.877,8.5,55.721,8.5,55.537V41h41v14.537c0,0.184-0.109,0.339-0.265,0.414C49.172,55.974,49.108,56,49.037,56H8.963z
+		 M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595C37.525,2.126,37.5,2.256,37.5,2.391V14h11.609c0.135,0,0.264-0.025,0.39-0.058
+		c0,0.015,0.001,0.021,0.001,0.036V39H8.5z"/>
+	<path d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
+		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
+		c0-0.483-0.103-0.918-0.308-1.306S22.375,45.018,22.042,44.744z M21.42,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
+		c-0.164,0.155-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
+		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
+		C21.57,47.451,21.52,47.795,21.42,48.073z"/>
+	<path d="M31.954,45.4c-0.424-0.446-0.957-0.805-1.6-1.073s-1.388-0.403-2.235-0.403h-3.035V54h3.814
+		c0.127,0,0.323-0.016,0.588-0.048c0.264-0.032,0.556-0.104,0.875-0.219c0.319-0.114,0.649-0.285,0.991-0.513
+		s0.649-0.54,0.923-0.937s0.499-0.889,0.677-1.477s0.267-1.297,0.267-2.126c0-0.602-0.105-1.188-0.314-1.757
+		C32.694,46.355,32.378,45.847,31.954,45.4z M30.758,51.73c-0.492,0.711-1.294,1.066-2.406,1.066h-1.627v-7.629h0.957
+		c0.784,0,1.422,0.103,1.914,0.308s0.882,0.474,1.169,0.807s0.48,0.704,0.581,1.114c0.1,0.41,0.15,0.825,0.15,1.244
+		C31.496,49.989,31.25,51.02,30.758,51.73z"/>
+	<polygon points="35.598,54 37.266,54 37.266,49.461 41.477,49.461 41.477,48.34 37.266,48.34 37.266,45.168 41.9,45.168 
+		41.9,43.924 35.598,43.924 	"/>
+	<path d="M38.428,22.961c-0.919,0-2.047,0.12-3.358,0.358c-1.83-1.942-3.74-4.778-5.088-7.562c1.337-5.629,0.668-6.426,0.373-6.802
+		c-0.314-0.4-0.757-1.049-1.261-1.049c-0.211,0-0.787,0.096-1.016,0.172c-0.576,0.192-0.886,0.636-1.134,1.215
+		c-0.707,1.653,0.263,4.471,1.261,6.643c-0.853,3.393-2.284,7.454-3.788,10.75c-3.79,1.736-5.803,3.441-5.985,5.068
+		c-0.066,0.592,0.074,1.461,1.115,2.242c0.285,0.213,0.619,0.326,0.967,0.326h0c0.875,0,1.759-0.67,2.782-2.107
+		c0.746-1.048,1.547-2.477,2.383-4.251c2.678-1.171,5.991-2.229,8.828-2.822c1.58,1.517,2.995,2.285,4.211,2.285
+		c0.896,0,1.664-0.412,2.22-1.191c0.579-0.811,0.711-1.537,0.39-2.16C40.943,23.327,39.994,22.961,38.428,22.961z M20.536,32.634
+		c-0.468-0.359-0.441-0.601-0.431-0.692c0.062-0.556,0.933-1.543,3.07-2.744C21.555,32.19,20.685,32.587,20.536,32.634z
+		 M28.736,9.712c0.043-0.014,1.045,1.101,0.096,3.216C27.406,11.469,28.638,9.745,28.736,9.712z M26.669,25.738
+		c1.015-2.419,1.959-5.09,2.674-7.564c1.123,2.018,2.472,3.976,3.822,5.544C31.031,24.219,28.759,24.926,26.669,25.738z
+		 M39.57,25.259C39.262,25.69,38.594,25.7,38.36,25.7c-0.533,0-0.732-0.317-1.547-0.944c0.672-0.086,1.306-0.108,1.811-0.108
+		c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+
+<div>
+                          <p style={{ marginBottom: "0px" }}>PDF Standard</p>
                           <span
                             style={{
                               fontSize: "12px"
@@ -4047,19 +4307,92 @@ html {
                           >
                             Kích thước tập tin nhỏ, nhiều trang
                           </span>
+                          </div>
                         </button>
                       </li>
-                      <li>
+                      <li style={{
+                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
+                        marginBottom: '1px',
+                      }}>
                         <button
                           onClick={this.downloadPDF.bind(this, true)}
                           style={{
                             width: "100%",
                             border: "none",
                             textAlign: "left",
-                            padding: "5px 12px"
+                            padding: "5px 12px",
+                            display: "flex",
                           }}
                         >
-                          <p style={{ marginBottom: "4px" }}>PDF Print</p>
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 58 58" xmlSpace="preserve">
+<g>
+	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
+		v16.537V56c0,0.837,0.842,1.653,1.838,1.91c0.05,0.013,0.098,0.032,0.15,0.042C8.644,57.983,8.803,58,8.963,58h40.074
+		c0.16,0,0.319-0.017,0.475-0.048c0.052-0.01,0.1-0.029,0.15-0.042C50.658,57.653,51.5,56.837,51.5,56v-0.463V39V13.978
+		C51.5,13.211,51.408,12.645,50.95,12.187z M47.935,12H39.5V3.565L47.935,12z M8.963,56c-0.071,0-0.135-0.026-0.198-0.049
+		C8.609,55.877,8.5,55.721,8.5,55.537V41h41v14.537c0,0.184-0.109,0.339-0.265,0.414C49.172,55.974,49.108,56,49.037,56H8.963z
+		 M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595C37.525,2.126,37.5,2.256,37.5,2.391V14h11.609c0.135,0,0.264-0.025,0.39-0.058
+		c0,0.015,0.001,0.021,0.001,0.036V39H8.5z"/>
+	<path d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
+		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
+		c0-0.483-0.103-0.918-0.308-1.306S22.375,45.018,22.042,44.744z M21.42,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
+		c-0.164,0.155-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
+		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
+		C21.57,47.451,21.52,47.795,21.42,48.073z"/>
+	<path d="M31.954,45.4c-0.424-0.446-0.957-0.805-1.6-1.073s-1.388-0.403-2.235-0.403h-3.035V54h3.814
+		c0.127,0,0.323-0.016,0.588-0.048c0.264-0.032,0.556-0.104,0.875-0.219c0.319-0.114,0.649-0.285,0.991-0.513
+		s0.649-0.54,0.923-0.937s0.499-0.889,0.677-1.477s0.267-1.297,0.267-2.126c0-0.602-0.105-1.188-0.314-1.757
+		C32.694,46.355,32.378,45.847,31.954,45.4z M30.758,51.73c-0.492,0.711-1.294,1.066-2.406,1.066h-1.627v-7.629h0.957
+		c0.784,0,1.422,0.103,1.914,0.308s0.882,0.474,1.169,0.807s0.48,0.704,0.581,1.114c0.1,0.41,0.15,0.825,0.15,1.244
+		C31.496,49.989,31.25,51.02,30.758,51.73z"/>
+	<polygon points="35.598,54 37.266,54 37.266,49.461 41.477,49.461 41.477,48.34 37.266,48.34 37.266,45.168 41.9,45.168 
+		41.9,43.924 35.598,43.924 	"/>
+	<path d="M38.428,22.961c-0.919,0-2.047,0.12-3.358,0.358c-1.83-1.942-3.74-4.778-5.088-7.562c1.337-5.629,0.668-6.426,0.373-6.802
+		c-0.314-0.4-0.757-1.049-1.261-1.049c-0.211,0-0.787,0.096-1.016,0.172c-0.576,0.192-0.886,0.636-1.134,1.215
+		c-0.707,1.653,0.263,4.471,1.261,6.643c-0.853,3.393-2.284,7.454-3.788,10.75c-3.79,1.736-5.803,3.441-5.985,5.068
+		c-0.066,0.592,0.074,1.461,1.115,2.242c0.285,0.213,0.619,0.326,0.967,0.326h0c0.875,0,1.759-0.67,2.782-2.107
+		c0.746-1.048,1.547-2.477,2.383-4.251c2.678-1.171,5.991-2.229,8.828-2.822c1.58,1.517,2.995,2.285,4.211,2.285
+		c0.896,0,1.664-0.412,2.22-1.191c0.579-0.811,0.711-1.537,0.39-2.16C40.943,23.327,39.994,22.961,38.428,22.961z M20.536,32.634
+		c-0.468-0.359-0.441-0.601-0.431-0.692c0.062-0.556,0.933-1.543,3.07-2.744C21.555,32.19,20.685,32.587,20.536,32.634z
+		 M28.736,9.712c0.043-0.014,1.045,1.101,0.096,3.216C27.406,11.469,28.638,9.745,28.736,9.712z M26.669,25.738
+		c1.015-2.419,1.959-5.09,2.674-7.564c1.123,2.018,2.472,3.976,3.822,5.544C31.031,24.219,28.759,24.926,26.669,25.738z
+		 M39.57,25.259C39.262,25.69,38.594,25.7,38.36,25.7c-0.533,0-0.732-0.317-1.547-0.944c0.672-0.086,1.306-0.108,1.811-0.108
+		c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+<div>
+                          <p style={{ marginBottom: "0px" }}>PDF Print</p>
                           <span
                             style={{
                               fontSize: "12px"
@@ -4067,18 +4400,81 @@ html {
                           >
                             Chất lượng ảnh cao, nhiều trang
                           </span>
+                          </div>
                         </button>
                       </li>
-                      <li>
+                      <li style={{
+                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
+                        marginBottom: '1px',
+                      }}>
                         <button
                           onClick={this.downloadVideo.bind(this)}
                           style={{
                             width: "100%",
                             border: "none",
                             textAlign: "left",
-                            padding: "5px 12px"
+                            padding: "5px 12px",
+                            display: "flex",
                           }}
                         >
+                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 58 58" xmlSpace="preserve">
+<g>
+	<path d="M50.95,12.187l-0.77-0.77l0,0L40.084,1.321c0,0-0.001-0.001-0.002-0.001l-0.768-0.768C38.965,0.201,38.48,0,37.985,0H8.963
+		C7.777,0,6.5,0.916,6.5,2.926V39v16.537V56c0,0.838,0.843,1.654,1.839,1.91c0.05,0.013,0.097,0.032,0.148,0.042
+		C8.644,57.983,8.803,58,8.963,58h40.074c0.16,0,0.319-0.017,0.475-0.048c0.051-0.01,0.098-0.029,0.148-0.042
+		C50.657,57.654,51.5,56.838,51.5,56v-0.463V39V13.978C51.5,13.213,51.408,12.646,50.95,12.187z M42.5,21c0,7.168-5.832,13-13,13
+		s-13-5.832-13-13s5.832-13,13-13c2.898,0,5.721,0.977,8,2.76V13v1h1h1.948C41.792,16.093,42.5,18.502,42.5,21z M40.981,12H39.5
+		v-1.717V3.565L47.935,12H40.981z M8.963,56c-0.071,0-0.135-0.025-0.198-0.049C8.609,55.876,8.5,55.72,8.5,55.537V41h41v14.537
+		c0,0.183-0.109,0.339-0.265,0.414C49.172,55.975,49.108,56,49.037,56H8.963z M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595
+		C37.525,2.126,37.5,2.256,37.5,2.392v5.942C35.115,6.826,32.342,6,29.5,6c-8.271,0-15,6.729-15,15s6.729,15,15,15s15-6.729,15-15
+		c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z"/>
+	<polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674 
+		23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924 	"/>
+	<path d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
+		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
+		c0-0.483-0.103-0.918-0.308-1.306S33.201,45.018,32.868,44.744z M32.246,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
+		s-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
+		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
+		C32.396,47.451,32.346,47.795,32.246,48.073z"/>
+	<path d="M41.146,43.924h-1.668l-4.361,6.426v1.299h4.361V54h1.668v-2.352h1.053V50.35h-1.053V43.924z M39.479,50.35H36.58
+		l2.898-4.512V50.35z"/>
+	<path d="M37.037,20.156l-11-7c-0.308-0.195-0.698-0.208-1.019-0.033C24.699,13.299,24.5,13.635,24.5,14v14
+		c0,0.365,0.199,0.701,0.519,0.877C25.169,28.959,25.334,29,25.5,29c0.187,0,0.374-0.053,0.537-0.156l11-7
+		C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.821L34.637,21L26.5,26.179z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+<div>
                           <p style={{ marginBottom: "4px" }}>Video</p>
                           <span
                             style={{
@@ -4087,6 +4483,7 @@ html {
                           >
                             MP4
                           </span>
+                          </div>
                         </button>
                       </li>
                     </ul>
@@ -4121,20 +4518,18 @@ html {
             </div>
           </div>
           <div
-            style={{
-              backgroundColor: "#1a2b34",
-              top: "45px",
-              width: `100%`
-            }}
-          ></div>
-          <div
             className="wrapper"
             style={{
-              top: "45px",
-              width: `100%`
+              top: "55px",
+              width: `100%`,
+              height: "calc(100% - 55px)",
+              display: "flex",
+              overflow: 'hidden',
             }}
           >
             <LeftSide
+              mounted={this.state.mounted}
+              dragging={this.state.dragging}
               subtype={this.state.subtype}
               fonts={this.props.fonts}
               fontsList={this.props.fontsList}
@@ -4142,7 +4537,7 @@ html {
               handleFontColorChange={this.handleFontColorChange.bind(this)}
               typeObjectSelected={this.state.typeObjectSelected}
               images={this.props.images}
-              upperZIndex={this.state.upperZIndex}
+              upperZIndex={this.props.store.upperZIndex}
               idObjectSelected={this.state.idObjectSelected}
               childId={this.state.childId}
               pages={this.state.pages}
@@ -4157,6 +4552,7 @@ html {
               scale={this.state.scale}
               selectedTab={this.state.selectedTab}
               handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
+              increaseUpperzIndex={this.props.increaseUpperzIndex}
             />
             <div
               style={{
@@ -4165,9 +4561,12 @@ html {
                 width: `calc(100% - ${(this.state.toolbarOpened
                   ? this.state.toolbarSize
                   : 80) + (this.state.showPrintingSidebar ? 330 : 0)}px)`,
-                left: `${
-                  this.state.toolbarOpened ? this.state.toolbarSize - 2 : 80
-                }px`
+                // left: `${
+                //   this.state.toolbarOpened ? this.state.toolbarSize - 2 : 80
+                // }px`,
+                backgroundColor: '#ECF0F2',
+                position: 'relative',
+                height: '100%',
               }}
               ref={this.setAppRef}
               id="screens"
@@ -4188,7 +4587,7 @@ html {
                       zIndex: 1,
                       top: "43%",
                       position: "absolute",
-                      left: "-16px"
+                      left: "-18px"
                     }}
                   >
                     <path
@@ -4423,13 +4822,22 @@ html {
                       marginRight: "6px",
                       display: "inline-block",
                       cursor: "pointer",
-                      color: "black"
+                      color: "black",
+                      position: 'relative',
                     }}
                   >
                     <img
                       style={{ height: "21px", filter: "invert(1)" }}
                       src={this.state.fontName}
                     />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" 
+                      style={{
+                        pointerEvents: 'none',
+                        position: 'absolute',
+                        right: '10px',
+                        top: '4px',
+                      }}
+                      ><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"></path></svg>
                   </a>
                 )}
                 {this.state.idObjectSelected &&
@@ -4500,10 +4908,7 @@ html {
                       )}
                     </div>
                   )}
-                {this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).backgroundColor && (
+                {this.state.selectedImage && this.state.selectedImage.type === TemplateType.Image && this.state.selectedImage.backgroundColor && (
                     <div
                       style={{
                         position: "relative"
@@ -4557,7 +4962,8 @@ html {
                       top: "calc(100% + 8px)",
                       width: "100px",
                       padding: "0",
-                      background: "white"
+                      background: "white",
+                      animation: 'bounce 1.2s ease-out',
                     }}
                     id="myFontSizeList"
                     className="dropdown-content-font-size"
@@ -4963,7 +5369,6 @@ html {
                         height: "26px",
                         width: "30px",
                         padding: 0,
-                        backgroundColor: "white"
                       }}
                       className="dropbtn-font dropbtn-font-size"
                       onClick={this.onClickTransparent.bind(this)}
@@ -4999,7 +5404,8 @@ html {
                       id="myPositionList"
                       style={{
                         right: "10px",
-                        backgroundColor: "white"
+                        backgroundColor: "white",
+                        animation: 'bounce 1.2s ease-out',
                       }}
                       className="dropdown-content-font-size"
                     >
@@ -5079,7 +5485,8 @@ html {
                         marginTop: "-9px",
                         width: "350px",
                         padding: "10px 20px",
-                        background: "white"
+                        background: "white",
+                        animation: 'bounce 1.2s ease-out',
                       }}
                       id="myTransparent"
                       className="dropdown-content-font-size"
@@ -5194,7 +5601,7 @@ html {
                     this.state.cropMode && "rgba(14, 19, 24, 0.2)"
                 }}
               >
-                <div
+                {this.state.mounted && <div
                   id="screen-container"
                   className="screen-container"
                   style={{
@@ -5214,8 +5621,8 @@ html {
                     }
                   }}
                 >
-                  {this.renderCanvas(false, 0)}
-                </div>
+                  {this.renderCanvas(false, -1)}
+                </div>}
                 <div
                   style={{
                     position: "fixed",
@@ -5462,7 +5869,8 @@ html {
                       </ul>
                     </div>
                   )}
-
+                  {
+                    this.state.mounted &&
                   <div
                     className="workSpaceBottomPanel___73_jE"
                     data-bubble="false"
@@ -5475,7 +5883,6 @@ html {
                           boxShadow:
                             "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
                           background: "#293039",
-                          padding: "5px",
                           borderRadius: "5px"
                         }}
                         className="zoom___21DG8"
@@ -5494,6 +5901,10 @@ html {
                           data-subcateg="bottomPanel"
                         >
                           <svg
+                            style={{
+                              width: '25px',
+                              height: '25px',
+                            }}
                             viewBox="0 0 18 18"
                             width="18"
                             height="18"
@@ -5518,10 +5929,12 @@ html {
                               document.addEventListener("click", onDownload);
                             }}
                             style={{
+                              height: '40px',
                               color: "white",
                               border: "none",
                               background: "transparent",
-                              width: "50px"
+                              width: "55px",
+                              fontSize: "18px",
                             }}
                             className="scaleListButton___GEm7w zoomMain___1z1vk"
                             data-zoom="true"
@@ -5536,7 +5949,11 @@ html {
                           onClick={e => {
                             this.setState({ scale: this.state.scale + 0.15 });
                           }}
-                          style={{ border: "none", background: "transparent" }}
+                          style={{ 
+                            border: "none", 
+                            background: "transparent",
+                            height: '40px',
+                          }}
                           className="zoomPlus___1TbHD"
                           data-test="zoomPlus"
                           data-categ="tools"
@@ -5544,6 +5961,10 @@ html {
                           data-subcateg="bottomPanel"
                         >
                           <svg
+                            style={{
+                              width: '25px',
+                              height: '25px',
+                            }}
                             viewBox="0 0 18 18"
                             width="18"
                             height="18"
@@ -5556,6 +5977,7 @@ html {
                       </div>
                     </div>
                   </div>
+                  }
                 </div>
               </div>
             </div>

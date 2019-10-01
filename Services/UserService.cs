@@ -30,7 +30,7 @@ namespace RCB.TypeScript.Services
             _tokenService = tokenService;
         }
 
-        public UserInfoResponse Login(HttpContext context, string username, string password)
+        public UserInfoResponse Login(HttpContext context, string username, string password, string name)
         {
             var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
 

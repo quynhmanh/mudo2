@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 
 export default styled.div`
+  :hover {
+    outline: ${props => props.resizing || props.dragging || props.rotating ? 'none;' : '#00d9e1 solid ' + props.outlineWidth + 'px;'}
+  }
   position: absolute;
   img {
     position: absolute;
@@ -78,7 +81,7 @@ export default styled.div`
     }
   }
   .resizable-handler {
-    box-shadow: 0 0 1px 1px rgba(14, 19, 24, 0.23), 0 0 0 1px rgba(14, 19, 24, 0.02);
+    box-shadow: 0 0 1px 1px rgba(123,134,144,0.23), 0 0 0 1px rgba(5, 13, 21, 0.08);
     background-color: white;
     border-radius: 50%;
     position: absolute;

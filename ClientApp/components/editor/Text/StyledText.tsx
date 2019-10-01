@@ -9,7 +9,7 @@ export default styled.div`
     border-radius: 1px;
   }
   .resizable-handler {
-    box-shadow: 0 0 5px 1px rgba(14,19,24,.15), 0 0 0 1px rgba(14,19,24,.15);
+    box-shadow: 0 0 1px 1px rgba(123, 134, 144, 0.23), 0 0 0 1px rgba(5, 13, 21, 0.02);
     background-color: white;
     border-radius: 50%;
     position: absolute;

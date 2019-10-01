@@ -264,10 +264,11 @@ namespace RCB.TypeScript.Controllers
 
                 }
 
-                string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
-                    .Replace("[FONT_FACE]", style)
-                    .Replace("[RECT_WIDTH]", width)
-                    .Replace("[RECT_HEIGHT]", height);
+                string template =
+                    AppSettings.templateDownload
+                        .Replace("[FONT_FACE]", style)
+                        .Replace("[RECT_WIDTH]", width)
+                        .Replace("[RECT_HEIGHT]", height);
 
                 byte[] data = null;
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
@@ -467,15 +468,10 @@ namespace RCB.TypeScript.Controllers
                             IgnoredDefaultArgs = new string[] { "--disable-extensions" },
                         });
 
-                        var page = await browser.NewPageAsync();
-                        await page.SetContentAsync(html,
-                            new NavigationOptions()
-                            {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
-                            });
+                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
 
-                        var targets = browser.Targets();
                         Target backgroundPageTarget = null;
+                        var targets = browser.Targets();
                         var len = targets.Length;
                         if (targets != null)
                         {
@@ -490,8 +486,36 @@ namespace RCB.TypeScript.Controllers
                                 }
                             }
                         }
+                        //}
+                        //++cnt;
+                        //if (cnt > 5)
+                        //{
+                        //    break;
+                        //} 
+                        //}
+                        if (backgroundPageTarget == null)
+                        {
+                            throw new Exception("Cannot get background pages.");
+                        }
 
                         var backgroundPage = await backgroundPageTarget.PageAsync();
+
+                        var page = await browser.NewPageAsync();
+                        await page.SetContentAsync(html,
+                                new NavigationOptions()
+                                {
+                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                    Timeout = 0,
+                                }
+                            );
+
+                        await page.WaitForTimeoutAsync(5000);
+
+
+                        if (backgroundPageTarget == null)
+                        {
+                            throw new Exception("Cannot get background pages.");
+                        }
 
                         var messages = new List<ConsoleMessage>();
 
@@ -502,8 +526,24 @@ namespace RCB.TypeScript.Controllers
                             return Promise.resolve(42);
                         }");
 
-                        await backgroundPage.WaitForTimeoutAsync(7 * 1000);
-                        await browser.CloseAsync();
+                        while (true)
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                            var inp = "/app/wwwroot/" + videoId + ".webm";
+                            if (HostingEnvironment.IsDevelopment())
+                            {
+                                inp = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
+                            }
+
+                            if (System.IO.File.Exists(inp))
+                            {
+                                await browser.CloseAsync();
+                                break;
+                            }
+                        }
+
+                        await backgroundPage.CloseAsync();
+                        await page.CloseAsync();
                     }
                 }
 

@@ -16,6 +16,7 @@ RUN apt install -y python3-pip
 RUN pip3 install tensorflow
 RUN pip3 install image
 RUN chmod a+x setup.sh  
+ADD setup.sh /
 
 
 RUN apt install -y chromium-browser
@@ -31,6 +32,5 @@ ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils 
 xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps
 
 ENV DISPLAY :99
-CMD sh setup.sh
 
-ENTRYPOINT ["dotnet", "RCB.TypeScript.dll"]
+ENTRYPOINT ["/bin/bash", "/app/setup.sh"]

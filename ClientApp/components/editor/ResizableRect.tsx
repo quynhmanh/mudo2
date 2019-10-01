@@ -82,6 +82,9 @@ export interface IProps {
   bleed: boolean;
   backgroundColor: string;
   opacity: number;
+  dragging: boolean;
+  resizing: boolean;
+  rotating: boolean;
 }
 
 export interface IState {
@@ -313,7 +316,10 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       bleed,
       backgroundColor,
       opacity,
-      id
+      id,
+      dragging,
+      resizing,
+      rotating,
     } = this.props;
 
     const styles = tLToCenter({ top, left, width, height, rotateAngle });
@@ -327,6 +333,9 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
 
     return (
       <Rect
+        rotating={rotating}
+        resizing={resizing}
+        dragging={dragging}
         id={id}
         opacity={opacity}
         hidden={hidden}
