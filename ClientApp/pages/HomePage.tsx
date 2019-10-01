@@ -6,6 +6,7 @@ import AccountService from "@Services/AccountService";
 import { Helmet } from "react-helmet";
 import bind from 'bind-decorator';
 import LoginPopup from "@Components/shared/LoginPopup";
+import ImagePicker from "@Components/shared/ImagePicker";
 
 type Props = RouteComponentProps<{}>;
 
@@ -357,6 +358,18 @@ handleUpdateCompleted = () => {
                 marginTop: 'auto',
                 marginBottom: 'auto',
                 padding: '20px 50px 0px',
+                content: "",
+                display: 'block',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 1,
+                opacity: .9,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                backgroundImage: 'url(https://cdn.designbold.com/web/db2019/main/images/template_bg.jpg)',
               }}
             className="offset-header__header u-last-child-margin-bottom-0 u-textAlign-left@medium">
         <div className="h__hero u-color-inherit@medium ">
@@ -559,6 +572,14 @@ handleUpdateCompleted = () => {
             overflow: 'scroll',
           }}>
           <ul className="templateList___2swQr">
+          {/* <li className="templateWrapper___3Fitk">
+            <ImagePicker
+                src="https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg"
+                height={160}
+                defaultHeight={160}
+                width={100}
+            />  
+              </li> */}
     <li className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/artboard/?template=5d1b70ef8cba87f943f3451b">
             <div className="previewWrapper___mbAh5">
@@ -980,7 +1001,8 @@ handleUpdateCompleted = () => {
         </div>
     </li>
 </ul>
-          </div>}
+          </div>
+            } 
           </div>
           </div>
       </header>

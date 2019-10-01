@@ -3071,7 +3071,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cropMode,
       pages
     } = this.state;
-
+    
     const { images } = this.props;
 
     const adminEmail = "llaugusty@gmail.com";
