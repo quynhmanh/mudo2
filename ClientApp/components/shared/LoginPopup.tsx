@@ -134,7 +134,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                      background: 'white',
                   }} >
                     <div style={{
-                      width: '550px',
+                      width: '400px',
                       backgroundColor: '#638efc',
                       padding: '40px',
                     }}> 
@@ -173,7 +173,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                             textDecoration: 'underline',
                           }} className="logInBtn___HgB1o" data-test="changeModal" data-categ="registrationModal" data-value="goToLoginModal">Miễn phí tạo ngay</button></div></div>
                     </div>
-                    <div style={{position: 'relative',}}>
+                    <div style={{position: 'relative', width: '400px',}}>
                     {!this.props.externalProviderCompleted ?   
                     <div id="loginContainer" 
             style={{
