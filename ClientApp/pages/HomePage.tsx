@@ -319,7 +319,7 @@ handleUpdateCompleted = () => {
             fontFamily: 'AvenirNextRoundedPro',
             color: 'black',
             display: 'block',
-            padding: '0 20px',
+            padding: '0 12px',
             width: '100%',
             textAlign: 'left',
         }}
