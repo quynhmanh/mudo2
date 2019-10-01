@@ -224,40 +224,64 @@ handleUpdateCompleted = () => {
     lineHeight: '39px',
     fontSize: '16px',
     padding: '10px',
-    width: '200px',
     position: 'relative',
 }}>
-    {!loggedIn ? <button
+    {!loggedIn ? <div style={{display: 'flex',}}>
+        <div 
+            style={{
+                borderRight: '1px solid rgb(221, 221, 221)', 
+                height: '19px', 
+                marginLeft: '10px', 
+                marginRight: '10px',
+                marginTop: '6px',
+            }} />
+        <button
         id="login-btn"
         style={{
             height: '30px',
             lineHeight: '30px',
             border: 'none',
-            fontSize: '15px',
+            fontSize: '14px',
+            fontWeight: 500,
             borderRadius: '4px',
-            fontFamily: 'AvenirNextRoundedPro-Medium',
+            fontFamily: 'AvenirNextRoundedPro',
             color: 'black',
             display: 'block',
-            padding: '0 5px',
+            padding: '0 10px',
         }}
         // onClick={() => {location.href='/login';}}
         onClick={this.handleLogin}
-    >Đăng nhập</button>
+    >Đăng nhập</button></div>
     :
-    <button
-        style={{
+    <div style={{display: 'flex',}}>
+        <div 
+            style={{
+                borderRight: '1px solid rgb(221, 221, 221)', 
+                height: '19px', 
+                marginLeft: '10px', 
+                marginRight: '10px',
+                marginTop: '6px',
+            }} />
+        <button
+            style={{
+                height: '30px',
+                lineHeight: '25px',
+                border: 'none',
+                fontSize: '14px',
+                borderRadius: '4px',
+                fontWeight: '500',
+                fontFamily: 'AvenirNextRoundedPro',
+            }}
+            className="button-list"
+            onClick={this.handleProfilePopup}
+        ><span style={{marginRight: '10px',}}>{Globals.serviceUser.username}</span>
+        <img style={{
+            width: '30px',
             height: '30px',
-            lineHeight: '25px',
-            border: 'none',
-            fontSize: '15px',
-            borderRadius: '4px',
-            // background: 'rgba(55, 53, 47, 0.08)',
-            fontFamily: 'AvenirNextRoundedPro-Medium',
-        }}
-        className="button-list"
-        onClick={this.handleProfilePopup}
-    >{Globals.serviceUser.username}</button>
-    }
+            borderRadius: '50%',
+        }} src="https://www.google.com/s2/photos/private/AIbEiAIAAABDCOiLwpvLu8CPRCILdmNhcmRfcGhvdG8qKGUxNjQ2YjUwNTQwNTVmNGVlZjdkMTQxNDcxYzhjNzg1YmU4OWRjODQwAQZAjaC_9irsFzfZrYEDu9rc_9V6/s100" />
+        </button>
+    </div>}
     <div id="myProfilePopup"
     className="dropdown-content-font-size"
      style={{
@@ -279,9 +303,8 @@ handleUpdateCompleted = () => {
             height: '30px',
             lineHeight: '30px',
             border: 'none',
-            fontSize: '15px',
-            borderRadius: '4px',
-            fontFamily: 'AvenirNextRoundedPro-Medium',
+            fontSize: '14px',
+            fontFamily: 'AvenirNextRoundedPro',
             color: 'black',
             display: 'block',
             padding: '0 20px',
