@@ -369,16 +369,17 @@ handleUpdateCompleted = () => {
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
-                backgroundImage: 'url(https://cdn.designbold.com/web/db2019/main/images/template_bg.jpg)',
+                backgroundImage: 'url(https://images.unsplash.com/photo-1475669698648-2f144fcaaeb1?ixlib=rb-1.2.1)',
               }}
             className="offset-header__header u-last-child-margin-bottom-0 u-textAlign-left@medium">
         <div className="h__hero u-color-inherit@medium ">
           <h2
             style={{
-              textAlign: 'center',
-              fontSize: '35px',
-              marginBottom: '25px',
-              fontFamily: 'Lobster-Regular',
+                color: 'white', 
+                textAlign: 'center',
+                fontSize: '35px',
+                marginBottom: '25px',
+                fontFamily: 'Lobster-Regular',
             }}
           >Bắt đầu thiết kế</h2>
           <div
