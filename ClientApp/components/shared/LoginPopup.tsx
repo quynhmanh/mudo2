@@ -164,14 +164,14 @@ class LoginPopup extends PureComponent<IProps, IState> {
  </g>
 </svg>
                         <p style={{color: 'white',}} className="subTitle___1IrLT medium___1Yh-x">Thiết kế một cách dễ dàng nhất</p><div className="imageWrapper___17xac"><img alt="loginIcon.svg" src="https://static.crello.com/images/loginIcon.svg" class="" /></div></div><div class="logIn___R_tvz">
-                          <p style={{color: 'white',}} class="logInText___xkR-S">Do not have an account? </p>
+                          <p style={{color: 'white',}} class="logInText___xkR-S">Bạn chưa có tài khoản ? </p>
                           <button style={{
                             border: 'none',
                             background: 'none',
                             padding: 0,
                             color: 'white',
                             textDecoration: 'underline',
-                          }} className="logInBtn___HgB1o" data-test="changeModal" data-categ="registrationModal" data-value="goToLoginModal">Create a free account</button></div></div>
+                          }} className="logInBtn___HgB1o" data-test="changeModal" data-categ="registrationModal" data-value="goToLoginModal">Miễn phí tạo ngay</button></div></div>
                     </div>
                     <div style={{position: 'relative', width: '100%',}}>
                     {!this.props.externalProviderCompleted ?   
