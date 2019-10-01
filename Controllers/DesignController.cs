@@ -466,13 +466,11 @@ namespace RCB.TypeScript.Controllers
                             Args = arguments.ToArray(),
                             Headless = false,
                             IgnoredDefaultArgs = new string[] { "--disable-extensions" },
-                            
                         });
 
+                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+
                         Target backgroundPageTarget = null;
-                        int cnt = 0;
-                        //while (backgroundPageTarget == null)
-                        //{
                         var targets = browser.Targets();
                         var len = targets.Length;
                         if (targets != null)
