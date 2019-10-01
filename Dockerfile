@@ -33,6 +33,4 @@ xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyri
 
 ENV DISPLAY :99
 
-ENTRYPOINT ["dotnet", "RCB.TypeScript.dll"]
-
-CMD sh setup.sh
+ENTRYPOINT ["/bin/bash", "/app/setup.sh"]
