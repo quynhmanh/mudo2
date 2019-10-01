@@ -31,6 +31,7 @@ ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils 
 xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic x11-apps
 
 ENV DISPLAY :99
-CMD sh setup.sh
 
 ENTRYPOINT ["dotnet", "RCB.TypeScript.dll"]
+
+CMD sh setup.sh
