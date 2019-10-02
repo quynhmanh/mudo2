@@ -86,7 +86,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
       if (!this.state.loaded) {
           console.log('image loaded');
-          this.setState({ loaded: true, width: ratio * 160 });
+          this.setState({ loaded: true, width: ratio * this.props.height });
       }
   } 
 
@@ -136,7 +136,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 } : {display: 'none'}}
                 onLoad={(e) => {
                   console.log('onLoad');
-                    this.setState({loaded: true})
+                    this.handleImageLoaded();
                   }
                 }
 
