@@ -216,7 +216,7 @@ export default class Canvas extends Component<IProps, IState> {
             {images.map(g => {
               var transformImage = this.tranformImage(g);
               return (<div
-                  key={uuidv4()}
+                  key={g._id + "guide_0"}
                   id={g._id + "guide_0"}
                   className="guide axis-x static"
                   style={{
@@ -230,7 +230,7 @@ export default class Canvas extends Component<IProps, IState> {
             {images.map(g => {
               var transformImage = this.tranformImage(g);
               return (<div
-                  key={uuidv4()}
+                  key={g._id + "guide_1"}
                   id={g._id + "guide_1"}
                   className="guide axis-x static"
                   style={{
@@ -245,7 +245,7 @@ export default class Canvas extends Component<IProps, IState> {
               var transformImage = this.tranformImage(g);
               return (
                 <div
-                key={uuidv4()}
+                key={g._id + "guide_2"}
                 id={g._id + "guide_2"}
                   className="guide axis-x static"
                   style={{
@@ -260,7 +260,7 @@ export default class Canvas extends Component<IProps, IState> {
               var transformImage = this.tranformImage(g);
               return (
                 <div
-                key={uuidv4()}
+                key={g._id + "guide_3"}
                 id={g._id + "guide_3"}
                   className="guide axis-y static"
                   style={{
@@ -275,7 +275,7 @@ export default class Canvas extends Component<IProps, IState> {
               var transformImage = this.tranformImage(g);
               return (
                 <div
-                key={uuidv4()}
+                key={g._id + "guide_4"}
                 id={g._id + "guide_4"}
                   className="guide axis-y static"
                   style={{
@@ -290,7 +290,7 @@ export default class Canvas extends Component<IProps, IState> {
               var transformImage = this.tranformImage(g);
               return (
                 <div
-                key={uuidv4()}
+                key={g._id + "guide_5"}
                 id={g._id + "guide_5"}
                   className="guide axis-y static"
                   style={{
@@ -403,7 +403,7 @@ export default class Canvas extends Component<IProps, IState> {
                 .filter(img => img.selected)
                 .map(img => (
                   <ResizableRectWrapper
-                    key={uuidv4()}
+                    key={img._id}
                     className="9876"
                     id={img._id + "_"}
                     downloading={this.props.downloading}
@@ -533,6 +533,7 @@ export default class Canvas extends Component<IProps, IState> {
                 display: "inline-block",
                 position: "absolute",
                 overflow: !this.state.hoveringCanvas && "hidden",
+                zIndex: 123,
                 // overflow: 'hidden',
               }}
               onMouseEnter={(e) => { this.setState({hoveringCanvas: true,})}}
@@ -690,7 +691,7 @@ export default class Canvas extends Component<IProps, IState> {
                   img => !img.selected || img.type === 4 || img.type === 6
                 )
                 .map(img => (
-                  <div key={uuidv4()}>
+                  <div key={img._id}>
                     <ResizableRectWrapper
                       className="9876"
                       id={img._id + "__"}

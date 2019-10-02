@@ -1169,9 +1169,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleRotateStart = () => {
+    console.log('handleRotateStart');
     var resizers = document.getElementsByClassName("resizable-handler-container");
+    console.log('resizers ', resizers);
     for (var i = 0; i < resizers.length; ++i) {
       var cur:any = resizers[i];
+      console.log('cur ', cur);
       cur.style.opacity = 0;
     }
     
@@ -1180,6 +1183,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       var cur:any = rotators[i];
       cur.style.opacity = 0;
     }
+
     this.setState({ rotating: true });
   };
 
@@ -4530,6 +4534,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             <LeftSide
               mounted={this.state.mounted}
               dragging={this.state.dragging}
+              resizing={this.state.resizing}
+              rotating={this.state.rotating}
               subtype={this.state.subtype}
               fonts={this.props.fonts}
               fontsList={this.props.fontsList}

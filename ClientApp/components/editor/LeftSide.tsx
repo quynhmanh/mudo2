@@ -33,6 +33,8 @@ export interface IProps {
   fonts: any;
   subtype: any;
   dragging: boolean;
+  resizing: boolean;
+  rotating: boolean;
   increaseUpperzIndex: any;
   mounted: boolean;
 }
@@ -1923,8 +1925,9 @@ class LeftSide extends PureComponent<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.dragging
-      // nextProps.resizing
+    if (nextProps.dragging ||
+      nextProps.resizing ||
+      nextProps.rotating
       ) {
       return false;
     }
