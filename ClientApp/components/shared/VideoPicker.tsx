@@ -74,9 +74,9 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
       console.log('img ', img);
       console.log('img.readyState ', img.readyState);
 
-    //   if (img && img.readyState == 0) {
+      if (img && img.readyState == 4) {
           this.handleImageLoaded();
-    //   }
+      }
   }
 
     image = null;
@@ -87,7 +87,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
       var ratio = img.videoWidth / img.videoHeight;
 
-      if (!this.state.loaded) {
+      if (!ratio || !this.state.loaded) {
           console.log('image loaded');
           img.play();
           this.setState({ loaded: true, width: ratio * 160 });
@@ -146,7 +146,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     console.log('onLoad video picker');
                         // this.image.play();
                         // this.setState({loaded: true})
-                        this.handleImageLoaded();
+                        // this.handleImageLoaded();
                     }
                 }
 
@@ -158,7 +158,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
                 onLoadedData={(e) => {
                         console.log('onLoadEnd');
-                        this.handleImageLoaded();
+                        // this.handleImageLoaded();
                     }
                 }
 
