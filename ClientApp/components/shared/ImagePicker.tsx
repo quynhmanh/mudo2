@@ -13,6 +13,7 @@ export interface IProps {
     color: string;
     id: string;
     delay: number;
+    showButton: boolean;
 }
 
 export interface IState {
@@ -110,7 +111,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             backgroundColor: '#00000030',
             background: '#fff',
           }} delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
-            {Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
+            {this.props.showButton && Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
             <button
               style={{
                 position: 'absolute',
