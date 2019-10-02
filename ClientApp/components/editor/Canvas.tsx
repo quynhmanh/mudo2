@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ResizableRect from "@Components/editor/ResizableRect";
 import StyledComponent from "styled-components";
+import uuidv4 from "uuid/v4";
 
 export interface IProps {
   id: string;
