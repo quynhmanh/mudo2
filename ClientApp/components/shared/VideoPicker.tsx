@@ -141,8 +141,9 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     } : {display: 'none'}}
                     onLoad={(e) => {
                     console.log('onLoad');
-                        this.image.play();
-                        this.setState({loaded: true})
+                        // this.image.play();
+                        // this.setState({loaded: true})
+                        this.handleImageLoaded();
                     }
                     }
 
