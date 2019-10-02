@@ -894,3 +894,23 @@ button:focus {
 #fontSizeButton:hover {
   background-color: #ececec;
 }
+
+.language-dropdown {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 128px;
+  color: rgba(14,19,24,.7);
+  text-decoration: none;
+  transition: color .2s;
+  cursor: pointer;
+}
+
+.language-dropdown:hover {
+  text-decoration: none;
+  color: #00c4cc;
+}
