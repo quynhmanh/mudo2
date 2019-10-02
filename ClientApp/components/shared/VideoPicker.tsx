@@ -72,9 +72,11 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
     componentDidMount() {
       const img = this.image;
       console.log('img ', img);
-      if (img && img.complete) {
+      console.log('img.readyState ', img.readyState);
+
+    //   if (img && img.readyState == 0) {
           this.handleImageLoaded();
-      }
+    //   }
   }
 
     image = null;
@@ -83,17 +85,17 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
       const img = this.image;
       console.log('img ', img.naturalWidth);
 
-      var ratio = img.naturalWidth / img.naturalHeight;
+      var ratio = img.videoWidth / img.videoHeight;
 
       if (!this.state.loaded) {
           console.log('image loaded');
-          this.setState({ loaded: true, width: ratio * this.props.height });
+          img.play();
+          this.setState({ loaded: true, width: ratio * 160 });
       }
   } 
 
       render() {
         let { loaded } = this.state;
-        // loaded = false;
         console.log('loaded', loaded);
         // loaded = true;
         // loaded = Boolean(Math.round(Math.random() % 2));
@@ -101,7 +103,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
           <Container style={{
             position: 'relative',
             backgroundSize: '300% 300%',
-            width: `${this.state.loaded ? this.state.width : this.props.width}px`,
+            width: this.state.loaded ? this.state.width + "px" : '100%',
             height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
             marginBottom: '8px',
             opacity: this.state.loaded ? 1 : 0.15,
@@ -124,36 +126,47 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
               }}
               onClick={this.props.onEdit}
             ><span>
-<svg width="16" height="16" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fillRule="evenodd"></use></svg>
+<svg width="16" height="16" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fill-rule="evenodd"></use></svg>
             </span>
             </button>
             }
-            <img
-              ref={i => this.image = i}
-              className={this.props.className}
-              style={loaded ? {
-                height: this.props.height + 'px',
-                width: '100%',
-                marginBottom: '10px',
-                // backgroundColor: this.props.color,
+            <video
+                loop={true}
+                muted={true}
+                ref={i => this.image = i}
+                className={this.props.className}
+                style={loaded ? {
+                    height: this.props.height + 'px',
+                    width: '100%',
+                    marginBottom: '10px',
+                    // backgroundColor: this.props.color,
                 } : {display: 'none'}}
-                onLoad={(e) => {
-                  console.log('onLoad');
-                    this.handleImageLoaded();
-                  }
+                
+                onLoadedMetadata={(e) => {
+                    console.log('onLoad video picker');
+                        // this.image.play();
+                        // this.setState({loaded: true})
+                        this.handleImageLoaded();
+                    }
+                }
+
+                onCanPlay={(e) => {
+                        console.log('onCanPlay');
+                    }
                 }
 
                 onLoadedData={(e) => {
-                    console.log('onLoadEnd');
-                  }
+                        console.log('onLoadEnd');
+                    }
                 }
 
                 onError={(e) => {
-                  console.log('onerror');
-                }}
+                    console.log('onerror');
+                    }
+                }
 
-              src={this.props.src}
-              onMouseDown={this.props.onPick}
+                src={this.props.src}
+                onMouseDown={this.props.onPick}
             />
           </Container>
         );

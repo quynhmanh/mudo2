@@ -3487,7 +3487,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                         <ImagePicker
                           id=""
                           className=""
-                          height={imgWidth}
+                          height={imgWidth / (item.width / item.height)}
                           defaultHeight={imgWidth}
                           color=""
                           delay={0}
@@ -3497,6 +3497,19 @@ class LeftSide extends PureComponent<IProps, IState> {
                           onPick={this.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
                         />
+                        // <ImagePicker
+                        //   id=""
+                        //   key={key}
+                        //   color={item.color}
+                        //   src={item.representativeThumbnail}
+                        //   height={imgWidth / (item.width / item.height)}
+                        //   defaultHeight={imgWidth}
+                        //   width={imgWidth}
+                        //   className=""
+                        //   onPick={this.imgOnMouseDown.bind(this, item)}
+                        //   onEdit={this.handleEditmedia.bind(this, item)}
+                        //   delay={0}
+                        // />
                       ))}
                       {this.state.hasMoreUserUpload &&
                         Array(1)
@@ -3544,7 +3557,7 @@ class LeftSide extends PureComponent<IProps, IState> {
                         <ImagePicker
                           id=""
                           className=""
-                          height={imgWidth}
+                          height={imgWidth / (item.width / item.height)}
                           defaultHeight={imgWidth}
                           color=""
                           width={imgWidth}

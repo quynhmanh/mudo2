@@ -7,6 +7,8 @@ import { Helmet } from "react-helmet";
 import bind from 'bind-decorator';
 import LoginPopup from "@Components/shared/LoginPopup";
 import ImagePicker from "@Components/shared/ImagePicker";
+import VideoPicker from "@Components/shared/VideoPicker";
+import styled from 'styled-components';
 
 type Props = RouteComponentProps<{}>;
 
@@ -218,14 +220,14 @@ handleUpdateCompleted = () => {
  <g>
   <title>Layer 1</title>
   <g stroke="null" id="logo-group">
-   <g stroke="null" font-style="normal" font-weight="700" font-size="72px" font-family="'Brandmark1 Bold'" text-anchor="middle" id="title">
+   <g stroke="null" font-weight="700" font-size="72px" font-family="'Brandmark1 Bold'" text-anchor="middle" id="title">
     <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m4.52583,-318.85031c1.04036,2.24451 2.4275,4.29098 4.23078,6.00737c1.87264,1.71639 3.95335,3.10271 6.31149,4.02692c2.4275,0.99023 5.06306,1.45233 7.69863,1.45233c2.63557,0 5.27114,-0.46211 7.69863,-1.45233c2.35814,-0.92421 4.43885,-2.31053 6.31149,-4.02692c1.80328,-1.71639 3.19042,-3.76286 4.23078,-6.00737c1.04036,-2.31053 1.52586,-4.75308 1.52586,-7.32767l0,-32.0173l-10.40356,-3.30075l0,18.74828c-0.55486,-0.26406 -1.10971,-0.52812 -1.66457,-0.72617c-2.4275,-0.99023 -4.99371,-1.45233 -7.69863,-1.45233c-2.63557,0 -5.27114,0.46211 -7.69863,1.45233c-2.35814,0.92421 -4.43885,2.31053 -6.31149,4.02692c-1.80328,1.71639 -3.19042,3.76286 -4.23078,6.00737c-0.971,2.31053 -1.52586,4.75308 -1.52586,7.26166c0,2.57459 0.55486,5.01714 1.52586,7.32767zm18.2409,-16.2397c5.13242,0 9.3632,4.02692 9.3632,8.91203c0,4.95113 -4.23078,8.91203 -9.3632,8.91203c-5.13242,0 -9.3632,-3.9609 -9.3632,-8.91203c0,-4.88511 4.23078,-8.91203 9.3632,-8.91203z" id="path190399"/>
     <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m58.15835,-307.8258l0,0l0,-16.2397c0,-6.33745 5.40985,-11.55263 12.13748,-11.55263l0,-9.90226c-3.05171,0 -6.03406,0.59414 -8.80834,1.71639c-2.63557,1.05624 -5.06306,2.6406 -7.14378,4.62105c-2.08071,1.91444 -3.67592,4.22496 -4.85499,6.79955c-1.17907,2.6406 -1.73393,5.41323 -1.73393,8.3179l0,16.2397l10.40356,0z" id="path190401"/>
     <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m97.54557,-344.99227l0.06936,2.11248c-2.77428,-1.3203 -5.82599,-2.04647 -8.94706,-2.04647c-2.63557,0 -5.27114,0.46211 -7.69863,1.45233c-2.35814,0.99023 -4.43885,2.31053 -6.31149,4.02692c-1.80328,1.71639 -3.19042,3.76286 -4.23078,6.00737c-0.971,2.31053 -1.52586,4.8191 -1.52586,7.32767c0,2.50857 0.55486,5.01714 1.52586,7.32767c1.04036,2.24451 2.4275,4.22496 4.23078,6.00737c1.87264,1.71639 3.95335,3.03669 6.31149,4.02692c2.4275,0.92421 5.06306,1.45233 7.69863,1.45233c3.12107,0 6.17278,-0.72617 8.94706,-2.04647l-0.06936,1.51835l10.40356,0l0,-37.16648l-10.40356,0zm-4.16142,26.53805c-1.38714,0.79218 -3.05171,1.25429 -4.71628,1.25429c-5.13242,0 -9.3632,-4.02692 -9.3632,-8.91203c0,-4.88511 4.23078,-8.91203 9.3632,-8.91203c1.80328,0 3.60657,0.46211 5.06306,1.45233c1.52586,0.8582 2.70492,2.1785 3.3985,3.69684c0.62421,1.18827 0.90164,2.44256 0.90164,3.76286c0,1.58436 -0.41614,3.10271 -1.24843,4.48902c-0.83228,1.3203 -1.942,2.44256 -3.3985,3.16872z" id="path190403"/>
     <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m124.14507,-344.46415l0,-0.06602c0,-5.74331 4.92435,-10.49639 11.02777,-10.49639l0,-9.90226c-2.913,0 -5.75663,0.59414 -8.3922,1.65038c-2.56621,0.99023 -4.85499,2.44256 -6.79699,4.35699c-1.942,1.84842 -3.53721,4.02692 -4.57757,6.46948c-1.10971,2.50857 -1.66457,5.21519 -1.66457,7.92181l0,36.70437l10.40356,0l0,-27.39625l11.02777,0l0,-9.24211l-11.02777,0z" id="path190405"/>
     <path stroke="null" fill="#56aaff" transform="translate(0,365.45123291015625) " d="m157.99997,-335.35407l0,-9.24211l-11.02777,0l0,-11.81669l-10.40356,3.30075l0,25.61384c0,2.77263 0.55486,5.41323 1.66457,7.92181c1.04036,2.44256 2.63557,4.62105 4.57757,6.46948c1.942,1.91444 4.23078,3.36677 6.79699,4.42301c2.63557,1.05624 5.47921,1.58436 8.3922,1.58436l0,-9.90226c-6.10342,0 -11.02777,-4.68707 -11.02777,-10.49639l0,-7.85579l11.02777,0z" id="path190407"/>
    </g>
-   <g stroke="null" font-style="normal" font-weight="400" font-size="32px" font-family="Montserrat" text-anchor="middle" id="tagline"/>
+   <g stroke="null" font-weight="400" font-size="32px" font-family="Montserrat" text-anchor="middle" id="tagline"/>
   </g>
  </g>
 </svg>
@@ -580,13 +582,21 @@ handleUpdateCompleted = () => {
               position: 'relative',
             }}
           >
-        {this.state.mounted && 
+        {/* {this.state.mounted &&  */}
           <div 
           className="renderView___1QdJs"
           style={{
             overflow: 'scroll',
           }}>
-          <ul className="templateList___2swQr">
+          <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                position: 'relative',
+                zIndex: 1,
+                display: 'inline-flex',
+                marginTop: '1px',
+                transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
+          }} className="templateList___2swQr">
           {/* <li className="templateWrapper___3Fitk">
             <ImagePicker
                 src="https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg"
@@ -595,17 +605,46 @@ handleUpdateCompleted = () => {
                 width={100}
             />  
               </li> */}
-    <li className="templateWrapper___3Fitk">
+    <CC style={{
+        marginRight: '16px',
+        // overflow: 'hidden',
+        // height: '160px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
-            <div className="previewWrapper___mbAh5">
+            <div style={{
+                        // position: 'relative',
+                        // height: '160px',
+                        // borderRadius: '8px',
+                    }} className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/42b2cbbb-f74f-49b2-83a6-aca7315824ef.mp4" poster="https://cdn.crello.com/common/6f8d2178-c251-4c68-a191-0f923e08ee30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                        <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/42b2cbbb-f74f-49b2-83a6-aca7315824ef.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                    {/* <video style={{
+                        position: 'relative',
+                        height: '160px',
+                        borderRadius: '8px',
+                    }} src="https://cdn.crello.com/video-producer-script/42b2cbbb-f74f-49b2-83a6-aca7315824ef.mp4" poster="https://cdn.crello.com/common/6f8d2178-c251-4c68-a191-0f923e08ee30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -613,58 +652,121 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div className="templateInfo___2YZSg" style={{
+            opacity: 0,
+        }}>
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Video Full HD</p>
             <p className="x-small___1lJKy size___1sVBg">1920x1080 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
-                <div style={{paddingTop: 0}}><img alt="Facebook Post Home stuff 788px 940px" src="https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+                <div style={{paddingTop: 0}}>
+                <ImagePicker
+                    showButton={false}
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                </div>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
-                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="penciCCcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
                     </svg>
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}>
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Post</p>
             <p className="x-small___1lJKy size___1sVBg">940x788 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/5cf49544-381a-4790-903a-bc062d28ea97.mp4" poster="https://cdn.crello.com/common/edf74691-5af9-4554-8ef6-f6f4728c307d_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/5cf49544-381a-4790-903a-bc062d28ea97.mp4" poster="https://cdn.crello.com/common/edf74691-5af9-4554-8ef6-f6f4728c307d_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/5cf49544-381a-4790-903a-bc062d28ea97.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
-                    <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
+                    <svg viewBox="0 0 16 16" width={16} height={16} className="penciCCcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
                     </svg>
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
-                <div style={{paddingTop: 0}}><img alt="Instagram Post Real estate & Building 1080px 1080px" src="https://cdn.crello.com/common/06179643-bda5-4edd-8816-84b8fc4d44db_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+                <div style={{paddingTop: 0}}>
+                    {/* <img alt="Instagram Post Real estate & Building 1080px 1080px" src="https://cdn.crello.com/common/06179643-bda5-4edd-8816-84b8fc4d44db_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
+                    <ImagePicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/common/06179643-bda5-4edd-8816-84b8fc4d44db_640.jpg"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                </div>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -672,22 +774,45 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}>
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Post</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/1adfb977-370f-4db0-ab86-04bcfa8ae6b9.mp4" poster="https://cdn.crello.com/common/f6238807-ceec-4eaf-9aa3-34afe8f25c30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/1adfb977-370f-4db0-ab86-04bcfa8ae6b9.mp4" poster="https://cdn.crello.com/common/f6238807-ceec-4eaf-9aa3-34afe8f25c30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/1adfb977-370f-4db0-ab86-04bcfa8ae6b9.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -695,17 +820,39 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
-                <div style={{paddingTop: 0}}><img alt="Facebook Ad Fashion & Style 628px 1200px" src="https://cdn.crello.com/common/a7613810-fa5f-450b-b482-2a6ed4fd897d_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+                <div style={{paddingTop: 0}}>
+                    {/* <img alt="Facebook Ad Fashion & Style 628px 1200px" src="https://cdn.crello.com/common/a7613810-fa5f-450b-b482-2a6ed4fd897d_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
+                    <ImagePicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/common/a7613810-fa5f-450b-b482-2a6ed4fd897d_640.jpg"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                </div>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -713,22 +860,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Ad</p>
             <p className="x-small___1lJKy size___1sVBg">1200x628 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/46a49129-6cf5-490d-8103-a34fc91cd63d.mp4" poster="https://cdn.crello.com/common/8714fed0-471e-4a67-9176-2897fc0dbc37_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/46a49129-6cf5-490d-8103-a34fc91cd63d.mp4" poster="https://cdn.crello.com/common/8714fed0-471e-4a67-9176-2897fc0dbc37_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/46a49129-6cf5-490d-8103-a34fc91cd63d.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -736,17 +907,39 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Square Video Post</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramStorySM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
-                <div style={{paddingTop: 0}}><img alt="Instagram Story Food & Drinks 1920px 1080px" src="https://cdn.crello.com/common/8d368594-f89e-4e3e-affa-7021c4120744_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+                <div style={{paddingTop: 0}}>
+                <ImagePicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/common/8d368594-f89e-4e3e-affa-7021c4120744_640.jpg"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                    {/* <img alt="Instagram Story Food & Drinks 1920px 1080px" src="https://cdn.crello.com/common/8d368594-f89e-4e3e-affa-7021c4120744_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
+                    </div>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -754,17 +947,39 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Story</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
-                <div style={{paddingTop: 0}}><img alt="Facebook Ad Sport & Extreme 628px 1200px" src="https://cdn.crello.com/common/ca029acb-09a0-4b7f-8fa9-389ea5477ac3_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+                <div style={{paddingTop: 0}}>
+                <ImagePicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/common/ca029acb-09a0-4b7f-8fa9-389ea5477ac3_640.jpg"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                    {/* <img alt="Facebook Ad Sport & Extreme 628px 1200px" src="https://cdn.crello.com/common/ca029acb-09a0-4b7f-8fa9-389ea5477ac3_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
+                </div>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -772,22 +987,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Ad</p>
             <p className="x-small___1lJKy size___1sVBg">1200x628 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/b2a03204-5f88-4522-a3b2-c6a6e20e800b.mp4" poster="https://cdn.crello.com/common/23b1a253-5b1f-4ab6-949b-c71b40301b8b_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/b2a03204-5f88-4522-a3b2-c6a6e20e800b.mp4" poster="https://cdn.crello.com/common/23b1a253-5b1f-4ab6-949b-c71b40301b8b_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/b2a03204-5f88-4522-a3b2-c6a6e20e800b.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -795,17 +1034,39 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
-                <div style={{paddingTop: 0}}><img alt="Instagram Ad Home stuff 1080px 1080px" src="https://cdn.crello.com/common/52f3771f-658a-4b4c-9df8-b7dceb4bd581_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+                <div style={{paddingTop: 0}}>
+                    {/* <img alt="Instagram Ad Home stuff 1080px 1080px" src="https://cdn.crello.com/common/52f3771f-658a-4b4c-9df8-b7dceb4bd581_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
+                    <ImagePicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/common/52f3771f-658a-4b4c-9df8-b7dceb4bd581_640.jpg"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                </div>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -813,22 +1074,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Ad</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/8714f27a-96e2-421e-bc0c-a62bb6734be4.mp4" poster="https://cdn.crello.com/common/9306da81-1cc9-4ee2-a135-970d8d62a0a2_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/8714f27a-96e2-421e-bc0c-a62bb6734be4.mp4" poster="https://cdn.crello.com/common/9306da81-1cc9-4ee2-a135-970d8d62a0a2_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/8714f27a-96e2-421e-bc0c-a62bb6734be4.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -836,22 +1121,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Square Video Post</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/84f08efe-1289-4a19-ac4b-89060140dc66.mp4" poster="https://cdn.crello.com/common/534f5b80-3a47-436b-bab1-9561c122cfed_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/84f08efe-1289-4a19-ac4b-89060140dc66.mp4" poster="https://cdn.crello.com/common/534f5b80-3a47-436b-bab1-9561c122cfed_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/84f08efe-1289-4a19-ac4b-89060140dc66.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -859,22 +1168,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Square Video Post</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/f7bfb9ea-09e1-423e-a735-989fed4ad1e1.mp4" poster="https://cdn.crello.com/common/d1c132f6-8b1f-48a4-99b8-fd0682425ca5_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/f7bfb9ea-09e1-423e-a735-989fed4ad1e1.mp4" poster="https://cdn.crello.com/common/d1c132f6-8b1f-48a4-99b8-fd0682425ca5_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/f7bfb9ea-09e1-423e-a735-989fed4ad1e1.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -882,22 +1215,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Video Full HD</p>
             <p className="x-small___1lJKy size___1sVBg">1920x1080 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/bd52c4e4-8151-41cf-96d4-5d6cc144bcdb.mp4" poster="https://cdn.crello.com/common/9fd87f37-1194-462a-b751-110f725cacb8_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
-                </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                    {/* <video src="https://cdn.crello.com/video-producer-script/bd52c4e4-8151-41cf-96d4-5d6cc144bcdb.mp4" poster="https://cdn.crello.com/common/9fd87f37-1194-462a-b751-110f725cacb8_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/bd52c4e4-8151-41cf-96d4-5d6cc144bcdb.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                    </div>
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -905,17 +1262,39 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }}  className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="facebookADSMA" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
-                <div style={{paddingTop: 0}}><img alt="Facebook Ad Industry 628px 1200px" src="https://cdn.crello.com/common/04eb5b1d-cf71-4114-a9d6-71a651c5203a_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+                <div style={{paddingTop: 0}}>
+                    {/* <img alt="Facebook Ad Industry 628px 1200px" src="https://cdn.crello.com/common/04eb5b1d-cf71-4114-a9d6-71a651c5203a_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
+                    <ImagePicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/common/04eb5b1d-cf71-4114-a9d6-71a651c5203a_640.jpg"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                </div>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -923,22 +1302,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Ad</p>
             <p className="x-small___1lJKy size___1sVBg">1200x628 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }}  className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/c604a4a4-b56f-44e7-b6cf-f5c5d1d735ac.mp4" poster="https://cdn.crello.com/common/890793ba-a8e7-4c3a-a1a0-1e9281d766bd_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/c604a4a4-b56f-44e7-b6cf-f5c5d1d735ac.mp4" poster="https://cdn.crello.com/common/890793ba-a8e7-4c3a-a1a0-1e9281d766bd_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/c604a4a4-b56f-44e7-b6cf-f5c5d1d735ac.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -946,22 +1349,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }}  className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/0b07ba68-96d6-4196-b462-55e1662cad0b.mp4" poster="https://cdn.crello.com/common/61785313-5b0c-4cd8-b9e7-613e40144e10_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/0b07ba68-96d6-4196-b462-55e1662cad0b.mp4" poster="https://cdn.crello.com/common/61785313-5b0c-4cd8-b9e7-613e40144e10_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/0b07ba68-96d6-4196-b462-55e1662cad0b.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -969,17 +1396,39 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Video Full HD</p>
             <p className="x-small___1lJKy size___1sVBg">1920x1080 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }}  className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
-                <div style={{paddingTop: 0}}><img alt="Facebook Post Beauty 788px 940px" src="https://cdn.crello.com/common/92e717c0-ba32-4db7-b5bd-f60f07d4bb5e_640.jpg" className="preview___37TNk mediaItem___106k8" /></div>
+                <div style={{paddingTop: 0}}>
+                    {/* <img alt="Facebook Post Beauty 788px 940px" src="https://cdn.crello.com/common/92e717c0-ba32-4db7-b5bd-f60f07d4bb5e_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
+                    <ImagePicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/common/92e717c0-ba32-4db7-b5bd-f60f07d4bb5e_640.jpg"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
+                </div>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -987,22 +1436,46 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div 
+        className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Facebook Post</p>
             <p className="x-small___1lJKy size___1sVBg">940x788 px</p>
         </div>
-    </li>
-    <li className="templateWrapper___3Fitk">
+    </CC>
+    <CC style={{
+        marginRight: '16px',
+    }}  className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    <video src="https://cdn.crello.com/video-producer-script/f55e8cd3-1970-40d3-b57c-d271d89d4a33.mp4" poster="https://cdn.crello.com/common/82356167-f8e5-4876-b15f-2930fd80f6d3_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" />
+                    {/* <video src="https://cdn.crello.com/video-producer-script/f55e8cd3-1970-40d3-b57c-d271d89d4a33.mp4" poster="https://cdn.crello.com/common/82356167-f8e5-4876-b15f-2930fd80f6d3_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
+                    <VideoPicker
+                          id="1"
+                          key={"1"}
+                          color={""}
+                          src={"https://cdn.crello.com/video-producer-script/f55e8cd3-1970-40d3-b57c-d271d89d4a33.mp4"}
+                          height={160}
+                          defaultHeight={160}
+                          width={100}
+                          className=""
+                          onPick={(e) => {}}
+                          onEdit={(e) => {}}
+                          delay={0}
+                        />
                 </div>
-                <svg viewBox="0 0 16 16" width={16} height={16} className="iconPlay___RdcjT">
+                <svg viewBox="0 0 16 16" width={16} height={16} style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 0,
+                }} className="iconPlay___RdcjT">
                     <path d="M0 2C0 0.895431 0.895431 0 2 0H16V10C16 13.3137 13.3137 16 10 16H0V2Z" />
                     <path d="M9.92467 6.38276L11.6878 7.40418C11.9442 7.49994 12.1121 7.74717 12.1066 8.02078C12.1012 8.29439 11.9235 8.53471 11.6635 8.62014L9.90035 9.64156L7.79673 10.8575L6.05789 11.8546C5.47423 12.1951 5 11.9154 5 11.2466V4.75337C5 4.08458 5.47423 3.80491 6.05789 4.14538L7.79673 5.16679L9.92467 6.38276Z" fill="white" />;</svg>
             </div>
-            <div className="editTemplateWrapper___29oLU">
+            <div className="editTemplateWrapper___29oLU" style={{opacity: 0,}}>
                 <div className="editTemplate___3q0zy">
                     <svg viewBox="0 0 16 16" width={16} height={16} className="pencilIcon___3X12E">
                         <path d="M6.32085 8.28699C6.01646 8.62207 5.94182 8.86259 5.54288 9.49294C5.80082 9.67292 6.29597 10.0884 6.63934 10.8042C7.32526 10.4103 7.64541 10.3505 8.00868 10.0445C10.3824 8.04563 16.1949 0.880451 15.995 0.673101C15.7851 0.45331 8.41094 5.99453 6.32085 8.28699ZM4.85779 10.0495C3.82685 9.867 2.80918 10.5189 2.1299 12.1478C1.44979 13.7768 0.235549 14.4287 0 14.3889C1.26732 14.8475 5.13232 16.0203 6.09277 11.5557C5.6847 10.4849 4.85779 10.0495 4.85779 10.0495Z" />
@@ -1010,14 +1483,18 @@ handleUpdateCompleted = () => {
                 </div>
             </div>
         </a>
-        <div className="templateInfo___2YZSg">
+        <div className="templateInfo___2YZSg"
+        style={{
+            opacity: 0,
+        }}
+        >
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Square Video Post</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
         </div>
-    </li>
+    </CC>
 </ul>
           </div>
-            } 
+            {/* }  */}
           </div>
           </div>
       </header>
@@ -1512,3 +1989,11 @@ handleUpdateCompleted = () => {
     );
   }
 }
+
+
+var CC = styled.li`
+    position: relative;
+    height: 160px;
+    margin-right: 16px;
+    transition: .3s;
+`;

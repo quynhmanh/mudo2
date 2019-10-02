@@ -273,7 +273,7 @@ html {
 }
 
 .templateWrapper___3Fitk:hover .editTemplateWrapper___29oLU, .templateWrapper___3Fitk:hover .templateInfo___2YZSg {
-    opacity: 1;
+    opacity: 1 !important;
 }
 
 .templateWrapper___3Fitk:first-child .templateInfo___2YZSg {
@@ -302,6 +302,7 @@ html {
     position: relative;
     height: 160px;
     border-radius: 8px;
+    overflow: hidden;
 }
 
 .templateList___2swQr {
