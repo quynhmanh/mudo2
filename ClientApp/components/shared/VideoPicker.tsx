@@ -83,12 +83,10 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
     handleImageLoaded() {
       const img = this.image;
-      console.log('img ', img.naturalWidth);
 
       var ratio = img.videoWidth / img.videoHeight;
 
       if (!ratio || !this.state.loaded) {
-          console.log('image loaded');
           img.play();
           this.setState({ loaded: true, width: ratio * 160 });
       }
@@ -151,7 +149,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 }
 
                 onCanPlay={(e) => {
-                        console.log('onCanPlay');
                         this.handleImageLoaded();
                     }
                 }
