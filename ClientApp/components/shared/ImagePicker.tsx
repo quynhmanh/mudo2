@@ -71,7 +71,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
     componentDidMount() {
       const img = this.image;
-      console.log('img ', img);
       if (img && img.complete) {
           this.handleImageLoaded();
       }
@@ -81,22 +80,16 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
     handleImageLoaded() {
       const img = this.image;
-      console.log('img ', img.naturalWidth);
 
       var ratio = img.naturalWidth / img.naturalHeight;
 
       if (!this.state.loaded) {
-          console.log('image loaded');
           this.setState({ loaded: true, width: ratio * this.props.height });
       }
   } 
 
       render() {
         let { loaded } = this.state;
-        // loaded = false;
-        console.log('loaded', loaded);
-        // loaded = true;
-        // loaded = Boolean(Math.round(Math.random() % 2));
         return (
           <Container style={{
             position: 'relative',
