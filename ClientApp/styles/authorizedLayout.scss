@@ -234,14 +234,14 @@ html {
     width: 100%;
     height: 100%;
     background-color: rgba(38,49,71,.48);
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 4px 8px rgba(38,49,71,.24);
     opacity: 0;
 }
 
 .editTemplate___3q0zy, .editTemplateWrapper___29oLU {
     position: absolute;
-    transition: .3s;
+    transition: 1s;
 }
 
 .editTemplate___3q0zy {
@@ -301,7 +301,7 @@ html {
 .preview___37TNk, .previewWrapper___mbAh5 {
     position: relative;
     height: 160px;
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
 }
 

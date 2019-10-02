@@ -575,7 +575,9 @@ handleUpdateCompleted = () => {
             marginTop: '35px',
             fontWeight: 'bold',
             color: 'white',
-          }}>THÔNG DỤNG</h5>
+            fontFamily: 'AvenirNextRoundedPro-Medium',
+            fontSize: '17px',
+          }}>Thông dụng</h5>
           <div
             style={{
               height: '220px',
