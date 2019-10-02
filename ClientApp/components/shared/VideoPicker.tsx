@@ -71,7 +71,9 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
     componentDidMount() {
       const img = this.image;
       console.log('img ', img);
-      if (img && img.complete) {
+      console.log('img ', img.readyState);
+
+      if (img && img.readyState == 4) {
           this.handleImageLoaded();
       }
   }
@@ -82,10 +84,11 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
       const img = this.image;
       console.log('img ', img.naturalWidth);
 
-      var ratio = img.naturalWidth / img.naturalHeight;
+      var ratio = img.videoWidth / img.videoHeight;
 
       if (!this.state.loaded) {
           console.log('image loaded');
+          img.play();
           this.setState({ loaded: true, width: ratio * 160 });
       }
   } 
@@ -99,7 +102,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
           <Container style={{
             position: 'relative',
             backgroundSize: '300% 300%',
-            width: `${this.state.loaded ? this.state.width : this.props.width}px`,
+            width: this.state.loaded ? this.state.width + "px" : '100%',
             height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
             marginBottom: '8px',
             backgroundColor: this.state.loaded ? "none" : "#00000030",
@@ -125,32 +128,35 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             </span>
             </button>
             }
-            <img
-              ref={i => this.image = i}
-              className={this.props.className}
-              style={loaded ? {
-                height: this.props.height + 'px',
-                width: '100%',
-                marginBottom: '10px',
-                // backgroundColor: this.props.color,
-                } : {display: 'none'}}
-                onLoad={(e) => {
-                  console.log('onLoad');
-                    this.setState({loaded: true})
-                  }
-                }
+            <video
+                loop={true}
+                muted={true}
+                ref={i => this.image = i}
+                className={this.props.className}
+                style={loaded ? {
+                    height: this.props.height + 'px',
+                    width: '100%',
+                    marginBottom: '10px',
+                    // backgroundColor: this.props.color,
+                    } : {display: 'none'}}
+                    onLoad={(e) => {
+                    console.log('onLoad');
+                        this.image.play();
+                        this.setState({loaded: true})
+                    }
+                    }
 
-                onLoadedData={(e) => {
-                    console.log('onLoadEnd');
-                  }
-                }
+                    onLoadedData={(e) => {
+                        console.log('onLoadEnd');
+                    }
+                    }
 
-                onError={(e) => {
-                  console.log('onerror');
-                }}
+                    onError={(e) => {
+                    console.log('onerror');
+                    }}
 
-              src={this.props.src}
-              onMouseDown={this.props.onPick}
+                src={this.props.src}
+                onMouseDown={this.props.onPick}
             />
           </Container>
         );

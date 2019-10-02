@@ -163,7 +163,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
   </g>
  </g>
 </svg>
-                        <p style={{color: 'white',}} className="subTitle___1IrLT medium___1Yh-x">Thiết kế một cách dễ dàng nhất</p><div className="imageWrapper___17xac"><img alt="loginIcon.svg" src="https://static.crello.com/images/loginIcon.svg" class="" /></div></div><div class="logIn___R_tvz">
+                        <p style={{color: 'white',}} className="subTitle___1IrLT medium___1Yh-x">Thiết kế một cách dễ dàng nhất</p><div className="imageWrapper___17xac"><img alt="loginIcon.svg" src="https://static.crello.com/images/loginIcon.svg" className="" /></div></div><div className="logIn___R_tvz">
                           <p style={{color: 'white',}} class="logInText___xkR-S">Bạn chưa có tài khoản ? </p>
                           <button style={{
                             border: 'none',
