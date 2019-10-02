@@ -92,6 +92,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
       render() {
         let { loaded } = this.state;
+        // loaded = false;
         console.log('loaded', loaded);
         // loaded = true;
         // loaded = Boolean(Math.round(Math.random() % 2));
@@ -102,11 +103,12 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             width: `${this.state.loaded ? this.state.width : this.props.width}px`,
             height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
             marginBottom: '8px',
-            backgroundColor: this.state.loaded ? "none" : "#00000030",
             opacity: this.state.loaded ? 1 : 0.15,
             animationName: 'XhtCamN749DcvC-ecDUzp',
             animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
             animationDelay: '100ms',
+            backgroundColor: '#00000030',
+            background: '#fff',
           }} delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
             {Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
             <button
