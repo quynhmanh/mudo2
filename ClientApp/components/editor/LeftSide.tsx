@@ -1040,6 +1040,8 @@ class LeftSide extends Component<IProps, IState> {
               res.value.value >
               state.items.length + state.items2.length + res.value.key.length
           }));
+
+          this.forceUpdate();
         },
         error => {
           this.setState({ isLoading: false, error });
