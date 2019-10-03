@@ -117,8 +117,8 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             ? "none"
             : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
           animationDelay: "100ms",
-          backgroundColor: "#00000030",
-          background: "#fff"
+        //   backgroundColor: "#00000030",
+          background: "none"
         }}
         delay={this.props.delay}
         id={this.props.id}
@@ -180,8 +180,8 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
               ? {
                   height: this.props.height + "px",
                   width: "100%",
-                  marginBottom: "10px"
-                  // backgroundColor: this.props.color,
+                  marginBottom: "10px",
+                  backgroundColor: 'transparent',
                 }
               : { display: "none" }
           }
