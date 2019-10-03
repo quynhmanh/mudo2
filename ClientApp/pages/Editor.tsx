@@ -4189,7 +4189,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       display: "flex",
                       alignItems: "center",
                       fontSize: "14px",
-                      fontFamily: "AvenirNextRoundedPro-Medium"
+                      fontFamily: "AvenirNextRoundedPro"
                     }}
                   >
                     <span>
