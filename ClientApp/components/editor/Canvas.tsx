@@ -688,7 +688,7 @@ export default class Canvas extends Component<IProps, IState> {
             >
               {images
                 .filter(
-                  img => !img.selected || img.type === 4 || img.type === 6
+                  img => !img.selected || img.type === 4 || img.type === 6 || img.type === 9
                 )
                 .map(img => (
                   <div key={img._id}>
