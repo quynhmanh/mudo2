@@ -646,7 +646,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           var index = i;
           var document2 = JSON.parse(doc.document);
           document2._id = uuidv4();
-          document2.page = self.state.pages[index];
+          document2.page = self.props.store.pages[index];
           document2.zIndex = this.props.upperZIndex + 1;
           document2.width = rec2.width /scale;
           document2.height = rec2.height /scale;
