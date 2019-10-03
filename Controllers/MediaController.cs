@@ -74,6 +74,7 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
+        [RequestSizeLimit(100000000)]
         public async System.Threading.Tasks.Task<IActionResult> AddVideo()
         {
             string body = null;
