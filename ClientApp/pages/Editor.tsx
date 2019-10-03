@@ -518,6 +518,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           });
 
           this.props.store.activePageId = res.data.value.pages[0];
+          this.props.store.pages.replace(res.data.value.pages);
         })
         .catch(e => {
           console.log("Unexpected error occured: e", e);
