@@ -1353,7 +1353,9 @@ class LeftSide extends Component<IProps, IState> {
             currentTemplate2sHeight,
             isTemplateLoading: false,
             hasMoreTemplate: res.value.value > state.templates.length + state.templates2.length + res.value.key.length,
-          }))
+          }));
+
+          this.forceUpdate();
         },
         error => {
           // this.setState({ isLoading: false, error })
@@ -1423,7 +1425,9 @@ class LeftSide extends Component<IProps, IState> {
             currentBackgroundHeights3,
             isBackgroundLoading: false,
             hasMoreBackgrounds: res.value.value > state.items.length + state.items2.length + res.value.key.length,
-          }))
+          }));
+
+          this.forceUpdate();
         },
         error => {
           this.setState({ isBackgroundLoading: false, error });
@@ -1476,7 +1480,9 @@ class LeftSide extends Component<IProps, IState> {
             currentGroupedTexts2Height,
             isTextTemplateLoading: false,
             hasMoreTextTemplate: res.value.value > state.groupedTexts.length + state.groupedTexts2.length + res.value.key.length,
-          }))
+          }));
+
+          this.forceUpdate();
         },
         error => {
           this.setState({ isTextTemplateLoading: false, error });
@@ -1541,6 +1547,8 @@ class LeftSide extends Component<IProps, IState> {
                 state.userUpload1.length +
                 res.value.key.length
           }));
+
+          this.forceUpdate();
         },
         error => {
           this.setState({ isUserUploadLoading: false, error });
@@ -1593,6 +1601,8 @@ class LeftSide extends Component<IProps, IState> {
               res.value.value >
               state.items.length + state.items2.length + res.value.key.length
           }));
+
+          this.forceUpdate();
         },
         error => {
           this.setState({ isRemovedBackgroundImageLoading: false, error });
@@ -1633,6 +1643,7 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log('shouldComponentUpdate');
     if (nextProps.dragging ||
       nextProps.resizing ||
       nextProps.rotating
@@ -1640,6 +1651,10 @@ class LeftSide extends Component<IProps, IState> {
       return false;
     }
     if (nextProps.selectedTab != this.props.selectedTab) {
+      return true;
+    }
+
+    if (nextProps.mounted && !this.props.mounted) {
       return true;
     }
     // return true;
