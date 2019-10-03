@@ -296,14 +296,22 @@ namespace RCB.TypeScript.Services
                         height = height * 2;
                     }
 
+                    var executablePath = "/usr/bin/chromium-browser";
+                    if (HostingEnvironment.IsDevelopment())
+                    {
+                        executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
+                    }
+
                     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                     using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
+                        Headless = false,
                         DefaultViewport = new ViewPortOptions()
                         {
                             Width = width,
                             Height = height,
                         },
+                        ExecutablePath = executablePath,
                         Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
                     }))
                     {
@@ -311,7 +319,12 @@ namespace RCB.TypeScript.Services
 
                         var page = await browser.NewPageAsync();
 
-                        await page.SetContentAsync(html);
+                        await page.SetContentAsync(html,
+                            new NavigationOptions()
+                            {
+                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                Timeout = 0,
+                            });
 
                         await page.EvaluateFunctionAsync(@"() => {
                             if (document.getElementById('alo2')) {
