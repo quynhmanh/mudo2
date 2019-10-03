@@ -600,6 +600,111 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     document.addEventListener("keydown", this.removeImage.bind(this));
   }
 
+
+  textOnMouseDown(e, doc) {
+    var scale = this.state.scale;
+    var ce = document.createElement.bind(document);
+    var ca = document.createAttribute.bind(document);
+    var ge = document.getElementsByTagName.bind(document);
+
+    e.preventDefault();
+    var target = e.target.cloneNode(true);
+    target.style.zIndex = "11111111111";
+    target.style.width = e.target.getBoundingClientRect().width + "px";
+    document.body.appendChild(target);
+    var self = this;
+    this.imgDragging = target;
+    var posX = e.pageX - e.target.getBoundingClientRect().left;
+    var dragging = true;
+    var posY = e.pageY - e.target.getBoundingClientRect().top;
+
+    const onMove = e => {
+      if (dragging) {
+        target.style.left = e.pageX - posX + "px";
+        target.style.top = e.pageY - posY + "px";
+        target.style.position = "absolute";
+      }
+    };
+
+    const onUp = e => {
+      dragging = false;
+      var recs = document.getElementsByClassName("alo");
+      var rec2 = this.imgDragging.getBoundingClientRect();
+      for (var i = 0; i < recs.length; ++i) {
+        var rec = recs[i].getBoundingClientRect();
+        var rec3 = recs[i];
+        if (
+          rec.left < e.pageX &&
+          e.pageX < rec.left + rec.width &&
+          rec.top < e.pageY &&
+          e.pageY < rec.top + rec.height
+        ) {
+          var rectTop = rec.top;
+          var index = i;
+          var document2 = JSON.parse(doc.document);
+          document2._id = uuidv4();
+          document2.page = self.state.pages[index];
+          document2.zIndex = this.props.upperZIndex + 1;
+          document2.width = rec2.width /scale;
+          document2.height = rec2.height /scale;
+          document2.scaleX = document2.width / document2.origin_width;
+          document2.scaleY = document2.height / document2.origin_height;
+          document2.left = (rec2.left - rec.left) /scale;
+          document2.top = (rec2.top - rectTop) /scale;
+
+          console.log("docuemnt ", document2);
+
+          // let images = [...this.props.images, document2];
+
+          if (doc.fontList) {
+            var fontList = doc.fontList.forEach(id => {
+              var style = `@font-face {
+                  font-family: '${id}';
+                  src: url('/fonts/${id}.ttf');
+                }`;
+              var styleEle = ce("style");
+              var type = ca("type");
+              type.value = "text/css";
+              styleEle.attributes.setNamedItem(type);
+              styleEle.innerHTML = style;
+              var head = document.head || ge("head")[0];
+              head.appendChild(styleEle);
+
+              var link = ce("link");
+              link.id = id;
+              link.rel = "preload";
+              link.href = `/fonts/${id}.ttf`;
+              link.media = "all";
+              link.as = "font";
+              link.crossOrigin = "anonymous";
+              head.appendChild(link);
+              return {
+                id: id
+              };
+            });
+          }
+
+          this.props.addItem(document2);
+
+          // this.props.images.replace(images);
+
+          var fonts = toJS(this.props.fonts);
+          fonts = [...fonts, ...doc.fontList];
+          this.props.fonts.replace(fonts);
+
+          this.props.increaseUpperzIndex();
+        }
+      }
+
+      target.remove();
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+    };
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  }
+
   selectFont = (id, e) => {
     console.log("selectFont Editor");
     this.setState({ fontId: id });
@@ -4816,6 +4921,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             }}
           >
             <LeftSide
+              textOnMouseDown={this.textOnMouseDown.bind(this)}
               applyTemplate={this.props.store.applyTemplate}
               replaceAllImages={this.props.replaceAllImages}
               videoOnMouseDown={this.videoOnMouseDown.bind(this)}
