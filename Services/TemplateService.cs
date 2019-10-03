@@ -370,6 +370,7 @@ namespace RCB.TypeScript.Services
             template.FirstName = model.FirstName;
             template.Representative = model.Representative;
             template.Representative2 = model.Representative2;
+            template.IsVideo = model.IsVideo;
             template.VideoRepresentative = model.VideoRepresentative;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
