@@ -11,7 +11,8 @@ class Images {
   @observable fonts = [];
   @observable upperZIndex = 1;
   @observable idObjectSelected = null;
-  @observable activePageId = null;
+  @observable activePageId = uuidv4();
+  @observable pages = [this.activePageId];
 
   @action addItem = (item, isChild) => {
     if (isChild) {
@@ -58,6 +59,8 @@ class Images {
     images = images.filter(image => {
       return image.page !== this.activePageId;
     });
+
+    console.log('applyTemplate ', this.activePageId, images);
 
     images = [...images, ...template];
     this.images.replace(images);

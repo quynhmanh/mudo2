@@ -516,6 +516,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             activePageId: res.data.value.pages[0],
             subtype: res.data.value.printType
           });
+
+          this.props.store.activePageId = res.data.value.pages[0];
         })
         .catch(e => {
           console.log("Unexpected error occured: e", e);
@@ -1803,11 +1805,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         };
       }
 
-      var activePageId = this.state.pages[0];
-      if (this.state.pages.length > 1) {
+      var pages = toJS(this.props.store.pages);
+      var activePageId = pages[0];
+      if (pages.length > 1) {
         var container = document.getElementById("screen-container-parent");
-        for (var i = 0; i < this.state.pages.length; ++i) {
-          var pageId = this.state.pages[i];
+        for (var i = 0; i < pages.length; ++i) {
+          var pageId = pages[i];
           var canvas = document.getElementById(pageId);
           if (canvas) {
             if (elementIsVisible(canvas, container, true)) {
@@ -1816,6 +1819,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           }
         }
       }
+
+      this.props.store.activePageId = activePageId;
 
       this.setState({ startX, startY, activePageId });
     };
@@ -2529,8 +2534,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           posY: 0,
           imgWidth: rec2.width / self.state.scale,
           imgHeight: rec2.height / self.state.scale,
-          page: this.state.pages[i],
-          zIndex: this.state.upperZIndex + 1
+          page: this.props.store.pages[i],
+          zIndex: this.props.store.upperZIndex + 1,
         });
 
         this.props.increaseUpperzIndex();
@@ -3213,12 +3218,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   addAPage = (e, id) => {
     console.log('addAPage');
     e.preventDefault();
-    let pages = [...this.state.pages];
+    let pages = toJS(this.props.store.pages);
     var newPageId = uuidv4();
     pages.splice(pages.findIndex(img => img === id) + 1, 0, newPageId);
-    this.setState({
-      pages
-    });
+    // this.setState({
+    //   pages
+    // });
+    this.props.store.pages.replace(pages);
     setTimeout(() => {
       document.getElementById(newPageId).scrollIntoView();
     }, 100);
@@ -3259,7 +3265,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   renderCanvas(preview, index) {
     var res = [];
-    for (var i = 0; i < this.state.pages.length; ++i) {
+    let pages = toJS(this.props.store.pages);
+    for (var i = 0; i < pages.length; ++i) {
       if (index >= 0 && i != index) {
         continue;
       }
@@ -3275,10 +3282,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           key={i}
           staticGuides={this.state.staticGuides}
           index={i}
-          id={this.state.pages[i]}
+          id={pages[i]}
           addAPage={this.addAPage}
           images={this.props.images.filter(
-            img => img.page === this.state.pages[i]
+            img => img.page === pages[i]
           )}
           mode={this.state.mode}
           rectWidth={this.state.rectWidth}
@@ -3313,7 +3320,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           idObjectSelected={this.state.idObjectSelected}
           handleDeleteThisPage={this.handleDeleteThisPage.bind(
             this,
-            this.state.pages[i]
+            pages[i]
           )}
           showPopup={this.state.showPopup}
           preview={preview}
@@ -4943,7 +4950,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               pages={this.state.pages}
               rectWidth={this.state.rectWidth}
               rectHeight={this.state.rectHeight}
-              activePageId={this.state.activePageId}
+              activePageId={this.props.store.activePageId}
               addItem={this.props.addItem}
               addFontItem={this.props.addFontItem}
               toolbarOpened={this.state.toolbarOpened}
