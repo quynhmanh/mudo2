@@ -140,7 +140,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/42b2cbbb-f74f-49b2-83a6-aca7315824ef.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={284}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -189,7 +189,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={191}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -227,7 +227,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/5cf49544-381a-4790-903a-bc062d28ea97.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={90}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -274,7 +274,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/common/06179643-bda5-4edd-8816-84b8fc4d44db_640.jpg"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={160}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -313,7 +313,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/1adfb977-370f-4db0-ab86-04bcfa8ae6b9.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={90}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -360,7 +360,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/common/a7613810-fa5f-450b-b482-2a6ed4fd897d_640.jpg"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={306}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -400,7 +400,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/46a49129-6cf5-490d-8103-a34fc91cd63d.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={160}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -446,7 +446,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/common/8d368594-f89e-4e3e-affa-7021c4120744_640.jpg"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -486,7 +486,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/common/ca029acb-09a0-4b7f-8fa9-389ea5477ac3_640.jpg"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -527,7 +527,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/b2a03204-5f88-4522-a3b2-c6a6e20e800b.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -574,7 +574,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/common/52f3771f-658a-4b4c-9df8-b7dceb4bd581_640.jpg"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -614,7 +614,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/8714f27a-96e2-421e-bc0c-a62bb6734be4.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -661,7 +661,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/84f08efe-1289-4a19-ac4b-89060140dc66.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -708,7 +708,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/f7bfb9ea-09e1-423e-a735-989fed4ad1e1.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -755,7 +755,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/bd52c4e4-8151-41cf-96d4-5d6cc144bcdb.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -802,7 +802,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/common/04eb5b1d-cf71-4114-a9d6-71a651c5203a_640.jpg"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -842,7 +842,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/c604a4a4-b56f-44e7-b6cf-f5c5d1d735ac.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -889,7 +889,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/0b07ba68-96d6-4196-b462-55e1662cad0b.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -936,7 +936,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/common/92e717c0-ba32-4db7-b5bd-f60f07d4bb5e_640.jpg"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
@@ -976,7 +976,7 @@ class Popup extends PureComponent<IProps, IState> {
                           src={"https://cdn.crello.com/video-producer-script/f55e8cd3-1970-40d3-b57c-d271d89d4a33.mp4"}
                           height={160}
                           defaultHeight={160}
-                          width={100}
+                          width={150}
                           className=""
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
