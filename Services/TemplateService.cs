@@ -67,7 +67,19 @@ namespace RCB.TypeScript.Services
             TemplateModel model
         )
         {
-                string style = AppSettings.style;
+
+            var filePath = "/app/wwwroot/" + videoId + ".webm";
+            if (HostingEnvironment.IsDevelopment())
+            {
+                filePath = "/Users/llaugusty/Downloads/" + videoId + ".webm";
+            }
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
+            string style = AppSettings.style;
                 for (int i = 0; i < model.FontList.Length; ++i)
                 {
                     try
@@ -358,6 +370,7 @@ namespace RCB.TypeScript.Services
             template.FirstName = model.FirstName;
             template.Representative = model.Representative;
             template.Representative2 = model.Representative2;
+            template.VideoRepresentative = model.VideoRepresentative;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
