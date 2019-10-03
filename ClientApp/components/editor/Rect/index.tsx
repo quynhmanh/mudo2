@@ -1383,7 +1383,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           </div>
         )}
-        {src && objectType === 9 && (
+        {src && objectType === 9 && showImage && (
           <div
             id={_id}
             onMouseDown={!selected || src ? this.startDrag : null}
