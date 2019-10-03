@@ -10,15 +10,18 @@ export interface IProps {
   interface IState {
     yLocation: number;
     showLeft: boolean;
+    mounted: boolean;
   }
 
 class Popup extends PureComponent<IProps, IState> {
     state = {
         yLocation: 0,
         showLeft: true,
+        mounted: false,
     }
 
     componentDidMount() {
+        this.setState({mounted: true,})
         this.test.addEventListener("scroll", this.handleScroll);
     }
 
@@ -45,7 +48,7 @@ class Popup extends PureComponent<IProps, IState> {
                 fontSize: '17px',
               }}>Thông dụng</h5>
         <div style={{position: 'relative',}}>
-            { this.state.yLocation > 0 && 
+            { this.state.yLocation > 0 && this.state.mounted &&
           <button style={{
               position: 'absolute',
               top: '60px',
@@ -66,7 +69,7 @@ class Popup extends PureComponent<IProps, IState> {
               }} viewBox="0 0 16 16" width="16" height="16" className="arrow___2yMKk"><path d="M12.2339 8.7917L5.35411 15.6711C4.91648 16.109 4.20692 16.109 3.7695 15.6711C3.33204 15.2337 3.33204 14.5242 3.7695 14.0868L9.85703 7.99952L3.76968 1.91249C3.33222 1.47486 3.33222 0.765428 3.76968 0.327977C4.20714 -0.109651 4.91665 -0.109651 5.35429 0.327977L12.234 7.20751C12.4528 7.42634 12.562 7.71284 12.562 7.99948C12.562 8.28627 12.4526 8.57298 12.2339 8.7917Z"></path></svg>
               </button>
             }
-            {this.state.showLeft && 
+            {this.state.showLeft && this.state.mounted &&
               <button style={{
               position: 'absolute',
               top: '60px',

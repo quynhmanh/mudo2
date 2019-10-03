@@ -3158,7 +3158,7 @@ class LeftSide extends Component<IProps, IState> {
                 throttle={100}
                 threshold={0}
                 isLoading={this.state.isUserUploadLoading}
-                marginTop={35}
+                marginTop={45}
                 hasMore={this.state.hasMoreUserUpload}
                 onLoadMore={this.loadmoreUserUpload.bind(this, false)}
                 refId="sentinel"
