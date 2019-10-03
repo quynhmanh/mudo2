@@ -2399,6 +2399,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
       var recs = document.getElementsByClassName("alo");
       var rec2 = self.imgDragging.getBoundingClientRect();
+      var pages = toJS(this.props.store.pages);
       for (var i = 0; i < recs.length; ++i) {
         var rec = recs[i].getBoundingClientRect();
         if (
@@ -2426,7 +2427,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             posY: 0,
             imgWidth: rec2.width / self.state.scale,
             imgHeight: rec2.height / self.state.scale,
-            page: this.state.pages[i],
+            page: pages[i],
             zIndex: this.props.upperZIndex + 1
           });
 
