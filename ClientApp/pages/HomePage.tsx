@@ -395,7 +395,7 @@ handleUpdateCompleted = () => {
             style={{
                 color: 'white', 
                 textAlign: 'center',
-                fontSize: '35px',
+                fontSize: '50px',
                 marginBottom: '25px',
                 fontFamily: 'Lobster-Regular',
             }}
