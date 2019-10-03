@@ -293,7 +293,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       startX: 0,
       startY: 0,
       images: [],
-      selectedTab: SidebarTab.Template,
+      selectedTab: null,
       rectWidth: this.props.match.params.width
         ? parseInt(this.props.match.params.width)
         : 0,
@@ -347,7 +347,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
 
-    this.setState({ canRenderClientSide: true });
+    this.setState({ canRenderClientSide: true, selectedTab: SidebarTab.Template, });
     var self = this;
     setTimeout(() => {
       self.setState({ mounted: true });

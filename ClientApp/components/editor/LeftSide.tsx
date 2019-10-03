@@ -1657,6 +1657,10 @@ class LeftSide extends Component<IProps, IState> {
     if (nextProps.mounted && !this.props.mounted) {
       return true;
     }
+
+    if (nextProps.toolbarOpened != this.props.toolbarOpened) {
+      return true;
+    }
     // return true;
 
     return false;
