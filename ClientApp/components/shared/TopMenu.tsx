@@ -174,12 +174,13 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
             height: '30px',
             lineHeight: '30px',
             border: 'none',
-            fontSize: '15px',
+            fontSize: '13px',
+            fontWeight: 500,
             borderRadius: '4px',
-            fontFamily: 'AvenirNextRoundedPro-Medium',
-            color: 'black',
+            fontFamily: 'AvenirNextRoundedPro',
+            color: '#555',
             display: 'block',
-            padding: '0 5px',
+            padding: '0 10px',
         }}
         onClick={() => {location.href='/login';}}
     >Đăng nhập</button>

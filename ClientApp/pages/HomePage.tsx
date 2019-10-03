@@ -256,11 +256,11 @@ handleUpdateCompleted = () => {
             height: '30px',
             lineHeight: '30px',
             border: 'none',
-            fontSize: '14px',
+            fontSize: '13px',
             fontWeight: 500,
             borderRadius: '4px',
             fontFamily: 'AvenirNextRoundedPro',
-            color: 'black',
+            color: '#555',
             display: 'block',
             padding: '0 10px',
         }}
@@ -282,14 +282,15 @@ handleUpdateCompleted = () => {
                 height: '30px',
                 lineHeight: '25px',
                 border: 'none',
-                fontSize: '14px',
+                fontSize: '13px',
                 borderRadius: '4px',
-                fontWeight: '500',
+                fontWeight: 500,
                 fontFamily: 'AvenirNextRoundedPro',
+                color: '#555',
             }}
             className="button-list"
             onClick={this.handleProfilePopup}
-        ><span style={{marginRight: '10px',}}>{Globals.serviceUser.username}</span>
+        ><span style={{marginRight: '10px', fontSize: '13px',}}>{Globals.serviceUser.username}</span>
         <img style={{
             width: '29px',
             height: '29px',
