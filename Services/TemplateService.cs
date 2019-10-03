@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.EntityFrameworkCore;
 using Nest;
+using Newtonsoft.Json;
 using PuppeteerSharp;
 using RCB.TypeScript.dbcontext;
 using RCB.TypeScript.Infrastructure;
@@ -46,6 +48,204 @@ namespace RCB.TypeScript.Services
             var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
 
             return Ok(res2);
+        }
+
+        private class DownloadBody
+        {
+            [JsonProperty(PropertyName = "fonts")]
+            public string[] Fonts;
+            [JsonProperty(PropertyName = "canvas")]
+            public string[] Canvas;
+            [JsonProperty(PropertyName = "additionalStyle")]
+            public string AdditionalStyle;
+        }
+
+        public async Task<byte[]> DownloadVideo(
+            string width,
+            string height,
+            string videoId,
+            TemplateModel model
+        )
+        {
+                string style = AppSettings.style;
+                for (int i = 0; i < model.FontList.Length; ++i)
+                {
+                    try
+                    {
+                        byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{model.FontList[i]}.ttf");
+                        String file = Convert.ToBase64String(AsBytes);
+
+                        string s = $"@font-face {{ font-family: '{model.FontList[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
+                        style += s;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+
+                string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", model.AdditionalStyle)
+                    .Replace("[FONT_FACE]", style)
+                    .Replace("[RECT_WIDTH]", width)
+                    .Replace("[RECT_HEIGHT]", height);
+
+                byte[] data = null;
+                using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+                {
+                    iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
+                    iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
+                    doc.Open();
+                    var canvas = model.Canvas;
+                    for (var i = 0; i < canvas.Length; ++i)
+                    {
+                        var html = template.Replace("[CANVAS]", canvas[i]);
+                        var path = "/app/test-extension";
+                        var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
+                        var executablePath = "/usr/bin/chromium-browser";
+                        if (HostingEnvironment.IsDevelopment())
+                        {
+                            executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
+                            path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
+                            extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
+                        }
+
+                        List<string> arguments = new List<string>()
+                        {
+                            $"--whitelisted-extension-id={extensionId}",
+                            "--no-sandbox",
+                            "--disable-setuid-sandbox",
+                            "--disable-dev-shm-usage",
+                            $"--load-extension={path}"
+                        };
+
+                        if (HostingEnvironment.IsDevelopment())
+                        {
+                            arguments.Add($"--disable-extensions-except={path}");
+                        }
+
+                        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+                        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                        {
+                            DefaultViewport = new ViewPortOptions()
+                            {
+                                Width = (int)double.Parse(width),
+                                Height = (int)double.Parse(height),
+                            },
+                            ExecutablePath = executablePath,
+                            Args = arguments.ToArray(),
+                            Headless = false,
+                            IgnoredDefaultArgs = new string[] { "--disable-extensions" },
+                        });
+
+                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+
+                        Target backgroundPageTarget = null;
+                        var targets = browser.Targets();
+                        var len = targets.Length;
+                        if (targets != null)
+                        {
+                            for (int t = 0; t < len; ++t)
+                            {
+                                if (targets[t] != null)
+                                {
+                                    if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
+                                    {
+                                        backgroundPageTarget = targets[t];
+                                    }
+                                }
+                            }
+                        }
+                        //}
+                        //++cnt;
+                        //if (cnt > 5)
+                        //{
+                        //    break;
+                        //} 
+                        //}
+                        if (backgroundPageTarget == null)
+                        {
+                            throw new Exception("Cannot get background pages.");
+                        }
+
+                        var backgroundPage = await backgroundPageTarget.PageAsync();
+
+                        var page = await browser.NewPageAsync();
+                        await page.SetContentAsync(html,
+                                new NavigationOptions()
+                                {
+                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                    Timeout = 0,
+                                }
+                            );
+
+                        await page.WaitForTimeoutAsync(5000);
+
+
+                        if (backgroundPageTarget == null)
+                        {
+                            throw new Exception("Cannot get background pages.");
+                        }
+
+                        var messages = new List<ConsoleMessage>();
+
+                        backgroundPage.Console += (sender, e) => messages.Add(e.Message);
+
+                        var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
+                            startRecording('" + videoId + @"'," + width + @"," + height + @"); 
+                            return Promise.resolve(42);
+                        }");
+
+                        while (true)
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                            var inp = "/app/wwwroot/" + videoId + ".webm";
+                            if (HostingEnvironment.IsDevelopment())
+                            {
+                                inp = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
+                            }
+
+                            if (System.IO.File.Exists(inp))
+                            {
+                                await browser.CloseAsync();
+                                break;
+                            }
+                        }
+
+                        await backgroundPage.CloseAsync();
+                        await page.CloseAsync();
+                    }
+                }
+
+                var exePath = "/usr/bin/ffmpeg";
+                var inputArgs = "/app/wwwroot/" + videoId + ".webm";
+                var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
+
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    exePath = "/usr/local/bin/ffmpeg";
+                    inputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
+                    outputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".mp4";
+                }
+
+                var process = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = exePath,
+                        Arguments = $"-i {inputArgs} {outputArgs}",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true
+                    }
+                };
+
+                process.Start();
+                process.WaitForExit();
+                process.Close();
+
+                byte[] file2 = System.IO.File.ReadAllBytes(outputArgs);
+
+            return file2;
         }
 
         public class ResultSearchAngAggregate
@@ -305,7 +505,7 @@ namespace RCB.TypeScript.Services
                     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                     using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
-                        Headless = false,
+                        //Headless = false,
                         DefaultViewport = new ViewPortOptions()
                         {
                             Width = width,

@@ -2242,7 +2242,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           Pages: self.state.pages,
           PrintType: self.state.subtype,
           Representative: rep ? rep : `images/${uuidv4()}.jpeg`,
-          Representative2: `images/${uuidv4()}.jpeg`
+          Representative2: `images/${uuidv4()}.jpeg`,
+          VideoRepresentative: `videos/${uuidv4()}.mp4`,
+          IsVideo: self.state.subtype == 5,
         });
 
         console.log('save image ', res);

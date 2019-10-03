@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import TopMenu from "@Components/editor/Sidebar";
 import Globals from "@Globals";
 import ImagePicker from "@Components/shared/ImagePicker";
+import VideoPicker from "@Components/shared/VideoPicker2";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import axios from "axios";
 import uuidv4 from "uuid/v4";
@@ -2249,6 +2250,25 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                   >
                     {this.state.templates.map((item, key) => (
+                      item.isVideo ? 
+                      <VideoPicker
+                        id=""
+                        defaultHeight={imgWidth}
+                        delay={0}
+                        width={imgWidth}
+                        key={key}
+                        color={item.color}
+                        src={item.videoRepresentative}
+                        height={imgWidth / (item.width / item.height)}
+                        className="template-picker"
+                        onPick={this.templateOnMouseDown.bind(this, item.id)}
+                        onEdit={() => {
+                          // this.setState({
+                          //   showTemplateEditPopup: true,
+                          //   editingMedia: item
+                          // });
+                        }}
+                      /> :
                       <ImagePicker
                         id=""
                         defaultHeight={imgWidth}
@@ -2311,6 +2331,25 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                   >
                     {this.state.templates2.map((item, key) => (
+                      item.isVideo ? 
+                      <VideoPicker
+                        id=""
+                        defaultHeight={imgWidth}
+                        delay={0}
+                        width={imgWidth}
+                        key={key}
+                        color={item.color}
+                        src={item.videoRepresentative}
+                        height={imgWidth / (item.width / item.height)}
+                        className="template-picker"
+                        onPick={this.templateOnMouseDown.bind(this, item.id)}
+                        onEdit={() => {
+                          // this.setState({
+                          //   showTemplateEditPopup: true,
+                          //   editingMedia: item
+                          // });
+                        }}
+                      /> :
                       <ImagePicker
                         id=""
                         defaultHeight={imgWidth}

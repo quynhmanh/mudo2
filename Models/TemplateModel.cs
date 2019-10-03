@@ -41,6 +41,7 @@ namespace RCB.TypeScript.Models
 
         public string Representative { get; set; }
         public string Representative2 { get; set; }
+        public string VideoRepresentative { get; set; }
         public string[] FontList { get; set; }
 
         public float Width { get; set; }
@@ -64,6 +65,8 @@ namespace RCB.TypeScript.Models
 
         [Ignore]
         public string AdditionalStyle { get; set; }
+
+        public bool IsVideo { get; set; }
 
         public TemplateModel()
         {

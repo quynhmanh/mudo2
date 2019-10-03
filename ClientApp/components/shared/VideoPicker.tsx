@@ -129,6 +129,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             </button>
             }
             <video
+              autoPlay={false}
                 loop={true}
                 muted={true}
                 ref={i => this.image = i}
