@@ -307,10 +307,11 @@ handleUpdateCompleted = () => {
         backgroundColor: 'rgb(255, 255, 255)',
         lineHeight: '2rem',
         boxShadow: 'rgba(14, 19, 24, 0.02) 0px 0px 0px 1px, rgba(14, 19, 24, 0.15) 0px 2px 8px',
-        width: '100%',
+        width: 'calc(100% - 35px)',
         background: 'white',
         padding: '10px 0',
         zIndex: 999999,
+        right: '15px',
     }}>
         <button
         id="login-btn"
