@@ -89,7 +89,7 @@ export default class TopMenu extends PureComponent<IProps, IState> {
           flexDirection: 'column',
         }}
       >
-        { this.props.mounted && 
+        { 
             mapEnum(SidebarTab, (i, sidebarName, sideBarIcon, prevTab, currentTab, nextTab) => {
                 return <Selector 
                     key={i}

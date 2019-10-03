@@ -98,6 +98,7 @@ interface IProps {
   upperZIndex: number;
   increaseUpperzIndex: any;
   store: any;
+  replaceAllImages: any;
 }
 
 interface ImageObject {
@@ -1795,6 +1796,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     ) / 10}`;
     console.log("img ", img);
 
+    this.props.store.idObjectSelected = img._id;
+
     this.setState({
       selectedImage: img,
       idObjectSelected: img._id,
@@ -2211,9 +2214,290 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     this.setState({ images });
   }
 
+  videoOnMouseDown(e) {
+    e.preventDefault();
+
+    var target = e.target.cloneNode(true);
+
+    target.style.zIndex = "11111111111";
+    target.src = e.target.getElementsByTagName("source")[0].getAttribute("src");
+    target.style.width = e.target.getBoundingClientRect().width + "px";
+    document.body.appendChild(target);
+    var self = this;
+    this.imgDragging = target;
+    var posX = e.pageX - e.target.getBoundingClientRect().left;
+    var dragging = true;
+    var posY = e.pageY - e.target.getBoundingClientRect().top;
+
+    var recScreenContainer = document
+      .getElementById("screen-container-parent")
+      .getBoundingClientRect();
+    var beingInScreenContainer = false;
+
+    const onMove = e => {
+      if (dragging) {
+        var rec2 = self.imgDragging.getBoundingClientRect();
+        if (
+          beingInScreenContainer === false &&
+          recScreenContainer.left < rec2.left &&
+          recScreenContainer.right > rec2.right &&
+          recScreenContainer.top < rec2.top &&
+          recScreenContainer.bottom > rec2.bottom
+        ) {
+          beingInScreenContainer = true;
+
+          // target.style.width = (rec2.width * self.state.scale) + 'px';
+          // target.style.height = (rec2.height * self.state.scale) + 'px';
+          // target.style.transitionDuration = '0.05s';
+
+          setTimeout(() => {
+            target.style.transitionDuration = "";
+          }, 50);
+        }
+
+        if (
+          beingInScreenContainer === true &&
+          !(
+            recScreenContainer.left < rec2.left &&
+            recScreenContainer.right > rec2.right &&
+            recScreenContainer.top < rec2.top &&
+            recScreenContainer.bottom > rec2.bottom
+          )
+        ) {
+          beingInScreenContainer = false;
+
+          // target.style.width = (rec2.width / self.state.scale) + 'px';
+          // target.style.height = (rec2.height / self.state.scale) + 'px';
+          // target.style.transitionDuration = '0.05s';
+
+          setTimeout(() => {
+            target.style.transitionDuration = "";
+          }, 50);
+        }
+
+        target.style.left = e.pageX - posX + "px";
+        target.style.top = e.pageY - posY + "px";
+        target.style.position = "absolute";
+      }
+    };
+
+    const onUp = e => {
+      dragging = false;
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+
+      var recs = document.getElementsByClassName("alo");
+      var rec2 = self.imgDragging.getBoundingClientRect();
+      for (var i = 0; i < recs.length; ++i) {
+        var rec = recs[i].getBoundingClientRect();
+        if (
+          rec.left < rec2.right &&
+          rec.right > rec2.left &&
+          rec.top < rec2.bottom &&
+          rec.bottom > rec2.top
+        ) {
+
+          this.props.addItem({
+            _id: uuidv4(),
+            type: TemplateType.Video,
+            width: rec2.width / self.state.scale,
+            height: rec2.height / self.state.scale,
+            origin_width: rec2.width / self.state.scale,
+            origin_height: rec2.height / self.state.scale,
+            left: (rec2.left - rec.left) / self.state.scale,
+            top: (rec2.top - rec.top) / self.state.scale,
+            rotateAngle: 0.0,
+            src: target.src,
+            selected: false,
+            scaleX: 1,
+            scaleY: 1,
+            posX: 0,
+            posY: 0,
+            imgWidth: rec2.width / self.state.scale,
+            imgHeight: rec2.height / self.state.scale,
+            page: this.state.pages[i],
+            zIndex: this.props.upperZIndex + 1
+          });
+
+          // self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
+        }
+      }
+
+      self.imgDragging.remove();
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  }
+
+  
+  imgOnMouseDown(img, e) {
+  e.preventDefault();
+  var target = e.target.cloneNode(true);
+  target.style.zIndex = "11111111111";
+  target.src = img.representativeThumbnail ? img.representativeThumbnail : e.target.src;
+  target.style.width = e.target.getBoundingClientRect().width + "px";
+  target.style.backgroundColor = e.target.style.backgroundColor;
+  document.body.appendChild(target);
+  var self = this;
+  this.imgDragging = target;
+  var posX = e.pageX - e.target.getBoundingClientRect().left;
+  var dragging = true;
+  var posY = e.pageY - e.target.getBoundingClientRect().top;
+
+  var recScreenContainer = document
+    .getElementById("screen-container-parent")
+    .getBoundingClientRect();
+  var beingInScreenContainer = false;
+
+  const onMove = e => {
+    if (dragging) {
+      var rec2 = self.imgDragging.getBoundingClientRect();
+      if (
+        beingInScreenContainer === false &&
+        recScreenContainer.left < rec2.left &&
+        recScreenContainer.right > rec2.right &&
+        recScreenContainer.top < rec2.top &&
+        recScreenContainer.bottom > rec2.bottom
+      ) {
+        beingInScreenContainer = true;
+
+        setTimeout(() => {
+          target.style.transitionDuration = "";
+        }, 50);
+      }
+
+      if (
+        beingInScreenContainer === true &&
+        !(
+          recScreenContainer.left < rec2.left &&
+          recScreenContainer.right > rec2.right &&
+          recScreenContainer.top < rec2.top &&
+          recScreenContainer.bottom > rec2.bottom
+        )
+      ) {
+        beingInScreenContainer = false;
+
+        setTimeout(() => {
+          target.style.transitionDuration = "";
+        }, 50);
+      }
+
+      target.style.left = e.pageX - posX + "px";
+      target.style.top = e.pageY - posY + "px";
+      target.style.position = "absolute";
+    }
+  };
+
+  const onUp = e => {
+    dragging = false;
+    document.removeEventListener("mousemove", onMove);
+    document.removeEventListener("mouseup", onUp);
+
+    var recs = document.getElementsByClassName("alo");
+    var rec2 = self.imgDragging.getBoundingClientRect();
+    for (var i = 0; i < recs.length; ++i) {
+      var rec = recs[i].getBoundingClientRect();
+      if (
+        rec.left < rec2.right &&
+        rec.right > rec2.left &&
+        rec.top < rec2.bottom &&
+        rec.bottom > rec2.top
+      ) {
+        this.props.addItem({
+          _id: uuidv4(),
+          type: TemplateType.Image,
+          width: rec2.width / self.state.scale,
+          height: rec2.height / self.state.scale,
+          origin_width: rec2.width / self.state.scale,
+          origin_height: rec2.height / self.state.scale,
+          left: (rec2.left - rec.left) / self.state.scale,
+          top: (rec2.top - rec.top) / self.state.scale,
+          rotateAngle: 0.0,
+          src: !img.representative.startsWith("data")
+            ? window.location.origin + "/" + img.representative
+            : img.representative,
+          backgroundColor: target.style.backgroundColor,
+          selected: false,
+          scaleX: 1,
+          scaleY: 1,
+          posX: 0,
+          posY: 0,
+          imgWidth: rec2.width / self.state.scale,
+          imgHeight: rec2.height / self.state.scale,
+          page: this.state.pages[i],
+          zIndex: this.state.upperZIndex + 1
+        });
+
+        this.props.increaseUpperzIndex();
+
+        // self.setState({upperZIndex: this.state.upperZIndex + 1, });
+      }
+    }
+
+    self.imgDragging.remove();
+  };
+  document.addEventListener("mousemove", onMove);
+  document.addEventListener("mouseup", onUp);
+}
+
+  setSelectionColor = (color, e) => {
+    console.log("setSelectionColor ", this.state.typeObjectSelected, color);
+    // if (this.props.typeObjectSelected === TemplateType.Latex) {
+    var images = this.props.images.map(img => {
+      if (img._id === this.state.idObjectSelected) {
+        img.color = color;
+        img.backgroundColor = color;
+      }
+      return img;
+    });
+    console.log("setSelectionColor 1");
+    this.props.images.replace(images);
+    e.preventDefault();
+    document.execCommand("foreColor", false, color);
+    if (
+      this.state.typeObjectSelected === TemplateType.Heading ||
+      this.state.typeObjectSelected === TemplateType.TextTemplate
+    ) {
+      var a = document.getSelection();
+      if (a && a.type === "Range") {
+        this.handleFontColorChange(color);
+      } else {
+        var childId = this.state.childId
+          ? this.state.childId
+          : this.state.idObjectSelected;
+        var el = this.state.childId
+          ? document.getElementById(childId)
+          : document.getElementById(childId).getElementsByClassName("text")[0];
+        var sel = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        this.handleFontColorChange(color);
+        document.execCommand("foreColor", false, color);
+        sel.removeAllRanges();
+      }
+    }
+
+    let images2 = toJS(this.props.images);
+    console.log("images 4", images2);
+
+    function insertAfter(newNode, referenceNode) {
+      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+
+    var fonts = document.getElementsByTagName("font");
+    for (var i = 0; i < fonts.length; ++i) {
+      var font1: any = fonts[i];
+      font1.parentNode.style.color = color;
+      font1.parentNode.innerText = font1.innerText;
+      font1.remove();
+    }
+  };
+
   onSingleTextChange(thisImage, e, childId) {
     // console.log('ToJS', toJS(this.props.images));
-    // console.log('onSingleTextChange ', arguments);
+    console.log('onSingleTextChange ', arguments);
     // var els;
     // if (childId){
     //   els = document.getElementById(childId).getElementsByTagName('font');
@@ -4532,6 +4816,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             }}
           >
             <LeftSide
+              applyTemplate={this.props.store.applyTemplate}
+              replaceAllImages={this.props.replaceAllImages}
+              videoOnMouseDown={this.videoOnMouseDown.bind(this)}
+              imgOnMouseDown={this.imgOnMouseDown.bind(this)}
+              setSelectionColor={this.setSelectionColor.bind(this)}
               mounted={this.state.mounted}
               dragging={this.state.dragging}
               resizing={this.state.resizing}
@@ -4542,7 +4831,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               selectFont={this.selectFont.bind(this)}
               handleFontColorChange={this.handleFontColorChange.bind(this)}
               typeObjectSelected={this.state.typeObjectSelected}
-              images={this.props.images}
               upperZIndex={this.props.store.upperZIndex}
               idObjectSelected={this.state.idObjectSelected}
               childId={this.state.childId}
@@ -4555,7 +4843,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               toolbarOpened={this.state.toolbarOpened}
               toolbarSize={this.state.toolbarSize}
               mode={this.state.mode}
-              scale={this.state.scale}
               selectedTab={this.state.selectedTab}
               handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
               increaseUpperzIndex={this.props.increaseUpperzIndex}

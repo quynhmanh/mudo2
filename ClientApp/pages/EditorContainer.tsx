@@ -3,15 +3,30 @@ import { RouteComponentProps } from "react-router";
 import Editor from "@Pages/Editor";
 import { observable, action, autorun } from "mobx";
 import uuidv4 from "uuid/v4";
+import { toJS } from "mobx";
 
 class Images {
   @observable images = [];
   @observable fontsList = [];
   @observable fonts = [];
   @observable upperZIndex = 1;
+  @observable idObjectSelected = null;
+  @observable activePageId = null;
 
-  @action addItem = (item) => {
+  @action addItem = (item, isChild) => {
+    if (isChild) {
+      var images = toJS(this.images);
+      images = images.map(img => {
+        if (img._id === this.idObjectSelected) {
+          img.childId = item._id;
+        }
+        return img;
+      });
+      images.push(item);
+      this.images.replace(images);
+    } else {
       this.images.push(item);
+    }
   }
 
   @action addFont = (item) => {
@@ -33,11 +48,21 @@ class Images {
   @action increaseUpperzIndex = () => {
     this.upperZIndex += 1;
   }
-}
 
-autorun(() => {
-  console.log('images', this.images);
-})
+  @action replaceAllImages = (images) => {
+    store.images.replace(images);
+  }
+
+  @action applyTemplate = (template) => {
+    var images = toJS(this.images);
+    images = images.filter(image => {
+      return image.page !== this.activePageId;
+    });
+
+    images = [...images, ...template];
+    this.images.replace(images);
+  }
+}
 
 type Props = RouteComponentProps<{}>;
 
@@ -85,6 +110,7 @@ export default class EditorContainer extends React.Component<IProps, IState> {
         replaceFirstItem={store.replaceFirstItem}
         firstpage={firstpage} 
         increaseUpperzIndex={store.increaseUpperzIndex}
+        replaceAllImages={store.replaceAllImages}
       />
     );
   }
