@@ -74,7 +74,7 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
-        [RequestSizeLimit(100000000)]
+        [RequestSizeLimit(200000000)]
         public async System.Threading.Tasks.Task<IActionResult> AddVideo()
         {
             string body = null;
@@ -86,7 +86,7 @@ namespace RCB.TypeScript.Controllers
                 var dataFont = oDownloadBody.data;
                 var id = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
 
-                string file2 = "videos" + Path.DirectorySeparatorChar + id + ".mp4";
+                string file2 = "videos" + Path.DirectorySeparatorChar + id + "." + oDownloadBody.ext;
                 string file3 = "videos" + Path.DirectorySeparatorChar + id + "_thumbnail." + oDownloadBody.ext;
                 var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2);
                 var filePath3 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file3);

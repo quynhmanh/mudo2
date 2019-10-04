@@ -495,7 +495,17 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             });
           }
 
-          this.props.images.replace(document.document_object);
+          let images = document.document_object;
+          // console.log('images ', images);
+          // images = images.map(img => {
+          //   img.page = self.props.store.activePageId;
+          //   return img;
+          // })
+
+          console.log('images ', images);
+          console.log('res.data.value.pages ', res.data.value.pages);
+
+          this.props.images.replace(images);
           this.props.fonts.replace(image.value.fontList);
 
           subtype = res.data.value.printType;
@@ -2239,7 +2249,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           AdditionalStyle: a[0].outerHTML,
           FilePath: "/templates",
           FirstName: "Untilted",
-          Pages: self.state.pages,
+          Pages: toJS(self.props.store.pages),
           PrintType: self.state.subtype,
           Representative: rep ? rep : `images/${uuidv4()}.jpeg`,
           Representative2: `images/${uuidv4()}.jpeg`,

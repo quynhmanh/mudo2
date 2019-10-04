@@ -941,12 +941,14 @@ class LeftSide extends Component<IProps, IState> {
     var file = fileUploader.files[0];
     var fr = new FileReader();
     fr.readAsDataURL(file);
+    console.log('file.name ', file.name);
     fr.onload = () => {
       var url = `/api/Media/AddVideo`;
       axios.post(url, {
         id: uuidv4(),
         data: fr.result,
-        type: TemplateType.Video
+        type: TemplateType.Video,
+        ext: file.name.split(".")[1],
       });
     };
   };
