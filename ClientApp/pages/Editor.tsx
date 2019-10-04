@@ -527,6 +527,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             subtype: res.data.value.printType
           });
 
+          var zIndexMax = 0;
+          images.forEach(img => {
+            zIndexMax = Math.max(zIndexMax, img.zIndex);
+          })
+
+          this.props.store.upperZIndex = zIndexMax + 1;
           this.props.store.activePageId = res.data.value.pages[0];
           this.props.store.pages.replace(res.data.value.pages);
         })
