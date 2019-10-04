@@ -2131,7 +2131,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     });
   }
 
-  async saveImages(rep) {
+  async saveImages(rep, isVideo) {
     var _id;
     this.setState({ isSaving: true });
     const { mode } = this.state;
@@ -2260,7 +2260,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           Representative: rep ? rep : `images/${_id}.jpeg`,
           Representative2: `images/${_id}_2.jpeg`,
           VideoRepresentative: `videos/${_id}.mp4`,
-          IsVideo: self.state.subtype == 5,
+          IsVideo: isVideo,
         });
 
         console.log('save image ', res);
@@ -4251,7 +4251,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 Globals.serviceUser.username === adminEmail && (
                   <button
                     className="toolbar-btn dropbtn-font"
-                    onClick={this.saveImages.bind(this, null)}
+                    onClick={this.saveImages.bind(this, null, false)}
                     style={{
                       display: "flex",
                       marginTop: "4px",
@@ -4283,6 +4283,45 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       </svg>
                     </div>
                     <span>Lưu</span>
+                  </button>
+                )}
+                {Globals.serviceUser &&
+                Globals.serviceUser.username &&
+                Globals.serviceUser.username === adminEmail && (
+                  <button
+                    className="toolbar-btn dropbtn-font"
+                    onClick={this.saveImages.bind(this, null, true)}
+                    style={{
+                      display: "flex",
+                      marginTop: "4px",
+                      marginRight: "6px",
+                      fontSize: "13px"
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "14px",
+                        margin: "auto",
+                        marginRight: "5px"
+                      }}
+                    >
+                      <svg
+                        version="1.1"
+                        id="Layer_1"
+                        x="0px"
+                        y="0px"
+                        viewBox="0 0 512 512"
+                      >
+                        <path
+                          style={{
+                            fill: this.state.isSaving ? "red" : "black"
+                          }}
+                          xmlns="http://www.w3.org/2000/svg"
+                          d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256s256-114.837,256-256S397.163,0,256,0z"
+                        />
+                      </svg>
+                    </div>
+                    <span>Lưu video</span>
                   </button>
                 )}
               <button

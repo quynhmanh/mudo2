@@ -72,18 +72,21 @@ namespace RCB.TypeScript.Controllers
 
             await designService.GenerateRepresentative(model, width, height, true, model.Type == "2", model.Representative2);
 
-            string body = null;
-            using (var reader = new StreamReader(Request.Body))
+            if (model.IsVideo)
             {
-                body = reader.ReadToEnd();
-            }
+                string body = null;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = reader.ReadToEnd();
+                }
 
-            var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + model.VideoRepresentative);
-            byte[] res = await designService.DownloadVideo(width.ToString(), height.ToString(), model.Id, model);
-            using (var imageFile = new FileStream(filePath, FileMode.Create))
-            {
-                imageFile.Write(res, 0, res.Length);
-                imageFile.Flush();
+                var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + model.VideoRepresentative);
+                byte[] res = await designService.DownloadVideo(width.ToString(), height.ToString(), model.Id, model);
+                using (var imageFile = new FileStream(filePath, FileMode.Create))
+                {
+                    imageFile.Write(res, 0, res.Length);
+                    imageFile.Flush();
+                }
             }
 
             var result = TemplateService.Add(model);
