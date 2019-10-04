@@ -2446,7 +2446,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             imgWidth: rec2.width / self.state.scale,
             imgHeight: rec2.height / self.state.scale,
             page: pages[i],
-            zIndex: this.props.upperZIndex + 1
+            zIndex: this.props.store.upperZIndex + 1
           });
 
           // self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
