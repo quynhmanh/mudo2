@@ -216,7 +216,7 @@ class Popup extends PureComponent<IProps, IState> {
     <CC style={{
         marginRight: '16px',
     }} className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/97a157a9-79f1-4be0-85c0-a205f8522e6b">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/5cf49544-381a-4790-903a-bc062d28ea97.mp4" poster="https://cdn.crello.com/common/edf74691-5af9-4554-8ef6-f6f4728c307d_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
