@@ -2257,9 +2257,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           FirstName: "Untilted",
           Pages: toJS(self.props.store.pages),
           PrintType: self.state.subtype,
-          Representative: rep ? rep : `images/${uuidv4()}.jpeg`,
-          Representative2: `images/${uuidv4()}.jpeg`,
-          VideoRepresentative: `videos/${uuidv4()}.mp4`,
+          Representative: rep ? rep : `images/${_id}.jpeg`,
+          Representative2: `images/${_id}_2.jpeg`,
+          VideoRepresentative: `videos/${_id}.mp4`,
           IsVideo: self.state.subtype == 5,
         });
 

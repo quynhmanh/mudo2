@@ -102,6 +102,21 @@ namespace RCB.TypeScript.Controllers
         public async Task<IActionResult> Update(TemplateModel model)
         {
 
+            if (System.IO.File.Exists(model.Representative))
+            {
+                System.IO.File.Delete(model.Representative);
+            }
+
+            if (System.IO.File.Exists(model.Representative2))
+            {
+                System.IO.File.Delete(model.Representative2);
+            }
+
+            if (System.IO.File.Exists(model.VideoRepresentative))
+            {
+                System.IO.File.Delete(model.VideoRepresentative);
+            }
+
             TemplateService designService = new TemplateService(null, HostingEnvironment);
 
             await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2", model.Representative);
