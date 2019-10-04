@@ -225,7 +225,7 @@ class Popup extends PureComponent<IProps, IState> {
                           key={"1"}
                           color={""}
                         //   src={"https://cdn.crello.com/video-producer-script/5cf49544-381a-4790-903a-bc062d28ea97.mp4"}
-                          src={"https://draft.vn/videos/b8d6f568-d376-467e-8964-5127314dc360.mp4"}
+                          src={"https://draft.vn/videos/97a157a9-79f1-4be0-85c0-a205f8522e6b.mp4"}
                           height={160}
                           defaultHeight={160}
                           width={112}
