@@ -64,11 +64,11 @@ namespace RCB.TypeScript.Controllers
 
             int width = 656;
             int height = 436;
-            if (model.PrintType > 3)
-            {
-                width = (int)model.Width;
-                height = (int)model.Height;
-            }
+            //if (model.PrintType > 3)
+            //{
+            width = (int)model.Width;
+            height = (int)model.Height;
+            //}
 
             await designService.GenerateRepresentative(model, width, height, true, model.Type == "2", model.Representative2);
 
