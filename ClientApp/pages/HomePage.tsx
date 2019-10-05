@@ -383,7 +383,7 @@ handleUpdateCompleted = () => {
                 right: 0,
                 bottom: 0,
                 zIndex: 1,
-                opacity: .9,
+                // opacity: .9,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
