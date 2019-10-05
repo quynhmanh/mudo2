@@ -390,7 +390,7 @@ class Popup extends PureComponent<IProps, IState> {
     <CC style={{
         marginRight: '16px',
     }} className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+        <a target="_blank" data-categ="popularTemplates" data-value="animatedPostAN" data-subcateg="home" href="/editor/design/252e8327-08dd-4233-b844-7d0bf8ba2864">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/46a49129-6cf5-490d-8103-a34fc91cd63d.mp4" poster="https://cdn.crello.com/common/8714fed0-471e-4a67-9176-2897fc0dbc37_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
@@ -398,7 +398,7 @@ class Popup extends PureComponent<IProps, IState> {
                           id="1"
                           key={"1"}
                           color={""}
-                          src={"https://cdn.crello.com/video-producer-script/46a49129-6cf5-490d-8103-a34fc91cd63d.mp4"}
+                          src={"https://draft.vn/videos/252e8327-08dd-4233-b844-7d0bf8ba2864.mp4"}
                           height={160}
                           defaultHeight={160}
                           width={160}
