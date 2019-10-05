@@ -300,13 +300,12 @@ class Popup extends PureComponent<IProps, IState> {
             <p className="x-small___1lJKy size___1sVBg">1080x1080 px</p>
         </div>
     </CC>
-    <CC style={{
+    {/* <CC style={{
         marginRight: '16px',
     }} className="templateWrapper___3Fitk">
         <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    {/* <video src="https://cdn.crello.com/video-producer-script/1adfb977-370f-4db0-ab86-04bcfa8ae6b9.mp4" poster="https://cdn.crello.com/common/f6238807-ceec-4eaf-9aa3-34afe8f25c30_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
                           id="1"
                           key={"1"}
@@ -346,7 +345,7 @@ class Popup extends PureComponent<IProps, IState> {
             <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">Instagram Video Story</p>
             <p className="x-small___1lJKy size___1sVBg">1080x1920 px</p>
         </div>
-    </CC>
+    </CC> */}
     <CC style={{
         marginRight: '16px',
     }} className="templateWrapper___3Fitk">
@@ -520,7 +519,6 @@ class Popup extends PureComponent<IProps, IState> {
         <a target="_blank" data-categ="popularTemplates" data-value="instagramVideoStoryAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
-                    {/* <video src="https://cdn.crello.com/video-producer-script/b2a03204-5f88-4522-a3b2-c6a6e20e800b.mp4" poster="https://cdn.crello.com/common/23b1a253-5b1f-4ab6-949b-c71b40301b8b_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
                           id="1"
                           key={"1"}
