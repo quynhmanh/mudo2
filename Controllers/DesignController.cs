@@ -547,14 +547,15 @@ namespace RCB.TypeScript.Controllers
                     }
                 }
 
+                int crf = 17;
                 var exePath = "/usr/bin/ffmpeg";
-                var inputArgs = "/app/wwwroot/" + videoId + ".webm";
+                var inputArgs = "/app/wwwroot/" + videoId + ".webm -crf " + crf.ToString();
                 var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
 
                 if (HostingEnvironment.IsDevelopment())
                 {
                     exePath = "/usr/local/bin/ffmpeg";
-                    inputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
+                    inputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm -crf " + crf.ToString();
                     outputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".mp4";
                 }
 
