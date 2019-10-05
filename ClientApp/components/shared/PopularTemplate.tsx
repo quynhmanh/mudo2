@@ -126,7 +126,7 @@ class Popup extends PureComponent<IProps, IState> {
         // overflow: 'hidden',
         // height: '160px',
     }} className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+        <a target="_blank" data-categ="popularTemplates" data-value="fullHDVideoAN" data-subcateg="home" href="https://draft.vn/editor/58af44c9-8a1c-4027-844d-ad7570648002">
             <div style={{
                         // position: 'relative',
                         // height: '160px',
