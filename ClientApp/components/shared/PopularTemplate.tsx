@@ -264,7 +264,7 @@ class Popup extends PureComponent<IProps, IState> {
     <CC style={{
         marginRight: '16px',
     }} className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="instagramSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+        <a target="_blank" data-categ="popularTemplates" data-value="instagramSM" data-subcateg="home" href="/editor/design/04ba97d0-3e1d-40f5-8d76-99588565c705">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     {/* <img alt="Instagram Post Real estate & Building 1080px 1080px" src="https://cdn.crello.com/common/06179643-bda5-4edd-8816-84b8fc4d44db_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
@@ -272,7 +272,7 @@ class Popup extends PureComponent<IProps, IState> {
                           id="1"
                           key={"1"}
                           color={""}
-                          src={"https://cdn.crello.com/common/06179643-bda5-4edd-8816-84b8fc4d44db_640.jpg"}
+                          src={"https://draft.vn/images/04ba97d0-3e1d-40f5-8d76-99588565c705.jpeg"}
                           height={160}
                           defaultHeight={160}
                           width={160}
