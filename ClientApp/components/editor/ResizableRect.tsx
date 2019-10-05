@@ -85,6 +85,7 @@ export interface IProps {
   dragging: boolean;
   resizing: boolean;
   rotating: boolean;
+  freeStyle: boolean;
 }
 
 export interface IState {
@@ -143,14 +144,15 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       minHeight,
       parentRotateAngle,
       scale,
-      _id
+      _id,
+      freeStyle,
     } = this.props;
     const beta = alpha - degToRadian(rotateAngle + parentRotateAngle);
     const deltaW = (length * Math.cos(beta)) / scale;
     const deltaH = (length * Math.sin(beta)) / scale;
     var { aspectRatio } = this.props;
 
-    if (this.props.cropMode || cursor == "e-resize" || cursor == "w-resize") {
+    if (this.props.cropMode || freeStyle || cursor == "e-resize" || cursor == "w-resize") {
       aspectRatio = null;
     }
 

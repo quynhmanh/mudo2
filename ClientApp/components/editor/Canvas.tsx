@@ -441,6 +441,7 @@ export default class Canvas extends Component<IProps, IState> {
                       )}
                     >
                       <ResizableRect
+                        freeStyle={img.freeStyle}
                         rotating={this.props.rotating}
                         dragging={this.props.dragging}
                         resizing={this.props.resizing}
@@ -585,6 +586,7 @@ export default class Canvas extends Component<IProps, IState> {
                       )}
                     >
                       <ResizableRect
+                        freeStyle={img.freeStyle}
                         rotating={this.props.rotating}
                         resizing={this.props.resizing}
                         dragging={this.props.dragging}
@@ -729,6 +731,7 @@ export default class Canvas extends Component<IProps, IState> {
                         )}
                       >
                         <ResizableRect
+                          freeStyle={img.freeStyle}
                           rotating={this.props.rotating}
                           dragging={this.props.dragging}
                           resizing={this.props.resizing}

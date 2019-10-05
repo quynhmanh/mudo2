@@ -2991,7 +2991,8 @@ class LeftSide extends Component<IProps, IState> {
                     <img
                       onMouseDown={this.props.imgOnMouseDown.bind(this, {
                         representative:
-                          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+                          freeStyle: true,
                       })}
                       style={{
                         width: "160px",
