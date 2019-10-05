@@ -178,7 +178,7 @@ class Popup extends PureComponent<IProps, IState> {
     <CC style={{
         marginRight: '16px',
     }} className="templateWrapper___3Fitk">
-        <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/editor/design/c0893ee9-ebf3-4f57-a8f3-26df818c3fc9">
+        <a target="_blank" data-categ="popularTemplates" data-value="facebookSM" data-subcateg="home" href="/editor/371417de-fb93-45fe-8058-984981411953">
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                 <ImagePicker
@@ -186,7 +186,7 @@ class Popup extends PureComponent<IProps, IState> {
                           id="1"
                           key={"1"}
                           color={""}
-                          src={"https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg"}
+                          src={"https://draft.vn/images/371417de-fb93-45fe-8058-984981411953.jpeg"}
                           height={160}
                           defaultHeight={160}
                           width={191}
