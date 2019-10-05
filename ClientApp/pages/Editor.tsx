@@ -573,6 +573,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       } else if (subtype == 7) {
         rectWidth = 1920;
         rectHeight = 1080;
+      } else if (subtype == 8) {
+        rectWidth = 940;
+        rectHeight = 788;
       }
 
       var scaleX = (width - 100) / rectWidth;
