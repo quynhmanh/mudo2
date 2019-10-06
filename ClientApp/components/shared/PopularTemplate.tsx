@@ -5,7 +5,8 @@ import ImagePicker from "@Components/shared/ImagePicker";
 import VideoPicker from "@Components/shared/VideoPicker";
 
 export interface IProps {
-  }
+
+}
   
   interface IState {
     yLocation: number;
@@ -38,7 +39,7 @@ class Popup extends PureComponent<IProps, IState> {
 
     test = null;
 
-  render() {  
+  render() {
         return (<div>
             <h5 style={{
                 marginTop: '35px',
