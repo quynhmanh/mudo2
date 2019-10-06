@@ -700,7 +700,9 @@ onLanguageBtnClick = () => {
         </li>
       </ul>
           </div>}
-          <PopularTemplate />
+          <PopularTemplate 
+            translate={this.translate.bind(this)}
+          />
           </div>
       </header>
             </div>

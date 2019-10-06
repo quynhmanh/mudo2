@@ -5,7 +5,7 @@ import ImagePicker from "@Components/shared/ImagePicker";
 import VideoPicker from "@Components/shared/VideoPicker";
 
 export interface IProps {
-
+    translate: any;
 }
   
   interface IState {
@@ -47,7 +47,10 @@ class Popup extends PureComponent<IProps, IState> {
                 color: 'white',
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 fontSize: '17px',
-              }}>Thông dụng</h5>
+              }}>
+                  {/* Thông dụng */}
+                {this.props.translate("popular")}
+            </h5>
         <div style={{position: 'relative',}}>
             { this.state.yLocation > 0 && this.state.mounted &&
           <button style={{

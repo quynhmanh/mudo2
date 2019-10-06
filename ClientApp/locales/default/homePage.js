@@ -17,7 +17,8 @@ const homePageTranslation = {
   "office": "OFFICE",
   "web": "WEB",
   "individual": "INDIVIDUAL",
-  "video": "VIDEO"
+  "video": "VIDEO",
+  "popular": "Popular",
 };
 
 export default homePageTranslation;
