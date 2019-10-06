@@ -892,21 +892,24 @@ button:focus {
 }
 
 #language-btn {
-  height: 50px;
+  padding: 0 10px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100px;
   color: rgba(14,19,24,.7);
   text-decoration: none;
   transition: color .2s;
   cursor: pointer;
   font-size: 13px;
+  margin-left: 10px;
+  border-radius: 4px;
 }
 
 #language-btn:hover {
   text-decoration: none;
   color: #00c4cc;
+  background: rgba(55, 53, 47, 0.08);
 }
 
 .language-btn-title {
