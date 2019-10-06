@@ -15,6 +15,7 @@ import { withTranslation } from "react-i18next";
 import languages from "../locales/languages";
 import uuidv4 from "uuid/v4";
 import { ILocale } from "@Models/ILocale";
+import homePageTranslation from "../locales/default/homePage";
 
 type Props = RouteComponentProps<{}>;
 
@@ -46,6 +47,8 @@ const crumb = (part, partIndex, parts) => {
 
 const initLocale = { "value": "en-US", "title": "English (US)" };
 
+const NAMESPACE = "homePage";
+
 class HomePage extends React.Component<IProps, IState> {
 
   state = {
@@ -65,6 +68,19 @@ class HomePage extends React.Component<IProps, IState> {
   setLocale = (locale: ILocale) => {
     this.setState({ locale });
     Globals.locale = locale;
+  }
+
+  translate = (key: string) => {
+    const { t, i18n } = this.props;
+    
+    if (i18n.exists(NAMESPACE + ":" + key))
+      return t(key);
+
+    if (homePageTranslation.hasOwnProperty(key)) {
+      return homePageTranslation[key]; // load default translation in case failed to load translation file from server
+    }
+    
+    return key;
   }
 
   constructor(props) {
@@ -243,7 +259,7 @@ onLanguageBtnClick = () => {
     return (
       <div>
         <Helmet>
-          <title>{t("title-website")}</title>
+          <title>{this.translate("title-website")}</title>
         </Helmet>
         <div
         style={{
@@ -340,7 +356,7 @@ onLanguageBtnClick = () => {
         }}
         // onClick={() => {location.href='/login';}}
         onClick={this.handleLogin}
-    >{t("login")}</button></div>
+    >{this.translate("login")}</button></div>
     :
     <div style={{display: 'flex'}}>
         <div 
@@ -448,7 +464,7 @@ onLanguageBtnClick = () => {
         }}
         // onClick={() => {location.href='/login';}}
         onClick={this.onClickSignOut}
-    >{t("logout")}</button>
+    >{this.translate("logout")}</button>
     </div>
 </div>
 </div>
@@ -503,7 +519,7 @@ onLanguageBtnClick = () => {
                 marginBottom: '25px',
                 fontFamily: 'Lobster-Regular',
             }}
-          >{t("title-above-search-box")}</h2>
+          >{this.translate("title-above-search-box")}</h2>
           <div
             id="search-icon"
             style={{
@@ -558,7 +574,7 @@ onLanguageBtnClick = () => {
               <span style={{
                   marginLeft: '5px',
                   fontFamily: 'AvenirNextRoundedPro-Medium',
-              }} className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">{t("suggested")}</span>
+              }} className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">{this.translate("suggested")}</span>
             </div>
         </li>
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
@@ -566,7 +582,7 @@ onLanguageBtnClick = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/poster');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1 gfcUZM2lrsYeWQPoFQxBj">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/cTgIK8jqHEubjih9549hAw.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{t("poster")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">42 × 59.4 cm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/cTgIK8jqHEubjih9549hAw.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("poster")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">42 × 59.4 cm</span></div>
                     </span>
                   </div>
                 </button>
@@ -575,7 +591,7 @@ onLanguageBtnClick = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/logo');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/eIRfvcnuuEKn2QGfvVGOqQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{t("logo")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">500 × 500 px</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/eIRfvcnuuEKn2QGfvVGOqQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("logo")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">500 × 500 px</span></div>
                     </span>
                   </div>
                 </button>
@@ -584,7 +600,7 @@ onLanguageBtnClick = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/brochures');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/owdn5oxp2UG8OjFOrxcFQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{t("brochures")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">1920 × 1080 px</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/owdn5oxp2UG8OjFOrxcFQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("brochures")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">1920 × 1080 px</span></div>
                     </span>
                   </div>
                 </button>
@@ -593,7 +609,7 @@ onLanguageBtnClick = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/flyers');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/2RswVAz1kORIR98Y7DdA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{t("flyer")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">210 × 297 mm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/2RswVAz1kORIR98Y7DdA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("flyer")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">210 × 297 mm</span></div>
                     </span>
                   </div>
                 </button>
@@ -629,7 +645,7 @@ onLanguageBtnClick = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/business-cards');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/kPsZvFiQTEGq3asTsPBNHg.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{t("business-card")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">8.5 × 5 cm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/kPsZvFiQTEGq3asTsPBNHg.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("business-card")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">8.5 × 5 cm</span></div>
                     </span>
                   </div>
                 </button>
@@ -647,7 +663,7 @@ onLanguageBtnClick = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/postcards');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/JGzOwEpLlkSGGHMaLuGagA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{t("post-card")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/JGzOwEpLlkSGGHMaLuGagA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("post-card")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
                     </span>
                   </div>
                 </button>
@@ -656,7 +672,7 @@ onLanguageBtnClick = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/resume');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/xZv5tdDLc0OpQkBnGLJ8ag.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{t("resume")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/xZv5tdDLc0OpQkBnGLJ8ag.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("resume")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
                     </span>
                   </div>
                 </button>
@@ -691,7 +707,7 @@ onLanguageBtnClick = () => {
                 textAlign: 'center', 
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: '#f4f4f6',
-            }}>{t("create-a-design")}</h2>
+            }}>{this.translate("create-a-design")}</h2>
           <div
           id="hello-world"
           style={{
@@ -732,7 +748,7 @@ onLanguageBtnClick = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-              {t("social-network")}
+              {this.translate("social-network")}
               </button>
         </li>
           <li style={{
@@ -754,7 +770,7 @@ onLanguageBtnClick = () => {
                     fontFamily: 'AvenirNextRoundedPro-Medium',
                     background: 'none',
                 }}>
-                    {t("discount")}
+                    {this.translate("discount")}
                 </button>
         </li>
           <li style={{
@@ -775,7 +791,7 @@ onLanguageBtnClick = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                {t("office")}
+                {this.translate("office")}
             </button></li>
           <li style={{
                 height: '100%',
@@ -795,7 +811,7 @@ onLanguageBtnClick = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                {t("web")}
+                {this.translate("web")}
             </button></li>
           <li style={{
                 height: '100%',
@@ -815,7 +831,7 @@ onLanguageBtnClick = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                {t("individual")}
+                {this.translate("individual")}
             </button></li>
           <li style={{
                 height: '100%',
@@ -835,7 +851,7 @@ onLanguageBtnClick = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                {t("video")}
+                {this.translate("video")}
             </button></li>
           </ul>
           </nav>
@@ -1181,4 +1197,4 @@ var CC = styled.li`
     transition: .3s;
 `;
 
-export default withTranslation("homePage")(HomePage);
+export default withTranslation(NAMESPACE)(HomePage);
