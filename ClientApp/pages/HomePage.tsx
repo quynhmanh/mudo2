@@ -388,6 +388,13 @@ onLanguageBtnClick = () => {
         }} src="https://www.google.com/s2/photos/private/AIbEiAIAAABDCOiLwpvLu8CPRCILdmNhcmRfcGhvdG8qKGUxNjQ2YjUwNTQwNTVmNGVlZjdkMTQxNDcxYzhjNzg1YmU4OWRjODQwAQZAjaC_9irsFzfZrYEDu9rc_9V6/s100" />
         </button>
     </div>}
+    <div 
+            style={{
+                borderRight: '1px solid rgb(221, 221, 221)', 
+                height: '19px', 
+                marginLeft: '10px', 
+                marginRight: '10px',
+            }} />
     <a id="language-btn" onClick={this.onLanguageBtnClick}>
         <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M3.8 14.25h3.81a21.9 21.9 0 0 1 0-4.5h-3.8a8.5 8.5 0 0 0 0 4.5zm.57 1.5c1 2.04 2.8 3.61 4.98 4.33-.68-1.1-1.2-2.6-1.52-4.33H4.37zm15.83-1.5a8.5 8.5 0 0 0 0-4.5h-3.81a21.9 21.9 0 0 1 0 4.5h3.8zm-.57 1.5h-3.46a12.78 12.78 0 0 1-1.52 4.33 8.53 8.53 0 0 0 4.98-4.33zm-10.5-1.5h5.74a20.12 20.12 0 0 0 0-4.5H9.13a20.12 20.12 0 0 0 0 4.5zm.23 1.5c.56 2.84 1.69 4.75 2.64 4.75.95 0 2.08-1.9 2.64-4.75H9.36zm-4.99-7.5h3.46c.31-1.74.84-3.24 1.52-4.33a8.53 8.53 0 0 0-4.98 4.33zm15.26 0a8.53 8.53 0 0 0-4.98-4.33c.68 1.1 1.2 2.6 1.52 4.33h3.46zm1.64 0h.04v.1a10 10 0 1 1-.04-.1zm-11.91 0h5.28C14.08 5.41 12.95 3.5 12 3.5c-.95 0-2.08 1.9-2.64 4.75z"></path></svg>
