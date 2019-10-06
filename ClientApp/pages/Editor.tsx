@@ -255,6 +255,7 @@ interface IState {
 }
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
+const NAMESPACE = "editor";
 
 @observer
 class CanvaEditor extends PureComponent<IProps, IState> {
@@ -7127,8 +7128,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     );
   }
 }
-
-const NAMESPACE = "editor";
 
 export default withTranslation(NAMESPACE)(CanvaEditor);
 
