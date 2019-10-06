@@ -28,16 +28,21 @@ namespace RCB.TypeScript.Controllers
                 return BadRequest();
             }
 
-            string path = AppRoot + "/../../../locales/" + language + "/" + ns;
 
-            if (!System.IO.File.Exists(path))
+            string path1 = AppRoot + "/../../../locales/" + language + "/" + ns; // local
+            string path2 = AppRoot + "/locales/" + language + "/" + ns; // server
+
+            bool path1Exists = System.IO.File.Exists(path1);
+            bool path2Exists = System.IO.File.Exists(path2);
+
+            if (!path1Exists && !path2Exists)
             {
                 return BadRequest();
             }
 
             string jsonResult;
   
-            using (StreamReader streamReader = new StreamReader(path))
+            using (StreamReader streamReader = new StreamReader(path1Exists ? path1 : path2))
             {
                 jsonResult = streamReader.ReadToEnd();
             }

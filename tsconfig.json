@@ -29,6 +29,7 @@
       "@Interfaces": ["./interfaces"],
       "@Globals": ["./Globals"],
       "@Constants": ["./constants"],
+      "@Locales/*": [ "./locales/*" ],
     }
   },
   "exclude": [

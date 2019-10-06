@@ -60,7 +60,7 @@ module.exports = (env) => {
                     "@Globals": path.resolve(__dirname, 'ClientApp/Globals'),
                     "@Constants": path.resolve(__dirname, 'ClientApp/constants'),
                     "@ImageLoaded": path.resolve(__dirname, 'ClientApp/ImageLoaded'),
-
+                    "@Locales": path.resolve(__dirname, 'ClientApp/locales/'),
                 }
             },
             output: {

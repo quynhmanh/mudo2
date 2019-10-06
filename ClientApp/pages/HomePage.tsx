@@ -12,10 +12,10 @@ import styled from 'styled-components';
 import PopularTemplate from "@Components/shared/PopularTemplate";
 import { element } from "prop-types";
 import { withTranslation } from "react-i18next";
-import languages from "../locales/languages";
+import languages from "@Locales/languages";
 import uuidv4 from "uuid/v4";
 import { ILocale } from "@Models/ILocale";
-import homePageTranslation from "../locales/default/homePage";
+import homePageTranslation from "@Locales/default/homePage";
 
 type Props = RouteComponentProps<{}>;
 
@@ -76,7 +76,7 @@ class HomePage extends React.Component<IProps, IState> {
     if (i18n.exists(NAMESPACE + ":" + key))
       return t(key);
 
-    if (homePageTranslation.hasOwnProperty(key)) {
+    if (homePageTranslation !== undefined && homePageTranslation.hasOwnProperty(key)) {
       return homePageTranslation[key]; // load default translation in case failed to load translation file from server
     }
     
