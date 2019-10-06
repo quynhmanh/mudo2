@@ -42,6 +42,8 @@ export interface IProps {
   replaceAllImages: any;
   applyTemplate: any;
   textOnMouseDown: any;
+  translate: any;
+  tReady: boolean;
 }
 
 interface IState {
@@ -1564,6 +1566,9 @@ class LeftSide extends Component<IProps, IState> {
     if (this.props.subtype !== nextProps.subtype) {
       return true;
     }
+    if (this.props.tReady !== nextProps.tReady) {
+      return true;
+    }
     // return true;
 
     return false;
@@ -1593,14 +1598,18 @@ class LeftSide extends Component<IProps, IState> {
           position: "relative",
           display: "flex"
         }}
-      >
+      > 
+      { this.props.mounted &&
         <TopMenu
+          translate={this.props.translate}
           mounted={this.props.mounted}
           mode={this.props.mode}
           toolbarSize={this.props.toolbarSize}
           selectedTab={this.props.selectedTab}
           onClick={this.handleSidebarSelectorClicked}
+          tReady={this.props.tReady}
         />
+      }
         <div
           style={{
             position: "absolute",

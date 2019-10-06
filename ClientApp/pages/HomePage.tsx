@@ -6,8 +6,6 @@ import AccountService from "@Services/AccountService";
 import { Helmet } from "react-helmet";
 import bind from 'bind-decorator';
 import LoginPopup from "@Components/shared/LoginPopup";
-import ImagePicker from "@Components/shared/ImagePicker";
-import VideoPicker from "@Components/shared/VideoPicker";
 import styled from 'styled-components';
 import PopularTemplate from "@Components/shared/PopularTemplate";
 import { element } from "prop-types";
@@ -85,6 +83,7 @@ class HomePage extends React.Component<IProps, IState> {
 
   constructor(props) {
     super(props);
+    console.log('props i18n', props.i18n.exists);
     this.onLanguageBtnClick = this.onLanguageBtnClick.bind(this);
     this.handleSelectLanguage = this.handleSelectLanguage.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);

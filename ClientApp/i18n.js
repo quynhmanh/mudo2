@@ -11,11 +11,11 @@ i18n.use(XHR)
 .use(LanguageDetector)
 .use(initReactI18next)
 .init({
-  ns: ['homePage'],
+  ns: ['homePage', 'editor'],
   defaultNS: 'homePage',
   debug: true,
   fallbackLng: 'en',
   load: "languageOnly",
   backend: backendOpts
 });
-export default i18n;
+export default i18n; 

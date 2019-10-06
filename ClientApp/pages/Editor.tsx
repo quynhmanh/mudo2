@@ -28,6 +28,8 @@ import { observable, toJS } from "mobx";
 import { observer } from "mobx-react";
 import LeftSide from "@Components/editor/LeftSide";
 import FontSize from "@Components/editor/FontSize";
+import { withTranslation } from "react-i18next";
+import editorTranslation from "@Locales/default/editor";
 
 declare global {
   interface Window {
@@ -99,6 +101,8 @@ interface IProps {
   increaseUpperzIndex: any;
   store: any;
   replaceAllImages: any;
+  t: any;
+  i18n: any;
 }
 
 interface ImageObject {
@@ -334,11 +338,28 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     this.handleResponse = this.handleResponse.bind(this);
     this.handleAddOrder = this.handleAddOrder.bind(this);
     this.externalPaymentCompleted = this.externalPaymentCompleted.bind(this);
+
+    console.log('props i18n', props.i18n.exists);
   }
 
   $app = null;
   timer = null;
   $container = null;
+
+
+  translate = (key: string) => {
+    const { t, i18n } = this.props;
+    console.log('i18n ', i18n.exists);
+    
+    if (i18n.exists && i18n.exists(NAMESPACE + ":" + key))
+      return t(key);
+
+    if (editorTranslation !== undefined && editorTranslation.hasOwnProperty(key)) {
+      return editorTranslation[key]; // load default translation in case failed to load translation file from server
+    }
+    
+    return key;
+  }
 
   async componentDidMount() {
     console.log("this props", this.props);
@@ -4243,7 +4264,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         ></path>
                       </svg>
                     </span>
-                    Trang chủ
+                    {/* chủ */}
+                    {this.props.tReady ? this.translate("home") : ""}
                   </div>
                 </span>
               </a>}
@@ -4997,6 +5019,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             }}
           >
             <LeftSide
+              tReady={this.props.tReady}
+              translate={this.translate.bind(this)}
               textOnMouseDown={this.textOnMouseDown.bind(this)}
               applyTemplate={this.props.store.applyTemplate}
               replaceAllImages={this.props.replaceAllImages}
@@ -7104,4 +7128,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   }
 }
 
-export default CanvaEditor;
+const NAMESPACE = "editor";
+
+export default withTranslation(NAMESPACE)(CanvaEditor);
+

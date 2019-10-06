@@ -136,7 +136,7 @@ export default class Canvas extends Component<IProps, IState> {
           <span
             style={{ fontSize: "12px", display: "block", marginBottom: "5px" }}
           >
-            Trang {index + 1} - Mặt trước
+            Trang {index + 1}
           </span>
         )}
         {!this.props.preview && (

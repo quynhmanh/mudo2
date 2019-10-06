@@ -30,14 +30,14 @@ enum SidebarTab {
 }
 
 var SidebarName = [
-    "Hình ảnh",
-    "Chữ",
-    "Mẫu thiết kế",
-    "Hình nền",
-    "Element",
-    "Tải lên",
+    "image",
+    "text",
+    "template",
+    "background",
+    "element",
+    "upload",
     // "Ảnh xoá nền",
-    "Video",
+    "video",
 ]
 
 
@@ -63,6 +63,8 @@ export interface IProps {
     mode: Mode;
     onClick(selectedTab : SidebarTab, e : any): void;
     mounted: boolean;
+    translate: any;
+    tReady: boolean;
 }
 
 export interface IState {
@@ -91,9 +93,11 @@ export default class TopMenu extends PureComponent<IProps, IState> {
       >
         { 
             mapEnum(SidebarTab, (i, sidebarName, sideBarIcon, prevTab, currentTab, nextTab) => {
+                console.log('sidebarName ', sidebarName);
                 return <Selector 
                     key={i}
-                    content={sidebarName}
+                    content={this.props.tReady ? this.props.translate(sidebarName) : ""}
+                    // content={sidebarName}
                     sideBarIcon={sideBarIcon}
                     prevSelected={selectedTab === prevTab}
                     selected={selectedTab === currentTab}

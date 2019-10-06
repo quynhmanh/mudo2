@@ -97,7 +97,8 @@ export default class EditorContainer extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <Editor 
+      <Editor
+        useSuspense={false} 
         upperZIndex={store.upperZIndex}
         store={store}
         rid={this.props.rid} 
