@@ -10,10 +10,19 @@ import ImagePicker from "@Components/shared/ImagePicker";
 import VideoPicker from "@Components/shared/VideoPicker";
 import styled from 'styled-components';
 import PopularTemplate from "@Components/shared/PopularTemplate";
+import { element } from "prop-types";
+import { withTranslation } from "react-i18next";
+import languages from "../locales/languages";
+import uuidv4 from "uuid/v4";
+import { ILocale } from "@Models/ILocale";
+import homePageTranslation from "../locales/default/homePage";
 
 type Props = RouteComponentProps<{}>;
 
-export interface IProps {}
+export interface IProps {
+  t: any;
+  i18n: any;
+}
 
 interface IState {
   tab: string;
@@ -21,6 +30,8 @@ interface IState {
   mounted: boolean;
   navTop: number;
   externalProviderCompleted: boolean;
+  showLanguageDropdown: boolean;
+  locale: ILocale;
 }
 
 
@@ -34,7 +45,11 @@ const crumb = (part, partIndex, parts) => {
       const path = ['', ...parts.slice(0, partIndex+1)].join("/");
       return <Link key={path} to={path} >{part}</Link>}
 
-export default class HomePage extends React.Component<IProps, IState> {
+const initLocale = { "value": "en-US", "title": "English (US)" };
+
+const NAMESPACE = "homePage";
+
+class HomePage extends React.Component<IProps, IState> {
 
   state = {
     tab: "find",
@@ -42,10 +57,56 @@ export default class HomePage extends React.Component<IProps, IState> {
     mounted: false,
     navTop: 0,
     externalProviderCompleted: false,
+    showLanguageDropdown: false,
+    locale: initLocale
   };
+
+  getLocale = (value: string) => {
+    return languages.find((language) => language.value === value);
+  }
+
+  setLocale = (locale: ILocale) => {
+    this.setState({ locale });
+    Globals.locale = locale;
+  }
+
+  translate = (key: string) => {
+    const { t, i18n } = this.props;
+    
+    if (i18n.exists(NAMESPACE + ":" + key))
+      return t(key);
+
+    if (homePageTranslation.hasOwnProperty(key)) {
+      return homePageTranslation[key]; // load default translation in case failed to load translation file from server
+    }
+    
+    return key;
+  }
 
   constructor(props) {
     super(props);
+    this.onLanguageBtnClick = this.onLanguageBtnClick.bind(this);
+    this.handleSelectLanguage = this.handleSelectLanguage.bind(this);
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+    const locale = this.getLocale(this.props.i18n.language);
+    if(Globals.locale === undefined && locale !== undefined) {
+      Globals.locale = locale;
+      this.state.locale = locale;
+    }
+  }
+
+  handleLoginSuccess = (user) => { 
+    this.setState({externalProviderCompleted: true});
+    window['publicSession'] = { serviceUser: user, locale: this.state.locale };
+    Globals.reset(); 
+    Globals.init({public: window['publicSession']}); 
+    this.forceUpdate();
+  }
+
+  handleSelectLanguage = (locale: ILocale) => {
+    this.setLocale(locale);
+    this.onLanguageBtnClick();
+    this.props.i18n.changeLanguage(locale.value);
   }
 
   componentDidMount() {
@@ -60,7 +121,6 @@ export default class HomePage extends React.Component<IProps, IState> {
       e.preventDefault();
 
       await AccountService.logout();
-
       this.forceUpdate();
       this.setState({externalProviderCompleted: false,})
   }
@@ -163,15 +223,43 @@ handleUpdateCompleted = () => {
     this.setState({externalProviderCompleted: true,})
 }
 
+isClickOutside = (event, element) => {
+  const { clientX, clientY } = event;
+  const rect = element.getBoundingClientRect();
+  return (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom);
+}
+
+onLanguageBtnClick = () => {
+  const showLanguageDropdown = !this.state.showLanguageDropdown;
+  this.setState({ showLanguageDropdown });
+
+  if (showLanguageDropdown) {
+    const onDown = e => {
+      const languageDropdown = document.getElementById("language-dropdown");
+      const languageBtn = document.getElementById("language-btn");
+      if (this.isClickOutside(e, languageDropdown) && this.isClickOutside(e, languageBtn)) {
+        this.setState({ showLanguageDropdown: false });
+        document.removeEventListener("mouseup", onDown);
+      }
+    };
+  
+    document.addEventListener("mouseup", onDown);
+  }
+}
+
   render() {
+    if (Globals.locale == null)
+      return null;
+
     const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
 
     console.log('user ', Globals.serviceUser);
+    const { t } = this.props;
 
     return (
       <div>
         <Helmet>
-          <title>Draft website thiết kế mọi thứ</title>
+          <title>{this.translate("title-website")}</title>
         </Helmet>
         <div
         style={{
@@ -240,8 +328,10 @@ handleUpdateCompleted = () => {
     fontSize: '16px',
     padding: '10px',
     position: 'relative',
+    display: 'flex',
+    alignItems: 'center'
 }}>
-    {!loggedIn ? <div style={{display: 'flex',}}>
+    {!loggedIn ? <div style={{display: 'flex'}}>
         <div 
             style={{
                 borderRight: '1px solid rgb(221, 221, 221)', 
@@ -266,9 +356,9 @@ handleUpdateCompleted = () => {
         }}
         // onClick={() => {location.href='/login';}}
         onClick={this.handleLogin}
-    >Đăng nhập</button></div>
+    >{this.translate("login")}</button></div>
     :
-    <div style={{display: 'flex',}}>
+    <div style={{display: 'flex'}}>
         <div 
             style={{
                 borderRight: '1px solid rgb(221, 221, 221)', 
@@ -298,6 +388,50 @@ handleUpdateCompleted = () => {
         }} src="https://www.google.com/s2/photos/private/AIbEiAIAAABDCOiLwpvLu8CPRCILdmNhcmRfcGhvdG8qKGUxNjQ2YjUwNTQwNTVmNGVlZjdkMTQxNDcxYzhjNzg1YmU4OWRjODQwAQZAjaC_9irsFzfZrYEDu9rc_9V6/s100" />
         </button>
     </div>}
+    <a id="language-btn" onClick={this.onLanguageBtnClick}>
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M3.8 14.25h3.81a21.9 21.9 0 0 1 0-4.5h-3.8a8.5 8.5 0 0 0 0 4.5zm.57 1.5c1 2.04 2.8 3.61 4.98 4.33-.68-1.1-1.2-2.6-1.52-4.33H4.37zm15.83-1.5a8.5 8.5 0 0 0 0-4.5h-3.81a21.9 21.9 0 0 1 0 4.5h3.8zm-.57 1.5h-3.46a12.78 12.78 0 0 1-1.52 4.33 8.53 8.53 0 0 0 4.98-4.33zm-10.5-1.5h5.74a20.12 20.12 0 0 0 0-4.5H9.13a20.12 20.12 0 0 0 0 4.5zm.23 1.5c.56 2.84 1.69 4.75 2.64 4.75.95 0 2.08-1.9 2.64-4.75H9.36zm-4.99-7.5h3.46c.31-1.74.84-3.24 1.52-4.33a8.53 8.53 0 0 0-4.98 4.33zm15.26 0a8.53 8.53 0 0 0-4.98-4.33c.68 1.1 1.2 2.6 1.52 4.33h3.46zm1.64 0h.04v.1a10 10 0 1 1-.04-.1zm-11.91 0h5.28C14.08 5.41 12.95 3.5 12 3.5c-.95 0-2.08 1.9-2.64 4.75z"></path></svg>
+        </span>
+        <span className="language-btn-title">
+            {this.state.locale.title}
+        </span>
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"></path></svg>
+        </span>
+    </a>
+    <div id="language-dropdown" style={{ display: this.state.showLanguageDropdown ? "block" : "none" }}>
+        <div className="search-box-container">
+          <input type="text" className="search-box" />
+        </div>
+        <div className="language-list-container">
+          <ul className="language-list">
+            <li className="language-list-item disabled">
+              <div className="language-list-item-selected">
+                <div className="language-list-item-selected-left">
+                  {this.state.locale.title}
+                </div>
+                <span className="language-list-item-selected-right">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z"></path></svg>
+                </span>
+              </div>
+            </li>
+            <li className="language-list-item disabled">
+              <div className="language-hr-container">
+                <hr className="language-hr" />
+              </div>
+            </li>
+            {languages.filter((language) => language.value !== this.state.locale.value).map( (language) => (
+              <li className="language-list-item" key={uuidv4()} onClick={() => this.handleSelectLanguage(language)}>
+                <a className="language-list-item-non-selected">
+                  <span className="language-list-item-non-selected-content">
+                    {language.title}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+    </div>
     <div id="myProfilePopup"
     className="dropdown-content-font-size"
      style={{
@@ -330,24 +464,10 @@ handleUpdateCompleted = () => {
         }}
         // onClick={() => {location.href='/login';}}
         onClick={this.onClickSignOut}
-    >Đăng xuất</button>
+    >{this.translate("logout")}</button>
     </div>
 </div>
 </div>
-            {/* <div>
-                <a className="language-dropdown">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M3.8 14.25h3.81a21.9 21.9 0 0 1 0-4.5h-3.8a8.5 8.5 0 0 0 0 4.5zm.57 1.5c1 2.04 2.8 3.61 4.98 4.33-.68-1.1-1.2-2.6-1.52-4.33H4.37zm15.83-1.5a8.5 8.5 0 0 0 0-4.5h-3.81a21.9 21.9 0 0 1 0 4.5h3.8zm-.57 1.5h-3.46a12.78 12.78 0 0 1-1.52 4.33 8.53 8.53 0 0 0 4.98-4.33zm-10.5-1.5h5.74a20.12 20.12 0 0 0 0-4.5H9.13a20.12 20.12 0 0 0 0 4.5zm.23 1.5c.56 2.84 1.69 4.75 2.64 4.75.95 0 2.08-1.9 2.64-4.75H9.36zm-4.99-7.5h3.46c.31-1.74.84-3.24 1.52-4.33a8.53 8.53 0 0 0-4.98 4.33zm15.26 0a8.53 8.53 0 0 0-4.98-4.33c.68 1.1 1.2 2.6 1.52 4.33h3.46zm1.64 0h.04v.1a10 10 0 1 1-.04-.1zm-11.91 0h5.28C14.08 5.41 12.95 3.5 12 3.5c-.95 0-2.08 1.9-2.64 4.75z"></path></svg>
-                    </span>
-                    <span>
-                        English (US)
-                    </span>
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"></path></svg>
-                    </span>
-                </a>
-            </div> */}
-        
           </div>
         </div>
         <div
@@ -399,7 +519,7 @@ handleUpdateCompleted = () => {
                 marginBottom: '25px',
                 fontFamily: 'Lobster-Regular',
             }}
-          >Bắt đầu thiết kế</h2>
+          >{this.translate("title-above-search-box")}</h2>
           <div
             id="search-icon"
             style={{
@@ -454,7 +574,7 @@ handleUpdateCompleted = () => {
               <span style={{
                   marginLeft: '5px',
                   fontFamily: 'AvenirNextRoundedPro-Medium',
-              }} className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">Gợi ý</span>
+              }} className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">{this.translate("suggested")}</span>
             </div>
         </li>
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
@@ -462,7 +582,7 @@ handleUpdateCompleted = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/poster');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1 gfcUZM2lrsYeWQPoFQxBj">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/cTgIK8jqHEubjih9549hAw.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Áp phích</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">42 × 59.4 cm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/cTgIK8jqHEubjih9549hAw.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("poster")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">42 × 59.4 cm</span></div>
                     </span>
                   </div>
                 </button>
@@ -471,7 +591,7 @@ handleUpdateCompleted = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/logo');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/eIRfvcnuuEKn2QGfvVGOqQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Logo</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">500 × 500 px</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/eIRfvcnuuEKn2QGfvVGOqQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("logo")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">500 × 500 px</span></div>
                     </span>
                   </div>
                 </button>
@@ -480,7 +600,7 @@ handleUpdateCompleted = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/brochures');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/owdn5oxp2UG8OjFOrxcFQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Tờ gấp (brochures)</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">1920 × 1080 px</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/owdn5oxp2UG8OjFOrxcFQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("brochures")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">1920 × 1080 px</span></div>
                     </span>
                   </div>
                 </button>
@@ -489,7 +609,7 @@ handleUpdateCompleted = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/flyers');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/2RswVAz1kORIR98Y7DdA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Tờ rơi</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">210 × 297 mm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/2RswVAz1kORIR98Y7DdA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("flyer")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">210 × 297 mm</span></div>
                     </span>
                   </div>
                 </button>
@@ -525,7 +645,7 @@ handleUpdateCompleted = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/business-cards');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/kPsZvFiQTEGq3asTsPBNHg.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Danh thiếp</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">8.5 × 5 cm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/kPsZvFiQTEGq3asTsPBNHg.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("business-card")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">8.5 × 5 cm</span></div>
                     </span>
                   </div>
                 </button>
@@ -543,7 +663,7 @@ handleUpdateCompleted = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/postcards');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/JGzOwEpLlkSGGHMaLuGagA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Bưu thiếp</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/JGzOwEpLlkSGGHMaLuGagA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("post-card")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
                     </span>
                   </div>
                 </button>
@@ -552,7 +672,7 @@ handleUpdateCompleted = () => {
             <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
               <div>
                 <button onClick={() => {window.open('/templates/resume');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/xZv5tdDLc0OpQkBnGLJ8ag.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Sơ yếu lý lịch</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
+                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/xZv5tdDLc0OpQkBnGLJ8ag.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("resume")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
                     </span>
                   </div>
                 </button>
@@ -587,7 +707,7 @@ handleUpdateCompleted = () => {
                 textAlign: 'center', 
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: '#f4f4f6',
-            }}>Chọn loại thiết kế mà bạn muốn</h2>
+            }}>{this.translate("create-a-design")}</h2>
           <div
           id="hello-world"
           style={{
@@ -628,7 +748,7 @@ handleUpdateCompleted = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-              MẠNG XÃ HỘI
+              {this.translate("social-network")}
               </button>
         </li>
           <li style={{
@@ -650,7 +770,7 @@ handleUpdateCompleted = () => {
                     fontFamily: 'AvenirNextRoundedPro-Medium',
                     background: 'none',
                 }}>
-                    KHUYẾN MÃI
+                    {this.translate("discount")}
                 </button>
         </li>
           <li style={{
@@ -671,7 +791,7 @@ handleUpdateCompleted = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                VĂN PHÒNG
+                {this.translate("office")}
             </button></li>
           <li style={{
                 height: '100%',
@@ -691,7 +811,7 @@ handleUpdateCompleted = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                WEB
+                {this.translate("web")}
             </button></li>
           <li style={{
                 height: '100%',
@@ -711,7 +831,7 @@ handleUpdateCompleted = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                CÁ NHÂN
+                {this.translate("individual")}
             </button></li>
           <li style={{
                 height: '100%',
@@ -731,7 +851,7 @@ handleUpdateCompleted = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: 'none',
             }}>
-                VIDEO
+                {this.translate("video")}
             </button></li>
           </ul>
           </nav>
@@ -1063,7 +1183,7 @@ handleUpdateCompleted = () => {
       </section>
       </div>
       </div>
-      <LoginPopup handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={(user) => { this.setState({externalProviderCompleted: true}); window['publicSession'] = {serviceUser: user};  Globals.reset(); Globals.init({public: window['publicSession']}); this.forceUpdate();}} />
+      <LoginPopup handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={this.handleLoginSuccess} />
       </div>
     );
   }
@@ -1076,3 +1196,5 @@ var CC = styled.li`
     margin-right: 16px;
     transition: .3s;
 `;
+
+export default withTranslation(NAMESPACE)(HomePage);

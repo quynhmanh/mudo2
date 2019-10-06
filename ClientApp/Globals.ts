@@ -1,6 +1,7 @@
 ﻿import { IServiceUser } from "@Models/IServiceUser";
 import { NSerializeJson } from "nserializejson";
 import { INodeSession } from "@Models/INodeSession";
+import { ILocale } from "@Models/ILocale";
 
 /**
  * Contains global isomorphic session.
@@ -59,10 +60,27 @@ export default class Globals {
     }
 
     public static set serviceUser(serviceUser: IServiceUser) {
-        this.setSession({ public: { serviceUser } });
+        this.setSession({ public: { ...this.getSession().public, serviceUser } });
     }
 
     public static get isAuthenticated(): boolean {
         return this.serviceUser != null;
+    }
+
+    public static get locale(): ILocale {
+        let currentSession = this.getSession();
+        if (currentSession) {
+            let publicSession = currentSession.public;
+            if (publicSession) {
+                return publicSession.locale;
+            } else {
+                throw Error("Globals: public session was not initialized.")
+            }
+        }
+        throw Error("Globals: current session was not initialized.")
+    }
+
+    public static set locale(locale: ILocale) {
+        this.setSession({ public: { ...this.getSession().public, locale }});
     }
 }

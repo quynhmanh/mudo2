@@ -1,7 +1,7 @@
 import "@babel/polyfill";
 import "custom-event-polyfill";
 
-import * as React from 'react';
+import React , { Suspense } from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
@@ -19,6 +19,9 @@ import { isNode } from '@Utils';
 import { IPublicSession } from "@Models/IPublicSession";
 import { IPrivateSession } from "@Models/IPrivateSession";
 import { NSerializeJson } from "nserializejson";
+import './i18n';
+
+const Loader = () => <div style={{ position: "fixed", top: "50%", left: "50%" }}>Loading...</div>;
 
 function setupSession() {
     if (!isNode()) {
@@ -52,9 +55,11 @@ function renderApp() {
     // and injects the app into a DOM element.
     ReactDOM.hydrate(
         <AppContainer>
-            <Provider store={ store }>
-                <ConnectedRouter history={ history } children={ routes } />
-            </Provider>
+            <Suspense fallback={<Loader />}>
+                <Provider store={ store }>
+                    <ConnectedRouter history={ history } children={ routes } />
+                </Provider>
+            </Suspense>
         </AppContainer>,
         document.getElementById('react-app')
     );
