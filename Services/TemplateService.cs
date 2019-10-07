@@ -511,7 +511,7 @@ namespace RCB.TypeScript.Services
                         height = height * 2;
                     }
 
-                    var executablePath = "/usr/bin/chromium-browser";
+                    var executablePath = "/usr/bin/google-chrome-stable";
                     if (HostingEnvironment.IsDevelopment())
                     {
                         executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
