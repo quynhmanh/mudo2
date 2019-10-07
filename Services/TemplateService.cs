@@ -113,7 +113,7 @@ namespace RCB.TypeScript.Services
                         var html = template.Replace("[CANVAS]", canvas[i]);
                         var path = "/app/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
-                        var executablePath = "/usr/bin/chromium-browser";
+                        var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
                             executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
