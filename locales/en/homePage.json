@@ -18,5 +18,10 @@
   "web": "WEB",
   "individual": "INDIVIDUAL",
   "video": "VIDEO",
-  "popular": "Popluar"
+  "popular": "Popluar",
+  "designWithEase": "The easiest way to design",
+  "doNotHaveAccount": "Do not have an account ?",
+  "createAFreeAccount": "Create a free account",
+  "loginWithGoogle": "Login with Google",
+  "loginWithFacebook": "Login with Facebook"
 }

@@ -1222,7 +1222,10 @@ onLanguageBtnClick = () => {
       </section>
       </div>
       </div>
-      <LoginPopup handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={this.handleLoginSuccess} />
+      <LoginPopup
+        locale={this.state.locale}
+        translate={this.translate}
+        handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={this.handleLoginSuccess} />
       </div>
     );
   }

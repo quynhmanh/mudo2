@@ -7,6 +7,8 @@ export interface IProps {
   onLoginSuccess: any;
   externalProviderCompleted: boolean;
   handleUpdateCompleted: any;
+  translate: any;
+  locale: any;
 }
 
 interface IState {}
@@ -238,7 +240,8 @@ class LoginPopup extends PureComponent<IProps, IState> {
                   style={{ color: "white" }}
                   className="subTitle___1IrLT medium___1Yh-x"
                 >
-                  Thiết kế một cách dễ dàng nhất
+                  {/* Thiết kế một cách dễ dàng nhất */}
+                  {this.props.translate("designWithEase")}
                 </p>
                 <div className="imageWrapper___17xac">
                   <img
@@ -250,7 +253,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
               </div>
               <div className="logIn___R_tvz">
                 <p style={{ color: "white" }} class="logInText___xkR-S">
-                  Bạn chưa có tài khoản ?{" "}
+                {this.props.translate("doNotHaveAccount")}
                 </p>
                 <button
                   style={{
@@ -265,7 +268,8 @@ class LoginPopup extends PureComponent<IProps, IState> {
                   data-categ="registrationModal"
                   data-value="goToLoginModal"
                 >
-                  Miễn phí tạo ngay
+                  {/* Miễn phí tạo ngay */}
+                  {this.props.translate("createAFreeAccount")}
                 </button>
               </div>
             </div>
@@ -327,7 +331,8 @@ class LoginPopup extends PureComponent<IProps, IState> {
                     fontSize: "26px"
                   }}
                 >
-                  Đăng nhập
+                  {/* Đăng nhập */}
+                  {this.props.translate("login")}
                 </h1>
                 <button
                   style={{
@@ -361,7 +366,10 @@ class LoginPopup extends PureComponent<IProps, IState> {
                       d="M20 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h8.61v-6.97h-2.34V11.3h2.34v-2c0-2.33 1.42-3.6 3.5-3.6 1 0 1.84.08 2.1.12v2.43h-1.44c-1.13 0-1.35.53-1.35 1.32v1.73h2.69l-.35 2.72h-2.34V21h4.59a1 1 0 0 0 .99-1V4a1 1 0 0 0-1-1z"
                     ></path>
                   </svg>
-                  <span>Đăng nhập với Facebook</span>
+                  <span>
+                    {/* Đăng nhập với Facebook */}
+                    {this.props.translate("loginWithFacebook")}
+                    </span>
                 </button>
                 <button
                   style={{
@@ -407,7 +415,10 @@ class LoginPopup extends PureComponent<IProps, IState> {
                       ></path>
                     </g>
                   </svg>
-                  <span>Đăng nhập với Google</span>
+                  <span>
+                    {/* Đăng nhập với Google */}
+                    {this.props.translate("loginWithGoogle")}
+                    </span>
                 </button>
                 <div
                   style={{ position: "relative", display: "none" }}
