@@ -1729,7 +1729,7 @@ class LeftSide extends Component<IProps, IState> {
                   isLoading={this.state.isLoading}
                   hasMore={this.state.hasMoreImage}
                   onLoadMore={this.loadMore.bind(this, false)}
-                  refId="sentinel"
+                  refId="sentinel-image"
                   marginTop={45}
                 >
                   <div
@@ -1765,7 +1765,7 @@ class LeftSide extends Component<IProps, IState> {
                           .map((item, i) => (
                             <ImagePicker
                               key={i}
-                              id="sentinel"
+                              id="sentinel-image"
                               color="black"
                               src={""}
                               height={imgWidth}
@@ -1784,7 +1784,7 @@ class LeftSide extends Component<IProps, IState> {
                           .map((item, i) => (
                             <ImagePicker
                               key={i}
-                              id="sentinel"
+                              id="sentinel-image"
                               color="black"
                               src={""}
                               height={imgWidth}
@@ -1825,7 +1825,7 @@ class LeftSide extends Component<IProps, IState> {
                           .map((item, i) => (
                             <ImagePicker
                               key={i}
-                              id="sentinel"
+                              id="sentinel-image"
                               color="black"
                               src={""}
                               height={imgWidth}
@@ -1844,7 +1844,7 @@ class LeftSide extends Component<IProps, IState> {
                           .map((item, i) => (
                             <ImagePicker
                               key={i}
-                              id="sentinel"
+                              id="sentinel-image"
                               color="black"
                               src={""}
                               height={imgWidth}
@@ -2082,7 +2082,7 @@ class LeftSide extends Component<IProps, IState> {
                       isLoading={this.state.isTemplateLoading}
                       hasMore={this.state.hasMoreTextTemplate}
                       onLoadMore={this.loadMoreTextTemplate.bind(this, false)}
-                      refId="sentinel"
+                      refId="sentinel-texttemplate"
                       marginTop={0}
                     >
                       <div
@@ -2124,7 +2124,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-texttemplate"
                             color="black"
                             src={""}
                             height={imgWidth}
@@ -2142,7 +2142,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-texttemplate"
                             color="black"
                             src={""}
                             height={imgWidth}
@@ -2186,7 +2186,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-texttemplate"
                             color="black"
                             src={""}
                             height={imgWidth}
@@ -2204,7 +2204,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-texttemplate"
                             color="black"
                             src={""}
                             height={imgWidth}
@@ -2248,7 +2248,7 @@ class LeftSide extends Component<IProps, IState> {
                 hasMore={this.state.hasMoreTemplate}
                 onLoadMore={this.loadMoreTemplate.bind(this, false)}
                 marginTop={45}
-                refId="sentinel"
+                refId="sentinel-template"
               >
                 <div
                   id="image-container-picker"
@@ -2305,7 +2305,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-template"
                             color="black"
                             src={""}
                             height={imgWidth}
@@ -2323,7 +2323,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-template"
                             color="black"
                             src={""}
                             height={imgWidth}
@@ -2386,7 +2386,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-template"
                             color="black"
                             src={""}
                             height={imgWidth}
@@ -2404,7 +2404,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-template"
                             color="black"
                             src={""}
                             height={imgWidth}
@@ -2469,7 +2469,7 @@ class LeftSide extends Component<IProps, IState> {
                 isLoading={this.state.isBackgroundLoading}
                 hasMore={this.state.hasMoreBackgrounds}
                 onLoadMore={this.loadMoreBackground.bind(this, false)}
-                refId="sentinel"
+                refId="sentinel-background"
                 marginTop={0}
               >
                 <div
@@ -2506,7 +2506,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-background"
                             color="black"
                             src={""}
                             height={backgroundWidth}
@@ -2524,7 +2524,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-background"
                             color="black"
                             src={""}
                             height={backgroundWidth}
@@ -2564,7 +2564,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-background"
                             color="black"
                             src={""}
                             height={backgroundWidth}
@@ -2582,7 +2582,7 @@ class LeftSide extends Component<IProps, IState> {
                         .map((item, i) => (
                           <ImagePicker
                             key={i}
-                            id="sentinel"
+                            id="sentinel-background"
                             color="black"
                             src={""}
                             height={backgroundWidth}
@@ -3112,7 +3112,7 @@ class LeftSide extends Component<IProps, IState> {
                 marginTop={45}
                 hasMore={this.state.hasMoreUserUpload}
                 onLoadMore={this.loadmoreUserUpload.bind(this, false)}
-                refId="sentinel"
+                refId="sentinel-userupload"
               >
                 <div
                   style={{
@@ -3146,19 +3146,6 @@ class LeftSide extends Component<IProps, IState> {
                           onPick={(e) => {this.props.imgOnMouseDown(item, e)}}
                           onEdit={this.handleEditmedia.bind(this, item)}
                         />
-                        // <ImagePicker
-                        //   id=""
-                        //   key={key}
-                        //   color={item.color}
-                        //   src={item.representativeThumbnail}
-                        //   height={imgWidth / (item.width / item.height)}
-                        //   defaultHeight={imgWidth}
-                        //   width={imgWidth}
-                        //   className=""
-                        //   onPick={this.imgOnMouseDown.bind(this, item)}
-                        //   onEdit={this.handleEditmedia.bind(this, item)}
-                        //   delay={0}
-                        // />
                       ))}
                       {this.state.hasMoreUserUpload &&
                         Array(1)
@@ -3166,7 +3153,7 @@ class LeftSide extends Component<IProps, IState> {
                           .map((item, i) => (
                             <ImagePicker
                               key={i}
-                              id="sentinel"
+                              id="sentinel-userupload"
                               color="black"
                               src={""}
                               height={imgWidth}
@@ -3184,7 +3171,7 @@ class LeftSide extends Component<IProps, IState> {
                           .map((item, i) => (
                             <ImagePicker
                               key={i}
-                              id="sentinel"
+                              id="sentinel-userupload"
                               color="black"
                               src={""}
                               height={imgWidth}
@@ -3223,7 +3210,7 @@ class LeftSide extends Component<IProps, IState> {
                           .map((item, i) => (
                             <ImagePicker
                               key={i}
-                              id="sentinel"
+                              id="sentinel-userupload"
                               color="black"
                               src={""}
                               height={imgWidth}
@@ -3241,7 +3228,7 @@ class LeftSide extends Component<IProps, IState> {
                           .map((item, i) => (
                             <ImagePicker
                               key={i}
-                              id="sentinel"
+                              id="sentinel-userupload"
                               color="black"
                               src={""}
                               height={imgWidth}
