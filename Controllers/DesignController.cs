@@ -432,12 +432,15 @@ namespace RCB.TypeScript.Controllers
                         var html = template.Replace("[CANVAS]", canvas[i]);
                         var path = "/app/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
-                        var executablePath = "/usr/bin/chromium-browser";
+                        var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
-                            executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
+                            //executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
+                            executablePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
                             path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
+                            //path = "/Users/llaugusty/Documents/quynh-ext";
                             extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
+                            //extensionId = "hniebljpgcogalllopnjokppmgbhaden";
                         }
 
                         List<string> arguments = new List<string>()
@@ -446,7 +449,8 @@ namespace RCB.TypeScript.Controllers
                             "--no-sandbox",
                             "--disable-setuid-sandbox",
                             "--disable-dev-shm-usage",
-                            $"--load-extension={path}"
+                            $"--load-extension={path}",
+                            //@"--load-extension=/Users/llaugusty/Documents/quynh-ext",
                         };
 
                         if (HostingEnvironment.IsDevelopment())
