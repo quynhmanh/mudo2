@@ -13,4 +13,8 @@
     "smallFileSizeImage": "Small file size image",
     "pdfStandardDesc": "Small file size, multi-page document",
     "pdfPrint": "High quality, multi-page document",
+    "addAHeading": "Add a heading",
+    "addASubHeading": "Add a subheading",
+    "addABodyText": "Add a little bit of body text",
+    "clickTextToAddToPage": "Click text to add to page"
 }

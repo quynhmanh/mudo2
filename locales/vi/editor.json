@@ -13,4 +13,8 @@
     "smallFileSizeImage": "Kích thước tập tin ảnh nhỏ",
     "pdfStandardDesc": "Kích thước tập tin nhỏ, nhiều trang",
     "pdfPrint": "Chất lượng ảnh cao, nhiều trang",
+    "addAHeading": "Thêm tiêu đề",
+    "addASubHeading": "Thêm tiêu đề",
+    "addABodyText": "Thêm đoạn văn",
+    "clickTextToAddToPage": "Nhấn để thêm chữ vào trang"
 }

@@ -1902,7 +1902,10 @@ class LeftSide extends Component<IProps, IState> {
             >
               <div style={{ color: "white" }}>
                 <div style={{ marginBottom: "10px" }}>
-                  <p>Nhấn để thêm chữ vào trang</p>
+                  <p>
+                    {/* Nhấn để thêm chữ vào trang */}
+                    {this.props.translate("clickTextToAddToPage")}
+                  </p>
                   {/* <div
               style={{
                 fontSize: '28px',
@@ -1994,7 +1997,8 @@ class LeftSide extends Component<IProps, IState> {
                       this.props.increaseUpperzIndex();
                     }}
                   >
-                    Thêm tiêu đề
+                    {/* Thêm tiêu đề */}
+                    {this.props.translate("addAHeading")}
                   </div>
                   <div
                     style={{
@@ -2031,7 +2035,8 @@ class LeftSide extends Component<IProps, IState> {
                       this.props.increaseUpperzIndex();
                     }}
                   >
-                    Thêm tiêu đề con
+                    {/* Thêm tiêu đề con */}
+                    {this.props.translate("addASubHeading")}
                   </div>
                   <div
                     style={{
@@ -2070,7 +2075,8 @@ class LeftSide extends Component<IProps, IState> {
                       this.props.increaseUpperzIndex();
                     }}
                   >
-                    Thêm đoạn văn
+                    {/* Thêm đoạn văn */}
+                    {this.props.translate("addABodyText")}
                   </div>
                 </div>
                 {
