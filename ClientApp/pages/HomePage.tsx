@@ -60,7 +60,7 @@ class HomePage extends React.Component<IProps, IState> {
   };
 
   getLocale = (value: string) => {
-    return languages.find((language) => language.value === value);
+    return languages.find((language) => language.value === value || language.value.startsWith(value));
   }
 
   setLocale = (locale: ILocale) => {
@@ -83,14 +83,13 @@ class HomePage extends React.Component<IProps, IState> {
 
   constructor(props) {
     super(props);
-    console.log('props i18n', props.i18n.exists);
     this.onLanguageBtnClick = this.onLanguageBtnClick.bind(this);
     this.handleSelectLanguage = this.handleSelectLanguage.bind(this);
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
     const locale = this.getLocale(this.props.i18n.language);
-    if(Globals.locale === undefined && locale !== undefined) {
-      Globals.locale = locale;
-      this.state.locale = locale;
+    if(Globals.locale === undefined) {
+      Globals.locale = locale === undefined ? initLocale : locale;
+      this.state.locale = locale === undefined ? initLocale : locale;
     }
   }
 
@@ -247,7 +246,7 @@ onLanguageBtnClick = () => {
 }
 
   render() {
-    if (Globals.locale == null)
+    if (this.props.i18n.language === undefined)
       return null;
 
     const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
