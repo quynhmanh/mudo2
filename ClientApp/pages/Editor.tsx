@@ -4357,6 +4357,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     <span>Lưu video</span>
                   </button>
                 )}
+              {this.props.tReady &&
               <button
                 id="download-btn"
                 onClick={this.handleDownloadList}
@@ -4390,8 +4391,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 >
                   <path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0" />
                 </svg>
-              </button>
-              <div
+              </button>}
+              {this.props.tReady && <div
                 id="myDownloadList"
                 style={{
                   right: "5px",
@@ -4608,7 +4609,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                               fontSize: "12px"
                             }}
                           >
-                            Ảnh chất lượng cao
+                            {/* Ảnh chất lượng cao */}
+                            {this.translate("highQualityImage")}
                           </span>
                           </div>
                         </button>
@@ -4703,7 +4705,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                               fontSize: "12px"
                             }}
                           >
-                            Kích thước tập tin ảnh nhỏ
+                            {/* Kích thước tập tin ảnh nhỏ */}
+                            {this.translate("smallFileSizeImage")}
                           </span>
                           </div>
                         </button>
@@ -4797,7 +4800,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                               fontSize: "12px"
                             }}
                           >
-                            Kích thước tập tin nhỏ, nhiều trang
+                            {/* Kích thước tập tin nhỏ, nhiều trang */}
+                            {this.translate("pdfStandardDesc")}
                           </span>
                           </div>
                         </button>
@@ -4890,7 +4894,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                               fontSize: "12px"
                             }}
                           >
-                            Chất lượng ảnh cao, nhiều trang
+                            {/* Chất lượng ảnh cao, nhiều trang */}
+                            {this.translate("pdfPrint")}
                           </span>
                           </div>
                         </button>
@@ -4981,7 +4986,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div>}
               {Globals.serviceUser &&
                 Globals.serviceUser.username &&
                 Globals.serviceUser.username === adminEmail && (

@@ -9,4 +9,8 @@
     "video": "Video",
     "fit": "Fit",
     "design": "Design",
+    "highQualityImage": "High quality image",
+    "smallFileSizeImage": "Small file size image",
+    "pdfStandardDesc": "Small file size, multi-page document",
+    "pdfPrint": "High quality, multi-page document",
 }

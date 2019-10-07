@@ -8,5 +8,9 @@
     "upload": "Tải lên",
     "video": "Video",
     "fit": "Vừa",
-    "design": "Thiết kế"
+    "design": "Thiết kế",
+    "highQualityImage": "Ảnh chất lượng cao",
+    "smallFileSizeImage": "Kích thước tập tin ảnh nhỏ",
+    "pdfStandardDesc": "Kích thước tập tin nhỏ, nhiều trang",
+    "pdfPrint": "Chất lượng ảnh cao, nhiều trang",
 }
