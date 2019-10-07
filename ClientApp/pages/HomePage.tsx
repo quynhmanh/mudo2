@@ -356,7 +356,7 @@ onLanguageBtnClick = () => {
         onClick={this.handleLogin}
     >{this.translate("login")}</button></div>
     :
-    <div style={{display: 'flex'}}>
+    <div style={{display: 'flex', position: 'relative',}}>
         <div 
             style={{
                 borderRight: '1px solid rgb(221, 221, 221)', 
@@ -385,6 +385,40 @@ onLanguageBtnClick = () => {
             borderRadius: '50%',
         }} src="https://www.google.com/s2/photos/private/AIbEiAIAAABDCOiLwpvLu8CPRCILdmNhcmRfcGhvdG8qKGUxNjQ2YjUwNTQwNTVmNGVlZjdkMTQxNDcxYzhjNzg1YmU4OWRjODQwAQZAjaC_9irsFzfZrYEDu9rc_9V6/s100" />
         </button>
+        <div id="myProfilePopup"
+    className="dropdown-content-font-size"
+     style={{
+        display: 'none',
+        position: 'absolute',
+        textAlign: 'center',
+        backgroundColor: 'rgb(255, 255, 255)',
+        lineHeight: '2rem',
+        boxShadow: 'rgba(14, 19, 24, 0.02) 0px 0px 0px 1px, rgba(14, 19, 24, 0.15) 0px 2px 8px',
+        background: 'white',
+        padding: '10px 0',
+        zIndex: 999999,
+        left: '15px',
+        top: 'calc(100% + 20px)',
+        width: '100%',
+    }}>
+        <button
+        id="login-btn"
+        style={{
+            height: '30px',
+            lineHeight: '30px',
+            border: 'none',
+            fontSize: '14px',
+            fontFamily: 'AvenirNextRoundedPro',
+            color: 'black',
+            display: 'block',
+            padding: '0 12px',
+            width: '100%',
+            textAlign: 'left',
+        }}
+        // onClick={() => {location.href='/login';}}
+        onClick={this.onClickSignOut}
+    >{this.translate("logout")}</button>
+    </div>
     </div>}
     <div 
             style={{
@@ -437,21 +471,19 @@ onLanguageBtnClick = () => {
           </ul>
         </div>
     </div>
-    <div id="myProfilePopup"
+    {/* <div id="myProfilePopup"
     className="dropdown-content-font-size"
      style={{
         display: 'none',
         position: 'absolute',
-        top: '100%',
         textAlign: 'center',
         backgroundColor: 'rgb(255, 255, 255)',
         lineHeight: '2rem',
         boxShadow: 'rgba(14, 19, 24, 0.02) 0px 0px 0px 1px, rgba(14, 19, 24, 0.15) 0px 2px 8px',
-        width: 'calc(100% - 35px)',
         background: 'white',
         padding: '10px 0',
         zIndex: 999999,
-        right: '15px',
+        left: '15px',
     }}>
         <button
         id="login-btn"
@@ -470,7 +502,7 @@ onLanguageBtnClick = () => {
         // onClick={() => {location.href='/login';}}
         onClick={this.onClickSignOut}
     >{this.translate("logout")}</button>
-    </div>
+    </div> */}
 </div>
 </div>
           </div>

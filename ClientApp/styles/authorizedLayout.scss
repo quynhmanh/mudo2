@@ -89,6 +89,7 @@ h4 {
 
 html {
     overflow-y: scroll !important;
+    -webkit-font-smoothing: antialiased;
 }
 
 .tree-view a {
@@ -337,4 +338,13 @@ html {
 
 #logo:hover {
     filter: brightness(1.2);
+}
+
+.arrowWrapper___rLMf7 {
+    transition: .3s;
+}
+
+.arrowWrapper___rLMf7:hover {
+    background: #56aaff;
+    fill: white;
 }
