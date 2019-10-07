@@ -4207,7 +4207,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
         >
           <Helmet>
-            <title>Thiết kế</title>
+            <title>{this.props.tReady && this.translate("design")}</title>
           </Helmet>
           <div
             id="editor-navbar"
@@ -6363,7 +6363,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                             data-value="scaleToFit"
                             data-subcateg="bottomPanel"
                           >
-                            Fit
+                            {this.translate("fit")}
                           </button>
                         </li>
                       </ul>
