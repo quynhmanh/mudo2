@@ -526,6 +526,14 @@ onLanguageBtnClick = () => {
               borderRadius: '10px',
               backgroundSize: 'cover',
             }}>
+            <div
+            style={{
+              height: '446px',
+              position: 'absolute',
+              width: '100%',  
+              backgroundColor: 'rgb(201, 217, 225)',
+            }}>
+            </div>
             <header 
               style={{
                 position: 'relative',
