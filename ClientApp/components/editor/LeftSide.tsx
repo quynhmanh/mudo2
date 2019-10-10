@@ -1980,8 +1980,7 @@ class LeftSide extends Component<IProps, IState> {
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 42px; font-family: AvenirNextRoundedPro;">Thêm tiêu đề</div>',
+                        innerHTML: `<div class="font" style="text-align: left;font-size: 42px; font-family: AvenirNextRoundedPro;">${this.props.translate("addAHeading")}</div>`,
                         scaleX: 1,
                         scaleY: 1,
                         selected: false,
@@ -2012,15 +2011,14 @@ class LeftSide extends Component<IProps, IState> {
                       var item = {
                         _id: uuidv4(),
                         type: TemplateType.Heading,
-                        width: 200 * 1,
-                        origin_width: 200,
+                        width: 250 * 1,
+                        origin_width: 250,
                         height: 32 * 1,
                         origin_height: 32,
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 24px; font-family: AvenirNextRoundedPro;">Thêm tiêu đề con</div>',
+                        innerHTML: `<div class="font" style="text-align: left;font-size: 24px; font-family: AvenirNextRoundedPro;">${this.props.translate("addASubHeading")}</div>`,
                         scaleX: 1,
                         scaleY: 1,
                         page: this.props.activePageId,
@@ -2060,7 +2058,7 @@ class LeftSide extends Component<IProps, IState> {
                         top: 0,
                         rotateAngle: 0.0,
                         innerHTML:
-                          '<div class="font" style="text-align: left;font-size: 16px; font-family: AvenirNextRoundedPro;">Thêm đoạn văn</div>',
+                          `<div class="font" style="text-align: left;font-size: 16px; font-family: AvenirNextRoundedPro;">${this.props.translate("addABodyText")}</div>`,
                         scaleX: 1,
                         scaleY: 1,
                         page: this.props.activePageId,
