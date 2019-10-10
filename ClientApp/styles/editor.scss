@@ -511,6 +511,7 @@ button:focus {
 ._3o3qNO09RZSy4GD3c_VsI8 {
   display: block;
   width: 150px;
+  box-shadow: 0 4px 12px 0 rgba(14,19,24,.15);
 }
 
 ._1IeZR-KFbU_ixJO0DOAKpv {
@@ -524,7 +525,7 @@ button:focus {
   display: flex;
   justify-content: center;
   height: 100%;
-  overflow: hidden;
+  // overflow: hidden;
   position: relative;
   z-index: -1;
 }
@@ -538,10 +539,6 @@ button:focus {
 
 ._1sza4uX0yqDVxS7xsxMj-L {
   display: flex;
-}
-
-._2lzBIR6ocB6IHyiSQO14y4 {
-  box-shadow: 0 4px 12px 0 rgba(14,19,24,.15);
 }
 
 ._13_0Qr0UHa9ciVx-UoPbt6 {
