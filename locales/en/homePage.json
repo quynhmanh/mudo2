@@ -23,5 +23,11 @@
   "doNotHaveAccount": "Do not have an account ?",
   "createAFreeAccount": "Create a free account",
   "loginWithGoogle": "Login with Google",
-  "loginWithFacebook": "Login with Facebook"
+  "loginWithFacebook": "Login with Facebook",
+  "fitAllSocialMedia": "Fits all social media",
+  "otherSocialMedia": "Other social media",
+  "onlineMarketing": "Online marketing",
+  "socialMedia": "Social media",
+  "presentation": "Presentation",
+  "poster": "Poster",
 }
