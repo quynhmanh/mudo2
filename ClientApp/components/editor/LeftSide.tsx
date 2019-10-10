@@ -1545,7 +1545,7 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('shouldComponentUpdate');
+    // console.log('shouldComponentUpdate');
     if (nextProps.dragging ||
       nextProps.resizing ||
       nextProps.rotating

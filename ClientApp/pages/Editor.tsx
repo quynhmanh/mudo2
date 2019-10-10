@@ -350,7 +350,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   translate = (key: string) => {
     const { t, i18n } = this.props;
-    console.log('i18n ', i18n.exists);
+    // console.log('i18n ', i18n.exists);
     
     if (i18n.exists && i18n.exists(NAMESPACE + ":" + key))
       return t(key);
@@ -1144,12 +1144,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     //   el.style.height = height + "px";
     // }
 
-    var rectalos = document.getElementsByClassName(_id + "rect-alo");
-    for (var i = 0; i < rectalos.length; ++i) {
-      var cur: any = rectalos[i];
-      cur.style.width = width + "px";
-      cur.style.height = height + "px";
-    }
+    // var rectalos = document.getElementsByClassName(_id + "rect-alo");
+    // for (var i = 0; i < rectalos.length; ++i) {
+    //   var cur: any = rectalos[i];
+    //   cur.style.width = width + "px";
+    //   cur.style.height = height + "px";
+    // }
 
     this.setState({ updateRect: self.switching }, () => {
       if (self.switching) {
@@ -1179,6 +1179,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
+    console.log('handleImageResize', this.switching);
     if (this.switching) {
       return;
     }
@@ -1189,6 +1190,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var switching = false;
     var temp = this.handleResize;
     let images = toJS(this.props.images);
+    console.log('images ', images);
+    console.log('_id ', _id);
     images = images.map(image => {
       if (image._id === _id) {
         if (
@@ -1294,6 +1297,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           self.handleResize = () => {};
         }
 
+        console.log('width, height', width, height);
+
         image.posY = top;
         image.posX = left;
         image.imgWidth = width;
@@ -1302,7 +1307,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    this.setState({ images, updateRect: switching }, () => {
+    this.props.images.replace(images);
+
+    this.setState({updateRect: switching }, () => {
       if (switching) {
         self.handleResize = temp;
         // self.setState({updateRect: false});

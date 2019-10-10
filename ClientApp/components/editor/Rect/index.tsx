@@ -276,6 +276,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       const alpha = Math.atan2(deltaY, deltaX);
       const deltaL = getLength(deltaX, deltaY);
       const isShiftKey = e.shiftKey;
+      console.log('this.props.resizingInnerImage', this.props.resizingInnerImage);
       if (!this.props.resizingInnerImage) {
         this.props.onResize(
           deltaL,
@@ -412,6 +413,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   // Resize
   startResize = (e, cursor) => {
+    console.log('startResize ');
     var self = this;
     e.preventDefault();
     e.stopPropagation();
@@ -1331,10 +1333,12 @@ export default class Rect extends PureComponent<IProps, IState> {
                   id="1236"
                   className={_id + "rect-alo"}
                   style={{
-                    width: imgWidth + "px",
-                    height: imgHeight + "px",
+                    width: this.props.imgWidth + "px",
+                    height: this.props.imgHeight + "px",
+                    // width: '1px',
+                    // height: '1px',
                     transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    opacity: 0.7,
+                    opacity: 0.8,
                     outline:
                       cropMode && selected
                         ? `#00d9e1 solid ${outlineWidth - 1}px`
