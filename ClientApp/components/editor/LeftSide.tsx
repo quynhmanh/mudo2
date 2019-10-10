@@ -3057,7 +3057,8 @@ class LeftSide extends Component<IProps, IState> {
                     document.getElementById("image-file").click();
                   }}
                 >
-                  Tải lên một video
+                  {/* Tải lên một video */}
+                  {this.props.translate("uploadAVideo")}
                 </button>
                 <ul
                   style={{
@@ -3267,7 +3268,8 @@ class LeftSide extends Component<IProps, IState> {
                   document.getElementById("image-file").click();
                 }}
               >
-                Tải lên một ảnh
+                {/* Tải lên một ảnh */}
+                {this.props.translate("uploadAnImage")}
               </button>
             </div>
             {/* } */}

@@ -16,5 +16,7 @@
     "addAHeading": "Add a heading",
     "addASubHeading": "Add a subheading",
     "addABodyText": "Add a little bit of body text",
-    "clickTextToAddToPage": "Click text to add to page"
+    "clickTextToAddToPage": "Click text to add to page",
+    "uploadAnImage": "Upload an image",
+     "uploadAVideo": "Upload a video"
 }
