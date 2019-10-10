@@ -35,8 +35,8 @@ export default class ResizableImage extends PureComponent<IProps, IState> {
     rotateAngle: 0,
     rotatable: true,
     zoomable: '',
-    minWidth: 10,
-    minHeight: 10
+    minWidth: 2,
+    minHeight: 2,
   }
 
   handleDrag = (deltaX, deltaY) => {

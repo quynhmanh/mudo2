@@ -98,8 +98,8 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     rotateAngle: 0,
     rotatable: true,
     zoomable: "",
-    minWidth: 10,
-    minHeight: 10
+    minWidth: 2,
+    minHeight: 2
   };
 
   handleRotate = (angle, startAngle) => {
