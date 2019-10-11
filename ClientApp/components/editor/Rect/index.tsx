@@ -282,7 +282,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       const alpha = Math.atan2(deltaY, deltaX);
       const deltaL = getLength(deltaX, deltaY);
       const isShiftKey = e.shiftKey;
-      console.log('this.props.resizingInnerImage', this.props.resizingInnerImage);
       if (!this.props.resizingInnerImage) {
         this.props.onResize(
           deltaL,
@@ -611,7 +610,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     // e.preventDefault();
     var self = this;
     let { clientX: startX, clientY: startY } = e;
-    var { posX, posY } = this.props;
+    var { posX, posY, scale } = this.props;
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
     this._isMouseDown = true;
     const onMove = e => {
@@ -619,15 +618,15 @@ export default class Rect extends PureComponent<IProps, IState> {
       if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
       e.stopImmediatePropagation();
       const { clientX, clientY } = e;
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
+      const deltaX = (clientX - startX) / scale;
+      const deltaY = (clientY - startY) / scale;
       var newPosX = posX + deltaX;
       var newPosY = posY + deltaY;
       this.props.handleImageDrag(newPosX, newPosY);
     };
     const onUp = e => {
       e.preventDefault();
-      this.props.onDragEnd && this.props.onDragEnd(e, this.props._id);
+      this.props.onDragEnd && this.props.onDragEnd();
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseup", onUp);
     };
@@ -1345,10 +1344,10 @@ export default class Rect extends PureComponent<IProps, IState> {
                     // width: '1px',
                     // height: '1px',
                     transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    opacity: 0.8,
+                    opacity: 0.5,
                     outline:
                       cropMode && selected
-                        ? `#00d9e1 solid ${outlineWidth - 1}px`
+                        ? `#00d9e1 solid ${2 / scale}px`
                         : null,
                     transformOrigin: "0 0"
                   }}

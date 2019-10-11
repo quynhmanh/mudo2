@@ -858,7 +858,6 @@ class LeftSide extends Component<IProps, IState> {
     this.loadMoreTemplate.bind(this)(true, this.props.subtype);
     this.loadmoreUserUpload.bind(this)(true);
     this.loadMoreVideo.bind(this)(true);
-    console.log("props", this.props);
 
     this.forceUpdate();
   }
@@ -885,7 +884,6 @@ class LeftSide extends Component<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
-          console.log('loadMoreVideo ', url ,res);
           this.setState(state => ({
             videos: [...state.videos, ...res.value.key],
             hasMoreVideos: res.value.value > state.videos.length + res.value.key.length,
@@ -898,7 +896,6 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   handleRemoveAllMedia = () => {
-    console.log("handleRemoveAllMedia");
     var model;
     if (
       this.props.selectedTab === SidebarTab.Image ||
@@ -913,7 +910,6 @@ class LeftSide extends Component<IProps, IState> {
     }
     const url = `/api/${model}/RemoveAll`;
 
-    console.log("url   ", url);
     fetch(url);
   };
 
@@ -934,7 +930,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   uploadVideo = () => {
-    console.log("uploadVideo");
     var self = this;
     ``;
     var fileUploader = document.getElementById(
@@ -943,7 +938,6 @@ class LeftSide extends Component<IProps, IState> {
     var file = fileUploader.files[0];
     var fr = new FileReader();
     fr.readAsDataURL(file);
-    console.log('file.name ', file.name);
     fr.onload = () => {
       var url = `/api/Media/AddVideo`;
       axios.post(url, {
@@ -956,7 +950,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   uploadImage = (type, removeBackground, e) => {
-    console.log("uploadImage ", type);
     var self = this;
     ``;
     var fileUploader = document.getElementById(
@@ -971,8 +964,6 @@ class LeftSide extends Component<IProps, IState> {
         url = `/api/Media/Add2`;
       }
       var i = new Image();
-
-      console.log("url   ", type, url);
 
       self.setState({
         userUpload1: [{ representative: fr.result }, ...self.state.userUpload1]
@@ -1001,7 +992,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   loadMore = (initialLoad: Boolean) => {
-    console.log("loadMore 2222 ");
     let pageId;
     let count;
     if (initialLoad) {
@@ -1017,7 +1007,6 @@ class LeftSide extends Component<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
-          console.log("loadMore res ", res);
           var result = res.value.key;
           var currentItemsHeight = this.state.currentItemsHeight;
           var currentItems2Height = this.state.currentItems2Height;
@@ -1075,7 +1064,6 @@ class LeftSide extends Component<IProps, IState> {
     var imgRatio = rec2.width / rec2.height;
     var width = rectWidth;
     var height = rectWidth / imgRatio;
-    console.log("width height", width, height);
     if (height < rectHeight) {
       height = rectHeight;
       width = imgRatio * height;
@@ -1127,7 +1115,6 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   templateOnMouseDown(id, e) {
-    console.log("templateOnMouseDown");
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);

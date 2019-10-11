@@ -524,8 +524,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           //   return img;
           // })
 
-          console.log('images ', images);
-          console.log('res.data.value.pages ', res.data.value.pages);
 
           this.props.images.replace(images);
           this.props.fonts.replace(image.value.fontList);
@@ -1179,7 +1177,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log('handleImageResize', this.switching);
     if (this.switching) {
       return;
     }
@@ -1190,8 +1187,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var switching = false;
     var temp = this.handleResize;
     let images = toJS(this.props.images);
-    console.log('images ', images);
-    console.log('_id ', _id);
     images = images.map(image => {
       if (image._id === _id) {
         if (
@@ -1376,7 +1371,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
-    console.log('handleDragStart ');
     const { scale } = this.state;
     this.canvasRect = getBoundingClientRect("canvas");
     var deltaX, deltaY;
@@ -1386,9 +1380,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         deltaY = e.clientY - this.canvasRect.top - image.top * scale;
       }
     });
-
-    console.log("deltaX", deltaX);
-    console.log("deltaY", deltaY);
 
     var resizers = document.getElementsByClassName("resizable-handler-container");
     for (var i = 0; i < resizers.length; ++i) {
@@ -1935,6 +1926,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
+    if (this.state.cropMode) {
+      return;
+    }
     if (this.state.idObjectSelected && img._id !== this.state.idObjectSelected) {
       document.getElementById(this.state.idObjectSelected + "_1").style.outline = null;
     }
@@ -3306,8 +3300,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
       return img;
     });
-
-    console.log('images ', images);
 
     this.props.images.replace(images);
     this.props.increaseUpperzIndex();
