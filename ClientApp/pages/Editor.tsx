@@ -1424,7 +1424,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     });
 
     document.getElementById(_id + "1236").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
-    document.getElementById(_id + "1234").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
+    // document.getElementById(_id + "1234").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
+    document.getElementById(_id + "1235").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
 
     this.props.images.replace(images);
 
