@@ -5312,7 +5312,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       {!this.state.cropMode && (
                         <button
                           style={{
-                            boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                            // boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
                             height: "26px",
                             top: 0
                           }}
