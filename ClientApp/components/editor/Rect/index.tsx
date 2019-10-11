@@ -1279,7 +1279,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             >
               {showImage && (
                 <img
-                  id="1235"
+                  id={_id + "1235"}
                   className={_id + "rect-alo"}
                   style={{
                     width: imgWidth + "px",
@@ -1334,7 +1334,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 />
               )}
             </div>
-            <div
+            {/* <div
               className={_id + "rect-alo"}
               style={{
                 width: width / (src ? 1 : scaleX) + "px",
@@ -1365,7 +1365,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   src={src}
                 />
               )}
-            </div>
+            </div> */}
           </div>
         )}
         {src && objectType === 9 && showImage && (
