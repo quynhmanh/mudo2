@@ -1441,6 +1441,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = (_id, newPosX, newPosY) => {
+    console.log('handleImageDrag', arguments);
     let images = toJS(this.props.images);
     images = images.map(img => {
       if (img._id === _id) {
@@ -1460,7 +1461,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return img;
     });
 
-    this.setState({ images });
+    document.getElementById(_id + "1236").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
+    document.getElementById(_id + "1234").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
+
+    this.props.images.replace(images);
+
+    // this.setState({ images });
   };
 
   handleDrag = (_id, clientX, clientY): any => {

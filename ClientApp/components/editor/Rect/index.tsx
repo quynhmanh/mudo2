@@ -143,6 +143,12 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   // Drag
   startDrag = e => {
+    if (this.props.cropMode) {
+      this.handleImageDrag(e);
+      return;
+    }
+    // return;
+    console.log('e e ', e.target);
     console.log('startDrag ');
     // e.preventDefault();
     let { clientX: startX, clientY: startY } = e;
@@ -621,6 +627,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     };
     const onUp = e => {
       e.preventDefault();
+      this.props.onDragEnd && this.props.onDragEnd(e, this.props._id);
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseup", onUp);
     };
@@ -1330,7 +1337,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             >
               {!showImage && cropMode && selected && (
                 <img
-                  id="1236"
+                  id={_id + "1236"}
                   className={_id + "rect-alo"}
                   style={{
                     width: this.props.imgWidth + "px",
@@ -1365,7 +1372,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               {!showImage && cropMode && (
                 <img
                   className={_id + "rect-alo"}
-                  id="1234"
+                  id={_id+"1234"}
                   style={{
                     width: imgWidth + "px",
                     height: imgHeight + "px",
