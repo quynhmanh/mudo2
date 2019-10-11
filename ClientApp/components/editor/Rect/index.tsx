@@ -699,6 +699,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         resizing={resizing}
         rotating={rotating}
         outlineWidth={outlineWidth2}
+        cropMode={cropMode}
       >
         {!cropMode && rotatable && showController && objectType !== 6 && (
           <div

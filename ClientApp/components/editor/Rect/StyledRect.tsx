@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export default styled.div`
   :hover {
-    outline: ${props => props.resizing || props.dragging || props.rotating ? 'none;' : '#00d9e1 solid ' + props.outlineWidth + 'px;'}
+    outline: ${props => props.resizing || props.dragging || props.rotating || props.cropMode ? 'none;' : '#00d9e1 solid ' + props.outlineWidth + 'px;'}
   }
   position: absolute;
   img {

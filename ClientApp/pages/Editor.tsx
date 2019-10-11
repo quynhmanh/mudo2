@@ -1343,6 +1343,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
+    if (this.state.cropMode) {
+      return;
+    }
     const { scale } = this.state;
     this.canvasRect = getBoundingClientRect("canvas");
     var deltaX, deltaY;
@@ -1861,6 +1864,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   doNoObjectSelected = () => {
+    console.log('doNoObjectSelected');
     if (!this.state.rotating && !this.state.resizing) {
       let images = this.props.images.map(image => {
         image.selected = false;
@@ -1873,6 +1877,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
 
       this.setState({
+        cropMode: false,
         selectedTab,
         images,
         idObjectSelected: null,
@@ -1897,6 +1902,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
+    console.log('handleImageSelected');
     if (this.state.cropMode) {
       return;
     }
@@ -6034,7 +6040,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 id="screen-container-parent"
                 onClick={e => {
                   if (
-                    !cropMode &&
+                    // !cropMode &&
                     (e.target as Element).id === "screen-container-parent"
                   ) {
                     this.doNoObjectSelected();
