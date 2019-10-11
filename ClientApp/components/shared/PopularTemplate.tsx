@@ -27,7 +27,6 @@ class Popup extends PureComponent<IProps, IState> {
     }
 
     handleScroll = () => {
-        console.log('handleCSroll');
         this.setState({yLocation: this.test.scrollLeft});
 
         if (this.test.offsetWidth + this.test.scrollLeft >= this.test.scrollWidth) {

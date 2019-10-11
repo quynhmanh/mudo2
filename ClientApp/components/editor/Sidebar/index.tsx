@@ -93,7 +93,6 @@ export default class TopMenu extends PureComponent<IProps, IState> {
       >
         { 
             mapEnum(SidebarTab, (i, sidebarName, sideBarIcon, prevTab, currentTab, nextTab) => {
-                console.log('sidebarName ', sidebarName);
                 return <Selector 
                     key={i}
                     content={this.props.tReady ? this.props.translate(sidebarName) : ""}

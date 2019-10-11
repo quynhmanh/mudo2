@@ -71,8 +71,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
   componentDidMount() {
     const img = this.image;
-    console.log("img ", img);
-    console.log("img.readyState ", img.readyState);
     //   img.pause();
     if (img && img.readyState == 4) {
       this.handleImageLoaded();
@@ -82,7 +80,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
   image = null;
 
   handleImageLoaded() {
-    console.log("handleImageLoaded");
     const img = this.image;
     img.pause();
 
@@ -96,9 +93,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
   render() {
     let { loaded } = this.state;
-    console.log("loaded", loaded);
-    // loaded = true;
-    // loaded = Boolean(Math.round(Math.random() % 2));
     return (
       <Container
         style={{
@@ -172,7 +166,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
           id="video1"
           loop={true}
           muted={true}
-          onEnded={(e) => {console.log('onEnded');this.image.play();}}
+          onEnded={(e) => {this.image.play();}}
           ref={i => (this.image = i)}
           className={this.props.className}
           style={
@@ -186,11 +180,9 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
               : { display: "none" }
           }
           onLoadStart={e => {
-              console.log('onLoadStart');
               this.handleImageLoaded();
           }}
           onLoadedMetadata={e => {
-            console.log("onLoad video picker");
             // this.image.play();
             // this.setState({loaded: true})
             // this.handleImageLoaded();
@@ -201,11 +193,9 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
           }}
           onLoadedData={e => {
               this.image.pause();
-            console.log("onLoadEnd");
             // this.handleImageLoaded();
           }}
           onError={e => {
-            console.log("onerror");
           }}
           src={this.props.src}
           onMouseDown={this.props.onPick}

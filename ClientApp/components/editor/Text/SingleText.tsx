@@ -86,14 +86,12 @@ endEditing() {
   }
 
   onMouseDown() {
-    console.log('onMouseDown');
     const { handleChildIdSelected, onFontSizeChange, _id, scaleY, parentScaleX, parentScaleY, handleFontColorChange, handleFontFaceChange } = this.props;
     var self = this;
     setTimeout(() => {
       var res;
       var color;
       var el = document.getElementById(_id).getElementsByClassName("font")[0];
-      console.log('_id ', el, _id);
       const size = window.getComputedStyle(el, null).getPropertyValue('font-size');
       color = window.getComputedStyle(el, null).getPropertyValue('color');
       var fontFace = window.getComputedStyle(el, null).getPropertyValue('font-family');
@@ -102,8 +100,6 @@ endEditing() {
       handleFontColorChange(color);
       handleFontFaceChange(fontFace);
       handleChildIdSelected(_id);
-
-      console.log('ress ', res, scaleY, self.props.scaleY, parentScaleY);
 
       document.getElementById("fontSizeButton").innerText = `${Math.round(res * 10) / 10}`;
     }, 50);

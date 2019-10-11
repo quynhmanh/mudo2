@@ -71,8 +71,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
     componentDidMount() {
       const img = this.image;
-      console.log('img ', img);
-      console.log('img.readyState ', img.readyState);
 
       if (img && img.readyState == 4) {
           this.handleImageLoaded();
@@ -94,7 +92,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
       render() {
         let { loaded } = this.state;
-        console.log('loaded', loaded);
         // loaded = true;
         // loaded = Boolean(Math.round(Math.random() % 2));
         return (
@@ -142,10 +139,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 } : {display: 'none'}}
                 
                 onLoadedMetadata={(e) => {
-                    console.log('onLoad video picker');
-                        // this.image.play();
-                        // this.setState({loaded: true})
-                        // this.handleImageLoaded();
                     }
                 }
 
@@ -155,13 +148,10 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 }
 
                 onLoadedData={(e) => {
-                        console.log('onLoadEnd');
-                        // this.handleImageLoaded();
                     }
                 }
 
                 onError={(e) => {
-                    console.log('onerror');
                     }
                 }
 

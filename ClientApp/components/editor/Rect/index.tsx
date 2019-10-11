@@ -148,8 +148,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       return;
     }
     // return;
-    console.log('e e ', e.target);
-    console.log('startDrag ');
     // e.preventDefault();
     let { clientX: startX, clientY: startY } = e;
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
@@ -170,7 +168,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       }
     };
     const onUp = e => {
-      console.log('onUPPPPP');
       e.preventDefault();
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseup", onUp);
@@ -418,7 +415,6 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   // Resize
   startResize = (e, cursor) => {
-    console.log('startResize ');
     var self = this;
     e.preventDefault();
     e.stopPropagation();
@@ -435,7 +431,6 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     var res;
     var size;
-    console.log('thjis.props.objectType ', this.props.objectType);
     if (this.props.objectType !== 4 && this.props.objectType !== 9) {
       var selectionScaleY = 1;
       if (self.state && self.state.selectionScaleY) {
@@ -448,20 +443,14 @@ export default class Rect extends PureComponent<IProps, IState> {
         ).scaleY;
       }
 
-      console.log("selectionScaleY", selectionScaleY);
 
       var a = document.getSelection();
       if (a && a.type === "Range") {
       } else {
         var id = this.props.childId ? this.props.childId : this.props._id;
         var el = document.getElementById(id).getElementsByClassName("font")[0];
-        console.log(
-          "document.getElementById(id) ",
-          document.getElementById(id)
-        );
         var sel = window.getSelection();
         var range = document.createRange();
-        console.log("el id", el, id);
         range.selectNodeContents(el);
         sel.removeAllRanges();
         sel.addRange(range);
@@ -513,7 +502,6 @@ export default class Rect extends PureComponent<IProps, IState> {
           parseInt(size.substring(0, size.length - 2)) *
           selectionScaleY *
           scaleY;
-        console.log("fontSize ", fontSize, this.props.childId);
         document.getElementById("fontSizeButton").innerText = `${Math.round(
           fontSize * 10
         ) / 10}`;
@@ -547,12 +535,10 @@ export default class Rect extends PureComponent<IProps, IState> {
   endEditing = e => {};
 
   startEditing = selectionScaleY => {
-    console.log("selectionScaleY ", selectionScaleY);
     this.setState({ selectionScaleY: 2 });
   };
 
   onMouseDown = () => {
-    console.log("onMouseDown");
     var self = this;
     var size;
     var fontFace;
@@ -570,10 +556,6 @@ export default class Rect extends PureComponent<IProps, IState> {
         var el = document
           .getElementById(self.props._id)
           .getElementsByClassName("font")[0];
-        // console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id));
-        // console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id).getElementById("hihi3"));
-        // console.log('document.getElementById(self.props._id) ', document.getElementById(self.props._id).getElementsByClassName("font"));
-        console.log("ellll ", self.props._id, el);
         var sel = window.getSelection();
         var range = document.createRange();
         range.selectNodeContents(el);
@@ -589,9 +571,6 @@ export default class Rect extends PureComponent<IProps, IState> {
         sel.removeAllRanges();
       }
 
-      console.log("fontFace ", fontFace);
-      console.log("fontColor ", fontColor);
-
       this.props.handleFontFaceChange(fontFace);
       this.props.handleFontColorChange(fontColor);
 
@@ -606,8 +585,6 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = e => {
-    console.log('handleImageDrag');
-    // e.preventDefault();
     var self = this;
     let { clientX: startX, clientY: startY } = e;
     var { posX, posY, scale } = this.props;
@@ -873,7 +850,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                       onMouseDown={this.startEditing.bind(this)}
                       outlineWidth={outlineWidth}
                       onFontSizeChange={(fontSize, scaleY) => {
-                        console.log("onFontSizeChange");
                         onFontSizeChange(fontSize * this.props.scaleY);
                         this.startEditing(scaleY);
                       }}
@@ -950,7 +926,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                       onMouseDown={this.startEditing.bind(this)}
                       outlineWidth={outlineWidth}
                       onFontSizeChange={(fontSize, scaleY) => {
-                        console.log("onFontSizeChange");
                         onFontSizeChange(fontSize * this.props.scaleY);
                         this.startEditing(scaleY);
                       }}

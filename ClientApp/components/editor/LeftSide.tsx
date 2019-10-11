@@ -1212,12 +1212,10 @@ class LeftSide extends Component<IProps, IState> {
       return;
     }
 
-    console.log("loadmoretemplate url ", url, subtype, this.props.subtype);
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
-          console.log("loadmoretemplate res", res);
           var result = res.value.key;
           var currentTemplatesHeight = this.state.currentTemplatesHeight;
           var currentTemplate2sHeight = this.state.currentTemplate2sHeight;
@@ -1532,7 +1530,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    // console.log('shouldComponentUpdate');
     if (nextProps.dragging ||
       nextProps.resizing ||
       nextProps.rotating

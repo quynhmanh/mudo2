@@ -134,8 +134,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     cursor,
     objectType,
     e,
-    backgroundColor,
-    fontSize
   ) => {
     if (!this.props.onResize) return;
     const {
@@ -170,9 +168,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       minWidth,
       minHeight
     );
-
-    // console.log('width newWidth', width, rect.width, fontSize);
-    // document.getElementById("fontSizeButton").innerText = `${fontSize * rect.height / height}px`;
 
     this.props.onResize(
       centerToTL({ centerX, centerY, width, height, rotateAngle }),

@@ -963,7 +963,6 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
     self.setState({isLoading: true,})
     axios.get(url).
       then(res => {
-          console.log('res ', res);
             var currentHeight = this.state.height;
             var currentHeight2 = this.state.height2;
             var result = res.data.value.documents;

@@ -60,8 +60,6 @@ class Images {
       return image.page !== this.activePageId;
     });
 
-    console.log('applyTemplate ', this.activePageId, images);
-
     images = [...images, ...template];
     this.images.replace(images);
   }

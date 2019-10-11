@@ -339,8 +339,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     this.handleResponse = this.handleResponse.bind(this);
     this.handleAddOrder = this.handleAddOrder.bind(this);
     this.externalPaymentCompleted = this.externalPaymentCompleted.bind(this);
-
-    console.log('props i18n', props.i18n.exists);
   }
 
   $app = null;
@@ -350,7 +348,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   translate = (key: string) => {
     const { t, i18n } = this.props;
-    // console.log('i18n ', i18n.exists);
     
     if (i18n.exists && i18n.exists(NAMESPACE + ":" + key))
       return t(key);
@@ -363,8 +360,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   }
 
   async componentDidMount() {
-    console.log("this props", this.props);
-
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
@@ -459,11 +454,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       await axios
         .get(url)
         .then(res => {
-          console.log('template res', res);
           if (res.data.errors.length > 0) {
             throw new Error(res.data.errors.join("\n"));
           }
-          console.log("resss ", res);
           var image = res.data;
           var templateType = image.value.type;
           var mode;
@@ -478,8 +471,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           } else if (templateType == TemplateType.TextTemplate) {
             mode = Mode.EditTextTemplate;
           }
-
-          console.log("mode ", mode);
 
           var document = JSON.parse(image.value.document);
           var scaleX = (width - 100) / document.width;
@@ -518,12 +509,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           }
 
           let images = document.document_object;
-          // console.log('images ', images);
-          // images = images.map(img => {
-          //   img.page = self.props.store.activePageId;
-          //   return img;
-          // })
-
 
           this.props.images.replace(images);
           this.props.fonts.replace(image.value.fontList);
@@ -557,7 +542,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           this.props.store.pages.replace(res.data.value.pages);
         })
         .catch(e => {
-          console.log("Unexpected error occured: e", e);
         });
     } else {
       self.setState({
@@ -703,8 +687,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           document2.left = (rec2.left - rec.left) /scale;
           document2.top = (rec2.top - rectTop) /scale;
 
-          console.log("docuemnt ", document2);
-
           // let images = [...this.props.images, document2];
 
           if (doc.fontList) {
@@ -757,14 +739,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   }
 
   selectFont = (id, e) => {
-    console.log("selectFont Editor");
     this.setState({ fontId: id });
 
     var fontsList = toJS(this.props.fontsList);
     var font = fontsList.find(font => font.id === id);
-
-    console.log("font ", id, font);
-    console.log("fontList ", fontsList);
 
     var a = document.getSelection();
     if (a && a.type === "Range") {
@@ -1292,8 +1270,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           self.handleResize = () => {};
         }
 
-        console.log('width, height', width, height);
-
         image.posY = top;
         image.posX = left;
         image.imgWidth = width;
@@ -1316,7 +1292,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleRotate = (rotateAngle, _id) => {
-    console.log('handleRotate ');
     let images = toJS(this.props.images);
     images = images.map(image => {
       if (image._id === _id) {
@@ -1330,12 +1305,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleRotateStart = () => {
-    console.log('handleRotateStart');
     var resizers = document.getElementsByClassName("resizable-handler-container");
-    console.log('resizers ', resizers);
     for (var i = 0; i < resizers.length; ++i) {
       var cur:any = resizers[i];
-      console.log('cur ', cur);
       cur.style.opacity = 0;
     }
     
@@ -1432,7 +1404,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = (_id, newPosX, newPosY) => {
-    console.log('handleImageDrag', arguments);
     let images = toJS(this.props.images);
     images = images.map(img => {
       if (img._id === _id) {
@@ -1748,7 +1719,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleDragEnd = () => {
-    console.log('handleDragEnd ');
     let {
       staticGuides: { x, y }
     } = this.state;
@@ -1932,15 +1902,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     if (this.state.idObjectSelected && img._id !== this.state.idObjectSelected) {
       document.getElementById(this.state.idObjectSelected + "_1").style.outline = null;
     }
-    console.log('handleImageSelected');
     if (img._id === this.state.idObjectSelected) {
       return;
     }
 
-    console.log("img.backgroundColor ", img.backgroundColor);
-
     if (img.backgroundColor) {
-      console.log("img.backgroundColor 22 ", img.backgroundColor);
       this.setState({
         imgBackgroundColor: img.backgroundColor
       });
@@ -1962,7 +1928,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     document.getElementById("fontSizeButton").innerText = `${Math.round(
       img.fontSize * 10
     ) / 10}`;
-    console.log("img ", img);
 
     this.props.store.idObjectSelected = img._id;
 
@@ -2114,7 +2079,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleRemoveBackground = (mediaId, e) => {
-    console.log("handleRemoveBackground");
     this.setState({
       showImageRemovalBackgroundPopup: true,
       imageIdBackgroundRemoved: mediaId,
@@ -2188,8 +2152,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    console.log("images ", images);
-
     if (mode === Mode.CreateTextTemplate || mode === Mode.EditTextTemplate) {
       var newImages = [];
       for (var i = 0; i < images.length; ++i) {
@@ -2212,14 +2174,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             /rgb\(255, 255, 255\)/g,
             "black"
           );
-
-          console.log("innerHTML ", img.innerHTML);
         }
         return img;
       });
     }
-
-    console.log("images ", images);
 
     await setTimeout(async function() {
       var url;
@@ -2235,9 +2193,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       } else if (mode == Mode.EditTemplate || mode == Mode.EditTextTemplate) {
         url = "/api/Template/Update";
       }
-
-      console.log("mode ", mode);
-      console.log("url ", url);
 
       var type;
       if (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) {
@@ -2304,8 +2259,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           IsVideo: isVideo,
         });
 
-        console.log('save image ', res);
-
         axios
           .post(url, res, {
             headers: {
@@ -2322,7 +2275,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   }
 
   onTextChange(parentIndex, e, key) {
-    console.log("onTextChange ");
     const { scale } = this.state;
     let images = toJS(this.props.images);
     images = images.map(image => {
@@ -2613,7 +2565,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 }
 
   setSelectionColor = (color, e) => {
-    console.log("setSelectionColor ", this.state.typeObjectSelected, color);
     // if (this.props.typeObjectSelected === TemplateType.Latex) {
     var images = this.props.images.map(img => {
       if (img._id === this.state.idObjectSelected) {
@@ -2622,7 +2573,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
       return img;
     });
-    console.log("setSelectionColor 1");
     this.props.images.replace(images);
     e.preventDefault();
     document.execCommand("foreColor", false, color);
@@ -2652,8 +2602,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
 
     let images2 = toJS(this.props.images);
-    console.log("images 4", images2);
-
     function insertAfter(newNode, referenceNode) {
       referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
     }
@@ -2669,7 +2617,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   onSingleTextChange(thisImage, e, childId) {
     // console.log('ToJS', toJS(this.props.images));
-    console.log('onSingleTextChange ', arguments);
     // var els;
     // if (childId){
     //   els = document.getElementById(childId).getElementsByTagName('font');
@@ -2911,7 +2858,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   onClickTransparent = () => {
-    console.log("myTransparent ");
     document.getElementById("myTransparent").classList.toggle("show");
 
     const onDown = e => {
@@ -3161,7 +3107,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   }
 
   normalize(image: any, images: any): any {
-    console.log("normalize ", image, images);
     var result = [];
     var norm = (image, parent) => {
       var res = { ...image };
@@ -3183,7 +3128,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   }
 
   uploadVideo = () => {
-    console.log("uploadVideo");
     var self = this;
     ``;
     var fileUploader = document.getElementById(
@@ -3254,15 +3198,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleFontColorChange = fontColor => {
-    console.log("handleFontColorChange ", fontColor);
     this.setState({ fontColor });
   };
 
   handleFontFamilyChange = fontId => {
-    console.log("fontId ", fontId);
     if (fontId) {
       var font = toJS(this.props.fontsList).find(font => font.id === fontId);
-      console.log("font ", font);
       if (font) {
         this.setState({ fontName: font.representative, fontId });
       }
@@ -3278,7 +3219,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   addAPage = (e, id) => {
-    console.log('addAPage');
     e.preventDefault();
     let pages = toJS(this.props.store.pages);
     var newPageId = uuidv4();
@@ -5636,7 +5576,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                           this.setState({fontSize: scale});
 
                           var t1 = performance.now();
-                          console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
                         }
 
                         const onUp = (e) => {
@@ -6050,11 +5989,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                                 );
                                 var slide = e.pageX - rec1.left;
                                 var scale = (slide / rec1.width) * 100;
-                                console.log("scale ", scale, slide, rec1.width);
                                 scale = Math.max(1, scale);
                                 scale = Math.min(100, scale);
-
-                                console.log("scale ", scale);
 
                                 this.setState({ currentOpacity: scale });
 

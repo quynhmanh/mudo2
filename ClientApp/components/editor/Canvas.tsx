@@ -305,7 +305,6 @@ export default class Canvas extends Component<IProps, IState> {
           <div
             id="alo"
             className={!this.props.preview && "alo"}
-            // onTransitionEnd={() => {console.log('onTransitionEnd')}}
             style={{
               backgroundColor:
                 !this.props.showPopup &&

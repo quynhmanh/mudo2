@@ -57,7 +57,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
       };
 
       rect = svgElement.getBoundingClientRect();
-      console.log("mouseDOwn");
       // bufferSize = document.getElementById("cmbBufferSize").value;
       path = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
       path.setAttribute("fill", "none");
@@ -74,7 +73,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
       updateSvgPath();
 
       svgElement.addEventListener("mousemove", function(e) {
-        console.log("mousemove ");
         if (path) {
           appendToBuffer(getMousePosition(e));
           updateSvgPath();
@@ -82,7 +80,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
       });
 
       cursor.addEventListener("mouseup", function() {
-        console.log("mouseup");
         if (path) {
           path = null;
         }
@@ -90,7 +87,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
     });
 
     svgElement.addEventListener("mousedown", function(e) {
-      console.log("eeee e", e, rect);
       var getMousePosition = function(e) {
         return {
           x: (e.pageX - rect.left) / self.state.scale,
@@ -98,7 +94,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         };
       };
       rect = svgElement.getBoundingClientRect();
-      console.log("mouseDOwn");
       // bufferSize = document.getElementById("cmbBufferSize").value;
       path = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
       path.setAttribute("fill", "none");
@@ -108,7 +103,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
       path.setAttribute("stroke-linecap", "round");
       buffer = [];
       var pt = getMousePosition(e);
-      console.log("point ", pt);
       appendToBuffer(pt);
       strPath = +pt.x + "," + pt.y + " ";
       path.setAttribute("d", strPath);
@@ -116,7 +110,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
       updateSvgPath();
 
       svgElement.addEventListener("mousemove", function(e) {
-        console.log("mousemove ");
         if (path) {
           appendToBuffer(getMousePosition(e));
           updateSvgPath();
@@ -236,14 +229,12 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
     toDataURL(window.location.origin + `/images/${mediaId}.jpg`, function(
       dataUrl
     ) {
-      // console.log('RESULT:', dataUrl)
       self.setState({ res: dataUrl });
     });
 
     toDataURL(
       window.location.origin + `/images/${mediaId}_removebackground.png`,
       function(dataUrl) {
-        // console.log('RESULT:', dataUrl)
         self.setState({ res2: dataUrl });
       }
     );
@@ -257,8 +248,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
       var onMove = function(e) {
         var deltaX = e.pageX - startX;
         var deltaY = e.pageY - startY;
-        console.log("deltaX ", deltaX);
-        console.log("deltaY ", deltaY);
         var newBrushSize = brushSize + (deltaX / 300) * 5;
         self.setState({ brushSize: newBrushSize });
       };
@@ -364,7 +353,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
   };
 
   render() {
-    console.log("render ");
 
     return (
       <PopupWrapper className="popup unblurred">

@@ -1321,9 +1321,7 @@ class CanvaEditor  extends PureComponent<IProps, IState> {
     const { scale } = this.state;
     const startX = (screensRect.left + thick - canvasRect.left) / scale;
     const startY = (screensRect.top + thick - canvasRect.top) / scale;
-
-
-
+    
     function elementIsVisible(element, container, partial) {
       var contHeight = container.offsetHeight,
       elemTop = offset(element).top - offset(container).top,

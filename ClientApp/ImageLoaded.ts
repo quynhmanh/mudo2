@@ -288,7 +288,6 @@ export default class ImageLoaded {
     }
   
     if ( this.options.debug && console ) {
-      console.log( 'progress: ' + message, image, elem );
     }
   };
   

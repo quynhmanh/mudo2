@@ -174,7 +174,6 @@ onClickLogoLogin = () => {
 }
 
 handleScroll = () => {
-  console.log('handleScroll')
   const nav = document.getElementById("hello-world");
   const navTop = this.state.navTop;
   if (window.scrollY > navTop) {
@@ -182,7 +181,6 @@ handleScroll = () => {
     // document.body.style.paddingTop = nav.offsetHeight+'px';
     document.getElementById("main-container").style.paddingTop= "43px";
   } else {
-      console.log('remove class');
     nav.classList.remove('fixed-nav');
     document.getElementById("main-container").style.paddingTop= "0px";
   }
@@ -217,7 +215,6 @@ handleProfilePopup = () => {
 }
 
 handleUpdateCompleted = () => {
-    console.log('handleUpdateCompleted');
     this.setState({externalProviderCompleted: true,})
 }
 
@@ -251,7 +248,6 @@ onLanguageBtnClick = () => {
 
     const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
 
-    console.log('user ', Globals.serviceUser);
     const { t } = this.props;
 
     return (
