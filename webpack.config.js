@@ -101,8 +101,7 @@ module.exports = (env) => {
                 // solution that requires the user to opt into importing specific locales.
                 // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
                 // You can remove this if you don't use Moment.js:
-                new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-                new LoadablePlugin()
+                new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
             ].concat(isDevBuild ? [
                 // Development.
 
@@ -170,8 +169,7 @@ module.exports = (env) => {
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require('./wwwroot/dist/vendor-manifest.json')
-            }),
-            new LoadablePlugin()
+            })
         ].concat(isDevBuild ? [
             // Development.
             new webpack.SourceMapDevToolPlugin({
@@ -181,8 +179,7 @@ module.exports = (env) => {
         ] : [
             // Production.
             new MiniCssExtractPlugin({
-                filename: '[name].css',
-                chunkFilename: '[id].css',
+                filename: "site.css"
             })
         ])
     });
@@ -204,19 +201,7 @@ module.exports = (env) => {
                 name: './vendor'
             }),
             new LoadablePlugin()
-        ].concat(isDevBuild ? [
-            // Development.
-            new webpack.SourceMapDevToolPlugin({
-                filename: '[file].map', // Remove this line if you prefer inline source maps.
-                moduleFilenameTemplate: path.relative(clientBundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
-            })
-        ] : [
-            // Production.
-            new MiniCssExtractPlugin({
-                filename: '[name].css',
-                chunkFilename: '[id].css',
-            })
-        ]),
+        ],
         output: {
             libraryTarget: 'commonjs',
             path: path.join(__dirname, './ClientApp/dist')
