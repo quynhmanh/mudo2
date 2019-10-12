@@ -535,6 +535,7 @@ onLanguageBtnClick = () => {
             </div>
             <header 
               style={{
+                height: '446px',
                 position: 'relative',
                 marginTop: 'auto',
                 marginBottom: 'auto',
