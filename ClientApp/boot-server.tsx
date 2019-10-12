@@ -62,15 +62,15 @@ export default createServerRenderer((params) => {
         // We create an extractor from the statsFile
         const extractor = new ChunkExtractor({ 
             statsFile,
-            entrypoints: ['main-client']
+            // entrypoints: ['main-client']
         })
         // Wrap your application using "collectChunks"
         const jsx = extractor.collectChunks(app);
 
-        console.log('extractor.getScriptTags() ',extractor.getScriptTags());
 
         const renderApp = (): string => {
             const html = renderToString(jsx);
+            return html;
             console.log('html123 ', html);
             // return html;
             const html2 = `
