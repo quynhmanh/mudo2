@@ -31,21 +31,21 @@ const PricingPage = loadable(() => import("@Pages/PricingPage"));
 
 
 export const routes = <Switch>
-    <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/login" component={LoginPage} />
-    <AppRoute authorizedRequired={false} layout={AuthorizedLayout} exact path="/" component={HomePage} />
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/home" component={HomePage} />
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/editor" component={TemplatesPage}/>
-    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:template_id" component={EditorContainer}/>
-    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/design/:template_id" component={EditorContainer} />
-    <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={EditorContainer} />
-    <AppRoute authorizedRequired={false} layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={EditorContainer} />
-    <AppRoute authorizedRequired={false} layout={AuthorizedLayout} path="/templates" component={TemplatesPage}/>
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/account" component={AccountPage}/>
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} path="/account/:info" component={AccountPage}/>
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/business-cards" component={TemplatesListPage}/>
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/print" component={PrintPage}/>
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/about" component={AboutPage}/>
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/cart" component={AboutPage}/>
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/remove-background/:media_id" component={ImageBackgroundRemovalEditor}/>
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/pricing/pricing" component={PricingPage}/>
-</Switch>;
+        <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/login" component={LoginPage} />
+        <AppRoute authorizedRequired={false} layout={AuthorizedLayout} exact path="/" component={HomePage} />
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/home" component={HomePage} />
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/editor" component={TemplatesPage}/>
+        <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:template_id" component={EditorContainer}/>
+        <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/design/:template_id" component={EditorContainer} />
+        <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={EditorContainer} />
+        <AppRoute authorizedRequired={false} layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={EditorContainer} />
+        <AppRoute authorizedRequired={false} layout={AuthorizedLayout} path="/templates" component={TemplatesPage}/>
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/account" component={AccountPage}/>
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} path="/account/:info" component={AccountPage}/>
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/business-cards" component={TemplatesListPage}/>
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/print" component={PrintPage}/>
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/about" component={AboutPage}/>
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/cart" component={AboutPage}/>
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/remove-background/:media_id" component={ImageBackgroundRemovalEditor}/>
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/pricing/pricing" component={PricingPage}/>
+    </Switch>;

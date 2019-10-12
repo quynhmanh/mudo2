@@ -101,7 +101,8 @@ module.exports = (env) => {
                 // solution that requires the user to opt into importing specific locales.
                 // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
                 // You can remove this if you don't use Moment.js:
-                new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+                new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+                new LoadablePlugin()
             ].concat(isDevBuild ? [
                 // Development.
 
@@ -199,8 +200,7 @@ module.exports = (env) => {
                 manifest: require('./ClientApp/dist/vendor-manifest.json'),
                 sourceType: 'commonjs2',
                 name: './vendor'
-            }),
-            new LoadablePlugin()
+            })
         ],
         output: {
             libraryTarget: 'commonjs',
