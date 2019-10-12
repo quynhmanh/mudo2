@@ -7,13 +7,16 @@ import { Helmet } from "react-helmet";
 import bind from 'bind-decorator';
 import LoginPopup from "@Components/shared/LoginPopup";
 import styled from 'styled-components';
-import PopularTemplate from "@Components/shared/PopularTemplate";
 import { element } from "prop-types";
 import { withTranslation } from "react-i18next";
 import languages from "@Locales/languages";
 import uuidv4 from "uuid/v4";
 import { ILocale } from "@Models/ILocale";
 import homePageTranslation from "@Locales/default/homePage";
+import loadable from '@loadable/component';
+
+const PopularTemplate = loadable(() => import("@Components/shared/PopularTemplate"))
+
 
 type Props = RouteComponentProps<{}>;
 

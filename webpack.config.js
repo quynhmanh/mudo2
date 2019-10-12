@@ -8,6 +8,7 @@ const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeM
 const CssNanoPlugin = require("cssnano");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const LoadablePlugin = require('@loadable/webpack-plugin')
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
@@ -198,7 +199,8 @@ module.exports = (env) => {
                 manifest: require('./ClientApp/dist/vendor-manifest.json'),
                 sourceType: 'commonjs2',
                 name: './vendor'
-            })
+            }),
+            new LoadablePlugin()
         ],
         output: {
             libraryTarget: 'commonjs',

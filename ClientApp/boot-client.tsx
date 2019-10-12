@@ -11,6 +11,7 @@ import configureStore from './configureStore';
 import { ApplicationState }  from './store';
 import * as RoutesModule from './routes';
 let routes = RoutesModule.routes;
+import { loadableReady } from '@loadable/component';
 
 import "@Styles/main.scss";
 import 'react-toastify/dist/ReactToastify.css';
@@ -71,7 +72,9 @@ setupGlobalPlugins();
 
 setupEvents();
 
-renderApp();
+loadableReady(() => {
+    renderApp();
+})
 
 // Allow Hot Module Replacement.
 if (module.hot) {

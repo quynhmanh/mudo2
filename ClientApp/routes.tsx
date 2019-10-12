@@ -2,27 +2,38 @@
 import AuthorizedLayout from '@Layouts/AuthorizedLayout';
 import GuestLayout from "@Layouts/GuestLayout";
 import Editorlayout from "@Layouts/EditorLayout";
-import LoginPage from '@Pages/LoginPage';
 import { AppRoute } from "@Components/shared/AppRoute";
 import { Switch } from 'react-router-dom';
-import HomePage from '@Pages/HomePage';
+// import HomePage from '@Pages/HomePage';
 import ExamplePage from '@Pages/ExamplePage';
 import Editor from '@Pages/Editor';
-import EditorContainer from '@Pages/EditorContainer';
+// import EditorContainer from '@Pages/EditorContainer';
 import EditorLayout from '@Layouts/EditorLayout';
-import TemplatesPage from '@Pages/TemplatesPage';
-import TemplatesListPage from '@Pages/TemplatesListPage';
-import PrintPage from '@Pages/PrintPage';
-import AboutPage from '@Pages/AboutPage';
-import PricingPage from '@Pages/PricingPage';
-import AccountPage from '@Pages/AccountPage';
-import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemovalEditor';
+// import TemplatesPage from '@Pages/TemplatesPage';
+// import TemplatesListPage from '@Pages/TemplatesListPage';
+// import PrintPage from '@Pages/PrintPage';
+// import AboutPage from '@Pages/AboutPage';
+// import PricingPage from '@Pages/PricingPage';
+// import AccountPage from '@Pages/AccountPage';
+// import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemovalEditor';
+import loadable from '@loadable/component';
+
+const EditorContainer = loadable(() => import("@Pages/EditorContainer"));
+const LoginPage = loadable(() => import("@Pages/LoginPage"));
+const HomePage = loadable(() => import("@Pages/HomePage"));
+const TemplatesPage = loadable(() => import("@Pages/TemplatesPage"));
+const AccountPage = loadable(() => import("@Pages/AccountPage"));
+const TemplatesListPage = loadable(() => import("@Pages/TemplatesListPage"));
+const PrintPage = loadable(() => import("@Pages/PrintPage"));
+const AboutPage = loadable(() => import("@Pages/AboutPage"));
+const ImageBackgroundRemovalEditor = loadable(() => import("@Components/editor/ImageBackgroundRemovalEditor"));
+const PricingPage = loadable(() => import("@Pages/PricingPage"));
+
 
 export const routes = <Switch>
     <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/login" component={LoginPage} />
     <AppRoute authorizedRequired={false} layout={AuthorizedLayout} exact path="/" component={HomePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/home" component={HomePage} />
-    <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/example" component={ExamplePage} />
     <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/editor" component={TemplatesPage}/>
     <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:template_id" component={EditorContainer}/>
     <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/design/:template_id" component={EditorContainer} />

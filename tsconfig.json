@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "ClientApp",
-    "module": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "target": "es5",
     "jsx": "react",
