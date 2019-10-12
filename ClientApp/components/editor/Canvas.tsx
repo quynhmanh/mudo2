@@ -304,7 +304,7 @@ export default class Canvas extends Component<IProps, IState> {
           </div>
           <div
             id="alo"
-            className={this.props.downloading && !this.props.preview && "alo"}
+            className={this.props.downloading && !this.props.preview ? "alo2" : "alo"}
             style={{
               backgroundColor:
                 !this.props.showPopup &&

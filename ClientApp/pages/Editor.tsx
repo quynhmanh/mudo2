@@ -1974,8 +1974,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var previousScale = this.state.scale;
     var self = this;
     this.doNoObjectSelected();
-    this.setState({ scale: 1, showPopup: true, downloading: true }, () => {
-      var aloCloned = document.getElementsByClassName("alo");
+    this.setState({ showPopup: true, downloading: true }, () => {
+      var aloCloned = document.getElementsByClassName("alo2");
       var canvas = [];
       for (var i = 0; i < aloCloned.length; ++i) {
         canvas.push((aloCloned[i] as HTMLElement).outerHTML);
@@ -2005,7 +2005,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         )
         .then(response => {
           self.setState({
-            scale: previousScale,
             showPopup: false,
             downloading: false
           });
@@ -2028,7 +2027,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         // scale: 1, 
         showPopup: true, bleed, downloading: true },
       () => {
-        var aloCloned = document.getElementsByClassName("alo");
+        var aloCloned = document.getElementsByClassName("alo2");
         var canvas = [];
         for (var i = 0; i < aloCloned.length; ++i) {
           canvas.push((aloCloned[i] as HTMLElement).outerHTML);
@@ -2054,7 +2053,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           )
           .then(response => {
             self.setState({
-              scale: previousScale,
               showPopup: false,
               bleed: false,
               downloading: false
@@ -2463,6 +2461,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   
   imgOnMouseDown(img, e) {
+    console.log('imgOnMouseDown');
   e.preventDefault();
   var target = e.target.cloneNode(true);
   target.style.zIndex = "11111111111";
