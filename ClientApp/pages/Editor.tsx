@@ -2024,7 +2024,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var self = this;
     this.doNoObjectSelected();
     this.setState(
-      { scale: 1, showPopup: true, bleed, downloading: true },
+      { 
+        // scale: 1, 
+        showPopup: true, bleed, downloading: true },
       () => {
         var aloCloned = document.getElementsByClassName("alo");
         var canvas = [];
@@ -3270,7 +3272,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
   };
 
-  renderCanvas(preview, index) {
+  renderCanvas(preview, index, downloading) {
     var res = [];
     let pages = toJS(this.props.store.pages);
     for (var i = 0; i < pages.length; ++i) {
@@ -3284,7 +3286,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           resizing={this.state.resizing}
           dragging={this.state.dragging}
           isSaving={this.state.isSaving}
-          downloading={this.state.downloading}
+          downloading={downloading}
           bleed={this.state.bleed}
           key={i}
           staticGuides={this.state.staticGuides}
@@ -3297,7 +3299,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           mode={this.state.mode}
           rectWidth={this.state.rectWidth}
           rectHeight={this.state.rectHeight}
-          scale={preview ? 1 : this.state.scale}
+          scale={downloading ? 1 : this.state.scale}
           childId={this.state.childId}
           cropMode={this.state.cropMode}
           handleImageSelected={this.handleImageSelected}
@@ -6079,7 +6081,14 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     }
                   }}
                 >
-                  {this.renderCanvas(false, -1)}
+                  {this.state.downloading && 
+                    <div style={{
+                      display: 'none',
+                    }}>
+                      {this.renderCanvas(false, -1, true)}
+                      </div>
+                  }
+                  {this.renderCanvas(false, -1, false)}
                 </div>}
                 <div
                   style={{
