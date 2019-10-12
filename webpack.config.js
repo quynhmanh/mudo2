@@ -170,7 +170,8 @@ module.exports = (env) => {
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require('./wwwroot/dist/vendor-manifest.json')
-            })
+            }),
+            new LoadablePlugin()
         ].concat(isDevBuild ? [
             // Development.
             new webpack.SourceMapDevToolPlugin({
@@ -180,7 +181,8 @@ module.exports = (env) => {
         ] : [
             // Production.
             new MiniCssExtractPlugin({
-                filename: "site.css"
+                filename: '[name].css',
+                chunkFilename: '[id].css',
             })
         ])
     });
@@ -200,8 +202,21 @@ module.exports = (env) => {
                 manifest: require('./ClientApp/dist/vendor-manifest.json'),
                 sourceType: 'commonjs2',
                 name: './vendor'
+            }),
+            new LoadablePlugin()
+        ].concat(isDevBuild ? [
+            // Development.
+            new webpack.SourceMapDevToolPlugin({
+                filename: '[file].map', // Remove this line if you prefer inline source maps.
+                moduleFilenameTemplate: path.relative(clientBundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
             })
-        ],
+        ] : [
+            // Production.
+            new MiniCssExtractPlugin({
+                filename: '[name].css',
+                chunkFilename: '[id].css',
+            })
+        ]),
         output: {
             libraryTarget: 'commonjs',
             path: path.join(__dirname, './ClientApp/dist')
