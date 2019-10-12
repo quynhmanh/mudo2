@@ -17,6 +17,7 @@ import EditorLayout from '@Layouts/EditorLayout';
 // import AccountPage from '@Pages/AccountPage';
 // import ImageBackgroundRemovalEditor from '@Components/editor/ImageBackgroundRemovalEditor';
 import loadable from '@loadable/component';
+import "@Styles/editor.scss";
 
 const EditorContainer = loadable(() => import("@Pages/EditorContainer"));
 const LoginPage = loadable(() => import("@Pages/LoginPage"));
