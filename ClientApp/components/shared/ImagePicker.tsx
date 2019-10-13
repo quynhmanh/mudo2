@@ -49,11 +49,9 @@ const Container = styled.div`
   width: ${props => props.width}px;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
   margin-bottom: 8px;
-  background-color: ${props => props.loaded ? "none" : "#00000030"};
   button {
     visibility: hidden;
   }
-  background: #fff;
   opacity ${props => props.loaded ? 1 : 0.15};
   animation-name: XhtCamN749DcvC-ecDUzp;
   animation: ${props => props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
@@ -101,8 +99,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             animationName: 'XhtCamN749DcvC-ecDUzp',
             animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
             animationDelay: this.props.delay + 'ms',
-            backgroundColor: '#00000030',
-            background: '#fff',
+            backgroundColor: this.state.loaded ? "transparent" : "#fff",
           }} delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
             {this.props.showButton && Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
             <button
@@ -131,12 +128,12 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 // backgroundColor: this.props.color,
                 } : {display: 'none'}}
                 onLoad={(e) => {
-                  console.log('onLoad');
                     this.handleImageLoaded();
                   }
                 }
 
                 onLoadedData={(e) => {
+                  this.handleImageLoaded();
                     console.log('onLoadEnd');
                   }
                 }

@@ -1730,7 +1730,7 @@ class LeftSide extends Component<IProps, IState> {
                       {this.state.items.map((item, key) => (
                         <ImagePicker
                           id=""
-                          key={key}
+                          key={key + "1"}
                           color={item.color}
                           src={item.representativeThumbnail}
                           height={imgWidth / (item.width / item.height)}
@@ -1748,7 +1748,7 @@ class LeftSide extends Component<IProps, IState> {
                           .fill(0)
                           .map((item, i) => (
                             <ImagePicker
-                              key={i}
+                              key={i + "11"}
                               id="sentinel-image"
                               color="black"
                               src={""}
@@ -1767,7 +1767,7 @@ class LeftSide extends Component<IProps, IState> {
                           .fill(0)
                           .map((item, i) => (
                             <ImagePicker
-                              key={i}
+                              key={i + 1 + "11"}
                               id="sentinel-image"
                               color="black"
                               src={""}
@@ -1790,7 +1790,7 @@ class LeftSide extends Component<IProps, IState> {
                       {this.state.items2.map((item, key) => (
                         <ImagePicker
                           id=""
-                          key={key}
+                          key={key + "2"}
                           color={item.color}
                           src={item.representativeThumbnail}
                           height={imgWidth / (item.width / item.height)}
@@ -1808,7 +1808,7 @@ class LeftSide extends Component<IProps, IState> {
                           .fill(0)
                           .map((item, i) => (
                             <ImagePicker
-                              key={i}
+                              key={i + "22"}
                               id="sentinel-image"
                               color="black"
                               src={""}
@@ -1827,7 +1827,7 @@ class LeftSide extends Component<IProps, IState> {
                           .fill(0)
                           .map((item, i) => (
                             <ImagePicker
-                              key={i}
+                              key={i + "22"}
                               id="sentinel-image"
                               color="black"
                               src={""}

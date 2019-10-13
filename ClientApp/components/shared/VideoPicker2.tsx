@@ -80,6 +80,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
   image = null;
 
   handleImageLoaded() {
+    console.log('handleVideoloaded ');
     const img = this.image;
     img.pause();
 
@@ -112,7 +113,8 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
           animationDelay: "100ms",
         //   backgroundColor: "#00000030",
-          background: "none"
+          // background: "none"
+          backgroundColor: this.state.loaded ? "transparent" : "#fff",
         }}
         delay={this.props.delay}
         id={this.props.id}
@@ -180,7 +182,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
               : { display: "none" }
           }
           onLoadStart={e => {
-              this.handleImageLoaded();
+              // this.handleImageLoaded();
           }}
           onLoadedMetadata={e => {
             // this.image.play();
@@ -189,7 +191,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
           }}
           onCanPlay={e => {
               // console.log('onCanPlay');
-            // this.handleImageLoaded();
+            this.handleImageLoaded();
           }}
           onLoadedData={e => {
               this.image.pause();
