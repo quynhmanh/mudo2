@@ -48,11 +48,9 @@ const Container = styled.div`
   height: ${props =>
     props.loaded ? props.height : props.defaultHeight + "px"};
   margin-bottom: 8px;
-  background-color: ${props => (props.loaded ? "none" : "#00000030")};
   button {
     visibility: hidden;
   }
-  background: #fff;
   opacity ${props => (props.loaded ? 1 : 0.15)};
   animation-name: XhtCamN749DcvC-ecDUzp;
   animation: ${props =>
