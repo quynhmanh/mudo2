@@ -5927,7 +5927,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                           fontSize: "12px"
                         }}
                       >
-                        Mức trong suốt:{" "}
+                        {/* Mức trong suốt */}
+                        {this.translate("transparent")}
+                        :{" "}
                       </p>
                       <div
                         style={{

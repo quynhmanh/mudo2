@@ -4,6 +4,7 @@
     "position" :"Position",
     "forward": "Forward",
     "backward": "Backward",
+    "transparent": "Transparent",
     "crop": "Crop",
     "home": "Home",
     "image": "Image",
