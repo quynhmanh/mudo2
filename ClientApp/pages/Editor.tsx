@@ -4189,8 +4189,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   color: "white",
                   display: "inline-block",
                   padding: "5px 8px 5px 5px",
-                  // backgroundColor: 'yellowgreen',
-                  borderRadius: "6px"
+                  borderRadius: "6px",
+                  marginLeft: '5px',
                 }}
                 href="/"
               >
