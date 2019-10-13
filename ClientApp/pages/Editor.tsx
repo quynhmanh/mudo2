@@ -30,6 +30,7 @@ import LeftSide from "@Components/editor/LeftSide";
 import FontSize from "@Components/editor/FontSize";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
+import { centerToTL, tLToCenter, getNewStyle, degToRadian } from "@Utils";
 
 declare global {
   interface Window {
@@ -841,6 +842,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cur.style.opacity = 0;
     }
 
+    window.startX = startX;
+    window.startY = startY;
+    window.resizingInnerImage = false;
+
     this.setState({
       resizing: true,
       resizingInnerImage: false,
@@ -893,9 +898,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    if (this.switching) {
-      return;
-    }
+    console.log('handleResize ');
+    // if (this.switching) {
+    //   return;
+    // }
     const { scale } = this.state;
     let { top, left, width, height } = style;
     var self = this;
@@ -947,43 +953,31 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           }
 
           if (t5 && t8 && type == "tl") {
-            self.setState({
-              resizingInnerImage: !self.state.resizingInnerImage,
-              startX: e.clientX - image.posX,
-              startY: e.clientY - image.posY
-            });
+            window.resizingInnerImage = true;
+            window.startX = document.getElementById(_id + "tl_").getBoundingClientRect().left + 10;
+            window.startY =document.getElementById(_id + "tl_").getBoundingClientRect().top + 10;
             self.switching = true;
-            self.handleImageResize = () => {};
           }
 
           if (t5 && t6 && type == "bl") {
-            self.setState({
-              resizingInnerImage: !self.state.resizingInnerImage,
-              startX: e.clientX - deltaLeft,
-              startY: e.clientY - deltaHeight
-            });
+            window.resizingInnerImage = true;
+            window.startX = document.getElementById(_id + "bl_").getBoundingClientRect().left + 10;
+            window.startY =document.getElementById(_id + "bl_").getBoundingClientRect().top + 10;
             self.switching = true;
-            self.handleImageResize = () => {};
           }
 
           if (t6 && t7 && type == "br") {
-            self.setState({
-              resizingInnerImage: !self.state.resizingInnerImage,
-              startX: e.clientX - deltaLeft,
-              startY: e.clientY - deltaHeight
-            });
+            window.resizingInnerImage = true;
+            window.startX = document.getElementById(_id + "br_").getBoundingClientRect().left + 10;
+            window.startY =document.getElementById(_id + "br_").getBoundingClientRect().top + 10;
             self.switching = true;
-            self.handleImageResize = () => {};
           }
 
           if (t8 && t7 && type == "tr") {
-            self.setState({
-              resizingInnerImage: !self.state.resizingInnerImage,
-              startX: e.clientX - deltaWidth,
-              startY: e.clientY - deltaTop
-            });
+            window.resizingInnerImage = true;
+            window.startX = document.getElementById(_id + "tr_").getBoundingClientRect().left + 10;
+            window.startY =document.getElementById(_id + "tr_").getBoundingClientRect().top + 10;
             self.switching = true;
-            self.handleImageResize = () => {};
           }
         }
 
@@ -1075,6 +1069,20 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         }
 
         (window as any).scaleY = image.scaleY;
+
+        if (self.switching) {
+          const styles = tLToCenter({ top: image.top, left: image.left, width: image.width, height: image.height, rotateAngle: image.rotateAngle });
+          const imgStyles = tLToCenter({
+            left: image.posX,
+            top: image.posY,
+            width: image.imgWidth,
+            height: image.imgHeight,
+            rotateAngle: 0
+          });
+
+          window.rect = { width: image.width, height: image.height, centerX: styles.position.centerX, centerY:  styles.position.centerY, rotateAngle: image.rotateAngle };
+          window.rect2 = { imgWidth: image.imgWidth, imgHeight: image.imgHeight, imgCenterX: imgStyles.position.centerX, imgCenterY: imgStyles.position.centerY, imgRotateAngle: 0 };
+        }
       }
       return image;
     });
@@ -1127,6 +1135,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     //   cur.style.height = height + "px";
     // }
 
+
     this.setState({ updateRect: self.switching }, () => {
       if (self.switching) {
         self.handleImageResize = temp;
@@ -1140,7 +1149,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   onResizeInnerImageStart = (startX, startY) => {
-    this.setState({ resizingInnerImage: true, startX, startY });
+    window.resizingInnerImage = true;
+    window.startX = startX;
+    window.startY = startY;
+    // this.setState({ resizingInnerImage: true, startX, startY });
   };
 
   // Handle the actual miage
@@ -1155,12 +1167,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log('handleImageResize ');
-    if (this.switching) {
-      return;
-    }
+    // if (this.switching) {
+    //   return;
+    // }
     const { scale } = this.state;
     let { top, left, width, height } = style;
+
+    console.log('handleImageResize ', e.clientX, e.clientY, left, top, e.clientX - left, e.clientY - top);
 
     var self = this;
     var switching = false;
@@ -1178,6 +1191,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             startX: e.clientX + image.width - left - width,
             startY: e.clientY + image.height - top - height
           });
+          window.resizingInnerImage = false;
+          window.startX = document.getElementById(_id + "br").getBoundingClientRect().left + 10;
+          window.startY =document.getElementById(_id + "br").getBoundingClientRect().top + 10;
           switching = true;
           self.handleResize = () => {};
           height = -top + image.height;
@@ -1192,16 +1208,17 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             startX: e.clientX,
             startY: e.clientY + image.height - top - height
           });
+          window.resizingInnerImage = false;
+          window.startX = e.clientX;
+          window.startY =  e.clientY + image.height - top - height;
           switching = true;
           self.handleResize = () => {};
           height = -top + image.height;
           // width = -left + image.width;
         } else if (image.height - top > height && left > 0 && type == "bl") {
-          self.setState({
-            resizingInnerImage: !self.state.resizingInnerImage,
-            startX: e.clientX - left,
-            startY: e.clientY + image.height - top - height
-          });
+          window.resizingInnerImage = false;
+          window.startX = document.getElementById(_id + "bl").getBoundingClientRect().left + 10;
+          window.startY =document.getElementById(_id + "bl").getBoundingClientRect().top + 10;
           switching = true;
           self.handleResize = () => {};
           image.posX = -left;
@@ -1218,15 +1235,16 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             startX: e.clientX,
             startY: e.clientY + image.height - top - height
           });
+          window.resizingInnerImage = false;
+          window.startX = e.clientX;
+          window.startY =  e.clientY + image.height - top - height;
           switching = true;
           self.handleResize = () => {};
           width = -left + image.width;
         } else if (image.width - left > width && top > 0 && type == "tr") {
-          self.setState({
-            resizingInnerImage: !self.state.resizingInnerImage,
-            startX: e.clientX - top,
-            startY: e.clientY + image.width - left - width
-          });
+          window.resizingInnerImage = false;
+          window.startX = document.getElementById(_id + "tr").getBoundingClientRect().left + 10;
+          window.startY =document.getElementById(_id + "tr").getBoundingClientRect().top + 10;
           switching = true;
           self.handleResize = () => {};
           image.posY = -top;
@@ -1239,6 +1257,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             startX: e.clientX,
             startY: e.clientY - top
           });
+          window.resizingInnerImage = false;
+          window.startX = e.clientX;
+          window.startY = e.clientY - top;
           image.posY = -top;
           height += top;
           top = 0;
@@ -1250,17 +1271,24 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             startX: e.clientX - left,
             startY: e.clientY
           });
+          window.resizingInnerImage = false;
+          window.startX = e.clientX - left;
+          window.startY = e.clientY;
           image.posX = -left;
           width += left;
           left = 0;
           switching = true;
           self.handleResize = () => {};
         } else if (left > 1 && top > 1 && type == "tl") {
-          self.setState({
-            resizingInnerImage: !self.state.resizingInnerImage,
-            startX: e.clientX - left,
-            startY: e.clientY - top
-          });
+          // self.setState({
+          //   resizingInnerImage: !self.state.resizingInnerImage,
+          //   startX: e.clientX - left,
+          //   startY: e.clientY - top
+          // });
+          window.resizingInnerImage = false;
+          window.startX = document.getElementById(_id + "tl").getBoundingClientRect().left + 10;
+          window.startY =document.getElementById(_id + "tl").getBoundingClientRect().top + 10;
+          console.log('clientX clientY ', e.clientX, e.clientY, left, top);
           image.posX = -left;
           image.posY = -top;
           height += top;

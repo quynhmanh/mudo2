@@ -225,6 +225,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   startResizeImage = (e, cursor) => {
+    console.log('startResizeImage ');
     e.preventDefault();
     e.stopPropagation();
     if (e.button !== 0) return;
@@ -274,12 +275,12 @@ export default class Rect extends PureComponent<IProps, IState> {
       if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
       e.stopImmediatePropagation();
       const { clientX, clientY } = e;
-      const deltaX = clientX - this.props.startX;
-      const deltaY = clientY - this.props.startY;
+      const deltaX = clientX - window.startX;
+      const deltaY = clientY - window.startY;
       const alpha = Math.atan2(deltaY, deltaX);
       const deltaL = getLength(deltaX, deltaY);
       const isShiftKey = e.shiftKey;
-      if (!this.props.resizingInnerImage) {
+      if (!resizingInnerImage) {
         this.props.onResize(
           deltaL,
           alpha,
@@ -293,6 +294,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           null
         );
       } else {
+        console.log('deltaX deltaY', deltaX, deltaY);
         this.props.onImageResize(
           deltaL,
           alpha,
@@ -320,6 +322,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   startResizeInnerImage = (e, cursor) => {
+    console.log('startResizeInnerImage');
     e.preventDefault();
     e.stopPropagation();
     if (e.button !== 0) return;
@@ -339,45 +342,47 @@ export default class Rect extends PureComponent<IProps, IState> {
     } = this.props;
 
     const { clientX: startX, clientY: startY } = e;
-    let rect = { width, height, centerX, centerY, rotateAngle };
-    let rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
+    window.rect = { width, height, centerX, centerY, rotateAngle };
+    window.rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
     const type = e.target.getAttribute("class").split(" ")[0];
     this.props.onResizeStart && this.props.onResizeStart(startX, startY);
     this._isMouseDown = true;
     var self = this;
     const onMove = e => {
-      if (this.props.updateRect) {
-        let {
-          styles: {
-            position: { centerX, centerY },
-            size: { width, height },
-            transform: { rotateAngle }
-          },
-          imgStyles: {
-            position: { centerX: imgCenterX, centerY: imgCenterY },
-            size: { width: imgWidth, height: imgHeight },
-            transform: { rotateAngle: imgRotateAngle }
-          },
-          objectType
-        } = this.props;
+      // if (this.props.updateRect) {
+      //   let {
+      //     styles: {
+      //       position: { centerX, centerY },
+      //       size: { width, height },
+      //       transform: { rotateAngle }
+      //     },
+      //     imgStyles: {
+      //       position: { centerX: imgCenterX, centerY: imgCenterY },
+      //       size: { width: imgWidth, height: imgHeight },
+      //       transform: { rotateAngle: imgRotateAngle }
+      //     },
+      //     objectType
+      //   } = this.props;
 
-        rect = { width, height, centerX, centerY, rotateAngle };
-        rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
-      }
+      //   rect = { width, height, centerX, centerY, rotateAngle };
+      //   rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
+      // }
       e.preventDefault();
       if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
       e.stopImmediatePropagation();
       const { clientX, clientY } = e;
-      const deltaX = clientX - this.props.startX;
-      const deltaY = clientY - this.props.startY;
+      // const deltaX = clientX - this.props.startX;
+      // const deltaY = clientY - this.props.startY;
+      const deltaX = clientX - window.startX;
+      const deltaY = clientY - window.startY;
       const alpha = Math.atan2(deltaY, deltaX);
       const deltaL = getLength(deltaX, deltaY);
       const isShiftKey = e.shiftKey;
-      if (!this.props.resizingInnerImage) {
+      if (!window.resizingInnerImage) {
         this.props.onResize(
           deltaL,
           alpha,
-          rect,
+          window.rect,
           type,
           isShiftKey,
           cursor,
@@ -390,7 +395,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         this.props.onImageResize(
           deltaL,
           alpha,
-          rect2,
+          window.rect2,
           type,
           isShiftKey,
           cursor,
@@ -960,6 +965,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   )}-resize`;
                   return (
                     <div
+                      id={_id + zoomableMap[d]}
                       key={d}
                       style={{
                         cursor,
@@ -1070,6 +1076,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                             scale})`,
                           zIndex: 999999
                         }}
+                        id={_id + zoomableMap[d] + "_"}
                         className={`${zoomableMap[d]} resizable-handler-container hehe`}
                         onMouseDown={e => this.startResizeImage(e, cursor)}
                       >
