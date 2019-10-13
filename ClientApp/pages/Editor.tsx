@@ -2101,8 +2101,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var previousScale = this.state.scale;
     var self = this;
     this.doNoObjectSelected();
-    this.setState({ scale: 1, showPopup: true, downloading: true }, () => {
-      var aloCloned = document.getElementsByClassName("alo");
+    this.setState({ showPopup: true, downloading: true }, () => {
+      var aloCloned = document.getElementsByClassName("alo2");
       var canvas = [];
       for (var i = 0; i < aloCloned.length; ++i) {
         canvas.push((aloCloned[i] as HTMLElement).outerHTML);
@@ -2131,7 +2131,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         )
         .then(response => {
           self.setState({
-            scale: previousScale,
+            // scale: previousScale,
             showPopup: false,
             downloading: false
           });
