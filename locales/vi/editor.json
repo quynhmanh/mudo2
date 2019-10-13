@@ -1,4 +1,10 @@
 {
+    "ok": "Đồng ý",
+    "cancel": "Huỷ",
+    "position" :"Vị trí",
+    "forward": "Lên trên",
+    "backward": "Xuống dưới",
+    "crop": "Cắt",
     "home": "Trang chủ",
     "image": "Hình ảnh",
     "text": "Chữ",

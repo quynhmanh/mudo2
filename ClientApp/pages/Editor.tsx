@@ -1155,6 +1155,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
+    console.log('handleImageResize ');
     if (this.switching) {
       return;
     }
@@ -5322,49 +5323,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                             this.setState({ cropMode: true });
                           }}
                         >
-                          <svg
-                            style={{ width: "15px", height: "15px" }}
-                            version="1.1"
-                            id="Capa_1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlnsXlink="http://www.w3.org/1999/xlink"
-                            x="0px"
-                            y="0px"
-                            width="475.078px"
-                            height="475.078px"
-                            viewBox="0 0 475.078 475.078"
-                            xmlSpace="preserve"
-                          >
-                            <g>
-                              <path
-                                d="M465.948,328.897h-63.953V85.936l70.517-70.233c1.711-1.903,2.566-4.089,2.566-6.565c0-2.478-0.855-4.665-2.566-6.567
-		C470.609,0.859,468.419,0,465.948,0c-2.478,0-4.668,0.855-6.57,2.57l-70.237,70.521H146.18V9.137c0-2.667-0.855-4.858-2.57-6.567
-		C141.897,0.859,139.71,0,137.042,0H82.227c-2.665,0-4.858,0.855-6.567,2.57c-1.711,1.713-2.57,3.903-2.57,6.567v63.954H9.136
-		c-2.666,0-4.856,0.854-6.567,2.568C0.859,77.372,0,79.562,0,82.226v54.818c0,2.666,0.855,4.856,2.568,6.565
-		c1.714,1.711,3.905,2.57,6.567,2.57h63.954V392.86c0,2.666,0.855,4.856,2.57,6.561c1.713,1.711,3.903,2.573,6.567,2.573h246.678
-		v63.953c0,2.663,0.855,4.854,2.566,6.564c1.708,1.711,3.898,2.566,6.57,2.566h54.816c2.666,0,4.856-0.855,6.563-2.566
-		c1.712-1.711,2.574-3.901,2.574-6.564v-63.953h63.953c2.662,0,4.853-0.862,6.56-2.573c1.712-1.704,2.567-3.895,2.567-6.561v-54.819
-		c0-2.669-0.855-4.863-2.567-6.57C470.801,329.76,468.61,328.897,465.948,328.897z M146.18,146.174h169.881L146.18,316.054V146.174z
-		 M328.904,328.897H159.026l169.878-169.88V328.897z"
-                              />
-                            </g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                          </svg>
-                          <span style={{ marginLeft: "5px" }}>Cắt</span>
+                          <span>
+                            {this.translate("crop")}
+                          </span>
                         </button>
                       )}
                     </div>
@@ -5792,7 +5753,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z"></path></svg>
-                    Ok
+                    <span style={{marginLeft: '5px',}}>{this.translate("ok")}</span>
                   </button>
                 )}
                 {this.state.cropMode && (
@@ -5804,7 +5765,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg>
-                    Cancel
+                    <span style={{marginLeft: '5px',}}>{this.translate("cancel")}</span>
                   </button>
                 )}
                 {this.state.idObjectSelected && (
@@ -5823,7 +5784,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         fontSize: "16px"
                       }}
                     >
-                      Vị trí
+                      {this.translate("position")}
                     </button>
                     <button
                       style={{
@@ -5905,7 +5866,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                                 d="M12.75 5.82v8.43a.75.75 0 1 1-1.5 0V5.81L8.99 8.07A.75.75 0 1 1 7.93 7l2.83-2.83a1.75 1.75 0 0 1 2.47 0L16.06 7A.75.75 0 0 1 15 8.07l-2.25-2.25zM15 10.48l6.18 3.04a1 1 0 0 1 0 1.79l-7.86 3.86a3 3 0 0 1-2.64 0l-7.86-3.86a1 1 0 0 1 0-1.8L9 10.49v1.67L4.4 14.4l6.94 3.42c.42.2.9.2 1.32 0l6.94-3.42-4.6-2.26v-1.67z"
                               ></path>
                             </svg>
-                            <span style={{ lineHeight: "24px" }}>Lên trên</span>
+                            <span style={{ lineHeight: "24px" }}>
+                              {/* Lên trên */}
+                              {this.translate("forward")}
+                            </span>
                           </button>
                           <button
                             style={{
@@ -5933,7 +5897,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                               ></path>
                             </svg>
                             <span style={{ lineHeight: "24px" }}>
-                              Xuống dưới
+                              {/* Xuống dưới */}
+                              {this.translate("backward")}
                             </span>
                           </button>
                         </div>
