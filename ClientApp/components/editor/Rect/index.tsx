@@ -951,7 +951,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               style={{
                 width: "100%",
                 height: "100%",
-                position: "absolute"
+                position: "absolute",
+                outline: cropMode && selected ? 'rgb(0, 217, 225) solid 4.35317px' : 'none',
               }}
             >
               {!showImage &&
