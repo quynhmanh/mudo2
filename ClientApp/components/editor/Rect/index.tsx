@@ -1318,28 +1318,39 @@ export default class Rect extends PureComponent<IProps, IState> {
               }}
             >
               {!showImage && cropMode && selected && (
-                <img
+                <div
                   id={_id + "1236"}
-                  className={_id + "rect-alo"}
                   style={{
                     width: this.props.imgWidth + "px",
                     height: this.props.imgHeight + "px",
-                    // width: '1px',
-                    // height: '1px',
                     transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    opacity: 0.5,
                     outline:
-                      cropMode && selected
-                        ? `#00d9e1 solid ${2 / scale}px`
-                        : null,
-                    transformOrigin: "0 0"
+                    cropMode && selected
+                      ? `#00d9e1 solid ${2 / scale}px`
+                      : null,
                   }}
-                  onDoubleClick={enableCropMode}
-                  onMouseDown={
-                    cropMode ? this.handleImageDrag.bind(this) : null
-                  }
-                  src={src}
-                />
+                >
+                  <img
+                    // id={_id + "1236"}
+                    className={_id + "rect-alo"}
+                    style={{
+                      width: this.props.imgWidth + "px",
+                      height: this.props.imgHeight + "px",
+                      // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+                      opacity: 0.5,
+                      outline:
+                        cropMode && selected
+                          ? `#00d9e1 solid ${2 / scale}px`
+                          : null,
+                      transformOrigin: "0 0"
+                    }}
+                    onDoubleClick={enableCropMode}
+                    onMouseDown={
+                      cropMode ? this.handleImageDrag.bind(this) : null
+                    }
+                    src={src}
+                  />
+                </div>
               )}
             </div>
             {/* <div
