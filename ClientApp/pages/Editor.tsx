@@ -898,7 +898,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log('handleResize ');
     // if (this.switching) {
     //   return;
     // }
@@ -1172,8 +1171,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // }
     const { scale } = this.state;
     let { top, left, width, height } = style;
-
-    console.log('handleImageResize ', e.clientX, e.clientY, left, top, e.clientX - left, e.clientY - top);
 
     var self = this;
     var switching = false;
