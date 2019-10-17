@@ -702,10 +702,10 @@ export default class Rect extends PureComponent<IProps, IState> {
           <div
             className="rotate-container"
             style={{
-              width: 18 / scale + "px",
-              height: 18 / scale + "px",
-              left: `calc(50% - ${18 / scale / 2}px)`,
-              bottom: "-50px"
+              width: "18px",
+              height: "18px",
+              left: `calc(50% - 6}px)`,
+              bottom: "-35px"
             }}
             onMouseDown={this.startRotate}
           >

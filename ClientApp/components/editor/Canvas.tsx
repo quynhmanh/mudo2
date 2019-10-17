@@ -49,6 +49,7 @@ export interface IProps {
   resizing: boolean;
   dragging: boolean;
   rotating: boolean;
+  translate: any;
 }
 
 export interface IState {
@@ -841,7 +842,7 @@ export default class Canvas extends Component<IProps, IState> {
               this.props.addAPage(e, id);
             }}
           >
-            Thêm 1 trang
+            {this.props.translate("addAPage")}
           </a>
         )}
       </ResizableRectContainer>

@@ -3259,6 +3259,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
       res.push(
         <Canvas
+          translate={this.translate}
           rotating={this.state.rotating}
           resizing={this.state.resizing}
           dragging={this.state.dragging}
@@ -4608,9 +4609,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   </a>
                 )}
                 {this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).type === TemplateType.Image && (
+                (this.state.selectedImage.type === TemplateType.Image || 
+                this.state.selectedImage.type === TemplateType.Video) 
+                   && (
                     <div
                       style={{
                         position: "relative"
