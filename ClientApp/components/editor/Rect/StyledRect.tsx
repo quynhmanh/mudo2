@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export default styled.div`
   :hover {
-    outline: ${props => props.resizing || props.dragging || props.rotating || props.cropMode ? 'none;' : '#00d9e1 solid ' + props.outlineWidth + 'px;'}
+    outline: ${props => props.resizing || props.dragging || props.rotating || props.cropMode ? 'none;' : '#00d9e1 solid ' + '2px;'}
   }
   position: absolute;
   img {
@@ -79,14 +79,17 @@ export default styled.div`
     &.tl {
       transform-origin: center;
     }
+    svg {
+      
+    }
   }
   .resizable-handler {
     box-shadow: 0 0 1px 1px rgba(123,134,144,0.23), 0 0 0 1px rgba(5, 13, 21, 0.08);
     background-color: white;
     border-radius: 50%;
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     cursor: pointer;
     z-index: 1000;
     &.tl,
@@ -146,7 +149,7 @@ export default styled.div`
   }
   .rotate-container {
     position: absolute;
-    left: calc(50% - 10px);
+    left: calc(50% - 9px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,11 +180,11 @@ export default styled.div`
   }
   .l,
   .r {
-    top: calc(50% - 10px);
+    top: calc(50% - 9px);
   }
   .t,
   .b {
-    left: calc(50% - 10px);
+    left: calc(50% - 9px);
   }
   .l {
     left: -10px;

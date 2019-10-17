@@ -393,7 +393,9 @@ export default class Canvas extends Component<IProps, IState> {
               // onMouseEnter={(e) => {this.setState({hoveringCanvas: true,})}}
               // onMouseLeave={(e) => { this.setState({hoveringCanvas: false,})}}
               onClick={e => {
-                if ((e.target as Element).id === "canvas") {
+                if ((e.target as Element).id === "canvas" && 
+                  !this.props.resizing &&
+                  !this.props.dragging) {
                   this.props.doNoObjectSelected();
                 }
               }}
@@ -428,9 +430,9 @@ export default class Canvas extends Component<IProps, IState> {
                     <div
                       id={img._id + "____"}
                       style={{
-                        width: img.width + "px",
-                        height: img.height + "px",
-                        transform: `scale(${scale})`,
+                        width: img.width * scale + "px",
+                        height: img.height * scale + "px",
+                        // transform: `scale(${scale})`,
                         transformOrigin: "0 0"
                       }}
                       key={img._id}
@@ -453,10 +455,10 @@ export default class Canvas extends Component<IProps, IState> {
                         showController={img.selected}
                         key={img._id + "2"}
                         _id={img._id}
-                        left={img.left}
-                        top={img.top}
-                        width={img.width}
-                        height={img.height}
+                        left={img.left * scale}
+                        top={img.top * scale}
+                        width={img.width * scale}
+                        height={img.height * scale}
                         scale={scale}
                         rotateAngle={img.rotateAngle}
                         aspectRatio={img.width / img.height}
@@ -498,16 +500,16 @@ export default class Canvas extends Component<IProps, IState> {
                           this
                         )}
                         childId={this.props.childId}
-                        posX={img.posX}
-                        posY={img.posY}
+                        posX={img.posX * scale}
+                        posY={img.posY * scale}
                         handleImageDrag={this.props.handleImageDrag.bind(
                           this,
                           img._id
                         )}
                         enableCropMode={this.props.enableCropMode}
                         cropMode={cropMode}
-                        imgWidth={img.imgWidth}
-                        imgHeight={img.imgHeight}
+                        imgWidth={img.imgWidth * scale}
+                        imgHeight={img.imgHeight * scale}
                         imgColor={img.color}
                         onImageResize={this.props.handleImageResize.bind(this)}
                         resizingInnerImage={this.props.resizingInnerImage}
@@ -539,7 +541,8 @@ export default class Canvas extends Component<IProps, IState> {
               onMouseEnter={(e) => { this.setState({hoveringCanvas: true,})}}
               onMouseLeave={(e) => { this.setState({hoveringCanvas: false,})}}
               onClick={e => {
-                if ((e.target as Element).id === "canvas") {
+                if ((e.target as Element).id === "canvas"
+                  && !this.props.dragging && !this.props.resizing) {
                   this.props.doNoObjectSelected();
                 }
               }}
@@ -573,9 +576,9 @@ export default class Canvas extends Component<IProps, IState> {
                     <div
                       id={img._id + "____"}
                       style={{
-                        width: img.width + "px",
-                        height: img.height + "px",
-                        transform: `scale(${scale})`,
+                        width: img.width * scale + "px",
+                        height: img.height * scale + "px",
+                        // transform: `scale(${scale})`,
                         transformOrigin: "0 0"
                       }}
                       key={img._id}
@@ -600,8 +603,8 @@ export default class Canvas extends Component<IProps, IState> {
                         _id={img._id}
                         left={img.left}
                         top={img.top}
-                        width={img.width}
-                        height={img.height}
+                        width={img.width * scale}
+                        height={img.height * scale}
                         scale={scale}
                         rotateAngle={img.rotateAngle}
                         aspectRatio={img.width / img.height}
@@ -643,16 +646,16 @@ export default class Canvas extends Component<IProps, IState> {
                           this
                         )}
                         childId={this.props.childId}
-                        posX={img.posX}
-                        posY={img.posY}
+                        posX={img.posX * scale}
+                        posY={img.posY * scale}
                         handleImageDrag={this.props.handleImageDrag.bind(
                           this,
                           img._id
                         )}
                         enableCropMode={this.props.enableCropMode}
                         cropMode={cropMode}
-                        imgWidth={img.imgWidth}
-                        imgHeight={img.imgHeight}
+                        imgWidth={img.imgWidth * scale}
+                        imgHeight={img.imgHeight * scale}
                         imgColor={img.color}
                         onImageResize={this.props.handleImageResize.bind(this)}
                         resizingInnerImage={this.props.resizingInnerImage}
@@ -682,7 +685,7 @@ export default class Canvas extends Component<IProps, IState> {
               // onMouseEnter={(e) => {this.setState({hoveringCanvas: true,})}}
               // onMouseLeave={(e) => {this.setState({hoveringCanvas: false,})}}
               onClick={e => {
-                if ((e.target as Element).id === "canvas") {
+                if ((e.target as Element).id === "canvas" && !this.props.dragging && !this.props.resizing) {
                   this.props.doNoObjectSelected();
                 }
               }}
@@ -718,9 +721,9 @@ export default class Canvas extends Component<IProps, IState> {
                       <div
                         id={img._id + "___"}
                         style={{
-                          width: img.width + "px",
-                          height: img.height + "px",
-                          transform: `scale(${scale})`,
+                          width: img.width * scale + "px",
+                          height: img.height * scale + "px",
+                          // transform: `scale(${scale})`,
                           transformOrigin: "0 0"
                         }}
                         key={img._id}
@@ -746,8 +749,8 @@ export default class Canvas extends Component<IProps, IState> {
                           _id={img._id}
                           left={img.left}
                           top={img.top}
-                          width={img.width}
-                          height={img.height}
+                          width={img.width * scale}
+                          height={img.height * scale}
                           scale={scale}
                           rotateAngle={img.rotateAngle}
                           aspectRatio={img.width / img.height}
@@ -792,16 +795,16 @@ export default class Canvas extends Component<IProps, IState> {
                             this
                           )}
                           childId={this.props.childId}
-                          posX={img.posX}
-                          posY={img.posY}
+                          posX={img.posX * scale}
+                          posY={img.posY * scale}
                           handleImageDrag={this.props.handleImageDrag.bind(
                             this,
                             img._id
                           )}
                           enableCropMode={this.props.enableCropMode}
                           cropMode={cropMode}
-                          imgWidth={img.imgWidth}
-                          imgHeight={img.imgHeight}
+                          imgWidth={img.imgWidth * scale}
+                          imgHeight={img.imgHeight * scale}
                           imgColor={img.color}
                           onImageResize={this.props.handleImageResize.bind(
                             this

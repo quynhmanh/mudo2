@@ -853,9 +853,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     this.setState({
       resizing: true,
-      resizingInnerImage: false,
-      startX,
-      startY
     });
   };
 
@@ -907,7 +904,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     //   return;
     // }
     const { scale } = this.state;
+    // let scale = 1;
     let { top, left, width, height } = style;
+    top = top / scale;
+    left = left / scale;
+    width = width / scale;
+    height = height / scale;
     var self = this;
     var temp = this.handleImageResize;
     var images = this.props.images.map(image => {
@@ -1084,61 +1086,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             rotateAngle: 0
           });
 
-          window.rect = { width: image.width, height: image.height, centerX: styles.position.centerX, centerY:  styles.position.centerY, rotateAngle: image.rotateAngle };
-          window.rect2 = { imgWidth: image.imgWidth, imgHeight: image.imgHeight, imgCenterX: imgStyles.position.centerX, imgCenterY: imgStyles.position.centerY, imgRotateAngle: 0 };
+          window.rect = { width: image.width * scale, height: image.height * scale, centerX: styles.position.centerX * scale, centerY:  styles.position.centerY * scale, rotateAngle: image.rotateAngle };
+          window.rect2 = { imgWidth: image.imgWidth * scale, imgHeight: image.imgHeight * scale, imgCenterX: imgStyles.position.centerX * scale, imgCenterY: imgStyles.position.centerY * scale, imgRotateAngle: 0 };
         }
       }
       return image;
     });
-
-    // var el;
-    // el = document.getElementById(_id + "_");
-    // if (el) {
-    //   el.style.top = top * scale + "px";
-    //   el.style.left = left * scale + "px";
-    //   el.style.width = width * scale + "px";
-    //   el.style.height = height * scale + "px";
-    // }
-
-    // el = document.getElementById(_id + "__");
-    // if (el) {
-    //   el.style.top = top * scale + "px";
-    //   el.style.left = left * scale + "px";
-    //   el.style.width = width * scale + "px";
-    //   el.style.height = height * scale + "px";
-    // }
-
-    // el = document.getElementById(_id + "___");
-    // if (el) {
-    //   el.style.width = width + "px";
-    //   el.style.height = height + "px";
-    // }
-
-    // el = document.getElementById(_id + "____");
-    // if (el) {
-    //   el.style.width = width + "px";
-    //   el.style.height = height + "px";
-    // }
-
-    // el = document.getElementById(_id + "_1");
-    // if (el) {
-    //   el.style.width = width + "px";
-    //   el.style.height = height + "px";
-    // }
-
-    // el = document.getElementById(_id + "_2");
-    // if (el) {
-    //   el.style.width = width + "px";
-    //   el.style.height = height + "px";
-    // }
-
-    // var rectalos = document.getElementsByClassName(_id + "rect-alo");
-    // for (var i = 0; i < rectalos.length; ++i) {
-    //   var cur: any = rectalos[i];
-    //   cur.style.width = width + "px";
-    //   cur.style.height = height + "px";
-    // }
-
 
     this.setState({ updateRect: self.switching }, () => {
       if (self.switching) {
@@ -1153,10 +1106,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   onResizeInnerImageStart = (startX, startY) => {
+    console.log('onResizeInnerImageStart');
     window.resizingInnerImage = true;
     window.startX = startX;
     window.startY = startY;
-    // this.setState({ resizingInnerImage: true, startX, startY });
+
+    this.setState({resizing: true});
   };
 
   // Handle the actual miage
@@ -1171,11 +1126,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    // if (this.switching) {
-    //   return;
-    // }
     const { scale } = this.state;
     let { top, left, width, height } = style;
+    top = top / scale;
+    left = left / scale;
+    width = width / scale;
+    height = height / scale;
 
     var self = this;
     var switching = false;
@@ -1375,6 +1331,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   handleDragStart = (e, _id) => {
     if (this.state.cropMode) {
+      this.setState({ dragging: true});
       return;
     }
     const { scale } = this.state;
@@ -1438,24 +1395,29 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = (_id, newPosX, newPosY) => {
+    console.log('dragging ', this.state.dragging);
+    const {scale} = this.state;
+
     let images = toJS(this.props.images);
     images = images.map(img => {
       if (img._id === _id) {
         if (newPosX > 0) {
           newPosX = 0;
-        } else if (newPosX + img.imgWidth < img.width) {
-          newPosX = img.width - img.imgWidth;
+        } else if (newPosX / scale + img.imgWidth < img.width) {
+          newPosX = (img.width - img.imgWidth) * scale;
         }
         if (newPosY > 0) {
           newPosY = 0;
-        } else if (newPosY + img.imgHeight < img.height) {
-          newPosY = img.height - img.imgHeight;
+        } else if (newPosY / scale + img.imgHeight < img.height) {
+          newPosY = (img.height - img.imgHeight) * scale;
         }
-        img.posX = newPosX;
-        img.posY = newPosY;
+        img.posX = newPosX / scale;
+        img.posY = newPosY / scale;
       }
       return img;
     });
+
+    document.getElementById(_id + "1237").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
 
     document.getElementById(_id + "1236").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
     // document.getElementById(_id + "1234").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
@@ -1745,8 +1707,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // var t1 = performance.now();
     // console.log("Call to doSomething took he " + (t1 - t0) + " milliseconds.");
 
-    this.setState({ dragging: true });
-
     return {
       updateStartPosX: !updateStartPosX,
       updateStartPosY: !updateStartPosY
@@ -1754,6 +1714,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleDragEnd = () => {
+    console.log('handleDragEnd');
     let {
       staticGuides: { x, y }
     } = this.state;
@@ -1772,23 +1733,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         image[ii] = 0;
         document.getElementById(image._id + "guide_" + ii).style.display = "none";
       }
-      // image[0] = 0;
-      // image[1] = 0;
-      // image[2] = 0;
-      // image[3] = 0;
-      // image[4] = 0;
-      // image[5] = 0;
-      // document.getElementById(image._id + "guide_" + ii).style.display = "none";
       return image;
     });
-
-    // var t0 = performance.now();
-
-    // console.log('handleDrag 2');
     this.props.images.replace(images);
-
-    // var t1 = performance.now();
-    // console.log("Call to doSomething took 3 " + (t1 - t0) + " milliseconds.");
 
     var rects = document.getElementsByClassName("rect");
     for (var i = 0; i < rects.length; ++i) {
@@ -1808,7 +1755,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cur.style.opacity = 1;
     }
 
-    this.setState({ dragging: false, staticGuides: { x, y }, images });
+    this.setState({ staticGuides: { x, y }, images });
+    
+    setTimeout(() => {
+      this.setState({dragging: false});
+    }, 50);
   };
 
   setAppRef = ref => (this.$app = ref);
@@ -1891,7 +1842,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   doNoObjectSelected = () => {
-    console.log('doNoObjectSelected');
+    console.log('doNoObjectSelected ', this.state.dragging, this.state.resizing);
     if (!this.state.rotating && !this.state.resizing) {
       let images = this.props.images.map(image => {
         image.selected = false;
@@ -5361,9 +5312,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 onScroll={this.handleScroll2.bind(this)}
                 id="screen-container-parent"
                 onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   if (
                     // !cropMode &&
-                    (e.target as Element).id === "screen-container-parent"
+                    (e.target as Element).id === "screen-container-parent" && !this.state.dragging && !this.state.resizing
                   ) {
                     this.doNoObjectSelected();
                     e.stopPropagation();
@@ -5396,7 +5349,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   }}
                   ref={this.setContainerRef}
                   onClick={e => {
-                    if ((e.target as Element).id === "screen-container") {
+                    if ((e.target as Element).id === "screen-container" && !this.state.dragging && !this.state.resizing) {
                       this.doNoObjectSelected();
                     }
                   }}

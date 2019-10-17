@@ -130,7 +130,6 @@ export default class Rect extends PureComponent<IProps, IState> {
     posY: 0
   };
 
-
   componentDidMount() {
     if (this.props.innerHTML && this.$textEle) {
       this.$textEle.innerHTML = this.props.innerHTML;
@@ -235,8 +234,8 @@ export default class Rect extends PureComponent<IProps, IState> {
     document.addEventListener("mouseup", onUp);
   };
 
-  startResizeImage = (e, cursor) => {
-    console.log('startResizeImage ');
+  startResizeImage = (e, cursor, resizingInnerImage) => {
+    console.log("startResizeImage ", window.resizingInnerImage);
     e.preventDefault();
     e.stopPropagation();
     if (e.button !== 0) return;
@@ -254,34 +253,24 @@ export default class Rect extends PureComponent<IProps, IState> {
       },
       objectType
     } = this.props;
-    let rect = { width, height, centerX, centerY, rotateAngle };
-    let rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
+    window.rect = { width, height, centerX, centerY, rotateAngle };
+    window.rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
     const { clientX: startX, clientY: startY } = e;
     const type = e.target.getAttribute("class").split(" ")[0];
     this.props.onResizeInnerImageStart &&
       this.props.onResizeInnerImageStart(startX, startY);
+    window.resizingInnerImage = resizingInnerImage;
     this._isMouseDown = true;
     var self = this;
     // this.props.onResizeInnerImageStart(startX, startY);
+    
+    var eeee = document.getElementById('screen-container-parent');
+    // eeee._click = events.click;
+    var a = eeee.click;
+    console.log('eeee ', eeee.onclick);
+    eeee.onclick = null;
+ 
     const onMove = e => {
-      if (this.props.updateRect) {
-        let {
-          styles: {
-            position: { centerX, centerY },
-            size: { width, height },
-            transform: { rotateAngle }
-          },
-          imgStyles: {
-            position: { centerX: imgCenterX, centerY: imgCenterY },
-            size: { width: imgWidth, height: imgHeight },
-            transform: { rotateAngle: imgRotateAngle }
-          },
-          objectType
-        } = this.props;
-
-        rect = { width, height, centerX, centerY, rotateAngle };
-        rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
-      }
       e.preventDefault();
       if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
       e.stopImmediatePropagation();
@@ -295,7 +284,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         this.props.onResize(
           deltaL,
           alpha,
-          rect,
+          window.rect,
           type,
           isShiftKey,
           cursor,
@@ -305,11 +294,10 @@ export default class Rect extends PureComponent<IProps, IState> {
           null
         );
       } else {
-        console.log('deltaX deltaY', deltaX, deltaY);
         this.props.onImageResize(
           deltaL,
           alpha,
-          rect2,
+          window.rect2,
           type,
           isShiftKey,
           cursor,
@@ -330,13 +318,15 @@ export default class Rect extends PureComponent<IProps, IState> {
     };
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", onUp);
+
+    // eeee.click = a;
   };
 
   startResizeInnerImage = (e, cursor) => {
-    console.log('startResizeInnerImage');
+    console.log("startResizeInnerImage");
     e.preventDefault();
     e.stopPropagation();
-    if (e.button !== 0) return;
+    // if (e.button !== 0) return;
     document.body.style.cursor = cursor;
     let {
       styles: {
@@ -354,32 +344,20 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     const { clientX: startX, clientY: startY } = e;
     window.rect = { width, height, centerX, centerY, rotateAngle };
-    window.rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
+    window.rect2 = {
+      imgWidth,
+      imgHeight,
+      imgCenterX,
+      imgCenterY,
+      imgRotateAngle
+    };
     const type = e.target.getAttribute("class").split(" ")[0];
     this.props.onResizeStart && this.props.onResizeStart(startX, startY);
     this._isMouseDown = true;
     var self = this;
     const onMove = e => {
-      // if (this.props.updateRect) {
-      //   let {
-      //     styles: {
-      //       position: { centerX, centerY },
-      //       size: { width, height },
-      //       transform: { rotateAngle }
-      //     },
-      //     imgStyles: {
-      //       position: { centerX: imgCenterX, centerY: imgCenterY },
-      //       size: { width: imgWidth, height: imgHeight },
-      //       transform: { rotateAngle: imgRotateAngle }
-      //     },
-      //     objectType
-      //   } = this.props;
-
-      //   rect = { width, height, centerX, centerY, rotateAngle };
-      //   rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
-      // }
       e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
+      // if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
       e.stopImmediatePropagation();
       const { clientX, clientY } = e;
       // const deltaX = clientX - this.props.startX;
@@ -431,6 +409,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   // Resize
   startResize = (e, cursor) => {
+    console.log("startResize");
     var self = this;
     e.preventDefault();
     e.stopPropagation();
@@ -458,7 +437,6 @@ export default class Rect extends PureComponent<IProps, IState> {
           child => child._id === this.props.childId
         ).scaleY;
       }
-
 
       var a = document.getSelection();
       if (a && a.type === "Range") {
@@ -611,8 +589,8 @@ export default class Rect extends PureComponent<IProps, IState> {
       if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
       e.stopImmediatePropagation();
       const { clientX, clientY } = e;
-      const deltaX = (clientX - startX) / scale;
-      const deltaY = (clientY - startY) / scale;
+      const deltaX = clientX - startX;
+      const deltaY = clientY - startY;
       var newPosX = posX + deltaX;
       var newPosY = posY + deltaY;
       this.props.handleImageDrag(newPosX, newPosY);
@@ -675,20 +653,22 @@ export default class Rect extends PureComponent<IProps, IState> {
       id,
       dragging,
       resizing,
-      rotating,
+      rotating
     } = this.props;
 
     var newWidth = width;
     var newHeight = height;
-    var outlineWidth2 = Math.max(2, 2/scale);
+    var outlineWidth2 = Math.max(2, 2 / scale);
     var style = {
       width: Math.abs(newWidth),
       height: Math.abs(newHeight),
       zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
-      outline: !showImage && (selected
-        ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${outlineWidth2}px`
-        : null)
+      outline:
+        !showImage &&
+        (selected
+          ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2}px`
+          : null)
     };
 
     var opacity = this.props.opacity ? this.props.opacity / 100 : 1;
@@ -709,7 +689,8 @@ export default class Rect extends PureComponent<IProps, IState> {
       <StyledRect
         id={id}
         ref={this.setElementRef}
-        className={`${_id}-styledrect rect single-resizer ${selected && "selected"}`}
+        className={`${_id}-styledrect rect single-resizer ${selected &&
+          "selected"}`}
         style={style}
         dragging={dragging}
         resizing={resizing}
@@ -724,20 +705,25 @@ export default class Rect extends PureComponent<IProps, IState> {
               width: 18 / scale + "px",
               height: 18 / scale + "px",
               left: `calc(50% - ${18 / scale / 2}px)`,
-              bottom: `-${40 / scale}px`
+              bottom: "-50px"
             }}
             onMouseDown={this.startRotate}
           >
             <div
               className="rotate"
               style={{
-                transform: `scale(${1 / scale + 0.15})`,
+                // transform: `scale(${1 / scale + 0.15})`,
                 padding: "3px"
               }}
             >
-              <svg style={{
-                transform: 'scale(0.9)',
-              }} width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                style={{
+                  transform: "scale(0.9)"
+                }}
+                width="14"
+                height="14"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M10.536 3.464A5 5 0 1 0 11 10l1.424 1.425a7 7 0 1 1-.475-9.374L13.659.34A.2.2 0 0 1 14 .483V5.5a.5.5 0 0 1-.5.5H8.483a.2.2 0 0 1-.142-.341l2.195-2.195z"
                   fillRule="nonzero"
@@ -756,8 +742,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               <div
                 key={d}
                 style={{
-                  cursor,
-                  transform: `scale(${1 / scale + 0.15})`
+                  cursor
+                  // transform: `scale(${1 / scale + 0.15})`
                 }}
                 className={`${zoomableMap[d]} resizable-handler-container`}
                 onMouseDown={e => this.startResize(e, cursor)}
@@ -963,7 +949,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                 width: "100%",
                 height: "100%",
                 position: "absolute",
-                outline: cropMode && selected ? 'rgb(0, 217, 225) solid 4.35317px' : 'none',
+                outline:
+                  cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
               }}
             >
               {!showImage &&
@@ -981,11 +968,14 @@ export default class Rect extends PureComponent<IProps, IState> {
                       key={d}
                       style={{
                         cursor,
-                        transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
+                        // transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
+                        transform: `rotate(${i * 90}deg)`,
                         zIndex: 2
                       }}
                       className={`${zoomableMap[d]} resizable-handler-container cropMode`}
-                      onMouseDown={e => this.startResizeInnerImage(e, cursor)}
+                      onMouseDown={e => {
+                        this.startResizeImage(e, cursor, false);
+                      }}
                     >
                       <svg
                         className={`${zoomableMap[d]}`}
@@ -1066,11 +1056,14 @@ export default class Rect extends PureComponent<IProps, IState> {
           )}
           {!showImage && cropMode && selected && (
             <div
+              id={_id + "1237"}
               style={{
                 transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
                 width: imgWidth + "px",
                 height: imgHeight + "px",
-                zIndex: 999999
+                zIndex: 999999,
+                outline:
+                  cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
               }}
             >
               {cropMode && selected
@@ -1084,19 +1077,19 @@ export default class Rect extends PureComponent<IProps, IState> {
                         key={d}
                         style={{
                           cursor,
-                          transform: `scaleX(${1 / scale}) scaleY(${1 /
-                            scale})`,
+                          // transform: `scaleX(${1 / scale}) scaleY(${1 /
+                          //   scale})`,
                           zIndex: 999999
                         }}
                         id={_id + zoomableMap[d] + "_"}
                         className={`${zoomableMap[d]} resizable-handler-container hehe`}
-                        onMouseDown={e => this.startResizeImage(e, cursor)}
+                        onMouseDown={e => this.startResizeImage(e, cursor, true)}
                       >
                         <div
                           key={d}
                           style={{ cursor, zIndex: 999999 }}
                           className={`${zoomableMap[d]} resizable-handler`}
-                          onMouseDown={e => this.startResizeImage(e, cursor)}
+                          onMouseDown={e => this.startResizeImage(e, cursor, true)}
                         />
                       </div>
                     );
@@ -1174,10 +1167,12 @@ export default class Rect extends PureComponent<IProps, IState> {
                     style={{
                       position: "absolute",
                       display: "inline-block",
-                      width: width / scaleX + "px",
+                      width: width / scaleX / scale + "px",
                       margin: "0px",
                       wordBreak: "break-word",
-                      opacity
+                      opacity,
+                      transform: `scale(${scale})`,
+                      transformOrigin: "0 0"
                     }}
                   ></div>
                 )}
@@ -1254,10 +1249,12 @@ export default class Rect extends PureComponent<IProps, IState> {
                     style={{
                       position: "absolute",
                       display: "inline-block",
-                      width: width / scaleX + "px",
+                      width: width / scaleX / scale + "px",
                       margin: "0px",
                       wordBreak: "break-word",
-                      opacity
+                      opacity,
+                      transform: `scale(${scale})`,
+                      transformOrigin: "0 0"
                     }}
                   ></div>
                 )}
@@ -1336,10 +1333,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     width: this.props.imgWidth + "px",
                     height: this.props.imgHeight + "px",
                     transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    outline:
-                    cropMode && selected
-                      ? `#00d9e1 solid ${2 / scale}px`
-                      : null,
+                    outline: cropMode && selected ? `#00d9e1 solid 2px` : null
                   }}
                 >
                   <img
@@ -1351,9 +1345,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
                       opacity: 0.5,
                       outline:
-                        cropMode && selected
-                          ? `#00d9e1 solid ${2 / scale}px`
-                          : null,
+                        cropMode && selected ? `#00d9e1 solid 2px` : null,
                       transformOrigin: "0 0"
                     }}
                     onDoubleClick={enableCropMode}
@@ -1432,17 +1424,17 @@ export default class Rect extends PureComponent<IProps, IState> {
                     <div
                       key={d}
                       style={{
-                        cursor,
-                        transform: `scaleX(${1 / scale}) scaleY(${1 / scale})`
+                        cursor
+                        // transform: `scaleX(${1 / scale}) scaleY(${1 / scale})`
                       }}
                       className={`${zoomableMap[d]} resizable-handler-container hehe`}
-                      onMouseDown={e => this.startResizeImage(e, cursor)}
+                      onMouseDown={e => this.startResizeImage(e, cursor, true)}
                     >
                       <div
                         key={d}
                         style={{ cursor }}
                         className={`${zoomableMap[d]} resizable-handler`}
-                        onMouseDown={e => this.startResizeImage(e, cursor)}
+                        onMouseDown={e => this.startResizeImage(e, cursor, true)}
                       />
                     </div>
                   );

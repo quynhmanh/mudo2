@@ -141,10 +141,11 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       minWidth,
       minHeight,
       parentRotateAngle,
-      scale,
+      // scale,
       _id,
       freeStyle,
     } = this.props;
+    let scale = 1;
     const beta = alpha - degToRadian(rotateAngle + parentRotateAngle);
     const deltaW = (length * Math.cos(beta)) / scale;
     const deltaH = (length * Math.sin(beta)) / scale;
@@ -198,9 +199,10 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       minWidth,
       minHeight,
       parentRotateAngle,
-      scale,
+      // scale,
       _id
     } = this.props;
+    let scale = 1;
     const beta = alpha - degToRadian(rotateAngle + parentRotateAngle);
     const deltaW = (length * Math.cos(beta)) / scale;
     const deltaH = (length * Math.sin(beta)) / scale;
