@@ -30,4 +30,17 @@
     "socialMedia": "Mạng xã hội",
     "presentation": "Thuyết trình",
     "poster": "Áp phích",
+    "facebookPost": "Bài đăng Facebook",
+    "facebookCover": "Facebook Cover",
+    "facebookVideoCover": "Bìa Facebook Video ",
+    "facebookVideoStory": "Facebook Video Story",
+    "facebookEventCover": "Facebook Event Cover",
+    "facebookAd": "Facebook Ad",
+    "instagramStory": "Instagram Story",
+    "instagramVideoStory": "Instagram Video Story",
+    "instagramPost": "Instagram Post",
+    "instagramAd": "Instagram Ad",
+    "twitterPost": "Twitter Post",
+    "twitterHeader": "Twitter Header",
+    "twitterAd": "Twitter Ad"
 }

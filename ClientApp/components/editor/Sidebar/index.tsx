@@ -50,10 +50,10 @@ var SidebarName = [
   }
 
   var allowedSelector = [
-    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Template ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage ^ SidebarTab.Video,
-    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage ^ SidebarTab.Video,
+    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Template ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.Video,
+    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.Video,
     SidebarTab.Image ^ SidebarTab.Text,
-    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.RemovedBackgroundImage ^ SidebarTab.Video,
+    SidebarTab.Image ^ SidebarTab.Text ^ SidebarTab.Background ^ SidebarTab.Element ^ SidebarTab.Upload ^ SidebarTab.Video,
     SidebarTab.Image ^ SidebarTab.Text,
   ];
 

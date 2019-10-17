@@ -169,7 +169,7 @@ class ExamplePage extends React.Component<Props, IState> {
                 <title>Example - RCB (TypeScript)</title>
             </Helmet>
 
-            <Loader show={this.props.indicators.operationLoading} />
+            {/* <Loader show={this.props.indicators.operationLoading} /> */}
 
             <div className="panel panel-default">
                 <div className="panel-body row">

@@ -252,7 +252,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                 </div>
               </div>
               <div className="logIn___R_tvz">
-                <p style={{ color: "white" }} class="logInText___xkR-S">
+                <p style={{ color: "white" }} className="logInText___xkR-S">
                 {this.props.translate("doNotHaveAccount")}
                 </p>
                 <button

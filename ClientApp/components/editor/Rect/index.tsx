@@ -17,6 +17,17 @@ const zoomableMap = {
   sw: "bl"
 };
 
+declare global {
+  interface Window {
+    paymentScope: any;
+    resizingInnerImage: any;
+    startX: any;
+    startY: any;
+    rect: any;
+    rect2: any;
+  }
+}
+
 export interface IProps {
   dragging: boolean;
   id: string;
@@ -280,7 +291,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       const alpha = Math.atan2(deltaY, deltaX);
       const deltaL = getLength(deltaX, deltaY);
       const isShiftKey = e.shiftKey;
-      if (!resizingInnerImage) {
+      if (!window.resizingInnerImage) {
         this.props.onResize(
           deltaL,
           alpha,

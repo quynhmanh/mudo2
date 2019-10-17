@@ -118,6 +118,7 @@ class Popup extends PureComponent<IProps, IState> {
           }} className="templateList___2swQr">
           {/* <li className="templateWrapper___3Fitk">
             <ImagePicker
+                showButton={false}
                 src="https://cdn.crello.com/common/c2e83c00-e0fc-4e4a-9e57-a53b379faaca_640.jpg"
                 height={160}
                 defaultHeight={160}
@@ -137,6 +138,7 @@ class Popup extends PureComponent<IProps, IState> {
                     }} className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                         <VideoPicker
+                        showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -236,6 +238,7 @@ class Popup extends PureComponent<IProps, IState> {
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
                           delay={0}
+                          showButton={false}
                         />
                 </div>
                 <svg viewBox="0 0 16 16" width={16} height={16} style={{
@@ -283,6 +286,7 @@ class Popup extends PureComponent<IProps, IState> {
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
                           delay={0}
+                          showButton={false}
                         />
                 </div>
             </div>
@@ -368,6 +372,7 @@ class Popup extends PureComponent<IProps, IState> {
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
                           delay={0}
+                          showButton={false}
                         />
                 </div>
             </div>
@@ -408,6 +413,7 @@ class Popup extends PureComponent<IProps, IState> {
                           onPick={(e) => {}}
                           onEdit={(e) => {}}
                           delay={0}
+                          showButton={false}
                         />
                 </div>
                 <svg viewBox="0 0 16 16" width={16} height={16} style={{
@@ -443,6 +449,7 @@ class Popup extends PureComponent<IProps, IState> {
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                 <ImagePicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -483,6 +490,7 @@ class Popup extends PureComponent<IProps, IState> {
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                 <ImagePicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -523,6 +531,7 @@ class Popup extends PureComponent<IProps, IState> {
             <div className="previewWrapper___mbAh5">
                 <div style={{paddingTop: 0}}>
                     <VideoPicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -570,6 +579,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <img alt="Instagram Ad Home stuff 1080px 1080px" src="https://cdn.crello.com/common/52f3771f-658a-4b4c-9df8-b7dceb4bd581_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
                     <ImagePicker
+                        showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -610,6 +620,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/8714f27a-96e2-421e-bc0c-a62bb6734be4.mp4" poster="https://cdn.crello.com/common/9306da81-1cc9-4ee2-a135-970d8d62a0a2_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -657,6 +668,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/84f08efe-1289-4a19-ac4b-89060140dc66.mp4" poster="https://cdn.crello.com/common/534f5b80-3a47-436b-bab1-9561c122cfed_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -704,6 +716,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/f7bfb9ea-09e1-423e-a735-989fed4ad1e1.mp4" poster="https://cdn.crello.com/common/d1c132f6-8b1f-48a4-99b8-fd0682425ca5_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -751,6 +764,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/bd52c4e4-8151-41cf-96d4-5d6cc144bcdb.mp4" poster="https://cdn.crello.com/common/9fd87f37-1194-462a-b751-110f725cacb8_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -798,6 +812,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <img alt="Facebook Ad Industry 628px 1200px" src="https://cdn.crello.com/common/04eb5b1d-cf71-4114-a9d6-71a651c5203a_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
                     <ImagePicker
+                        showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -838,6 +853,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/c604a4a4-b56f-44e7-b6cf-f5c5d1d735ac.mp4" poster="https://cdn.crello.com/common/890793ba-a8e7-4c3a-a1a0-1e9281d766bd_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -885,6 +901,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/0b07ba68-96d6-4196-b462-55e1662cad0b.mp4" poster="https://cdn.crello.com/common/61785313-5b0c-4cd8-b9e7-613e40144e10_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -932,6 +949,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <img alt="Facebook Post Beauty 788px 940px" src="https://cdn.crello.com/common/92e717c0-ba32-4db7-b5bd-f60f07d4bb5e_640.jpg" className="preview___37TNk mediaItem___106k8" /> */}
                     <ImagePicker
+                        showButton={false}
                           id="1"
                           key={"1"}
                           color={""}
@@ -972,6 +990,7 @@ class Popup extends PureComponent<IProps, IState> {
                 <div style={{paddingTop: 0}}>
                     {/* <video src="https://cdn.crello.com/video-producer-script/f55e8cd3-1970-40d3-b57c-d271d89d4a33.mp4" poster="https://cdn.crello.com/common/82356167-f8e5-4876-b15f-2930fd80f6d3_640.jpg" loop muted preload="metadata" autoPlay className="preview___37TNk mediaItem___106k8" /> */}
                     <VideoPicker
+                    showButton={false}
                           id="1"
                           key={"1"}
                           color={""}

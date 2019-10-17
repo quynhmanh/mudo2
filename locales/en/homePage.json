@@ -30,4 +30,17 @@
   "socialMedia": "Social media",
   "presentation": "Presentation",
   "poster": "Poster",
+  "facebookPost": "Facebook Post",
+  "facebookCover": "Facebook Cover",
+  "facebookVideoCover": "Facebook Video Cover",
+  "facebookVideoStory": "Facebook Video Story",
+  "facebookEventCover": "Facebook Event Cover",
+  "facebookAd": "Facebook Ad",
+  "instagramStory": "Instagram Story",
+  "instagramVideoStory": "Instagram Video Story",
+  "instagramPost": "Instagram Post",
+  "instagramAd": "Instagram Ad",
+  "twitterPost": "Twitter Post",
+  "twitterHeader": "Twitter Header",
+  "twitterAd": "Twitter Ad"
 }

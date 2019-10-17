@@ -311,7 +311,7 @@ export function checkModalIndexInStack(modal) {
 export function toggleGlobalScroll(expected) {
   const $root = document.documentElement
   const $body = document.body
-  const $content = document.getElementsByClassName('ContentRoot')[0]
+  const $content = document.getElementsByClassName('ContentRoot')[0] as HTMLElement
 
   const { innerWidth: vw, scrollX, scrollY } = window
   const is = isBoolean(expected) ? expected : $body.classList.toggle('is-content-fixed')

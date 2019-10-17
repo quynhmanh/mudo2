@@ -56,7 +56,7 @@ export default class PricingPage extends React.Component<IProps, IState> {
                   <p className="small text-white-70">Annual plans available.</p>
                   <div className="position-absolute bottom-0 right-0 w-100 max-width-15 z-index-n1">
                     <figure className="ie-abstract-shapes-11">
-                      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 67.1 115" style={{enableBackground: 'new 0 0 67.1 115'}} xmlSpace="preserve" className="injected-svg js-svg-injector rounded-bottom">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 67.1 115" xmlSpace="preserve" className="injected-svg js-svg-injector rounded-bottom">
                         <style type="text/css" dangerouslySetInnerHTML={{__html: "\n\t.abstract-shapes-11-0{fill:#00DFFC;}\n\t.abstract-shapes-11-1{fill:none;stroke:#FFFFFF;}\n" }} />
                         <g>
                           <defs>

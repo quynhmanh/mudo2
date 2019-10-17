@@ -131,7 +131,9 @@ export default class Tip extends PureComponent<IProps, IState> {
             isOpen: false
         };
 
-        return (isOpen && (<div className="TipBase" ref={this.ref}>
+        return (isOpen && (<div className="TipBase" 
+        // ref={this.ref}
+        >
             <div style={{
                     padding: "3px 5px"
                 }} onTransitionEnd={this.onTransitionEnd}>

@@ -1,12 +1,12 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import Editor from "@Pages/Editor";
-import { observable, action, autorun } from "mobx";
+import { observable, action, IObservableArray } from "mobx";
 import uuidv4 from "uuid/v4";
 import { toJS } from "mobx";
 
 class Images {
-  @observable images = [];
+  @observable images: IObservableArray<any>;
   @observable fontsList = [];
   @observable fonts = [];
   @observable upperZIndex = 1;
@@ -22,7 +22,7 @@ class Images {
           img.childId = item._id;
         }
         return img;
-      });
+      }) as IObservableArray;
       images.push(item);
       this.images.replace(images);
     } else {
@@ -50,17 +50,13 @@ class Images {
     this.upperZIndex += 1;
   }
 
-  @action replaceAllImages = (images) => {
-    store.images.replace(images);
-  }
-
   @action applyTemplate = (template) => {
     var images = toJS(this.images);
     images = images.filter(image => {
       return image.page !== this.activePageId;
-    });
+    }) as IObservableArray;
 
-    images = [...images, ...template];
+    images = [...images, ...template] as IObservableArray;
     this.images.replace(images);
   }
 }
@@ -112,7 +108,6 @@ export default class EditorContainer extends React.Component<IProps, IState> {
         replaceFirstItem={store.replaceFirstItem}
         firstpage={firstpage} 
         increaseUpperzIndex={store.increaseUpperzIndex}
-        replaceAllImages={store.replaceAllImages}
       />
     );
   }

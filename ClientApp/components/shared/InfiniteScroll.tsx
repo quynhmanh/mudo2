@@ -57,7 +57,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     throttle: 64,
     loaderBlack: false,
   };
-  private sentinel: HTMLDivElement;
+  private sentinel: HTMLElement;
   private containerSroll: HTMLDivElement;
   private scrollHandler: () => void;
   private resizeHandler: () => void;

@@ -39,11 +39,11 @@ export interface IProps {
   setSelectionColor: any;
   imgOnMouseDown: any;
   videoOnMouseDown: any;
-  replaceAllImages: any;
   applyTemplate: any;
   textOnMouseDown: any;
   translate: any;
   tReady: boolean;
+  fontId: any;
 }
 
 interface IState {
@@ -74,6 +74,7 @@ interface IState {
   removeImages1: any;
   removeImages2: any;
   videos: any;
+  hasMoreVideos: any;
   isBackgroundLoading: boolean;
   currentBackgroundHeights1: number;
   currentBackgroundHeights2: number;
@@ -847,6 +848,7 @@ class LeftSide extends Component<IProps, IState> {
     hasMoreUserUpload: true,
     isRemovedBackgroundImageLoading: false,
     hasMoreRemovedBackground: true,
+    hasMoreVideos: true,
   };
 
   componentDidMount() {
@@ -1564,10 +1566,6 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   render() {
-    // if (!this.props.mounted) {
-    //   return null;
-    // }
-    console.log('leftside render');
     return (
       <div
         style={{
@@ -1740,6 +1738,7 @@ class LeftSide extends Component<IProps, IState> {
                           onPick={(e) => {this.props.imgOnMouseDown(item, e)}}
                           onEdit={this.handleEditmedia.bind(this, item)}
                           delay={0}
+                          showButton={false}
                         />
                       ))}
                       {this.state.mounted &&
@@ -1748,6 +1747,7 @@ class LeftSide extends Component<IProps, IState> {
                           .fill(0)
                           .map((item, i) => (
                             <ImagePicker
+                              showButton={false}
                               key={i + "11"}
                               id="sentinel-image"
                               color="black"
@@ -1767,6 +1767,7 @@ class LeftSide extends Component<IProps, IState> {
                           .fill(0)
                           .map((item, i) => (
                             <ImagePicker
+                              showButton={false}
                               key={i + 1 + "11"}
                               id="sentinel-image"
                               color="black"
@@ -1789,6 +1790,7 @@ class LeftSide extends Component<IProps, IState> {
                     >
                       {this.state.items2.map((item, key) => (
                         <ImagePicker
+                          showButton={false}
                           id=""
                           key={key + "2"}
                           color={item.color}
@@ -1808,6 +1810,7 @@ class LeftSide extends Component<IProps, IState> {
                           .fill(0)
                           .map((item, i) => (
                             <ImagePicker
+                              showButton={false}
                               key={i + "22"}
                               id="sentinel-image"
                               color="black"
@@ -1827,6 +1830,7 @@ class LeftSide extends Component<IProps, IState> {
                           .fill(0)
                           .map((item, i) => (
                             <ImagePicker
+                              showButton={false}
                               key={i + "22"}
                               id="sentinel-image"
                               color="black"
@@ -2104,6 +2108,7 @@ class LeftSide extends Component<IProps, IState> {
                                 //   editingMedia: item
                                 // });
                               }}
+                              showButton={false}
                             />
                           ))}
                           {this.state.hasMoreTextTemplate &&
@@ -2122,6 +2127,7 @@ class LeftSide extends Component<IProps, IState> {
                             onPick={this.props.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
                             delay={0}
+                            showButton={false}
                           />
                         ))}
                     {this.state.hasMoreTextTemplate &&
@@ -2140,6 +2146,7 @@ class LeftSide extends Component<IProps, IState> {
                             onPick={this.props.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
                             delay={0}
+                            showButton={false}
                           />
                         ))}
                         </div>
@@ -2166,6 +2173,7 @@ class LeftSide extends Component<IProps, IState> {
                                 //   editingMedia: item
                                 // });
                               }}
+                              showButton={false}
                             />
                           ))}
                           {this.state.hasMoreTextTemplate &&
@@ -2184,6 +2192,7 @@ class LeftSide extends Component<IProps, IState> {
                             onPick={this.props.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
                             delay={150}
+                            showButton={false}
                           />
                         ))}
                     {this.state.hasMoreTextTemplate &&
@@ -2202,6 +2211,7 @@ class LeftSide extends Component<IProps, IState> {
                             onPick={this.props.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
                             delay={150}
+                            showButton={false}
                           />
                         ))}
                         </div>
@@ -2267,6 +2277,7 @@ class LeftSide extends Component<IProps, IState> {
                           //   editingMedia: item
                           // });
                         }}
+                        showButton={false}
                       /> :
                       <ImagePicker
                         id=""
@@ -2285,6 +2296,7 @@ class LeftSide extends Component<IProps, IState> {
                           //   editingMedia: item
                           // });
                         }}
+                        showButton={false}
                       />
                     ))}
                     {this.state.hasMoreTemplate &&
@@ -2303,6 +2315,7 @@ class LeftSide extends Component<IProps, IState> {
                             onPick={this.props.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
                             delay={0}
+                            showButton={false}
                           />
                         ))}
                     {this.state.hasMoreTemplate &&
@@ -2321,6 +2334,7 @@ class LeftSide extends Component<IProps, IState> {
                             onPick={this.props.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
                             delay={0}
+                            showButton={false}
                           />
                         ))}
                   </div>
@@ -2348,6 +2362,7 @@ class LeftSide extends Component<IProps, IState> {
                           //   editingMedia: item
                           // });
                         }}
+                        showButton={false}
                       /> :
                       <ImagePicker
                         id=""
@@ -2366,6 +2381,7 @@ class LeftSide extends Component<IProps, IState> {
                           //   editingMedia: item
                           // });
                         }}
+                        showButton={false}
                       />
                     ))}
                     {this.state.hasMoreTemplate &&
@@ -2384,6 +2400,7 @@ class LeftSide extends Component<IProps, IState> {
                             onPick={this.props.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
                             delay={150}
+                            showButton={false}
                           />
                         ))}
                     {this.state.hasMoreTemplate &&
@@ -2402,6 +2419,7 @@ class LeftSide extends Component<IProps, IState> {
                             onPick={this.props.imgOnMouseDown.bind(this, null)}
                             onEdit={this.handleEditmedia.bind(this, null)}
                             delay={150}
+                            showButton={false}
                           />
                         ))}
                   </div>
@@ -2475,6 +2493,7 @@ class LeftSide extends Component<IProps, IState> {
                   >
                     {this.state.backgrounds1.map((item, key) => (
                       <ImagePicker
+                        showButton={false}
                         className=""
                         id=""
                         delay={0}
@@ -2493,6 +2512,7 @@ class LeftSide extends Component<IProps, IState> {
                         .fill(0)
                         .map((item, i) => (
                           <ImagePicker
+                            showButton={false}
                             key={i}
                             id="sentinel-background"
                             color="black"
@@ -2511,6 +2531,7 @@ class LeftSide extends Component<IProps, IState> {
                         .fill(0)
                         .map((item, i) => (
                           <ImagePicker
+                            showButton={false}
                             key={i}
                             id="sentinel-background"
                             color="black"
@@ -2533,6 +2554,7 @@ class LeftSide extends Component<IProps, IState> {
                   >
                     {this.state.backgrounds2.map((item, key) => (
                       <ImagePicker
+                        showButton={false}
                         className=""
                         width={backgroundWidth}
                         id=""
@@ -2551,6 +2573,7 @@ class LeftSide extends Component<IProps, IState> {
                         .fill(0)
                         .map((item, i) => (
                           <ImagePicker
+                            showButton={false}
                             key={i}
                             id="sentinel-background"
                             color="black"
@@ -2569,6 +2592,7 @@ class LeftSide extends Component<IProps, IState> {
                         .fill(0)
                         .map((item, i) => (
                           <ImagePicker
+                            showButton={false}
                             key={i}
                             id="sentinel-background"
                             color="black"
@@ -2590,6 +2614,7 @@ class LeftSide extends Component<IProps, IState> {
                   >
                     {this.state.backgrounds3.map((item, key) => (
                       <ImagePicker
+                        showButton={false}
                         id=""
                         className=""
                         key={key}
@@ -2608,6 +2633,7 @@ class LeftSide extends Component<IProps, IState> {
                         .fill(0)
                         .map((item, i) => (
                           <ImagePicker
+                            showButton={false}
                             key={i}
                             id="sentinel"
                             color="black"
@@ -2626,6 +2652,7 @@ class LeftSide extends Component<IProps, IState> {
                         .fill(0)
                         .map((item, i) => (
                           <ImagePicker
+                            showButton={false}
                             key={i}
                             id="sentinel"
                             color="black"
@@ -3134,6 +3161,7 @@ class LeftSide extends Component<IProps, IState> {
                           src={item.representative}
                           onPick={(e) => {this.props.imgOnMouseDown(item, e)}}
                           onEdit={this.handleEditmedia.bind(this, item)}
+                          showButton={false}
                         />
                       ))}
                       {this.state.hasMoreUserUpload &&
@@ -3152,6 +3180,7 @@ class LeftSide extends Component<IProps, IState> {
                               onPick={this.props.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
                               delay={0}
+                              showButton={false}
                             />
                           ))}
                       {this.state.hasMoreUserUpload &&
@@ -3170,6 +3199,7 @@ class LeftSide extends Component<IProps, IState> {
                               onPick={this.props.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
                               delay={0}
+                              showButton={false}
                             />
                           ))}
                     </div>
@@ -3191,6 +3221,7 @@ class LeftSide extends Component<IProps, IState> {
                           src={item.representative}
                           onPick={this.props.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
+                          showButton={false}
                         />
                       ))}
                       {this.state.hasMoreUserUpload &&
@@ -3209,6 +3240,7 @@ class LeftSide extends Component<IProps, IState> {
                               onPick={this.props.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
                               delay={-1}
+                              showButton={false}
                             />
                           ))}
                       {this.state.hasMoreUserUpload &&
@@ -3227,6 +3259,7 @@ class LeftSide extends Component<IProps, IState> {
                               onPick={this.props.imgOnMouseDown.bind(this, null)}
                               onEdit={this.handleEditmedia.bind(this, null)}
                               delay={-1}
+                              showButton={false}
                             />
                           ))}
                     </div>

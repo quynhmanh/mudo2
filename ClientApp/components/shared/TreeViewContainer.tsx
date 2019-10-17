@@ -1029,7 +1029,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                 // display: 'flex',
             }} 
             >
-            <InfiniteScroll
+            {/* <InfiniteScroll
                 scroll={false}
                     throttle={500}
                     threshold={300}
@@ -1076,7 +1076,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
                       </ImgContainer>)}
                       </div>
                     </div>
-                  </InfiniteScroll>
+                  </InfiniteScroll> */}
             {/* {this.state.isLoading ? 
             <div style={{position: 'relative', width: '100%', height: '50px',}}>
                 <Loader show={true} black={true}/>

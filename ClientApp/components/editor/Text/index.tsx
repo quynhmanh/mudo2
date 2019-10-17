@@ -148,6 +148,15 @@ export default class Text extends PureComponent<IProps, IState> {
                 zIndex={zIndex}
                 scaleX={child.scaleX}
                 scaleY={child.scaleY}
+                parentScaleX={null}
+                parentScaleY={null}
+                onFontSizeChange={null}
+                handleChildIdSelected={null}
+                handleFontColorChange={null}
+                handleFontFaceChange={null}
+                selectionScaleY={null}
+                childId={null}
+                outlineWidth={null}
                 width={width/child.scaleX}
                 height={height/child.scaleY}
                 centerX={centerX/child.scaleX}
@@ -159,7 +168,8 @@ export default class Text extends PureComponent<IProps, IState> {
                 selected={selected}
                 onInput={onTextChange}
                 onBlur={this.endEditing.bind(this)}
-                onMouseDown={this.startEditing.bind(this)} >
+                onMouseDown={this.startEditing.bind(this)} 
+              >
               </SingleText>
             </div>);
         })

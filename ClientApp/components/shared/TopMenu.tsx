@@ -16,7 +16,7 @@ class TopMenu extends React.Component<{}, { logoutAction: boolean, show: string,
     }
 
     @bind
-    async onClickSignOut(e: React.MouseEvent<HTMLAnchorElement>) {
+    async onClickSignOut(e: any) {
         e.preventDefault();
 
         await AccountService.logout();
