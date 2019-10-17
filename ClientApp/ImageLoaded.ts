@@ -4,7 +4,7 @@ export class EvEmitter {
 
   private static on( eventName: string, listener: string ): EvEmitter {
     if ( !eventName || !listener ) {
-      return;
+      return null;
     }
     // set events hash
     
@@ -22,7 +22,7 @@ export class EvEmitter {
   private static emitEvent( eventName, args ) {
     var listeners = this._events && this._events[ eventName ];
     if ( !listeners || !listeners.length ) {
-      return;
+      return null;
     }
     // copy over to avoid interference if .off() in listener
     listeners = listeners.slice(0);
@@ -49,7 +49,7 @@ export class EvEmitter {
 
   private static once( eventName, listener ) {
     if ( !eventName || !listener ) {
-      return;
+      return null;
     }
     // add event
     this.on( eventName, listener );
@@ -67,7 +67,7 @@ export class EvEmitter {
   private static off( eventName, listener ) {
     var listeners = this._events && this._events[ eventName ];
     if ( !listeners || !listeners.length ) {
-      return;
+      return null;
     }
     var index = listeners.indexOf( listener );
     if ( index != -1 ) {
