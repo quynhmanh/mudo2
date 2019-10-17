@@ -6,7 +6,7 @@ import uuidv4 from "uuid/v4";
 import { toJS } from "mobx";
 
 class Images {
-  @observable images: IObservableArray<any>;
+  @observable images: IObservableArray<any> = [] as IObservableArray;
   @observable fontsList = [];
   @observable fonts = [];
   @observable upperZIndex = 1;
