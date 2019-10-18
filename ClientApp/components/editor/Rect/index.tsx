@@ -1263,7 +1263,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           )}
         </div>
-        {src && (objectType === 4 || objectType === 6) && (
+        {src && (objectType === 4 || objectType === 6 || objectType === 9) && (
           <div
             id={_id}
             className={_id + "rect-alo"}
@@ -1337,6 +1337,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     outline: cropMode && selected ? `#00d9e1 solid 2px` : null
                   }}
                 >
+                  { (objectType === 4 || objectType === 6) && 
                   <img
                     // id={_id + "1236"}
                     className={_id + "rect-alo"}
@@ -1355,41 +1356,30 @@ export default class Rect extends PureComponent<IProps, IState> {
                     }
                     src={src}
                   />
+                  }
+                  { (objectType === 9) &&
+                    <video
+                    // id={_id + "1236"}
+                    className={_id + "rect-alo"}
+                    style={{
+                      width: this.props.imgWidth + "px",
+                      height: this.props.imgHeight + "px",
+                      // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+                      opacity: 0.5,
+                      outline:
+                        cropMode && selected ? `#00d9e1 solid 2px` : null,
+                      transformOrigin: "0 0"
+                    }}
+                    onDoubleClick={enableCropMode}
+                    onMouseDown={
+                      cropMode ? this.handleImageDrag.bind(this) : null
+                    }
+                    src={src}
+                  />
+                  }
                 </div>
               )}
             </div>
-            {/* <div
-              className={_id + "rect-alo"}
-              style={{
-                width: width / (src ? 1 : scaleX) + "px",
-                height: height / (src ? 1 : scaleY) + "px",
-                position: "absolute",
-                overflow: !this.props.bleed && "hidden"
-              }}
-            >
-              {!showImage && cropMode && (
-                <img
-                  className={_id + "rect-alo"}
-                  id={_id+"1234"}
-                  style={{
-                    width: imgWidth + "px",
-                    height: imgHeight + "px",
-                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    opacity: 1,
-                    outline:
-                      cropMode && selected
-                        ? `#00d9e1 solid ${outlineWidth - 1}px`
-                        : null,
-                    transformOrigin: "0 0"
-                  }}
-                  onDoubleClick={enableCropMode}
-                  onMouseDown={
-                    cropMode ? this.handleImageDrag.bind(this) : null
-                  }
-                  src={src}
-                />
-              )}
-            </div> */}
           </div>
         )}
         {src && objectType === 9 && showImage && (
@@ -1406,6 +1396,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             }}
           >
             <div
+              id={_id + "1238"}
               className={_id + "rect-alo"}
               style={{
                 transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,

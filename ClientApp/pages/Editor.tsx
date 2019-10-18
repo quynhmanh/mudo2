@@ -1,7 +1,7 @@
 ﻿import React, { PureComponent } from "react";
 import uuidv4 from "uuid/v4";
 import Tooltip from "@Components/shared/Tooltip";
-import { htmlToImage, getBoundingClientRect } from "@Utils";
+import { getBoundingClientRect } from "@Utils";
 import "@Styles/editor.scss";
 import TopMenu from "@Components/editor/Sidebar";
 import axios from "axios";
@@ -11,26 +11,28 @@ import MediaEditPopup from "@Components/editor/MediaEditor";
 import TemplateEditor from "@Components/editor/TemplateEditor";
 import FontEditPopup from "@Components/editor/FontEditor";
 import { object, any } from "prop-types";
-import Canvas from "@Components/editor/Canvas";
 import MathJax from "react-mathjax2";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import { getMostProminentColor } from "@Utils";
-import PosterReview from "@Components/editor/PosterReview";
-import TrifoldReview from "@Components/editor/TrifoldReview";
-import FlyerReview from "@Components/editor/FlyerReview";
-import BusinessCardReview from "@Components/editor/BusinessCardReview";
-import CanvasReview from "@Components/editor/CanvasReview";
 import Globals from "@Globals";
 import { Helmet } from "react-helmet";
 import ImageBackgroundRemovalEditor from "@Components/editor/ImageBackgroundRemovalEditor";
-import { observable, toJS } from "mobx";
+import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import LeftSide from "@Components/editor/LeftSide";
 import FontSize from "@Components/editor/FontSize";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
 import { centerToTL, tLToCenter, getNewStyle, degToRadian } from "@Utils";
+import loadable from '@loadable/component';
+
+const PosterReview = loadable(() => import( "@Components/editor/PosterReview"));
+const TrifoldReview = loadable(() => import( "@Components/editor/TrifoldReview"));
+const FlyerReview = loadable(() => import( "@Components/editor/FlyerReview"));
+const BusinessCardReview = loadable(() => import( "@Components/editor/BusinessCardReview"));
+const CanvasReview = loadable(() => import( "@Components/editor/CanvasReview"));
+const Canvas = loadable(() => import( "@Components/editor/Canvas"));
 
 declare global {
   interface Window {
@@ -2936,20 +2938,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     return OSName;
   };
-
-  genRepresentative(invert, width, height) {
-    const invertcolor = data => {
-      for (var i = 0; i < data.length; i += 4) {
-        data[i] = data[i] ^ 255;
-        data[i + 1] = data[i + 1] ^ 255;
-        data[i + 2] = data[i + 2] ^ 255;
-      }
-    };
-
-    var node = document.getElementById("alo");
-
-    return htmlToImage.toPng(node);
-  }
 
   allowScroll = true;
 
@@ -6370,14 +6358,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               }}
             />
           ) : null}
-          {/* {this.state.showImageRemovalBackgroundPopup && (
-            <ImageBackgroundRemovalEditor
-              mediaId={this.state.imageIdBackgroundRemoved}
-              closePopup={() => {
-                this.setState({ showImageRemovalBackgroundPopup: false });
-              }}
-            />
-          )} */}
         </div>
         <Popup
           showPopup={this.state.showPopup}

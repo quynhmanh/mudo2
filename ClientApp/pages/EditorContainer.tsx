@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { Component } from "react";
 import { RouteComponentProps } from "react-router";
 import Editor from "@Pages/Editor";
 import { observable, action, IObservableArray } from "mobx";
@@ -78,7 +78,7 @@ let firstpage = uuidv4();
 
 const store = new Images();
 
-export default class EditorContainer extends React.Component<IProps, IState> {
+export default class EditorContainer extends Component<IProps, IState> {
   state = {
     tab: "nd"
   };
