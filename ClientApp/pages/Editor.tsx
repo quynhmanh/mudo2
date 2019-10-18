@@ -1293,7 +1293,21 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     });
   };
 
-  handleRotate = (rotateAngle, _id) => {
+  handleRotate = (rotateAngle, _id, e) => {
+    // console.log('arguments ', arguments);
+    var tip = document.getElementById("helloTip");
+    if (!tip) {
+      tip = document.createElement("div");
+    }
+    tip.id = "helloTip";
+    tip.style.position = 'absolute';
+    // tip.style.width = "100px";
+    tip.style.height = "30px";
+    tip.style.backgroundColor = "black";
+    tip.style.top = e.clientY + 20 + "px";
+    tip.style.left = e.clientX + 20 + "px";
+    tip.innerText = rotateAngle + "°";
+
     let images = toJS(this.props.images);
     images = images.map(image => {
       if (image._id === _id) {
@@ -1306,7 +1320,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // this.setState({ images });
   };
 
-  handleRotateStart = () => {
+  handleRotateStart = (e : any) => {
     var resizers = document.getElementsByClassName("resizable-handler-container");
     for (var i = 0; i < resizers.length; ++i) {
       var cur:any = resizers[i];
@@ -1319,10 +1333,36 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cur.style.opacity = 0;
     }
 
+    var tip = document.getElementById("helloTip");
+    if (!tip) {
+      tip = document.createElement("div");
+    }
+    tip.id = "helloTip";
+    tip.style.position = 'absolute';
+    // tip.style.width = "100px";
+    tip.style.height = "30px";
+    tip.style.backgroundColor = "black";
+    tip.style.top = e.clientY + 20 + "px";
+    tip.style.left = e.clientX + 20 + "px";
+    tip.style.zIndex = "2147483647";
+    tip.style.color = "white";
+    tip.style.textAlign = "center";
+    tip.style.lineHeight = "30px";
+    tip.style.borderRadius = "5px";
+    tip.style.padding = "0 5px";
+    tip.style.fontSize = '12px';
+    tip.innerText = this.state.selectedImage.rotateAngle + "°";
+
+    document.body.append(tip);
+
     this.setState({ rotating: true });
   };
 
   handleRotateEnd = () => {
+
+    var tip = document.getElementById("helloTip");
+    document.body.removeChild(tip);
+
     var resizers = document.getElementsByClassName("resizable-handler-container");
     for (var i = 0; i < resizers.length; ++i) {
       var cur:any = resizers[i];
@@ -1345,9 +1385,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
-    // if (this.state.cropMode) {
-    //   return;
-    // }
     if (_id != this.state.idObjectSelected) {
       return;
     }

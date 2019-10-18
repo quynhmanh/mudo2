@@ -17,7 +17,7 @@ export interface IProps {
   onDrag(id: string, clientX: number, clientY: number): any;
   onDragEnd(): void;
   onRotateStart(): void;
-  onRotate(rotateAngle: number, id: string): void;
+  onRotate(rotateAngle: number, id: string, e: any): void;
   onRotateEnd(): void;
   onResizeStart(startX: number, startY: number): void;
   onResize(
@@ -102,7 +102,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     minHeight: 2
   };
 
-  handleRotate = (angle, startAngle) => {
+  handleRotate = (angle, startAngle, e) => {
     if (!this.props.onRotate) return;
     let rotateAngle = Math.round(startAngle + angle);
     if (rotateAngle >= 360) {
@@ -122,7 +122,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
 
     const { _id } = this.props;
 
-    this.props.onRotate(rotateAngle, _id);
+    this.props.onRotate(rotateAngle, _id, e);
   };
 
   handleResize = (

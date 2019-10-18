@@ -39,8 +39,8 @@ export interface IProps {
   onDragStart(e: any, _id: string): void;
   onDrag(clientX: number, clientY: number): any;
   onDragEnd(): void;
-  onRotateStart(): void;
-  onRotate(angle: number, startAngle: number): void;
+  onRotateStart(e): void;
+  onRotate(angle: number, startAngle: number, e: any): void;
   onRotateEnd(): void;
   onResizeStart(startX: number, startY: number): void;
   onResize(
@@ -208,7 +208,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       x: clientX - center.x,
       y: clientY - center.y
     };
-    this.props.onRotateStart && this.props.onRotateStart();
+    this.props.onRotateStart && this.props.onRotateStart(e);
     this._isMouseDown = true;
     const onMove = e => {
       e.preventDefault();
@@ -220,7 +220,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         y: clientY - center.y
       };
       const angle = getAngle(startVector, rotateVector);
-      this.props.onRotate(angle, startAngle);
+      this.props.onRotate(angle, startAngle, e);
     };
     const onUp = e => {
       e.preventDefault();
