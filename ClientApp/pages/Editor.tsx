@@ -1121,7 +1121,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cur.style.opacity = 0;
     }
 
-    
+
     window.resizingInnerImage = true;
     window.startX = startX;
     window.startY = startY;
@@ -1346,9 +1346,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   handleDragStart = (e, _id) => {
     // if (this.state.cropMode) {
-    //   this.setState({ dragging: true});
     //   return;
     // }
+    if (_id != this.state.idObjectSelected) {
+      return;
+    }
     const { scale } = this.state;
     this.canvasRect = getBoundingClientRect("canvas");
     var deltaX, deltaY;
