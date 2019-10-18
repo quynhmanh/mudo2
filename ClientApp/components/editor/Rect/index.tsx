@@ -1295,7 +1295,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 opacity
               }}
             >
-              {showImage && (
+              {showImage && (objectType === 4 || objectType === 6) && (
                 <img
                   id={_id + "1235"}
                   className={_id + "rect-alo"}
