@@ -83,7 +83,7 @@ export default class Canvas extends Component<IProps, IState> {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.dragging
+    if (nextProps.dragging && this.props.idObjectSelected == nextProps.idObjectSelected
       // nextProps.resizing
       ) {
       return false;

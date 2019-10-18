@@ -487,3 +487,10 @@ var doesRgbMatch = function(rgb,r,g,b) {
   b = b >> rgb.d;
   return rgb.r == r && rgb.g == g && rgb.b == b;
 }
+
+export const updateTransformXY = function(elId, x, y: any) {
+  var el1238 = document.getElementById(elId);
+  if (el1238) {
+    el1238.style.transform = `translate(${x}px, ${y}px)`;
+  }
+}

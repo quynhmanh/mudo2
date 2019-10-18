@@ -1,31 +1,23 @@
 ﻿import React, { PureComponent } from "react";
 import uuidv4 from "uuid/v4";
-import Tooltip from "@Components/shared/Tooltip";
 import { getBoundingClientRect } from "@Utils";
 import "@Styles/editor.scss";
-import TopMenu from "@Components/editor/Sidebar";
 import axios from "axios";
-import StyledComponent from "styled-components";
 import Popup from "@Components/shared/Popup";
 import MediaEditPopup from "@Components/editor/MediaEditor";
 import TemplateEditor from "@Components/editor/TemplateEditor";
 import FontEditPopup from "@Components/editor/FontEditor";
-import { object, any } from "prop-types";
-import MathJax from "react-mathjax2";
-import InfiniteScroll from "@Components/shared/InfiniteScroll";
-import ImagePicker from "@Components/shared/ImagePicker";
-import { getMostProminentColor } from "@Utils";
 import Globals from "@Globals";
 import { Helmet } from "react-helmet";
-import ImageBackgroundRemovalEditor from "@Components/editor/ImageBackgroundRemovalEditor";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import LeftSide from "@Components/editor/LeftSide";
 import FontSize from "@Components/editor/FontSize";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
-import { centerToTL, tLToCenter, getNewStyle, degToRadian } from "@Utils";
+import { centerToTL, tLToCenter, getNewStyle, degToRadian, updateTransformXY } from "@Utils";
 import loadable from '@loadable/component';
+import {clone} from 'lodash';
 
 const PosterReview = loadable(() => import( "@Components/editor/PosterReview"));
 const TrifoldReview = loadable(() => import( "@Components/editor/TrifoldReview"));
@@ -40,8 +32,11 @@ declare global {
     resizingInnerImage: any;
     startX: any;
     startY: any;
+    startLeft: any;
+    startTop: any;
     rect: any;
     rect2: any;
+    image: any;
   }
 }
 
@@ -1359,18 +1354,25 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
-    if (_id != this.state.idObjectSelected) {
-      return;
-    }
+    console.log('handleDragStart');
+    // if (_id != this.state.idObjectSelected) {
+    //   this.handleImageSelected()
+    // }
     const { scale } = this.state;
-    this.canvasRect = getBoundingClientRect("canvas");
-    var deltaX, deltaY;
     this.props.images.forEach(image => {
       if (image._id === _id) {
-        deltaX = e.clientX - this.canvasRect.left - image.left * scale;
-        deltaY = e.clientY - this.canvasRect.top - image.top * scale;
+        window.startLeft = image.left * scale;
+        window.startTop = image.top * scale;
+        window.image = clone(image);
       }
     });
+
+    if (_id != this.state.idObjectSelected) {
+      this.handleImageSelected(window.image, e)
+    }
+
+    window.startX = e.clientX;
+    window.startY = e.clientY;
 
     var resizers = document.getElementsByClassName("resizable-handler-container");
     for (var i = 0; i < resizers.length; ++i) {
@@ -1402,7 +1404,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
     }
 
-    this.setState({ dragging: true, deltaX, deltaY });
+    this.setState({ dragging: true });
   };
 
   tranformImage = (image: any) => {
@@ -1426,41 +1428,31 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     console.log('handleImageDrag');
     const {scale} = this.state;
 
-    let images = toJS(this.props.images);
-    images = images.map(img => {
-      if (img._id === _id) {
-        if (newPosX > 0) {
-          newPosX = 0;
-        } else if (newPosX / scale + img.imgWidth < img.width) {
-          newPosX = (img.width - img.imgWidth) * scale;
-        }
-        if (newPosY > 0) {
-          newPosY = 0;
-        } else if (newPosY / scale + img.imgHeight < img.height) {
-          newPosY = (img.height - img.imgHeight) * scale;
-        }
-        img.posX = newPosX / scale;
-        img.posY = newPosY / scale;
-      }
-      return img;
-    });
+    // let images = toJS(this.props.images);
+    // images = images.map(img => {
+    var img = window.image;
+    if (newPosX > 0) {
+      newPosX = 0;
+    } else if (newPosX / scale + img.imgWidth < img.width) {
+      newPosX = (img.width - img.imgWidth) * scale;
+    }
+    if (newPosY > 0) {
+      newPosY = 0;
+    } else if (newPosY / scale + img.imgHeight < img.height) {
+      newPosY = (img.height - img.imgHeight) * scale;
+    }
+    img.posX = newPosX / scale;
+    img.posY = newPosY / scale;
 
-    document.getElementById(_id + "1237").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
+    updateTransformXY(_id + "1235", newPosX, newPosY);
+    updateTransformXY(_id + "1236", newPosX, newPosY);
+    updateTransformXY(_id + "1237", newPosX, newPosY);
+    updateTransformXY(_id + "1238", newPosX, newPosY);
 
-    document.getElementById(_id + "1236").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
-    // document.getElementById(_id + "1234").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
-    document.getElementById(_id + "1235").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
-    document.getElementById(_id + "1238").style.transform = `translate(${newPosX}px, ${newPosY}px)`;
-
-    this.props.images.replace(images);
-
-    // this.setState({ images });
+    // this.props.images.replace(images);
   };
 
   handleDrag = (_id, clientX, clientY): any => {
-    // var t0 = performance.now();
-    // var t1;
-
     const { scale, deltaX, deltaY } = this.state;
     var newLeft, newTop;
     var newLeft2, newTop2;
@@ -1470,12 +1462,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var img;
     var updateStartPosX = false;
     var updateStartPosY = false;
-    var canvasRect = this.canvasRect;
     let images = toJS(this.props.images);
-    images.forEach(image => {
-      if (image._id === _id) {
-        newLeft = (clientX - this.canvasRect.left - deltaX) / scale;
-        newTop = (clientY - this.canvasRect.top - deltaY) / scale;
+    var image = window.image;
+    // images.forEach(image => {
+    //   if (image._id === _id) {
+        newLeft = (clientX - window.startX + window.startLeft) / scale;
+        newTop = (clientY - window.startY + window.startTop) / scale;
         newLeft2 = newLeft + image.width / 2;
         newLeft3 = newLeft + image.width;
         newTop2 = newTop + image.height / 2;
@@ -1494,8 +1486,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           newTop2 = centerY;
           newTop3 = centerY + image.width / 2;
         }
-      }
-    });
+    //   }
+    // });
     if (img.type === TemplateType.BackgroundImage) {
       return;
     }
@@ -1669,8 +1661,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    images = images.map(image => {
-      if (image._id === _id) {
+    // images = images.map(image => {
+    //   if (image._id === _id) {
         const { staticGuides } = this.state;
 
         var x = staticGuides.x.map(v => {
@@ -1718,15 +1710,15 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         // this.setState({staticGuides: {x, y}});
         image.left = left;
         image.top = top;
-      }
+      // }
 
-      return image;
-    });
+    //   return image;
+    // });
 
     // var t0 = performance.now();
 
     // console.log('handleDrag 1');
-    this.props.images.replace(images);
+    // this.props.images.replace(images);
 
     document.getElementById(_id + "_").style.top = top * scale + "px";
     document.getElementById(_id + "_").style.left = left * scale + "px";
@@ -1758,6 +1750,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     });
 
     var images = this.props.images.map(image => {
+      if (image._id == this.state.idObjectSelected) {
+        image = window.image;
+        image.selected = true;
+      }
       for (var ii = 0; ii < 6; ++ii) {
         image[ii] = 0;
         document.getElementById(image._id + "guide_" + ii).style.display = "none";
@@ -1909,7 +1905,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
-    console.log('handleImageSelected');
+    console.log('handleImageSelected ', img._id, this.state.idObjectSelected);
     if (this.state.cropMode) {
       return;
     }
