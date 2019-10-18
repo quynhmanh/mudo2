@@ -835,6 +835,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleResizeStart = (startX: number, startY: number) => {
+    console.log('handleResizeStart');
     var resizers = document.getElementsByClassName("resizable-handler-container");
     for (var i = 0; i < resizers.length; ++i) {
       var cur:any = resizers[i];
@@ -1107,6 +1108,20 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   onResizeInnerImageStart = (startX, startY) => {
     console.log('onResizeInnerImageStart');
+
+    var resizers = document.getElementsByClassName("resizable-handler-container");
+    for (var i = 0; i < resizers.length; ++i) {
+      var cur:any = resizers[i];
+      cur.style.opacity = 0;
+    }
+    
+    var rotators = document.getElementsByClassName("rotate-container");
+    for (var i = 0; i < rotators.length; ++i) {
+      var cur:any = rotators[i];
+      cur.style.opacity = 0;
+    }
+
+    
     window.resizingInnerImage = true;
     window.startX = startX;
     window.startY = startY;
@@ -1330,10 +1345,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
-    if (this.state.cropMode) {
-      this.setState({ dragging: true});
-      return;
-    }
+    // if (this.state.cropMode) {
+    //   this.setState({ dragging: true});
+    //   return;
+    // }
     const { scale } = this.state;
     this.canvasRect = getBoundingClientRect("canvas");
     var deltaX, deltaY;
@@ -1395,7 +1410,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = (_id, newPosX, newPosY) => {
-    console.log('dragging ', this.state.dragging);
     const {scale} = this.state;
 
     let images = toJS(this.props.images);

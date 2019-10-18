@@ -579,6 +579,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = e => {
+    console.log('handleImageDrag ');
     var self = this;
     let { clientX: startX, clientY: startY } = e;
     var { posX, posY, scale } = this.props;
