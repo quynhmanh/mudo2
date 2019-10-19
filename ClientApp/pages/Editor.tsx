@@ -15,16 +15,28 @@ import LeftSide from "@Components/editor/LeftSide";
 import FontSize from "@Components/editor/FontSize";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
-import { centerToTL, tLToCenter, getNewStyle, degToRadian, updateTransformXY, updatePosition, updateRotate } from "@Utils";
-import loadable from '@loadable/component';
-import {clone} from 'lodash';
+import {
+  centerToTL,
+  tLToCenter,
+  getNewStyle,
+  degToRadian,
+  updateTransformXY,
+  updatePosition,
+  updateRotate
+} from "@Utils";
+import loadable from "@loadable/component";
+import { clone } from "lodash";
 
-const PosterReview = loadable(() => import( "@Components/editor/PosterReview"));
-const TrifoldReview = loadable(() => import( "@Components/editor/TrifoldReview"));
-const FlyerReview = loadable(() => import( "@Components/editor/FlyerReview"));
-const BusinessCardReview = loadable(() => import( "@Components/editor/BusinessCardReview"));
-const CanvasReview = loadable(() => import( "@Components/editor/CanvasReview"));
-const Canvas = loadable(() => import( "@Components/editor/Canvas"));
+const PosterReview = loadable(() => import("@Components/editor/PosterReview"));
+const TrifoldReview = loadable(() =>
+  import("@Components/editor/TrifoldReview")
+);
+const FlyerReview = loadable(() => import("@Components/editor/FlyerReview"));
+const BusinessCardReview = loadable(() =>
+  import("@Components/editor/BusinessCardReview")
+);
+const CanvasReview = loadable(() => import("@Components/editor/CanvasReview"));
+const Canvas = loadable(() => import("@Components/editor/Canvas"));
 
 declare global {
   interface Window {
@@ -349,26 +361,30 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   timer = null;
   $container = null;
 
-
   translate = (key: string) => {
     const { t, i18n } = this.props;
-    
-    if (i18n.exists && i18n.exists(NAMESPACE + ":" + key))
-      return t(key);
 
-    if (editorTranslation !== undefined && editorTranslation.hasOwnProperty(key)) {
+    if (i18n.exists && i18n.exists(NAMESPACE + ":" + key)) return t(key);
+
+    if (
+      editorTranslation !== undefined &&
+      editorTranslation.hasOwnProperty(key)
+    ) {
       return editorTranslation[key]; // load default translation in case failed to load translation file from server
     }
-    
+
     return key;
-  }
+  };
 
   async componentDidMount() {
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
 
-    this.setState({ canRenderClientSide: true, selectedTab: SidebarTab.Template, });
+    this.setState({
+      canRenderClientSide: true,
+      selectedTab: SidebarTab.Template
+    });
     var self = this;
     setTimeout(() => {
       self.setState({ mounted: true });
@@ -539,14 +555,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           var zIndexMax = 0;
           images.forEach(img => {
             zIndexMax = Math.max(zIndexMax, img.zIndex);
-          })
+          });
 
           this.props.store.upperZIndex = zIndexMax + 1;
           this.props.store.activePageId = res.data.value.pages[0];
           this.props.store.pages.replace(res.data.value.pages);
         })
-        .catch(e => {
-        });
+        .catch(e => {});
     } else {
       self.setState({
         _id: uuidv4()
@@ -566,7 +581,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       } else if (subtype == 2) {
         rectWidth = 2245.04;
         rectHeight = 1587.402;
-      } else if (subtype == 3) { // Poster
+      } else if (subtype == 3) {
+        // Poster
         rectWidth = 3174.8;
         rectHeight = 4490.08;
       } else if (subtype == 4) {
@@ -639,7 +655,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     document.addEventListener("keydown", this.removeImage.bind(this));
   }
 
-
   textOnMouseDown(e, doc) {
     var scale = this.state.scale;
     var ce = document.createElement.bind(document);
@@ -684,12 +699,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           document2._id = uuidv4();
           document2.page = self.props.store.pages[index];
           document2.zIndex = this.props.upperZIndex + 1;
-          document2.width = rec2.width /scale;
-          document2.height = rec2.height /scale;
+          document2.width = rec2.width / scale;
+          document2.height = rec2.height / scale;
           document2.scaleX = document2.width / document2.origin_width;
           document2.scaleY = document2.height / document2.origin_height;
-          document2.left = (rec2.left - rec.left) /scale;
-          document2.top = (rec2.top - rectTop) /scale;
+          document2.left = (rec2.left - rec.left) / scale;
+          document2.top = (rec2.top - rectTop) / scale;
 
           // let images = [...this.props.images, document2];
 
@@ -833,16 +848,18 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleResizeStart = (startX: number, startY: number) => {
-    console.log('handleResizeStart');
-    var resizers = document.getElementsByClassName("resizable-handler-container");
+    console.log("handleResizeStart");
+    var resizers = document.getElementsByClassName(
+      "resizable-handler-container"
+    );
     for (var i = 0; i < resizers.length; ++i) {
-      var cur:any = resizers[i];
+      var cur: any = resizers[i];
       cur.style.opacity = 0;
     }
-    
+
     var rotators = document.getElementsByClassName("rotate-container");
     for (var i = 0; i < rotators.length; ++i) {
-      var cur:any = rotators[i];
+      var cur: any = rotators[i];
       cur.style.opacity = 0;
     }
 
@@ -851,7 +868,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     window.resizingInnerImage = false;
 
     this.setState({
-      resizing: true,
+      resizing: true
     });
   };
 
@@ -865,15 +882,17 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     });
     this.props.images.replace(images);
 
-    var resizers = document.getElementsByClassName("resizable-handler-container");
+    var resizers = document.getElementsByClassName(
+      "resizable-handler-container"
+    );
     for (var i = 0; i < resizers.length; ++i) {
-      var cur:any = resizers[i];
+      var cur: any = resizers[i];
       cur.style.opacity = 1;
     }
-    
+
     var rotators = document.getElementsByClassName("rotate-container");
     for (var i = 0; i < rotators.length; ++i) {
-      var cur:any = rotators[i];
+      var cur: any = rotators[i];
       cur.style.opacity = 1;
     }
 
@@ -959,29 +978,45 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
           if (t5 && t8 && type == "tl") {
             window.resizingInnerImage = true;
-            window.startX = document.getElementById(_id + "tl_").getBoundingClientRect().left + 10;
-            window.startY =document.getElementById(_id + "tl_").getBoundingClientRect().top + 10;
+            window.startX =
+              document.getElementById(_id + "tl_").getBoundingClientRect()
+                .left + 10;
+            window.startY =
+              document.getElementById(_id + "tl_").getBoundingClientRect().top +
+              10;
             self.switching = true;
           }
 
           if (t5 && t6 && type == "bl") {
             window.resizingInnerImage = true;
-            window.startX = document.getElementById(_id + "bl_").getBoundingClientRect().left + 10;
-            window.startY =document.getElementById(_id + "bl_").getBoundingClientRect().top + 10;
+            window.startX =
+              document.getElementById(_id + "bl_").getBoundingClientRect()
+                .left + 10;
+            window.startY =
+              document.getElementById(_id + "bl_").getBoundingClientRect().top +
+              10;
             self.switching = true;
           }
 
           if (t6 && t7 && type == "br") {
             window.resizingInnerImage = true;
-            window.startX = document.getElementById(_id + "br_").getBoundingClientRect().left + 10;
-            window.startY =document.getElementById(_id + "br_").getBoundingClientRect().top + 10;
+            window.startX =
+              document.getElementById(_id + "br_").getBoundingClientRect()
+                .left + 10;
+            window.startY =
+              document.getElementById(_id + "br_").getBoundingClientRect().top +
+              10;
             self.switching = true;
           }
 
           if (t8 && t7 && type == "tr") {
             window.resizingInnerImage = true;
-            window.startX = document.getElementById(_id + "tr_").getBoundingClientRect().left + 10;
-            window.startY =document.getElementById(_id + "tr_").getBoundingClientRect().top + 10;
+            window.startX =
+              document.getElementById(_id + "tr_").getBoundingClientRect()
+                .left + 10;
+            window.startY =
+              document.getElementById(_id + "tr_").getBoundingClientRect().top +
+              10;
             self.switching = true;
           }
         }
@@ -1002,7 +1037,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           image.posY = scaleTop * image.imgHeight;
         }
 
-        if ((objectType === 4 || objectType === 6 || objectType === 9) && this.state.cropMode) {
+        if (
+          (objectType === 4 || objectType === 6 || objectType === 9) &&
+          this.state.cropMode
+        ) {
           image.posX -= deltaLeft;
           image.posY -= deltaTop;
         }
@@ -1022,14 +1060,38 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         //   el.style.left = left * scale + "px";
         // }
 
-        updatePosition(_id + "_1", left * scale, top * scale, width * scale, height * scale);
-        updatePosition(_id + "_", left * scale, top * scale, width * scale, height * scale);
-        updatePosition(_id + "__", left * scale, top * scale, width * scale, height * scale);
-        updatePosition(_id + "___", left * scale, top * scale, width * scale, height * scale);
+        updatePosition(
+          _id + "_1",
+          left * scale,
+          top * scale,
+          width * scale,
+          height * scale
+        );
+        updatePosition(
+          _id + "_",
+          left * scale,
+          top * scale,
+          width * scale,
+          height * scale
+        );
+        updatePosition(
+          _id + "__",
+          left * scale,
+          top * scale,
+          width * scale,
+          height * scale
+        );
+        updatePosition(
+          _id + "___",
+          left * scale,
+          top * scale,
+          width * scale,
+          height * scale
+        );
 
         var els = document.getElementsByClassName(_id + "rect-alo");
         for (var i = 0; i < els.length; ++i) {
-          var ell = els[i];
+          var ell = els[i] as HTMLElement;
           ell.style.width = width * scale + "px";
           ell.style.height = height * scale + "px";
           if (ell.style.top) {
@@ -1039,7 +1101,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             ell.style.left = left * scale + "px";
           }
         }
-        
 
         if (cursor != "e-resize" && cursor != "w-resize") {
           image.scaleX = image.width / image.origin_width;
@@ -1105,7 +1166,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         (window as any).scaleY = image.scaleY;
 
         if (self.switching) {
-          const styles = tLToCenter({ top: image.top, left: image.left, width: image.width, height: image.height, rotateAngle: image.rotateAngle });
+          const styles = tLToCenter({
+            top: image.top,
+            left: image.left,
+            width: image.width,
+            height: image.height,
+            rotateAngle: image.rotateAngle
+          });
           const imgStyles = tLToCenter({
             left: image.posX,
             top: image.posY,
@@ -1114,8 +1181,20 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             rotateAngle: 0
           });
 
-          window.rect = { width: image.width * scale, height: image.height * scale, centerX: styles.position.centerX * scale, centerY:  styles.position.centerY * scale, rotateAngle: image.rotateAngle };
-          window.rect2 = { imgWidth: image.imgWidth * scale, imgHeight: image.imgHeight * scale, imgCenterX: imgStyles.position.centerX * scale, imgCenterY: imgStyles.position.centerY * scale, imgRotateAngle: 0 };
+          window.rect = {
+            width: image.width * scale,
+            height: image.height * scale,
+            centerX: styles.position.centerX * scale,
+            centerY: styles.position.centerY * scale,
+            rotateAngle: image.rotateAngle
+          };
+          window.rect2 = {
+            imgWidth: image.imgWidth * scale,
+            imgHeight: image.imgHeight * scale,
+            imgCenterX: imgStyles.position.centerX * scale,
+            imgCenterY: imgStyles.position.centerY * scale,
+            imgRotateAngle: 0
+          };
         }
       }
       return image;
@@ -1134,26 +1213,27 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   onResizeInnerImageStart = (startX, startY) => {
-    console.log('onResizeInnerImageStart');
+    console.log("onResizeInnerImageStart");
 
-    var resizers = document.getElementsByClassName("resizable-handler-container");
+    var resizers = document.getElementsByClassName(
+      "resizable-handler-container"
+    );
     for (var i = 0; i < resizers.length; ++i) {
-      var cur:any = resizers[i];
+      var cur: any = resizers[i];
       cur.style.opacity = 0;
     }
-    
+
     var rotators = document.getElementsByClassName("rotate-container");
     for (var i = 0; i < rotators.length; ++i) {
-      var cur:any = rotators[i];
+      var cur: any = rotators[i];
       cur.style.opacity = 0;
     }
-
 
     window.resizingInnerImage = true;
     window.startX = startX;
     window.startY = startY;
 
-    this.setState({resizing: true});
+    this.setState({ resizing: true });
   };
 
   // Handle the actual miage
@@ -1168,7 +1248,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log('handleImageResize ');
+    console.log("handleImageResize ");
     const { scale } = this.state;
     let { top, left, width, height } = style;
     top = top / scale;
@@ -1188,8 +1268,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           type == "br"
         ) {
           window.resizingInnerImage = false;
-          window.startX = document.getElementById(_id + "br").getBoundingClientRect().left + 10;
-          window.startY =document.getElementById(_id + "br").getBoundingClientRect().top + 10;
+          window.startX =
+            document.getElementById(_id + "br").getBoundingClientRect().left +
+            10;
+          window.startY =
+            document.getElementById(_id + "br").getBoundingClientRect().top +
+            10;
           switching = true;
           self.handleResize = () => {};
           height = -top + image.height;
@@ -1201,15 +1285,19 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         ) {
           window.resizingInnerImage = false;
           window.startX = e.clientX;
-          window.startY =  e.clientY + image.height - top - height;
+          window.startY = e.clientY + image.height - top - height;
           switching = true;
           self.handleResize = () => {};
           height = -top + image.height;
           // width = -left + image.width;
         } else if (image.height - top > height && left > 0 && type == "bl") {
           window.resizingInnerImage = false;
-          window.startX = document.getElementById(_id + "bl").getBoundingClientRect().left + 10;
-          window.startY =document.getElementById(_id + "bl").getBoundingClientRect().top + 10;
+          window.startX =
+            document.getElementById(_id + "bl").getBoundingClientRect().left +
+            10;
+          window.startY =
+            document.getElementById(_id + "bl").getBoundingClientRect().top +
+            10;
           switching = true;
           self.handleResize = () => {};
           image.posX = -left;
@@ -1223,14 +1311,18 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         ) {
           window.resizingInnerImage = false;
           window.startX = e.clientX;
-          window.startY =  e.clientY + image.height - top - height;
+          window.startY = e.clientY + image.height - top - height;
           switching = true;
           self.handleResize = () => {};
           width = -left + image.width;
         } else if (image.width - left > width && top > 0 && type == "tr") {
           window.resizingInnerImage = false;
-          window.startX = document.getElementById(_id + "tr").getBoundingClientRect().left + 10;
-          window.startY =document.getElementById(_id + "tr").getBoundingClientRect().top + 10;
+          window.startX =
+            document.getElementById(_id + "tr").getBoundingClientRect().left +
+            10;
+          window.startY =
+            document.getElementById(_id + "tr").getBoundingClientRect().top +
+            10;
           switching = true;
           self.handleResize = () => {};
           image.posY = -top;
@@ -1257,9 +1349,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           self.handleResize = () => {};
         } else if (left > 1 && top > 1 && type == "tl") {
           window.resizingInnerImage = false;
-          window.startX = document.getElementById(_id + "tl").getBoundingClientRect().left + 10;
-          window.startY =document.getElementById(_id + "tl").getBoundingClientRect().top + 10;
-          console.log('clientX clientY ', e.clientX, e.clientY, left, top);
+          window.startX =
+            document.getElementById(_id + "tl").getBoundingClientRect().left +
+            10;
+          window.startY =
+            document.getElementById(_id + "tl").getBoundingClientRect().top +
+            10;
+          console.log("clientX clientY ", e.clientX, e.clientY, left, top);
           image.posX = -left;
           image.posY = -top;
           height += top;
@@ -1280,7 +1376,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     this.props.images.replace(images);
 
-    this.setState({updateRect: switching }, () => {
+    this.setState({ updateRect: switching }, () => {
       if (switching) {
         self.handleResize = temp;
         // self.setState({updateRect: false});
@@ -1298,7 +1394,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       tip = document.createElement("div");
     }
     tip.id = "helloTip";
-    tip.style.position = 'absolute';
+    tip.style.position = "absolute";
     // tip.style.width = "100px";
     tip.style.height = "30px";
     tip.style.backgroundColor = "black";
@@ -1315,7 +1411,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     updateRotate(_id + "_", rotateAngle);
     updateRotate(_id + "__", rotateAngle);
 
-
     window.rotateAngle = rotateAngle;
 
     // let images = toJS(this.props.images);
@@ -1330,16 +1425,18 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // this.setState({ images });
   };
 
-  handleRotateStart = (e : any) => {
-    var resizers = document.getElementsByClassName("resizable-handler-container");
+  handleRotateStart = (e: any) => {
+    var resizers = document.getElementsByClassName(
+      "resizable-handler-container"
+    );
     for (var i = 0; i < resizers.length; ++i) {
-      var cur:any = resizers[i];
+      var cur: any = resizers[i];
       cur.style.opacity = 0;
     }
-    
+
     var rotators = document.getElementsByClassName("rotate-container");
     for (var i = 0; i < rotators.length; ++i) {
-      var cur:any = rotators[i];
+      var cur: any = rotators[i];
       cur.style.opacity = 0;
     }
 
@@ -1348,7 +1445,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       tip = document.createElement("div");
     }
     tip.id = "helloTip";
-    tip.style.position = 'absolute';
+    tip.style.position = "absolute";
     // tip.style.width = "100px";
     tip.style.height = "30px";
     tip.style.backgroundColor = "black";
@@ -1360,7 +1457,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     tip.style.lineHeight = "30px";
     tip.style.borderRadius = "3px";
     tip.style.padding = "0 5px";
-    tip.style.fontSize = '12px';
+    tip.style.fontSize = "12px";
     tip.innerText = this.state.selectedImage.rotateAngle + "°";
 
     document.body.append(tip);
@@ -1369,22 +1466,22 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleRotateEnd = (_id: string) => {
-
     var tip = document.getElementById("helloTip");
     document.body.removeChild(tip);
 
-    var resizers = document.getElementsByClassName("resizable-handler-container");
+    var resizers = document.getElementsByClassName(
+      "resizable-handler-container"
+    );
     for (var i = 0; i < resizers.length; ++i) {
-      var cur:any = resizers[i];
-      cur.style.opacity = 1;
-    }
-    
-    var rotators = document.getElementsByClassName("rotate-container");
-    for (var i = 0; i < rotators.length; ++i) {
-      var cur:any = rotators[i];
+      var cur: any = resizers[i];
       cur.style.opacity = 1;
     }
 
+    var rotators = document.getElementsByClassName("rotate-container");
+    for (var i = 0; i < rotators.length; ++i) {
+      var cur: any = rotators[i];
+      cur.style.opacity = 1;
+    }
 
     let images = toJS(this.props.images);
     images = images.map(image => {
@@ -1410,7 +1507,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // if (this.state.cropMode) {
     //   return;
     // }
-    console.log('handleDragStart');
+    console.log("handleDragStart");
     // if (_id != this.state.idObjectSelected) {
     //   this.handleImageSelected()
     // }
@@ -1424,31 +1521,31 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     });
 
     if (_id != this.state.idObjectSelected) {
-      this.handleImageSelected(window.image, e)
+      this.handleImageSelected(window.image, e);
     }
 
     window.startX = e.clientX;
     window.startY = e.clientY;
 
-    var resizers = document.getElementsByClassName("resizable-handler-container");
+    var resizers = document.getElementsByClassName(
+      "resizable-handler-container"
+    );
     for (var i = 0; i < resizers.length; ++i) {
-      var cur:any = resizers[i];
+      var cur: any = resizers[i];
       cur.style.opacity = 0;
     }
 
     var rotators = document.getElementsByClassName("rotate-container");
     for (var i = 0; i < rotators.length; ++i) {
-      var cur:any = rotators[i];
+      var cur: any = rotators[i];
       cur.style.opacity = 0;
     }
-
 
     var rects = document.getElementsByClassName("rect");
     for (var i = 0; i < rects.length; ++i) {
       var curRect = rects[i];
       curRect.classList.remove("disable-hover");
       curRect.classList.remove("selected");
-
     }
 
     document.getElementById(_id + "_1").classList.add("selected");
@@ -1481,8 +1578,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = (_id, newPosX, newPosY) => {
-    console.log('handleImageDrag');
-    const {scale} = this.state;
+    console.log("handleImageDrag");
+    const { scale } = this.state;
 
     // let images = toJS(this.props.images);
     // images = images.map(img => {
@@ -1522,26 +1619,26 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var image = window.image;
     // images.forEach(image => {
     //   if (image._id === _id) {
-        newLeft = (clientX - window.startX + window.startLeft) / scale;
-        newTop = (clientY - window.startY + window.startTop) / scale;
-        newLeft2 = newLeft + image.width / 2;
-        newLeft3 = newLeft + image.width;
-        newTop2 = newTop + image.height / 2;
-        newTop3 = newTop + image.height;
-        img = image;
+    newLeft = (clientX - window.startX + window.startLeft) / scale;
+    newTop = (clientY - window.startY + window.startTop) / scale;
+    newLeft2 = newLeft + image.width / 2;
+    newLeft3 = newLeft + image.width;
+    newTop2 = newTop + image.height / 2;
+    newTop3 = newTop + image.height;
+    img = image;
 
-        centerX = newLeft + image.width / 2;
-        centerY = newTop + image.height / 2;
-        left = newLeft;
-        top = newTop;
-        if (image.rotateAngle === 90 || image.rotateAngle === 270) {
-          newLeft = centerX - image.height / 2;
-          newTop = centerY - image.width / 2;
-          newLeft2 = centerX;
-          newLeft3 = centerX + image.height / 2;
-          newTop2 = centerY;
-          newTop3 = centerY + image.width / 2;
-        }
+    centerX = newLeft + image.width / 2;
+    centerY = newTop + image.height / 2;
+    left = newLeft;
+    top = newTop;
+    if (image.rotateAngle === 90 || image.rotateAngle === 270) {
+      newLeft = centerX - image.height / 2;
+      newTop = centerY - image.width / 2;
+      newLeft2 = centerX;
+      newLeft3 = centerX + image.height / 2;
+      newTop2 = centerY;
+      newTop3 = centerY + image.width / 2;
+    }
     //   }
     // });
     if (img.type === TemplateType.BackgroundImage) {
@@ -1703,9 +1800,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
           for (var ii = 0; ii < 6; ++ii) {
             if (image[ii] == 1) {
-              document.getElementById(image._id + "guide_" + ii).style.display = "block";
+              document.getElementById(image._id + "guide_" + ii).style.display =
+                "block";
             } else {
-              document.getElementById(image._id + "guide_" + ii).style.display = "none";
+              document.getElementById(image._id + "guide_" + ii).style.display =
+                "none";
             }
           }
         }
@@ -1719,54 +1818,54 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     // images = images.map(image => {
     //   if (image._id === _id) {
-        const { staticGuides } = this.state;
+    const { staticGuides } = this.state;
 
-        var x = staticGuides.x.map(v => {
-          var e = v[0];
-          if (!updateStartPosX && Math.abs(newLeft - e) < 5) {
-            left -= newLeft - e;
-            v[1] = 1;
-            updateStartPosX = true;
-          } else if (!updateStartPosX && Math.abs(newLeft3 - e) < 5) {
-            left -= newLeft3 - e;
-            v[1] = 1;
-            updateStartPosX = true;
-          } else if (!updateStartPosX && Math.abs(newLeft2 - e) < 5) {
-            left -= newLeft2 - e;
-            v[1] = 1;
-            updateStartPosX = true;
-          } else {
-            v[1] = 0;
-          }
+    var x = staticGuides.x.map(v => {
+      var e = v[0];
+      if (!updateStartPosX && Math.abs(newLeft - e) < 5) {
+        left -= newLeft - e;
+        v[1] = 1;
+        updateStartPosX = true;
+      } else if (!updateStartPosX && Math.abs(newLeft3 - e) < 5) {
+        left -= newLeft3 - e;
+        v[1] = 1;
+        updateStartPosX = true;
+      } else if (!updateStartPosX && Math.abs(newLeft2 - e) < 5) {
+        left -= newLeft2 - e;
+        v[1] = 1;
+        updateStartPosX = true;
+      } else {
+        v[1] = 0;
+      }
 
-          return v;
-        });
+      return v;
+    });
 
-        var y = staticGuides.y.map(v => {
-          var e = v[0];
-          if (!updateStartPosY && Math.abs(newTop - e) < 5) {
-            top -= newTop - e;
-            v[1] = 1;
-            updateStartPosY = true;
-          } else if (!updateStartPosY && Math.abs(newTop3 - e) < 5) {
-            top -= newTop3 - e;
-            v[1] = 1;
-            updateStartPosY = true;
-          } else if (!updateStartPosY && Math.abs(newTop2 - e) < 5) {
-            top -= newTop2 - e;
-            v[1] = 1;
-            updateStartPosY = true;
-          } else {
-            v[1] = 0;
-          }
+    var y = staticGuides.y.map(v => {
+      var e = v[0];
+      if (!updateStartPosY && Math.abs(newTop - e) < 5) {
+        top -= newTop - e;
+        v[1] = 1;
+        updateStartPosY = true;
+      } else if (!updateStartPosY && Math.abs(newTop3 - e) < 5) {
+        top -= newTop3 - e;
+        v[1] = 1;
+        updateStartPosY = true;
+      } else if (!updateStartPosY && Math.abs(newTop2 - e) < 5) {
+        top -= newTop2 - e;
+        v[1] = 1;
+        updateStartPosY = true;
+      } else {
+        v[1] = 0;
+      }
 
-          return v;
-        });
+      return v;
+    });
 
-        // this.setState({staticGuides: {x, y}});
-        image.left = left;
-        image.top = top;
-      // }
+    // this.setState({staticGuides: {x, y}});
+    image.left = left;
+    image.top = top;
+    // }
 
     //   return image;
     // });
@@ -1797,7 +1896,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // if (this.state.cropMode) {
     //   return;
     // }
-    console.log('handleDragEnd');
+    console.log("handleDragEnd");
     let {
       staticGuides: { x, y }
     } = this.state;
@@ -1818,7 +1917,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
       for (var ii = 0; ii < 6; ++ii) {
         image[ii] = 0;
-        document.getElementById(image._id + "guide_" + ii).style.display = "none";
+        document.getElementById(image._id + "guide_" + ii).style.display =
+          "none";
       }
       return image;
     });
@@ -1830,22 +1930,24 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       curRect.classList.remove("disable-hover");
     }
 
-    var resizers = document.getElementsByClassName("resizable-handler-container");
+    var resizers = document.getElementsByClassName(
+      "resizable-handler-container"
+    );
     for (var i = 0; i < resizers.length; ++i) {
-      var cur:any = resizers[i];
+      var cur: any = resizers[i];
       cur.style.opacity = 1;
     }
-    
+
     var rotators = document.getElementsByClassName("rotate-container");
     for (var i = 0; i < rotators.length; ++i) {
-      var cur:any = rotators[i];
+      var cur: any = rotators[i];
       cur.style.opacity = 1;
     }
 
     this.setState({ staticGuides: { x, y }, images });
-    
+
     setTimeout(() => {
-      this.setState({dragging: false});
+      this.setState({ dragging: false });
     }, 50);
   };
 
@@ -1854,7 +1956,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   elementIsVisible = (element, container, partial) => {
     var contHeight = container.offsetHeight,
-      elemTop =this. offset(element).top - this.offset(container).top,
+      elemTop = this.offset(element).top - this.offset(container).top,
       elemBottom = elemTop + element.offsetHeight;
     return (
       (elemTop >= 0 && elemBottom <= contHeight) ||
@@ -1862,33 +1964,33 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         ((elemTop < 0 && elemBottom > 0) ||
           (elemTop > 0 && elemTop <= contHeight)))
     );
-  }
+  };
 
-  isWindow = (obj) => {
+  isWindow = obj => {
     return obj != null && obj === obj.window;
-  }
+  };
 
-  getWindow = (elem) => {
+  getWindow = elem => {
     return this.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-  }
+  };
 
-  offset = (elem) => {
+  offset = elem => {
     var docElem,
-          win,
-          box = { top: 0, left: 0 },
-          doc = elem && elem.ownerDocument;
+      win,
+      box = { top: 0, left: 0 },
+      doc = elem && elem.ownerDocument;
 
-        docElem = doc.documentElement;
+    docElem = doc.documentElement;
 
-        if (typeof elem.getBoundingClientRect !== typeof undefined) {
-          box = elem.getBoundingClientRect();
-        }
-        win = this.getWindow(doc);
-        return {
-          top: box.top + win.pageYOffset - docElem.clientTop,
-          left: box.left + win.pageXOffset - docElem.clientLeft
-        };
-  }
+    if (typeof elem.getBoundingClientRect !== typeof undefined) {
+      box = elem.getBoundingClientRect();
+    }
+    win = this.getWindow(doc);
+    return {
+      top: box.top + win.pageYOffset - docElem.clientTop,
+      left: box.left + win.pageXOffset - docElem.clientLeft
+    };
+  };
 
   handleScroll = () => {
     const screensRect = getBoundingClientRect("screens");
@@ -1917,8 +2019,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       this.props.store.activePageId = activePageId;
 
       this.setState({ startX, startY, activePageId });
-    };
-  }
+    }
+  };
   handleWheel = e => {
     if (e.ctrlKey || e.metaKey) {
       const nextScale = parseFloat(
@@ -1929,7 +2031,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   doNoObjectSelected = () => {
-    console.log('doNoObjectSelected ', this.state.dragging, this.state.resizing);
+    console.log(
+      "doNoObjectSelected ",
+      this.state.dragging,
+      this.state.resizing
+    );
     if (!this.state.rotating && !this.state.resizing) {
       let images = this.props.images.map(image => {
         image.selected = false;
@@ -1967,12 +2073,17 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
-    console.log('handleImageSelected ', img._id, this.state.idObjectSelected);
+    console.log("handleImageSelected ", img._id, this.state.idObjectSelected);
     if (this.state.cropMode) {
       return;
     }
-    if (this.state.idObjectSelected && img._id !== this.state.idObjectSelected) {
-      document.getElementById(this.state.idObjectSelected + "_1").style.outline = null;
+    if (
+      this.state.idObjectSelected &&
+      img._id !== this.state.idObjectSelected
+    ) {
+      document.getElementById(
+        this.state.idObjectSelected + "_1"
+      ).style.outline = null;
     }
     if (img._id === this.state.idObjectSelected) {
       return;
@@ -2088,9 +2199,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var self = this;
     this.doNoObjectSelected();
     this.setState(
-      { 
-        // scale: 1, 
-        showPopup: true, bleed, downloading: true },
+      {
+        // scale: 1,
+        showPopup: true,
+        bleed,
+        downloading: true
+      },
       () => {
         var aloCloned = document.getElementsByClassName("alo2");
         var canvas = [];
@@ -2328,7 +2442,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           Representative: rep ? rep : `images/${_id}.jpeg`,
           Representative2: `images/${_id}_2.jpeg`,
           VideoRepresentative: `videos/${_id}.mp4`,
-          IsVideo: isVideo,
+          IsVideo: isVideo
         });
 
         axios
@@ -2491,7 +2605,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           rec.top < rec2.bottom &&
           rec.bottom > rec2.top
         ) {
-
           this.props.addItem({
             _id: uuidv4(),
             type: TemplateType.Video,
@@ -2524,118 +2637,119 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     document.addEventListener("mouseup", onUp);
   }
 
-  
   imgOnMouseDown(img, e) {
-    console.log('imgOnMouseDown');
-  e.preventDefault();
-  var target = e.target.cloneNode(true);
-  target.style.zIndex = "11111111111";
-  target.src = img.representativeThumbnail ? img.representativeThumbnail : e.target.src;
-  target.style.width = e.target.getBoundingClientRect().width + "px";
-  target.style.backgroundColor = e.target.style.backgroundColor;
-  document.body.appendChild(target);
-  var self = this;
-  this.imgDragging = target;
-  var posX = e.pageX - e.target.getBoundingClientRect().left;
-  var dragging = true;
-  var posY = e.pageY - e.target.getBoundingClientRect().top;
+    console.log("imgOnMouseDown");
+    e.preventDefault();
+    var target = e.target.cloneNode(true);
+    target.style.zIndex = "11111111111";
+    target.src = img.representativeThumbnail
+      ? img.representativeThumbnail
+      : e.target.src;
+    target.style.width = e.target.getBoundingClientRect().width + "px";
+    target.style.backgroundColor = e.target.style.backgroundColor;
+    document.body.appendChild(target);
+    var self = this;
+    this.imgDragging = target;
+    var posX = e.pageX - e.target.getBoundingClientRect().left;
+    var dragging = true;
+    var posY = e.pageY - e.target.getBoundingClientRect().top;
 
-  var recScreenContainer = document
-    .getElementById("screen-container-parent")
-    .getBoundingClientRect();
-  var beingInScreenContainer = false;
+    var recScreenContainer = document
+      .getElementById("screen-container-parent")
+      .getBoundingClientRect();
+    var beingInScreenContainer = false;
 
-  const onMove = e => {
-    if (dragging) {
-      var rec2 = self.imgDragging.getBoundingClientRect();
-      if (
-        beingInScreenContainer === false &&
-        recScreenContainer.left < rec2.left &&
-        recScreenContainer.right > rec2.right &&
-        recScreenContainer.top < rec2.top &&
-        recScreenContainer.bottom > rec2.bottom
-      ) {
-        beingInScreenContainer = true;
-
-        setTimeout(() => {
-          target.style.transitionDuration = "";
-        }, 50);
-      }
-
-      if (
-        beingInScreenContainer === true &&
-        !(
+    const onMove = e => {
+      if (dragging) {
+        var rec2 = self.imgDragging.getBoundingClientRect();
+        if (
+          beingInScreenContainer === false &&
           recScreenContainer.left < rec2.left &&
           recScreenContainer.right > rec2.right &&
           recScreenContainer.top < rec2.top &&
           recScreenContainer.bottom > rec2.bottom
-        )
-      ) {
-        beingInScreenContainer = false;
+        ) {
+          beingInScreenContainer = true;
 
-        setTimeout(() => {
-          target.style.transitionDuration = "";
-        }, 50);
+          setTimeout(() => {
+            target.style.transitionDuration = "";
+          }, 50);
+        }
+
+        if (
+          beingInScreenContainer === true &&
+          !(
+            recScreenContainer.left < rec2.left &&
+            recScreenContainer.right > rec2.right &&
+            recScreenContainer.top < rec2.top &&
+            recScreenContainer.bottom > rec2.bottom
+          )
+        ) {
+          beingInScreenContainer = false;
+
+          setTimeout(() => {
+            target.style.transitionDuration = "";
+          }, 50);
+        }
+
+        target.style.left = e.pageX - posX + "px";
+        target.style.top = e.pageY - posY + "px";
+        target.style.position = "absolute";
+      }
+    };
+
+    const onUp = e => {
+      dragging = false;
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+
+      var recs = document.getElementsByClassName("alo");
+      var rec2 = self.imgDragging.getBoundingClientRect();
+      for (var i = 0; i < recs.length; ++i) {
+        var rec = recs[i].getBoundingClientRect();
+        if (
+          rec.left < rec2.right &&
+          rec.right > rec2.left &&
+          rec.top < rec2.bottom &&
+          rec.bottom > rec2.top
+        ) {
+          this.props.addItem({
+            _id: uuidv4(),
+            type: TemplateType.Image,
+            width: rec2.width / self.state.scale,
+            height: rec2.height / self.state.scale,
+            origin_width: rec2.width / self.state.scale,
+            origin_height: rec2.height / self.state.scale,
+            left: (rec2.left - rec.left) / self.state.scale,
+            top: (rec2.top - rec.top) / self.state.scale,
+            rotateAngle: 0.0,
+            src: !img.representative.startsWith("data")
+              ? window.location.origin + "/" + img.representative
+              : img.representative,
+            backgroundColor: target.style.backgroundColor,
+            selected: false,
+            scaleX: 1,
+            scaleY: 1,
+            posX: 0,
+            posY: 0,
+            imgWidth: rec2.width / self.state.scale,
+            imgHeight: rec2.height / self.state.scale,
+            page: this.props.store.pages[i],
+            zIndex: this.props.store.upperZIndex + 1,
+            freeStyle: img.freeStyle
+          });
+
+          this.props.increaseUpperzIndex();
+
+          // self.setState({upperZIndex: this.state.upperZIndex + 1, });
+        }
       }
 
-      target.style.left = e.pageX - posX + "px";
-      target.style.top = e.pageY - posY + "px";
-      target.style.position = "absolute";
-    }
-  };
-
-  const onUp = e => {
-    dragging = false;
-    document.removeEventListener("mousemove", onMove);
-    document.removeEventListener("mouseup", onUp);
-
-    var recs = document.getElementsByClassName("alo");
-    var rec2 = self.imgDragging.getBoundingClientRect();
-    for (var i = 0; i < recs.length; ++i) {
-      var rec = recs[i].getBoundingClientRect();
-      if (
-        rec.left < rec2.right &&
-        rec.right > rec2.left &&
-        rec.top < rec2.bottom &&
-        rec.bottom > rec2.top
-      ) {
-        this.props.addItem({
-          _id: uuidv4(),
-          type: TemplateType.Image,
-          width: rec2.width / self.state.scale,
-          height: rec2.height / self.state.scale,
-          origin_width: rec2.width / self.state.scale,
-          origin_height: rec2.height / self.state.scale,
-          left: (rec2.left - rec.left) / self.state.scale,
-          top: (rec2.top - rec.top) / self.state.scale,
-          rotateAngle: 0.0,
-          src: !img.representative.startsWith("data")
-            ? window.location.origin + "/" + img.representative
-            : img.representative,
-          backgroundColor: target.style.backgroundColor,
-          selected: false,
-          scaleX: 1,
-          scaleY: 1,
-          posX: 0,
-          posY: 0,
-          imgWidth: rec2.width / self.state.scale,
-          imgHeight: rec2.height / self.state.scale,
-          page: this.props.store.pages[i],
-          zIndex: this.props.store.upperZIndex + 1,
-          freeStyle: img.freeStyle,
-        });
-
-        this.props.increaseUpperzIndex();
-
-        // self.setState({upperZIndex: this.state.upperZIndex + 1, });
-      }
-    }
-
-    self.imgDragging.remove();
-  };
-  document.addEventListener("mousemove", onMove);
-  document.addEventListener("mouseup", onUp);
-}
+      self.imgDragging.remove();
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  }
 
   setSelectionColor = (color, e) => {
     // if (this.props.typeObjectSelected === TemplateType.Latex) {
@@ -3344,9 +3458,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           index={i}
           id={pages[i]}
           addAPage={this.addAPage}
-          images={this.props.images.filter(
-            img => img.page === pages[i]
-          )}
+          images={this.props.images.filter(img => img.page === pages[i])}
           mode={this.state.mode}
           rectWidth={this.state.rectWidth}
           rectHeight={this.state.rectHeight}
@@ -3378,10 +3490,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           updateRect={this.state.updateRect}
           doNoObjectSelected={this.doNoObjectSelected}
           idObjectSelected={this.state.idObjectSelected}
-          handleDeleteThisPage={this.handleDeleteThisPage.bind(
-            this,
-            pages[i]
-          )}
+          handleDeleteThisPage={this.handleDeleteThisPage.bind(this, pages[i])}
           showPopup={this.state.showPopup}
           preview={preview}
         />
@@ -3531,7 +3640,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cropMode,
       pages
     } = this.state;
-    
+
     const { images } = this.props;
 
     const adminEmail = "llaugusty@gmail.com";
@@ -3552,7 +3661,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 "linear-gradient(to right, rgb(67, 198, 172), rgb(48, 45, 111))",
               height: "55px",
               padding: "5px",
-              display: "flex",
+              display: "flex"
             }}
           >
             <div
@@ -3561,51 +3670,52 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 alignItems: "center"
               }}
             >
-              { this.state.mounted && 
-              <a
-                id="logo-editor"
-                style={{
-                  color: "white",
-                  display: "inline-block",
-                  padding: "5px 8px 5px 5px",
-                  borderRadius: "6px",
-                  marginLeft: '5px',
-                }}
-                href="/"
-              >
-                <span
+              {this.state.mounted && (
+                <a
+                  id="logo-editor"
                   style={{
-                    alignItems: "center",
-                    display: "flex"
+                    color: "white",
+                    display: "inline-block",
+                    padding: "5px 8px 5px 5px",
+                    borderRadius: "6px",
+                    marginLeft: "5px"
                   }}
+                  href="/"
                 >
-                  <div
+                  <span
                     style={{
-                      display: "flex",
                       alignItems: "center",
-                      fontSize: "14px",
-                      fontFamily: "AvenirNextRoundedPro"
+                      display: "flex"
                     }}
                   >
-                    <span>
-                      <svg
-                        style={{ height: "24px", width: "24px" }}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M15.45 17.97L9.5 12.01a.25.25 0 0 1 0-.36l5.87-5.87a.75.75 0 0 0-1.06-1.06l-5.87 5.87c-.69.68-.69 1.8 0 2.48l5.96 5.96a.75.75 0 0 0 1.06-1.06z"
-                        ></path>
-                      </svg>
-                    </span>
-                    {/* chủ */}
-                    {this.props.tReady ? this.translate("home") : ""}
-                  </div>
-                </span>
-              </a>}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+                        fontFamily: "AvenirNextRoundedPro"
+                      }}
+                    >
+                      <span>
+                        <svg
+                          style={{ height: "24px", width: "24px" }}
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M15.45 17.97L9.5 12.01a.25.25 0 0 1 0-.36l5.87-5.87a.75.75 0 0 0-1.06-1.06l-5.87 5.87c-.69.68-.69 1.8 0 2.48l5.96 5.96a.75.75 0 0 0 1.06-1.06z"
+                          ></path>
+                        </svg>
+                      </span>
+                      {/* chủ */}
+                      {this.props.tReady ? this.translate("home") : ""}
+                    </div>
+                  </span>
+                </a>
+              )}
             </div>
             <div
               style={{
@@ -3654,7 +3764,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     <span>Lưu</span>
                   </button>
                 )}
-                {Globals.serviceUser &&
+              {Globals.serviceUser &&
                 Globals.serviceUser.username &&
                 Globals.serviceUser.username === adminEmail && (
                   <button
@@ -3693,86 +3803,99 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     <span>Lưu video</span>
                   </button>
                 )}
-              {this.props.tReady &&
-              <button
-                id="download-btn"
-                onClick={this.handleDownloadList}
-                style={{
-                  float: "right",
-                  color: "white",
-                  marginTop: "8px",
-                  marginRight: "10px",
-                  padding: "8px",
-                  borderRadius: "4px",
-                  textDecoration: "none",
-                  fontSize: "13px",
-                  fontFamily: "AvenirNextRoundedPro-Medium",
-                  background: "#ebebeb0f",
-                  border: "none",
-                  height: '35px',
-                  width: '36px',
-                }}
-              >
-                {" "}
-                <svg
-                  style={{ 
-                    fill: "white",
-                    width: '20px',
-                    height: '20px',
+              {this.props.tReady && (
+                <button
+                  id="download-btn"
+                  onClick={this.handleDownloadList}
+                  style={{
+                    float: "right",
+                    color: "white",
+                    marginTop: "8px",
+                    marginRight: "10px",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    textDecoration: "none",
+                    fontSize: "13px",
+                    fontFamily: "AvenirNextRoundedPro-Medium",
+                    background: "#ebebeb0f",
+                    border: "none",
+                    height: "35px",
+                    width: "36px"
                   }}
-                  height="25px"
-                  viewBox="0 0 512 512"
-                  width="25px"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0" />
-                </svg>
-              </button>}
-              {this.props.tReady && <div
-                id="myDownloadList"
-                style={{
-                  right: "5px",
-                  zIndex: 9999999999,
-                  background: "white",
-                  display: "none"
-                }}
-                className="dropdown-content-font-size"
-              >
-                <div style={{ display: "flex", width: "100%" }}>
-                  <div
-                    id="myDropdownFontSize-3"
+                  {" "}
+                  <svg
                     style={{
-                      borderRadius: "5px",
-                      width: "100%",
-                      overflow: "hidden"
+                      fill: "white",
+                      width: "20px",
+                      height: "20px"
                     }}
+                    height="25px"
+                    viewBox="0 0 512 512"
+                    width="25px"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <ul
+                    <path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0" />
+                  </svg>
+                </button>
+              )}
+              {this.props.tReady && (
+                <div
+                  id="myDownloadList"
+                  style={{
+                    right: "5px",
+                    zIndex: 9999999999,
+                    background: "white",
+                    display: "none"
+                  }}
+                  className="dropdown-content-font-size"
+                >
+                  <div style={{ display: "flex", width: "100%" }}>
+                    <div
+                      id="myDropdownFontSize-3"
                       style={{
-                        padding: 0,
-                        listStyle: "none",
-                        width: "100%"
+                        borderRadius: "5px",
+                        width: "100%",
+                        overflow: "hidden"
                       }}
                     >
-                      <li 
-                      style={{
-                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
-                        marginBottom: '1px',
-                      }}>
-                        <button
-                          onClick={this.downloadPNG.bind(this, true, true)}
+                      <ul
+                        style={{
+                          padding: 0,
+                          listStyle: "none",
+                          width: "100%"
+                        }}
+                      >
+                        <li
                           style={{
-                            width: "100%",
-                            border: "none",
-                            textAlign: "left",
-                            padding: "5px 12px",
-                            display: "flex",
+                            boxShadow: "rgba(55, 53, 47, 0.09) 0px 1px 0px",
+                            marginBottom: "1px"
                           }}
                         >
-                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 58 58" xmlSpace="preserve">
-<g>
-	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
+                          <button
+                            onClick={this.downloadPNG.bind(this, true, true)}
+                            style={{
+                              width: "100%",
+                              border: "none",
+                              textAlign: "left",
+                              padding: "5px 12px",
+                              display: "flex"
+                            }}
+                          >
+                            <svg
+                              style={{ width: "35px", marginRight: "10px" }}
+                              version="1.1"
+                              id="Capa_1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              x="0px"
+                              y="0px"
+                              viewBox="0 0 58 58"
+                              xmlSpace="preserve"
+                            >
+                              <g>
+                                <path
+                                  d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
 		v16.537V56c0,0.837,0.842,1.653,1.838,1.91c0.05,0.013,0.098,0.032,0.15,0.042C8.644,57.983,8.803,58,8.963,58h40.074
 		c0.16,0,0.319-0.017,0.475-0.048c0.052-0.01,0.1-0.029,0.15-0.042C50.658,57.653,51.5,56.837,51.5,56v-0.463V39V13.978
 		C51.5,13.211,51.408,12.645,50.95,12.187z M47.935,12H39.5V3.565L47.935,12z M11.5,2c0,0.552,0.448,1,1,1s1-0.448,1-1h2
@@ -3800,16 +3923,22 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 		V7c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1V3c0.552,0,1-0.448,1-1H11.5z M8.963,56c-0.071,0-0.135-0.026-0.198-0.049
 		C8.609,55.877,8.5,55.721,8.5,55.537V41h41v14.537c0,0.184-0.109,0.339-0.265,0.414C49.172,55.974,49.108,56,49.037,56H8.963z
 		 M10.218,39l14.134-12.03C24.403,26.978,24.448,27,24.5,27c0.025,0,0.047-0.013,0.071-0.014L34.776,37.19
-		c0.391,0.391,1.023,0.391,1.414,0s0.391-1.023,0-1.414l-4.807-4.807l9.168-10.041L49.5,29.43V39H10.218z"/>
-	<path d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
+		c0.391,0.391,1.023,0.391,1.414,0s0.391-1.023,0-1.414l-4.807-4.807l9.168-10.041L49.5,29.43V39H10.218z"
+                                />
+                                <path
+                                  d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
 		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
 		c0-0.483-0.103-0.918-0.308-1.306S22.375,45.018,22.042,44.744z M21.42,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
 		c-0.164,0.155-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
 		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
-		C21.57,47.451,21.52,47.795,21.42,48.073z"/>
-	<polygon points="30.648,50.869 26.697,43.924 25.029,43.924 25.029,54 26.697,54 26.697,47.055 30.648,54 32.316,54 32.316,43.924 
-		30.648,43.924 	"/>
-	<path d="M38.824,49.926h1.709v2.488c-0.073,0.101-0.187,0.178-0.342,0.232c-0.155,0.055-0.317,0.098-0.485,0.13
+		C21.57,47.451,21.52,47.795,21.42,48.073z"
+                                />
+                                <polygon
+                                  points="30.648,50.869 26.697,43.924 25.029,43.924 25.029,54 26.697,54 26.697,47.055 30.648,54 32.316,54 32.316,43.924 
+		30.648,43.924 	"
+                                />
+                                <path
+                                  d="M38.824,49.926h1.709v2.488c-0.073,0.101-0.187,0.178-0.342,0.232c-0.155,0.055-0.317,0.098-0.485,0.13
 		c-0.169,0.032-0.337,0.055-0.506,0.068c-0.169,0.014-0.303,0.021-0.403,0.021c-0.328,0-0.641-0.077-0.937-0.232
 		c-0.296-0.155-0.561-0.392-0.793-0.711s-0.415-0.729-0.547-1.23c-0.132-0.501-0.203-1.094-0.212-1.777
 		c0.009-0.702,0.082-1.294,0.219-1.777s0.326-0.877,0.567-1.183c0.241-0.306,0.515-0.521,0.82-0.649
@@ -3818,59 +3947,61 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 		c-0.511,0.224-0.955,0.549-1.333,0.978c-0.378,0.429-0.675,0.964-0.889,1.606c-0.214,0.643-0.321,1.388-0.321,2.235
 		s0.107,1.595,0.321,2.242c0.214,0.647,0.51,1.185,0.889,1.613c0.378,0.429,0.82,0.752,1.326,0.971s1.06,0.328,1.661,0.328
 		c0.301,0,0.604-0.022,0.909-0.068c0.305-0.046,0.602-0.123,0.889-0.232s0.561-0.248,0.82-0.417s0.494-0.385,0.704-0.649v-3.896
-		h-3.336V49.926z"/>
-	<circle cx="10.5" cy="4" r="1"/>
-	<circle cx="14.5" cy="4" r="1"/>
-	<circle cx="18.5" cy="4" r="1"/>
-	<circle cx="22.5" cy="4" r="1"/>
-	<circle cx="26.5" cy="4" r="1"/>
-	<circle cx="30.5" cy="4" r="1"/>
-	<circle cx="34.5" cy="4" r="1"/>
-	<circle cx="36.5" cy="6" r="1"/>
-	<circle cx="32.5" cy="6" r="1"/>
-	<circle cx="28.5" cy="6" r="1"/>
-	<circle cx="24.5" cy="6" r="1"/>
-	<circle cx="20.5" cy="6" r="1"/>
-	<circle cx="16.5" cy="6" r="1"/>
-	<circle cx="12.5" cy="6" r="1"/>
-	<circle cx="10.5" cy="8" r="1"/>
-	<circle cx="14.5" cy="8" r="1"/>
-	<circle cx="18.5" cy="8" r="1"/>
-	<circle cx="22.5" cy="8" r="1"/>
-	<circle cx="26.5" cy="8" r="1"/>
-	<circle cx="30.5" cy="8" r="1"/>
-	<circle cx="34.5" cy="8" r="1"/>
-	<circle cx="36.5" cy="10" r="1"/>
-	<circle cx="32.5" cy="10" r="1"/>
-	<circle cx="28.5" cy="10" r="1"/>
-	<circle cx="24.5" cy="10" r="1"/>
-	<circle cx="20.5" cy="10" r="1"/>
-	<circle cx="16.5" cy="10" r="1"/>
-	<circle cx="12.5" cy="10" r="1"/>
-	<circle cx="10.5" cy="12" r="1"/>
-	<circle cx="22.5" cy="12" r="1"/>
-	<circle cx="26.5" cy="12" r="1"/>
-	<circle cx="30.5" cy="12" r="1"/>
-	<circle cx="34.5" cy="12" r="1"/>
-	<circle cx="36.5" cy="14" r="1"/>
-	<circle cx="32.5" cy="14" r="1"/>
-	<circle cx="28.5" cy="14" r="1"/>
-	<circle cx="24.5" cy="14" r="1"/>
-	<circle cx="26.5" cy="16" r="1"/>
-	<circle cx="30.5" cy="16" r="1"/>
-	<circle cx="34.5" cy="16" r="1"/>
-	<circle cx="38.5" cy="16" r="1"/>
-	<circle cx="42.5" cy="16" r="1"/>
-	<circle cx="44.5" cy="18" r="1"/>
-	<circle cx="48.5" cy="22" r="1"/>
-	<circle cx="46.5" cy="20" r="1"/>
-	<circle cx="48.5" cy="18" r="1"/>
-	<circle cx="46.5" cy="16" r="1"/>
-	<circle cx="36.5" cy="18" r="1"/>
-	<circle cx="32.5" cy="18" r="1"/>
-	<circle cx="28.5" cy="18" r="1"/>
-	<circle cx="24.5" cy="18" r="1"/>
-	<path d="M10.5,21c0.426,0,0.784-0.269,0.928-0.644c0.136,0.301,0.296,0.589,0.481,0.858C11.667,21.397,11.5,21.673,11.5,22
+		h-3.336V49.926z"
+                                />
+                                <circle cx="10.5" cy="4" r="1" />
+                                <circle cx="14.5" cy="4" r="1" />
+                                <circle cx="18.5" cy="4" r="1" />
+                                <circle cx="22.5" cy="4" r="1" />
+                                <circle cx="26.5" cy="4" r="1" />
+                                <circle cx="30.5" cy="4" r="1" />
+                                <circle cx="34.5" cy="4" r="1" />
+                                <circle cx="36.5" cy="6" r="1" />
+                                <circle cx="32.5" cy="6" r="1" />
+                                <circle cx="28.5" cy="6" r="1" />
+                                <circle cx="24.5" cy="6" r="1" />
+                                <circle cx="20.5" cy="6" r="1" />
+                                <circle cx="16.5" cy="6" r="1" />
+                                <circle cx="12.5" cy="6" r="1" />
+                                <circle cx="10.5" cy="8" r="1" />
+                                <circle cx="14.5" cy="8" r="1" />
+                                <circle cx="18.5" cy="8" r="1" />
+                                <circle cx="22.5" cy="8" r="1" />
+                                <circle cx="26.5" cy="8" r="1" />
+                                <circle cx="30.5" cy="8" r="1" />
+                                <circle cx="34.5" cy="8" r="1" />
+                                <circle cx="36.5" cy="10" r="1" />
+                                <circle cx="32.5" cy="10" r="1" />
+                                <circle cx="28.5" cy="10" r="1" />
+                                <circle cx="24.5" cy="10" r="1" />
+                                <circle cx="20.5" cy="10" r="1" />
+                                <circle cx="16.5" cy="10" r="1" />
+                                <circle cx="12.5" cy="10" r="1" />
+                                <circle cx="10.5" cy="12" r="1" />
+                                <circle cx="22.5" cy="12" r="1" />
+                                <circle cx="26.5" cy="12" r="1" />
+                                <circle cx="30.5" cy="12" r="1" />
+                                <circle cx="34.5" cy="12" r="1" />
+                                <circle cx="36.5" cy="14" r="1" />
+                                <circle cx="32.5" cy="14" r="1" />
+                                <circle cx="28.5" cy="14" r="1" />
+                                <circle cx="24.5" cy="14" r="1" />
+                                <circle cx="26.5" cy="16" r="1" />
+                                <circle cx="30.5" cy="16" r="1" />
+                                <circle cx="34.5" cy="16" r="1" />
+                                <circle cx="38.5" cy="16" r="1" />
+                                <circle cx="42.5" cy="16" r="1" />
+                                <circle cx="44.5" cy="18" r="1" />
+                                <circle cx="48.5" cy="22" r="1" />
+                                <circle cx="46.5" cy="20" r="1" />
+                                <circle cx="48.5" cy="18" r="1" />
+                                <circle cx="46.5" cy="16" r="1" />
+                                <circle cx="36.5" cy="18" r="1" />
+                                <circle cx="32.5" cy="18" r="1" />
+                                <circle cx="28.5" cy="18" r="1" />
+                                <circle cx="24.5" cy="18" r="1" />
+                                <path
+                                  d="M10.5,21c0.426,0,0.784-0.269,0.928-0.644c0.136,0.301,0.296,0.589,0.481,0.858C11.667,21.397,11.5,21.673,11.5,22
 		c0,0.552,0.448,1,1,1c0.322,0,0.595-0.162,0.778-0.398c0.258,0.184,0.533,0.345,0.822,0.484C13.747,23.241,13.5,23.591,13.5,24
 		c0,0.552,0.448,1,1,1s1-0.448,1-1c0-0.178-0.059-0.336-0.14-0.481c0.368,0.077,0.749,0.118,1.14,0.118s0.772-0.041,1.14-0.118
 		C17.559,23.664,17.5,23.822,17.5,24c0,0.552,0.448,1,1,1s1-0.448,1-1c0-0.409-0.247-0.759-0.599-0.914
@@ -3886,89 +4017,88 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 		C11.331,15.318,10.96,15,10.5,15c-0.552,0-1,0.448-1,1c0,0.552,0.448,1,1,1c0.223,0,0.419-0.087,0.585-0.211
 		c-0.097,0.412-0.154,0.839-0.154,1.28c0,0.381,0.039,0.754,0.112,1.114C10.885,19.077,10.705,19,10.5,19c-0.552,0-1,0.448-1,1
 		C9.5,20.552,9.948,21,10.5,21z M16.5,14.5c1.968,0,3.569,1.601,3.569,3.569s-1.601,3.569-3.569,3.569s-3.569-1.601-3.569-3.569
-		S14.532,14.5,16.5,14.5z"/>
-	<circle cx="26.5" cy="20" r="1"/>
-	<circle cx="30.5" cy="20" r="1"/>
-	<circle cx="34.5" cy="20" r="1"/>
-	<circle cx="32.5" cy="22" r="1"/>
-	<circle cx="28.5" cy="22" r="1"/>
-	<circle cx="24.5" cy="22" r="1"/>
-	<circle cx="10.5" cy="24" r="1"/>
-	<circle cx="22.5" cy="24" r="1"/>
-	<circle cx="26.5" cy="24" r="1"/>
-	<circle cx="30.5" cy="24" r="1"/>
-	<circle cx="28.5" cy="26" r="1"/>
-	<circle cx="20.5" cy="26" r="1"/>
-	<circle cx="16.5" cy="26" r="1"/>
-	<circle cx="12.5" cy="26" r="1"/>
-	<circle cx="10.5" cy="28" r="1"/>
-	<circle cx="14.5" cy="28" r="1"/>
-	<circle cx="18.5" cy="28" r="1"/>
-	<circle cx="12.5" cy="30" r="1"/>
-	<circle cx="10.5" cy="32" r="1"/>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
+		S14.532,14.5,16.5,14.5z"
+                                />
+                                <circle cx="26.5" cy="20" r="1" />
+                                <circle cx="30.5" cy="20" r="1" />
+                                <circle cx="34.5" cy="20" r="1" />
+                                <circle cx="32.5" cy="22" r="1" />
+                                <circle cx="28.5" cy="22" r="1" />
+                                <circle cx="24.5" cy="22" r="1" />
+                                <circle cx="10.5" cy="24" r="1" />
+                                <circle cx="22.5" cy="24" r="1" />
+                                <circle cx="26.5" cy="24" r="1" />
+                                <circle cx="30.5" cy="24" r="1" />
+                                <circle cx="28.5" cy="26" r="1" />
+                                <circle cx="20.5" cy="26" r="1" />
+                                <circle cx="16.5" cy="26" r="1" />
+                                <circle cx="12.5" cy="26" r="1" />
+                                <circle cx="10.5" cy="28" r="1" />
+                                <circle cx="14.5" cy="28" r="1" />
+                                <circle cx="18.5" cy="28" r="1" />
+                                <circle cx="12.5" cy="30" r="1" />
+                                <circle cx="10.5" cy="32" r="1" />
+                              </g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                            </svg>
 
-                          <div><p style={{ marginBottom: "0px" }}>PNG</p>
-                          <span
-                            style={{
-                              fontSize: "12px"
-                            }}
-                          >
-                            {/* Ảnh chất lượng cao */}
-                            {this.translate("highQualityImage")}
-                          </span>
-                          </div>
-                        </button>
-                      </li>
-                      <li style={{
-                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
-                        marginBottom: '1px',
-                      }}>
-                        <button
-                          onClick={this.downloadPNG.bind(this, false, false)}
+                            <div>
+                              <p style={{ marginBottom: "0px" }}>PNG</p>
+                              <span
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                {/* Ảnh chất lượng cao */}
+                                {this.translate("highQualityImage")}
+                              </span>
+                            </div>
+                          </button>
+                        </li>
+                        <li
                           style={{
-                            width: "100%",
-                            border: "none",
-                            textAlign: "left",
-                            padding: "5px 12px",
-                            display: 'flex',
+                            boxShadow: "rgba(55, 53, 47, 0.09) 0px 1px 0px",
+                            marginBottom: "1px"
                           }}
                         >
-                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 58 58" xmlSpace="preserve">
-<g>
-	<path d="M50.949,12.187l-5.818-5.818l-5.047-5.048l0,0l-0.77-0.77C38.964,0.201,38.48,0,37.985,0H8.963
+                          <button
+                            onClick={this.downloadPNG.bind(this, false, false)}
+                            style={{
+                              width: "100%",
+                              border: "none",
+                              textAlign: "left",
+                              padding: "5px 12px",
+                              display: "flex"
+                            }}
+                          >
+                            <svg
+                              style={{ width: "35px", marginRight: "10px" }}
+                              version="1.1"
+                              id="Capa_1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              x="0px"
+                              y="0px"
+                              viewBox="0 0 58 58"
+                              xmlSpace="preserve"
+                            >
+                              <g>
+                                <path
+                                  d="M50.949,12.187l-5.818-5.818l-5.047-5.048l0,0l-0.77-0.77C38.964,0.201,38.48,0,37.985,0H8.963
 		C7.777,0,6.5,0.916,6.5,2.926V39v16.537V56c0,0.837,0.842,1.653,1.838,1.91c0.05,0.013,0.098,0.032,0.15,0.042
 		C8.644,57.983,8.803,58,8.963,58h40.074c0.16,0,0.319-0.017,0.475-0.048c0.052-0.01,0.101-0.029,0.152-0.043
 		C50.659,57.652,51.5,56.837,51.5,56v-0.463V39V13.978C51.5,13.211,51.407,12.644,50.949,12.187z M47.935,12H39.5V3.565l4.248,4.249
@@ -3977,19 +4107,25 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 		l-9.795,10.727l-4.743-4.743c-0.369-0.369-0.958-0.392-1.355-0.055L8.5,37.836V2.926C8.5,2.709,8.533,2,8.963,2z M8.963,56
 		c-0.071,0-0.135-0.026-0.198-0.049C8.609,55.877,8.5,55.721,8.5,55.537V41h41v14.537c0,0.184-0.11,0.34-0.265,0.414
 		C49.172,55.975,49.108,56,49.037,56H8.963z M10.218,39l14.245-12.124L34.776,37.19c0.391,0.391,1.023,0.391,1.414,0
-		s0.391-1.023,0-1.414l-4.807-4.807l9.168-10.041l8.949,8.501V39H10.218z"/>
-	<path d="M19.354,51.43c-0.019,0.446-0.171,0.764-0.458,0.95s-0.672,0.28-1.155,0.28c-0.191,0-0.396-0.022-0.615-0.068
+		s0.391-1.023,0-1.414l-4.807-4.807l9.168-10.041l8.949,8.501V39H10.218z"
+                                />
+                                <path
+                                  d="M19.354,51.43c-0.019,0.446-0.171,0.764-0.458,0.95s-0.672,0.28-1.155,0.28c-0.191,0-0.396-0.022-0.615-0.068
 		s-0.429-0.098-0.629-0.157c-0.201-0.06-0.385-0.123-0.554-0.191c-0.169-0.068-0.299-0.135-0.39-0.198l-0.697,1.107
 		c0.182,0.137,0.405,0.26,0.67,0.369c0.264,0.109,0.54,0.207,0.827,0.294s0.565,0.15,0.834,0.191
 		c0.269,0.041,0.503,0.062,0.704,0.062c0.401,0,0.791-0.039,1.169-0.116c0.378-0.077,0.713-0.214,1.005-0.41
-		c0.292-0.196,0.524-0.456,0.697-0.779c0.173-0.323,0.26-0.723,0.26-1.196v-7.848h-1.668V51.43z"/>
-	<path d="M28.767,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
+		c0.292-0.196,0.524-0.456,0.697-0.779c0.173-0.323,0.26-0.723,0.26-1.196v-7.848h-1.668V51.43z"
+                                />
+                                <path
+                                  d="M28.767,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
 		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
 		c0-0.483-0.103-0.918-0.308-1.306S29.099,45.018,28.767,44.744z M28.145,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
 		s-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
 		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
-		C28.295,47.451,28.245,47.795,28.145,48.073z"/>
-	<path d="M35.76,49.926h1.709v2.488c-0.073,0.101-0.187,0.178-0.342,0.232c-0.155,0.055-0.317,0.098-0.485,0.13
+		C28.295,47.451,28.245,47.795,28.145,48.073z"
+                                />
+                                <path
+                                  d="M35.76,49.926h1.709v2.488c-0.073,0.101-0.187,0.178-0.342,0.232c-0.155,0.055-0.317,0.098-0.485,0.13
 		c-0.169,0.032-0.337,0.055-0.506,0.068c-0.169,0.014-0.303,0.021-0.403,0.021c-0.328,0-0.641-0.077-0.937-0.232
 		c-0.296-0.155-0.561-0.392-0.793-0.711s-0.415-0.729-0.547-1.23c-0.132-0.501-0.203-1.094-0.212-1.777
 		c0.009-0.702,0.082-1.294,0.219-1.777s0.326-0.877,0.567-1.183c0.241-0.306,0.515-0.521,0.82-0.649
@@ -3998,94 +4134,102 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 		c-0.511,0.224-0.955,0.549-1.333,0.978c-0.378,0.429-0.675,0.964-0.889,1.606c-0.214,0.643-0.321,1.388-0.321,2.235
 		s0.107,1.595,0.321,2.242c0.214,0.647,0.51,1.185,0.889,1.613c0.378,0.429,0.82,0.752,1.326,0.971s1.06,0.328,1.661,0.328
 		c0.301,0,0.604-0.022,0.909-0.068c0.305-0.046,0.602-0.123,0.889-0.232s0.561-0.248,0.82-0.417s0.494-0.385,0.704-0.649v-3.896
-		H35.76V49.926z"/>
-	<path d="M19.069,23.638c3.071,0,5.569-2.498,5.569-5.569S22.14,12.5,19.069,12.5S13.5,14.998,13.5,18.069
+		H35.76V49.926z"
+                                />
+                                <path
+                                  d="M19.069,23.638c3.071,0,5.569-2.498,5.569-5.569S22.14,12.5,19.069,12.5S13.5,14.998,13.5,18.069
 		S15.998,23.638,19.069,23.638z M19.069,14.5c1.968,0,3.569,1.601,3.569,3.569s-1.601,3.569-3.569,3.569S15.5,20.037,15.5,18.069
-		S17.101,14.5,19.069,14.5z"/>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
-                          <div>
-                          <p style={{ marginBottom: "0px" }}>JPG</p>
-                          <span
-                            style={{
-                              fontSize: "12px"
-                            }}
-                          >
-                            {/* Kích thước tập tin ảnh nhỏ */}
-                            {this.translate("smallFileSizeImage")}
-                          </span>
-                          </div>
-                        </button>
-                      </li>
-                      <li style={{
-                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
-                        marginBottom: '1px',
-                      }}>
-                        <button
-                          onClick={this.downloadPDF.bind(this, false)}
+		S17.101,14.5,19.069,14.5z"
+                                />
+                              </g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                            </svg>
+                            <div>
+                              <p style={{ marginBottom: "0px" }}>JPG</p>
+                              <span
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                {/* Kích thước tập tin ảnh nhỏ */}
+                                {this.translate("smallFileSizeImage")}
+                              </span>
+                            </div>
+                          </button>
+                        </li>
+                        <li
                           style={{
-                            width: "100%",
-                            border: "none",
-                            textAlign: "left",
-                            padding: "5px 12px",
-                            display: 'flex',
+                            boxShadow: "rgba(55, 53, 47, 0.09) 0px 1px 0px",
+                            marginBottom: "1px"
                           }}
                         >
-                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 58 58" xmlSpace="preserve">
-<g>
-	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
+                          <button
+                            onClick={this.downloadPDF.bind(this, false)}
+                            style={{
+                              width: "100%",
+                              border: "none",
+                              textAlign: "left",
+                              padding: "5px 12px",
+                              display: "flex"
+                            }}
+                          >
+                            <svg
+                              style={{ width: "35px", marginRight: "10px" }}
+                              version="1.1"
+                              id="Capa_1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              x="0px"
+                              y="0px"
+                              viewBox="0 0 58 58"
+                              xmlSpace="preserve"
+                            >
+                              <g>
+                                <path
+                                  d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
 		v16.537V56c0,0.837,0.842,1.653,1.838,1.91c0.05,0.013,0.098,0.032,0.15,0.042C8.644,57.983,8.803,58,8.963,58h40.074
 		c0.16,0,0.319-0.017,0.475-0.048c0.052-0.01,0.1-0.029,0.15-0.042C50.658,57.653,51.5,56.837,51.5,56v-0.463V39V13.978
 		C51.5,13.211,51.408,12.645,50.95,12.187z M47.935,12H39.5V3.565L47.935,12z M8.963,56c-0.071,0-0.135-0.026-0.198-0.049
 		C8.609,55.877,8.5,55.721,8.5,55.537V41h41v14.537c0,0.184-0.109,0.339-0.265,0.414C49.172,55.974,49.108,56,49.037,56H8.963z
 		 M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595C37.525,2.126,37.5,2.256,37.5,2.391V14h11.609c0.135,0,0.264-0.025,0.39-0.058
-		c0,0.015,0.001,0.021,0.001,0.036V39H8.5z"/>
-	<path d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
+		c0,0.015,0.001,0.021,0.001,0.036V39H8.5z"
+                                />
+                                <path
+                                  d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
 		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
 		c0-0.483-0.103-0.918-0.308-1.306S22.375,45.018,22.042,44.744z M21.42,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
 		c-0.164,0.155-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
 		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
-		C21.57,47.451,21.52,47.795,21.42,48.073z"/>
-	<path d="M31.954,45.4c-0.424-0.446-0.957-0.805-1.6-1.073s-1.388-0.403-2.235-0.403h-3.035V54h3.814
+		C21.57,47.451,21.52,47.795,21.42,48.073z"
+                                />
+                                <path
+                                  d="M31.954,45.4c-0.424-0.446-0.957-0.805-1.6-1.073s-1.388-0.403-2.235-0.403h-3.035V54h3.814
 		c0.127,0,0.323-0.016,0.588-0.048c0.264-0.032,0.556-0.104,0.875-0.219c0.319-0.114,0.649-0.285,0.991-0.513
 		s0.649-0.54,0.923-0.937s0.499-0.889,0.677-1.477s0.267-1.297,0.267-2.126c0-0.602-0.105-1.188-0.314-1.757
 		C32.694,46.355,32.378,45.847,31.954,45.4z M30.758,51.73c-0.492,0.711-1.294,1.066-2.406,1.066h-1.627v-7.629h0.957
 		c0.784,0,1.422,0.103,1.914,0.308s0.882,0.474,1.169,0.807s0.48,0.704,0.581,1.114c0.1,0.41,0.15,0.825,0.15,1.244
-		C31.496,49.989,31.25,51.02,30.758,51.73z"/>
-	<polygon points="35.598,54 37.266,54 37.266,49.461 41.477,49.461 41.477,48.34 37.266,48.34 37.266,45.168 41.9,45.168 
-		41.9,43.924 35.598,43.924 	"/>
-	<path d="M38.428,22.961c-0.919,0-2.047,0.12-3.358,0.358c-1.83-1.942-3.74-4.778-5.088-7.562c1.337-5.629,0.668-6.426,0.373-6.802
+		C31.496,49.989,31.25,51.02,30.758,51.73z"
+                                />
+                                <polygon
+                                  points="35.598,54 37.266,54 37.266,49.461 41.477,49.461 41.477,48.34 37.266,48.34 37.266,45.168 41.9,45.168 
+		41.9,43.924 35.598,43.924 	"
+                                />
+                                <path
+                                  d="M38.428,22.961c-0.919,0-2.047,0.12-3.358,0.358c-1.83-1.942-3.74-4.778-5.088-7.562c1.337-5.629,0.668-6.426,0.373-6.802
 		c-0.314-0.4-0.757-1.049-1.261-1.049c-0.211,0-0.787,0.096-1.016,0.172c-0.576,0.192-0.886,0.636-1.134,1.215
 		c-0.707,1.653,0.263,4.471,1.261,6.643c-0.853,3.393-2.284,7.454-3.788,10.75c-3.79,1.736-5.803,3.441-5.985,5.068
 		c-0.066,0.592,0.074,1.461,1.115,2.242c0.285,0.213,0.619,0.326,0.967,0.326h0c0.875,0,1.759-0.67,2.782-2.107
@@ -4095,92 +4239,100 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 		 M28.736,9.712c0.043-0.014,1.045,1.101,0.096,3.216C27.406,11.469,28.638,9.745,28.736,9.712z M26.669,25.738
 		c1.015-2.419,1.959-5.09,2.674-7.564c1.123,2.018,2.472,3.976,3.822,5.544C31.031,24.219,28.759,24.926,26.669,25.738z
 		 M39.57,25.259C39.262,25.69,38.594,25.7,38.36,25.7c-0.533,0-0.732-0.317-1.547-0.944c0.672-0.086,1.306-0.108,1.811-0.108
-		c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"/>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
+		c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"
+                                />
+                              </g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                            </svg>
 
-<div>
-                          <p style={{ marginBottom: "0px" }}>PDF Standard</p>
-                          <span
-                            style={{
-                              fontSize: "12px"
-                            }}
-                          >
-                            {/* Kích thước tập tin nhỏ, nhiều trang */}
-                            {this.translate("pdfStandardDesc")}
-                          </span>
-                          </div>
-                        </button>
-                      </li>
-                      <li style={{
-                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
-                        marginBottom: '1px',
-                      }}>
-                        <button
-                          onClick={this.downloadPDF.bind(this, true)}
+                            <div>
+                              <p style={{ marginBottom: "0px" }}>
+                                PDF Standard
+                              </p>
+                              <span
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                {/* Kích thước tập tin nhỏ, nhiều trang */}
+                                {this.translate("pdfStandardDesc")}
+                              </span>
+                            </div>
+                          </button>
+                        </li>
+                        <li
                           style={{
-                            width: "100%",
-                            border: "none",
-                            textAlign: "left",
-                            padding: "5px 12px",
-                            display: "flex",
+                            boxShadow: "rgba(55, 53, 47, 0.09) 0px 1px 0px",
+                            marginBottom: "1px"
                           }}
                         >
-                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 58 58" xmlSpace="preserve">
-<g>
-	<path d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
+                          <button
+                            onClick={this.downloadPDF.bind(this, true)}
+                            style={{
+                              width: "100%",
+                              border: "none",
+                              textAlign: "left",
+                              padding: "5px 12px",
+                              display: "flex"
+                            }}
+                          >
+                            <svg
+                              style={{ width: "35px", marginRight: "10px" }}
+                              version="1.1"
+                              id="Capa_1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              x="0px"
+                              y="0px"
+                              viewBox="0 0 58 58"
+                              xmlSpace="preserve"
+                            >
+                              <g>
+                                <path
+                                  d="M50.95,12.187l-0.771-0.771L40.084,1.321L39.313,0.55C38.964,0.201,38.48,0,37.985,0H8.963C7.777,0,6.5,0.916,6.5,2.926V39
 		v16.537V56c0,0.837,0.842,1.653,1.838,1.91c0.05,0.013,0.098,0.032,0.15,0.042C8.644,57.983,8.803,58,8.963,58h40.074
 		c0.16,0,0.319-0.017,0.475-0.048c0.052-0.01,0.1-0.029,0.15-0.042C50.658,57.653,51.5,56.837,51.5,56v-0.463V39V13.978
 		C51.5,13.211,51.408,12.645,50.95,12.187z M47.935,12H39.5V3.565L47.935,12z M8.963,56c-0.071,0-0.135-0.026-0.198-0.049
 		C8.609,55.877,8.5,55.721,8.5,55.537V41h41v14.537c0,0.184-0.109,0.339-0.265,0.414C49.172,55.974,49.108,56,49.037,56H8.963z
 		 M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595C37.525,2.126,37.5,2.256,37.5,2.391V14h11.609c0.135,0,0.264-0.025,0.39-0.058
-		c0,0.015,0.001,0.021,0.001,0.036V39H8.5z"/>
-	<path d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
+		c0,0.015,0.001,0.021,0.001,0.036V39H8.5z"
+                                />
+                                <path
+                                  d="M22.042,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205h-2.898V54h1.641v-3.637h1.217
 		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
 		c0-0.483-0.103-0.918-0.308-1.306S22.375,45.018,22.042,44.744z M21.42,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
 		c-0.164,0.155-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
 		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
-		C21.57,47.451,21.52,47.795,21.42,48.073z"/>
-	<path d="M31.954,45.4c-0.424-0.446-0.957-0.805-1.6-1.073s-1.388-0.403-2.235-0.403h-3.035V54h3.814
+		C21.57,47.451,21.52,47.795,21.42,48.073z"
+                                />
+                                <path
+                                  d="M31.954,45.4c-0.424-0.446-0.957-0.805-1.6-1.073s-1.388-0.403-2.235-0.403h-3.035V54h3.814
 		c0.127,0,0.323-0.016,0.588-0.048c0.264-0.032,0.556-0.104,0.875-0.219c0.319-0.114,0.649-0.285,0.991-0.513
 		s0.649-0.54,0.923-0.937s0.499-0.889,0.677-1.477s0.267-1.297,0.267-2.126c0-0.602-0.105-1.188-0.314-1.757
 		C32.694,46.355,32.378,45.847,31.954,45.4z M30.758,51.73c-0.492,0.711-1.294,1.066-2.406,1.066h-1.627v-7.629h0.957
 		c0.784,0,1.422,0.103,1.914,0.308s0.882,0.474,1.169,0.807s0.48,0.704,0.581,1.114c0.1,0.41,0.15,0.825,0.15,1.244
-		C31.496,49.989,31.25,51.02,30.758,51.73z"/>
-	<polygon points="35.598,54 37.266,54 37.266,49.461 41.477,49.461 41.477,48.34 37.266,48.34 37.266,45.168 41.9,45.168 
-		41.9,43.924 35.598,43.924 	"/>
-	<path d="M38.428,22.961c-0.919,0-2.047,0.12-3.358,0.358c-1.83-1.942-3.74-4.778-5.088-7.562c1.337-5.629,0.668-6.426,0.373-6.802
+		C31.496,49.989,31.25,51.02,30.758,51.73z"
+                                />
+                                <polygon
+                                  points="35.598,54 37.266,54 37.266,49.461 41.477,49.461 41.477,48.34 37.266,48.34 37.266,45.168 41.9,45.168 
+		41.9,43.924 35.598,43.924 	"
+                                />
+                                <path
+                                  d="M38.428,22.961c-0.919,0-2.047,0.12-3.358,0.358c-1.83-1.942-3.74-4.778-5.088-7.562c1.337-5.629,0.668-6.426,0.373-6.802
 		c-0.314-0.4-0.757-1.049-1.261-1.049c-0.211,0-0.787,0.096-1.016,0.172c-0.576,0.192-0.886,0.636-1.134,1.215
 		c-0.707,1.653,0.263,4.471,1.261,6.643c-0.853,3.393-2.284,7.454-3.788,10.75c-3.79,1.736-5.803,3.441-5.985,5.068
 		c-0.066,0.592,0.074,1.461,1.115,2.242c0.285,0.213,0.619,0.326,0.967,0.326h0c0.875,0,1.759-0.67,2.782-2.107
@@ -4190,70 +4342,68 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 		 M28.736,9.712c0.043-0.014,1.045,1.101,0.096,3.216C27.406,11.469,28.638,9.745,28.736,9.712z M26.669,25.738
 		c1.015-2.419,1.959-5.09,2.674-7.564c1.123,2.018,2.472,3.976,3.822,5.544C31.031,24.219,28.759,24.926,26.669,25.738z
 		 M39.57,25.259C39.262,25.69,38.594,25.7,38.36,25.7c-0.533,0-0.732-0.317-1.547-0.944c0.672-0.086,1.306-0.108,1.811-0.108
-		c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"/>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
-<div>
-                          <p style={{ marginBottom: "0px" }}>PDF Print</p>
-                          <span
-                            style={{
-                              fontSize: "12px"
-                            }}
-                          >
-                            {/* Chất lượng ảnh cao, nhiều trang */}
-                            {this.translate("pdfPrint")}
-                          </span>
-                          </div>
-                        </button>
-                      </li>
-                      <li style={{
-                        boxShadow: 'rgba(55, 53, 47, 0.09) 0px 1px 0px',
-                        marginBottom: '1px',
-                      }}>
-                        <button
-                          onClick={this.downloadVideo.bind(this)}
+		c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"
+                                />
+                              </g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                            </svg>
+                            <div>
+                              <p style={{ marginBottom: "0px" }}>PDF Print</p>
+                              <span
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                {/* Chất lượng ảnh cao, nhiều trang */}
+                                {this.translate("pdfPrint")}
+                              </span>
+                            </div>
+                          </button>
+                        </li>
+                        <li
                           style={{
-                            width: "100%",
-                            border: "none",
-                            textAlign: "left",
-                            padding: "5px 12px",
-                            display: "flex",
+                            boxShadow: "rgba(55, 53, 47, 0.09) 0px 1px 0px",
+                            marginBottom: "1px"
                           }}
                         >
-                          <svg style={{width: '35px', marginRight: '10px',}} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 58 58" xmlSpace="preserve">
-<g>
-	<path d="M50.95,12.187l-0.77-0.77l0,0L40.084,1.321c0,0-0.001-0.001-0.002-0.001l-0.768-0.768C38.965,0.201,38.48,0,37.985,0H8.963
+                          <button
+                            onClick={this.downloadVideo.bind(this)}
+                            style={{
+                              width: "100%",
+                              border: "none",
+                              textAlign: "left",
+                              padding: "5px 12px",
+                              display: "flex"
+                            }}
+                          >
+                            <svg
+                              style={{ width: "35px", marginRight: "10px" }}
+                              version="1.1"
+                              id="Capa_1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              xmlnsXlink="http://www.w3.org/1999/xlink"
+                              x="0px"
+                              y="0px"
+                              viewBox="0 0 58 58"
+                              xmlSpace="preserve"
+                            >
+                              <g>
+                                <path
+                                  d="M50.95,12.187l-0.77-0.77l0,0L40.084,1.321c0,0-0.001-0.001-0.002-0.001l-0.768-0.768C38.965,0.201,38.48,0,37.985,0H8.963
 		C7.777,0,6.5,0.916,6.5,2.926V39v16.537V56c0,0.838,0.843,1.654,1.839,1.91c0.05,0.013,0.097,0.032,0.148,0.042
 		C8.644,57.983,8.803,58,8.963,58h40.074c0.16,0,0.319-0.017,0.475-0.048c0.051-0.01,0.098-0.029,0.148-0.042
 		C50.657,57.654,51.5,56.838,51.5,56v-0.463V39V13.978C51.5,13.213,51.408,12.646,50.95,12.187z M42.5,21c0,7.168-5.832,13-13,13
@@ -4261,68 +4411,63 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 		v-1.717V3.565L47.935,12H40.981z M8.963,56c-0.071,0-0.135-0.025-0.198-0.049C8.609,55.876,8.5,55.72,8.5,55.537V41h41v14.537
 		c0,0.183-0.109,0.339-0.265,0.414C49.172,55.975,49.108,56,49.037,56H8.963z M8.5,39V2.926C8.5,2.709,8.533,2,8.963,2h28.595
 		C37.525,2.126,37.5,2.256,37.5,2.392v5.942C35.115,6.826,32.342,6,29.5,6c-8.271,0-15,6.729-15,15s6.729,15,15,15s15-6.729,15-15
-		c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z"/>
-	<polygon points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674 
-		23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924 	"/>
-	<path d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
+		c0-2.465-0.607-4.849-1.749-7h6.357c0.135,0,0.264-0.025,0.39-0.058c0,0.014,0.001,0.02,0.001,0.036V39H8.5z"
+                                />
+                                <polygon
+                                  points="20.42,50.814 17.426,43.924 15.758,43.924 15.758,54 17.426,54 17.426,47.068 19.695,52.674 21.145,52.674 
+		23.4,47.068 23.4,54 25.068,54 25.068,43.924 23.4,43.924 	"
+                                />
+                                <path
+                                  d="M32.868,44.744c-0.333-0.273-0.709-0.479-1.128-0.615c-0.419-0.137-0.843-0.205-1.271-0.205H27.57V54h1.641v-3.637h1.217
 		c0.528,0,1.012-0.077,1.449-0.232s0.811-0.374,1.121-0.656c0.31-0.282,0.551-0.631,0.725-1.046c0.173-0.415,0.26-0.877,0.26-1.388
 		c0-0.483-0.103-0.918-0.308-1.306S33.201,45.018,32.868,44.744z M32.246,48.073c-0.101,0.278-0.232,0.494-0.396,0.649
 		s-0.344,0.267-0.54,0.335c-0.196,0.068-0.395,0.103-0.595,0.103h-1.504v-3.992h1.23c0.419,0,0.756,0.066,1.012,0.198
 		c0.255,0.132,0.453,0.296,0.595,0.492c0.141,0.196,0.234,0.401,0.28,0.615c0.045,0.214,0.068,0.403,0.068,0.567
-		C32.396,47.451,32.346,47.795,32.246,48.073z"/>
-	<path d="M41.146,43.924h-1.668l-4.361,6.426v1.299h4.361V54h1.668v-2.352h1.053V50.35h-1.053V43.924z M39.479,50.35H36.58
-		l2.898-4.512V50.35z"/>
-	<path d="M37.037,20.156l-11-7c-0.308-0.195-0.698-0.208-1.019-0.033C24.699,13.299,24.5,13.635,24.5,14v14
+		C32.396,47.451,32.346,47.795,32.246,48.073z"
+                                />
+                                <path
+                                  d="M41.146,43.924h-1.668l-4.361,6.426v1.299h4.361V54h1.668v-2.352h1.053V50.35h-1.053V43.924z M39.479,50.35H36.58
+		l2.898-4.512V50.35z"
+                                />
+                                <path
+                                  d="M37.037,20.156l-11-7c-0.308-0.195-0.698-0.208-1.019-0.033C24.699,13.299,24.5,13.635,24.5,14v14
 		c0,0.365,0.199,0.701,0.519,0.877C25.169,28.959,25.334,29,25.5,29c0.187,0,0.374-0.053,0.537-0.156l11-7
-		C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.821L34.637,21L26.5,26.179z"/>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
-<div>
-                          <p style={{ marginBottom: "4px" }}>Video</p>
-                          <span
-                            style={{
-                              fontSize: "12px"
-                            }}
-                          >
-                            MP4
-                          </span>
-                          </div>
-                        </button>
-                      </li>
-                    </ul>
+		C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.821L34.637,21L26.5,26.179z"
+                                />
+                              </g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                              <g></g>
+                            </svg>
+                            <div>
+                              <p style={{ marginBottom: "4px" }}>Video</p>
+                              <span
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                MP4
+                              </span>
+                            </div>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>}
+              )}
               {Globals.serviceUser &&
                 Globals.serviceUser.username &&
                 Globals.serviceUser.username === adminEmail && (
@@ -4357,7 +4502,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               width: `100%`,
               height: "calc(100% - 55px)",
               display: "flex",
-              overflow: 'hidden',
+              overflow: "hidden"
             }}
           >
             <LeftSide
@@ -4405,9 +4550,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 // left: `${
                 //   this.state.toolbarOpened ? this.state.toolbarSize - 2 : 80
                 // }px`,
-                backgroundColor: '#ECF0F2',
-                position: 'relative',
-                height: '100%',
+                backgroundColor: "#ECF0F2",
+                position: "relative",
+                height: "100%"
               }}
               ref={this.setAppRef}
               id="screens"
@@ -4481,54 +4626,59 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   marginBottom: "10px"
                 }}
               >
-                {(this.state.idObjectSelected && this.state.selectedImage 
-                  && (this.state.selectedImage.type === TemplateType.Heading || this.state.selectedImage.type === TemplateType.Latex || this.state.childId) && 
-                  <a
-                    href="#"
-                    style={{
-                      position: "relative",
-                      borderRadius: "4px",
-                      padding: "3px",
-                      paddingBottom: "0px",
-                      marginRight: "6px",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      color: "black"
-                    }}
-                    onClick={e => {
-                      e.preventDefault();
-                      this.setState({ selectedTab: SidebarTab.Color });
-                    }}
-                    className="toolbar-btn"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={{ width: "20px", height: "20px" }}
-                    >
-                      <g>
-                        <path
-                          d="M11 2L5.5 16h2.25l1.12-3h6.25l1.12 3h2.25L13 2h-2zm-1.38 9L12 4.67 14.38 11H9.62z"
-                          fill="currentColor"
-                        ></path>
-                      </g>
-                    </svg>
-                    <div
+                {this.state.idObjectSelected &&
+                  this.state.selectedImage &&
+                  (this.state.selectedImage.type === TemplateType.Heading ||
+                    this.state.selectedImage.type === TemplateType.Latex ||
+                    this.state.childId) && (
+                    <a
+                      href="#"
                       style={{
-                        position: "absolute",
-                        bottom: "4px",
-                        left: "4px",
-                        borderRadius: "14px",
-                        width: "72%",
-                        height: "4px",
-                        // background:
-                        //   "repeating-linear-gradient(to right, rgb(38, 23, 77) 0%, rgb(38, 23, 77) 100%)",
-                        backgroundColor: this.state.fontColor
+                        position: "relative",
+                        borderRadius: "4px",
+                        padding: "3px",
+                        paddingBottom: "0px",
+                        marginRight: "6px",
+                        display: "inline-block",
+                        cursor: "pointer",
+                        color: "black"
                       }}
-                    ></div>
-                  </a>
-                )}
-                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading || this.state.childId) && (
+                      onClick={e => {
+                        e.preventDefault();
+                        this.setState({ selectedTab: SidebarTab.Color });
+                      }}
+                      className="toolbar-btn"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        preserveAspectRatio="xMidYMid meet"
+                        style={{ width: "20px", height: "20px" }}
+                      >
+                        <g>
+                          <path
+                            d="M11 2L5.5 16h2.25l1.12-3h6.25l1.12 3h2.25L13 2h-2zm-1.38 9L12 4.67 14.38 11H9.62z"
+                            fill="currentColor"
+                          ></path>
+                        </g>
+                      </svg>
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "4px",
+                          left: "4px",
+                          borderRadius: "14px",
+                          width: "72%",
+                          height: "4px",
+                          // background:
+                          //   "repeating-linear-gradient(to right, rgb(38, 23, 77) 0%, rgb(38, 23, 77) 100%)",
+                          backgroundColor: this.state.fontColor
+                        }}
+                      ></div>
+                    </a>
+                  )}
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4579,8 +4729,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       </g>
                     </svg>
                   </a>
-                ))}
-                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading || this.state.childId) && (
+                )}
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4631,8 +4783,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       </g>
                     </svg>
                   </a>
-                ))}
-                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading || this.state.childId) && (
+                )}
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4645,27 +4799,35 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       display: "inline-block",
                       cursor: "pointer",
                       color: "black",
-                      position: 'relative',
+                      position: "relative"
                     }}
                   >
                     <img
                       style={{ height: "21px", filter: "invert(1)" }}
                       src={this.state.fontName}
                     />
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" 
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
                       style={{
-                        pointerEvents: 'none',
-                        position: 'absolute',
-                        right: '10px',
-                        top: '4px',
+                        pointerEvents: "none",
+                        position: "absolute",
+                        right: "10px",
+                        top: "4px"
                       }}
-                      ><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"></path></svg>
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"
+                      ></path>
+                    </svg>
                   </a>
-                ))}
+                )}
                 {this.state.idObjectSelected &&
-                (this.state.selectedImage.type === TemplateType.Image || 
-                this.state.selectedImage.type === TemplateType.Video) 
-                   && (
+                  (this.state.selectedImage.type === TemplateType.Image ||
+                    this.state.selectedImage.type === TemplateType.Video) && (
                     <div
                       style={{
                         position: "relative"
@@ -4683,14 +4845,14 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                             this.setState({ cropMode: true });
                           }}
                         >
-                          <span>
-                            {this.translate("crop")}
-                          </span>
+                          <span>{this.translate("crop")}</span>
                         </button>
                       )}
                     </div>
                   )}
-                {this.state.selectedImage && this.state.selectedImage.type === TemplateType.Image && this.state.selectedImage.backgroundColor && (
+                {this.state.selectedImage &&
+                  this.state.selectedImage.type === TemplateType.Image &&
+                  this.state.selectedImage.backgroundColor && (
                     <div
                       style={{
                         position: "relative"
@@ -4715,7 +4877,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   style={{
                     position: "relative",
                     display:
-                      (this.state.selectedImage && this.state.selectedImage.type === TemplateType.Heading) ||
+                      (this.state.selectedImage &&
+                        this.state.selectedImage.type ===
+                          TemplateType.Heading) ||
                       this.state.childId
                         ? "block"
                         : "none"
@@ -4730,7 +4894,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       width: "100px",
                       padding: "0",
                       background: "white",
-                      animation: 'bounce 1.2s ease-out',
+                      animation: "bounce 1.2s ease-out"
                     }}
                     id="myFontSizeList"
                     className="dropdown-content-font-size"
@@ -4918,7 +5082,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   </div>
                 </div>
                 {/* } */}
-                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading) ||
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
                   <a
                     href="#"
@@ -4969,7 +5134,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     </svg>
                   </a>
                 )}
-                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading) || this.state.childId) && (
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -5019,7 +5186,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     </svg>
                   </a>
                 )}
-                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading) || this.state.childId) && (
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -5086,8 +5255,20 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       display: "flex"
                     }}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z"></path></svg>
-                    <span style={{marginLeft: '5px',}}>{this.translate("ok")}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z"
+                      ></path>
+                    </svg>
+                    <span style={{ marginLeft: "5px" }}>
+                      {this.translate("ok")}
+                    </span>
                   </button>
                 )}
                 {this.state.cropMode && (
@@ -5098,8 +5279,20 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       display: "flex"
                     }}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg>
-                    <span style={{marginLeft: '5px',}}>{this.translate("cancel")}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"
+                      ></path>
+                    </svg>
+                    <span style={{ marginLeft: "5px" }}>
+                      {this.translate("cancel")}
+                    </span>
                   </button>
                 )}
                 {this.state.idObjectSelected && (
@@ -5125,7 +5318,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
                         height: "26px",
                         width: "30px",
-                        padding: 0,
+                        padding: 0
                       }}
                       className="dropbtn-font dropbtn-font-size"
                       onClick={this.onClickTransparent.bind(this)}
@@ -5162,7 +5355,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       style={{
                         right: "10px",
                         backgroundColor: "white",
-                        animation: 'bounce 1.2s ease-out',
+                        animation: "bounce 1.2s ease-out"
                       }}
                       className="dropdown-content-font-size"
                     >
@@ -5247,7 +5440,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         width: "350px",
                         padding: "10px 20px",
                         background: "white",
-                        animation: 'bounce 1.2s ease-out',
+                        animation: "bounce 1.2s ease-out"
                       }}
                       id="myTransparent"
                       className="dropdown-content-font-size"
@@ -5262,8 +5455,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         }}
                       >
                         {/* Mức trong suốt */}
-                        {this.translate("transparent")}
-                        :{" "}
+                        {this.translate("transparent")}:{" "}
                       </p>
                       <div
                         style={{
@@ -5345,7 +5537,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   e.stopPropagation();
                   if (
                     // !cropMode &&
-                    (e.target as Element).id === "screen-container-parent" && !this.state.dragging && !this.state.resizing
+                    (e.target as Element).id === "screen-container-parent" &&
+                    !this.state.dragging &&
+                    !this.state.resizing
                   ) {
                     this.doNoObjectSelected();
                     e.stopPropagation();
@@ -5363,35 +5557,43 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     this.state.cropMode && "rgba(14, 19, 24, 0.2)"
                 }}
               >
-                {this.state.mounted && <div
-                  id="screen-container"
-                  className="screen-container"
-                  style={{
-                    width: rectWidth * scale + 40 + "px",
-                    height: rectHeight * scale + 40 + "px",
-                    margin: "auto",
-                    right: 0,
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    padding: "0 20px"
-                  }}
-                  ref={this.setContainerRef}
-                  onClick={e => {
-                    if ((e.target as Element).id === "screen-container" && !this.state.dragging && !this.state.resizing) {
-                      this.doNoObjectSelected();
-                    }
-                  }}
-                >
-                  {this.state.downloading && 
-                    <div style={{
-                      display: 'none',
-                    }}>
-                      {this.renderCanvas(false, -1, true)}
+                {this.state.mounted && (
+                  <div
+                    id="screen-container"
+                    className="screen-container"
+                    style={{
+                      width: rectWidth * scale + 40 + "px",
+                      height: rectHeight * scale + 40 + "px",
+                      margin: "auto",
+                      right: 0,
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      padding: "0 20px"
+                    }}
+                    ref={this.setContainerRef}
+                    onClick={e => {
+                      if (
+                        (e.target as Element).id === "screen-container" &&
+                        !this.state.dragging &&
+                        !this.state.resizing
+                      ) {
+                        this.doNoObjectSelected();
+                      }
+                    }}
+                  >
+                    {this.state.downloading && (
+                      <div
+                        style={{
+                          display: "none"
+                        }}
+                      >
+                        {this.renderCanvas(false, -1, true)}
                       </div>
-                  }
-                  {this.renderCanvas(false, -1, false)}
-                </div>}
+                    )}
+                    {this.renderCanvas(false, -1, false)}
+                  </div>
+                )}
                 <div
                   style={{
                     position: "fixed",
@@ -5638,115 +5840,119 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       </ul>
                     </div>
                   )}
-                  {
-                    this.state.mounted &&
-                  <div
-                    className="workSpaceBottomPanel___73_jE"
-                    data-bubble="false"
-                  >
-                    <div className="workSpaceButtons___f6jkZ">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          boxShadow:
-                            "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                          background: "#293039",
-                          borderRadius: "5px"
-                        }}
-                        className="zoom___21DG8"
-                      >
-                        <button
-                          onClick={e => {
-                            if (this.state.scale - 0.15 > 0.2) {
-                              this.setState({ scale: this.state.scale - 0.15 });
-                            }
+                  {this.state.mounted && (
+                    <div
+                      className="workSpaceBottomPanel___73_jE"
+                      data-bubble="false"
+                    >
+                      <div className="workSpaceButtons___f6jkZ">
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            boxShadow:
+                              "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+                            background: "#293039",
+                            borderRadius: "5px"
                           }}
-                          style={{ border: "none", background: "transparent" }}
-                          className="zoomMinus___1Ooi5"
-                          data-test="zoomMinus"
-                          data-categ="tools"
-                          data-value="zoomOut"
-                          data-subcateg="bottomPanel"
+                          className="zoom___21DG8"
                         >
-                          <svg
-                            style={{
-                              width: '25px',
-                              height: '25px',
-                            }}
-                            viewBox="0 0 18 18"
-                            width="18"
-                            height="18"
-                            className="zoomSvg___1IAZj"
-                          >
-                            <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
-                            <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
-                          </svg>
-                        </button>
-                        <div className="zoomPercent___3286Z">
                           <button
                             onClick={e => {
-                              var self = this;
-                              this.setState({ showZoomPopup: true });
-                              const onDownload = () => {
-                                self.setState({ showZoomPopup: false });
-                                document.removeEventListener(
-                                  "click",
-                                  onDownload
-                                );
-                              };
-                              document.addEventListener("click", onDownload);
+                              if (this.state.scale - 0.15 > 0.2) {
+                                this.setState({
+                                  scale: this.state.scale - 0.15
+                                });
+                              }
                             }}
                             style={{
-                              height: '40px',
-                              color: "white",
                               border: "none",
-                              background: "transparent",
-                              width: "55px",
-                              fontSize: "18px",
+                              background: "transparent"
                             }}
-                            className="scaleListButton___GEm7w zoomMain___1z1vk"
-                            data-zoom="true"
+                            className="zoomMinus___1Ooi5"
+                            data-test="zoomMinus"
                             data-categ="tools"
-                            data-value="zoomPanelOpen"
+                            data-value="zoomOut"
                             data-subcateg="bottomPanel"
                           >
-                            {Math.round(this.state.scale * 100)}%
+                            <svg
+                              style={{
+                                width: "25px",
+                                height: "25px"
+                              }}
+                              viewBox="0 0 18 18"
+                              width="18"
+                              height="18"
+                              className="zoomSvg___1IAZj"
+                            >
+                              <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
+                              <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
+                            </svg>
+                          </button>
+                          <div className="zoomPercent___3286Z">
+                            <button
+                              onClick={e => {
+                                var self = this;
+                                this.setState({ showZoomPopup: true });
+                                const onDownload = () => {
+                                  self.setState({ showZoomPopup: false });
+                                  document.removeEventListener(
+                                    "click",
+                                    onDownload
+                                  );
+                                };
+                                document.addEventListener("click", onDownload);
+                              }}
+                              style={{
+                                height: "40px",
+                                color: "white",
+                                border: "none",
+                                background: "transparent",
+                                width: "55px",
+                                fontSize: "18px"
+                              }}
+                              className="scaleListButton___GEm7w zoomMain___1z1vk"
+                              data-zoom="true"
+                              data-categ="tools"
+                              data-value="zoomPanelOpen"
+                              data-subcateg="bottomPanel"
+                            >
+                              {Math.round(this.state.scale * 100)}%
+                            </button>
+                          </div>
+                          <button
+                            onClick={e => {
+                              this.setState({ scale: this.state.scale + 0.15 });
+                            }}
+                            style={{
+                              border: "none",
+                              background: "transparent",
+                              height: "40px"
+                            }}
+                            className="zoomPlus___1TbHD"
+                            data-test="zoomPlus"
+                            data-categ="tools"
+                            data-value="zoomIn"
+                            data-subcateg="bottomPanel"
+                          >
+                            <svg
+                              style={{
+                                width: "25px",
+                                height: "25px"
+                              }}
+                              viewBox="0 0 18 18"
+                              width="18"
+                              height="18"
+                              className="zoomSvg___1IAZj"
+                            >
+                              <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM13,13h0a7,7,0,1,1,2.09-5A7,7,0,0,1,13,13Z"></path>
+                              <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
+                            </svg>
                           </button>
                         </div>
-                        <button
-                          onClick={e => {
-                            this.setState({ scale: this.state.scale + 0.15 });
-                          }}
-                          style={{ 
-                            border: "none", 
-                            background: "transparent",
-                            height: '40px',
-                          }}
-                          className="zoomPlus___1TbHD"
-                          data-test="zoomPlus"
-                          data-categ="tools"
-                          data-value="zoomIn"
-                          data-subcateg="bottomPanel"
-                        >
-                          <svg
-                            style={{
-                              width: '25px',
-                              height: '25px',
-                            }}
-                            viewBox="0 0 18 18"
-                            width="18"
-                            height="18"
-                            className="zoomSvg___1IAZj"
-                          >
-                            <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM13,13h0a7,7,0,1,1,2.09-5A7,7,0,0,1,13,13Z"></path>
-                            <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
-                          </svg>
-                        </button>
                       </div>
                     </div>
-                  </div>
-                  }
+                  )}
                 </div>
               </div>
             </div>
@@ -5896,7 +6102,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         ></BusinessCardReview>
                       )}
                       {this.state.subtype == SubType.FlyerReview && (
-                        <FlyerReview>{this.renderCanvas(true, 0, false)}</FlyerReview>
+                        <FlyerReview>
+                          {this.renderCanvas(true, 0, false)}
+                        </FlyerReview>
                       )}
                       {this.state.subtype == SubType.PosterReview && (
                         <TrifoldReview>
@@ -6391,4 +6599,3 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 }
 
 export default withTranslation(NAMESPACE)(CanvaEditor);
-
