@@ -5859,11 +5859,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                         >
                           <button
                             onClick={e => {
-                              if (this.state.scale - 0.15 > 0.2) {
-                                this.setState({
-                                  scale: this.state.scale - 0.15
-                                });
-                              }
+                              this.setState({
+                                scale: Math.max(0.1, this.state.scale - 0.15)
+                              });
                             }}
                             style={{
                               border: "none",
