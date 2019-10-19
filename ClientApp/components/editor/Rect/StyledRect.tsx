@@ -88,8 +88,8 @@ export default styled.div`
     background-color: white;
     border-radius: 50%;
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
     cursor: pointer;
     z-index: 1000;
     &.tl,
@@ -187,15 +187,15 @@ export default styled.div`
     left: calc(50% - 9px);
   }
   .l {
-    left: -10px;
+    left: -11px;
   }
   .r {
-    right: -10px;
+    right: -11px;
   }
   .t {
-    top: -10px;
+    top: -11px;
   }
   .b {
-    bottom: -10px;
+    bottom: -11px;
   }
 `

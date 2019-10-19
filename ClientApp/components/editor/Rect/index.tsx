@@ -41,7 +41,7 @@ export interface IProps {
   onDragEnd(): void;
   onRotateStart(e): void;
   onRotate(angle: number, startAngle: number, e: any): void;
-  onRotateEnd(): void;
+  onRotateEnd(_id: string): void;
   onResizeStart(startX: number, startY: number): void;
   onResize(
     deltaL: number,
@@ -228,7 +228,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       document.removeEventListener("mouseup", onUp);
       if (!this._isMouseDown) return;
       this._isMouseDown = false;
-      this.props.onRotateEnd && this.props.onRotateEnd();
+      this.props.onRotateEnd && this.props.onRotateEnd(this.props._id);
     };
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", onUp);
@@ -690,7 +690,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       <StyledRect
         id={id}
         ref={this.setElementRef}
-        className={`${_id}-styledrect rect single-resizer ${selected &&
+        className={`${_id}rect-alo ${_id}-styledrect rect single-resizer ${selected &&
           "selected"}`}
         style={style}
         dragging={dragging}
@@ -1286,6 +1286,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               }}
             ></div>
             <div
+              id={_id + "_____"}
               className={_id + "rect-alo"}
               style={{
                 width: width / (src ? 1 : scaleX) + "px",

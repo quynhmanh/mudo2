@@ -15,7 +15,7 @@ import LeftSide from "@Components/editor/LeftSide";
 import FontSize from "@Components/editor/FontSize";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
-import { centerToTL, tLToCenter, getNewStyle, degToRadian, updateTransformXY } from "@Utils";
+import { centerToTL, tLToCenter, getNewStyle, degToRadian, updateTransformXY, updatePosition, updateRotate } from "@Utils";
 import loadable from '@loadable/component';
 import {clone} from 'lodash';
 
@@ -37,6 +37,7 @@ declare global {
     rect: any;
     rect2: any;
     image: any;
+    rotateAngle: any;
   }
 }
 
@@ -898,7 +899,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log('handleResize ');
     // if (this.switching) {
     //   return;
     // }
@@ -1011,6 +1011,35 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         image.left = left;
         image.width = width;
         image.height = height;
+
+        // var el = document.getElementById(_id + "_1");
+        // el.style.width = width * scale + "px";
+        // el.style.height = height * scale + "px";
+        // if (el.style.top) {
+        //   el.style.top = top * scale + "px";
+        // }
+        // if (el.style.left) {
+        //   el.style.left = left * scale + "px";
+        // }
+
+        updatePosition(_id + "_1", left * scale, top * scale, width * scale, height * scale);
+        updatePosition(_id + "_", left * scale, top * scale, width * scale, height * scale);
+        updatePosition(_id + "__", left * scale, top * scale, width * scale, height * scale);
+        updatePosition(_id + "___", left * scale, top * scale, width * scale, height * scale);
+
+        var els = document.getElementsByClassName(_id + "rect-alo");
+        for (var i = 0; i < els.length; ++i) {
+          var ell = els[i];
+          ell.style.width = width * scale + "px";
+          ell.style.height = height * scale + "px";
+          if (ell.style.top) {
+            ell.style.top = top * scale + "px";
+          }
+          if (ell.style.left) {
+            ell.style.left = left * scale + "px";
+          }
+        }
+        
 
         if (cursor != "e-resize" && cursor != "w-resize") {
           image.scaleX = image.width / image.origin_width;
@@ -1277,15 +1306,27 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     tip.style.left = e.clientX + 20 + "px";
     tip.innerText = rotateAngle + "°";
 
-    let images = toJS(this.props.images);
-    images = images.map(image => {
-      if (image._id === _id) {
-        image.rotateAngle = rotateAngle;
-      }
-      return image;
-    });
+    // var el = document.getElementById(_id + "_");
+    // el.style.transform = `rotate(${rotateAngle}deg)`;
 
-    this.props.images.replace(images);
+    // el = document.getElementById(_id + "__");
+    // el.style.transform = `rotate(${rotateAngle}deg)`;
+
+    updateRotate(_id + "_", rotateAngle);
+    updateRotate(_id + "__", rotateAngle);
+
+
+    window.rotateAngle = rotateAngle;
+
+    // let images = toJS(this.props.images);
+    // images = images.map(image => {
+    //   if (image._id === _id) {
+    //     image.rotateAngle = rotateAngle;
+    //   }
+    //   return image;
+    // });
+
+    // this.props.images.replace(images);
     // this.setState({ images });
   };
 
@@ -1327,7 +1368,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     this.setState({ rotating: true });
   };
 
-  handleRotateEnd = () => {
+  handleRotateEnd = (_id: string) => {
 
     var tip = document.getElementById("helloTip");
     document.body.removeChild(tip);
@@ -1343,6 +1384,18 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       var cur:any = rotators[i];
       cur.style.opacity = 1;
     }
+
+
+    let images = toJS(this.props.images);
+    images = images.map(image => {
+      if (image._id === _id) {
+        image.rotateAngle = window.rotateAngle;
+      }
+      return image;
+    });
+
+    this.props.images.replace(images);
+
     setTimeout(
       function() {
         this.setState({ rotating: false });
@@ -1354,6 +1407,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
+    // if (this.state.cropMode) {
+    //   return;
+    // }
     console.log('handleDragStart');
     // if (_id != this.state.idObjectSelected) {
     //   this.handleImageSelected()
@@ -1720,10 +1776,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // console.log('handleDrag 1');
     // this.props.images.replace(images);
 
-    document.getElementById(_id + "_").style.top = top * scale + "px";
-    document.getElementById(_id + "_").style.left = left * scale + "px";
-    document.getElementById(_id + "__").style.top = top * scale + "px";
-    document.getElementById(_id + "__").style.left = left * scale + "px";
+    // document.getElementById(_id + "_").style.top = top * scale + "px";
+    // document.getElementById(_id + "_").style.left = left * scale + "px";
+    // document.getElementById(_id + "__").style.top = top * scale + "px";
+    // document.getElementById(_id + "__").style.left = left * scale + "px";
+
+    updatePosition(_id + "_", left * scale, top * scale, null, null);
+    updatePosition(_id + "__", left * scale, top * scale, null, null);
 
     // var t1 = performance.now();
     // console.log("Call to doSomething took he " + (t1 - t0) + " milliseconds.");
@@ -1735,6 +1794,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleDragEnd = () => {
+    // if (this.state.cropMode) {
+    //   return;
+    // }
     console.log('handleDragEnd');
     let {
       staticGuides: { x, y }
@@ -4419,15 +4481,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   marginBottom: "10px"
                 }}
               >
-                {((this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).type === TemplateType.Heading) ||
-                  (this.state.idObjectSelected &&
-                    this.props.images.find(
-                      img => img._id === this.state.idObjectSelected
-                    ).type === TemplateType.Latex) ||
-                  this.state.childId) && (
+                {(this.state.idObjectSelected && this.state.selectedImage 
+                  && (this.state.selectedImage.type === TemplateType.Heading || this.state.selectedImage.type === TemplateType.Latex || this.state.childId) && 
                   <a
                     href="#"
                     style={{
@@ -4473,11 +4528,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     ></div>
                   </a>
                 )}
-                {((this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).type === TemplateType.Heading) ||
-                  this.state.childId) && (
+                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading || this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4528,12 +4579,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       </g>
                     </svg>
                   </a>
-                )}
-                {((this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).type === TemplateType.Heading) ||
-                  this.state.childId) && (
+                ))}
+                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading || this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4584,12 +4631,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       </g>
                     </svg>
                   </a>
-                )}
-                {((this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).type === TemplateType.Heading) ||
-                  this.state.childId) && (
+                ))}
+                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading || this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4618,7 +4661,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       }}
                       ><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"></path></svg>
                   </a>
-                )}
+                ))}
                 {this.state.idObjectSelected &&
                 (this.state.selectedImage.type === TemplateType.Image || 
                 this.state.selectedImage.type === TemplateType.Video) 
@@ -4668,31 +4711,16 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       ></button>
                     </div>
                   )}
-                {/* {((this.state.idObjectSelected && this.props.images.find(img => img._id ===this.state.idObjectSelected).type === TemplateType.Heading) ||
-                this.state.childId) &&               */}
                 <div
                   style={{
                     position: "relative",
                     display:
-                      (this.state.idObjectSelected &&
-                        this.props.images.find(
-                          img => img._id === this.state.idObjectSelected
-                        ).type === TemplateType.Heading) ||
+                      (this.state.selectedImage && this.state.selectedImage.type === TemplateType.Heading) ||
                       this.state.childId
                         ? "block"
                         : "none"
                   }}
                 >
-                  {/* <button
-                  style={{
-                    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                    height: '26px',
-                  }}
-                  className="dropbtn-font dropbtn-font-size"
-                  onClick={this.onClickDropDownFontSizeList.bind(this)}
-                >
-                  {Math.round(this.state.fontSize)}px
-                </button> */}
                   <FontSize fontSize={this.state.fontSize} />
                   <div
                     style={{
@@ -4890,10 +4918,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   </div>
                 </div>
                 {/* } */}
-                {((this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).type === TemplateType.Heading) ||
+                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
                   <a
                     href="#"
@@ -4944,11 +4969,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     </svg>
                   </a>
                 )}
-                {((this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).type === TemplateType.Heading) ||
-                  this.state.childId) && (
+                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading) || this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4998,11 +5019,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     </svg>
                   </a>
                 )}
-                {((this.state.idObjectSelected &&
-                  this.props.images.find(
-                    img => img._id === this.state.idObjectSelected
-                  ).type === TemplateType.Heading) ||
-                  this.state.childId) && (
+                {((this.state.idObjectSelected && this.state.selectedImage.type === TemplateType.Heading) || this.state.childId) && (
                   <a
                     href="#"
                     className="toolbar-btn"

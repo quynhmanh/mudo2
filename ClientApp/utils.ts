@@ -494,3 +494,28 @@ export const updateTransformXY = function(elId, x, y: any) {
     el1238.style.transform = `translate(${x}px, ${y}px)`;
   }
 }
+
+export const updatePosition = function(elId, left, top, width, height: any) {
+  var el = document.getElementById(elId);
+  if (el) {
+    if (width) {
+      el.style.width = width + "px";
+    }
+    if (height) {
+      el.style.height = height + "px";
+    }
+    if (el.style.top) {
+      el.style.top = top + "px";
+    }
+    if (el.style.left) {
+      el.style.left = left + "px";
+    }
+  }
+}
+
+export const updateRotate = function(elId, rotateAngle: any) {
+  var el = document.getElementById(elId);
+  if (el) {
+    el.style.transform = `rotate(${rotateAngle}deg)`;
+  }
+}

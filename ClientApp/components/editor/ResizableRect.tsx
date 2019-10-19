@@ -18,7 +18,7 @@ export interface IProps {
   onDragEnd(): void;
   onRotateStart(): void;
   onRotate(rotateAngle: number, id: string, e: any): void;
-  onRotateEnd(): void;
+  onRotateEnd(_id: string): void;
   onResizeStart(startX: number, startY: number): void;
   onResize(
     rect: any,
