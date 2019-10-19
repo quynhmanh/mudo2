@@ -740,12 +740,22 @@ export default class Rect extends PureComponent<IProps, IState> {
           imgDirections.map(d => {
             var cursor;
             var normalizedRotateAngle = rotateAngle;
-            if (d == "ne") {
+            if (d == "n") {
+              normalizedRotateAngle = normalizedRotateAngle + 45;
+            }
+            else if (d == "ne") {
               normalizedRotateAngle = normalizedRotateAngle + 90;
+            }
+            else if (d == "e") {
+              normalizedRotateAngle = normalizedRotateAngle + 135;
             } else if (d == "es") {
               normalizedRotateAngle = normalizedRotateAngle + 180;
+            } else if (d == "s") {
+              normalizedRotateAngle = normalizedRotateAngle + 225;
             } else if (d == "sw") {
               normalizedRotateAngle = normalizedRotateAngle + 270;
+            } else if (d == "w") {
+              normalizedRotateAngle = normalizedRotateAngle + 315;
             }
             normalizedRotateAngle = normalizedRotateAngle % 180;
             if(normalizedRotateAngle >= 0 && normalizedRotateAngle < 8) {
@@ -784,26 +794,26 @@ export default class Rect extends PureComponent<IProps, IState> {
             if(normalizedRotateAngle >= 158 && normalizedRotateAngle < 173) {
               cursor = '-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto';
             }
-
-            console.log('cursor ', rotateAngle, cursor);
             
             return (
               <div
+                id={d}
                 key={d}
                 style={{
                   cursor
                   // transform: `scale(${1 / scale + 0.15})`
                 }}
                 className={`${zoomableMap[d]} resizable-handler-container`}
-                onMouseDown={e => this.startResize(e, cursor)}
+                onMouseDown={e => this.startResize(e, d)}
               >
                 <div
+                  id={d}
                   key={d}
                   style={{ 
                     cursor
                   }}
                   className={`${zoomableMap[d]} resizable-handler`}
-                  onMouseDown={e => this.startResize(e, cursor)}
+                  onMouseDown={e => this.startResize(e, d)}
                 />
               </div>
             );
@@ -1134,13 +1144,13 @@ export default class Rect extends PureComponent<IProps, IState> {
                         }}
                         id={_id + zoomableMap[d] + "_"}
                         className={`${zoomableMap[d]} resizable-handler-container hehe`}
-                        onMouseDown={e => this.startResizeImage(e, cursor, true)}
+                        onMouseDown={e => this.startResizeImage(e, d, true)}
                       >
                         <div
                           key={d}
                           style={{ cursor, zIndex: 999999 }}
                           className={`${zoomableMap[d]} resizable-handler`}
-                          onMouseDown={e => this.startResizeImage(e, cursor, true)}
+                          onMouseDown={e => this.startResizeImage(e, d, true)}
                         />
                       </div>
                     );
