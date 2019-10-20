@@ -921,6 +921,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // if (this.switching) {
     //   return;
     // }
+    console.log('handleResize ');
     const { scale } = this.state;
     // let scale = 1;
     let { top, left, width, height } = style;
@@ -1060,47 +1061,47 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         //   el.style.left = left * scale + "px";
         // }
 
-        updatePosition(
-          _id + "_1",
-          left * scale,
-          top * scale,
-          width * scale,
-          height * scale
-        );
-        updatePosition(
-          _id + "_",
-          left * scale,
-          top * scale,
-          width * scale,
-          height * scale
-        );
-        updatePosition(
-          _id + "__",
-          left * scale,
-          top * scale,
-          width * scale,
-          height * scale
-        );
-        updatePosition(
-          _id + "___",
-          left * scale,
-          top * scale,
-          width * scale,
-          height * scale
-        );
+        // updatePosition(
+        //   _id + "_1",
+        //   left * scale,
+        //   top * scale,
+        //   width * scale,
+        //   height * scale
+        // );
+        // updatePosition(
+        //   _id + "_",
+        //   left * scale,
+        //   top * scale,
+        //   width * scale,
+        //   height * scale
+        // );
+        // updatePosition(
+        //   _id + "__",
+        //   left * scale,
+        //   top * scale,
+        //   width * scale,
+        //   height * scale
+        // );
+        // updatePosition(
+        //   _id + "___",
+        //   left * scale,
+        //   top * scale,
+        //   width * scale,
+        //   height * scale
+        // );
 
-        var els = document.getElementsByClassName(_id + "rect-alo");
-        for (var i = 0; i < els.length; ++i) {
-          var ell = els[i] as HTMLElement;
-          ell.style.width = width * scale + "px";
-          ell.style.height = height * scale + "px";
-          if (ell.style.top) {
-            ell.style.top = top * scale + "px";
-          }
-          if (ell.style.left) {
-            ell.style.left = left * scale + "px";
-          }
-        }
+        // var els = document.getElementsByClassName(_id + "rect-alo");
+        // for (var i = 0; i < els.length; ++i) {
+        //   var ell = els[i] as HTMLElement;
+        //   ell.style.width = width * scale + "px";
+        //   ell.style.height = height * scale + "px";
+        //   if (ell.style.top) {
+        //     ell.style.top = top * scale + "px";
+        //   }
+        //   if (ell.style.left) {
+        //     ell.style.left = left * scale + "px";
+        //   }
+        // }
 
         if (cursor != "e-resize" && cursor != "w-resize") {
           image.scaleX = image.width / image.origin_width;
