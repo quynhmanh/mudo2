@@ -2024,7 +2024,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   handleWheel = e => {
     if (e.ctrlKey || e.metaKey) {
       const nextScale = parseFloat(
-        Math.max(0.2, this.state.scale - e.deltaY / 500).toFixed(2)
+        Math.max(0.1, this.state.scale - e.deltaY / 500).toFixed(2)
       );
       this.setState({ scale: nextScale });
     }
