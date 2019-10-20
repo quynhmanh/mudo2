@@ -921,7 +921,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // if (this.switching) {
     //   return;
     // }
-    console.log('handleResize ');
     const { scale } = this.state;
     // let scale = 1;
     let { top, left, width, height } = style;
@@ -979,45 +978,29 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
           if (t5 && t8 && type == "tl") {
             window.resizingInnerImage = true;
-            window.startX =
-              document.getElementById(_id + "tl_").getBoundingClientRect()
-                .left + 10;
-            window.startY =
-              document.getElementById(_id + "tl_").getBoundingClientRect().top +
-              10;
+            window.startX = document.getElementById(_id + "tl_").getBoundingClientRect().left + 10;
+            window.startY =document.getElementById(_id + "tl_").getBoundingClientRect().top + 10;
             self.switching = true;
           }
 
           if (t5 && t6 && type == "bl") {
             window.resizingInnerImage = true;
-            window.startX =
-              document.getElementById(_id + "bl_").getBoundingClientRect()
-                .left + 10;
-            window.startY =
-              document.getElementById(_id + "bl_").getBoundingClientRect().top +
-              10;
+            window.startX = document.getElementById(_id + "bl_").getBoundingClientRect().left + 10;
+            window.startY =document.getElementById(_id + "bl_").getBoundingClientRect().top + 10;
             self.switching = true;
           }
 
           if (t6 && t7 && type == "br") {
             window.resizingInnerImage = true;
-            window.startX =
-              document.getElementById(_id + "br_").getBoundingClientRect()
-                .left + 10;
-            window.startY =
-              document.getElementById(_id + "br_").getBoundingClientRect().top +
-              10;
+            window.startX = document.getElementById(_id + "br_").getBoundingClientRect().left + 10;
+            window.startY =document.getElementById(_id + "br_").getBoundingClientRect().top + 10;
             self.switching = true;
           }
 
           if (t8 && t7 && type == "tr") {
             window.resizingInnerImage = true;
-            window.startX =
-              document.getElementById(_id + "tr_").getBoundingClientRect()
-                .left + 10;
-            window.startY =
-              document.getElementById(_id + "tr_").getBoundingClientRect().top +
-              10;
+            window.startX = document.getElementById(_id + "tr_").getBoundingClientRect().left + 10;
+            window.startY =document.getElementById(_id + "tr_").getBoundingClientRect().top + 10;
             self.switching = true;
           }
         }
@@ -1038,10 +1021,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           image.posY = scaleTop * image.imgHeight;
         }
 
-        if (
-          (objectType === 4 || objectType === 6 || objectType === 9) &&
-          this.state.cropMode
-        ) {
+        if (objectType === 4 && this.state.cropMode) {
           image.posX -= deltaLeft;
           image.posY -= deltaTop;
         }
@@ -1051,59 +1031,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         image.width = width;
         image.height = height;
 
-        // var el = document.getElementById(_id + "_1");
-        // el.style.width = width * scale + "px";
-        // el.style.height = height * scale + "px";
-        // if (el.style.top) {
-        //   el.style.top = top * scale + "px";
-        // }
-        // if (el.style.left) {
-        //   el.style.left = left * scale + "px";
-        // }
-
-        // updatePosition(
-        //   _id + "_1",
-        //   left * scale,
-        //   top * scale,
-        //   width * scale,
-        //   height * scale
-        // );
-        // updatePosition(
-        //   _id + "_",
-        //   left * scale,
-        //   top * scale,
-        //   width * scale,
-        //   height * scale
-        // );
-        // updatePosition(
-        //   _id + "__",
-        //   left * scale,
-        //   top * scale,
-        //   width * scale,
-        //   height * scale
-        // );
-        // updatePosition(
-        //   _id + "___",
-        //   left * scale,
-        //   top * scale,
-        //   width * scale,
-        //   height * scale
-        // );
-
-        // var els = document.getElementsByClassName(_id + "rect-alo");
-        // for (var i = 0; i < els.length; ++i) {
-        //   var ell = els[i] as HTMLElement;
-        //   ell.style.width = width * scale + "px";
-        //   ell.style.height = height * scale + "px";
-        //   if (ell.style.top) {
-        //     ell.style.top = top * scale + "px";
-        //   }
-        //   if (ell.style.left) {
-        //     ell.style.left = left * scale + "px";
-        //   }
-        // }
-
-        if (cursor != "e-resize" && cursor != "w-resize") {
+        if (cursor != "e" && cursor != "w") {
           image.scaleX = image.width / image.origin_width;
           image.scaleY = image.height / image.origin_height;
 
@@ -1167,13 +1095,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         (window as any).scaleY = image.scaleY;
 
         if (self.switching) {
-          const styles = tLToCenter({
-            top: image.top,
-            left: image.left,
-            width: image.width,
-            height: image.height,
-            rotateAngle: image.rotateAngle
-          });
+          const styles = tLToCenter({ top: image.top, left: image.left, width: image.width, height: image.height, rotateAngle: image.rotateAngle });
           const imgStyles = tLToCenter({
             left: image.posX,
             top: image.posY,
@@ -1182,20 +1104,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             rotateAngle: 0
           });
 
-          window.rect = {
-            width: image.width * scale,
-            height: image.height * scale,
-            centerX: styles.position.centerX * scale,
-            centerY: styles.position.centerY * scale,
-            rotateAngle: image.rotateAngle
-          };
-          window.rect2 = {
-            imgWidth: image.imgWidth * scale,
-            imgHeight: image.imgHeight * scale,
-            imgCenterX: imgStyles.position.centerX * scale,
-            imgCenterY: imgStyles.position.centerY * scale,
-            imgRotateAngle: 0
-          };
+          window.rect = { width: image.width * scale, height: image.height * scale, centerX: styles.position.centerX * scale, centerY:  styles.position.centerY * scale, rotateAngle: image.rotateAngle };
+          window.rect2 = { imgWidth: image.imgWidth * scale, imgHeight: image.imgHeight * scale, imgCenterX: imgStyles.position.centerX * scale, imgCenterY: imgStyles.position.centerY * scale, imgRotateAngle: 0 };
         }
       }
       return image;
