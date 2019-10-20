@@ -2,20 +2,20 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { ToastContainer } from "react-toastify";
-import TopEditorMenu from "@Components/editor/TopEditorMenu";
-
 
 interface IProps {
-    children: any;
+  children: any;
 }
 
-type Props = IProps & RouteComponentProps<any> ;
+type Props = IProps & RouteComponentProps<any>;
 
 export default class EditorLayout extends React.Component<Props, {}> {
-    public render() {
-        return <div id="editorLayout" className="layout">
-                {this.props.children}
-                <ToastContainer />
-            </div>;
-    }
+  public render() {
+    return (
+      <div id="editorLayout" className="layout">
+        {this.props.children}
+        <ToastContainer />
+      </div>
+    );
+  }
 }

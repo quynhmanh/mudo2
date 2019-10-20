@@ -2,7 +2,6 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { ToastContainer } from "react-toastify";
-import TopMenu from '@Components/shared/TopMenu';
 
 
 interface IProps {
@@ -15,7 +14,6 @@ export default class GuestLayout extends React.Component<Props, {}> {
     public render() {
 
         return <div id="guestLayout">
-                <TopMenu />
                 <div
                   id="456"
                   style={{

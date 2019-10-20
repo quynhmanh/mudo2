@@ -5,7 +5,6 @@ import Editorlayout from "@Layouts/EditorLayout";
 import { AppRoute } from "@Components/shared/AppRoute";
 import { Switch } from 'react-router-dom';
 // import HomePage from '@Pages/HomePage';
-import ExamplePage from '@Pages/ExamplePage';
 import Editor from '@Pages/Editor';
 // import EditorContainer from '@Pages/EditorContainer';
 import EditorLayout from '@Layouts/EditorLayout';
