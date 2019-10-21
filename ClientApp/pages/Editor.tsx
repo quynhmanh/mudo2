@@ -743,11 +743,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
           this.props.addItem(document2);
 
-          // editorStore.images.replace(images);
-
-          var fonts = toJS(this.props.fonts);
-          fonts = [...fonts, ...doc.fontList];
-          this.props.fonts.replace(fonts);
+          var fonts = toJS(editorStore.fonts);
+          let tempFonts = [...fonts, ...doc.fontList];
+          editorStore.fonts.replace(tempFonts);
 
           editorStore.increaseUpperzIndex();
         }
@@ -2083,7 +2081,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             this.state.rectHeight
           }&videoId=${uuidv4()}`,
           {
-            fonts: toJS(self.props.fonts),
+            fonts: toJS(editorStore.fonts),
             canvas,
             additionalStyle: a[0].outerHTML
           },
@@ -4425,7 +4423,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               tReady={this.props.tReady}
               translate={this.translate.bind(this)}
               textOnMouseDown={this.textOnMouseDown.bind(this)}
-              applyTemplate={editorStore.applyTemplate}
               videoOnMouseDown={this.videoOnMouseDown.bind(this)}
               imgOnMouseDown={this.imgOnMouseDown.bind(this)}
               setSelectionColor={this.setSelectionColor.bind(this)}
@@ -4434,26 +4431,19 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               resizing={this.state.resizing}
               rotating={this.state.rotating}
               subtype={this.state.subtype}
-              fonts={editorStore.fonts}
-              fontsList={editorStore.fontsList}
               selectFont={this.selectFont.bind(this)}
               handleFontColorChange={this.handleFontColorChange.bind(this)}
               typeObjectSelected={this.state.typeObjectSelected}
-              upperZIndex={editorStore.upperZIndex}
               idObjectSelected={this.state.idObjectSelected}
               childId={this.state.childId}
               pages={this.state.pages}
               rectWidth={this.state.rectWidth}
               rectHeight={this.state.rectHeight}
-              activePageId={editorStore.activePageId}
-              addItem={editorStore.addItem}
-              addFontItem={editorStore.addFontItem}
               toolbarOpened={this.state.toolbarOpened}
               toolbarSize={this.state.toolbarSize}
               mode={this.state.mode}
               selectedTab={this.state.selectedTab}
               handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
-              increaseUpperzIndex={editorStore.increaseUpperzIndex}
             />
             <div
               style={{
