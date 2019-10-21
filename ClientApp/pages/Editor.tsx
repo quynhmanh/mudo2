@@ -9,7 +9,7 @@ import TemplateEditor from "@Components/editor/TemplateEditor";
 import FontEditPopup from "@Components/editor/FontEditor";
 import Globals from "@Globals";
 import { Helmet } from "react-helmet";
-import { toJS } from "mobx";
+import { toJS, IObservable } from "mobx";
 import { observer } from "mobx-react";
 import LeftSide from "@Components/editor/LeftSide";
 import FontSize from "@Components/editor/FontSize";
@@ -26,6 +26,7 @@ import {
 } from "@Utils";
 import loadable from "@loadable/component";
 import { clone } from "lodash";
+import editorStore from "@Store/EditorStore";
 
 const PosterReview = loadable(() => import("@Components/editor/PosterReview"));
 const TrifoldReview = loadable(() =>
@@ -530,7 +531,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
           let images = document.document_object;
 
-          this.props.images.replace(images);
+          editorStore.images.replace(images);
           this.props.fonts.replace(image.value.fontList);
 
           subtype = res.data.value.printType;
@@ -557,9 +558,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             zIndexMax = Math.max(zIndexMax, img.zIndex);
           });
 
-          this.props.store.upperZIndex = zIndexMax + 1;
-          this.props.store.activePageId = res.data.value.pages[0];
-          this.props.store.pages.replace(res.data.value.pages);
+          editorStore.upperZIndex = zIndexMax + 1;
+          editorStore.activePageId = res.data.value.pages[0];
+          editorStore.pages.replace(res.data.value.pages);
         })
         .catch(e => {});
     } else {
@@ -697,7 +698,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           var index = i;
           var document2 = JSON.parse(doc.document);
           document2._id = uuidv4();
-          document2.page = self.props.store.pages[index];
+          document2.page = editorStore.pages[index];
           document2.zIndex = this.props.upperZIndex + 1;
           document2.width = rec2.width / scale;
           document2.height = rec2.height / scale;
@@ -706,7 +707,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           document2.left = (rec2.left - rec.left) / scale;
           document2.top = (rec2.top - rectTop) / scale;
 
-          // let images = [...this.props.images, document2];
+          // let images = [...editorStore.images, document2];
 
           if (doc.fontList) {
             var fontList = doc.fontList.forEach(id => {
@@ -738,13 +739,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
           this.props.addItem(document2);
 
-          // this.props.images.replace(images);
+          // editorStore.images.replace(images);
 
           var fonts = toJS(this.props.fonts);
           fonts = [...fonts, ...doc.fontList];
           this.props.fonts.replace(fonts);
 
-          this.props.increaseUpperzIndex();
+          editorStore.increaseUpperzIndex();
         }
       }
 
@@ -795,8 +796,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       font1.remove();
     }
 
-    let images = toJS(this.props.images);
-    images = images.map(img => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.fontFace = id;
         img.fontRepresentative = font.representative;
@@ -804,7 +805,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return img;
     });
 
-    this.props.images.replace(images);
+    editorStore.images.replace(tempImages);
 
     this.setState({ fontName: font.representative });
 
@@ -873,14 +874,14 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleResizeEnd = fontSize => {
-    let images = toJS(this.props.images);
-    images = images.map(img => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.fontSize = fontSize;
       }
       return img;
     });
-    this.props.images.replace(images);
+    editorStore.images.replace(tempImages);
 
     var resizers = document.getElementsByClassName(
       "resizable-handler-container"
@@ -930,7 +931,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     height = height / scale;
     var self = this;
     var temp = this.handleImageResize;
-    var images = this.props.images.map(image => {
+    var images = editorStore.images.map(image => {
       if (image._id === _id) {
         var deltaLeft = left - image.left;
         var deltaTop = top - image.top;
@@ -1120,7 +1121,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         }, 1);
       }
     });
-    this.props.images.replace(images);
+    editorStore.images.replace(images);
   };
 
   onResizeInnerImageStart = (startX, startY) => {
@@ -1159,7 +1160,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log("handleImageResize ");
     const { scale } = this.state;
     let { top, left, width, height } = style;
     top = top / scale;
@@ -1170,8 +1170,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var self = this;
     var switching = false;
     var temp = this.handleResize;
-    let images = toJS(this.props.images);
-    images = images.map(image => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(image => {
       if (image._id === _id) {
         if (
           image.height - top - height > 0 &&
@@ -1285,7 +1285,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    this.props.images.replace(images);
+    editorStore.images.replace(tempImages);
 
     this.setState({ updateRect: switching }, () => {
       if (switching) {
@@ -1324,7 +1324,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     window.rotateAngle = rotateAngle;
 
-    // let images = toJS(this.props.images);
+    // let images = toJS(editorStore.images);
     // images = images.map(image => {
     //   if (image._id === _id) {
     //     image.rotateAngle = rotateAngle;
@@ -1332,7 +1332,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     //   return image;
     // });
 
-    // this.props.images.replace(images);
+    // editorStore.images.replace(images);
     // this.setState({ images });
   };
 
@@ -1394,15 +1394,15 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cur.style.opacity = 1;
     }
 
-    let images = toJS(this.props.images);
-    images = images.map(image => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(image => {
       if (image._id === _id) {
         image.rotateAngle = window.rotateAngle;
       }
       return image;
     });
 
-    this.props.images.replace(images);
+    editorStore.images.replace(tempImages);
 
     setTimeout(
       function() {
@@ -1423,7 +1423,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     //   this.handleImageSelected()
     // }
     const { scale } = this.state;
-    this.props.images.forEach(image => {
+    editorStore.images.forEach(image => {
       if (image._id === _id) {
         window.startLeft = image.left * scale;
         window.startTop = image.top * scale;
@@ -1492,7 +1492,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     console.log("handleImageDrag");
     const { scale } = this.state;
 
-    // let images = toJS(this.props.images);
+    // let images = toJS(editorStore.images);
     // images = images.map(img => {
     var img = window.image;
     if (newPosX > 0) {
@@ -1513,7 +1513,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     updateTransformXY(_id + "1237", newPosX, newPosY);
     updateTransformXY(_id + "1238", newPosX, newPosY);
 
-    // this.props.images.replace(images);
+    // editorStore.images.replace(images);
   };
 
   handleDrag = (_id, clientX, clientY): any => {
@@ -1526,7 +1526,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var img;
     var updateStartPosX = false;
     var updateStartPosY = false;
-    let images = toJS(this.props.images);
+    let images = toJS(editorStore.images);
     var image = window.image;
     // images.forEach(image => {
     //   if (image._id === _id) {
@@ -1555,7 +1555,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     if (img.type === TemplateType.BackgroundImage) {
       return;
     }
-    images = images.map(image => {
+    let tempImages = images.map(image => {
       if (image.page === img.page) {
         var imageTransformed = this.tranformImage(image);
         if (image._id !== _id) {
@@ -1784,7 +1784,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // var t0 = performance.now();
 
     // console.log('handleDrag 1');
-    // this.props.images.replace(images);
+    // editorStore.images.replace(images);
 
     // document.getElementById(_id + "_").style.top = top * scale + "px";
     // document.getElementById(_id + "_").style.left = left * scale + "px";
@@ -1821,7 +1821,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return e;
     });
 
-    var images = this.props.images.map(image => {
+    var images = editorStore.images.map(image => {
       if (image._id == this.state.idObjectSelected) {
         image = window.image;
         image.selected = true;
@@ -1833,7 +1833,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
       return image;
     });
-    this.props.images.replace(images);
+    editorStore.images.replace(images);
 
     var rects = document.getElementsByClassName("rect");
     for (var i = 0; i < rects.length; ++i) {
@@ -1912,7 +1912,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       const startX = (screensRect.left + thick - canvasRect.left) / scale;
       const startY = (screensRect.top + thick - canvasRect.top) / scale;
 
-      var pages = toJS(this.props.store.pages);
+      var pages = toJS(editorStore.pages);
       var activePageId = pages[0];
       if (pages.length > 1) {
         var container = document.getElementById("screen-container-parent");
@@ -1927,7 +1927,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         }
       }
 
-      this.props.store.activePageId = activePageId;
+      editorStore.activePageId = activePageId;
 
       this.setState({ startX, startY, activePageId });
     }
@@ -1948,7 +1948,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       this.state.resizing
     );
     if (!this.state.rotating && !this.state.resizing) {
-      let images = this.props.images.map(image => {
+      let images = editorStore.images.map(image => {
         image.selected = false;
         return image;
       });
@@ -1976,11 +1976,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
         (e.keyCode === 91 && OSNAME == "Windows"))
     ) {
-      let images = this.props.images.filter(
+      let images = editorStore.images.filter(
         img => img._id !== this.state.idObjectSelected
       );
       this.doNoObjectSelected();
-      this.props.images.replace(images);
+      editorStore.images.replace(images);
     }
   }
   handleImageSelected = (img, event) => {
@@ -2008,7 +2008,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     event.stopPropagation();
     var scaleY;
-    let images = this.props.images.map(image => {
+    let images = editorStore.images.map(image => {
       if (image._id === img._id) {
         scaleY = image.scaleY;
         image.selected = true;
@@ -2023,7 +2023,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       img.fontSize * 10
     ) / 10}`;
 
-    this.props.store.idObjectSelected = img._id;
+    editorStore.idObjectSelected = img._id;
 
     this.setState({
       selectedImage: img,
@@ -2348,7 +2348,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           AdditionalStyle: a[0].outerHTML,
           FilePath: "/templates",
           FirstName: "Untilted",
-          Pages: toJS(self.props.store.pages),
+          Pages: toJS(editorStore.pages),
           PrintType: self.state.subtype,
           Representative: rep ? rep : `images/${_id}.jpeg`,
           Representative2: `images/${_id}_2.jpeg`,
@@ -2373,8 +2373,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   onTextChange(parentIndex, e, key) {
     const { scale } = this.state;
-    let images = toJS(this.props.images);
-    images = images.map(image => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(image => {
       if (image._id === parentIndex) {
         var newHeight = 0;
         var changedText;
@@ -2430,7 +2430,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return image;
     });
 
-    this.setState({ images });
+    // this.setState({ images });
   }
 
   videoOnMouseDown(e) {
@@ -2507,7 +2507,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
       var recs = document.getElementsByClassName("alo");
       var rec2 = self.imgDragging.getBoundingClientRect();
-      var pages = toJS(this.props.store.pages);
+      var pages = toJS(editorStore.pages);
       for (var i = 0; i < recs.length; ++i) {
         var rec = recs[i].getBoundingClientRect();
         if (
@@ -2516,7 +2516,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           rec.top < rec2.bottom &&
           rec.bottom > rec2.top
         ) {
-          this.props.addItem({
+          editorStore.addItem({
             _id: uuidv4(),
             type: TemplateType.Video,
             width: rec2.width / self.state.scale,
@@ -2535,8 +2535,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             imgWidth: rec2.width / self.state.scale,
             imgHeight: rec2.height / self.state.scale,
             page: pages[i],
-            zIndex: this.props.store.upperZIndex + 1
-          });
+            zIndex: editorStore.upperZIndex + 1
+          }, false);
 
           // self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
         }
@@ -2624,7 +2624,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           rec.top < rec2.bottom &&
           rec.bottom > rec2.top
         ) {
-          this.props.addItem({
+          editorStore.addItem({
             _id: uuidv4(),
             type: TemplateType.Image,
             width: rec2.width / self.state.scale,
@@ -2645,12 +2645,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             posY: 0,
             imgWidth: rec2.width / self.state.scale,
             imgHeight: rec2.height / self.state.scale,
-            page: this.props.store.pages[i],
-            zIndex: this.props.store.upperZIndex + 1,
+            page: editorStore.pages[i],
+            zIndex: editorStore.upperZIndex + 1,
             freeStyle: img.freeStyle
-          });
+          }, false);
 
-          this.props.increaseUpperzIndex();
+          editorStore.increaseUpperzIndex();
 
           // self.setState({upperZIndex: this.state.upperZIndex + 1, });
         }
@@ -2664,14 +2664,14 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   setSelectionColor = (color, e) => {
     // if (this.props.typeObjectSelected === TemplateType.Latex) {
-    var images = this.props.images.map(img => {
+    var images = editorStore.images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.color = color;
         img.backgroundColor = color;
       }
       return img;
     });
-    this.props.images.replace(images);
+    editorStore.images.replace(images);
     e.preventDefault();
     document.execCommand("foreColor", false, color);
     if (
@@ -2699,7 +2699,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
     }
 
-    let images2 = toJS(this.props.images);
+    let images2 = toJS(editorStore.images);
     function insertAfter(newNode, referenceNode) {
       referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
     }
@@ -2714,7 +2714,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   onSingleTextChange(thisImage, e, childId) {
-    // console.log('ToJS', toJS(this.props.images));
+    // console.log('ToJS', toJS(editorStore.images));
     // var els;
     // if (childId){
     //   els = document.getElementById(childId).getElementsByTagName('font');
@@ -2739,15 +2739,15 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     //   els[i].style.fontSize = this.state.fontSize / thisImage.scaleY / scaleChildY + 'px';
     // }
 
-    // console.log('ToJS', toJS(this.props.images));
+    // console.log('ToJS', toJS(editorStore.images));
 
     e.persist();
     setTimeout(() => {
       const { scale } = this.state;
       if (!childId) {
-        let images = toJS(this.props.images);
+        let images = toJS(editorStore.images);
         // console.log('images 3', images);
-        images = images.map(image => {
+        let tempImages = images.map(image => {
           if (image._id === thisImage._id) {
             var centerX = image.left + image.width / 2;
             var centerY = image.top + image.height / 2;
@@ -2795,13 +2795,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
         // console.log('images 2', images);
 
-        this.props.images.replace(images);
+        editorStore.images.replace(images);
 
         // this.setState({ images, editing: true });
       } else {
-        let images = toJS(this.props.images);
+        let images = toJS(editorStore.images);
         // console.log('images ', images);
-        images = images.map(image => {
+        let tempImages = images.map(image => {
           if (image._id === thisImage._id) {
             var scaleY = image.height / image.origin_height;
 
@@ -2876,8 +2876,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
         // console.log('images ', images);
         // console.log('onSingleTextChange 2');
-        this.props.images.replace(images);
-        this.setState({ images });
+        editorStore.images.replace(images);
       }
     }, 50);
   }
@@ -3304,36 +3303,36 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   addAPage = (e, id) => {
     e.preventDefault();
-    let pages = toJS(this.props.store.pages);
+    let pages = toJS(editorStore.pages);
     var newPageId = uuidv4();
     pages.splice(pages.findIndex(img => img === id) + 1, 0, newPageId);
     // this.setState({
     //   pages
     // });
-    this.props.store.pages.replace(pages);
+    editorStore.pages.replace(pages);
     setTimeout(() => {
       document.getElementById(newPageId).scrollIntoView();
     }, 100);
   };
 
   forwardSelectedObject = id => {
-    let images = toJS(this.props.images);
-    images = images.map(img => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
-        img.zIndex = this.props.store.upperZIndex + 1;
+        img.zIndex = editorStore.upperZIndex + 1;
       }
       return img;
     });
 
-    this.props.images.replace(images);
-    this.props.increaseUpperzIndex();
+    editorStore.images.replace(tempImages);
+    editorStore.increaseUpperzIndex();
 
     // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
   };
 
   backwardSelectedObject = id => {
-    let images = toJS(this.props.images);
-    images = images.map(img => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.zIndex = 2;
       } else {
@@ -3342,14 +3341,14 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return img;
     });
 
-    this.props.images.replace(images);
+    editorStore.images.replace(tempImages);
 
     // this.setState({ upperZIndex: this.state.upperZIndex + 1 });
   };
 
   renderCanvas(preview, index, downloading) {
     var res = [];
-    let pages = toJS(this.props.store.pages);
+    let pages = toJS(editorStore.pages);
     for (var i = 0; i < pages.length; ++i) {
       if (index >= 0 && i != index) {
         continue;
@@ -3369,7 +3368,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           index={i}
           id={pages[i]}
           addAPage={this.addAPage}
-          images={this.props.images.filter(img => img.page === pages[i])}
+          images={editorStore.images.filter(img => img.page === pages[i])}
           mode={this.state.mode}
           rectWidth={this.state.rectWidth}
           rectHeight={this.state.rectHeight}
@@ -3524,15 +3523,15 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleOpacityChange = opacity => {
-    let images = toJS(this.props.images);
-    images = images.map(img => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.opacity = opacity;
       }
       return img;
     });
 
-    this.props.images.replace(images);
+    editorStore.images.replace(tempImages);
 
     // this.setState({ images });
   };
@@ -4421,7 +4420,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               tReady={this.props.tReady}
               translate={this.translate.bind(this)}
               textOnMouseDown={this.textOnMouseDown.bind(this)}
-              applyTemplate={this.props.store.applyTemplate}
+              applyTemplate={editorStore.applyTemplate}
               videoOnMouseDown={this.videoOnMouseDown.bind(this)}
               imgOnMouseDown={this.imgOnMouseDown.bind(this)}
               setSelectionColor={this.setSelectionColor.bind(this)}
@@ -4430,26 +4429,26 @@ class CanvaEditor extends PureComponent<IProps, IState> {
               resizing={this.state.resizing}
               rotating={this.state.rotating}
               subtype={this.state.subtype}
-              fonts={this.props.fonts}
-              fontsList={this.props.fontsList}
+              fonts={editorStore.fonts}
+              fontsList={editorStore.fontsList}
               selectFont={this.selectFont.bind(this)}
               handleFontColorChange={this.handleFontColorChange.bind(this)}
               typeObjectSelected={this.state.typeObjectSelected}
-              upperZIndex={this.props.store.upperZIndex}
+              upperZIndex={editorStore.upperZIndex}
               idObjectSelected={this.state.idObjectSelected}
               childId={this.state.childId}
               pages={this.state.pages}
               rectWidth={this.state.rectWidth}
               rectHeight={this.state.rectHeight}
-              activePageId={this.props.store.activePageId}
-              addItem={this.props.addItem}
-              addFontItem={this.props.addFontItem}
+              activePageId={editorStore.activePageId}
+              addItem={editorStore.addItem}
+              addFontItem={editorStore.addFontItem}
               toolbarOpened={this.state.toolbarOpened}
               toolbarSize={this.state.toolbarSize}
               mode={this.state.mode}
               selectedTab={this.state.selectedTab}
               handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
-              increaseUpperzIndex={this.props.increaseUpperzIndex}
+              increaseUpperzIndex={editorStore.increaseUpperzIndex}
             />
             <div
               style={{

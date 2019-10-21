@@ -195,7 +195,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log('handleImageResize ');
     if (!this.props.onResize) return;
     const {
       rotateAngle,
