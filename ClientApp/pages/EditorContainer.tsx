@@ -56,7 +56,12 @@ class Images {
       return image.page !== this.activePageId;
     }) as IObservableArray;
 
-    images = [...images, ...template] as IObservableArray;
+    var appendedImages = template.map(img => {
+      img._id = uuidv4();
+      return img;
+    })
+
+    images = [...images, ...appendedImages] as IObservableArray;
     this.images.replace(images);
   }
 }
