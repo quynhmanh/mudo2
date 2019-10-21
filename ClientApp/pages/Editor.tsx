@@ -531,8 +531,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
           let images = document.document_object;
 
+          console.log('images ', images);
+          console.log('rectWidth ', document.width);
+          console.log('rectHeight ', document.height);
+
           editorStore.images.replace(images);
-          this.props.fonts.replace(image.value.fontList);
+          editorStore.fonts.replace(image.value.fontList);
 
           subtype = res.data.value.printType;
           self.setState({
@@ -541,7 +545,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 ? 1
                 : Math.min(scaleX, scaleY),
             staticGuides,
-            images: document.document_object,
             _id: template_id,
             rectWidth: document.width,
             rectHeight: document.height,
@@ -552,6 +555,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             activePageId: res.data.value.pages[0],
             subtype: res.data.value.printType
           });
+          console.log('dont setState');
 
           var zIndexMax = 0;
           images.forEach(img => {
@@ -3349,6 +3353,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   renderCanvas(preview, index, downloading) {
     var res = [];
     let pages = toJS(editorStore.pages);
+    console.log('pages ', pages);
     for (var i = 0; i < pages.length; ++i) {
       if (index >= 0 && i != index) {
         continue;
