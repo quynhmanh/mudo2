@@ -765,7 +765,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   selectFont = (id, e) => {
     this.setState({ fontId: id });
 
-    var fontsList = toJS(this.props.fontsList);
+    var fontsList = toJS(editorStore.fontsList);
     var font = fontsList.find(font => font.id === id);
 
     var a = document.getSelection();
@@ -835,7 +835,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     link.crossOrigin = "anonymous";
     head.appendChild(link);
 
-    this.props.addFont(id);
+    editorStore.addFont(id);
   };
 
   componentDidUpdate(prevProps, prevState) {
