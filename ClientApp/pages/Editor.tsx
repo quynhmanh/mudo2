@@ -2137,7 +2137,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             `/api/Design/Download?width=${this.state.rectWidth +
               (bleed ? 20 : 0)}&height=${this.state.rectHeight +
               (bleed ? 20 : 0)}`,
-            { fonts: toJS(self.props.fonts), canvas },
+            { fonts: toJS(editorStore.fonts), canvas },
             {
               headers: {
                 "Content-Type": "text/html"
@@ -2211,7 +2211,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         .post(
           `/api/Design/DownloadPNG?width=${this.state.rectWidth}&height=${this.state.rectHeight}&transparent=${transparent}&download=true&png=${png}`,
           {
-            fonts: toJS(self.props.fonts),
+            fonts: toJS(editorStore.fonts),
             canvas,
             additionalStyle: a[0].outerHTML,
             transparent
@@ -2342,7 +2342,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             scaleY: 1,
             document_object: images
           }),
-          FontList: toJS(self.props.fonts),
+          FontList: toJS(editorStore.fonts),
           Width: self.state.rectWidth,
           Height: self.state.rectHeight,
           Id: _id,
@@ -3290,7 +3290,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   handleFontFamilyChange = fontId => {
     if (fontId) {
-      var font = toJS(this.props.fontsList).find(font => font.id === fontId);
+      var font = toJS(editorStore.fontsList).find(font => font.id === fontId);
       if (font) {
         this.setState({ fontName: font.representative, fontId });
       }
