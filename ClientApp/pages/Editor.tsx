@@ -3793,6 +3793,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             }}
           >
             <LeftSide
+              scale={this.state.scale}
               fontId={""}
               tReady={this.props.tReady}
               translate={this.translate.bind(this)}

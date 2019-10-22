@@ -37,6 +37,7 @@ export interface IProps {
   translate: any;
   tReady: boolean;
   fontId: any;
+  scale: number;
 }
 
 interface IState {
@@ -870,7 +871,7 @@ class LeftSide extends Component<IProps, IState> {
       pageId = 1;
       count = 30;
     } else {
-      pageId = this.state.fontsList.length / 30 + 1;
+      pageId = editorStore.fontsList.length / 30 + 1;
       count = 30;
     }
     // this.setState({ isLoading: true, error: undefined });
@@ -1533,35 +1534,39 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    // if (nextProps.selectedTab != this.props.selectedTab) {
-    //   return true;
-    // }
+    if (nextProps.selectedTab != this.props.selectedTab) {
+      return true;
+    }
 
-    // if (nextProps.mounted && !this.props.mounted) {
-    //   return true;
-    // }
+    if (nextProps.mounted && !this.props.mounted) {
+      return true;
+    }
 
-    // if (nextProps.toolbarOpened != this.props.toolbarOpened) {
-    //   return true;
-    // }
-    // if (this.props.subtype !== nextProps.subtype) {
-    //   return true;
-    // }
-    // if (this.props.tReady !== nextProps.tReady) {
-    //   return true;
-    // }
+    if (nextProps.toolbarOpened != this.props.toolbarOpened) {
+      return true;
+    }
+    if (this.props.subtype !== nextProps.subtype) {
+      return true;
+    }
+    if (this.props.tReady !== nextProps.tReady) {
+      return true;
+    }
 
-    // if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
-    //   return true;
-    // }
+    if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
+      return true;
+    }
+
+    console.log('aa ', this.props, nextProps);
+
+    if (this.props.scale != nextProps.scale) {
+      return false;
+    }
 
     if (nextProps.dragging || nextProps.resizing || nextProps.rotating) {
       return false;
     }
 
-    console.log('aa');
-
-    return true;
+    return false;
   }
 
   handleSidebarSelectorClicked = (tab, e) => {
