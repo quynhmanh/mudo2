@@ -28,6 +28,10 @@ import loadable from "@loadable/component";
 import { clone } from "lodash";
 import editorStore from "@Store/EditorStore";
 
+const DownloadIcon = loadable(() => 
+  import('@Components/shared/svgs/DownloadIcon')
+)
+
 const DownloadList = loadable(() => 
   import("@Components/editor/DownloadList")
 )
@@ -3744,20 +3748,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     width: "36px"
                   }}
                 >
-                  {" "}
-                  <svg
-                    style={{
-                      fill: "white",
-                      width: "20px",
-                      height: "20px"
-                    }}
-                    height="25px"
-                    viewBox="0 0 512 512"
-                    width="25px"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0" />
-                  </svg>
+                  {/* {" "} */}
+                  <DownloadIcon fill="white" />
                 </button>
               )}
               {this.props.tReady && (
@@ -3857,7 +3849,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     this.setState({ toolbarOpened: false });
                   }}
                 >
-                  <svg
+                  {/* <svg
                     viewBox="0 0 32 112"
                     xmlns="http://www.w3.org/2000/svg"
                     style={{
@@ -3872,8 +3864,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       d="M22.626 17.865l-1.94-1.131C17.684 14.981 16 12.608 16 10.133V0H0v112h16v-10.135c0-2.475 1.684-4.849 4.686-6.6l1.94-1.131C28.628 90.632 32 85.885 32 80.934v-49.87c0-4.95-3.372-9.698-9.374-13.199"
                       fill="#293039"
                     ></path>
-                  </svg>
-                  <svg
+                  </svg> */}
+                  {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={12}
                     height={12}
@@ -3899,7 +3891,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       d="M7 3.17L4.88 5.3a1 1 0 0 0 0 1.42L7 8.83"
                       style={{ strokeWidth: "0.5px" }}
                     />
-                  </svg>
+                  </svg> */}
                 </button>
               )}
 
