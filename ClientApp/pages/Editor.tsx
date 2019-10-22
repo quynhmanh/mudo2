@@ -36,7 +36,7 @@ const DownloadList = loadable(() =>
 )
 
 const Home = loadable(() =>
-  import("@Components/shared/svgs/Home")
+  import("@Components/shared/svgs/HomeIcon")
 );
 
 const PosterReview = loadable(() => import("@Components/editor/PosterReview"));
