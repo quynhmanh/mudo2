@@ -2729,7 +2729,7 @@ class LeftSide extends Component<IProps, IState> {
               <div>
                 <div
                   style={{
-                    height: "100%"
+                    height: "calc(100% - 10px)"
                   }}
                 >
                   <InfiniteScroll
