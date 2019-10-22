@@ -181,11 +181,11 @@ class LoginPopup extends PureComponent<IProps, IState> {
                     <g stroke="null" id="logo-group">
                       <g
                         stroke="null"
-                        font-style="normal"
-                        font-weight="700"
-                        font-size="72px"
-                        font-family="'Brandmark1 Bold'"
-                        text-anchor="middle"
+                        fontStyle="normal"
+                        fontWeight="700"
+                        fontSize="72px"
+                        fontFamily="'Brandmark1 Bold'"
+                        textAnchor="middle"
                         id="title"
                       >
                         <path
@@ -226,11 +226,11 @@ class LoginPopup extends PureComponent<IProps, IState> {
                       </g>
                       <g
                         stroke="null"
-                        font-style="normal"
-                        font-weight="400"
-                        font-size="32px"
-                        font-family="Montserrat"
-                        text-anchor="middle"
+                        fontStyle="normal"
+                        fontWeight="400"
+                        fontSize="32px"
+                        fontFamily="Montserrat"
+                        textAnchor="middle"
                         id="tagline"
                       />
                     </g>
