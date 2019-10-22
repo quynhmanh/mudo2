@@ -358,16 +358,9 @@ class LoginPopup extends PureComponent<IProps, IState> {
                   {this.props.translate("login")}
                 </h1>
                 <button
-                  style={{
-                    width: "100%",
-                    marginBottom: "10px",
-                    background: "white",
-                    color: "black",
-                    border: "2px solid rgba(14,19,24,.15)",
-                    borderRadius: "4px"
-                  }}
+                  style={{ marginBottom: "10px" }}
                   onClick={() => this.login('FACEBOOK')}
-                  className="btn btn-primary"
+                  className="btn btn-primary login-btn"
                 >
                   <svg
                     style={{
@@ -391,16 +384,8 @@ class LoginPopup extends PureComponent<IProps, IState> {
                     </span>
                 </button>
                 <button
-                  style={{
-                    width: "100%",
-                    backgroundColor: "rgb(211, 72, 54)",
-                    background: "white",
-                    color: "black",
-                    border: "2px solid rgba(14,19,24,.15)",
-                    borderRadius: "4px"
-                  }}
                   onClick={() => this.login('GOOGLE')}
-                  className="btn btn-primary"
+                  className="btn btn-primary login-btn"
                 >
                   <svg
                     style={{
@@ -483,6 +468,27 @@ const PopupWrapper = styled.div`
     background-color: black;
     width: 800px;
     height: 500px;
+  }
+
+  .login-btn {
+    width: 100%;
+    background: white;
+    color: black;
+    border: 2px solid rgba(14,19,24,.15);
+    borderRadius: 4px;
+    outline: 0;
+    transition: background-color .1s linear,border-color .1s linear,color .1s linear;
+  }
+
+  .login-btn:hover {
+    border-color: rgba(14,19,24,.45);
+  }
+
+  .login-btn:active {
+    background-color: rgba(14,19,24,.15);
+    border-color: rgba(14,19,24,.55);
+    color: black;
+    outline: 0;
   }
 `;
 
