@@ -1,6 +1,6 @@
-import React, { PureComponent, FormEvent } from "react";
+import React, { PureComponent } from "react";
 import Selector from './Selector';
-import { SIDE_BAR_ICONS } from "@Components/editor/Sidebar/SidebarIcons";
+import SIDE_BAR_ICONS from "@Components/editor/Sidebar/SidebarIcons";
 
 type EnumType = { [s: number]: string };
 

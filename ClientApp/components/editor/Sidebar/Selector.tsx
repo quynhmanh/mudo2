@@ -1,6 +1,4 @@
-import React, { PureComponent, FormEvent } from "react";
-import Tooltip from "@Components/shared/Tooltip";
-import { SIDE_BAR_ICONS } from "@Components/editor/Sidebar/SidebarIcons";
+import React, { PureComponent } from "react";
 
 export interface IProps {
   selected: boolean;
