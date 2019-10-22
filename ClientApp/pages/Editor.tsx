@@ -27,7 +27,6 @@ import {
 import loadable from "@loadable/component";
 import { clone } from "lodash";
 import editorStore from "@Store/EditorStore";
-
 const DownloadIcon = loadable(() => 
   import('@Components/shared/svgs/DownloadIcon')
 )
