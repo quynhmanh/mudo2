@@ -151,8 +151,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     const deltaH = (length * Math.sin(beta)) / scale;
     var { aspectRatio } = this.props;
 
-    console.log('cursor123 ', cursor);
-
     if (this.props.cropMode || freeStyle || cursor == "e" || cursor == "w") {
       aspectRatio = null;
     }

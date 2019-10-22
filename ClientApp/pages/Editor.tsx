@@ -1035,7 +1035,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           image.posY = scaleTop * image.imgHeight;
         }
 
-        if (objectType === 4 && this.state.cropMode) {
+        if ((objectType === 4 || objectType == 9) && this.state.cropMode) {
           image.posX -= deltaLeft;
           image.posY -= deltaTop;
         }
@@ -3362,7 +3362,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   renderCanvas(preview, index, downloading) {
     var res = [];
     let pages = toJS(editorStore.pages);
-    console.log('pages ', pages);
     for (var i = 0; i < pages.length; ++i) {
       if (index >= 0 && i != index) {
         continue;
