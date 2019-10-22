@@ -10,6 +10,7 @@ class Images {
     @observable idObjectSelected = null;
     @observable activePageId = uuidv4();
     @observable pages = observable([this.activePageId]);
+    @observable scale = 1;
   
     @action addItem = (item, isChild) => {
       if (isChild) {
@@ -32,6 +33,7 @@ class Images {
     }
   
     @action addFontItem = (item) => {
+      console.log('addFontitem');
       this.fontsList.push(item);
     }
   
