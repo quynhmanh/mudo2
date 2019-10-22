@@ -1516,14 +1516,15 @@ class LeftSide extends Component<IProps, IState> {
       .then(
         res => {
           console.log('loadMoreFont ress ', res);
-          this.setState(state => ({
-            hasMoreFonts: res.value.value > editorStore.fontsList.length + res.value.key.length,
-            isLoadingFont: false,
-          }));
 
           for (var i = 0; i < res.value.key.length; ++i) {
             editorStore.addFontItem(res.value.key[i]);
           }
+
+          this.setState(state => ({
+            hasMoreFonts: res.value.value > editorStore.fontsList.length,
+            isLoadingFont: false,
+          }));
         },
         error => {
           this.setState({ isLoadingFont: false, error })
@@ -1532,31 +1533,35 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.selectedTab != this.props.selectedTab) {
-      return true;
-    }
+    // if (nextProps.selectedTab != this.props.selectedTab) {
+    //   return true;
+    // }
 
-    if (nextProps.mounted && !this.props.mounted) {
-      return true;
-    }
+    // if (nextProps.mounted && !this.props.mounted) {
+    //   return true;
+    // }
 
-    if (nextProps.toolbarOpened != this.props.toolbarOpened) {
-      return true;
-    }
-    if (this.props.subtype !== nextProps.subtype) {
-      return true;
-    }
-    if (this.props.tReady !== nextProps.tReady) {
-      return true;
-    }
+    // if (nextProps.toolbarOpened != this.props.toolbarOpened) {
+    //   return true;
+    // }
+    // if (this.props.subtype !== nextProps.subtype) {
+    //   return true;
+    // }
+    // if (this.props.tReady !== nextProps.tReady) {
+    //   return true;
+    // }
 
-    if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
-      return true;
+    // if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
+    //   return true;
+    // }
+
+    if (nextProps.dragging || nextProps.resizing || nextProps.rotating) {
+      return false;
     }
 
     console.log('aa');
 
-    return false;
+    return true;
   }
 
   handleSidebarSelectorClicked = (tab, e) => {
