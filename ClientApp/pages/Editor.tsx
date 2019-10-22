@@ -121,7 +121,6 @@ interface IProps {
   addItem: any;
   update: any;
   replaceFirstItem: any;
-  fontsList: any;
   addFontItem: any;
   fonts: any;
   addFont: any;
@@ -245,7 +244,6 @@ interface IState {
   editing: boolean;
   canRenderClientSide: boolean;
   fonts: any;
-  fontsList: any;
   fontSize: number;
   currentOpacity: number;
   fontColor: string;
@@ -315,7 +313,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       showMediaEditingPopup: false,
       fontColor: "black",
       fontSize: 0,
-      fontsList: [],
       fonts: ["O5mEMMs7UejmI1WeSKWQ"],
       templateType: null,
       _id: null,
@@ -419,7 +416,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var fitScale =
       Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
 
-    this.state.fontsList.forEach(id => {
+    editorStore.fontsList.forEach(id => {
       var style = `@font-face {
         font-family: '${id}';
         src: url('/fonts/${id}.ttf');
@@ -445,7 +442,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       };
     });
 
-    this.state.fontsList.forEach(id => {
+    editorStore.fontsList.forEach(id => {
       var style = `@font-face {
       font-family: '${id}';
       src: url('/fonts/${id}.ttf');

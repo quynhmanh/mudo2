@@ -63,7 +63,6 @@ interface IState {
   templates: any;
   templates2: any;
   images: any;
-  fontsList: any;
   removeImages1: any;
   removeImages2: any;
   videos: any;
@@ -87,6 +86,7 @@ interface IState {
   hasMoreBackgrounds: boolean;
   currentTemplatesHeight: number;
   currentTemplate2sHeight: number;
+  isLoadingFont: boolean;
 }
 
 const imgWidth = 162;
@@ -799,6 +799,7 @@ class LeftSide extends Component<IProps, IState> {
     items: [],
     items2: [],
     hasMoreFonts: true,
+    isLoadingFont: false,
     userUpload1: [],
     userUpload2: [],
     currentItemsHeight: 0,
@@ -815,7 +816,6 @@ class LeftSide extends Component<IProps, IState> {
     templates: [],
     templates2: [],
     images: [],
-    fontsList: [],
     removeImages1: [],
     removeImages2: [],
     videos: [],
@@ -1496,6 +1496,10 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   loadMoreFont = initialLoad => {
+    // console.log('loadmorefont');
+    // if (!this.state.hasMoreFonts) {
+    //   return;
+    // }
     let pageId;
     let count;
     if (initialLoad) {
@@ -1505,14 +1509,16 @@ class LeftSide extends Component<IProps, IState> {
       pageId = editorStore.fontsList.length / 30 + 1;
       count = 30;
     }
-    // this.setState({ isLoading: true, error: undefined });
+    this.setState({ isLoadingFont: true, error: undefined });
     const url = `/api/Font/Search?page=${pageId}&perPage=${count}`;
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
+          console.log('loadMoreFont ress ', res);
           this.setState(state => ({
-            hasMoreFonts: res.value.value > state.fontsList.length + res.value.key.length,
+            hasMoreFonts: res.value.value > editorStore.fontsList.length + res.value.key.length,
+            isLoadingFont: false,
           }));
 
           for (var i = 0; i < res.value.key.length; ++i) {
@@ -1520,15 +1526,12 @@ class LeftSide extends Component<IProps, IState> {
           }
         },
         error => {
-          // this.setState({ isLoading: false, error })
+          this.setState({ isLoadingFont: false, error })
         }
       );
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.dragging || nextProps.resizing || nextProps.rotating) {
-      return false;
-    }
     if (nextProps.selectedTab != this.props.selectedTab) {
       return true;
     }
@@ -1546,7 +1549,12 @@ class LeftSide extends Component<IProps, IState> {
     if (this.props.tReady !== nextProps.tReady) {
       return true;
     }
-    // return true;
+
+    if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
+      return true;
+    }
+
+    console.log('aa');
 
     return false;
   }
@@ -2723,11 +2731,11 @@ class LeftSide extends Component<IProps, IState> {
                     scroll={true}
                     throttle={500}
                     threshold={300}
-                    isLoading={false}
+                    isLoading={this.state.isLoadingFont}
                     hasMore={this.state.hasMoreFonts}
                     onLoadMore={this.loadMoreFont.bind(this, false)}
-                    refId=""
                     marginTop={0}
+                    refId="sentinel-font"
                   >
                     <div id="image-container-picker">
                       <div
@@ -2816,6 +2824,28 @@ class LeftSide extends Component<IProps, IState> {
                             ) : null}
                           </button>
                         ))}
+                        {this.state.hasMoreFonts &&
+                        Array(1)
+                          .fill(0)
+                          .map((item, i) => (
+                            <ImagePicker
+                              key={i}
+                              id="sentinel-font"
+                              color="black"
+                              src={""}
+                              height={imgWidth}
+                              defaultHeight={imgWidth}
+                              width={imgWidth}
+                              className=""
+                              onPick={this.props.imgOnMouseDown.bind(
+                                this,
+                                null
+                              )}
+                              onEdit={this.handleEditmedia.bind(this, null)}
+                              delay={0}
+                              showButton={false}
+                            />
+                          ))}
                       </div>
                     </div>
                   </InfiniteScroll>
