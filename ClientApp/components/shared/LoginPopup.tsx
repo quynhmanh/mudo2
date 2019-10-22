@@ -15,8 +15,11 @@ interface IState {}
 
 class LoginPopup extends PureComponent<IProps, IState> {
   state = {};
-  facebook() {
-    this.loading();
+  constructor(props: any) {
+    super(props);
+    this.login = this.login.bind(this);
+  }
+  facebook(): string {
     const nonce = uuidv4();
     const url =
       "https://www.facebook.com/v4.0/dialog/oauth?" +
@@ -35,19 +38,10 @@ class LoginPopup extends PureComponent<IProps, IState> {
       "token" +
       "&state=" +
       nonce; // todo: need store nonce somewhere and then compare it with state from response
-    window.authenticationScope = {
-      complete: this.externalProviderCompleted.bind(this)
-    };
-    window.open(url, "_blank");
+    return url;
   }
 
-  loading = () => {
-    this.loginContainer.style.opacity = 0;
-    this.loadder.style.opacity = 1;
-  }
-
-  google() {
-    this.loading();
+  google(): string {
     const nonce = uuidv4();
     const url =
       "https://accounts.google.com/o/oauth2/v2/auth?" +
@@ -60,10 +54,39 @@ class LoginPopup extends PureComponent<IProps, IState> {
       "/users/authenticate/external?provider=google" +
       "&state=" +
       nonce; // todo: need store nonce somewhere and then compare it with state from response
+    return url;
+  }
+
+  toggleLoading = (opacity: number) => {
+    console.log(opacity)
+    this.loginContainer.style.opacity = opacity;
+    this.loadder.style.opacity = 1 - opacity;
+  }
+
+  login = (provider: string) => {
+    var url: string;
+    switch (provider) {
+      case 'FACEBOOK':
+        url = this.facebook();
+        break;
+      case 'GOOGLE':
+        url = this.google();
+        break;
+      default:
+        alert(`${provider} is not from a supported provider`);
+        return;
+    }
+    this.toggleLoading(0);
     window.authenticationScope = {
       complete: this.externalProviderCompleted.bind(this)
     };
-    window.open(url, "_blank");
+    var loginWindow = window.open(url, "_blank");
+    var timer = setInterval(() => {
+      if (!loginWindow || loginWindow.closed) {
+        this.toggleLoading(1);
+        clearInterval(timer);
+      }
+    }, 1000);
   }
 
   externalProviderCompleted(fragment) {
@@ -343,11 +366,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                     border: "2px solid rgba(14,19,24,.15)",
                     borderRadius: "4px"
                   }}
-                  onClick={() => {
-                    this.loginContainer.style.opacity = 0;
-                    this.loadder.style.opacity = 1;
-                    this.facebook.bind(this)();}
-                  }
+                  onClick={() => this.login('FACEBOOK')}
                   className="btn btn-primary"
                 >
                   <svg
@@ -380,11 +399,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                     border: "2px solid rgba(14,19,24,.15)",
                     borderRadius: "4px"
                   }}
-                  onClick={() => {
-                    this.loginContainer.style.opacity = 0;
-                    this.loadder.style.opacity = 1;
-                    this.google.bind(this)();}
-                  }
+                  onClick={() => this.login('GOOGLE')}
                   className="btn btn-primary"
                 >
                   <svg
