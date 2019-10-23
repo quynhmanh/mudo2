@@ -1576,7 +1576,6 @@ class LeftSide extends Component<IProps, IState> {
     return (
       <div
         style={{
-          left: "-1px",
           backgroundColor: "#293039",
           flexDirection: "row",
           zIndex: 11111,
