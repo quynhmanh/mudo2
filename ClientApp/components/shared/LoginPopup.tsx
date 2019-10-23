@@ -364,8 +364,6 @@ class LoginPopup extends PureComponent<IProps, IState> {
                 >
                   <svg
                     style={{
-                      marginBottom: "-6px",
-                      marginRight: "10px",
                       color: "#3b5998"
                     }}
                     xmlns="http://www.w3.org/2000/svg"
@@ -378,7 +376,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                       d="M20 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h8.61v-6.97h-2.34V11.3h2.34v-2c0-2.33 1.42-3.6 3.5-3.6 1 0 1.84.08 2.1.12v2.43h-1.44c-1.13 0-1.35.53-1.35 1.32v1.73h2.69l-.35 2.72h-2.34V21h4.59a1 1 0 0 0 .99-1V4a1 1 0 0 0-1-1z"
                     ></path>
                   </svg>
-                  <span>
+                  <span style={{width: "100%"}}>
                     {/* Đăng nhập với Facebook */}
                     {this.props.translate("loginWithFacebook")}
                     </span>
@@ -388,10 +386,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                   className="btn btn-primary login-btn"
                 >
                   <svg
-                    style={{
-                      marginBottom: "-6px",
-                      marginRight: "10px"
-                    }}
+                    style={{ marginLeft: "-1px" }}
                     width="24"
                     height="24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -415,7 +410,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                       ></path>
                     </g>
                   </svg>
-                  <span>
+                  <span style={{width: "100%"}}>
                     {/* Đăng nhập với Google */}
                     {this.props.translate("loginWithGoogle")}
                     </span>
@@ -478,6 +473,8 @@ const PopupWrapper = styled.div`
     borderRadius: 4px;
     outline: 0;
     transition: background-color .1s linear,border-color .1s linear,color .1s linear;
+    display: flex;
+    align-items: center;
   }
 
   .login-btn:hover {
