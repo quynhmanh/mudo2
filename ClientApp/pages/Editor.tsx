@@ -3617,18 +3617,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                       }}
                     >
                       <span>
-                        {/* <svg
-                          style={{ height: "24px", width: "24px" }}
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M15.45 17.97L9.5 12.01a.25.25 0 0 1 0-.36l5.87-5.87a.75.75 0 0 0-1.06-1.06l-5.87 5.87c-.69.68-.69 1.8 0 2.48l5.96 5.96a.75.75 0 0 0 1.06-1.06z"
-                          ></path>
-                        </svg> */}
                         <Home width="24px" height="24px"/>
                       </span>
                       {this.props.tReady ? this.translate("home") : ""}
@@ -3744,7 +3732,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                   }}
                 >
                   {/* {" "} */}
-                  <DownloadIcon fill="white" />
+                  <DownloadIcon fill="white" width="18px" height="18px" />
                 </button>
               )}
               {this.props.tReady && (
@@ -3845,49 +3833,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                     this.setState({ toolbarOpened: false });
                   }}
                 >
-                  {/* <svg
-                    viewBox="0 0 32 112"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{
-                      height: "120px",
-                      zIndex: 1,
-                      top: "43%",
-                      position: "absolute",
-                      left: "-18px"
-                    }}
-                  >
-                    <path
-                      d="M22.626 17.865l-1.94-1.131C17.684 14.981 16 12.608 16 10.133V0H0v112h16v-10.135c0-2.475 1.684-4.849 4.686-6.6l1.94-1.131C28.628 90.632 32 85.885 32 80.934v-49.87c0-4.95-3.372-9.698-9.374-13.199"
-                      fill="#293039"
-                    ></path>
-                  </svg> */}
-                  {/* <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={12}
-                    height={12}
-                    viewBox="0 0 12 12"
-                    style={{
-                      width: "20px",
-                      fill: "#293039",
-                      height: "20px",
-                      stroke: "currentcolor",
-                      strokeLinecap: "round",
-                      strokeWidth: "1px",
-                      top: "49.9%",
-                      left: "-5px",
-                      position: "absolute",
-                      zIndex: 2
-                    }}
-                  >
-                    <path
-                      fill="#293039"
-                      stroke="white"
-                      strokeLinecap="round"
-                      strokeWidth="1.25"
-                      d="M7 3.17L4.88 5.3a1 1 0 0 0 0 1.42L7 8.83"
-                      style={{ strokeWidth: "0.5px" }}
-                    />
-                  </svg> */}
                 </button>
               )}
 

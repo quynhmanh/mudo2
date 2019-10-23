@@ -1556,8 +1556,6 @@ class LeftSide extends Component<IProps, IState> {
       return true;
     }
 
-    console.log('aa ', this.props, nextProps);
-
     if (this.props.scale != nextProps.scale) {
       return false;
     }

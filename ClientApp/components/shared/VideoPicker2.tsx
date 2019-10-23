@@ -78,7 +78,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
   image = null;
 
   handleImageLoaded() {
-    console.log('handleVideoloaded ');
     const img = this.image;
     img.pause();
 

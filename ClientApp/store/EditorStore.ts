@@ -33,7 +33,6 @@ class Images {
     }
   
     @action addFontItem = (item) => {
-      console.log('addFontitem');
       this.fontsList.push(item);
     }
   
