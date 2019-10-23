@@ -3421,8 +3421,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   }
 
   handleDeleteThisPage = pageId => {
-    var pages = this.state.pages.filter(pId => pId !== pageId);
-    this.setState({ pages });
+    let pages = toJS(editorStore.pages);
+    pages = pages.filter(pId => pId !== pageId);
+    editorStore.pages.replace(pages);
   };
 
   handleRemoveAllMedia = () => {
