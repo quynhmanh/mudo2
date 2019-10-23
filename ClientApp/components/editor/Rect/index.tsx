@@ -1388,7 +1388,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 position: "absolute"
               }}
             >
-              {!showImage && cropMode && selected && (
+              {showImage && cropMode && selected && (
                 <div
                   id={_id + "1236"}
                   style={{
