@@ -13,7 +13,7 @@ i18n.use(XHR)
 .init({
   ns: ['homePage', 'editor'],
   defaultNS: 'homePage',
-  debug: true,
+  debug: false,
   fallbackLng: 'en',
   load: "languageOnly",
   backend: backendOpts
