@@ -1527,6 +1527,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleDrag = (_id, clientX, clientY): any => {
+    console.log('handleDrag ', _id);
     const { scale, deltaX, deltaY } = this.state;
     var newLeft, newTop;
     var newLeft2, newTop2;
@@ -3422,8 +3423,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
   handleDeleteThisPage = pageId => {
     let pages = toJS(editorStore.pages);
-    pages = pages.filter(pId => pId !== pageId);
-    editorStore.pages.replace(pages);
+    let tempPages = pages.filter(pId => pId !== pageId);
+    editorStore.pages.replace(tempPages);
   };
 
   handleRemoveAllMedia = () => {
