@@ -2386,7 +2386,7 @@ class LeftSide extends Component<IProps, IState> {
                         <VideoPicker
                           id=""
                           defaultHeight={imgWidth}
-                          delay={0}
+                          delay={150}
                           width={imgWidth}
                           key={key}
                           color={item.color}
@@ -2406,7 +2406,7 @@ class LeftSide extends Component<IProps, IState> {
                         <ImagePicker
                           id=""
                           defaultHeight={imgWidth}
-                          delay={-1}
+                          delay={150}
                           width={imgWidth}
                           key={key}
                           color={item.color}
