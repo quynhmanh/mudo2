@@ -1425,9 +1425,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
-    // if (this.state.cropMode) {
-    //   return;
-    // }
+    if (this.state.cropMode) {
+      return;
+    }
     console.log("handleDragStart");
     // if (_id != this.state.idObjectSelected) {
     //   this.handleImageSelected()
@@ -1832,7 +1832,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       return e;
     });
 
-    var images = editorStore.images.map(image => {
+    var images = toJS(editorStore.images).map(image => {
       if (image._id == this.state.idObjectSelected) {
         image = window.image;
         image.selected = true;
@@ -1844,6 +1844,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
       return image;
     });
+    console.log('handleDragEnd ', images);
     editorStore.images.replace(images);
 
     var rects = document.getElementsByClassName("rect");
@@ -1995,17 +1996,25 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
   }
   handleImageSelected = (img, event) => {
-    console.log("handleImageSelected ", img._id, this.state.idObjectSelected);
-    if (this.state.cropMode) {
+    console.log("handleImageSelected ", this.state.cropMode, img._id, this.state.idObjectSelected);
+    if (this.state.cropMode && img._id != this.state.idObjectSelected) {
+      this.setState({cropMode: false});
+      this.doNoObjectSelected();
       return;
     }
     if (
       this.state.idObjectSelected &&
       img._id !== this.state.idObjectSelected
     ) {
-      document.getElementById(
+      // document.getElementById(
+      //   this.state.idObjectSelected + "_1"
+      // ).style.outline = null;
+      var temp = document.getElementById(
         this.state.idObjectSelected + "_1"
-      ).style.outline = null;
+      );
+      if (temp) {
+        temp.style.outline = null;
+      }
     }
     if (img._id === this.state.idObjectSelected) {
       return;
