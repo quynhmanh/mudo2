@@ -150,7 +150,7 @@ In your terminal, run the following commands:
     sudo yum install dotnet-sdk-3.0
 
 ## 8. Application Directory
-`/home/draft`
+`/root`
 
 ## 9. Install Docker Engine - Community
 
