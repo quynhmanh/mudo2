@@ -128,6 +128,9 @@ The `renew` command for Certbot will check all certificates installed on the sys
 
 ## 10. Installing Jenkins
 
+    usermod -a -G docker jenkins
+    systemctl restart jenkins
+
 ## 10. Install Git
 
 ## 11. Install Nodejs
