@@ -96,8 +96,6 @@ export interface IProps {
   imgWidth: number;
   imgHeight: number;
   resizingInnerImage: boolean;
-  startX: number;
-  startY: number;
   updateRect: boolean;
   imgColor: string;
   hidden: boolean;

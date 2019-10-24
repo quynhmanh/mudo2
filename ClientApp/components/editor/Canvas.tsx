@@ -30,8 +30,6 @@ export interface IProps {
   handleImageDrag: any;
   enableCropMode: any;
   handleImageResize: any;
-  startX: any;
-  startY: any;
   onResizeInnerImageStart: any;
   resizingInnerImage: any;
   updateRect: any;
@@ -122,6 +120,8 @@ export default class Canvas extends Component<IProps, IState> {
       staticGuides,
       idObjectSelected
     } = this.props;
+    
+    console.log('canvas render');
 
     return (
       <ResizableRectContainer
@@ -517,8 +517,6 @@ export default class Canvas extends Component<IProps, IState> {
                         onResizeInnerImageStart={this.props.onResizeInnerImageStart.bind(
                           this
                         )}
-                        startX={this.props.startX}
-                        startY={this.props.startY}
                         updateRect={this.props.updateRect}
                         bleed={this.props.bleed}
                         backgroundColor={img.backgroundColor}
@@ -663,8 +661,6 @@ export default class Canvas extends Component<IProps, IState> {
                         onResizeInnerImageStart={this.props.onResizeInnerImageStart.bind(
                           this
                         )}
-                        startX={this.props.startX}
-                        startY={this.props.startY}
                         updateRect={this.props.updateRect}
                         bleed={this.props.bleed}
                         backgroundColor={img.backgroundColor}
@@ -814,8 +810,6 @@ export default class Canvas extends Component<IProps, IState> {
                           onResizeInnerImageStart={this.props.onResizeInnerImageStart.bind(
                             this
                           )}
-                          startX={this.props.startX}
-                          startY={this.props.startY}
                           updateRect={this.props.updateRect}
                           backgroundColor={img.backgroundColor}
                         />

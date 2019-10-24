@@ -222,8 +222,6 @@ interface IState {
   images: Array<object>;
   scale: number;
   fitScale: number;
-  startX: number;
-  startY: number;
   selectedTab: SidebarTab;
   rectWidth: number;
   rectHeight: number;
@@ -320,8 +318,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       typeObjectSelected: null,
       scale: 1,
       fitScale: 1,
-      startX: 0,
-      startY: 0,
       images: [],
       selectedTab: null,
       rectWidth: this.props.match.params.width
@@ -1921,6 +1917,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleScroll = () => {
+    console.log('handleScroll');
     const screensRect = getBoundingClientRect("screens");
     const canvasRect = getBoundingClientRect("canvas");
     if (screensRect && canvasRect) {
@@ -1946,7 +1943,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
       editorStore.activePageId = activePageId;
 
-      this.setState({ startX, startY, activePageId });
+      // this.setState({ activePageId });
     }
   };
   handleWheel = e => {
@@ -3418,8 +3415,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           handleImageDrag={this.handleImageDrag}
           enableCropMode={this.enableCropMode}
           handleImageResize={this.handleImageResize}
-          startX={this.state.startX}
-          startY={this.state.startY}
           onResizeInnerImageStart={this.onResizeInnerImageStart}
           resizingInnerImage={this.state.resizingInnerImage}
           updateRect={this.state.updateRect}
@@ -3567,6 +3562,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   refCity = null;
   refPhoneNumber = null;
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('this.props ', this.state);
+    console.log('nextProp', nextState);
+    return true;
+  }
+
   render() {
     const {
       scale,
@@ -3576,6 +3577,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cropMode,
       pages
     } = this.state;
+
+    console.log('render Editor');
 
     const { images } = this.props;
 

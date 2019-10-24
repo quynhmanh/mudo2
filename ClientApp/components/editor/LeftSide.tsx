@@ -1573,6 +1573,7 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   render() {
+    console.log('leftside render');
     return (
       <div
         style={{

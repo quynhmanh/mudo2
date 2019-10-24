@@ -73,8 +73,6 @@ export interface IProps {
   ): void;
   resizingInnerImage: boolean;
   onResizeInnerImageStart(startX: number, startY: number): void;
-  startX: number;
-  startY: number;
   updateRect: boolean;
   imgColor: string;
   hidden: boolean;
@@ -307,8 +305,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       showImage,
       resizingInnerImage,
       onResizeInnerImageStart,
-      startX,
-      startY,
       updateRect,
       imgColor,
       hidden,
@@ -382,8 +378,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         imgStyles={imgStyles}
         resizingInnerImage={resizingInnerImage}
         onResizeInnerImageStart={onResizeInnerImageStart}
-        startX={startX}
-        startY={startY}
         updateRect={updateRect}
         imgColor={imgColor}
         showImage={showImage}
