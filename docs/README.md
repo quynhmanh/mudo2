@@ -118,6 +118,18 @@ The `renew` command for Certbot will check all certificates installed on the sys
 `cron` will now run this command daily. All installed certificates will be automatically renewed and reloaded when they have thirty days or less before they expire.
 
 ## 6. Install PostgreSQL
+`ident/peer -> md5`
+
+    vi /var/lib/pgsql/data/pg_hba.conf
+
+backup db:
+
+    pg_dump dbname -U postgres -h localhost > backup
+
+restore db:
+
+    psql -U postgres -h localhost dbname < backup
+
 
 ## 7. Install .NET Core SDK on Linux CentOS 7 - x64
 
