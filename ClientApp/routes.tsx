@@ -6,7 +6,7 @@ import { AppRoute } from "@Components/shared/AppRoute";
 import { Switch } from 'react-router-dom';
 // import HomePage from '@Pages/HomePage';
 import Editor from '@Pages/Editor';
-// import EditorContainer from '@Pages/EditorContainer';
+import EditorContainer from '@Pages/EditorContainer';
 import EditorLayout from '@Layouts/EditorLayout';
 // import TemplatesPage from '@Pages/TemplatesPage';
 // import TemplatesListPage from '@Pages/TemplatesListPage';
@@ -18,7 +18,7 @@ import EditorLayout from '@Layouts/EditorLayout';
 import loadable from '@loadable/component';
 import "@Styles/editor.scss";
 
-const EditorContainer = loadable(() => import("@Pages/EditorContainer"));
+// const EditorContainer = loadable(() => import("@Pages/EditorContainer"));
 const LoginPage = loadable(() => import("@Pages/LoginPage"));
 const HomePage = loadable(() => import("@Pages/HomePage"));
 const TemplatesPage = loadable(() => import("@Pages/TemplatesPage"));
