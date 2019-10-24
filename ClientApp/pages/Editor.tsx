@@ -1425,9 +1425,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   canvasRect = null;
 
   handleDragStart = (e, _id) => {
-    if (this.state.cropMode) {
-      return;
-    }
+    // if (this.state.cropMode) {
+    //   return;
+    // }
     console.log("handleDragStart");
     // if (_id != this.state.idObjectSelected) {
     //   this.handleImageSelected()
@@ -1499,7 +1499,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = (_id, newPosX, newPosY) => {
-    console.log("handleImageDrag");
+    console.log("handleImageDrag ", newPosX, newPosY);
     const { scale } = this.state;
 
     // let images = toJS(editorStore.images);
@@ -1509,14 +1509,19 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       newPosX = 0;
     } else if (newPosX / scale + img.imgWidth < img.width) {
       newPosX = (img.width - img.imgWidth) * scale;
+      console.log('newposX 1', img);
     }
     if (newPosY > 0) {
       newPosY = 0;
     } else if (newPosY / scale + img.imgHeight < img.height) {
       newPosY = (img.height - img.imgHeight) * scale;
+      console.log('newposY 1');
+
     }
     img.posX = newPosX / scale;
     img.posY = newPosY / scale;
+
+    console.log('newPosX ', newPosX, newPosY);
 
     updateTransformXY(_id + "1235", newPosX, newPosY);
     updateTransformXY(_id + "1236", newPosX, newPosY);
