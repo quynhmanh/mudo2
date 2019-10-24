@@ -745,7 +745,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             });
           }
 
-          editorStore.addItem(document2);
+          editorStore.addItem(document2, false);
 
           var fonts = toJS(editorStore.fonts);
           let tempFonts = [...fonts, ...doc.fontList];
