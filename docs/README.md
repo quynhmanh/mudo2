@@ -136,6 +136,8 @@ restore db:
 ## 8. Application Directory
 `/root`
 
+Copy folders: `test-extension`, `images`, `fonts`, `videos`
+
 ## 9. Install Docker Engine - Community
 
     docker network create mynet --subnet 192.168.0.0/24 --gateway 192.168.0.1
@@ -148,4 +150,6 @@ restore db:
 ## 10. Install Git
 
 ## 11. Install Nodejs
+
+## 11. Install Elasticsearch
 
