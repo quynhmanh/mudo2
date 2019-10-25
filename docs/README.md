@@ -138,6 +138,8 @@ restore db:
 
 ## 9. Install Docker Engine - Community
 
+    docker network create mynet --subnet 192.168.0.0/24 --gateway 192.168.0.1
+
 ## 10. Installing Jenkins
 
     usermod -a -G docker jenkins
