@@ -1420,7 +1420,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     src={src}
                   />
                   }
-                  { (objectType === 9) &&
+                  { (objectType === 9) && cropMode &&
                     <video
                     // id={_id + "1236"}
                     className={_id + "rect-alo"}
