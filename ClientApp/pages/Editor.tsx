@@ -4549,7 +4549,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
                 {this.state.cropMode && (
                   <button
                     className="toolbar-btn dropbtn-font"
-                    onClick={this.downloadPDF.bind(this)}
+                    onClick={e => {
+                      this.setState({ cropMode: false });
+                    }}
                     style={{
                       display: "flex"
                     }}
