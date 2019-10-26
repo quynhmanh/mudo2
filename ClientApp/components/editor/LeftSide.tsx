@@ -38,6 +38,7 @@ export interface IProps {
   tReady: boolean;
   fontId: any;
   scale: number;
+  handleEditFont: any;
 }
 
 interface IState {
@@ -1102,7 +1103,8 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   handleEditFont = item => {
-    // this.setState({showFontEditPopup: true, editingFont: item})
+    // this.setState({showFontEditPopup: true, editingFont: item});
+    this.props.handleEditFont(item);
   };
 
   textOnMouseDown = (id, e) => {
@@ -2752,26 +2754,14 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                       >
                         {editorStore.fontsList.map((font, key) => (
-                          <button
-                            key={uuidv4()}
-                            className="font-picker"
-                            style={{
-                              display: "flex",
-                              position: "relative",
-                              width: "100%",
-                              border: "none",
-                              backgroundColor: "transparent"
-                            }}
-                            onClick={e => {
-                              this.props.selectFont(font.id, e);
-                            }}
-                          >
+                          <div style={{
+                            display: 'flex',
+                          }}>
                             {Globals.serviceUser &&
                               Globals.serviceUser.username &&
                               Globals.serviceUser.username == adminEmail && (
                                 <button
                                   style={{
-                                    position: "absolute",
                                     top: "5px",
                                     left: "5px",
                                     borderRadius: "13px",
@@ -2803,6 +2793,20 @@ class LeftSide extends Component<IProps, IState> {
                                   </span>
                                 </button>
                               )}
+                          <button
+                            key={uuidv4()}
+                            className="font-picker"
+                            style={{
+                              display: "flex",
+                              position: "relative",
+                              width: "100%",
+                              border: "none",
+                              backgroundColor: "transparent"
+                            }}
+                            onClick={e => {
+                              this.props.selectFont(font.id, e);
+                            }}
+                          >
                             <img
                               style={{
                                 height: "25px",
@@ -2831,6 +2835,7 @@ class LeftSide extends Component<IProps, IState> {
                               </span>
                             ) : null}
                           </button>
+                          </div>
                         ))}
                         {this.state.hasMoreFonts &&
                         Array(1)
