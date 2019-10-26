@@ -1354,7 +1354,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                 opacity
               }}
             >
-              {showImage && (objectType === 4 || objectType === 6) && (
+              {
+                (showImage || (!showImage && cropMode)) && 
+                (objectType === 4 || objectType === 6) && (
                 <img
                   id={_id + "1235"}
                   className={_id + "rect-alo"}
@@ -1386,9 +1388,11 @@ export default class Rect extends PureComponent<IProps, IState> {
                 position: "absolute"
               }}
             >
-              {showImage && cropMode && selected && (
+              {(showImage || (!showImage && cropMode)) 
+              && selected && (
                 <div
                   id={_id + "1236"}
+                  className={_id + "1236"}
                   style={{
                     width: this.props.imgWidth + "px",
                     height: this.props.imgHeight + "px",
@@ -1396,7 +1400,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     outline: cropMode && selected ? `#00d9e1 solid 2px` : null
                   }}
                 >
-                  { (objectType === 4 || objectType === 6) && 
+                  { (objectType === 4 || objectType === 6) && cropMode &&
                   <img
                     // id={_id + "1236"}
                     className={_id + "rect-alo"}

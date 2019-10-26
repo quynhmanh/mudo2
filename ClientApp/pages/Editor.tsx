@@ -2008,7 +2008,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var OSNAME = this.getPlatformName();
     if (
       this.state.idObjectSelected != "undefined" &&
-      !e.target.classList.ốnletains("text") &&
+      !e.target.classList.contains("text") &&
       ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
         (e.keyCode === 91 && OSNAME == "Windows"))
     ) {
