@@ -492,6 +492,11 @@ export const updateTransformXY = function(elId, x, y: any) {
   if (el1238) {
     el1238.style.transform = `translate(${x}px, ${y}px)`;
   }
+
+  var temp = document.getElementsByClassName(elId) as HTMLCollectionOf<HTMLElement>;
+  for (var i = 0; i < temp.length; ++i) {
+    temp[i].style.transform = `translate(${x}px, ${y}px)`;
+  }
 }
 
 export const updatePosition = function(elId, left, top, width, height: any) {
