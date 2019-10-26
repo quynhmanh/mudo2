@@ -293,6 +293,12 @@ namespace RCB.TypeScript.Controllers
 
                         }
 
+                        var executablePath = "/usr/bin/google-chrome-stable";
+                        if (HostingEnvironment.IsDevelopment())
+                        {
+                            executablePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+                        }
+
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                         using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                         {
@@ -302,6 +308,7 @@ namespace RCB.TypeScript.Controllers
                                 Height = (int)double.Parse(height),
                             },
                             Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
+                            ExecutablePath = executablePath,
                         }))
                         {
                             var page = await browser.NewPageAsync();
