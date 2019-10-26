@@ -152,4 +152,17 @@ Copy folders: `test-extension`, `images`, `fonts`, `videos`
 ## 11. Install Nodejs
 
 ## 11. Install Elasticsearch
+Start and enable the `elasticsearch` service by running:
+
+    sudo systemctl enable elasticsearch.service
+    sudo systemctl start elasticsearch.service
+
+Copy data folder `/var/lib/elasticsearch/`, then:
+
+    chown -R elasticsearch:elasticsearch /var/lib/elasticsearch/
+    systemctl restart elasticsearch.service
+
+## 12. Notes
+1. `var executablePath = "/usr/bin/google-chrome-stable"`;
+
 
