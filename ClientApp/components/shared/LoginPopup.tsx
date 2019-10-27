@@ -65,9 +65,11 @@ class LoginPopup extends PureComponent<IProps, IState> {
 
   login = (provider: string) => {
     var url: string;
+    var loginWindowWidth: number = 550;
     switch (provider) {
       case 'FACEBOOK':
         url = this.facebook();
+        loginWindowWidth = 1015; // prevent horizontal scroll
         break;
       case 'GOOGLE':
         url = this.google();
@@ -80,7 +82,15 @@ class LoginPopup extends PureComponent<IProps, IState> {
     window.authenticationScope = {
       complete: this.externalProviderCompleted.bind(this)
     };
-    var loginWindow = window.open(url, "_blank");
+
+    const windowWidth = screen.width;
+    const windowHeight = screen.height;
+    const loginWindowHeight = 550;
+    const loginWindowTop = (windowHeight - loginWindowHeight) / 2;
+    const loginWindowLeft = (windowWidth - loginWindowWidth) / 2;
+
+
+    var loginWindow = window.open(url, "_blank", "toolbar=no,top=" + loginWindowTop + ",left=" + loginWindowLeft + ",width=" + loginWindowWidth + ",height=" + loginWindowHeight);
     var timer = setInterval(() => {
       if (!loginWindow || loginWindow.closed) {
         this.toggleLoading(1);
