@@ -13,7 +13,7 @@
     "allowUnusedLabels":  false,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch":  true,
-    "lib": ["es2017", "dom"],
+    "lib": ["es2017", "dom", "es2018.promise"],
     "types": ["webpack-env"],
     "paths": { 
       "@Ui":  [ "./Ui" ],

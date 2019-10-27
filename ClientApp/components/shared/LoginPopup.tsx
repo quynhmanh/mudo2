@@ -11,10 +11,16 @@ export interface IProps {
   locale: any;
 }
 
-interface IState {}
+interface IState {
+  loading: boolean;
+  verifying: boolean;
+}
 
 class LoginPopup extends PureComponent<IProps, IState> {
-  state = {};
+  state = {
+    loading: false,
+    verifying: false
+  };
   constructor(props: any) {
     super(props);
     this.login = this.login.bind(this);
@@ -57,12 +63,6 @@ class LoginPopup extends PureComponent<IProps, IState> {
     return url;
   }
 
-  toggleLoading = (opacity: number) => {
-    console.log(opacity)
-    this.loginContainer.style.opacity = opacity;
-    this.loadder.style.opacity = 1 - opacity;
-  }
-
   login = (provider: string) => {
     var url: string;
     var loginWindowWidth: number = 550;
@@ -78,7 +78,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
         alert(`${provider} is not from a supported provider`);
         return;
     }
-    this.toggleLoading(0);
+
     window.authenticationScope = {
       complete: this.externalProviderCompleted.bind(this)
     };
@@ -89,23 +89,25 @@ class LoginPopup extends PureComponent<IProps, IState> {
     const loginWindowTop = (windowHeight - loginWindowHeight) / 2;
     const loginWindowLeft = (windowWidth - loginWindowWidth) / 2;
 
-
     var loginWindow = window.open(url, "_blank", "toolbar=no,top=" + loginWindowTop + ",left=" + loginWindowLeft + ",width=" + loginWindowWidth + ",height=" + loginWindowHeight);
+    this.setState({ loading: true });
     var timer = setInterval(() => {
       if (!loginWindow || loginWindow.closed) {
-        this.toggleLoading(1);
+        this.state.verifying === false && this.setState({ loading: false });
         clearInterval(timer);
       }
     }, 1000);
   }
 
   externalProviderCompleted(fragment) {
+    this.setState({ verifying: true });
     if (
       fragment === null ||
       typeof fragment !== "object" ||
       !fragment.hasOwnProperty("access_token")
     ) {
       // alert("external login failed!");
+      this.setState({ loading: false, verifying: false });
       return;
     }
 
@@ -133,6 +135,11 @@ class LoginPopup extends PureComponent<IProps, IState> {
           this.onLoginSuccess(user);
         },
         error => {}
+      )
+      .finally(
+        () => {
+          this.setState({ loading: false, verifying: false });
+        }
       );
   }
 
@@ -158,9 +165,6 @@ class LoginPopup extends PureComponent<IProps, IState> {
       return data;
     });
   }
-
-  loadder = null;
-  loginContainer = null;
 
   render() {
     return (
@@ -310,9 +314,8 @@ class LoginPopup extends PureComponent<IProps, IState> {
           <div style={{ position: "relative", width: "400px" }}>
             {/* {!this.props.externalProviderCompleted ? ( */}
               <div 
-              ref={i => this.loadder = i}
               style={{
-                opacity: 0,
+                opacity: this.state.loading === true ? 1 : 0,
                 height: '100%',
                 position: 'absolute',
                 width: '100%',
@@ -320,12 +323,11 @@ class LoginPopup extends PureComponent<IProps, IState> {
                 <Loader show={true} className="" black={true} />
               </div>
               <div
-                ref={i => this.loginContainer = i}
                 id="loginContainer"
                 style={{
                   width: "100%",
                   padding: "40px 80px",
-                  opacity: 1,
+                  opacity: this.state.loading === true ? 0 : 1,
                   position: 'absolute',
                 }}
               >
