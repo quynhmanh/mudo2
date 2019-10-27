@@ -165,4 +165,26 @@ Copy data folder `/var/lib/elasticsearch/`, then:
 ## 12. Notes
 1. `var executablePath = "/usr/bin/google-chrome-stable"`;
 
+2. Allow `jenkins` run scripts with `sudo` permission (`Not use`):
+
+    a. Run following command:
+    ```
+    sudo visudo
+    ```
+
+    b. Insert scripts, for example:
+
+    ```
+    jenkins ALL=(ALL) NOPASSWD: /path/to/script
+    ```
+
+3. Modify memory usage for elasticsearch:
+
+    ```
+    vi /etc/elasticsearch/jvm.options
+
+    -Xms512m
+    -Xmx512m
+    ```
+
 
