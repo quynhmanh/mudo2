@@ -34,10 +34,10 @@ const DownloadIcon = loadable(() =>
 
 var Hammer;
 
-if (!isNode()) {
-  Hammer = require("hammerjs");
-  console.log('hammerjs ', require("hammerjs"));
-}
+// if (!isNode()) {
+//   Hammer = require("hammerjs");
+//   console.log('hammerjs ', require("hammerjs"));
+// }
 
 import Rx from "rxjs";
 import { fromEvent, merge } from 'rxjs';
