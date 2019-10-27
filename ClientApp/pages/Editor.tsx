@@ -22,7 +22,8 @@ import {
   degToRadian,
   updateTransformXY,
   updatePosition,
-  updateRotate
+  updateRotate,
+  isNode,
 } from "@Utils";
 import loadable from "@loadable/component";
 import { clone } from "lodash";
@@ -30,6 +31,17 @@ import editorStore from "@Store/EditorStore";
 const DownloadIcon = loadable(() =>
   import("@Components/shared/svgs/DownloadIcon")
 );
+
+var Hammer;
+
+if (!isNode()) {
+  Hammer = require("hammerjs");
+  console.log('hammerjs ', require("hammerjs"));
+}
+
+import Rx from "rxjs";
+import { fromEvent, merge } from 'rxjs';
+import { map, filter, scan, switchMap, startWith, takeUntil } from 'rxjs/operators';
 
 const DownloadList = loadable(() => import("@Components/editor/DownloadList"));
 
@@ -378,6 +390,16 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   async componentDidMount() {
+    // // Convert hammer events to an observable
+    // const pan$ = fromEvent(document, "mousemove")
+    // .subscribe(() => {
+    //   console.log('hello ');
+    // })
+
+    // document.addEventListener('mousemove', () => {
+    //   console.log('hello2 ');
+    // });
+
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
@@ -1449,20 +1471,17 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   canvasRect = null;
+  temp = null;
 
   handleDragStart = (e, _id) => {
-    // if (this.state.cropMode) {
-    //   return;
-    // }
-    console.log("handleDragStart");
-    // if (_id != this.state.idObjectSelected) {
-    //   this.handleImageSelected()
-    // }
+    var left, top;
     const { scale } = this.state;
     editorStore.images.forEach(image => {
       if (image._id === _id) {
         window.startLeft = image.left * scale;
         window.startTop = image.top * scale;
+        window.startX = e.clientX;
+        window.startY = e.clientY;
         window.image = clone(image);
       }
     });
@@ -1505,6 +1524,27 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     }
 
     this.setState({ dragging: true });
+
+    console.log('handledragstart 123', e.target);
+
+    /**
+     * Make a DOM element move
+     */
+    var moveEl = e.target;
+    const location$ = this.handleDragRx(moveEl);
+
+    this.temp = 
+    location$
+      .pipe(
+        map(([x, y]) => ({
+          moveElLocation: [x, y]
+        }))
+      )
+      .subscribe(({ moveElLocation }) => {
+        this.handleDrag(this.state.idObjectSelected, moveElLocation[0], moveElLocation[1])
+      }, null, () => {
+        this.handleDragEnd();
+      });
   };
 
   tranformImage = (image: any) => {
@@ -1556,8 +1596,104 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // editorStore.images.replace(images);
   };
 
+  // scaleToCanvas = ({ start: { x, y }, w, h }) => {
+  //   // Scale to account for SVG canvas with preserveAspectRatio="xMidYMid slice"
+  //   const svgW = w > h ? VIEWBOX_SIZE.W : VIEWBOX_SIZE.W * w / h;
+  //   const svgH = w > h ? VIEWBOX_SIZE.H * h / w : VIEWBOX_SIZE.H;
+  
+  //   return e => ({
+  //     x: x + mapFromToRange(e.deltaX, 0, w, 0, svgW),
+  //     y: y + mapFromToRange(e.deltaY, 0, h, 0, svgH)
+  //   });
+  // }
+
+
+/**
+ * Utils
+ */
+getStartInfo = (element) => {
+  console.log('element ', element);
+  console.log('left ', element.style.left);
+  console.log('top ', element.style.top);
+
+  var x = parseInt(element.style.left, 10);
+  var y = parseInt(element.style.top, 10);
+
+  const start = {
+    x,
+    y,
+  };
+  const w = document.body.clientWidth;
+  const h = document.body.clientHeight;
+  return { start, w, h };
+}
+
+  /**
+ * Create an observable stream to handle drag gesture
+ */
+drag = ({ element, pan$, onStart, onEnd }) => {
+
+  console.log('pan$ ', element, pan$);
+
+  const panStart$ = pan$.pipe(
+    filter((e:Event) => e.type === "panstart")
+  )
+
+  const panMove$ = pan$.pipe(
+    filter((e:Event) => e.type == "mousemove")
+  )
+
+  const panEnd$ = pan$.pipe(
+    filter((e:Event) => e.type == "mouseup")
+  )
+
+  // const panMove$ = pan$.filter(e => e.type === "panmove");
+  // const panEnd$ = pan$.filter(e => e.type === "panend");
+
+  // pan$.subscribe((e) => {
+  //   console.log('panStart$ subscribe', e);
+  // })
+
+  // panMove$.subscribe((e) => {
+  //   console.log('panMove$ subscribe', e);
+  // })
+
+  return panMove$
+  .pipe(
+    map((e: any) => {
+      var x = e.clientX; 
+      var y = e.clientY;
+      return {x, y}
+    }),
+    takeUntil(panEnd$)
+  );
+};
+
+  /**
+  * Generate the drag handler for a DOM element
+  */
+  handleDragRx = (element) => {
+    const mouseMove$    = fromEvent(document, 'mousemove');
+    const mouseUp$     = fromEvent(document, 'mouseup');
+
+    const pan$ = merge(
+      mouseMove$,
+      mouseUp$,
+    );
+
+    const drag$ = this.drag({
+      element: element,
+      pan$,
+      onStart: () => element.setAttribute("r", 12 * 2),
+      onEnd: () => {}
+    });
+ 
+    return drag$.pipe(
+      map(({ x, y }) => [x, y])
+    )
+  }
+
   handleDrag = (_id, clientX, clientY): any => {
-    console.log("handleDrag ", _id);
     const { scale, deltaX, deltaY } = this.state;
     var newLeft, newTop;
     var newLeft2, newTop2;
@@ -1567,6 +1703,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     var img;
     var updateStartPosX = false;
     var updateStartPosY = false;
+    // return {
+    //   updateStartPosX,
+    //   updateStartPosY,
+    // }
     let images = toJS(editorStore.images);
     var image = window.image;
     // images.forEach(image => {
@@ -1825,7 +1965,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // var t0 = performance.now();
 
     // console.log('handleDrag 1');
-    // editorStore.images.replace(images);
+    editorStore.images.replace(images);
 
     // document.getElementById(_id + "_").style.top = top * scale + "px";
     // document.getElementById(_id + "_").style.left = left * scale + "px";
@@ -1848,6 +1988,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     // if (this.state.cropMode) {
     //   return;
     // }
+
+    // this.temp.unsubscribe();
+    // window.hammerPan.destroy();
+
     console.log("handleDragEnd");
     let {
       staticGuides: { x, y }
@@ -3436,8 +3580,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           handleResize={this.handleResize}
           handleResizeEnd={this.handleResizeEnd}
           handleDragStart={this.handleDragStart}
-          handleDrag={this.handleDrag}
-          handleDragEnd={this.handleDragEnd}
           onSingleTextChange={this.onSingleTextChange.bind(this)}
           handleFontSizeChange={this.handleFontSizeChange}
           handleFontColorChange={this.handleFontColorChange}
@@ -3596,6 +3738,9 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   shouldComponentUpdate(nextProps, nextState) {
     console.log("this.props ", this.state);
     console.log("nextProp", nextState);
+    if (nextState.dragging) {
+      return false;
+    }
     return true;
   }
 

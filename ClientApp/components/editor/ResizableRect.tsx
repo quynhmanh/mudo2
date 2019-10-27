@@ -14,8 +14,6 @@ export interface IProps {
   rotateAngle: number;
   selected: boolean;
   onDragStart(e: any): void;
-  onDrag(id: string, clientX: number, clientY: number): any;
-  onDragEnd(): void;
   onRotateStart(): void;
   onRotate(rotateAngle: number, id: string, e: any): void;
   onRotateEnd(_id: string): void;
@@ -245,12 +243,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     );
   };
 
-  handleDrag = (clientX, clientY): boolean => {
-    const { _id } = this.props;
-
-    return this.props.onDrag && this.props.onDrag(_id, clientX, clientY);
-  };
-
   handleImageDrag = (newPosX: number, newPosY: number): void => {
     const { _id } = this.props;
 
@@ -277,7 +269,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       onRotateStart,
       onRotateEnd,
       onDragStart,
-      onDragEnd,
       showController,
       updateStartPos,
       _id,
@@ -352,8 +343,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         onRotate={this.handleRotate}
         onRotateEnd={onRotateEnd}
         onDragStart={onDragStart}
-        onDrag={this.handleDrag}
-        onDragEnd={onDragEnd}
         src={src}
         onTextChange={onTextChange}
         innerHTML={innerHTML}

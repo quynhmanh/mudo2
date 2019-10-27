@@ -4,7 +4,8 @@ import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import MathJax from "react-mathjax2";
 
-const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
+
+// const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
 const zoomableMap = {
   n: "t",
@@ -37,8 +38,6 @@ export interface IProps {
   styles: any;
   imgStyles: any;
   onDragStart(e: any, _id: string): void;
-  onDrag(clientX: number, clientY: number): any;
-  onDragEnd(): void;
   onRotateStart(e): void;
   onRotate(angle: number, startAngle: number, e: any): void;
   onRotateEnd(_id: string): void;
@@ -155,36 +154,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       this.handleImageDrag(e);
       return;
     }
-    // return;
-    // e.preventDefault();
-    let { clientX: startX, clientY: startY } = e;
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
-    this._isMouseDown = true;
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
-      var update = this.props.onDrag(clientX, clientY);
-      if (update && update.updateStartPosY) {
-        startY = clientY;
-      }
-      if (update && update.updateStartPosX) {
-        startX = clientX;
-      }
-    };
-    const onUp = e => {
-      e.preventDefault();
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onDragEnd && this.props.onDragEnd();
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
   };
 
   // Rotate
@@ -842,7 +812,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           onMouseDown={this.startDrag}
           style={{
             // zIndex: selected && objectType !== 4 ? 1 : 0,
-            zIndex: 999999,
+            // zIndex: 999999,
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
             position: "absolute",
@@ -1381,6 +1351,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               )}
             </div>
             <div
+              id={_id + "123"}
               className={_id + "rect-alo"}
               style={{
                 width: width / (src ? 1 : scaleX) + "px",

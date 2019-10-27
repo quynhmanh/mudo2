@@ -20,8 +20,6 @@ export interface IProps {
   handleResize: any;
   handleResizeEnd: any;
   handleDragStart: any;
-  handleDrag: any;
-  handleDragEnd: any;
   onSingleTextChange: any;
   handleFontSizeChange: any;
   handleFontColorChange: any;
@@ -475,8 +473,6 @@ export default class Canvas extends Component<IProps, IState> {
                             ? null
                             : this.props.handleDragStart.bind(this)
                         }
-                        onDrag={this.props.handleDrag.bind(this)}
-                        onDragEnd={this.props.handleDragEnd}
                         updateStartPos={img.updateStartPos}
                         src={img.src}
                         onTextChange={this.props.onSingleTextChange.bind(
@@ -619,8 +615,6 @@ export default class Canvas extends Component<IProps, IState> {
                             ? null
                             : this.props.handleDragStart.bind(this)
                         }
-                        onDrag={this.props.handleDrag.bind(this)}
-                        onDragEnd={this.props.handleDragEnd}
                         updateStartPos={img.updateStartPos}
                         src={img.src}
                         onTextChange={this.props.onSingleTextChange.bind(
@@ -763,8 +757,6 @@ export default class Canvas extends Component<IProps, IState> {
                               ? null
                               : this.props.handleDragStart.bind(this)
                           }
-                          onDrag={this.props.handleDrag.bind(this)}
-                          onDragEnd={this.props.handleDragEnd}
                           updateStartPos={img.updateStartPos}
                           src={img.src}
                           onTextChange={this.props.onSingleTextChange.bind(
