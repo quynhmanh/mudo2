@@ -1653,7 +1653,7 @@ drag = ({ element, pan$}) => {
   * Generate the drag handler for a DOM element
   */
   handleDragRx = (element) => {
-    
+
     const mouseMove$    = fromEvent(document, 'mousemove');
     const mouseUp$     = fromEvent(document, 'mouseup');
 
@@ -1944,7 +1944,7 @@ drag = ({ element, pan$}) => {
     // var t0 = performance.now();
 
     // console.log('handleDrag 1');
-    editorStore.images.replace(images);
+    // editorStore.images.replace(images);
 
     // document.getElementById(_id + "_").style.top = top * scale + "px";
     // document.getElementById(_id + "_").style.left = left * scale + "px";
