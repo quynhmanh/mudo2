@@ -1215,7 +1215,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           )}
         </div>
-        {src && (objectType === 4 || objectType === 6 || objectType === 9) && (
+        {src && (objectType === 4 || objectType === 6) && (
           <div
             id={_id}
             className={_id + "rect-alo"}
@@ -1274,6 +1274,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 />
               )}
             </div>
+            {(showImage || (!showImage && cropMode)) && selected && (
             <div
               id={_id + "123"}
               className={_id + "rect-alo"}
@@ -1283,8 +1284,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                 position: "absolute"
               }}
             >
-              {(showImage || (!showImage && cropMode)) 
-              && selected && (
                 <div
                   id={_id + "1236"}
                   className={_id + "1236"}
@@ -1336,8 +1335,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                   />
                   }
                 </div>
-              )}
             </div>
+            )}
           </div>
         )}
         {src && objectType === 9 && showImage && (
@@ -1348,8 +1347,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               zIndex: selected ? 1 : 0,
               transformOrigin: "0 0",
               position: "absolute",
-              width: width / (src ? 1 : scaleX) + "px",
-              height: height / (src ? 1 : scaleY) + "px",
+              width: "100%",
+              height: "100%",
               overflow: "hidden"
             }}
           >

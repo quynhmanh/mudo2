@@ -1039,8 +1039,16 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           image.posY = scaleTop * image.imgHeight;
 
           var el = document.getElementById(_id + "1235");
-          el.style.width = image.imgWidth * scale + "px";
-          el.style.height = image.imgHeight * scale + "px";
+          if (el) {
+            el.style.width = image.imgWidth * scale + "px";
+            el.style.height = image.imgHeight * scale + "px";
+          }
+
+          el = document.getElementById(_id + "1238");
+          if (el) {
+            el.style.width = image.imgWidth * scale + "px";
+            el.style.height = image.imgHeight * scale + "px";
+          }
         }
 
         if ((objectType === 4 || objectType == 9) && this.state.cropMode) {
