@@ -395,8 +395,6 @@ export default class Canvas extends Component<IProps, IState> {
                 position: "absolute",
                 overflow: "hidden",
               }}
-              onMouseEnter={(e) => {  console.log('onMouseEnter true'); this.setState({hoveringCanvas: true,})}}
-              onMouseLeave={(e) => { this.setState({hoveringCanvas: false,})}}
               onClick={e => {
                 if ((e.target as Element).id === "canvas" && 
                   !this.props.resizing &&
@@ -425,8 +423,12 @@ export default class Canvas extends Component<IProps, IState> {
                       }deg)`
                     }}
                     onMouseEnter={(e) => {
-                      console.log(" onMouseEnter select id", img._id);
-                      this.props.handleImageHover(img, e);
+                      console.log('onMouseEnter', window.dragging);
+                      if (!window.dragging && !window.resizing && !window.rotating && !window.rotating) {
+                        console.log(" onMouseEnter select id", img._id);
+                        this.props.handleImageHover(img, e);
+                        this.forceUpdate();
+                      }
                     }}
                     onMouseMove={(e) => {
                       console.log('onMouseMove');

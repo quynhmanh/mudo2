@@ -819,6 +819,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     window.startY = e.clientY;
     window.resizingInnerImage = false;
 
+    window.resizing = true;
     this.setState({
       resizing: true
     });
@@ -873,6 +874,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         this.handleResize(centerToTL({ centerX, centerY, width, height, rotateAngle }), false, cursor, this.state.idObjectSelected, 1, 1, cursor, editorStore.imageSelected.type, e);
       }, null, 
       () => {
+        window.resizing = false;
         this.handleResizeEnd(null);
       });
   };
@@ -1424,6 +1426,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     document.body.append(tip);
 
+    window.rotating = true;
     this.setState({ rotating: true });
   };
 
@@ -1454,6 +1457,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     });
 
     editorStore.images.replace(tempImages);
+
+    window.rotating = false;
 
     setTimeout(
       function() {
@@ -1512,6 +1517,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
     }
 
+    window.dragging = true;
     this.setState({ dragging: true });
 
     const location$ = this.handleDragRx(e.target);
@@ -1965,7 +1971,7 @@ drag = ({ element, pan$}) => {
     }
 
     this.setState({ staticGuides: { x, y } });
-
+    window.dragging = false;
     setTimeout(() => {
       this.setState({ dragging: false });
     }, 50);
