@@ -1525,16 +1525,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     this.setState({ dragging: true });
 
-    console.log('handledragstart 123', e.target);
-
     /**
      * Make a DOM element move
      */
     var moveEl = e.target;
     const location$ = this.handleDragRx(moveEl);
 
-    this.temp = 
-    location$
+    this.temp = location$
       .pipe(
         map(([x, y]) => ({
           moveElLocation: [x, y]
@@ -1631,14 +1628,7 @@ getStartInfo = (element) => {
   /**
  * Create an observable stream to handle drag gesture
  */
-drag = ({ element, pan$, onStart, onEnd }) => {
-
-  console.log('pan$ ', element, pan$);
-
-  const panStart$ = pan$.pipe(
-    filter((e:Event) => e.type === "panstart")
-  )
-
+drag = ({ element, pan$}) => {
   const panMove$ = pan$.pipe(
     filter((e:Event) => e.type == "mousemove")
   )
@@ -1647,20 +1637,10 @@ drag = ({ element, pan$, onStart, onEnd }) => {
     filter((e:Event) => e.type == "mouseup")
   )
 
-  // const panMove$ = pan$.filter(e => e.type === "panmove");
-  // const panEnd$ = pan$.filter(e => e.type === "panend");
-
-  // pan$.subscribe((e) => {
-  //   console.log('panStart$ subscribe', e);
-  // })
-
-  // panMove$.subscribe((e) => {
-  //   console.log('panMove$ subscribe', e);
-  // })
-
   return panMove$
   .pipe(
     map((e: any) => {
+      e.preventDefault();
       var x = e.clientX; 
       var y = e.clientY;
       return {x, y}
@@ -1673,6 +1653,7 @@ drag = ({ element, pan$, onStart, onEnd }) => {
   * Generate the drag handler for a DOM element
   */
   handleDragRx = (element) => {
+    
     const mouseMove$    = fromEvent(document, 'mousemove');
     const mouseUp$     = fromEvent(document, 'mouseup');
 
@@ -1683,9 +1664,7 @@ drag = ({ element, pan$, onStart, onEnd }) => {
 
     const drag$ = this.drag({
       element: element,
-      pan$,
-      onStart: () => element.setAttribute("r", 12 * 2),
-      onEnd: () => {}
+      pan$
     });
  
     return drag$.pipe(
@@ -1989,7 +1968,7 @@ drag = ({ element, pan$, onStart, onEnd }) => {
     //   return;
     // }
 
-    // this.temp.unsubscribe();
+    this.temp.unsubscribe();
     // window.hammerPan.destroy();
 
     console.log("handleDragEnd");
