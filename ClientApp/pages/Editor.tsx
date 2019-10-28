@@ -31,6 +31,7 @@ import editorStore from "@Store/EditorStore";
 const DownloadIcon = loadable(() =>
   import("@Components/shared/svgs/DownloadIcon")
 );
+import { getLength, getAngle, getCursor } from "@Utils";
 
 var Hammer;
 
@@ -798,7 +799,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     this.setState({ showFontEditPopup: true, editingFont: item });
   };
 
-  handleResizeStart = (startX: number, startY: number) => {
+  handleResizeStart = (e: any) => {
     console.log("handleResizeStart");
     var resizers = document.getElementsByClassName(
       "resizable-handler-container"
@@ -814,16 +815,71 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cur.style.opacity = 0;
     }
 
-    window.startX = startX;
-    window.startY = startY;
+    window.startX = e.clientX;
+    window.startY = e.clientY;
     window.resizingInnerImage = false;
 
     this.setState({
       resizing: true
     });
+
+    console.log('e.target handleresizestart ', e.target);
+
+    var cursor = e.target.id;
+    var type = e.target.getAttribute("class").split(" ")[0];
+    let { scale } = this.state;
+    const location$ = this.handleDragRx(e.target);
+
+    let image = editorStore.images.find(img => img._id == this.state.idObjectSelected);
+    window.image = image;
+    let {
+      top: top2,
+      left: left2,
+      width: width2,
+      height: height2
+    } = image;
+
+    this.temp = location$.pipe(
+        map(([x, y]) => ({
+          moveElLocation: [x, y]
+        }))
+      )
+      .subscribe(({ moveElLocation }) => {
+        var deltaX = moveElLocation[0] - window.startX;
+        var deltaY = moveElLocation[1] - window.startY;
+        const deltaL = getLength(deltaX, deltaY);
+        const alpha = Math.atan2(deltaY, deltaX);
+        const beta = alpha - degToRadian(image.rotateAngle);
+        const deltaW = (deltaL * Math.cos(beta)) / scale;
+        const deltaH = (deltaL * Math.sin(beta)) / scale;
+        let rotateAngle = image.rotateAngle;
+        let ratio = image.width / image.height;
+
+        const rect2 = tLToCenter({ top: top2, left: left2, width: width2, height: height2, rotateAngle });
+        const rect = { width: rect2.size.width, height: rect2.size.height, centerX: rect2.position.centerX, centerY: rect2.position.centerY, rotateAngle: rect2.transform.rotateAngle };
+        let {
+          position: { centerX, centerY },
+          size: { width, height }
+        } = getNewStyle(
+          type,
+          { ...rect, rotateAngle },
+          deltaW,
+          deltaH,
+          ratio,
+          10,
+          10
+        );
+
+        this.handleResize(centerToTL({ centerX, centerY, width, height, rotateAngle }), false, cursor, this.state.idObjectSelected, 1, 1, cursor, editorStore.imageSelected.type, e);
+      }, null, 
+      () => {
+        this.handleResizeEnd(null);
+      });
   };
 
   handleResizeEnd = fontSize => {
+    console.log('handleResizeEnd');
+    this.temp.unsubscribe();
     let images = toJS(editorStore.images);
     let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
@@ -869,20 +925,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     objectType,
     e
   ) => {
-    // if (this.switching) {
-    //   return;
-    // }
     const { scale } = this.state;
-    // let scale = 1;
     let { top, left, width, height } = style;
-    // top = top / scale;
-    // left = left / scale;
-    // width = width / scale;
-    // height = height / scale;
     var self = this;
     var temp = this.handleImageResize;
-    var images = editorStore.images.map(image => {
-      if (image._id === _id) {
+    // var images = editorStore.images.map(image => {
+    //   if (image._id === _id) {
+      let image = window.image;
         var deltaLeft = left - image.left;
         var deltaTop = top - image.top;
         var deltaWidth = width - image.width;
@@ -986,6 +1035,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           image.imgHeight += scaleHeight * deltaHeight;
           image.posX = scaleLeft * image.imgWidth;
           image.posY = scaleTop * image.imgHeight;
+
+          var el = document.getElementById(_id + "1235");
+          el.style.width = image.imgWidth * scale + "px";
+          el.style.height = image.imgHeight * scale + "px";
         }
 
         if ((objectType === 4 || objectType == 9) && this.state.cropMode) {
@@ -993,10 +1046,22 @@ class CanvaEditor extends PureComponent<IProps, IState> {
           image.posY -= deltaTop;
         }
 
+
         image.top = top;
         image.left = left;
         image.width = width;
         image.height = height;
+
+        var a = document.getElementsByClassName(_id + "aaaa");
+        a[0].style.width = width * scale + "px";
+        a[0].style.left = left * scale + "px";
+        a[0].style.top = top * scale + "px";
+        a[0].style.height = height * scale + "px";
+
+        a[1].style.width = width * scale + "px";
+        a[1].style.left = left * scale + "px";
+        a[1].style.top = top * scale + "px";
+        a[1].style.height = height * scale + "px";
 
         if (cursor != "e" && cursor != "w") {
           image.scaleX = image.width / image.origin_width;
@@ -1092,9 +1157,11 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             imgRotateAngle: 0
           };
         }
-      }
-      return image;
-    });
+    //   }
+    //   return image;
+    // });
+
+    console.log('image ', image);
 
     this.setState({ updateRect: self.switching }, () => {
       if (self.switching) {
@@ -1105,7 +1172,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         }, 1);
       }
     });
-    editorStore.images.replace(images);
+    // editorStore.images.replace(images);
   };
 
   onResizeInnerImageStart = (startX, startY) => {
@@ -1780,12 +1847,13 @@ drag = ({ element, pan$}) => {
           }
 
           for (var ii = 0; ii < 6; ++ii) {
-            if (image[ii] == 1) {
-              document.getElementById(image._id + "guide_" + ii).style.display =
-                "block";
-            } else {
-              document.getElementById(image._id + "guide_" + ii).style.display =
-                "none";
+            var el = document.getElementById(image._id + "guide_" + ii);
+            if (el) {
+              if (image[ii] == 1) {
+                el.style.display = "block";
+              } else {
+                el.style.display = "none";
+              }
             }
           }
         }
@@ -1867,8 +1935,10 @@ drag = ({ element, pan$}) => {
       }
       for (var ii = 0; ii < 6; ++ii) {
         image[ii] = 0;
-        document.getElementById(image._id + "guide_" + ii).style.display =
-          "none";
+        var el = document.getElementById(image._id + "guide_" + ii);
+        if (el) {
+          document.getElementById(image._id + "guide_" + ii).style.display = "none";
+        }
       }
       return image;
     });
@@ -3322,7 +3392,6 @@ drag = ({ element, pan$}) => {
           key={i}
           staticGuides={this.state.staticGuides}
           index={i}
-          id={pages[i]}
           addAPage={this.addAPage}
           images={editorStore.images.filter(img => img.page === pages[i])}
           mode={this.state.mode}
@@ -3337,8 +3406,6 @@ drag = ({ element, pan$}) => {
           handleRotate={this.handleRotate}
           handleRotateEnd={this.handleRotateEnd}
           handleResizeStart={this.handleResizeStart}
-          handleResize={this.handleResize}
-          handleResizeEnd={this.handleResizeEnd}
           handleDragStart={this.handleDragStart}
           onSingleTextChange={this.onSingleTextChange.bind(this)}
           handleFontSizeChange={this.handleFontSizeChange}

@@ -41,19 +41,7 @@ export interface IProps {
   onRotateStart(e): void;
   onRotate(angle: number, startAngle: number, e: any): void;
   onRotateEnd(_id: string): void;
-  onResizeStart(startX: number, startY: number): void;
-  onResize(
-    deltaL: number,
-    alpha: number,
-    rect: any,
-    type: string,
-    isShiftKey: boolean,
-    cursor: string,
-    objectType: number,
-    e: any,
-    backgroundColor: string,
-    fontSize: number
-  ): void;
+  onResizeStart: any;
   onResizeInnerImageStart(startX: number, startY: number): void;
   onImageResize(
     deltaL: number,
@@ -65,8 +53,6 @@ export interface IProps {
     objectType: number,
     e: any
   ): void;
-  onResizeEnd(fontSize): void;
-
   selected: boolean;
   zoomable: string;
   rotatable: boolean;
@@ -321,7 +307,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgRotateAngle
     };
     const type = e.target.getAttribute("class").split(" ")[0];
-    this.props.onResizeStart && this.props.onResizeStart(startX, startY);
+    this.props.onResizeStart && this.props.onResizeStart(e);
     this._isMouseDown = true;
     var self = this;
     const onMove = e => {
@@ -378,26 +364,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   // Resize
   startResize = (e, cursor) => {
-    console.log("startResize");
-    var self = this;
     e.preventDefault();
-    e.stopPropagation();
-    if (e.button !== 0) return;
-    document.body.style.cursor = cursor;
-    let {
-      styles: {
-        position: { centerX, centerY },
-        size: { width, height },
-        transform: { rotateAngle }
-      },
-      objectType
-    } = this.props;
-
-    const {scale} = this.props;
-    width = width / scale;
-    height = height / scale;
-    centerX = centerX / scale;
-    centerY = centerY / scale;
 
     var res;
     var size;
@@ -436,58 +403,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     //   // self.props.onFontSizeChange(res);
     // }
 
-    const { clientX: startX, clientY: startY } = e;
-    const type = e.target.getAttribute("class").split(" ")[0];
-    this.props.onResizeStart && this.props.onResizeStart(startX, startY);
-    this._isMouseDown = true;
-    var fontSize;
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
-      const alpha = Math.atan2(deltaY, deltaX);
-      const deltaL = getLength(deltaX, deltaY);
-      const isShiftKey = e.shiftKey;
-      const rect = { width, height, centerX, centerY, rotateAngle };
-      this.props.onResize(
-        deltaL,
-        alpha,
-        rect,
-        type,
-        isShiftKey,
-        cursor,
-        objectType,
-        e,
-        this.props.backgroundColor,
-        res
-      );
-
-      if (this.props.objectType !== 4 && this.props.objectType !== 9) {
-        var scaleY = (window as any).scaleY;
-        fontSize =
-          parseInt(size.substring(0, size.length - 2)) *
-          selectionScaleY *
-          scaleY;
-        document.getElementById("fontSizeButton").innerText = `${Math.round(
-          fontSize * 10
-        ) / 10}`;
-      }
-    };
-
-    const onUp = e => {
-      e.preventDefault();
-      document.body.style.cursor = "auto";
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd(fontSize);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    this.props.onResizeStart && this.props.onResizeStart(e);
   };
 
   $textEle = null;
@@ -637,8 +553,8 @@ export default class Rect extends PureComponent<IProps, IState> {
     var newHeight = height;
     var outlineWidth2 = Math.max(2, 2 / scale);
     var style = {
-      width: Math.abs(newWidth),
-      height: Math.abs(newHeight),
+      width: "100%",
+      height: "100%",
       zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
       outline: hovered && "#00d9e1 solid 2px",
@@ -1308,8 +1224,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               zIndex: selected && objectType !== 4 ? 1 : 0,
               transformOrigin: "0 0",
               position: "absolute",
-              width: width / (src ? 1 : scaleX) + "px",
-              height: height / (src ? 1 : scaleY) + "px"
+              width: "100%",
+              height: "100%",
             }}
           >
             <div
@@ -1325,8 +1241,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               id={_id + "_____"}
               className={_id + "rect-alo"}
               style={{
-                width: width / (src ? 1 : scaleX) + "px",
-                height: height / (src ? 1 : scaleY) + "px",
+                width: "100%",
+                height: "100%",
                 position: "absolute",
                 overflow: !this.props.bleed && "hidden",
                 opacity

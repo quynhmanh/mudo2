@@ -20,8 +20,6 @@ export interface IProps {
   handleRotate: any;
   handleRotateEnd: any;
   handleResizeStart: any;
-  handleResize: any;
-  handleResizeEnd: any;
   handleDragStart: any;
   onSingleTextChange: any;
   handleFontSizeChange: any;
@@ -83,7 +81,7 @@ export default class Canvas extends Component<IProps, IState> {
 
   shouldComponentUpdate(nextProps, nextState) {
     if ((nextProps.dragging ||
-      //  nextProps.resizing || 
+       nextProps.resizing || 
        nextProps.rotating) && this.props.idObjectSelected == nextProps.idObjectSelected) {
       return false;
     }
@@ -412,7 +410,7 @@ export default class Canvas extends Component<IProps, IState> {
                 .map(img => (
                   <div
                     key={img._id}
-                    className={img._id + "_"}
+                    className={img._id + "_" + " " +  img._id + "aaaa"}
                     id={img._id + "_"}
                     style={{
                       // zIndex: img.selected ? 99999999 : img.zIndex,
@@ -437,8 +435,8 @@ export default class Canvas extends Component<IProps, IState> {
                     <div
                       id={img._id + "____"}
                       style={{
-                        width: img.width * scale + "px",
-                        height: img.height * scale + "px",
+                        width: "100%",
+                        height: "100%",
                         // transform: `scale(${scale})`,
                         transformOrigin: "0 0"
                       }}
@@ -474,8 +472,6 @@ export default class Canvas extends Component<IProps, IState> {
                         onRotate={this.props.handleRotate.bind(this)}
                         onRotateEnd={this.props.handleRotateEnd}
                         onResizeStart={this.props.handleResizeStart}
-                        onResize={this.props.handleResize.bind(this)}
-                        onResizeEnd={this.props.handleResizeEnd}
                         onDragStart={
                           img.type === TemplateType.BackgroundImage
                             ? null
@@ -627,8 +623,6 @@ export default class Canvas extends Component<IProps, IState> {
                         onRotate={this.props.handleRotate.bind(this)}
                         onRotateEnd={this.props.handleRotateEnd}
                         onResizeStart={this.props.handleResizeStart}
-                        onResize={this.props.handleResize.bind(this)}
-                        onResizeEnd={this.props.handleResizeEnd}
                         onDragStart={
                           imgHovered.type === TemplateType.BackgroundImage
                             ? null
@@ -692,10 +686,10 @@ export default class Canvas extends Component<IProps, IState> {
                 .map(img => (
                   <div key={img._id}>
                     <div
-                      className={img._id + "__"}
+                      className={img._id + "__" + " " +  img._id + "aaaa"}
                       id={img._id + "__"}
                       style={{
-                        zIndex: img.zIndex,
+                        zIndex: 9999999,
                         width: img.width * scale + "px",
                         height: img.height * scale + "px",
                         left: img.left * scale + "px",
@@ -732,8 +726,8 @@ export default class Canvas extends Component<IProps, IState> {
                       <div
                         id={img._id + "___"}
                         style={{
-                          width: img.width * scale + "px",
-                          height: img.height * scale + "px",
+                          width: "100%",
+                          height: "100%",
                           // transform: `scale(${scale})`,
                           transformOrigin: "0 0"
                         }}
@@ -771,8 +765,6 @@ export default class Canvas extends Component<IProps, IState> {
                           onRotate={this.props.handleRotate.bind(this)}
                           onRotateEnd={this.props.handleRotateEnd}
                           onResizeStart={this.props.handleResizeStart}
-                          onResize={this.props.handleResize.bind(this)}
-                          onResizeEnd={this.props.handleResizeEnd}
                           onDragStart={
                             img.type === TemplateType.BackgroundImage
                               ? null
