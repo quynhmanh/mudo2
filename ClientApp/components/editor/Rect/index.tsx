@@ -104,6 +104,7 @@ export interface IProps {
   opacity: number;
   resizing: boolean;
   rotating: boolean;
+  hovered: boolean;
 }
 
 export interface IState {
@@ -394,40 +395,40 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     var res;
     var size;
-    if (this.props.objectType !== 4 && this.props.objectType !== 9) {
-      var selectionScaleY = 1;
-      if (self.state && self.state.selectionScaleY) {
-        selectionScaleY = self.state.selectionScaleY;
-      }
+    // if (this.props.objectType !== 4 && this.props.objectType !== 9) {
+    //   var selectionScaleY = 1;
+    //   if (self.state && self.state.selectionScaleY) {
+    //     selectionScaleY = self.state.selectionScaleY;
+    //   }
 
-      if (this.props.childId) {
-        selectionScaleY = this.props.childrens.find(
-          child => child._id === this.props.childId
-        ).scaleY;
-      }
+    //   if (this.props.childId) {
+    //     selectionScaleY = this.props.childrens.find(
+    //       child => child._id === this.props.childId
+    //     ).scaleY;
+    //   }
 
-      var a = document.getSelection();
-      if (a && a.type === "Range") {
-      } else {
-        var id = this.props.childId ? this.props.childId : this.props._id;
-        var el = document.getElementById(id).getElementsByClassName("font")[0];
-        var sel = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        sel.removeAllRanges();
-        sel.addRange(range);
-        var a = document.getSelection();
-        size = window.getComputedStyle(el, null).getPropertyValue("font-size");
-        res =
-          parseInt(size.substring(0, size.length - 2)) *
-          selectionScaleY *
-          self.props.scaleY;
-        sel.removeAllRanges();
-      }
+    //   var a = document.getSelection();
+    //   if (a && a.type === "Range") {
+    //   } else {
+    //     var id = this.props.childId ? this.props.childId : this.props._id;
+    //     var el = document.getElementById(id).getElementsByClassName("font")[0];
+    //     var sel = window.getSelection();
+    //     var range = document.createRange();
+    //     range.selectNodeContents(el);
+    //     sel.removeAllRanges();
+    //     sel.addRange(range);
+    //     var a = document.getSelection();
+    //     size = window.getComputedStyle(el, null).getPropertyValue("font-size");
+    //     res =
+    //       parseInt(size.substring(0, size.length - 2)) *
+    //       selectionScaleY *
+    //       self.props.scaleY;
+    //     sel.removeAllRanges();
+    //   }
 
-      // document.getElementById("fontSizeButton").innerText = `${res}px`;
-      // self.props.onFontSizeChange(res);
-    }
+    //   // document.getElementById("fontSizeButton").innerText = `${res}px`;
+    //   // self.props.onFontSizeChange(res);
+    // }
 
     const { clientX: startX, clientY: startY } = e;
     const type = e.target.getAttribute("class").split(" ")[0];
@@ -566,7 +567,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     };
     const onUp = e => {
       e.preventDefault();
-      this.props.onDragEnd && this.props.onDragEnd();
+      // this.props.onDragEnd && this.props.onDragEnd();
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseup", onUp);
     };
@@ -622,7 +623,8 @@ export default class Rect extends PureComponent<IProps, IState> {
       id,
       dragging,
       resizing,
-      rotating
+      rotating,
+      hovered,
     } = this.props;
 
     var newWidth = width;
@@ -633,11 +635,11 @@ export default class Rect extends PureComponent<IProps, IState> {
       height: Math.abs(newHeight),
       zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
-      outline:
-        !showImage &&
-        (selected
-          ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2}px`
-          : null)
+      outline: hovered && "#00d9e1 solid 2px",
+        // !showImage &&
+        // (selected
+        //   ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2}px`
+        //   : null)
     };
 
     var opacity = this.props.opacity ? this.props.opacity / 100 : 1;
@@ -656,7 +658,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     return (
       <StyledRect
-        id={id}
+        id={id + hovered ? "hovered" : ""}
         ref={this.setElementRef}
         className={`${_id}rect-alo ${_id}-styledrect rect single-resizer ${selected &&
           "selected"}`}

@@ -8,6 +8,9 @@ class Images {
     @observable fonts = observable([]);
     @observable upperZIndex = 1;
     @observable idObjectSelected = null;
+    @observable imageSelected = null;
+    @observable idObjectHovered = null;
+    @observable imageHovered = null;
     @observable activePageId = uuidv4();
     @observable pages = observable([this.activePageId]);
     @observable scale = 1;
@@ -61,6 +64,13 @@ class Images {
   
       images = [...images, ...appendedImages] as IObservableArray;
       this.images.replace(images);
+    }
+
+    @action doNoObjectSelected = () => {
+      this.idObjectHovered = null;
+      this.idObjectSelected = null;
+      this.imageHovered = null;
+      this.imageSelected = null;
     }
   }
 

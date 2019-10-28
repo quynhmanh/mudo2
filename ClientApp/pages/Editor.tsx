@@ -222,12 +222,7 @@ interface RemoveImage {
 
 interface IState {
   subtype: SubType;
-  query: string;
-  error: any;
-  cursor: any;
-  mathjav: any;
   idObjectSelected: string;
-  images: Array<object>;
   scale: number;
   fitScale: number;
   selectedTab: SidebarTab;
@@ -241,7 +236,6 @@ interface IState {
   resizing: boolean;
   rotating: boolean;
   dragging: boolean;
-  uuid: string;
   templateType: string;
   mode: number;
   staticGuides: any;
@@ -249,7 +243,6 @@ interface IState {
   deltaY: number;
   editing: boolean;
   canRenderClientSide: boolean;
-  fonts: any;
   fontSize: number;
   currentOpacity: number;
   fontColor: string;
@@ -257,16 +250,10 @@ interface IState {
   showMediaEditingPopup: boolean;
   isSaving: boolean;
   fontName: string;
-  fontId: string;
   childId: string;
   cropMode: boolean;
   resizingInnerImage: boolean;
   updateRect: boolean;
-  numOfPages: number;
-  pages: Array<string>;
-  activePageId: string;
-  upperZIndex: number;
-  totalFonts: number;
   editingMedia: any;
   editingFont: any;
   showMediaEditPopup: boolean;
@@ -300,33 +287,21 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       subtype: null,
       bleed: false,
       showMediaEditPopup: false,
-      totalFonts: 1000000,
-      query: "",
-      error: null,
-      cursor: false,
-      mathjav: null,
-      upperZIndex: 1,
-      activePageId: props.firstpage,
-      pages: [props.firstpage],
-      numOfPages: 1,
       updateRect: false,
       resizingInnerImage: false,
       childId: null,
-      fontId: "O5mEMMs7UejmI1WeSKWQ",
       fontName: "images/833bdf3b-7c22-4e79-9b0a-eece6711eacd.png",
       isSaving: false,
       showPopup: false,
       showMediaEditingPopup: false,
       fontColor: "black",
       fontSize: 0,
-      fonts: ["O5mEMMs7UejmI1WeSKWQ"],
       templateType: null,
       _id: null,
       idObjectSelected: null,
       typeObjectSelected: null,
       scale: 1,
       fitScale: 1,
-      images: [],
       selectedTab: null,
       rectWidth: this.props.match.params.width
         ? parseInt(this.props.match.params.width)
@@ -341,7 +316,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       resizing: false,
       rotating: false,
       dragging: false,
-      uuid: "",
       mode: parseInt(this.props.match.params.mode) || Mode.CreateDesign,
       staticGuides: {
         x: [],
@@ -390,16 +364,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   async componentDidMount() {
-    // // Convert hammer events to an observable
-    // const pan$ = fromEvent(document, "mousemove")
-    // .subscribe(() => {
-    //   console.log('hello ');
-    // })
-
-    // document.addEventListener('mousemove', () => {
-    //   console.log('hello2 ');
-    // });
-
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
@@ -572,9 +536,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
             rectHeight: document.height,
             templateType,
             mode,
-            fonts: image.value.fontList,
-            pages: res.data.value.pages,
-            activePageId: res.data.value.pages[0],
             subtype: res.data.value.printType
           });
           console.log("dont setState");
@@ -643,39 +604,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         subtype,
         scale:
           Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY),
-        images: [
-          {
-            _id: "16a35aa3-469d-4ece-b3f2-6e87a9517e16",
-            src:
-              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
-            top: 0,
-            left: 0,
-            height: rectWidth,
-            width: rectHeight,
-            type: TemplateType.BackgroundImage,
-            imgWidth: rectWidth,
-            imgHeight: rectHeight,
-            origin_width: rectWidth,
-            origin_height: rectHeight,
-            rotateAngle: 0,
-            scaleX: 1,
-            scaleY: 1,
-            zIndex: 1,
-            page: this.props.firstpage,
-            backgroundColor: "transparent",
-            posX: 0,
-            posY: 0,
-            document_object: [],
-            selected: false,
-            width2: 1,
-            height2: 1,
-            ref: null,
-            innerHTML: null,
-            color: null,
-            opacity: 100,
-            childId: null
-          }
-        ]
       });
     }
 
@@ -783,8 +711,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   }
 
   selectFont = (id, e) => {
-    this.setState({ fontId: id });
-
     var fontsList = toJS(editorStore.fontsList);
     var font = fontsList.find(font => font.id === id);
 
@@ -1474,14 +1400,13 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   temp = null;
 
   handleDragStart = (e, _id) => {
-    var left, top;
+    window.startX = e.clientX;
+    window.startY = e.clientY;
     const { scale } = this.state;
     editorStore.images.forEach(image => {
       if (image._id === _id) {
         window.startLeft = image.left * scale;
         window.startTop = image.top * scale;
-        window.startX = e.clientX;
-        window.startY = e.clientY;
         window.image = clone(image);
       }
     });
@@ -1489,9 +1414,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     if (_id != this.state.idObjectSelected) {
       this.handleImageSelected(window.image, e);
     }
-
-    window.startX = e.clientX;
-    window.startY = e.clientY;
 
     var resizers = document.getElementsByClassName(
       "resizable-handler-container"
@@ -1514,7 +1436,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       curRect.classList.remove("selected");
     }
 
-    document.getElementById(_id + "_1").classList.add("selected");
+    // document.getElementById(_id + "_1").classList.add("selected");
 
     for (var i = 0; i < rects.length; ++i) {
       var curRect = rects[i];
@@ -1525,21 +1447,17 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     this.setState({ dragging: true });
 
-    /**
-     * Make a DOM element move
-     */
-    var moveEl = e.target;
-    const location$ = this.handleDragRx(moveEl);
+    const location$ = this.handleDragRx(e.target);
 
-    this.temp = location$
-      .pipe(
+    this.temp = location$.pipe(
         map(([x, y]) => ({
           moveElLocation: [x, y]
         }))
       )
       .subscribe(({ moveElLocation }) => {
         this.handleDrag(this.state.idObjectSelected, moveElLocation[0], moveElLocation[1])
-      }, null, () => {
+      }, null, 
+      () => {
         this.handleDragEnd();
       });
   };
@@ -1682,14 +1600,8 @@ drag = ({ element, pan$}) => {
     var img;
     var updateStartPosX = false;
     var updateStartPosY = false;
-    // return {
-    //   updateStartPosX,
-    //   updateStartPosY,
-    // }
     let images = toJS(editorStore.images);
     var image = window.image;
-    // images.forEach(image => {
-    //   if (image._id === _id) {
     newLeft = (clientX - window.startX + window.startLeft) / scale;
     newTop = (clientY - window.startY + window.startTop) / scale;
     newLeft2 = newLeft + image.width / 2;
@@ -1710,8 +1622,6 @@ drag = ({ element, pan$}) => {
       newTop2 = centerY;
       newTop3 = centerY + image.width / 2;
     }
-    //   }
-    // });
     if (img.type === TemplateType.BackgroundImage) {
       return;
     }
@@ -1879,16 +1789,10 @@ drag = ({ element, pan$}) => {
             }
           }
         }
-
-        // for (var ii = 0; ii < 6; ++ii) {
-        //   document.getElementById(_id + "guide_" + ii).style.display = "none";
-        // }
       }
       return image;
     });
 
-    // images = images.map(image => {
-    //   if (image._id === _id) {
     const { staticGuides } = this.state;
 
     var x = staticGuides.x.map(v => {
@@ -1933,45 +1837,16 @@ drag = ({ element, pan$}) => {
       return v;
     });
 
-    // this.setState({staticGuides: {x, y}});
     image.left = left;
     image.top = top;
-    // }
-
-    //   return image;
-    // });
-
-    // var t0 = performance.now();
-
-    // console.log('handleDrag 1');
-    // editorStore.images.replace(images);
-
-    // document.getElementById(_id + "_").style.top = top * scale + "px";
-    // document.getElementById(_id + "_").style.left = left * scale + "px";
-    // document.getElementById(_id + "__").style.top = top * scale + "px";
-    // document.getElementById(_id + "__").style.left = left * scale + "px";
-
+    
     updatePosition(_id + "_", left * scale, top * scale, null, null);
     updatePosition(_id + "__", left * scale, top * scale, null, null);
-
-    // var t1 = performance.now();
-    // console.log("Call to doSomething took he " + (t1 - t0) + " milliseconds.");
-
-    return {
-      updateStartPosX: !updateStartPosX,
-      updateStartPosY: !updateStartPosY
-    };
   };
 
   handleDragEnd = () => {
-    // if (this.state.cropMode) {
-    //   return;
-    // }
-
     this.temp.unsubscribe();
-    // window.hammerPan.destroy();
 
-    console.log("handleDragEnd");
     let {
       staticGuides: { x, y }
     } = this.state;
@@ -1997,7 +1872,6 @@ drag = ({ element, pan$}) => {
       }
       return image;
     });
-    console.log("handleDragEnd ", images);
     editorStore.images.replace(images);
 
     var rects = document.getElementsByClassName("rect");
@@ -2020,7 +1894,7 @@ drag = ({ element, pan$}) => {
       cur.style.opacity = 1;
     }
 
-    this.setState({ staticGuides: { x, y }, images });
+    this.setState({ staticGuides: { x, y } });
 
     setTimeout(() => {
       this.setState({ dragging: false });
@@ -2117,16 +1991,18 @@ drag = ({ element, pan$}) => {
         selectedTab = SidebarTab.Image;
       }
 
+      editorStore.doNoObjectSelected();
+
       this.setState({
         cropMode: false,
         selectedTab,
-        images,
         idObjectSelected: null,
         typeObjectSelected: null,
         childId: null
       });
     }
   };
+  
   removeImage(e) {
     var OSNAME = this.getPlatformName();
     if (
@@ -2142,6 +2018,12 @@ drag = ({ element, pan$}) => {
       editorStore.images.replace(images);
     }
   }
+
+  handleImageHover = (img, event) => {
+    editorStore.idObjectHovered = img._id;
+    editorStore.imageHovered = img;
+  }
+
   handleImageSelected = (img, event) => {
     console.log(
       "handleImageSelected ",
@@ -2194,6 +2076,9 @@ drag = ({ element, pan$}) => {
     ) / 10}`;
 
     editorStore.idObjectSelected = img._id;
+    editorStore.imageSelected = img;
+    editorStore.idObjectHovered = null;
+    editorStore.imageHovered = null;
 
     this.setState({
       selectedImage: img,
@@ -3221,108 +3106,6 @@ drag = ({ element, pan$}) => {
     document.addEventListener("mouseup", onUp);
   };
 
-  handleScroll2 = e => {
-    if (this.allowScroll === false) {
-      var rec1 = document
-        .getElementById("screen-container")
-        .getBoundingClientRect();
-      var rec2 = document
-        .getElementById("screen-container-parent")
-        .getBoundingClientRect();
-
-      var deltaX = rec2.left - rec1.left;
-      var deltaY = rec2.top - rec1.top;
-
-      var scrollX = (deltaX / rec1.width) * 100;
-      var scrollY = (deltaY / rec1.height) * 100;
-
-      this.setState({ scrollX, scrollY });
-    }
-  };
-
-  handleScrollX = e => {
-    var self = this;
-    var startX = e.pageX;
-
-    var originalScrollX = this.state.scrollX;
-
-    var previousX = 0;
-    this.allowScroll = true;
-
-    const onMove = e => {
-      var rec = document
-        .getElementById("screen-container-parent")
-        .getBoundingClientRect();
-      var deltaX = e.pageX - startX;
-      var scrollX = originalScrollX + (deltaX / rec.width) * 100;
-      if (scrollX < 0 || scrollX > 33.33) {
-        return;
-      }
-      if (deltaX !== previousX) {
-        document
-          .getElementById("screen-container-parent")
-          .scrollBy(deltaX - previousX, 0);
-        previousX = deltaX;
-      }
-
-      self.setState({
-        scrollX
-      });
-    };
-
-    const onUp = e => {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-
-      self.allowScroll = false;
-    };
-
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  };
-
-  handleScrollY = e => {
-    var self = this;
-    var startY = e.pageY;
-
-    var originalScrollY = this.state.scrollY;
-
-    var previousY = 0;
-    this.allowScroll = true;
-
-    const onMove = e => {
-      var rec = document
-        .getElementById("screen-container-parent")
-        .getBoundingClientRect();
-      var deltaY = e.pageY - startY;
-      var scrollY = originalScrollY + (deltaY / rec.height) * 100;
-      if (scrollY < 0 || scrollY > 33.33) {
-        return;
-      }
-
-      if (deltaY !== previousY) {
-        document
-          .getElementById("screen-container-parent")
-          .scrollBy(0, deltaY - previousY);
-        previousY = deltaY;
-      }
-
-      self.setState({
-        scrollY
-      });
-    };
-
-    const onUp = e => {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-
-      self.allowScroll = false;
-    };
-
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-  };
-
   handleSidebarSelectorClicked = (selectedTab: SidebarTab, e: any) => {
     e.preventDefault();
     this.setState({
@@ -3330,10 +3113,6 @@ drag = ({ element, pan$}) => {
       selectedTab: selectedTab
     });
   };
-
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    // this.getBottomOfScreenContainer();
-  }
 
   normalize2(
     image: any,
@@ -3464,7 +3243,7 @@ drag = ({ element, pan$}) => {
     if (fontId) {
       var font = toJS(editorStore.fontsList).find(font => font.id === fontId);
       if (font) {
-        this.setState({ fontName: font.representative, fontId });
+        this.setState({ fontName: font.representative });
       }
     }
   };
@@ -3532,6 +3311,7 @@ drag = ({ element, pan$}) => {
 
       res.push(
         <Canvas
+          id={pages[i]}
           translate={this.translate}
           rotating={this.state.rotating}
           resizing={this.state.resizing}
@@ -3552,6 +3332,7 @@ drag = ({ element, pan$}) => {
           childId={this.state.childId}
           cropMode={this.state.cropMode}
           handleImageSelected={this.handleImageSelected}
+          handleImageHover={this.handleImageHover}
           handleRotateStart={this.handleRotateStart}
           handleRotate={this.handleRotate}
           handleRotateEnd={this.handleRotateEnd}
@@ -3730,7 +3511,6 @@ drag = ({ element, pan$}) => {
       rectWidth,
       rectHeight,
       cropMode,
-      pages
     } = this.state;
 
     console.log("render Editor");
@@ -3974,7 +3754,6 @@ drag = ({ element, pan$}) => {
               typeObjectSelected={this.state.typeObjectSelected}
               idObjectSelected={this.state.idObjectSelected}
               childId={this.state.childId}
-              pages={this.state.pages}
               rectWidth={this.state.rectWidth}
               rectHeight={this.state.rectHeight}
               toolbarOpened={this.state.toolbarOpened}
@@ -4931,7 +4710,6 @@ drag = ({ element, pan$}) => {
                 )}
               </div>
               <div
-                onScroll={this.handleScroll2.bind(this)}
                 id="screen-container-parent"
                 onClick={e => {
                   e.preventDefault();

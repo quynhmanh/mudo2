@@ -500,7 +500,8 @@ export const updateTransformXY = function(elId, x, y: any) {
 }
 
 export const updatePosition = function(elId, left, top, width, height: any) {
-  var el = document.getElementById(elId);
+  console.log("updatePosition elId ", elId);
+  let el = document.getElementById(elId);
   if (el) {
     if (width) {
       el.style.width = width + "px";
@@ -513,6 +514,24 @@ export const updatePosition = function(elId, left, top, width, height: any) {
     }
     if (el.style.left) {
       el.style.left = left + "px";
+    }
+  }
+
+  var temp = document.getElementsByClassName(elId) as HTMLCollectionOf<HTMLElement>;
+  console.log('temp ', temp);
+  for (var i = 0; i < temp.length; ++i) {
+    let el2 = temp[i];
+    if (width) {
+      el2.style.width = width + "px";
+    }
+    if (height) {
+      el2.style.height = height + "px";
+    }
+    if (el2.style.top) {
+      el2.style.top = top + "px";
+    }
+    if (el.style.left) {
+      el2.style.left = left + "px";
     }
   }
 }

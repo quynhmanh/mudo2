@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 
+// :hover {
+//     outline: ${props => props.resizing || props.dragging || props.rotating || props.cropMode ? 'none;' : '#00d9e1 solid ' + '2px;'}
+//   }
+
 export default styled.div`
-  :hover {
-    outline: ${props => props.resizing || props.dragging || props.rotating || props.cropMode ? 'none;' : '#00d9e1 solid ' + '2px;'}
-  }
   position: absolute;
   img {
     position: absolute;

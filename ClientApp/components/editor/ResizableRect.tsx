@@ -82,6 +82,7 @@ export interface IProps {
   resizing: boolean;
   rotating: boolean;
   freeStyle: boolean;
+  hovered: boolean;
 }
 
 export interface IState {
@@ -137,11 +138,11 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       minWidth,
       minHeight,
       parentRotateAngle,
-      // scale,
+      scale,
       _id,
       freeStyle,
     } = this.props;
-    let scale = 1;
+    // let scale = 1;
     const beta = alpha - degToRadian(rotateAngle + parentRotateAngle);
     const deltaW = (length * Math.cos(beta)) / scale;
     const deltaH = (length * Math.sin(beta)) / scale;
@@ -319,6 +320,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
 
     return (
       <Rect
+        hovered={this.props.hovered}
         rotating={rotating}
         resizing={resizing}
         dragging={dragging}
