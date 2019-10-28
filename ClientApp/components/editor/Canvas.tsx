@@ -615,8 +615,8 @@ export default class Canvas extends Component<IProps, IState> {
                         showController={false}
                         key={imgHovered._id + "2"}
                         _id={imgHovered._id}
-                        left={imgHovered.left}
-                        top={imgHovered.top}
+                        left={imgHovered.left * scale}
+                        top={imgHovered.top * scale }
                         width={imgHovered.width * scale}
                         height={imgHovered.height * scale}
                         scale={scale}
@@ -759,8 +759,8 @@ export default class Canvas extends Component<IProps, IState> {
                           showController={true}
                           key={img._id + "2"}
                           _id={img._id}
-                          left={img.left}
-                          top={img.top}
+                          left={img.left * scale}
+                          top={img.top * scale}
                           width={img.width * scale}
                           height={img.height * scale}
                           scale={scale}

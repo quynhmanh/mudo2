@@ -384,7 +384,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     e.stopPropagation();
     if (e.button !== 0) return;
     document.body.style.cursor = cursor;
-    const {
+    let {
       styles: {
         position: { centerX, centerY },
         size: { width, height },
@@ -392,6 +392,12 @@ export default class Rect extends PureComponent<IProps, IState> {
       },
       objectType
     } = this.props;
+
+    const {scale} = this.props;
+    width = width / scale;
+    height = height / scale;
+    centerX = centerX / scale;
+    centerY = centerY / scale;
 
     var res;
     var size;

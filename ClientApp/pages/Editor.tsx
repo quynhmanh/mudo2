@@ -875,10 +875,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     const { scale } = this.state;
     // let scale = 1;
     let { top, left, width, height } = style;
-    top = top / scale;
-    left = left / scale;
-    width = width / scale;
-    height = height / scale;
+    // top = top / scale;
+    // left = left / scale;
+    // width = width / scale;
+    // height = height / scale;
     var self = this;
     var temp = this.handleImageResize;
     var images = editorStore.images.map(image => {

@@ -154,7 +154,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
 
     const ratio =
       isShiftKey && !aspectRatio ? rect.width / rect.height : aspectRatio;
-    const {
+    let {
       position: { centerX, centerY },
       size: { width, height }
     } = getNewStyle(
@@ -166,6 +166,11 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       minWidth,
       minHeight
     );
+
+    // width = width / scale;
+    // height = height / scale;
+    // centerX = centerX / scale;
+    // centerY = centerY / scale;
 
     this.props.onResize(
       centerToTL({ centerX, centerY, width, height, rotateAngle }),
