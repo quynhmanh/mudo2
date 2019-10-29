@@ -1198,7 +1198,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     window.resizingInnerImage = true;
     window.startX = e.clientX;
     window.startY = e.clientY;
-
+    window.resizing = true;
     this.setState({ resizing: true });
 
     var cursor = e.target.id;
@@ -1695,29 +1695,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     for (let i = 0; i < el.length; ++i) {
       el[i].style.transform = `translate(${newPosX * scale}px, ${newPosY * scale}px)`;
     }
-
-    // updateTransformXY(_id + "1235", newPosX * scale, newPosY * scale);
-    // updateTransformXY(_id + "1236", newPosX * scale, newPosY * scale);
-    // updateTransformXY(_id + "1237", newPosX * scale, newPosY * scale);
-    // updateTransformXY(_id + "1238", newPosX * scale, newPosY * scale);
   };
-
-getStartInfo = (element) => {
-  console.log('element ', element);
-  console.log('left ', element.style.left);
-  console.log('top ', element.style.top);
-
-  var x = parseInt(element.style.left, 10);
-  var y = parseInt(element.style.top, 10);
-
-  const start = {
-    x,
-    y,
-  };
-  const w = document.body.clientWidth;
-  const h = document.body.clientHeight;
-  return { start, w, h };
-}
 
   /**
  * Create an observable stream to handle drag gesture
