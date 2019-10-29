@@ -4,7 +4,8 @@ import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import MathJax from "react-mathjax2";
 
-const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
+
+// const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
 const zoomableMap = {
   n: "t",
@@ -37,37 +38,11 @@ export interface IProps {
   styles: any;
   imgStyles: any;
   onDragStart(e: any, _id: string): void;
-  onDrag(clientX: number, clientY: number): any;
-  onDragEnd(): void;
   onRotateStart(e): void;
   onRotate(angle: number, startAngle: number, e: any): void;
   onRotateEnd(_id: string): void;
-  onResizeStart(startX: number, startY: number): void;
-  onResize(
-    deltaL: number,
-    alpha: number,
-    rect: any,
-    type: string,
-    isShiftKey: boolean,
-    cursor: string,
-    objectType: number,
-    e: any,
-    backgroundColor: string,
-    fontSize: number
-  ): void;
-  onResizeInnerImageStart(startX: number, startY: number): void;
-  onImageResize(
-    deltaL: number,
-    alpha: number,
-    rect: any,
-    type: string,
-    isShiftKey: boolean,
-    cursor: string,
-    objectType: number,
-    e: any
-  ): void;
-  onResizeEnd(fontSize): void;
-
+  onResizeStart: any;
+  handleResizeInnerImageStart: any;
   selected: boolean;
   zoomable: string;
   rotatable: boolean;
@@ -95,7 +70,6 @@ export interface IProps {
   enableCropMode(e: any): void;
   imgWidth: number;
   imgHeight: number;
-  resizingInnerImage: boolean;
   updateRect: boolean;
   imgColor: string;
   hidden: boolean;
@@ -105,6 +79,7 @@ export interface IProps {
   opacity: number;
   resizing: boolean;
   rotating: boolean;
+  hovered: boolean;
 }
 
 export interface IState {
@@ -155,36 +130,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       this.handleImageDrag(e);
       return;
     }
-    // return;
-    // e.preventDefault();
-    let { clientX: startX, clientY: startY } = e;
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
-    this._isMouseDown = true;
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
-      var update = this.props.onDrag(clientX, clientY);
-      if (update && update.updateStartPosY) {
-        startY = clientY;
-      }
-      if (update && update.updateStartPosX) {
-        startX = clientX;
-      }
-    };
-    const onUp = e => {
-      e.preventDefault();
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onDragEnd && this.props.onDragEnd();
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
   };
 
   // Rotate
@@ -236,281 +182,55 @@ export default class Rect extends PureComponent<IProps, IState> {
     console.log("startResizeImage ", window.resizingInnerImage);
     e.preventDefault();
     e.stopPropagation();
-    if (e.button !== 0) return;
     document.body.style.cursor = cursor;
-    const {
-      styles: {
-        position: { centerX, centerY },
-        size: { width, height },
-        transform: { rotateAngle }
-      },
-      imgStyles: {
-        position: { centerX: imgCenterX, centerY: imgCenterY },
-        size: { width: imgWidth, height: imgHeight },
-        transform: { rotateAngle: imgRotateAngle }
-      },
-      objectType
-    } = this.props;
-    window.rect = { width, height, centerX, centerY, rotateAngle };
-    window.rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
-    const { clientX: startX, clientY: startY } = e;
-    const type = e.target.getAttribute("class").split(" ")[0];
-    this.props.onResizeInnerImageStart &&
-      this.props.onResizeInnerImageStart(startX, startY);
-    window.resizingInnerImage = resizingInnerImage;
-    this._isMouseDown = true;
-    var self = this;
-    // this.props.onResizeInnerImageStart(startX, startY);
     
-    var eeee = document.getElementById('screen-container-parent');
-    // eeee._click = events.click;
-    var a = eeee.click;
-    console.log('eeee ', eeee.onclick);
-    eeee.onclick = null;
- 
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const deltaX = clientX - window.startX;
-      const deltaY = clientY - window.startY;
-      const alpha = Math.atan2(deltaY, deltaX);
-      const deltaL = getLength(deltaX, deltaY);
-      const isShiftKey = e.shiftKey;
-      if (!window.resizingInnerImage) {
-        this.props.onResize(
-          deltaL,
-          alpha,
-          window.rect,
-          type,
-          isShiftKey,
-          cursor,
-          objectType,
-          e,
-          this.props.backgroundColor,
-          null
-        );
-      } else {
-        this.props.onImageResize(
-          deltaL,
-          alpha,
-          window.rect2,
-          type,
-          isShiftKey,
-          cursor,
-          objectType,
-          e
-        );
-      }
-    };
-
-    const onUp = e => {
-      e.preventDefault();
-      document.body.style.cursor = "auto";
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd(null);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-
-    // eeee.click = a;
-  };
-
-  startResizeInnerImage = (e, cursor) => {
-    console.log("startResizeInnerImage");
-    e.preventDefault();
-    e.stopPropagation();
-    // if (e.button !== 0) return;
-    document.body.style.cursor = cursor;
-    let {
-      styles: {
-        position: { centerX, centerY },
-        size: { width, height },
-        transform: { rotateAngle }
-      },
-      imgStyles: {
-        position: { centerX: imgCenterX, centerY: imgCenterY },
-        size: { width: imgWidth, height: imgHeight },
-        transform: { rotateAngle: imgRotateAngle }
-      },
-      objectType
-    } = this.props;
-
-    const { clientX: startX, clientY: startY } = e;
-    window.rect = { width, height, centerX, centerY, rotateAngle };
-    window.rect2 = {
-      imgWidth,
-      imgHeight,
-      imgCenterX,
-      imgCenterY,
-      imgRotateAngle
-    };
-    const type = e.target.getAttribute("class").split(" ")[0];
-    this.props.onResizeStart && this.props.onResizeStart(startX, startY);
-    this._isMouseDown = true;
-    var self = this;
-    const onMove = e => {
-      e.preventDefault();
-      // if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      // const deltaX = clientX - this.props.startX;
-      // const deltaY = clientY - this.props.startY;
-      const deltaX = clientX - window.startX;
-      const deltaY = clientY - window.startY;
-      const alpha = Math.atan2(deltaY, deltaX);
-      const deltaL = getLength(deltaX, deltaY);
-      const isShiftKey = e.shiftKey;
-      if (!window.resizingInnerImage) {
-        this.props.onResize(
-          deltaL,
-          alpha,
-          window.rect,
-          type,
-          isShiftKey,
-          cursor,
-          objectType,
-          e,
-          this.props.backgroundColor,
-          null
-        );
-      } else {
-        this.props.onImageResize(
-          deltaL,
-          alpha,
-          window.rect2,
-          type,
-          isShiftKey,
-          cursor,
-          objectType,
-          e
-        );
-      }
-    };
-
-    const onUp = e => {
-      e.preventDefault();
-      document.body.style.cursor = "auto";
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd(null);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    this.props.handleResizeInnerImageStart &&
+      this.props.handleResizeInnerImageStart(e);
+    window.resizingInnerImage = resizingInnerImage;
   };
 
   // Resize
   startResize = (e, cursor) => {
-    console.log("startResize");
-    var self = this;
     e.preventDefault();
-    e.stopPropagation();
-    if (e.button !== 0) return;
-    document.body.style.cursor = cursor;
-    const {
-      styles: {
-        position: { centerX, centerY },
-        size: { width, height },
-        transform: { rotateAngle }
-      },
-      objectType
-    } = this.props;
 
     var res;
     var size;
-    if (this.props.objectType !== 4 && this.props.objectType !== 9) {
-      var selectionScaleY = 1;
-      if (self.state && self.state.selectionScaleY) {
-        selectionScaleY = self.state.selectionScaleY;
-      }
+    // if (this.props.objectType !== 4 && this.props.objectType !== 9) {
+    //   var selectionScaleY = 1;
+    //   if (self.state && self.state.selectionScaleY) {
+    //     selectionScaleY = self.state.selectionScaleY;
+    //   }
 
-      if (this.props.childId) {
-        selectionScaleY = this.props.childrens.find(
-          child => child._id === this.props.childId
-        ).scaleY;
-      }
+    //   if (this.props.childId) {
+    //     selectionScaleY = this.props.childrens.find(
+    //       child => child._id === this.props.childId
+    //     ).scaleY;
+    //   }
 
-      var a = document.getSelection();
-      if (a && a.type === "Range") {
-      } else {
-        var id = this.props.childId ? this.props.childId : this.props._id;
-        var el = document.getElementById(id).getElementsByClassName("font")[0];
-        var sel = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        sel.removeAllRanges();
-        sel.addRange(range);
-        var a = document.getSelection();
-        size = window.getComputedStyle(el, null).getPropertyValue("font-size");
-        res =
-          parseInt(size.substring(0, size.length - 2)) *
-          selectionScaleY *
-          self.props.scaleY;
-        sel.removeAllRanges();
-      }
+    //   var a = document.getSelection();
+    //   if (a && a.type === "Range") {
+    //   } else {
+    //     var id = this.props.childId ? this.props.childId : this.props._id;
+    //     var el = document.getElementById(id).getElementsByClassName("font")[0];
+    //     var sel = window.getSelection();
+    //     var range = document.createRange();
+    //     range.selectNodeContents(el);
+    //     sel.removeAllRanges();
+    //     sel.addRange(range);
+    //     var a = document.getSelection();
+    //     size = window.getComputedStyle(el, null).getPropertyValue("font-size");
+    //     res =
+    //       parseInt(size.substring(0, size.length - 2)) *
+    //       selectionScaleY *
+    //       self.props.scaleY;
+    //     sel.removeAllRanges();
+    //   }
 
-      // document.getElementById("fontSizeButton").innerText = `${res}px`;
-      // self.props.onFontSizeChange(res);
-    }
+    //   // document.getElementById("fontSizeButton").innerText = `${res}px`;
+    //   // self.props.onFontSizeChange(res);
+    // }
 
-    const { clientX: startX, clientY: startY } = e;
-    const type = e.target.getAttribute("class").split(" ")[0];
-    this.props.onResizeStart && this.props.onResizeStart(startX, startY);
-    this._isMouseDown = true;
-    var fontSize;
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
-      const alpha = Math.atan2(deltaY, deltaX);
-      const deltaL = getLength(deltaX, deltaY);
-      const isShiftKey = e.shiftKey;
-      const rect = { width, height, centerX, centerY, rotateAngle };
-      this.props.onResize(
-        deltaL,
-        alpha,
-        rect,
-        type,
-        isShiftKey,
-        cursor,
-        objectType,
-        e,
-        this.props.backgroundColor,
-        res
-      );
-
-      if (this.props.objectType !== 4 && this.props.objectType !== 9) {
-        var scaleY = (window as any).scaleY;
-        fontSize =
-          parseInt(size.substring(0, size.length - 2)) *
-          selectionScaleY *
-          scaleY;
-        document.getElementById("fontSizeButton").innerText = `${Math.round(
-          fontSize * 10
-        ) / 10}`;
-      }
-    };
-
-    const onUp = e => {
-      e.preventDefault();
-      document.body.style.cursor = "auto";
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd(fontSize);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    this.props.onResizeStart && this.props.onResizeStart(e);
   };
 
   $textEle = null;
@@ -582,26 +302,26 @@ export default class Rect extends PureComponent<IProps, IState> {
     let { clientX: startX, clientY: startY } = e;
     var { posX, posY, scale } = this.props;
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
-    this._isMouseDown = true;
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
-      var newPosX = posX + deltaX;
-      var newPosY = posY + deltaY;
-      this.props.handleImageDrag(newPosX, newPosY);
-    };
-    const onUp = e => {
-      e.preventDefault();
-      this.props.onDragEnd && this.props.onDragEnd();
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    // this._isMouseDown = true;
+    // const onMove = e => {
+    //   e.preventDefault();
+    //   if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
+    //   e.stopImmediatePropagation();
+    //   const { clientX, clientY } = e;
+    //   const deltaX = clientX - startX;
+    //   const deltaY = clientY - startY;
+    //   var newPosX = posX + deltaX;
+    //   var newPosY = posY + deltaY;
+    //   this.props.handleImageDrag(newPosX, newPosY);
+    // };
+    // const onUp = e => {
+    //   e.preventDefault();
+    //   // this.props.onDragEnd && this.props.onDragEnd();
+    //   document.removeEventListener("mousemove", onMove);
+    //   document.removeEventListener("mouseup", onUp);
+    // };
+    // document.addEventListener("mousemove", onMove);
+    // document.addEventListener("mouseup", onUp);
   };
 
   innerHTML = () => {
@@ -652,22 +372,23 @@ export default class Rect extends PureComponent<IProps, IState> {
       id,
       dragging,
       resizing,
-      rotating
+      rotating,
+      hovered,
     } = this.props;
 
     var newWidth = width;
     var newHeight = height;
     var outlineWidth2 = Math.max(2, 2 / scale);
     var style = {
-      width: Math.abs(newWidth),
-      height: Math.abs(newHeight),
+      width: "100%",
+      height: "100%",
       zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
-      outline:
-        !showImage &&
-        (selected
-          ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2}px`
-          : null)
+      outline: hovered && "#00d9e1 solid 2px",
+        // !showImage &&
+        // (selected
+        //   ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2}px`
+        //   : null)
     };
 
     var opacity = this.props.opacity ? this.props.opacity / 100 : 1;
@@ -686,7 +407,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     return (
       <StyledRect
-        id={id}
+        id={id + hovered ? "hovered" : ""}
         ref={this.setElementRef}
         className={`${_id}rect-alo ${_id}-styledrect rect single-resizer ${selected &&
           "selected"}`}
@@ -830,8 +551,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               transformOrigin: "0 0",
               transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
               position: "absolute",
-              width: width / (src ? 1 : scaleX) + "px",
-              height: height / (src ? 1 : scaleY) + "px"
+              width: "100%",
+              height: "100%",
               // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
             }}
           ></div>
@@ -842,12 +563,12 @@ export default class Rect extends PureComponent<IProps, IState> {
           onMouseDown={this.startDrag}
           style={{
             // zIndex: selected && objectType !== 4 ? 1 : 0,
-            zIndex: 999999,
+            // zIndex: 999999,
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
             position: "absolute",
-            width: width / (src ? 1 : scaleX) + "px",
-            height: height / (src ? 1 : scaleY) + "px"
+            width: "100%",
+            height: "100%",
             // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
           }}
         >
@@ -1001,121 +722,10 @@ export default class Rect extends PureComponent<IProps, IState> {
               })}{" "}
             </div>
           )}
-          {cropMode && (
-            <div
-              id="halo1"
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                outline:
-                  cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
-              }}
-            >
-              {!showImage &&
-                cropMode &&
-                showController &&
-                objectType !== 6 &&
-                imgResizeDirection.map((d, i) => {
-                  const cursor = `${getCursor(
-                    rotateAngle + parentRotateAngle,
-                    d
-                  )}-resize`;
-                  return (
-                    <div
-                      id={_id + zoomableMap[d]}
-                      key={d}
-                      style={{
-                        cursor,
-                        // transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
-                        transform: `rotate(${i * 90}deg)`,
-                        zIndex: 2
-                      }}
-                      className={`${zoomableMap[d]} resizable-handler-container cropMode`}
-                      onMouseDown={e => {
-                        this.startResizeImage(e, cursor, false);
-                      }}
-                    >
-                      <svg
-                        className={`${zoomableMap[d]}`}
-                        width={24}
-                        height={24}
-                        style={{ zIndex: -1 }}
-                        viewBox="0 0 24 24"
-                      >
-                        <defs>
-                          <path
-                            id="_619015639__b"
-                            d="M10 18.95a2.51 2.51 0 0 1-3-2.45v-7a2.5 2.5 0 0 1 2.74-2.49L10 7h6a3 3 0 0 1 3 3h-9v8.95z"
-                          ></path>
-                          <filter
-                            id="_619015639__a"
-                            width="250%"
-                            height="250%"
-                            x="-75%"
-                            y="-66.7%"
-                            filterUnits="objectBoundingBox"
-                          >
-                            <feMorphology
-                              in="SourceAlpha"
-                              operator="dilate"
-                              radius=".5"
-                              result="shadowSpreadOuter1"
-                            ></feMorphology>
-                            <feOffset
-                              in="shadowSpreadOuter1"
-                              result="shadowOffsetOuter1"
-                            ></feOffset>
-                            <feColorMatrix
-                              in="shadowOffsetOuter1"
-                              result="shadowMatrixOuter1"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"
-                            ></feColorMatrix>
-                            <feOffset
-                              dy="1"
-                              in="SourceAlpha"
-                              result="shadowOffsetOuter2"
-                            ></feOffset>
-                            <feGaussianBlur
-                              in="shadowOffsetOuter2"
-                              result="shadowBlurOuter2"
-                              stdDeviation="2.5"
-                            ></feGaussianBlur>
-                            <feColorMatrix
-                              in="shadowBlurOuter2"
-                              result="shadowMatrixOuter2"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
-                            ></feColorMatrix>
-                            <feMerge>
-                              <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
-                              <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
-                            </feMerge>
-                          </filter>
-                        </defs>
-                        <g fill="none" fillRule="evenodd">
-                          <use
-                            className={`${zoomableMap[d]}`}
-                            style={{
-                              fill: "#000",
-                              filter: "url(#_619015639__a)"
-                            }}
-                            xlinkHref="#_619015639__a"
-                          ></use>
-                          <use
-                            className={`${zoomableMap[d]}`}
-                            style={{ fill: "#FFF" }}
-                            xlinkHref="#_619015639__b"
-                          ></use>
-                        </g>
-                      </svg>
-                    </div>
-                  );
-                })}
-            </div>
-          )}
           {!showImage && cropMode && selected && (
             <div
               id={_id + "1237"}
+              className={_id + "imgWidth" + " " + _id + "1236"}
               style={{
                 transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
                 width: imgWidth + "px",
@@ -1321,7 +931,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           )}
         </div>
-        {src && (objectType === 4 || objectType === 6 || objectType === 9) && (
+        {src && (objectType === 4 || objectType === 6) && (
           <div
             id={_id}
             className={_id + "rect-alo"}
@@ -1330,8 +940,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               zIndex: selected && objectType !== 4 ? 1 : 0,
               transformOrigin: "0 0",
               position: "absolute",
-              width: width / (src ? 1 : scaleX) + "px",
-              height: height / (src ? 1 : scaleY) + "px"
+              width: "100%",
+              height: "100%",
             }}
           >
             <div
@@ -1347,8 +957,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               id={_id + "_____"}
               className={_id + "rect-alo"}
               style={{
-                width: width / (src ? 1 : scaleX) + "px",
-                height: height / (src ? 1 : scaleY) + "px",
+                width: "100%",
+                height: "100%",
                 position: "absolute",
                 overflow: !this.props.bleed && "hidden",
                 opacity
@@ -1359,8 +969,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                 (objectType === 4 || objectType === 6) && (
                 <img
                   id={_id + "1235"}
-                  className={_id + "rect-alo"}
+                  className={_id + "rect-alo" + " " + _id + "imgWidth" + " " + _id + "1236"}
                   style={{
+                    zIndex: 9999999,
                     width: imgWidth + "px",
                     height: imgHeight + "px",
                     transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
@@ -1380,37 +991,35 @@ export default class Rect extends PureComponent<IProps, IState> {
                 />
               )}
             </div>
+            {(selected && cropMode &&
             <div
+              id={_id + "123"}
               className={_id + "rect-alo"}
               style={{
-                width: width / (src ? 1 : scaleX) + "px",
-                height: height / (src ? 1 : scaleY) + "px",
+                width: "100%",
+                height: "100%",
                 position: "absolute"
               }}
             >
-              {(showImage || (!showImage && cropMode)) 
-              && selected && (
                 <div
                   id={_id + "1236"}
-                  className={_id + "1236"}
+                  className={_id + "1236" + " " + _id + "imgWidth"}
                   style={{
                     width: this.props.imgWidth + "px",
                     height: this.props.imgHeight + "px",
                     transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    outline: cropMode && selected ? `#00d9e1 solid 2px` : null
+                    // outline: cropMode && selected ? `#00d9e1 solid 2px` : null
                   }}
                 >
-                  { (objectType === 4 || objectType === 6) && cropMode &&
+                  { (objectType === 4 || objectType === 6) &&
                   <img
                     // id={_id + "1236"}
                     className={_id + "rect-alo"}
                     style={{
-                      width: this.props.imgWidth + "px",
-                      height: this.props.imgHeight + "px",
+                      width: "100%",
+                      height: "100%",
                       // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
                       opacity: 0.5,
-                      outline:
-                        cropMode && selected ? `#00d9e1 solid 2px` : null,
                       transformOrigin: "0 0"
                     }}
                     onDoubleClick={enableCropMode}
@@ -1420,7 +1029,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     src={src}
                   />
                   }
-                  { (objectType === 9) && cropMode &&
+                  { (objectType === 9) &&
                     <video
                     // id={_id + "1236"}
                     className={_id + "rect-alo"}
@@ -1441,8 +1050,123 @@ export default class Rect extends PureComponent<IProps, IState> {
                   />
                   }
                 </div>
-              )}
             </div>
+            )}
+          </div>
+        )}
+        {cropMode && (
+          <div
+            id="halo1"
+            style={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              outline:
+                cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
+            }}
+            onMouseDown={
+              cropMode ? this.handleImageDrag.bind(this) : null
+            }
+          >
+            {!showImage &&
+              cropMode &&
+              showController &&
+              objectType !== 6 &&
+              imgResizeDirection.map((d, i) => {
+                const cursor = `${getCursor(
+                  rotateAngle + parentRotateAngle,
+                  d
+                )}-resize`;
+                return (
+                  <div
+                    id={_id + zoomableMap[d]}
+                    key={d}
+                    style={{
+                      cursor,
+                      // transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
+                      transform: `rotate(${i * 90}deg)`,
+                      zIndex: 2
+                    }}
+                    className={`${zoomableMap[d]} resizable-handler-container cropMode`}
+                    onMouseDown={e => {
+                      this.startResizeImage(e, cursor, false);
+                    }}
+                  >
+                    <svg
+                      className={`${zoomableMap[d]}`}
+                      width={24}
+                      height={24}
+                      style={{ zIndex: -1 }}
+                      viewBox="0 0 24 24"
+                    >
+                      <defs>
+                        <path
+                          id="_619015639__b"
+                          d="M10 18.95a2.51 2.51 0 0 1-3-2.45v-7a2.5 2.5 0 0 1 2.74-2.49L10 7h6a3 3 0 0 1 3 3h-9v8.95z"
+                        ></path>
+                        <filter
+                          id="_619015639__a"
+                          width="250%"
+                          height="250%"
+                          x="-75%"
+                          y="-66.7%"
+                          filterUnits="objectBoundingBox"
+                        >
+                          <feMorphology
+                            in="SourceAlpha"
+                            operator="dilate"
+                            radius=".5"
+                            result="shadowSpreadOuter1"
+                          ></feMorphology>
+                          <feOffset
+                            in="shadowSpreadOuter1"
+                            result="shadowOffsetOuter1"
+                          ></feOffset>
+                          <feColorMatrix
+                            in="shadowOffsetOuter1"
+                            result="shadowMatrixOuter1"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"
+                          ></feColorMatrix>
+                          <feOffset
+                            dy="1"
+                            in="SourceAlpha"
+                            result="shadowOffsetOuter2"
+                          ></feOffset>
+                          <feGaussianBlur
+                            in="shadowOffsetOuter2"
+                            result="shadowBlurOuter2"
+                            stdDeviation="2.5"
+                          ></feGaussianBlur>
+                          <feColorMatrix
+                            in="shadowBlurOuter2"
+                            result="shadowMatrixOuter2"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
+                          ></feColorMatrix>
+                          <feMerge>
+                            <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                            <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <g fill="none" fillRule="evenodd">
+                        <use
+                          className={`${zoomableMap[d]}`}
+                          style={{
+                            fill: "#000",
+                            filter: "url(#_619015639__a)"
+                          }}
+                          xlinkHref="#_619015639__a"
+                        ></use>
+                        <use
+                          className={`${zoomableMap[d]}`}
+                          style={{ fill: "#FFF" }}
+                          xlinkHref="#_619015639__b"
+                        ></use>
+                      </g>
+                    </svg>
+                  </div>
+                );
+              })}
           </div>
         )}
         {src && objectType === 9 && showImage && (
@@ -1453,14 +1177,14 @@ export default class Rect extends PureComponent<IProps, IState> {
               zIndex: selected ? 1 : 0,
               transformOrigin: "0 0",
               position: "absolute",
-              width: width / (src ? 1 : scaleX) + "px",
-              height: height / (src ? 1 : scaleY) + "px",
+              width: "100%",
+              height: "100%",
               overflow: "hidden"
             }}
           >
             <div
               id={_id + "1238"}
-              className={_id + "rect-alo"}
+              className={_id + "rect-alo" + " " + _id + "imgWidth"}
               style={{
                 transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
                 width: imgWidth + "px",

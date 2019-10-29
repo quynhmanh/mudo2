@@ -247,6 +247,7 @@ export const getNewStyle = (type, rect, deltaW, deltaH, ratio, minWidth, minHeig
         width = height * ratio
         deltaW = deltaH * ratio
       }
+
       centerX -= deltaW / 2 * cos(rotateAngle) - deltaH / 2 * sin(rotateAngle)
       centerY -= deltaW / 2 * sin(rotateAngle) + deltaH / 2 * cos(rotateAngle)
       break
@@ -500,7 +501,7 @@ export const updateTransformXY = function(elId, x, y: any) {
 }
 
 export const updatePosition = function(elId, left, top, width, height: any) {
-  var el = document.getElementById(elId);
+  let el = document.getElementById(elId);
   if (el) {
     if (width) {
       el.style.width = width + "px";
@@ -513,6 +514,23 @@ export const updatePosition = function(elId, left, top, width, height: any) {
     }
     if (el.style.left) {
       el.style.left = left + "px";
+    }
+  }
+
+  var temp = document.getElementsByClassName(elId) as HTMLCollectionOf<HTMLElement>;
+  for (var i = 0; i < temp.length; ++i) {
+    let el2 = temp[i];
+    if (width) {
+      el2.style.width = width + "px";
+    }
+    if (height) {
+      el2.style.height = height + "px";
+    }
+    if (el2.style.top) {
+      el2.style.top = top + "px";
+    }
+    if (el.style.left) {
+      el2.style.left = left + "px";
     }
   }
 }

@@ -19,7 +19,6 @@ export interface IProps {
   selectedTab: any;
   rectWidth: number;
   rectHeight: number;
-  pages: any;
   idObjectSelected: string;
   childId: string;
   typeObjectSelected: any;
@@ -42,7 +41,6 @@ export interface IProps {
 }
 
 interface IState {
-  query: any;
   isLoading: boolean;
   items: any;
   items2: any;
@@ -849,7 +847,6 @@ class LeftSide extends Component<IProps, IState> {
   componentDidMount() {
     this.loadMore.bind(this)(true);
     this.loadMoreBackground.bind(this)(true);
-    // this.loadMoreTemplate(this)(true);
     this.loadMoreFont.bind(this)(true);
     this.loadMoreTextTemplate.bind(this)(true);
     this.loadMoreTemplate.bind(this)(true, this.props.subtype);
@@ -949,7 +946,6 @@ class LeftSide extends Component<IProps, IState> {
 
   uploadImage = (type, removeBackground, e) => {
     var self = this;
-    ``;
     var fileUploader = document.getElementById(
       "image-file"
     ) as HTMLInputElement;
@@ -1044,7 +1040,7 @@ class LeftSide extends Component<IProps, IState> {
 
   handleQuery = e => {
     if (e.key === "Enter") {
-      this.setState({ query: e.target.value, items: [], items2: [] }, () => {
+      this.setState({items: [], items2: [] }, () => {
         this.loadMore(true);
       });
     }
@@ -1886,7 +1882,7 @@ class LeftSide extends Component<IProps, IState> {
                   onKeyDown={this.handleQuery}
                   type="text"
                   onChange={e => {
-                    this.setState({ query: e.target.value });
+                    // this.setState({ query: e.target.value });
                   }}
                   value={this.state.query}
                 />
@@ -2485,7 +2481,7 @@ class LeftSide extends Component<IProps, IState> {
                 onKeyDown={this.handleQuery}
                 type="text"
                 onChange={e => {
-                  this.setState({ query: e.target.value });
+                  // this.setState({ query: e.target.value });
                 }}
                 value={this.state.query}
               />
