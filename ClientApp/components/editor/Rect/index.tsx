@@ -42,17 +42,7 @@ export interface IProps {
   onRotate(angle: number, startAngle: number, e: any): void;
   onRotateEnd(_id: string): void;
   onResizeStart: any;
-  onResizeInnerImageStart(startX: number, startY: number): void;
-  onImageResize(
-    deltaL: number,
-    alpha: number,
-    rect: any,
-    type: string,
-    isShiftKey: boolean,
-    cursor: string,
-    objectType: number,
-    e: any
-  ): void;
+  handleResizeInnerImageStart: any;
   selected: boolean;
   zoomable: string;
   rotatable: boolean;
@@ -80,7 +70,6 @@ export interface IProps {
   enableCropMode(e: any): void;
   imgWidth: number;
   imgHeight: number;
-  resizingInnerImage: boolean;
   updateRect: boolean;
   imgColor: string;
   hidden: boolean;
@@ -193,173 +182,11 @@ export default class Rect extends PureComponent<IProps, IState> {
     console.log("startResizeImage ", window.resizingInnerImage);
     e.preventDefault();
     e.stopPropagation();
-    if (e.button !== 0) return;
     document.body.style.cursor = cursor;
-    const {
-      styles: {
-        position: { centerX, centerY },
-        size: { width, height },
-        transform: { rotateAngle }
-      },
-      imgStyles: {
-        position: { centerX: imgCenterX, centerY: imgCenterY },
-        size: { width: imgWidth, height: imgHeight },
-        transform: { rotateAngle: imgRotateAngle }
-      },
-      objectType
-    } = this.props;
-    window.rect = { width, height, centerX, centerY, rotateAngle };
-    window.rect2 = { imgWidth, imgHeight, imgCenterX, imgCenterY, imgRotateAngle };
-    const { clientX: startX, clientY: startY } = e;
-    const type = e.target.getAttribute("class").split(" ")[0];
-    this.props.onResizeInnerImageStart &&
-      this.props.onResizeInnerImageStart(startX, startY);
-    window.resizingInnerImage = resizingInnerImage;
-    this._isMouseDown = true;
-    var self = this;
-    // this.props.onResizeInnerImageStart(startX, startY);
     
-    var eeee = document.getElementById('screen-container-parent');
-    // eeee._click = events.click;
-    var a = eeee.click;
-    console.log('eeee ', eeee.onclick);
-    eeee.onclick = null;
- 
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const deltaX = clientX - window.startX;
-      const deltaY = clientY - window.startY;
-      const alpha = Math.atan2(deltaY, deltaX);
-      const deltaL = getLength(deltaX, deltaY);
-      const isShiftKey = e.shiftKey;
-      if (!window.resizingInnerImage) {
-        this.props.onResize(
-          deltaL,
-          alpha,
-          window.rect,
-          type,
-          isShiftKey,
-          cursor,
-          objectType,
-          e,
-          this.props.backgroundColor,
-          null
-        );
-      } else {
-        this.props.onImageResize(
-          deltaL,
-          alpha,
-          window.rect2,
-          type,
-          isShiftKey,
-          cursor,
-          objectType,
-          e
-        );
-      }
-    };
-
-    const onUp = e => {
-      e.preventDefault();
-      document.body.style.cursor = "auto";
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd(null);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
-
-    // eeee.click = a;
-  };
-
-  startResizeInnerImage = (e, cursor) => {
-    console.log("startResizeInnerImage");
-    e.preventDefault();
-    e.stopPropagation();
-    // if (e.button !== 0) return;
-    document.body.style.cursor = cursor;
-    let {
-      styles: {
-        position: { centerX, centerY },
-        size: { width, height },
-        transform: { rotateAngle }
-      },
-      imgStyles: {
-        position: { centerX: imgCenterX, centerY: imgCenterY },
-        size: { width: imgWidth, height: imgHeight },
-        transform: { rotateAngle: imgRotateAngle }
-      },
-      objectType
-    } = this.props;
-
-    const { clientX: startX, clientY: startY } = e;
-    window.rect = { width, height, centerX, centerY, rotateAngle };
-    window.rect2 = {
-      imgWidth,
-      imgHeight,
-      imgCenterX,
-      imgCenterY,
-      imgRotateAngle
-    };
-    const type = e.target.getAttribute("class").split(" ")[0];
-    this.props.onResizeStart && this.props.onResizeStart(e);
-    this._isMouseDown = true;
-    var self = this;
-    const onMove = e => {
-      e.preventDefault();
-      // if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      // const deltaX = clientX - this.props.startX;
-      // const deltaY = clientY - this.props.startY;
-      const deltaX = clientX - window.startX;
-      const deltaY = clientY - window.startY;
-      const alpha = Math.atan2(deltaY, deltaX);
-      const deltaL = getLength(deltaX, deltaY);
-      const isShiftKey = e.shiftKey;
-      if (!window.resizingInnerImage) {
-        this.props.onResize(
-          deltaL,
-          alpha,
-          window.rect,
-          type,
-          isShiftKey,
-          cursor,
-          objectType,
-          e,
-          this.props.backgroundColor,
-          null
-        );
-      } else {
-        this.props.onImageResize(
-          deltaL,
-          alpha,
-          window.rect2,
-          type,
-          isShiftKey,
-          cursor,
-          objectType,
-          e
-        );
-      }
-    };
-
-    const onUp = e => {
-      e.preventDefault();
-      document.body.style.cursor = "auto";
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onResizeEnd && this.props.onResizeEnd(null);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    this.props.handleResizeInnerImageStart &&
+      this.props.handleResizeInnerImageStart(e);
+    window.resizingInnerImage = resizingInnerImage;
   };
 
   // Resize
@@ -475,26 +302,26 @@ export default class Rect extends PureComponent<IProps, IState> {
     let { clientX: startX, clientY: startY } = e;
     var { posX, posY, scale } = this.props;
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
-    this._isMouseDown = true;
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
-      var newPosX = posX + deltaX;
-      var newPosY = posY + deltaY;
-      this.props.handleImageDrag(newPosX, newPosY);
-    };
-    const onUp = e => {
-      e.preventDefault();
-      // this.props.onDragEnd && this.props.onDragEnd();
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    // this._isMouseDown = true;
+    // const onMove = e => {
+    //   e.preventDefault();
+    //   if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
+    //   e.stopImmediatePropagation();
+    //   const { clientX, clientY } = e;
+    //   const deltaX = clientX - startX;
+    //   const deltaY = clientY - startY;
+    //   var newPosX = posX + deltaX;
+    //   var newPosY = posY + deltaY;
+    //   this.props.handleImageDrag(newPosX, newPosY);
+    // };
+    // const onUp = e => {
+    //   e.preventDefault();
+    //   // this.props.onDragEnd && this.props.onDragEnd();
+    //   document.removeEventListener("mousemove", onMove);
+    //   document.removeEventListener("mouseup", onUp);
+    // };
+    // document.addEventListener("mousemove", onMove);
+    // document.addEventListener("mouseup", onUp);
   };
 
   innerHTML = () => {
@@ -724,8 +551,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               transformOrigin: "0 0",
               transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
               position: "absolute",
-              width: width / (src ? 1 : scaleX) + "px",
-              height: height / (src ? 1 : scaleY) + "px"
+              width: "100%",
+              height: "100%",
               // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
             }}
           ></div>
@@ -740,8 +567,8 @@ export default class Rect extends PureComponent<IProps, IState> {
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
             position: "absolute",
-            width: width / (src ? 1 : scaleX) + "px",
-            height: height / (src ? 1 : scaleY) + "px"
+            width: "100%",
+            height: "100%",
             // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
           }}
         >
@@ -1010,6 +837,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           {!showImage && cropMode && selected && (
             <div
               id={_id + "1237"}
+              className={_id + "imgWidth" + " " + _id + "1236"}
               style={{
                 transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
                 width: imgWidth + "px",
@@ -1253,8 +1081,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                 (objectType === 4 || objectType === 6) && (
                 <img
                   id={_id + "1235"}
-                  className={_id + "rect-alo"}
+                  className={_id + "rect-alo" + " " + _id + "imgWidth" + " " + _id + "1236"}
                   style={{
+                    zIndex: 9999999,
                     width: imgWidth + "px",
                     height: imgHeight + "px",
                     transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
@@ -1274,24 +1103,24 @@ export default class Rect extends PureComponent<IProps, IState> {
                 />
               )}
             </div>
-            {(showImage || (!showImage && cropMode)) && selected && (
+            {(showImage && selected && 
             <div
               id={_id + "123"}
               className={_id + "rect-alo"}
               style={{
-                width: width / (src ? 1 : scaleX) + "px",
-                height: height / (src ? 1 : scaleY) + "px",
+                width: "100%",
+                height: "100%",
                 position: "absolute"
               }}
             >
                 <div
                   id={_id + "1236"}
-                  className={_id + "1236"}
+                  className={_id + "1236" + " " + _id + "imgWidth"}
                   style={{
                     width: this.props.imgWidth + "px",
                     height: this.props.imgHeight + "px",
                     transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    outline: cropMode && selected ? `#00d9e1 solid 2px` : null
+                    // outline: cropMode && selected ? `#00d9e1 solid 2px` : null
                   }}
                 >
                   { (objectType === 4 || objectType === 6) && cropMode &&
@@ -1299,12 +1128,10 @@ export default class Rect extends PureComponent<IProps, IState> {
                     // id={_id + "1236"}
                     className={_id + "rect-alo"}
                     style={{
-                      width: this.props.imgWidth + "px",
-                      height: this.props.imgHeight + "px",
+                      width: "100%",
+                      height: "100%",
                       // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
                       opacity: 0.5,
-                      outline:
-                        cropMode && selected ? `#00d9e1 solid 2px` : null,
                       transformOrigin: "0 0"
                     }}
                     onDoubleClick={enableCropMode}
@@ -1354,7 +1181,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           >
             <div
               id={_id + "1238"}
-              className={_id + "rect-alo"}
+              className={_id + "rect-alo" + " " + _id + "imgWidth"}
               style={{
                 transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
                 width: imgWidth + "px",

@@ -57,8 +57,7 @@ export interface IProps {
     objectType: number,
     e: any
   ): void;
-  resizingInnerImage: boolean;
-  onResizeInnerImageStart(startX: number, startY: number): void;
+  handleResizeInnerImageStart: any;
   updateRect: boolean;
   imgColor: string;
   hidden: boolean;
@@ -223,8 +222,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       imgWidth,
       imgHeight,
       showImage,
-      resizingInnerImage,
-      onResizeInnerImageStart,
+      handleResizeInnerImageStart,
       updateRect,
       imgColor,
       hidden,
@@ -291,10 +289,8 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         cropMode={cropMode}
         imgWidth={imgWidth}
         imgHeight={imgHeight}
-        onImageResize={this.handleImageResize}
         imgStyles={imgStyles}
-        resizingInnerImage={resizingInnerImage}
-        onResizeInnerImageStart={onResizeInnerImageStart}
+        handleResizeInnerImageStart={handleResizeInnerImageStart}
         updateRect={updateRect}
         imgColor={imgColor}
         showImage={showImage}

@@ -26,11 +26,8 @@ export interface IProps {
   handleFontColorChange: any;
   handleFontFamilyChange: any;
   handleChildIdSelected: any;
-  handleImageDrag: any;
   enableCropMode: any;
-  handleImageResize: any;
-  onResizeInnerImageStart: any;
-  resizingInnerImage: any;
+  handleResizeInnerImageStart: any;
   updateRect: any;
   doNoObjectSelected: any;
   index: number;
@@ -505,18 +502,12 @@ export default class Canvas extends Component<IProps, IState> {
                         childId={this.props.childId}
                         posX={img.posX * scale}
                         posY={img.posY * scale}
-                        handleImageDrag={this.props.handleImageDrag.bind(
-                          this,
-                          img._id
-                        )}
                         enableCropMode={this.props.enableCropMode}
                         cropMode={cropMode}
                         imgWidth={img.imgWidth * scale}
                         imgHeight={img.imgHeight * scale}
                         imgColor={img.color}
-                        onImageResize={this.props.handleImageResize.bind(this)}
-                        resizingInnerImage={this.props.resizingInnerImage}
-                        onResizeInnerImageStart={this.props.onResizeInnerImageStart.bind(
+                        handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                           this
                         )}
                         updateRect={this.props.updateRect}
@@ -659,10 +650,6 @@ export default class Canvas extends Component<IProps, IState> {
                         childId={this.props.childId}
                         posX={imgHovered.posX * scale}
                         posY={imgHovered.posY * scale}
-                        handleImageDrag={this.props.handleImageDrag.bind(
-                          this,
-                          imgHovered._id
-                        )}
                         enableCropMode={this.props.enableCropMode}
                         cropMode={cropMode}
                         imgWidth={imgHovered.imgWidth * scale}
@@ -671,8 +658,7 @@ export default class Canvas extends Component<IProps, IState> {
                         onImageResize={this.props.handleImageResize.bind(
                           this
                         )}
-                        resizingInnerImage={this.props.resizingInnerImage}
-                        onResizeInnerImageStart={this.props.onResizeInnerImageStart.bind(
+                        handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                           this
                         )}
                         updateRect={this.props.updateRect}
@@ -801,20 +787,12 @@ export default class Canvas extends Component<IProps, IState> {
                           childId={this.props.childId}
                           posX={img.posX * scale}
                           posY={img.posY * scale}
-                          handleImageDrag={this.props.handleImageDrag.bind(
-                            this,
-                            img._id
-                          )}
                           enableCropMode={this.props.enableCropMode}
                           cropMode={cropMode}
                           imgWidth={img.imgWidth * scale}
                           imgHeight={img.imgHeight * scale}
                           imgColor={img.color}
-                          onImageResize={this.props.handleImageResize.bind(
-                            this
-                          )}
-                          resizingInnerImage={this.props.resizingInnerImage}
-                          onResizeInnerImageStart={this.props.onResizeInnerImageStart.bind(
+                          handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                             this
                           )}
                           updateRect={this.props.updateRect}
