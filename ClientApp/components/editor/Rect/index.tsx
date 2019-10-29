@@ -722,118 +722,6 @@ export default class Rect extends PureComponent<IProps, IState> {
               })}{" "}
             </div>
           )}
-          {cropMode && (
-            <div
-              id="halo1"
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                outline:
-                  cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
-              }}
-            >
-              {!showImage &&
-                cropMode &&
-                showController &&
-                objectType !== 6 &&
-                imgResizeDirection.map((d, i) => {
-                  const cursor = `${getCursor(
-                    rotateAngle + parentRotateAngle,
-                    d
-                  )}-resize`;
-                  return (
-                    <div
-                      id={_id + zoomableMap[d]}
-                      key={d}
-                      style={{
-                        cursor,
-                        // transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
-                        transform: `rotate(${i * 90}deg)`,
-                        zIndex: 2
-                      }}
-                      className={`${zoomableMap[d]} resizable-handler-container cropMode`}
-                      onMouseDown={e => {
-                        this.startResizeImage(e, cursor, false);
-                      }}
-                    >
-                      <svg
-                        className={`${zoomableMap[d]}`}
-                        width={24}
-                        height={24}
-                        style={{ zIndex: -1 }}
-                        viewBox="0 0 24 24"
-                      >
-                        <defs>
-                          <path
-                            id="_619015639__b"
-                            d="M10 18.95a2.51 2.51 0 0 1-3-2.45v-7a2.5 2.5 0 0 1 2.74-2.49L10 7h6a3 3 0 0 1 3 3h-9v8.95z"
-                          ></path>
-                          <filter
-                            id="_619015639__a"
-                            width="250%"
-                            height="250%"
-                            x="-75%"
-                            y="-66.7%"
-                            filterUnits="objectBoundingBox"
-                          >
-                            <feMorphology
-                              in="SourceAlpha"
-                              operator="dilate"
-                              radius=".5"
-                              result="shadowSpreadOuter1"
-                            ></feMorphology>
-                            <feOffset
-                              in="shadowSpreadOuter1"
-                              result="shadowOffsetOuter1"
-                            ></feOffset>
-                            <feColorMatrix
-                              in="shadowOffsetOuter1"
-                              result="shadowMatrixOuter1"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"
-                            ></feColorMatrix>
-                            <feOffset
-                              dy="1"
-                              in="SourceAlpha"
-                              result="shadowOffsetOuter2"
-                            ></feOffset>
-                            <feGaussianBlur
-                              in="shadowOffsetOuter2"
-                              result="shadowBlurOuter2"
-                              stdDeviation="2.5"
-                            ></feGaussianBlur>
-                            <feColorMatrix
-                              in="shadowBlurOuter2"
-                              result="shadowMatrixOuter2"
-                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
-                            ></feColorMatrix>
-                            <feMerge>
-                              <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
-                              <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
-                            </feMerge>
-                          </filter>
-                        </defs>
-                        <g fill="none" fillRule="evenodd">
-                          <use
-                            className={`${zoomableMap[d]}`}
-                            style={{
-                              fill: "#000",
-                              filter: "url(#_619015639__a)"
-                            }}
-                            xlinkHref="#_619015639__a"
-                          ></use>
-                          <use
-                            className={`${zoomableMap[d]}`}
-                            style={{ fill: "#FFF" }}
-                            xlinkHref="#_619015639__b"
-                          ></use>
-                        </g>
-                      </svg>
-                    </div>
-                  );
-                })}
-            </div>
-          )}
           {!showImage && cropMode && selected && (
             <div
               id={_id + "1237"}
@@ -1103,7 +991,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 />
               )}
             </div>
-            {(showImage && selected && 
+            {(selected && cropMode &&
             <div
               id={_id + "123"}
               className={_id + "rect-alo"}
@@ -1123,7 +1011,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     // outline: cropMode && selected ? `#00d9e1 solid 2px` : null
                   }}
                 >
-                  { (objectType === 4 || objectType === 6) && cropMode &&
+                  { (objectType === 4 || objectType === 6) &&
                   <img
                     // id={_id + "1236"}
                     className={_id + "rect-alo"}
@@ -1141,7 +1029,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     src={src}
                   />
                   }
-                  { (objectType === 9) && cropMode &&
+                  { (objectType === 9) &&
                     <video
                     // id={_id + "1236"}
                     className={_id + "rect-alo"}
@@ -1164,6 +1052,121 @@ export default class Rect extends PureComponent<IProps, IState> {
                 </div>
             </div>
             )}
+          </div>
+        )}
+        {cropMode && (
+          <div
+            id="halo1"
+            style={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              outline:
+                cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
+            }}
+            onMouseDown={
+              cropMode ? this.handleImageDrag.bind(this) : null
+            }
+          >
+            {!showImage &&
+              cropMode &&
+              showController &&
+              objectType !== 6 &&
+              imgResizeDirection.map((d, i) => {
+                const cursor = `${getCursor(
+                  rotateAngle + parentRotateAngle,
+                  d
+                )}-resize`;
+                return (
+                  <div
+                    id={_id + zoomableMap[d]}
+                    key={d}
+                    style={{
+                      cursor,
+                      // transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
+                      transform: `rotate(${i * 90}deg)`,
+                      zIndex: 2
+                    }}
+                    className={`${zoomableMap[d]} resizable-handler-container cropMode`}
+                    onMouseDown={e => {
+                      this.startResizeImage(e, cursor, false);
+                    }}
+                  >
+                    <svg
+                      className={`${zoomableMap[d]}`}
+                      width={24}
+                      height={24}
+                      style={{ zIndex: -1 }}
+                      viewBox="0 0 24 24"
+                    >
+                      <defs>
+                        <path
+                          id="_619015639__b"
+                          d="M10 18.95a2.51 2.51 0 0 1-3-2.45v-7a2.5 2.5 0 0 1 2.74-2.49L10 7h6a3 3 0 0 1 3 3h-9v8.95z"
+                        ></path>
+                        <filter
+                          id="_619015639__a"
+                          width="250%"
+                          height="250%"
+                          x="-75%"
+                          y="-66.7%"
+                          filterUnits="objectBoundingBox"
+                        >
+                          <feMorphology
+                            in="SourceAlpha"
+                            operator="dilate"
+                            radius=".5"
+                            result="shadowSpreadOuter1"
+                          ></feMorphology>
+                          <feOffset
+                            in="shadowSpreadOuter1"
+                            result="shadowOffsetOuter1"
+                          ></feOffset>
+                          <feColorMatrix
+                            in="shadowOffsetOuter1"
+                            result="shadowMatrixOuter1"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"
+                          ></feColorMatrix>
+                          <feOffset
+                            dy="1"
+                            in="SourceAlpha"
+                            result="shadowOffsetOuter2"
+                          ></feOffset>
+                          <feGaussianBlur
+                            in="shadowOffsetOuter2"
+                            result="shadowBlurOuter2"
+                            stdDeviation="2.5"
+                          ></feGaussianBlur>
+                          <feColorMatrix
+                            in="shadowBlurOuter2"
+                            result="shadowMatrixOuter2"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
+                          ></feColorMatrix>
+                          <feMerge>
+                            <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                            <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <g fill="none" fillRule="evenodd">
+                        <use
+                          className={`${zoomableMap[d]}`}
+                          style={{
+                            fill: "#000",
+                            filter: "url(#_619015639__a)"
+                          }}
+                          xlinkHref="#_619015639__a"
+                        ></use>
+                        <use
+                          className={`${zoomableMap[d]}`}
+                          style={{ fill: "#FFF" }}
+                          xlinkHref="#_619015639__b"
+                        ></use>
+                      </g>
+                    </svg>
+                  </div>
+                );
+              })}
           </div>
         )}
         {src && objectType === 9 && showImage && (

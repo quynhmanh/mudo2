@@ -1745,7 +1745,7 @@ drag = ({ element, pan$}) => {
   }
 
   handleDrag = (_id, clientX, clientY): any => {
-    const { scale, deltaX, deltaY } = this.state;
+    const { scale } = this.state;
     var newLeft, newTop;
     var newLeft2, newTop2;
     var newLeft3, newTop3;
