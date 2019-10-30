@@ -65,7 +65,6 @@ export interface IProps {
   handleChildIdSelected(childId: string): void;
   posX: number;
   posY: number;
-  handleImageDrag(newPosX: number, newPosY: number): void;
   cropMode: boolean;
   enableCropMode(e: any): void;
   imgWidth: number;
@@ -127,7 +126,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   // Drag
   startDrag = e => {
     if (this.props.cropMode) {
-      this.handleImageDrag(e);
+      this.handleImageDragStart(e);
       return;
     }
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
@@ -296,32 +295,8 @@ export default class Rect extends PureComponent<IProps, IState> {
     }
   };
 
-  handleImageDrag = e => {
-    console.log('handleImageDrag ');
-    var self = this;
-    let { clientX: startX, clientY: startY } = e;
-    var { posX, posY, scale } = this.props;
+  handleImageDragStart = e => {
     this.props.onDragStart && this.props.onDragStart(e, this.props._id);
-    // this._isMouseDown = true;
-    // const onMove = e => {
-    //   e.preventDefault();
-    //   if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-    //   e.stopImmediatePropagation();
-    //   const { clientX, clientY } = e;
-    //   const deltaX = clientX - startX;
-    //   const deltaY = clientY - startY;
-    //   var newPosX = posX + deltaX;
-    //   var newPosY = posY + deltaY;
-    //   this.props.handleImageDrag(newPosX, newPosY);
-    // };
-    // const onUp = e => {
-    //   e.preventDefault();
-    //   // this.props.onDragEnd && this.props.onDragEnd();
-    //   document.removeEventListener("mousemove", onMove);
-    //   document.removeEventListener("mouseup", onUp);
-    // };
-    // document.addEventListener("mousemove", onMove);
-    // document.addEventListener("mouseup", onUp);
   };
 
   innerHTML = () => {
@@ -611,7 +586,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   }}
                   onDoubleClick={enableCropMode}
                   onMouseDown={
-                    cropMode ? this.handleImageDrag.bind(this) : null
+                    cropMode ? this.handleImageDragStart.bind(this) : null
                   }
                   src={src}
                 />
@@ -650,27 +625,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     }}
                     onDoubleClick={enableCropMode}
                     onMouseDown={
-                      cropMode ? this.handleImageDrag.bind(this) : null
-                    }
-                    src={src}
-                  />
-                  }
-                  { (objectType === 9) &&
-                    <video
-                    // id={_id + "1236"}
-                    className={_id + "rect-alo"}
-                    style={{
-                      width: this.props.imgWidth + "px",
-                      height: this.props.imgHeight + "px",
-                      // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                      opacity: 0.5,
-                      outline:
-                        cropMode && selected ? `#00d9e1 solid 2px` : null,
-                      transformOrigin: "0 0"
-                    }}
-                    onDoubleClick={enableCropMode}
-                    onMouseDown={
-                      cropMode ? this.handleImageDrag.bind(this) : null
+                      cropMode ? this.handleImageDragStart.bind(this) : null
                     }
                     src={src}
                   />
@@ -1065,7 +1020,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
             }}
             onMouseDown={
-              cropMode ? this.handleImageDrag.bind(this) : null
+              cropMode ? this.handleImageDragStart.bind(this) : null
             }
           >
             {!showImage &&

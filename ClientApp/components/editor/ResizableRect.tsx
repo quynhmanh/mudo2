@@ -41,22 +41,10 @@ export interface IProps {
   handleChildIdSelected(childId: string): void;
   posX: number;
   posY: number;
-  handleImageDrag(newPosX: number, newPosY: number): void;
   enableCropMode(e: any): void;
   cropMode: boolean;
   imgWidth: number;
   imgHeight: number;
-  onImageResize(
-    rect: any,
-    isShiftKey: boolean,
-    type: string,
-    id: string,
-    deltaX: number,
-    deltaY: number,
-    cursor: string,
-    objectType: number,
-    e: any
-  ): void;
   handleResizeInnerImageStart: any;
   updateRect: boolean;
   imgColor: string;
@@ -109,77 +97,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     this.props.onRotate(rotateAngle, _id, e);
   };
 
-  handleImageResize = (
-    length,
-    alpha,
-    rect,
-    type,
-    isShiftKey,
-    cursor,
-    objectType,
-    e
-  ) => {
-    const {
-      rotateAngle,
-      minWidth,
-      minHeight,
-      parentRotateAngle,
-      // scale,
-      _id
-    } = this.props;
-    let scale = 1;
-    const beta = alpha - degToRadian(rotateAngle + parentRotateAngle);
-    const deltaW = (length * Math.cos(beta)) / scale;
-    const deltaH = (length * Math.sin(beta)) / scale;
-    var { aspectRatio } = this.props;
-
-    if (cursor == "e-resize" || cursor == "w-resize") {
-      aspectRatio = null;
-    }
-
-    var rect2 = {
-      centerX: rect.imgCenterX,
-      centerY: rect.imgCenterY,
-      height: rect.imgHeight,
-      rotateAngle: rect.imgRotateAngle,
-      width: rect.imgWidth
-    };
-
-    const ratio = rect2.width / rect2.height;
-    const {
-      position: { centerX, centerY },
-      size: { width, height }
-    } = getNewStyle(
-      type,
-      { ...rect2, rotateAngle },
-      deltaW,
-      deltaH,
-      ratio,
-      minWidth,
-      minHeight
-    );
-
-    this.props.onImageResize(
-      centerToTL({ centerX, centerY, width, height, rotateAngle }),
-      isShiftKey,
-      type,
-      _id,
-      deltaW / width,
-      deltaH / height,
-      cursor,
-      objectType,
-      e
-    );
-  };
-
-  handleImageDrag = (newPosX: number, newPosY: number): void => {
-    const { _id } = this.props;
-
-    return (
-      this.props.handleImageDrag && this.props.handleImageDrag(newPosX, newPosY)
-    );
-  };
-
   render() {
     const {
       scale,
@@ -216,7 +133,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       childId,
       posX,
       posY,
-      handleImageDrag,
       enableCropMode,
       cropMode,
       imgWidth,
@@ -284,7 +200,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         childId={childId}
         posX={posX}
         posY={posY}
-        handleImageDrag={this.handleImageDrag}
         enableCropMode={enableCropMode}
         cropMode={cropMode}
         imgWidth={imgWidth}

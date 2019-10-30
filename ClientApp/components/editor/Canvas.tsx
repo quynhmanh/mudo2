@@ -446,6 +446,7 @@ export default class Canvas extends Component<IProps, IState> {
                       )}
                     >
                       <ResizableRect
+                        hovered={false}
                         freeStyle={img.freeStyle}
                         rotating={this.props.rotating}
                         dragging={this.props.dragging}
@@ -655,9 +656,6 @@ export default class Canvas extends Component<IProps, IState> {
                         imgWidth={imgHovered.imgWidth * scale}
                         imgHeight={imgHovered.imgHeight * scale}
                         imgColor={imgHovered.color}
-                        onImageResize={this.props.handleImageResize.bind(
-                          this
-                        )}
                         handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                           this
                         )}
