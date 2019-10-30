@@ -71,6 +71,11 @@ declare global {
     rect2: any;
     image: any;
     rotateAngle: any;
+    resizing: boolean;
+    rotating: boolean;
+    dragging: boolean;
+    posX: any;
+    posY: any;
   }
 }
 
@@ -1114,21 +1119,24 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
         var a = document.getElementsByClassName(_id + "aaaa");
         for (let i = 0; i < a.length; ++i) {
-          a[i].style.width = image.width * scale + "px";
-          a[i].style.left = image.left * scale + "px";
-          a[i].style.top = image.top * scale + "px";
-          a[i].style.height = image.height * scale + "px";
+          var tempEl = a[i] as HTMLElement;
+          tempEl.style.width = image.width * scale + "px";
+          tempEl.style.left = image.left * scale + "px";
+          tempEl.style.top = image.top * scale + "px";
+          tempEl.style.height = image.height * scale + "px";
         }
 
         a = document.getElementsByClassName(_id + "imgWidth");
         for (let i = 0; i < a.length; ++i) {
-          a[i].style.width = image.imgWidth * scale + "px";
-          a[i].style.height = image.imgHeight * scale + "px";
+          var tempEl = a[i] as HTMLElement;
+          tempEl.style.width = image.imgWidth * scale + "px";
+          tempEl.style.height = image.imgHeight * scale + "px";
         }
 
         var b = document.getElementsByClassName(_id + "1236");
         for (let i = 0; i < b.length; ++i) {
-          b[i].style.transform = `translate(${image.posX * scale}px, ${image.posY * scale}px)`;
+          var tempEl = b[i] as HTMLElement;
+          tempEl.style.transform = `translate(${image.posX * scale}px, ${image.posY * scale}px)`;
         }
 
         (window as any).scaleY = image.scaleY;
@@ -1432,13 +1440,15 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
         var el = document.getElementsByClassName(_id + "imgWidth");
         for (let i = 0; i < el.length; ++i) {
-          el[i].style.transform = `translate(${image.posX * scale}px, ${image.posY * scale}px)`
+          var tempEl = el[i] as HTMLElement;
+          tempEl.style.transform = `translate(${image.posX * scale}px, ${image.posY * scale}px)`
         }
 
         el = document.getElementsByClassName(_id + "1236");
         for (let i = 0; i < el.length; ++i) {
-          el[i].style.width = image.imgWidth * scale + "px";
-          el[i].style.height = image.imgHeight * scale + "px";
+          var tempEl = el[i] as HTMLElement;
+          tempEl.style.width = image.imgWidth * scale + "px";
+          tempEl.style.height = image.imgHeight * scale + "px";
         } 
       // }
     //   return image;
@@ -1666,7 +1676,6 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleImageDrag = (_id, clientX, clientY) => {
-    console.log('handleImageDrag ', arguments);
     const { scale } = this.state;
 
     var deltaX = (clientX - window.startX) / scale;
@@ -1693,7 +1702,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     var el = document.getElementsByClassName(_id + "imgWidth");
     for (let i = 0; i < el.length; ++i) {
-      el[i].style.transform = `translate(${newPosX * scale}px, ${newPosY * scale}px)`;
+      var tempEl = el[i] as HTMLElement;
+      tempEl.style.transform = `translate(${newPosX * scale}px, ${newPosY * scale}px)`;
     }
   };
 
