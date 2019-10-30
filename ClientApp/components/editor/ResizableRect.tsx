@@ -12,12 +12,10 @@ export interface IProps {
   width: number;
   height: number;
   rotateAngle: number;
-  selected: boolean;
   onRotateStart(): void;
   onRotate(rotateAngle: number, id: string, e: any): void;
   onRotateEnd(_id: string): void;
   onResizeStart: any;
-  _id: string;
   scale: number;
   aspectRatio: number;
   minWidth: number;
@@ -27,12 +25,6 @@ export interface IProps {
   updateStartPos: boolean;
   src: string;
   onTextChange: any;
-  innerHTML: any;
-  scaleX: number;
-  scaleY: number;
-  zIndex: number;
-  childrens: any;
-  objectType: number;
   outlineWidth: number;
   onFontSizeChange(fontSize: number): void;
   handleFontColorChange(fontColor: string): void;
@@ -42,21 +34,17 @@ export interface IProps {
   posY: number;
   enableCropMode(e: any): void;
   cropMode: boolean;
-  imgWidth: number;
-  imgHeight: number;
   handleResizeInnerImageStart: any;
   updateRect: boolean;
-  imgColor: string;
   hidden: boolean;
   showImage: boolean;
   bleed: boolean;
-  backgroundColor: string;
-  opacity: number;
   dragging: boolean;
   resizing: boolean;
   rotating: boolean;
   freeStyle: boolean;
   hovered: boolean;
+  image: any;
 }
 
 export interface IState {
@@ -91,7 +79,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       rotateAngle = 270;
     }
 
-    const { _id } = this.props;
+    const { image: {_id,} } = this.props;
 
     this.props.onRotate(rotateAngle, _id, e);
   };
@@ -107,74 +95,46 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       parentRotateAngle,
       zoomable,
       rotatable,
-      selected,
       onRotate,
       onResizeStart,
       onRotateStart,
       onRotateEnd,
       showController,
       updateStartPos,
-      _id,
       src,
       onTextChange,
-      innerHTML,
-      scaleX,
-      scaleY,
-      zIndex,
-      childrens,
-      objectType,
       outlineWidth,
       onFontSizeChange,
       handleFontColorChange,
       handleFontFaceChange,
       handleChildIdSelected,
       childId,
-      posX,
-      posY,
       enableCropMode,
       cropMode,
-      imgWidth,
-      imgHeight,
       showImage,
       handleResizeInnerImageStart,
       updateRect,
-      imgColor,
       hidden,
       bleed,
-      backgroundColor,
-      opacity,
       id,
       dragging,
       resizing,
       rotating,
+      image,
     } = this.props;
-
-    const styles = tLToCenter({ top, left, width, height, rotateAngle });
-    const imgStyles = tLToCenter({
-      left: posX,
-      top: posY,
-      width: imgWidth,
-      height: imgHeight,
-      rotateAngle: 0
-    });
 
     return (
       <Rect
+        image={image}
         hovered={this.props.hovered}
         rotating={rotating}
         resizing={resizing}
         dragging={dragging}
         id={id}
-        opacity={opacity}
         hidden={hidden}
-        objectType={objectType}
-        childrens={childrens}
-        _id={_id}
         updateStartPos={updateStartPos}
         scale={scale}
-        selected={selected}
         showController={showController}
-        styles={styles}
         zoomable={zoomable}
         rotatable={Boolean(rotatable && onRotate)}
         parentRotateAngle={parentRotateAngle}
@@ -184,30 +144,19 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         onRotateEnd={onRotateEnd}
         src={src}
         onTextChange={onTextChange}
-        innerHTML={innerHTML}
         left={left}
-        scaleX={scaleX}
-        scaleY={scaleY}
-        zIndex={zIndex}
         outlineWidth={outlineWidth}
         onFontSizeChange={onFontSizeChange}
         handleFontColorChange={handleFontColorChange}
         handleFontFaceChange={handleFontFaceChange}
         handleChildIdSelected={handleChildIdSelected}
         childId={childId}
-        posX={posX}
-        posY={posY}
         enableCropMode={enableCropMode}
         cropMode={cropMode}
-        imgWidth={imgWidth}
-        imgHeight={imgHeight}
-        imgStyles={imgStyles}
         handleResizeInnerImageStart={handleResizeInnerImageStart}
         updateRect={updateRect}
-        imgColor={imgColor}
         showImage={showImage}
         bleed={bleed}
-        backgroundColor={backgroundColor}
       />
     );
   }

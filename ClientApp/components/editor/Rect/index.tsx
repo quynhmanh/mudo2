@@ -4,7 +4,6 @@ import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import MathJax from "react-mathjax2";
 
-
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
 const zoomableMap = {
@@ -33,17 +32,12 @@ export interface IProps {
   dragging: boolean;
   id: string;
   childId: string;
-  _id: string;
   scale: number;
-  styles: any;
-  imgStyles: any;
-  // handleDragStart(e: any, _id: string): void;
   onRotateStart(e): void;
   onRotate(angle: number, startAngle: number, e: any): void;
   onRotateEnd(_id: string): void;
   onResizeStart: any;
   handleResizeInnerImageStart: any;
-  selected: boolean;
   zoomable: string;
   rotatable: boolean;
   parentRotateAngle: number;
@@ -51,34 +45,22 @@ export interface IProps {
   updateStartPos: boolean;
   src: string;
   left: number;
-  scaleX: number;
-  scaleY: number;
-  zIndex: number;
   onTextChange: any;
-  innerHTML: string;
-  childrens: any;
-  objectType: number;
   outlineWidth: number;
   onFontSizeChange(fontSize: number): void;
   handleFontColorChange(fontColor: string): void;
   handleFontFaceChange(fontFace: string): void;
   handleChildIdSelected(childId: string): void;
-  posX: number;
-  posY: number;
   cropMode: boolean;
   enableCropMode(e: any): void;
-  imgWidth: number;
-  imgHeight: number;
   updateRect: boolean;
-  imgColor: string;
   hidden: boolean;
   showImage: boolean;
   bleed: boolean;
-  backgroundColor: string;
-  opacity: number;
   resizing: boolean;
   rotating: boolean;
   hovered: boolean;
+  image: any;
 }
 
 export interface IState {
@@ -103,44 +85,52 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   componentDidMount() {
-    if (this.props.innerHTML && this.$textEle) {
-      this.$textEle.innerHTML = this.props.innerHTML;
+    const {
+      image: {
+        innerHTML,
+      }
+    } = this.props;
+
+    if (innerHTML && this.$textEle) {
+      this.$textEle.innerHTML = innerHTML;
     }
-    if (this.props.innerHTML && this.$textEle2) {
-      this.$textEle2.innerHTML = this.props.innerHTML;
+    if (innerHTML && this.$textEle2) {
+      this.$textEle2.innerHTML = innerHTML;
     }
 
     this.startEditing = this.startEditing.bind(this);
   }
 
   componentDidUpdate(prevProps) {
+    const {
+      image: {
+        type,
+        selected,
+        innerHTML,
+      }
+    } = this.props;
+
     if (
-      this.props.objectType === 3 &&
-      this.props.selected &&
-      !prevProps.selected
+      type === 3 &&
+      selected && !prevProps.image.selected
     ) {
-      this.$textEle2.innerHTML = this.props.innerHTML;
+      this.$textEle2.innerHTML = innerHTML;
     }
   }
 
-  // // Drag
-  // startDrag = e => {
-  //   console.log('startdrag ');
-  //   if (this.props.cropMode) {
-  //     this.handleImageDragStart(e);
-  //     return;
-  //   }
-  //   this.props.handleDragStart && this.props.handleDragStart(e, this.props._id);
-  // };
-
-  // Rotate
   startRotate = e => {
+    const {
+      image: {
+        _id
+      }
+    } = this.props;
     e.preventDefault();
+    e.stopPropagation();
     if (e.button !== 0) return;
     const { clientX, clientY } = e;
     const {
-      styles: {
-        transform: { rotateAngle: startAngle }
+      image: {
+        rotateAngle: startAngle,
       }
     } = this.props;
     const rect = this.$element.getBoundingClientRect();
@@ -172,24 +162,22 @@ export default class Rect extends PureComponent<IProps, IState> {
       document.removeEventListener("mouseup", onUp);
       if (!this._isMouseDown) return;
       this._isMouseDown = false;
-      this.props.onRotateEnd && this.props.onRotateEnd(this.props._id);
+      this.props.onRotateEnd && this.props.onRotateEnd(_id);
     };
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", onUp);
   };
 
   startResizeImage = (e, cursor, resizingInnerImage) => {
-    console.log("startResizeImage ", window.resizingInnerImage);
     e.preventDefault();
     e.stopPropagation();
     document.body.style.cursor = cursor;
-    
+
     this.props.handleResizeInnerImageStart &&
       this.props.handleResizeInnerImageStart(e);
     window.resizingInnerImage = resizingInnerImage;
   };
 
-  // Resize
   startResize = (e, cursor) => {
     e.preventDefault();
 
@@ -251,11 +239,19 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   onMouseDown = () => {
+    const {
+      image: {
+        type,
+        _id,
+        scaleY,
+      }
+    } = this.props;
+    
     var self = this;
     var size;
     var fontFace;
     var fontColor;
-    if (this.props.objectType !== 4) {
+    if (type !== 4) {
       var selectionScaleY = 1;
       if (self.state && self.state.selectionScaleY) {
         selectionScaleY = self.state.selectionScaleY;
@@ -266,7 +262,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       } else {
         // var el = document.getElementById(self.props._id).getElementsByClassName('font')[0];
         var el = document
-          .getElementById(self.props._id)
+          .getElementById(_id)
           .getElementsByClassName("font")[0];
         var sel = window.getSelection();
         var range = document.createRange();
@@ -289,21 +285,22 @@ export default class Rect extends PureComponent<IProps, IState> {
       var fontSize =
         parseInt(size.substring(0, size.length - 2)) *
         selectionScaleY *
-        self.props.scaleY;
+        scaleY;
       document.getElementById("fontSizeButton").innerText = `${Math.round(
         fontSize * 10
       ) / 10}`;
     }
   };
 
-  // handleImageDragStart = e => {
-  //   this.props.handleDragStart && this.props.handleDragStart(e, this.props._id);
-  // };
-
   innerHTML = () => {
+    const {
+      image: {
+        innerHTML,
+      }
+    } = this.props;
     var parser = new DOMParser();
     var dom = parser.parseFromString(
-      "<!doctype html><body>" + this.props.innerHTML,
+      "<!doctype html><body>" + innerHTML,
       "text/html"
     );
     var decodedString = dom.body.textContent;
@@ -312,26 +309,13 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   render() {
     const {
-      styles: {
-        position: { centerX, centerY },
-        size: { width, height },
-        transform: { rotateAngle }
-      },
       zoomable,
       rotatable,
       parentRotateAngle,
       showController,
-      selected,
       scale,
       src,
-      _id,
-      scaleX,
-      scaleY,
-      zIndex,
       onTextChange,
-      innerHTML,
-      childrens,
-      objectType,
       outlineWidth,
       onFontSizeChange,
       handleFontColorChange,
@@ -340,34 +324,48 @@ export default class Rect extends PureComponent<IProps, IState> {
       childId,
       cropMode,
       enableCropMode,
-      imgWidth,
-      imgHeight,
-      imgColor,
       showImage,
-      backgroundColor,
       id,
       dragging,
       resizing,
       rotating,
       hovered,
+      image: {
+        selected,
+        _id,
+        scaleX,
+        scaleY,
+        zIndex,
+        innerHTML,
+        document_object: childrens,
+        type: objectType,
+        imgColor,
+        backgroundColor,
+        opacity: opacity2,
+        top,
+        left,
+        width,
+        height,
+        rotateAngle,
+        posX,
+        posY,
+        imgWidth: imgWidth2,
+        imgHeight: imgHeight2,
+      }
     } = this.props;
 
-    var newWidth = width;
-    var newHeight = height;
-    var outlineWidth2 = Math.max(2, 2 / scale);
-    var style = {
+    const imgWidth = imgWidth2 * scale;
+    const imgHeight = imgHeight2 * scale;
+
+
+    let style = {
       width: "100%",
       height: "100%",
-      zIndex: selected ? 101 : 100,
       cursor: selected ? "move" : null,
-      outline: hovered && "#00d9e1 solid 2px",
-        // !showImage &&
-        // (selected
-        //   ? `#00d9e1 ${objectType === 2 ? "dotted" : "solid"} ${2}px`
-        //   : null)
+      outline: hovered && "#00d9e1 solid 2px"
     };
 
-    var opacity = this.props.opacity ? this.props.opacity / 100 : 1;
+    let opacity = opacity2 ? opacity2 / 100 : 1;
 
     const direction = zoomable
       .split(",")
@@ -381,6 +379,15 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgDirections = direction;
     }
 
+    const styles = tLToCenter({ top, left, width, height, rotateAngle });
+    const imgStyles = tLToCenter({
+      left: posX,
+      top: posY,
+      width: imgWidth,
+      height: imgHeight,
+      rotateAngle,
+    });
+
     return (
       <StyledRect
         id={id + hovered ? "hovered" : ""}
@@ -391,9 +398,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         dragging={dragging}
         resizing={resizing}
         rotating={rotating}
-        outlineWidth={outlineWidth2}
         cropMode={cropMode}
-        // onMouseDown={this.startDrag}
       >
         {!cropMode && rotatable && showController && objectType !== 6 && (
           <div
@@ -438,11 +443,9 @@ export default class Rect extends PureComponent<IProps, IState> {
             var normalizedRotateAngle = rotateAngle;
             if (d == "n") {
               normalizedRotateAngle = normalizedRotateAngle + 45;
-            }
-            else if (d == "ne") {
+            } else if (d == "ne") {
               normalizedRotateAngle = normalizedRotateAngle + 90;
-            }
-            else if (d == "e") {
+            } else if (d == "e") {
               normalizedRotateAngle = normalizedRotateAngle + 135;
             } else if (d == "es") {
               normalizedRotateAngle = normalizedRotateAngle + 180;
@@ -454,50 +457,61 @@ export default class Rect extends PureComponent<IProps, IState> {
               normalizedRotateAngle = normalizedRotateAngle + 315;
             }
             normalizedRotateAngle = normalizedRotateAngle % 180;
-            if(normalizedRotateAngle >= 0 && normalizedRotateAngle < 8) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 0 && normalizedRotateAngle < 8) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 8 && normalizedRotateAngle < 23) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/4434684d762b5dea2ff268f549a43269.png) 1x,url(https://static.canva.com/web/images/9b8ad9e061f825e77d1b97b71ffde9a4.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 8 && normalizedRotateAngle < 23) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/4434684d762b5dea2ff268f549a43269.png) 1x,url(https://static.canva.com/web/images/9b8ad9e061f825e77d1b97b71ffde9a4.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 23 && normalizedRotateAngle < 38) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/02d2d3984af99ad512694e82a689a9a8.png) 1x,url(https://static.canva.com/web/images/d2bb4fd0691527a4fd01a55d1ebb6f87.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 23 && normalizedRotateAngle < 38) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/02d2d3984af99ad512694e82a689a9a8.png) 1x,url(https://static.canva.com/web/images/d2bb4fd0691527a4fd01a55d1ebb6f87.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 38 && normalizedRotateAngle < 53) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/5e315937d3456710f9684f89c7860ea8.png) 1x,url(https://static.canva.com/web/images/a3609c7d7315d7301c3832d7e76e7974.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 38 && normalizedRotateAngle < 53) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/5e315937d3456710f9684f89c7860ea8.png) 1x,url(https://static.canva.com/web/images/a3609c7d7315d7301c3832d7e76e7974.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 53 && normalizedRotateAngle < 68) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/ba88e3ebda4fdf44251c3fa36faec38e.png) 1x,url(https://static.canva.com/web/images/13d7d7347a19703627af6dc4c7e584aa.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 53 && normalizedRotateAngle < 68) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/ba88e3ebda4fdf44251c3fa36faec38e.png) 1x,url(https://static.canva.com/web/images/13d7d7347a19703627af6dc4c7e584aa.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 68 && normalizedRotateAngle < 83) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/1766922605e07ad48762f0578f23cd73.png) 1x,url(https://static.canva.com/web/images/16fdd75b90535598d4379c348bc9d39e.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 68 && normalizedRotateAngle < 83) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/1766922605e07ad48762f0578f23cd73.png) 1x,url(https://static.canva.com/web/images/16fdd75b90535598d4379c348bc9d39e.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 83 && normalizedRotateAngle < 98) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/d78cdce65d153748ffd0fb1a5573ac75.png) 1x,url(https://static.canva.com/web/images/ce13b386dbba73815423332724d3030a.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 83 && normalizedRotateAngle < 98) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/d78cdce65d153748ffd0fb1a5573ac75.png) 1x,url(https://static.canva.com/web/images/ce13b386dbba73815423332724d3030a.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 98 && normalizedRotateAngle < 113) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/cf19806f9578c66128338be1742c67f9.png) 1x,url(https://static.canva.com/web/images/90f8d3f4bc588410bd1d218455116b41.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 98 && normalizedRotateAngle < 113) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/cf19806f9578c66128338be1742c67f9.png) 1x,url(https://static.canva.com/web/images/90f8d3f4bc588410bd1d218455116b41.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 113 && normalizedRotateAngle < 128) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/4dba7d81ce991e1546824042615cc1ef.png) 1x,url(https://static.canva.com/web/images/aed44f2fbd5cdfa5bf5d896df50dbffa.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 113 && normalizedRotateAngle < 128) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/4dba7d81ce991e1546824042615cc1ef.png) 1x,url(https://static.canva.com/web/images/aed44f2fbd5cdfa5bf5d896df50dbffa.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 128 && normalizedRotateAngle < 143) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/159a13980e4a0d0a470a49f8d35eb5a6.png) 1x,url(https://static.canva.com/web/images/4ecfddb1ae830056cfa9144f81c83295.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 128 && normalizedRotateAngle < 143) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/159a13980e4a0d0a470a49f8d35eb5a6.png) 1x,url(https://static.canva.com/web/images/4ecfddb1ae830056cfa9144f81c83295.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 143 && normalizedRotateAngle < 158) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/a9079684178c3a8c1e37c4343524330b.png) 1x,url(https://static.canva.com/web/images/7d1ef78c7ac2fd9eca288126c98dc20e.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 143 && normalizedRotateAngle < 158) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/a9079684178c3a8c1e37c4343524330b.png) 1x,url(https://static.canva.com/web/images/7d1ef78c7ac2fd9eca288126c98dc20e.png) 2x) 12 12,auto";
             }
-            if(normalizedRotateAngle >= 158 && normalizedRotateAngle < 173) {
-              cursor = '-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto';
+            if (normalizedRotateAngle >= 158 && normalizedRotateAngle < 173) {
+              cursor =
+                "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
             }
-            
+
             return (
               <div
                 id={d}
                 key={d}
                 style={{
                   cursor
-                  // transform: `scale(${1 / scale + 0.15})`
                 }}
                 className={`${zoomableMap[d]} resizable-handler-container`}
                 onMouseDown={e => this.startResize(e, d)}
@@ -505,7 +519,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 <div
                   id={d}
                   key={d}
-                  style={{ 
+                  style={{
                     cursor
                   }}
                   className={`${zoomableMap[d]} resizable-handler`}
@@ -517,20 +531,11 @@ export default class Rect extends PureComponent<IProps, IState> {
         {objectType === 3 && !selected && (
           <div
             className={_id + "scaleX-scaleY"}
-            // onMouseDown={e => {
-            //   e.preventDefault();
-            //   this.startDrag(e);
-            // }}
-            // onMouseDown={this.onMouseDown.bind(this)}
             style={{
-              // zIndex: selected && objectType !== 4 ? 1 : 0,
               zIndex: 9999999,
               transformOrigin: "0 0",
               transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
-              position: "absolute",
-              // width: "100%",
-              // height: "100%",
-              // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
+              position: "absolute"
             }}
           ></div>
         )}
@@ -538,16 +543,15 @@ export default class Rect extends PureComponent<IProps, IState> {
           <div
             id={_id}
             className={_id + "rect-alo"}
-            // onMouseDown={this.startDrag}
             style={{
               zIndex: selected && objectType !== 4 ? 1 : 0,
               transformOrigin: "0 0",
               position: "absolute",
               width: "100%",
-              height: "100%",
+              height: "100%"
             }}
           >
-            <div
+            {/* <div
               id="test"
               className={_id + "rect-alo"}
               style={{
@@ -555,7 +559,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 height: height / (src ? 1 : scaleY) + "px",
                 position: "absolute"
               }}
-            ></div>
+            ></div> */}
             <div
               id={_id + "_____"}
               className={_id + "rect-alo"}
@@ -564,92 +568,85 @@ export default class Rect extends PureComponent<IProps, IState> {
                 height: "100%",
                 position: "absolute",
                 overflow: !this.props.bleed && "hidden",
-                opacity
+                opacity,
               }}
             >
-              {
-                (showImage || (!showImage && cropMode)) && 
+              {(showImage || (!showImage && cropMode)) &&
                 (objectType === 4 || objectType === 6) && (
-                <img
-                  id={_id + "1235"}
-                  className={_id + "rect-alo" + " " + _id + "imgWidth" + " " + _id + "1236"}
-                  style={{
-                    zIndex: 9999999,
-                    width: imgWidth + "px",
-                    height: imgHeight + "px",
-                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    opacity: selected || !cropMode ? 1 : 0.5,
-                    outline:
-                      cropMode && selected
-                        ? `#00d9e1 solid ${outlineWidth - 1}px`
-                        : null,
-                    transformOrigin: "0 0",
-                    backgroundColor: backgroundColor
-                  }}
-                  onDoubleClick={enableCropMode}
-                  // onMouseDown={
-                  //   cropMode ? this.handleImageDragStart.bind(this) : null
-                  // }
-                  src={src}
-                />
-              )}
+                  <img
+                    id={_id + "1235"}
+                    className={
+                      _id +
+                      "rect-alo" +
+                      " " +
+                      _id +
+                      "imgWidth" +
+                      " " +
+                      _id +
+                      "1236"
+                    }
+                    style={{
+                      zIndex: 9999999,
+                      width: imgWidth  + "px",
+                      height: imgHeight  + "px",
+                      transform: `translate(${posX}px, ${posY}px)`,
+                      opacity: selected || !cropMode ? 1 : 0.5,
+                      outline:
+                        cropMode && selected
+                          ? `#00d9e1 solid ${outlineWidth - 1}px`
+                          : null,
+                      transformOrigin: "0 0",
+                      backgroundColor: backgroundColor
+                    }}
+                    onDoubleClick={enableCropMode}
+                    src={src}
+                  />
+                )}
             </div>
-            {(selected && cropMode &&
-            <div
-              id={_id + "123"}
-              className={_id + "rect-alo"}
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute"
-              }}
-            >
+            {selected && cropMode && (
+              <div
+                id={_id + "123"}
+                className={_id + "rect-alo"}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute"
+                }}
+              >
                 <div
                   id={_id + "1236"}
                   className={_id + "1236" + " " + _id + "imgWidth"}
                   style={{
-                    width: this.props.imgWidth + "px",
-                    height: this.props.imgHeight + "px",
-                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    // outline: cropMode && selected ? `#00d9e1 solid 2px` : null
+                    width: imgWidth + "px",
+                    height: imgHeight + "px",
+                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`
                   }}
                 >
-                  { (objectType === 4 || objectType === 6) &&
-                  <img
-                    // id={_id + "1236"}
-                    className={_id + "rect-alo"}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                      opacity: 0.5,
-                      transformOrigin: "0 0"
-                    }}
-                    onDoubleClick={enableCropMode}
-                    // onMouseDown={
-                    //   cropMode ? this.handleImageDragStart.bind(this) : null
-                    // }
-                    src={src}
-                  />
-                  }
+                  {(objectType === 4 || objectType === 6) && (
+                    <img
+                      className={_id + "rect-alo"}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        opacity: 0.5,
+                        transformOrigin: "0 0"
+                      }}
+                      onDoubleClick={enableCropMode}
+                      src={src}
+                    />
+                  )}
                 </div>
-            </div>
+              </div>
             )}
           </div>
         )}
         <div
           id={_id}
           className={src ? null : _id + "scaleX-scaleY"}
-          // onMouseDown={this.startDrag}
           style={{
-            // zIndex: selected && objectType !== 4 ? 1 : 0,
-            // zIndex: 999999,
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
-            position: "absolute",
-            // width: "100%",
-            // height: "100%",
-            // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
+            position: "absolute"
           }}
         >
           {childrens && childrens.length > 0 && showImage && (
@@ -681,7 +678,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                       top: child.top,
                       position: "absolute",
                       width: (width * child.width2) / scaleX,
-                      // height: height * child.height2 / scaleY,
                       height: child.height,
                       outline:
                         selected && childId === child._id
@@ -713,7 +709,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       onMouseDown={this.startEditing.bind(this)}
                       outlineWidth={outlineWidth}
                       onFontSizeChange={(fontSize, scaleY) => {
-                        onFontSizeChange(fontSize * this.props.scaleY);
+                        onFontSizeChange(fontSize * scaleY);
                         this.startEditing(scaleY);
                       }}
                       handleFontColorChange={handleFontColorChange}
@@ -755,7 +751,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                       top: child.top,
                       position: "absolute",
                       width: (width * child.width2) / scaleX,
-                      // height: height * child.height2 / scaleY,
                       height: child.height,
                       outline:
                         selected && childId === child._id
@@ -789,7 +784,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       onMouseDown={this.startEditing.bind(this)}
                       outlineWidth={outlineWidth}
                       onFontSizeChange={(fontSize, scaleY) => {
-                        onFontSizeChange(fontSize * this.props.scaleY);
+                        onFontSizeChange(fontSize * scaleY);
                         this.startEditing(scaleY);
                       }}
                       handleFontColorChange={handleFontColorChange}
@@ -826,8 +821,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                         key={d}
                         style={{
                           cursor,
-                          // transform: `scaleX(${1 / scale}) scaleY(${1 /
-                          //   scale})`,
                           zIndex: 999999
                         }}
                         id={_id + zoomableMap[d] + "_"}
@@ -899,7 +892,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                       className="text2"
                       style={{ fontSize: "14px", color: imgColor }}
                     >
-                      {/* <MathJax.Node>{this.innerHTML()}</MathJax.Node> */}
                       <MathJax.Text text={this.innerHTML()} />
                     </div>
                   </MathJax.Context>
@@ -981,7 +973,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                       className="text2"
                       style={{ fontSize: "14px", color: imgColor }}
                     >
-                      {/* <MathJax.Node>{this.innerHTML()}</MathJax.Node> */}
                       <MathJax.Text text={this.innerHTML()} />
                     </div>
                   </MathJax.Context>
@@ -1021,9 +1012,6 @@ export default class Rect extends PureComponent<IProps, IState> {
               outline:
                 cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
             }}
-            // onMouseDown={
-            //   cropMode ? this.handleImageDragStart.bind(this) : null
-            // }
           >
             {!showImage &&
               cropMode &&
@@ -1129,8 +1117,6 @@ export default class Rect extends PureComponent<IProps, IState> {
         {src && objectType === 9 && showImage && (
           <div
             id={_id}
-            // onMouseDown={!selected || src ? this.startDrag : null}
-            // onMouseDown={this.startDrag}
             style={{
               zIndex: selected ? 1 : 0,
               transformOrigin: "0 0",
@@ -1162,7 +1148,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                       key={d}
                       style={{
                         cursor
-                        // transform: `scaleX(${1 / scale}) scaleY(${1 / scale})`
                       }}
                       className={`${zoomableMap[d]} resizable-handler-container hehe`}
                       onMouseDown={e => this.startResizeImage(e, cursor, true)}
@@ -1171,7 +1156,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                         key={d}
                         style={{ cursor }}
                         className={`${zoomableMap[d]} resizable-handler`}
-                        onMouseDown={e => this.startResizeImage(e, cursor, true)}
+                        onMouseDown={e =>
+                          this.startResizeImage(e, cursor, true)
+                        }
                       />
                     </div>
                   );

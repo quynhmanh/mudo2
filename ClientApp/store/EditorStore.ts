@@ -1,6 +1,7 @@
 import { observable, action, IObservableArray } from "mobx";
 import uuidv4 from "uuid/v4";
 import { toJS } from "mobx";
+import { replace } from "connected-react-router";
 
 class Images {
     @observable images = observable([]);
@@ -63,6 +64,10 @@ class Images {
       })
   
       images = [...images, ...appendedImages] as IObservableArray;
+      this.images.replace(images);
+    }
+
+    @action replace = (images) => {
       this.images.replace(images);
     }
 

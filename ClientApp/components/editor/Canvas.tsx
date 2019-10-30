@@ -442,6 +442,7 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                     >
                       <ResizableRect
+                        image={img}
                         hovered={false}
                         freeStyle={img.freeStyle}
                         rotating={this.props.rotating}
@@ -452,10 +453,8 @@ export default class Canvas extends Component<IProps, IState> {
                         showImage={true}
                         hidden={true}
                         objectType={img.type}
-                        selected={img.selected}
                         showController={false}
                         key={img._id + "2"}
-                        _id={img._id}
                         left={img.left * scale}
                         top={img.top * scale}
                         width={img.width * scale}
@@ -474,11 +473,6 @@ export default class Canvas extends Component<IProps, IState> {
                           this,
                           img
                         )}
-                        innerHTML={img.innerHTML}
-                        scaleX={img.scaleX}
-                        scaleY={img.scaleY}
-                        zIndex={img.zIndex}
-                        childrens={img.document_object}
                         outlineWidth={Math.min(
                           2,
                           Math.min(rectHeight * scale, rectWidth * scale) / 100
@@ -576,21 +570,18 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                     >
                       <ResizableRect
+                        image={imgHovered}
                         hovered={true}
                         freeStyle={imgHovered.freeStyle}
                         rotating={this.props.rotating}
                         dragging={this.props.dragging}
                         resizing={this.props.resizing}
                         id={imgHovered._id + "_2"}
-                        opacity={imgHovered.opacity}
                         bleed={this.props.bleed}
                         showImage={false}
                         hidden={true}
-                        objectType={imgHovered.type}
-                        selected={imgHovered.selected}
                         showController={false}
                         key={imgHovered._id + "2"}
-                        _id={imgHovered._id}
                         left={imgHovered.left * scale}
                         top={imgHovered.top * scale }
                         width={imgHovered.width * scale}
@@ -609,11 +600,6 @@ export default class Canvas extends Component<IProps, IState> {
                           this,
                           imgHovered
                         )}
-                        innerHTML={imgHovered.innerHTML}
-                        scaleX={imgHovered.scaleX}
-                        scaleY={imgHovered.scaleY}
-                        zIndex={imgHovered.zIndex}
-                        childrens={imgHovered.document_object}
                         outlineWidth={Math.min(
                           2,
                           Math.min(rectHeight * scale, rectWidth * scale) /
@@ -630,24 +616,17 @@ export default class Canvas extends Component<IProps, IState> {
                           this
                         )}
                         childId={this.props.childId}
-                        posX={imgHovered.posX * scale}
-                        posY={imgHovered.posY * scale}
                         enableCropMode={this.props.enableCropMode}
                         cropMode={cropMode}
-                        imgWidth={imgHovered.imgWidth * scale}
-                        imgHeight={imgHovered.imgHeight * scale}
-                        imgColor={imgHovered.color}
                         handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                           this
                         )}
                         updateRect={this.props.updateRect}
-                        backgroundColor={imgHovered.backgroundColor}
                       />
                     </div>
                   </div>
                 </div>}
                 {imgSelected && 
-                // .map(img => (
                   <div key={imgSelected._id}>
                     <div
                       className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaa"}
@@ -678,6 +657,7 @@ export default class Canvas extends Component<IProps, IState> {
                         }}
                       >
                         <ResizableRect
+                          image={imgSelected}
                           hovered={true}
                           freeStyle={imgSelected.freeStyle}
                           rotating={this.props.rotating}
@@ -688,8 +668,6 @@ export default class Canvas extends Component<IProps, IState> {
                           bleed={this.props.bleed}
                           showImage={false}
                           hidden={true}
-                          objectType={imgSelected.type}
-                          selected={imgSelected.selected}
                           showController={true}
                           key={imgSelected._id + "2"}
                           _id={imgSelected._id}
@@ -698,29 +676,18 @@ export default class Canvas extends Component<IProps, IState> {
                           width={imgSelected.width * scale}
                           height={imgSelected.height * scale}
                           scale={scale}
-                          rotateAngle={imgSelected.rotateAngle}
                           aspectRatio={imgSelected.width / imgSelected.height}
                           zoomable="n, w, s, e, nw, ne, se, sw"
                           onRotateStart={this.props.handleRotateStart}
                           onRotate={this.props.handleRotate.bind(this)}
                           onRotateEnd={this.props.handleRotateEnd}
                           onResizeStart={this.props.handleResizeStart}
-                          // handleDragStart={
-                          //   imgSelected.type === TemplateType.BackgroundImage
-                          //     ? null
-                          //     : this.props.handleDragStart.bind(this)
-                          // }
                           updateStartPos={imgSelected.updateStartPos}
                           src={imgSelected.src}
                           onTextChange={this.props.onSingleTextChange.bind(
                             this,
                             imgSelected
                           )}
-                          innerHTML={imgSelected.innerHTML}
-                          scaleX={imgSelected.scaleX}
-                          scaleY={imgSelected.scaleY}
-                          zIndex={imgSelected.zIndex}
-                          childrens={imgSelected.document_object}
                           outlineWidth={Math.min(
                             2,
                             Math.min(rectHeight * scale, rectWidth * scale) /
@@ -741,9 +708,6 @@ export default class Canvas extends Component<IProps, IState> {
                           posY={imgSelected.posY * scale}
                           enableCropMode={this.props.enableCropMode}
                           cropMode={cropMode}
-                          imgWidth={imgSelected.imgWidth * scale}
-                          imgHeight={imgSelected.imgHeight * scale}
-                          imgColor={imgSelected.color}
                           handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                             this
                           )}

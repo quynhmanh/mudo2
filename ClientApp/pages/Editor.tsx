@@ -521,7 +521,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
           let images = document.document_object;
 
-          editorStore.images.replace(images);
+          editorStore.replace(images);
           editorStore.fonts.replace(image.value.fontList);
 
           subtype = res.data.value.printType;
@@ -1187,7 +1187,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
         }, 1);
       }
     });
-    // editorStore.images.replace(images);
+    // editorStore.replace(images);
   };
 
   handleResizeInnerImageStart = (e) => {
@@ -1503,7 +1503,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     //   return image;
     // });
 
-    // editorStore.images.replace(images);
+    // editorStore.replace(images);
     // this.setState({ images });
   };
 
@@ -1570,11 +1570,14 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     let tempImages = images.map(image => {
       if (image._id === _id) {
         image.rotateAngle = window.rotateAngle;
+        editorStore.imageSelected = image;
       }
       return image;
     });
 
-    editorStore.images.replace(tempImages);
+    console.log('handleRotateEnd images ', window.rotateAngle, tempImages);
+
+    editorStore.replace(tempImages);
 
     window.rotating = false;
 
@@ -2012,6 +2015,7 @@ drag = ({ element, pan$}) => {
   };
 
   handleDragEnd = () => {
+    console.log('handleDragEnd');
     this.temp.unsubscribe();
 
     let {
@@ -2031,6 +2035,7 @@ drag = ({ element, pan$}) => {
       if (image._id == this.state.idObjectSelected) {
         image = window.image;
         image.selected = true;
+        editorStore.imageSelected = image;
       }
       for (var ii = 0; ii < 6; ++ii) {
         image[ii] = 0;
@@ -2041,7 +2046,9 @@ drag = ({ element, pan$}) => {
       }
       return image;
     });
-    editorStore.images.replace(images);
+
+    // editorStore.replace(images);
+    editorStore.replace(images);
 
     var rects = document.getElementsByClassName("rect");
     for (var i = 0; i < rects.length; ++i) {
@@ -2184,7 +2191,7 @@ drag = ({ element, pan$}) => {
         img => img._id !== this.state.idObjectSelected
       );
       this.doNoObjectSelected();
-      editorStore.images.replace(images);
+      editorStore.replace(images);
     }
   }
 
@@ -2194,12 +2201,6 @@ drag = ({ element, pan$}) => {
   }
 
   handleImageSelected = (img, event) => {
-    console.log(
-      "handleImageSelected ",
-      this.state.cropMode,
-      img._id,
-      this.state.idObjectSelected
-    );
     if (this.state.cropMode && img._id != this.state.idObjectSelected) {
       this.setState({ cropMode: false });
       this.doNoObjectSelected();
@@ -2775,7 +2776,6 @@ drag = ({ element, pan$}) => {
   }
 
   imgOnMouseDown(img, e) {
-    console.log("imgOnMouseDown");
     e.preventDefault();
     var target = e.target.cloneNode(true);
     target.style.zIndex = "11111111111";
@@ -2900,7 +2900,7 @@ drag = ({ element, pan$}) => {
       }
       return img;
     });
-    editorStore.images.replace(images);
+    editorStore.replace(images);
     e.preventDefault();
     document.execCommand("foreColor", false, color);
     if (
@@ -3024,7 +3024,7 @@ drag = ({ element, pan$}) => {
 
         // console.log('images 2', images);
 
-        editorStore.images.replace(images);
+        editorStore.replace(images);
 
         // this.setState({ images, editing: true });
       } else {
@@ -3105,7 +3105,7 @@ drag = ({ element, pan$}) => {
 
         // console.log('images ', images);
         // console.log('onSingleTextChange 2');
-        editorStore.images.replace(images);
+        editorStore.replace(images);
       }
     }, 50);
   }
@@ -3470,6 +3470,7 @@ drag = ({ element, pan$}) => {
   };
 
   renderCanvas(preview, index, downloading) {
+    console.log('renderCanvas ', toJS(editorStore.images));
     var res = [];
     let pages = toJS(editorStore.pages);
     for (var i = 0; i < pages.length; ++i) {
@@ -3659,9 +3660,9 @@ drag = ({ element, pan$}) => {
   refPhoneNumber = null;
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.dragging) {
-      return false;
-    }
+    // if (nextState.dragging) {
+    //   return false;
+    // }
     return true;
   }
 
@@ -3675,6 +3676,8 @@ drag = ({ element, pan$}) => {
     } = this.state;
 
     const { images } = this.props;
+
+    console.log('Editor rendered');
 
     const adminEmail = "llaugusty@gmail.com";
 
