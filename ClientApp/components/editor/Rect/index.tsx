@@ -526,8 +526,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               transformOrigin: "0 0",
               transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
               position: "absolute",
-              width: "100%",
-              height: "100%",
+              // width: "100%",
+              // height: "100%",
               // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
             }}
           ></div>
@@ -645,8 +645,8 @@ export default class Rect extends PureComponent<IProps, IState> {
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
             position: "absolute",
-            width: "100%",
-            height: "100%",
+            // width: "100%",
+            // height: "100%",
             // outline: selected ? `rgb(1, 159, 182) solid ${outlineWidth / scale}px` : null,
           }}
         >
