@@ -119,9 +119,8 @@ export default class Canvas extends Component<IProps, IState> {
       idObjectSelected
     } = this.props;
     
-    console.log('canvas render');
-
     var imgHovered = editorStore.imageHovered;
+    var imgSelected = editorStore.imageSelected;
 
     return (
       <ResizableRectContainer
@@ -420,15 +419,12 @@ export default class Canvas extends Component<IProps, IState> {
                       }deg)`
                     }}
                     onMouseEnter={(e) => {
-                      console.log('onMouseEnter', window.dragging);
                       if (!window.dragging && !window.resizing && !window.rotating && !window.rotating && !this.props.cropMode) {
-                        console.log(" onMouseEnter select id", img._id);
                         this.props.handleImageHover(img, e);
                         this.forceUpdate();
                       }
                     }}
                     onMouseMove={(e) => {
-                      console.log('onMouseMove');
                     }}
                   >
                     <div
@@ -440,10 +436,10 @@ export default class Canvas extends Component<IProps, IState> {
                         transformOrigin: "0 0"
                       }}
                       key={img._id}
-                      onMouseDown={this.props.handleImageSelected.bind(
-                        this,
-                        img
-                      )}
+                      onMouseDown={(e) => {
+                        this.props.handleImageSelected(img, e);
+                        this.props.handleDragStart(e, img._id);
+                      }}
                     >
                       <ResizableRect
                         hovered={false}
@@ -472,11 +468,6 @@ export default class Canvas extends Component<IProps, IState> {
                         onRotate={this.props.handleRotate.bind(this)}
                         onRotateEnd={this.props.handleRotateEnd}
                         onResizeStart={this.props.handleResizeStart}
-                        onDragStart={
-                          img.type === TemplateType.BackgroundImage
-                            ? null
-                            : this.props.handleDragStart.bind(this)
-                        }
                         updateStartPos={img.updateStartPos}
                         src={img.src}
                         onTextChange={this.props.onSingleTextChange.bind(
@@ -551,23 +542,18 @@ export default class Canvas extends Component<IProps, IState> {
                     }}
 
                     onMouseLeave={(e) => {
-                      console.log(" onMouseLeave select id", imgHovered._id);
                       editorStore.idObjectHovered = null;
                       editorStore.imageHovered = null;
                       this.forceUpdate();
                     }}
                     onMouseMove={(e) => {
-                      console.log(" onMouseMove ");
-                      console.log('image ', imgHovered);
                       var page = imgHovered.page;
                       var alo = document.getElementById(page);
-                      console.log('alo ', this.refAlo.getBoundingClientRect());
                       var rect = this.refAlo.getBoundingClientRect();
                       
                       var contained = rect.left <= e.clientX && e.clientX <= rect.left + rect.width &&
                         rect.top <= e.clientY && e.clientY <= rect.top + rect.height;
                       
-                      console.log('contained ', contained);
                       if (!contained) {
                         editorStore.idObjectHovered = null;
                         editorStore.imageHovered = null;
@@ -584,10 +570,10 @@ export default class Canvas extends Component<IProps, IState> {
                         transformOrigin: "0 0"
                       }}
                       key={imgHovered._id}
-                      onMouseDown={this.props.handleImageHover.bind(
-                        this,
-                        imgHovered
-                      )}
+                      onMouseDown={(e) => {
+                        this.props.handleImageSelected(imgHovered, e);
+                        this.props.handleDragStart(e, imgHovered._id);
+                      }}
                     >
                       <ResizableRect
                         hovered={true}
@@ -617,11 +603,6 @@ export default class Canvas extends Component<IProps, IState> {
                         onRotate={this.props.handleRotate.bind(this)}
                         onRotateEnd={this.props.handleRotateEnd}
                         onResizeStart={this.props.handleResizeStart}
-                        onDragStart={
-                          imgHovered.type === TemplateType.BackgroundImage
-                            ? null
-                            : this.props.handleDragStart.bind(this)
-                        }
                         updateStartPos={imgHovered.updateStartPos}
                         src={imgHovered.src}
                         onTextChange={this.props.onSingleTextChange.bind(
@@ -665,108 +646,81 @@ export default class Canvas extends Component<IProps, IState> {
                     </div>
                   </div>
                 </div>}
-                {images
-                .filter(
-                  img => img._id == editorStore.idObjectSelected
-                )
-                .map(img => (
-                  <div key={img._id}>
+                {imgSelected && 
+                // .map(img => (
+                  <div key={imgSelected._id}>
                     <div
-                      className={img._id + "__" + " " +  img._id + "aaaa"}
-                      id={img._id + "__"}
+                      className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaa"}
+                      id={imgSelected._id + "__"}
                       style={{
                         zIndex: 9999999,
-                        width: img.width * scale + "px",
-                        height: img.height * scale + "px",
-                        left: img.left * scale + "px",
-                        top: img.top * scale + "px",
+                        width: imgSelected.width * scale + "px",
+                        height: imgSelected.height * scale + "px",
+                        left: imgSelected.left * scale + "px",
+                        top: imgSelected.top * scale + "px",
                         position: "absolute",
                         transform: `rotate(${
-                          img.rotateAngle ? img.rotateAngle : 0
+                          imgSelected.rotateAngle ? imgSelected.rotateAngle : 0
                         }deg)`
                       }}
-
-                      // onMouseLeave={(e) => {
-                      //   console.log(" onMouseLeave select id", img._id);
-                      //   editorStore.idObjectHovered = null;
-                      //   this.forceUpdate();
-                      // }}
-                      // onMouseMove={(e) => {
-                      //   console.log(" onMouseMove ");
-                      //   console.log('image ', img);
-                      //   var page = img.page;
-                      //   var alo = document.getElementById(page);
-                      //   console.log('alo ', this.refAlo.getBoundingClientRect());
-                      //   var rect = this.refAlo.getBoundingClientRect();
-                        
-                      //   var contained = rect.left <= e.clientX && e.clientX <= rect.left + rect.width &&
-                      //     rect.top <= e.clientY && e.clientY <= rect.top + rect.height;
-                        
-                      //   console.log('contained ', contained);
-                      //   if (!contained) {
-                      //     editorStore.idObjectHovered = null;
-                      //     this.forceUpdate();
-                      //   }
-                      // }}
                     >
                       <div
-                        id={img._id + "___"}
+                        id={imgSelected._id + "___"}
                         style={{
                           width: "100%",
                           height: "100%",
                           // transform: `scale(${scale})`,
                           transformOrigin: "0 0"
                         }}
-                        key={img._id}
-                        onMouseDown={this.props.handleImageHover.bind(
-                          this,
-                          img
-                        )}
+                        key={imgSelected._id}
+                        onMouseDown={(e) => {
+                          this.props.handleDragStart(e, imgSelected._id);
+                        }}
                       >
                         <ResizableRect
                           hovered={true}
-                          freeStyle={img.freeStyle}
+                          freeStyle={imgSelected.freeStyle}
                           rotating={this.props.rotating}
                           dragging={this.props.dragging}
                           resizing={this.props.resizing}
-                          id={img._id + "_2"}
-                          opacity={img.opacity}
+                          id={imgSelected._id + "_2"}
+                          opacity={imgSelected.opacity}
                           bleed={this.props.bleed}
                           showImage={false}
                           hidden={true}
-                          objectType={img.type}
-                          selected={img.selected}
+                          objectType={imgSelected.type}
+                          selected={imgSelected.selected}
                           showController={true}
-                          key={img._id + "2"}
-                          _id={img._id}
-                          left={img.left * scale}
-                          top={img.top * scale}
-                          width={img.width * scale}
-                          height={img.height * scale}
+                          key={imgSelected._id + "2"}
+                          _id={imgSelected._id}
+                          left={imgSelected.left * scale}
+                          top={imgSelected.top * scale}
+                          width={imgSelected.width * scale}
+                          height={imgSelected.height * scale}
                           scale={scale}
-                          rotateAngle={img.rotateAngle}
-                          aspectRatio={img.width / img.height}
+                          rotateAngle={imgSelected.rotateAngle}
+                          aspectRatio={imgSelected.width / imgSelected.height}
                           zoomable="n, w, s, e, nw, ne, se, sw"
                           onRotateStart={this.props.handleRotateStart}
                           onRotate={this.props.handleRotate.bind(this)}
                           onRotateEnd={this.props.handleRotateEnd}
                           onResizeStart={this.props.handleResizeStart}
-                          onDragStart={
-                            img.type === TemplateType.BackgroundImage
-                              ? null
-                              : this.props.handleDragStart.bind(this)
-                          }
-                          updateStartPos={img.updateStartPos}
-                          src={img.src}
+                          // handleDragStart={
+                          //   imgSelected.type === TemplateType.BackgroundImage
+                          //     ? null
+                          //     : this.props.handleDragStart.bind(this)
+                          // }
+                          updateStartPos={imgSelected.updateStartPos}
+                          src={imgSelected.src}
                           onTextChange={this.props.onSingleTextChange.bind(
                             this,
-                            img
+                            imgSelected
                           )}
-                          innerHTML={img.innerHTML}
-                          scaleX={img.scaleX}
-                          scaleY={img.scaleY}
-                          zIndex={img.zIndex}
-                          childrens={img.document_object}
+                          innerHTML={imgSelected.innerHTML}
+                          scaleX={imgSelected.scaleX}
+                          scaleY={imgSelected.scaleY}
+                          zIndex={imgSelected.zIndex}
+                          childrens={imgSelected.document_object}
                           outlineWidth={Math.min(
                             2,
                             Math.min(rectHeight * scale, rectWidth * scale) /
@@ -783,23 +737,23 @@ export default class Canvas extends Component<IProps, IState> {
                             this
                           )}
                           childId={this.props.childId}
-                          posX={img.posX * scale}
-                          posY={img.posY * scale}
+                          posX={imgSelected.posX * scale}
+                          posY={imgSelected.posY * scale}
                           enableCropMode={this.props.enableCropMode}
                           cropMode={cropMode}
-                          imgWidth={img.imgWidth * scale}
-                          imgHeight={img.imgHeight * scale}
-                          imgColor={img.color}
+                          imgWidth={imgSelected.imgWidth * scale}
+                          imgHeight={imgSelected.imgHeight * scale}
+                          imgColor={imgSelected.color}
                           handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                             this
                           )}
                           updateRect={this.props.updateRect}
-                          backgroundColor={img.backgroundColor}
+                          backgroundColor={imgSelected.backgroundColor}
                         />
                       </div>
                     </div>
                   </div>
-                ))}
+                }
             </div>
           </div>
         </div>

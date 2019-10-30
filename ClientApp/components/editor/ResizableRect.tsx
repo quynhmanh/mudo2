@@ -13,7 +13,6 @@ export interface IProps {
   height: number;
   rotateAngle: number;
   selected: boolean;
-  onDragStart(e: any): void;
   onRotateStart(): void;
   onRotate(rotateAngle: number, id: string, e: any): void;
   onRotateEnd(_id: string): void;
@@ -113,7 +112,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       onResizeStart,
       onRotateStart,
       onRotateEnd,
-      onDragStart,
       showController,
       updateStartPos,
       _id,
@@ -184,7 +182,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         onRotateStart={onRotateStart}
         onRotate={this.handleRotate}
         onRotateEnd={onRotateEnd}
-        onDragStart={onDragStart}
         src={src}
         onTextChange={onTextChange}
         innerHTML={innerHTML}

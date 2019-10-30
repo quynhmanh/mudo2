@@ -37,7 +37,7 @@ export interface IProps {
   scale: number;
   styles: any;
   imgStyles: any;
-  onDragStart(e: any, _id: string): void;
+  // handleDragStart(e: any, _id: string): void;
   onRotateStart(e): void;
   onRotate(angle: number, startAngle: number, e: any): void;
   onRotateEnd(_id: string): void;
@@ -123,14 +123,15 @@ export default class Rect extends PureComponent<IProps, IState> {
     }
   }
 
-  // Drag
-  startDrag = e => {
-    if (this.props.cropMode) {
-      this.handleImageDragStart(e);
-      return;
-    }
-    this.props.onDragStart && this.props.onDragStart(e, this.props._id);
-  };
+  // // Drag
+  // startDrag = e => {
+  //   console.log('startdrag ');
+  //   if (this.props.cropMode) {
+  //     this.handleImageDragStart(e);
+  //     return;
+  //   }
+  //   this.props.handleDragStart && this.props.handleDragStart(e, this.props._id);
+  // };
 
   // Rotate
   startRotate = e => {
@@ -295,9 +296,9 @@ export default class Rect extends PureComponent<IProps, IState> {
     }
   };
 
-  handleImageDragStart = e => {
-    this.props.onDragStart && this.props.onDragStart(e, this.props._id);
-  };
+  // handleImageDragStart = e => {
+  //   this.props.handleDragStart && this.props.handleDragStart(e, this.props._id);
+  // };
 
   innerHTML = () => {
     var parser = new DOMParser();
@@ -392,6 +393,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         rotating={rotating}
         outlineWidth={outlineWidth2}
         cropMode={cropMode}
+        // onMouseDown={this.startDrag}
       >
         {!cropMode && rotatable && showController && objectType !== 6 && (
           <div
@@ -515,10 +517,10 @@ export default class Rect extends PureComponent<IProps, IState> {
         {objectType === 3 && !selected && (
           <div
             className={_id + "scaleX-scaleY"}
-            onMouseDown={e => {
-              e.preventDefault();
-              this.startDrag(e);
-            }}
+            // onMouseDown={e => {
+            //   e.preventDefault();
+            //   this.startDrag(e);
+            // }}
             // onMouseDown={this.onMouseDown.bind(this)}
             style={{
               // zIndex: selected && objectType !== 4 ? 1 : 0,
@@ -536,7 +538,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           <div
             id={_id}
             className={_id + "rect-alo"}
-            onMouseDown={!selected || src ? this.startDrag : null}
+            // onMouseDown={this.startDrag}
             style={{
               zIndex: selected && objectType !== 4 ? 1 : 0,
               transformOrigin: "0 0",
@@ -585,9 +587,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                     backgroundColor: backgroundColor
                   }}
                   onDoubleClick={enableCropMode}
-                  onMouseDown={
-                    cropMode ? this.handleImageDragStart.bind(this) : null
-                  }
+                  // onMouseDown={
+                  //   cropMode ? this.handleImageDragStart.bind(this) : null
+                  // }
                   src={src}
                 />
               )}
@@ -624,9 +626,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                       transformOrigin: "0 0"
                     }}
                     onDoubleClick={enableCropMode}
-                    onMouseDown={
-                      cropMode ? this.handleImageDragStart.bind(this) : null
-                    }
+                    // onMouseDown={
+                    //   cropMode ? this.handleImageDragStart.bind(this) : null
+                    // }
                     src={src}
                   />
                   }
@@ -638,7 +640,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         <div
           id={_id}
           className={src ? null : _id + "scaleX-scaleY"}
-          onMouseDown={this.startDrag}
+          // onMouseDown={this.startDrag}
           style={{
             // zIndex: selected && objectType !== 4 ? 1 : 0,
             // zIndex: 999999,
@@ -1019,9 +1021,9 @@ export default class Rect extends PureComponent<IProps, IState> {
               outline:
                 cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
             }}
-            onMouseDown={
-              cropMode ? this.handleImageDragStart.bind(this) : null
-            }
+            // onMouseDown={
+            //   cropMode ? this.handleImageDragStart.bind(this) : null
+            // }
           >
             {!showImage &&
               cropMode &&
@@ -1127,7 +1129,8 @@ export default class Rect extends PureComponent<IProps, IState> {
         {src && objectType === 9 && showImage && (
           <div
             id={_id}
-            onMouseDown={!selected || src ? this.startDrag : null}
+            // onMouseDown={!selected || src ? this.startDrag : null}
+            // onMouseDown={this.startDrag}
             style={{
               zIndex: selected ? 1 : 0,
               transformOrigin: "0 0",

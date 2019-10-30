@@ -798,6 +798,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
   };
 
   handleResizeStart = (e: any) => {
+    e.stopPropagation();
     var resizers = document.getElementsByClassName(
       "resizable-handler-container"
     );
@@ -880,6 +881,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
         img.fontSize = fontSize;
+        editorStore.imageSelected = img;
       }
       return img;
     });
@@ -2225,7 +2227,6 @@ drag = ({ element, pan$}) => {
       });
     }
 
-    event.stopPropagation();
     var scaleY;
     let images = editorStore.images.map(image => {
       if (image._id === img._id) {
