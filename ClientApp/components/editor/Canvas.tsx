@@ -421,7 +421,7 @@ export default class Canvas extends Component<IProps, IState> {
                     }}
                     onMouseEnter={(e) => {
                       console.log('onMouseEnter', window.dragging);
-                      if (!window.dragging && !window.resizing && !window.rotating && !window.rotating) {
+                      if (!window.dragging && !window.resizing && !window.rotating && !window.rotating && !this.props.cropMode) {
                         console.log(" onMouseEnter select id", img._id);
                         this.props.handleImageHover(img, e);
                         this.forceUpdate();
