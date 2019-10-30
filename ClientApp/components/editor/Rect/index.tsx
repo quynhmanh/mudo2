@@ -557,6 +557,129 @@ export default class Rect extends PureComponent<IProps, IState> {
             }}
           ></div>
         )}
+        {src && (objectType === 4 || objectType === 6) && (
+          <div
+            id={_id}
+            className={_id + "rect-alo"}
+            onMouseDown={!selected || src ? this.startDrag : null}
+            style={{
+              zIndex: selected && objectType !== 4 ? 1 : 0,
+              transformOrigin: "0 0",
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <div
+              id="test"
+              className={_id + "rect-alo"}
+              style={{
+                width: width / (src ? 1 : scaleX) + "px",
+                height: height / (src ? 1 : scaleY) + "px",
+                position: "absolute"
+              }}
+            ></div>
+            <div
+              id={_id + "_____"}
+              className={_id + "rect-alo"}
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                overflow: !this.props.bleed && "hidden",
+                opacity
+              }}
+            >
+              {
+                (showImage || (!showImage && cropMode)) && 
+                (objectType === 4 || objectType === 6) && (
+                <img
+                  id={_id + "1235"}
+                  className={_id + "rect-alo" + " " + _id + "imgWidth" + " " + _id + "1236"}
+                  style={{
+                    zIndex: 9999999,
+                    width: imgWidth + "px",
+                    height: imgHeight + "px",
+                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+                    opacity: selected || !cropMode ? 1 : 0.5,
+                    outline:
+                      cropMode && selected
+                        ? `#00d9e1 solid ${outlineWidth - 1}px`
+                        : null,
+                    transformOrigin: "0 0",
+                    backgroundColor: backgroundColor
+                  }}
+                  onDoubleClick={enableCropMode}
+                  onMouseDown={
+                    cropMode ? this.handleImageDrag.bind(this) : null
+                  }
+                  src={src}
+                />
+              )}
+            </div>
+            {(selected && cropMode &&
+            <div
+              id={_id + "123"}
+              className={_id + "rect-alo"}
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute"
+              }}
+            >
+                <div
+                  id={_id + "1236"}
+                  className={_id + "1236" + " " + _id + "imgWidth"}
+                  style={{
+                    width: this.props.imgWidth + "px",
+                    height: this.props.imgHeight + "px",
+                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+                    // outline: cropMode && selected ? `#00d9e1 solid 2px` : null
+                  }}
+                >
+                  { (objectType === 4 || objectType === 6) &&
+                  <img
+                    // id={_id + "1236"}
+                    className={_id + "rect-alo"}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+                      opacity: 0.5,
+                      transformOrigin: "0 0"
+                    }}
+                    onDoubleClick={enableCropMode}
+                    onMouseDown={
+                      cropMode ? this.handleImageDrag.bind(this) : null
+                    }
+                    src={src}
+                  />
+                  }
+                  { (objectType === 9) &&
+                    <video
+                    // id={_id + "1236"}
+                    className={_id + "rect-alo"}
+                    style={{
+                      width: this.props.imgWidth + "px",
+                      height: this.props.imgHeight + "px",
+                      // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+                      opacity: 0.5,
+                      outline:
+                        cropMode && selected ? `#00d9e1 solid 2px` : null,
+                      transformOrigin: "0 0"
+                    }}
+                    onDoubleClick={enableCropMode}
+                    onMouseDown={
+                      cropMode ? this.handleImageDrag.bind(this) : null
+                    }
+                    src={src}
+                  />
+                  }
+                </div>
+            </div>
+            )}
+          </div>
+        )}
         <div
           id={_id}
           className={src ? null : _id + "scaleX-scaleY"}
@@ -931,129 +1054,6 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           )}
         </div>
-        {src && (objectType === 4 || objectType === 6) && (
-          <div
-            id={_id}
-            className={_id + "rect-alo"}
-            onMouseDown={!selected || src ? this.startDrag : null}
-            style={{
-              zIndex: selected && objectType !== 4 ? 1 : 0,
-              transformOrigin: "0 0",
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <div
-              id="test"
-              className={_id + "rect-alo"}
-              style={{
-                width: width / (src ? 1 : scaleX) + "px",
-                height: height / (src ? 1 : scaleY) + "px",
-                position: "absolute"
-              }}
-            ></div>
-            <div
-              id={_id + "_____"}
-              className={_id + "rect-alo"}
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                overflow: !this.props.bleed && "hidden",
-                opacity
-              }}
-            >
-              {
-                (showImage || (!showImage && cropMode)) && 
-                (objectType === 4 || objectType === 6) && (
-                <img
-                  id={_id + "1235"}
-                  className={_id + "rect-alo" + " " + _id + "imgWidth" + " " + _id + "1236"}
-                  style={{
-                    zIndex: 9999999,
-                    width: imgWidth + "px",
-                    height: imgHeight + "px",
-                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    opacity: selected || !cropMode ? 1 : 0.5,
-                    outline:
-                      cropMode && selected
-                        ? `#00d9e1 solid ${outlineWidth - 1}px`
-                        : null,
-                    transformOrigin: "0 0",
-                    backgroundColor: backgroundColor
-                  }}
-                  onDoubleClick={enableCropMode}
-                  onMouseDown={
-                    cropMode ? this.handleImageDrag.bind(this) : null
-                  }
-                  src={src}
-                />
-              )}
-            </div>
-            {(selected && cropMode &&
-            <div
-              id={_id + "123"}
-              className={_id + "rect-alo"}
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute"
-              }}
-            >
-                <div
-                  id={_id + "1236"}
-                  className={_id + "1236" + " " + _id + "imgWidth"}
-                  style={{
-                    width: this.props.imgWidth + "px",
-                    height: this.props.imgHeight + "px",
-                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                    // outline: cropMode && selected ? `#00d9e1 solid 2px` : null
-                  }}
-                >
-                  { (objectType === 4 || objectType === 6) &&
-                  <img
-                    // id={_id + "1236"}
-                    className={_id + "rect-alo"}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                      opacity: 0.5,
-                      transformOrigin: "0 0"
-                    }}
-                    onDoubleClick={enableCropMode}
-                    onMouseDown={
-                      cropMode ? this.handleImageDrag.bind(this) : null
-                    }
-                    src={src}
-                  />
-                  }
-                  { (objectType === 9) &&
-                    <video
-                    // id={_id + "1236"}
-                    className={_id + "rect-alo"}
-                    style={{
-                      width: this.props.imgWidth + "px",
-                      height: this.props.imgHeight + "px",
-                      // transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
-                      opacity: 0.5,
-                      outline:
-                        cropMode && selected ? `#00d9e1 solid 2px` : null,
-                      transformOrigin: "0 0"
-                    }}
-                    onDoubleClick={enableCropMode}
-                    onMouseDown={
-                      cropMode ? this.handleImageDrag.bind(this) : null
-                    }
-                    src={src}
-                  />
-                  }
-                </div>
-            </div>
-            )}
-          </div>
-        )}
         {cropMode && (
           <div
             id="halo1"
