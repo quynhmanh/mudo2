@@ -901,6 +901,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       cur.style.opacity = 1;
     }
 
+    document.body.style.cursor = null;
+
     setTimeout(
       function() {
         this.setState({ resizing: false });
