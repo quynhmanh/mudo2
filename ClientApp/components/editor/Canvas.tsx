@@ -408,7 +408,7 @@ export default class Canvas extends Component<IProps, IState> {
                     id={img._id + "_"}
                     style={{
                       // zIndex: img.selected ? 99999999 : img.zIndex,
-                      zIndex: 1,
+                      zIndex: img.zIndex,
                       width: img.width * scale + "px",
                       height: img.height * scale + "px",
                       left: img.left * scale + "px",
