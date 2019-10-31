@@ -553,16 +553,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: "100%"
             }}
           >
-            {/* <div
-              id="test"
-              className={_id + "rect-alo"}
-              style={{
-                width: width / (src ? 1 : scaleX) + "px",
-                height: height / (src ? 1 : scaleY) + "px",
-                position: "absolute"
-              }}
-            ></div> */}
-            {(showImage || (!showImage && cropMode)) &&
+            {showImage &&
             <div
               id={_id + "_____"}
               className={_id + "rect-alo"}
@@ -603,7 +594,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     src={src}
                   />
             </div>}
-            {selected && cropMode && (
+            {selected && cropMode && !showImage && (
               <div
                 id={_id + "123"}
                 className={_id + "rect-alo"}
@@ -1002,7 +993,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           )}
         </div>
-        {cropMode && (
+        {cropMode && showImage && selected && showController && objectType !== 6 && (
           <div
             id="halo1"
             style={{
@@ -1013,11 +1004,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
             }}
           >
-            {!showImage &&
-              cropMode &&
-              showController &&
-              objectType !== 6 &&
-              imgResizeDirection.map((d, i) => {
+            {imgResizeDirection.map((d, i) => {
                 const cursor = `${getCursor(
                   rotateAngle + parentRotateAngle,
                   d

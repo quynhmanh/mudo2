@@ -3470,7 +3470,6 @@ drag = ({ element, pan$}) => {
   };
 
   renderCanvas(preview, index, downloading) {
-    console.log('renderCanvas ', toJS(editorStore.images));
     var res = [];
     let pages = toJS(editorStore.pages);
     for (var i = 0; i < pages.length; ++i) {
@@ -3660,9 +3659,9 @@ drag = ({ element, pan$}) => {
   refPhoneNumber = null;
 
   shouldComponentUpdate(nextProps, nextState) {
-    // if (nextState.dragging) {
-    //   return false;
-    // }
+    if (nextState.dragging || nextState.resizing) {
+      return false;
+    }
     return true;
   }
 
@@ -3677,7 +3676,7 @@ drag = ({ element, pan$}) => {
 
     const { images } = this.props;
 
-    console.log('Editor rendered');
+    console.log('render Editor');
 
     const adminEmail = "llaugusty@gmail.com";
 
