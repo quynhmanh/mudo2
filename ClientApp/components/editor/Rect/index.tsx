@@ -639,7 +639,9 @@ export default class Rect extends PureComponent<IProps, IState> {
           style={{
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
-            position: "absolute"
+            position: "absolute",
+            width: "100%",
+            height: "100%",
           }}
         >
           {childrens && childrens.length > 0 && showImage && (
