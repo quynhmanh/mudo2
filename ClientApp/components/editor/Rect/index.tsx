@@ -993,7 +993,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           )}
         </div>
-        {cropMode && showImage && selected && showController && objectType !== 6 && (
+        {cropMode && selected && showController && objectType !== 6 && (
           <div
             id="halo1"
             style={{

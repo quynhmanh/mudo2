@@ -504,6 +504,7 @@ export default class Canvas extends Component<IProps, IState> {
                   </div>
                 ))}
             </div>
+            {(editorStore.idObjectSelected || editorStore.idObjectHovered) &&
             <div
               id="canvas"
               className="canvas unblurred"
@@ -512,6 +513,7 @@ export default class Canvas extends Component<IProps, IState> {
                 height: rectHeight * scale + "px",
                 display: "inline-block",
                 position: "relative",
+                zIndex: 999999,
               }}
               onClick={e => {
                 if ((e.target as Element).id === "canvas" && !this.props.dragging && !this.props.resizing) {
@@ -719,6 +721,7 @@ export default class Canvas extends Component<IProps, IState> {
                   </div>
                 }
             </div>
+            }
           </div>
         </div>
         {!this.props.preview && (
