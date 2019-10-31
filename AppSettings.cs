@@ -235,6 +235,12 @@ padding: 1px 0 0 0!important;
 .canvas {
   overflow: hidden;
 }
+.rotate-container {
+    display: none;
+}
+* {
+    outline: none !important;
+}
 html {
           -webkit-print-color-adjust: exact;
         }

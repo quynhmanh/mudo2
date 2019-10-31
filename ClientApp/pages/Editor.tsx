@@ -1,4 +1,4 @@
-﻿import React, { PureComponent } from "react";
+﻿import React, { Component } from "react";
 import uuidv4 from "uuid/v4";
 import { getBoundingClientRect } from "@Utils";
 import "@Styles/editor.scss";
@@ -239,9 +239,7 @@ interface IState {
   scrollX: number;
   scrollY: number;
   _id: string;
-  resizing: boolean;
   rotating: boolean;
-  dragging: boolean;
   templateType: string;
   mode: number;
   staticGuides: any;
@@ -282,7 +280,7 @@ const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\
 const NAMESPACE = "editor";
 
 @observer
-class CanvaEditor extends PureComponent<IProps, IState> {
+class CanvaEditor extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -317,9 +315,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       toolbarSize: 450,
       scrollX: 16.67,
       scrollY: 16.67,
-      resizing: false,
       rotating: false,
-      dragging: false,
       mode: parseInt(this.props.match.params.mode) || Mode.CreateDesign,
       staticGuides: {
         x: [],
@@ -817,10 +813,10 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     window.startY = e.clientY;
     window.resizingInnerImage = false;
 
-    window.resizing = true;
-    this.setState({
-      resizing: true
-    });
+    // window.resizing = true;
+    // this.setState({
+    //   resizing: true
+    // });
 
     var cursor = e.target.id;
     var type = e.target.getAttribute("class").split(" ")[0];
@@ -903,12 +899,12 @@ class CanvaEditor extends PureComponent<IProps, IState> {
 
     document.body.style.cursor = null;
 
-    setTimeout(
-      function() {
-        this.setState({ resizing: false });
-      }.bind(this),
-      300
-    );
+    // setTimeout(
+    //   function() {
+    //     this.setState({ resizing: false });
+    //   }.bind(this),
+    //   300
+    // );
   };
 
   switching = false;
@@ -1211,7 +1207,7 @@ class CanvaEditor extends PureComponent<IProps, IState> {
     window.startX = e.clientX;
     window.startY = e.clientY;
     window.resizing = true;
-    this.setState({ resizing: true });
+    // this.setState({ resizing: true });
 
     var cursor = e.target.id;
     var type = e.target.getAttribute("class").split(" ")[0];
@@ -1643,8 +1639,8 @@ class CanvaEditor extends PureComponent<IProps, IState> {
       }
     }
 
-    window.dragging = true;
-    this.setState({ dragging: true });
+    // window.dragging = true;
+    // this.setState({ dragging: true });
 
     const location$ = this.handleDragRx(e.target);
 
@@ -2072,11 +2068,11 @@ drag = ({ element, pan$}) => {
       cur.style.opacity = 1;
     }
 
-    this.setState({ staticGuides: { x, y } });
-    window.dragging = false;
-    setTimeout(() => {
-      this.setState({ dragging: false });
-    }, 50);
+    // this.setState({ staticGuides: { x, y } });
+    // window.dragging = false;
+    // setTimeout(() => {
+    //   this.setState({ dragging: false });
+    // }, 50);
   };
 
   setAppRef = ref => (this.$app = ref);
@@ -2158,7 +2154,7 @@ drag = ({ element, pan$}) => {
   };
 
   doNoObjectSelected = () => {
-    if (!this.state.rotating && !this.state.resizing) {
+    // if (!this.state.rotating && !this.state.resizing) {
       let images = editorStore.images.map(image => {
         image.selected = false;
         return image;
@@ -2178,7 +2174,7 @@ drag = ({ element, pan$}) => {
         typeObjectSelected: null,
         childId: null
       });
-    }
+    // }
   };
   
   removeImage(e) {
@@ -2286,7 +2282,6 @@ drag = ({ element, pan$}) => {
 
     var previousScale = this.state.scale;
     var self = this;
-    this.doNoObjectSelected();
     this.setState({ showPopup: true, downloading: true }, () => {
       var aloCloned = document.getElementsByClassName("alo2");
       var canvas = [];
@@ -2334,7 +2329,6 @@ drag = ({ element, pan$}) => {
 
     var previousScale = this.state.scale;
     var self = this;
-    this.doNoObjectSelected();
     this.setState(
       {
         // scale: 1,
@@ -2416,7 +2410,6 @@ drag = ({ element, pan$}) => {
 
     var previousScale = this.state.scale;
     var self = this;
-    this.doNoObjectSelected();
     this.setState({ showPopup: true, downloading: true }, () => {
       var aloCloned = document.getElementsByClassName("alo2");
       var canvas = [];
@@ -2464,8 +2457,6 @@ drag = ({ element, pan$}) => {
     this.setState({ isSaving: true });
     const { mode } = this.state;
     var self = this;
-    this.doNoObjectSelected();
-
     const { rectWidth, rectHeight } = this.state;
 
     let images = toJS(self.props.images);
@@ -3484,8 +3475,8 @@ drag = ({ element, pan$}) => {
           id={pages[i]}
           translate={this.translate}
           rotating={this.state.rotating}
-          resizing={this.state.resizing}
-          dragging={this.state.dragging}
+          // resizing={this.state.resizing}
+          // dragging={this.state.dragging}
           isSaving={this.state.isSaving}
           downloading={downloading}
           bleed={this.state.bleed}
@@ -3660,12 +3651,12 @@ drag = ({ element, pan$}) => {
   refCity = null;
   refPhoneNumber = null;
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.dragging || nextState.resizing) {
-      return false;
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextState.dragging || nextState.resizing) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   render() {
     const {
@@ -3908,8 +3899,8 @@ drag = ({ element, pan$}) => {
               imgOnMouseDown={this.imgOnMouseDown.bind(this)}
               setSelectionColor={this.setSelectionColor.bind(this)}
               mounted={this.state.mounted}
-              dragging={this.state.dragging}
-              resizing={this.state.resizing}
+              // dragging={this.state.dragging}
+              // resizing={this.state.resizing}
               rotating={this.state.rotating}
               subtype={this.state.subtype}
               selectFont={this.selectFont.bind(this)}
@@ -4879,9 +4870,9 @@ drag = ({ element, pan$}) => {
                   e.stopPropagation();
                   if (
                     // !cropMode &&
-                    (e.target as Element).id === "screen-container-parent" &&
-                    !this.state.dragging &&
-                    !this.state.resizing
+                    (e.target as Element).id === "screen-container-parent"
+                    // !this.state.dragging &&
+                    // !this.state.resizing
                   ) {
                     this.doNoObjectSelected();
                     e.stopPropagation();
@@ -4916,9 +4907,9 @@ drag = ({ element, pan$}) => {
                     ref={this.setContainerRef}
                     onClick={e => {
                       if (
-                        (e.target as Element).id === "screen-container" &&
-                        !this.state.dragging &&
-                        !this.state.resizing
+                        (e.target as Element).id === "screen-container"
+                        // !this.state.dragging &&
+                        // !this.state.resizing
                       ) {
                         this.doNoObjectSelected();
                       }

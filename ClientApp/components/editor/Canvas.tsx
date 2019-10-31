@@ -526,7 +526,7 @@ export default class Canvas extends Component<IProps, IState> {
                     id={imgHovered._id + "__"}
                     key={imgHovered._id}
                     style={{
-                      zIndex: imgHovered.zIndex,
+                      zIndex: 99999999,
                       width: imgHovered.width * scale + "px",
                       height: imgHovered.height * scale + "px",
                       left: imgHovered.left * scale + "px",
