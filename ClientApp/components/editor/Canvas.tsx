@@ -453,7 +453,7 @@ export default class Canvas extends Component<IProps, IState> {
                         showImage={true}
                         hidden={true}
                         objectType={img.type}
-                        showController={false}
+                        showController={img.selected}
                         key={img._id + "2"}
                         left={img.left * scale}
                         top={img.top * scale}
@@ -632,7 +632,7 @@ export default class Canvas extends Component<IProps, IState> {
                       className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaa"}
                       id={imgSelected._id + "__"}
                       style={{
-                        zIndex: 9999999,
+                        // zIndex: 9999999,
                         width: imgSelected.width * scale + "px",
                         height: imgSelected.height * scale + "px",
                         left: imgSelected.left * scale + "px",

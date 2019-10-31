@@ -347,8 +347,8 @@ export default class Rect extends PureComponent<IProps, IState> {
         width,
         height,
         rotateAngle,
-        posX,
-        posY,
+        posX: posX2,
+        posY: posY2,
         imgWidth: imgWidth2,
         imgHeight: imgHeight2,
       }
@@ -356,6 +356,8 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     const imgWidth = imgWidth2 * scale;
     const imgHeight = imgHeight2 * scale;
+    const posX = posX2 * scale;
+    const posY = posY2 * scale;
 
 
     let style = {
@@ -560,6 +562,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 position: "absolute"
               }}
             ></div> */}
+            {(showImage || (!showImage && cropMode)) &&
             <div
               id={_id + "_____"}
               className={_id + "rect-alo"}
@@ -571,8 +574,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                 opacity,
               }}
             >
-              {(showImage || (!showImage && cropMode)) &&
-                (objectType === 4 || objectType === 6) && (
                   <img
                     id={_id + "1235"}
                     className={
@@ -601,8 +602,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     onDoubleClick={enableCropMode}
                     src={src}
                   />
-                )}
-            </div>
+            </div>}
             {selected && cropMode && (
               <div
                 id={_id + "123"}
@@ -619,7 +619,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   style={{
                     width: imgWidth + "px",
                     height: imgHeight + "px",
-                    transform: `translate(${this.props.posX}px, ${this.props.posY}px)`
+                    transform: `translate(${posX}px, ${posY}px)`
                   }}
                 >
                   {(objectType === 4 || objectType === 6) && (
@@ -802,7 +802,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               id={_id + "1237"}
               className={_id + "imgWidth" + " " + _id + "1236"}
               style={{
-                transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+                transform: `translate(${posX}px, ${posY}px)`,
                 width: imgWidth + "px",
                 height: imgHeight + "px",
                 zIndex: 999999,
@@ -1130,7 +1130,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               id={_id + "1238"}
               className={_id + "rect-alo" + " " + _id + "imgWidth"}
               style={{
-                transform: `translate(${this.props.posX}px, ${this.props.posY}px)`,
+                transform: `translate(${posX}px, ${posY}px)`,
                 width: imgWidth + "px",
                 height: imgHeight + "px"
               }}
