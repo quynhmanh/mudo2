@@ -513,7 +513,6 @@ export default class Canvas extends Component<IProps, IState> {
                 height: rectHeight * scale + "px",
                 display: "inline-block",
                 position: "relative",
-                zIndex: 999999,
               }}
               onClick={e => {
                 if ((e.target as Element).id === "canvas" && !this.props.dragging && !this.props.resizing) {
@@ -521,10 +520,11 @@ export default class Canvas extends Component<IProps, IState> {
                 }
               }}
             >
-                {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered && <div key={imgHovered._id}>
+                {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&
                   <div
                     className={imgHovered._id + "__"}
                     id={imgHovered._id + "__"}
+                    key={imgHovered._id}
                     style={{
                       zIndex: imgHovered.zIndex,
                       width: imgHovered.width * scale + "px",
@@ -627,14 +627,13 @@ export default class Canvas extends Component<IProps, IState> {
                       />
                     </div>
                   </div>
-                </div>}
-                {imgSelected && 
-                  <div key={imgSelected._id}>
-                    <div
+                }
+                {imgSelected && <div
                       className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaa"}
                       id={imgSelected._id + "__"}
+                      key={imgSelected._id}
                       style={{
-                        // zIndex: 9999999,
+                        zIndex: 9999999,
                         width: imgSelected.width * scale + "px",
                         height: imgSelected.height * scale + "px",
                         left: imgSelected.left * scale + "px",
@@ -718,7 +717,6 @@ export default class Canvas extends Component<IProps, IState> {
                         />
                       </div>
                     </div>
-                  </div>
                 }
             </div>
             }
