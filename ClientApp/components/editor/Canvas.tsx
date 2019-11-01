@@ -391,13 +391,13 @@ export default class Canvas extends Component<IProps, IState> {
                 position: "absolute",
                 overflow: "hidden",
               }}
-              onClick={e => {
-                if ((e.target as Element).id === "canvas" && 
-                  !this.props.resizing &&
-                  !this.props.dragging) {
-                  this.props.doNoObjectSelected();
-                }
-              }}
+              // onClick={e => {
+              //   if ((e.target as Element).id === "canvas" && 
+              //     !this.props.resizing &&
+              //     !this.props.dragging) {
+              //     this.props.doNoObjectSelected();
+              //   }
+              // }}
             >
               {images
                 // .filter(img => img.selected)
@@ -437,7 +437,8 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                       key={img._id}
                       onMouseDown={(e) => {
-                        this.props.handleImageSelected(img, e);
+                        e.stopPropagation();
+                        // this.props.handleImageSelected(img, e);
                         this.props.handleDragStart(e, img._id);
                       }}
                     >
@@ -514,11 +515,11 @@ export default class Canvas extends Component<IProps, IState> {
                 display: "inline-block",
                 position: "relative",
               }}
-              onClick={e => {
-                if ((e.target as Element).id === "canvas" && !this.props.dragging && !this.props.resizing) {
-                  this.props.doNoObjectSelected();
-                }
-              }}
+              // onClick={e => {
+              //   if ((e.target as Element).id === "canvas" && !this.props.dragging && !this.props.resizing) {
+              //     this.props.doNoObjectSelected();
+              //   }
+              // }}
             >
                 {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&
                   <div
@@ -567,7 +568,8 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                       key={imgHovered._id}
                       onMouseDown={(e) => {
-                        this.props.handleImageSelected(imgHovered, e);
+                        e.stopPropagation();
+                        // this.props.handleImageSelected(imgHovered);
                         this.props.handleDragStart(e, imgHovered._id);
                       }}
                     >

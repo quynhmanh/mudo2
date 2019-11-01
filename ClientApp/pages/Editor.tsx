@@ -40,8 +40,7 @@ var Hammer;
 //   console.log('hammerjs ', require("hammerjs"));
 // }
 
-import Rx from "rxjs";
-import { fromEvent, merge } from 'rxjs';
+import { fromEvent, merge, NEVER, Subject, BehaviorSubject, } from 'rxjs';
 import { map, filter, scan, switchMap, startWith, takeUntil } from 'rxjs/operators';
 
 const DownloadList = loadable(() => import("@Components/editor/DownloadList"));
@@ -364,6 +363,30 @@ class CanvaEditor extends Component<IProps, IState> {
   };
 
   async componentDidMount() {
+
+    // Creating a pauser subject to subscribe to
+    var screenContainerParent = document.getElementById("screen-container-parent");
+    this.doNoObjectSelected$    = fromEvent(screenContainerParent, 'click');
+    this.doNoObjectSelected$ = this.doNoObjectSelected$.pipe(
+      map(e => e.target.id)
+    );
+    
+    this.pauser = new BehaviorSubject(false);
+    const pausable = this.pauser.pipe(
+      switchMap(paused => {
+        console.log('paused ', paused);
+      return paused ? NEVER : this.doNoObjectSelected$; 
+    }));
+
+    this.pauser.next(false);
+
+    pausable.subscribe(id => {
+      console.log('id ', id);
+      if (id == "canvas" || id == "screen-container-parent") {
+        this.doNoObjectSelected();
+      }
+    });
+    
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
@@ -818,6 +841,8 @@ class CanvaEditor extends Component<IProps, IState> {
     //   resizing: true
     // });
 
+    this.pauser.next(true);
+
     var cursor = e.target.id;
     var type = e.target.getAttribute("class").split(" ")[0];
     let { scale } = this.state;
@@ -868,6 +893,7 @@ class CanvaEditor extends Component<IProps, IState> {
       () => {
         window.resizing = false;
         this.handleResizeEnd(null);
+        this.pauser.next(false);
       });
   };
 
@@ -1602,11 +1628,13 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image = clone(image);
         window.posX = window.image.posX;
         window.posY = window.image.posY;
+        window.imgWidth = window.image.imgWidth;
+        window.imgHeight = window.image.imgHeight;
       }
     });
 
     if (_id != this.state.idObjectSelected) {
-      this.handleImageSelected(window.image, e);
+      this.handleImageSelected(window.image);
     }
 
     var resizers = document.getElementsByClassName(
@@ -1681,14 +1709,16 @@ class CanvaEditor extends Component<IProps, IState> {
   handleImageDrag = (_id, clientX, clientY) => {
     const { scale } = this.state;
 
-    var deltaX = (clientX - window.startX) / scale;
-    var deltaY = (clientY - window.startY) / scale;
-    let image = window.image;
-    var newPosX = window.posX + deltaX;
-    var newPosY = window.posY + deltaY;
+    var deltaX = (clientX - window.startX);
+    var deltaY = (clientY - window.startY);
 
-    // let images = toJS(editorStore.images);
-    // images = images.map(img => {
+    var deg = degToRadian(image.rotateAngle);
+    var newX = deltaY * Math.sin(deg) + deltaX * Math.cos(deg);
+    var newY = deltaY * Math.cos(deg) - deltaX * Math.sin(deg);
+
+    var newPosX = window.posX + newX / scale;
+    var newPosY = window.posY + newY / scale;
+
     var img = window.image;
     if (newPosX > 0) {
       newPosX = 0;
@@ -1726,6 +1756,7 @@ drag = ({ element, pan$}) => {
   .pipe(
     map((e: any) => {
       e.preventDefault();
+      e.stopPropagation();
       var x = e.clientX; 
       var y = e.clientY;
       return {x, y}
@@ -2198,7 +2229,8 @@ drag = ({ element, pan$}) => {
     editorStore.imageHovered = img;
   }
 
-  handleImageSelected = (img, event) => {
+  handleImageSelected = (img) => {
+    console.log('handleImageSelected ');
     if (this.state.cropMode && img._id != this.state.idObjectSelected) {
       this.setState({ cropMode: false });
       this.doNoObjectSelected();
@@ -4865,19 +4897,6 @@ drag = ({ element, pan$}) => {
               </div>
               <div
                 id="screen-container-parent"
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (
-                    // !cropMode &&
-                    (e.target as Element).id === "screen-container-parent"
-                    // !this.state.dragging &&
-                    // !this.state.resizing
-                  ) {
-                    this.doNoObjectSelected();
-                    e.stopPropagation();
-                  }
-                }}
                 style={{
                   top: "46px",
                   overflow: "scroll",
@@ -4911,7 +4930,7 @@ drag = ({ element, pan$}) => {
                         // !this.state.dragging &&
                         // !this.state.resizing
                       ) {
-                        this.doNoObjectSelected();
+                        // this.doNoObjectSelected();
                       }
                     }}
                   >
