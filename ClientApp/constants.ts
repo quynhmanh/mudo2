@@ -177,3 +177,146 @@ export const POPULAR_LIST = [
     size: "1080x1080 px"
   }
 ];
+
+export const CATALOG_LIST = [
+  {
+    name: "fitAllSocialMedia",
+    subItems: [
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg",
+        title: "socialMedia"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg",
+        title: "presentation"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "poster"
+      }
+    ]
+  },
+  {
+    name: "Facebook",
+    subItems: [
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg",
+        title: "facebookPost"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg",
+        title: "facebookVideoCover"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "facebookCover"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "facebookVideoStory"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "facebookEventCover"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "facebookAd"
+      }
+    ]
+  },
+  {
+    name: "Instagram",
+    subItems: [
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg",
+        title: "instagramStory"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg",
+        title: "instagramVideoStory"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "instagramPost"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "instagramAd"
+      }
+    ]
+  },
+  {
+    name: "Twitter",
+    subItems: [
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg",
+        title: "twitterPost"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg",
+        title: "twitterHeader"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "twitterAd"
+      }
+    ]
+  },
+  {
+    name: "otherSocialMedia",
+    subItems: [
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg",
+        title: "socialMedia"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg",
+        title: "presentation"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "poster"
+      }
+    ]
+  },
+  {
+    name: "onlineMarketing",
+    subItems: [
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPlT3nYM/3/0/thumbnail_large.jpg",
+        title: "socialMedia"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MAC7nvfeo9g/5/0/thumbnail_large.jpg",
+        title: "presentation"
+      },
+      {
+        href: "/editor/design/0adbe687-162d-41e6-9269-8949eee2795a",
+        src: "https://media-public.canva.com/MADOPpWR6AM/4/0/thumbnail_large.jpg",
+        title: "poster"
+      }
+    ]
+  }
+];
