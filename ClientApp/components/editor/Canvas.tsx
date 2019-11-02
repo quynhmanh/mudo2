@@ -424,7 +424,9 @@ export default class Canvas extends Component<IProps, IState> {
                         this.forceUpdate();
                       }
                     }}
-                    onMouseMove={(e) => {
+                    onMouseLeave={(e) => {
+                      editorStore.imageHovered = null;
+                      this.forceUpdate();
                     }}
                   >
                     <div
@@ -521,6 +523,7 @@ export default class Canvas extends Component<IProps, IState> {
               //   }
               // }}
             >
+              <div>
                 {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&
                   <div
                     className={imgHovered._id + "__"}
@@ -535,7 +538,8 @@ export default class Canvas extends Component<IProps, IState> {
                       position: "absolute",
                       transform: `rotate(${
                         imgHovered.rotateAngle ? imgHovered.rotateAngle : 0
-                      }deg)`
+                      }deg)`,
+                      pointerEvents: "none",
                     }}
 
                     onMouseLeave={(e) => {
@@ -630,6 +634,7 @@ export default class Canvas extends Component<IProps, IState> {
                     </div>
                   </div>
                 }
+                </div>
                 {imgSelected && <div
                       className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaa"}
                       id={imgSelected._id + "__"}
