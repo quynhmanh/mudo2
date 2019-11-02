@@ -635,7 +635,7 @@ export default class Canvas extends Component<IProps, IState> {
                       id={imgSelected._id + "__"}
                       key={imgSelected._id}
                       style={{
-                        zIndex: 9999999,
+                        zIndex: 99999999,
                         width: imgSelected.width * scale + "px",
                         height: imgSelected.height * scale + "px",
                         left: imgSelected.left * scale + "px",
