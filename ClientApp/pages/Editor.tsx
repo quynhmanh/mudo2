@@ -937,9 +937,11 @@ class CanvaEditor extends Component<IProps, IState> {
     objectType,
     e
   ) => {
+    console.log('handleResize')
     const { scale } = this.state;
     let { top, left, width, height } = style;
-    var self = this;
+    // var self = this;
+    var switching = false;
     var temp = this.handleImageResize;
     // var images = editorStore.images.map(image => {
     //   if (image._id === _id) {
@@ -996,7 +998,7 @@ class CanvaEditor extends Component<IProps, IState> {
             window.startY =
               document.getElementById(_id + "tl_").getBoundingClientRect().top +
               10;
-            self.switching = true;
+            switching = true;
           }
 
           if (t5 && t6 && type == "bl") {
@@ -1007,7 +1009,7 @@ class CanvaEditor extends Component<IProps, IState> {
             window.startY =
               document.getElementById(_id + "bl_").getBoundingClientRect().top +
               10;
-            self.switching = true;
+            switching = true;
           }
 
           if (t6 && t7 && type == "br") {
@@ -1018,7 +1020,7 @@ class CanvaEditor extends Component<IProps, IState> {
             window.startY =
               document.getElementById(_id + "br_").getBoundingClientRect().top +
               10;
-            self.switching = true;
+            switching = true;
           }
 
           if (t8 && t7 && type == "tr") {
@@ -1029,7 +1031,7 @@ class CanvaEditor extends Component<IProps, IState> {
             window.startY =
               document.getElementById(_id + "tr_").getBoundingClientRect().top +
               10;
-            self.switching = true;
+            switching = true;
           }
         }
 
@@ -1157,7 +1159,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         (window as any).scaleY = image.scaleY;
 
-        if (self.switching) {
+        if (switching) {
           const styles = tLToCenter({
             top: image.top,
             left: image.left,
@@ -1188,20 +1190,6 @@ class CanvaEditor extends Component<IProps, IState> {
             rotateAngle: 0
           };
         }
-    //   }
-    //   return image;
-    // });
-
-    // this.setState({ updateRect: self.switching }, () => {
-    //   if (self.switching) {
-    //     self.handleImageResize = temp;
-    //     // self.setState({updateRect: false});
-    //     setTimeout(() => {
-    //       (self.switching = false), self.setState({ updateRect: false });
-    //     }, 1);
-    //   }
-    // });
-    // editorStore.replace(images);
   };
 
   handleResizeInnerImageStart = (e) => {
@@ -1332,6 +1320,7 @@ class CanvaEditor extends Component<IProps, IState> {
     objectType,
     e
   ) => {
+    console.log('handleImageResize')
     const { scale } = this.state;
     let { top, left, width, height } = style;
     // top = top / scale;
