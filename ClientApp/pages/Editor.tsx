@@ -887,7 +887,7 @@ class CanvaEditor extends Component<IProps, IState> {
           { ...rect, rotateAngle },
           deltaW,
           deltaH,
-          type == "r" ? null : ratio,
+          (type == "r" || type == "l") ? null : ratio,
           10,
           10
         );

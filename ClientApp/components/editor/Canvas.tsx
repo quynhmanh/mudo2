@@ -122,8 +122,6 @@ export default class Canvas extends Component<IProps, IState> {
 
     let images= toJS(editorStore.images).filter(img => img.page === id);
 
-    console.log('render canvas ', images);
-
     return (
       <ResizableRectContainer
         // onTransitionEnd={this.props.handleDeleteThisPage}
