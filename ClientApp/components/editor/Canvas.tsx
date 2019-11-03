@@ -489,9 +489,6 @@ export default class Canvas extends Component<IProps, IState> {
                         posY={img.posY * scale}
                         enableCropMode={this.props.enableCropMode}
                         cropMode={cropMode}
-                        imgWidth={img.imgWidth * scale}
-                        imgHeight={img.imgHeight * scale}
-                        imgColor={img.color}
                         handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                           this
                         )}
@@ -597,6 +594,8 @@ export default class Canvas extends Component<IProps, IState> {
                         onResizeStart={this.props.handleResizeStart}
                         updateStartPos={imgHovered.updateStartPos}
                         src={imgHovered.src}
+                        posX={imgHovered.posX * scale}
+                        posY={imgHovered.posY * scale}
                         onTextChange={this.props.onSingleTextChange.bind(
                           this,
                           imgHovered

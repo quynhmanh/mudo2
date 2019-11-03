@@ -818,31 +818,33 @@ class CanvaEditor extends Component<IProps, IState> {
     this.setState({ showFontEditPopup: true, editingFont: item });
   };
 
-  handleResizeStart = (e: any) => {
-    e.stopPropagation();
+  displayResizers = (show: Boolean) => {
+    let opacity = show ? 1 : 0;
     var resizers = document.getElementsByClassName(
       "resizable-handler-container"
     );
     for (var i = 0; i < resizers.length; ++i) {
       var cur: any = resizers[i];
-      cur.style.opacity = 0;
+      cur.style.opacity = opacity;
     }
 
     var rotators = document.getElementsByClassName("rotate-container");
     for (var i = 0; i < rotators.length; ++i) {
       var cur: any = rotators[i];
-      cur.style.opacity = 0;
+      cur.style.opacity = opacity;
     }
+  }
+
+  handleResizeStart = (e: any) => {
+    e.stopPropagation();
+    
+    this.displayResizers(false);
 
     window.startX = e.clientX;
     window.startY = e.clientY;
     window.resizingInnerImage = false;
-
-    // window.resizing = true;
-    // this.setState({
-    //   resizing: true
-    // });
-
+    window.resizing = true;
+   
     this.pauser.next(true);
 
     var cursor = e.target.id;
@@ -893,6 +895,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.handleResize(centerToTL({ centerX, centerY, width, height, rotateAngle }), false, cursor, this.state.idObjectSelected, 1, 1, cursor, editorStore.imageSelected.type, e);
       }, null, 
       () => {
+        this.displayResizers(true);
         window.resizing = false;
         this.handleResizeEnd(null);
         this.pauser.next(false);
@@ -910,21 +913,7 @@ class CanvaEditor extends Component<IProps, IState> {
       return img;
     });
     editorStore.images.replace(tempImages);
-
-    var resizers = document.getElementsByClassName(
-      "resizable-handler-container"
-    );
-    for (var i = 0; i < resizers.length; ++i) {
-      var cur: any = resizers[i];
-      cur.style.opacity = 1;
-    }
-
-    var rotators = document.getElementsByClassName("rotate-container");
-    for (var i = 0; i < rotators.length; ++i) {
-      var cur: any = rotators[i];
-      cur.style.opacity = 1;
-    }
-
+    
     document.body.style.cursor = null;
 
     // setTimeout(
@@ -1512,19 +1501,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
   handleRotateStart = (e: any) => {
     e.stopPropagation();
-    var resizers = document.getElementsByClassName(
-      "resizable-handler-container"
-    );
-    for (var i = 0; i < resizers.length; ++i) {
-      var cur: any = resizers[i];
-      cur.style.opacity = 0;
-    }
-
-    var rotators = document.getElementsByClassName("rotate-container");
-    for (var i = 0; i < rotators.length; ++i) {
-      var cur: any = rotators[i];
-      cur.style.opacity = 0;
-    }
+    this.displayResizers(false);
 
     let image = editorStore.images.find(img => img._id == this.state.idObjectSelected);
     window.image = image;
@@ -1618,6 +1595,8 @@ class CanvaEditor extends Component<IProps, IState> {
         tip.innerText = rotateAngle + "°";
       }, null, 
       () => {
+        window.rotating = false;
+        this.displayResizers(true);
         this.handleRotateEnd(this.state.idObjectSelected);
         this.pauser.next(false);
       });
@@ -1625,21 +1604,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
   handleRotateEnd = (_id: string) => {
     var tip = document.getElementById("helloTip");
+    if (!tip) {
+      tip = document.createElement("div");
+    }
     document.body.removeChild(tip);
-
-    var resizers = document.getElementsByClassName(
-      "resizable-handler-container"
-    );
-    for (var i = 0; i < resizers.length; ++i) {
-      var cur: any = resizers[i];
-      cur.style.opacity = 1;
-    }
-
-    var rotators = document.getElementsByClassName("rotate-container");
-    for (var i = 0; i < rotators.length; ++i) {
-      var cur: any = rotators[i];
-      cur.style.opacity = 1;
-    }
 
     let images = toJS(editorStore.images);
     let tempImages = images.map(image => {
@@ -1650,25 +1618,13 @@ class CanvaEditor extends Component<IProps, IState> {
       return image;
     });
 
-    console.log('handleRotateEnd images ', window.rotateAngle, tempImages);
-
     editorStore.replace(tempImages);
-
-    window.rotating = false;
-
-    setTimeout(
-      function() {
-        this.setState({ rotating: false });
-      }.bind(this),
-      300
-    );
   };
 
   canvasRect = null;
   temp = null;
 
   handleDragStart = (e, _id) => {
-    console.log('handleDragStart ');
     window.startX = e.clientX;
     window.startY = e.clientY;
     const { scale } = this.state;
@@ -1688,38 +1644,9 @@ class CanvaEditor extends Component<IProps, IState> {
       this.handleImageSelected(window.image);
     }
 
-    var resizers = document.getElementsByClassName(
-      "resizable-handler-container"
-    );
-    for (var i = 0; i < resizers.length; ++i) {
-      var cur: any = resizers[i];
-      cur.style.opacity = 0;
-    }
+    this.displayResizers(false);
 
-    var rotators = document.getElementsByClassName("rotate-container");
-    for (var i = 0; i < rotators.length; ++i) {
-      var cur: any = rotators[i];
-      cur.style.opacity = 0;
-    }
-
-    var rects = document.getElementsByClassName("rect");
-    for (var i = 0; i < rects.length; ++i) {
-      var curRect = rects[i];
-      curRect.classList.remove("disable-hover");
-      curRect.classList.remove("selected");
-    }
-
-    // document.getElementById(_id + "_1").classList.add("selected");
-
-    for (var i = 0; i < rects.length; ++i) {
-      var curRect = rects[i];
-      if (!curRect.classList.contains(_id + "-styledrect")) {
-        curRect.classList.add("disable-hover");
-      }
-    }
-
-    // window.dragging = true;
-    // this.setState({ dragging: true });
+    window.dragging = true;
 
     this.pauser.next(true);
 
@@ -1738,6 +1665,8 @@ class CanvaEditor extends Component<IProps, IState> {
         }
       }, null, 
       () => {
+        window.dragging = false;
+        this.displayResizers(true);
         this.handleDragEnd();
         this.pauser.next(false);
       });
@@ -2129,34 +2058,7 @@ drag = ({ element, pan$}) => {
       return image;
     });
 
-    // editorStore.replace(images);
     editorStore.replace(images);
-
-    var rects = document.getElementsByClassName("rect");
-    for (var i = 0; i < rects.length; ++i) {
-      var curRect = rects[i];
-      curRect.classList.remove("disable-hover");
-    }
-
-    var resizers = document.getElementsByClassName(
-      "resizable-handler-container"
-    );
-    for (var i = 0; i < resizers.length; ++i) {
-      var cur: any = resizers[i];
-      cur.style.opacity = 1;
-    }
-
-    var rotators = document.getElementsByClassName("rotate-container");
-    for (var i = 0; i < rotators.length; ++i) {
-      var cur: any = rotators[i];
-      cur.style.opacity = 1;
-    }
-
-    // this.setState({ staticGuides: { x, y } });
-    // window.dragging = false;
-    // setTimeout(() => {
-    //   this.setState({ dragging: false });
-    // }, 50);
   };
 
   setAppRef = ref => (this.$app = ref);
