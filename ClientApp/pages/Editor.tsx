@@ -377,7 +377,6 @@ class CanvaEditor extends Component<IProps, IState> {
     this.pauser = new BehaviorSubject(false);
     const pausable = this.pauser.pipe(
       switchMap(paused => {
-        console.log('paused ', paused);
       return paused ? NEVER : doNoObjectSelected$; 
     }));
 
@@ -2099,7 +2098,6 @@ drag = ({ element, pan$}) => {
   };
 
   handleDragEnd = () => {
-    console.log('handleDragEnd');
     this.temp.unsubscribe();
 
     let {
@@ -2269,7 +2267,7 @@ drag = ({ element, pan$}) => {
       this.state.idObjectSelected != "undefined" &&
       !e.target.classList.contains("text") &&
       ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
-        (e.keyCode === 91 && OSNAME == "Windows"))
+        (e.keyCode === 8 && OSNAME == "Windows"))
     ) {
       let images = editorStore.images.filter(
         img => img._id !== this.state.idObjectSelected
@@ -2285,7 +2283,6 @@ drag = ({ element, pan$}) => {
   }
 
   handleImageSelected = (img) => {
-    console.log('handleImageSelected ');
     if (this.state.cropMode && img._id != this.state.idObjectSelected) {
       this.setState({ cropMode: false });
       this.doNoObjectSelected();

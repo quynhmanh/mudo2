@@ -452,10 +452,8 @@ export default class Canvas extends Component<IProps, IState> {
                         dragging={this.props.dragging}
                         resizing={this.props.resizing}
                         id={img._id + "_1"}
-                        opacity={img.opacity}
                         showImage={true}
                         hidden={true}
-                        objectType={img.type}
                         showController={img.selected}
                         key={img._id + "2"}
                         left={img.left * scale}
@@ -499,7 +497,6 @@ export default class Canvas extends Component<IProps, IState> {
                         )}
                         updateRect={this.props.updateRect}
                         bleed={this.props.bleed}
-                        backgroundColor={img.backgroundColor}
                       />
                     </div>
                   </div>
@@ -668,13 +665,11 @@ export default class Canvas extends Component<IProps, IState> {
                           dragging={this.props.dragging}
                           resizing={this.props.resizing}
                           id={imgSelected._id + "_2"}
-                          opacity={imgSelected.opacity}
                           bleed={this.props.bleed}
                           showImage={false}
                           hidden={true}
                           showController={true}
                           key={imgSelected._id + "2"}
-                          _id={imgSelected._id}
                           left={imgSelected.left * scale}
                           top={imgSelected.top * scale}
                           width={imgSelected.width * scale}
@@ -683,8 +678,6 @@ export default class Canvas extends Component<IProps, IState> {
                           aspectRatio={imgSelected.width / imgSelected.height}
                           zoomable="n, w, s, e, nw, ne, se, sw"
                           onRotateStart={this.props.handleRotateStart}
-                          onRotate={this.props.handleRotate.bind(this)}
-                          onRotateEnd={this.props.handleRotateEnd}
                           onResizeStart={this.props.handleResizeStart}
                           updateStartPos={imgSelected.updateStartPos}
                           src={imgSelected.src}
@@ -716,7 +709,6 @@ export default class Canvas extends Component<IProps, IState> {
                             this
                           )}
                           updateRect={this.props.updateRect}
-                          backgroundColor={imgSelected.backgroundColor}
                         />
                       </div>
                     </div>
