@@ -914,7 +914,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 )} */}
                 {objectType === 3 &&
                   <div
-                    id="hihi4"
+                    id={_id + "hihi4"}
                     spellCheck={false}
                     onInput={onTextChange}
                     contentEditable={selected}
