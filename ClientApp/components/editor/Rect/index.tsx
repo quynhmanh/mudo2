@@ -87,9 +87,6 @@ export default class Rect extends PureComponent<IProps, IState> {
         innerHTML,
       }
     } = this.props;
-
-    console.log('innerHTML ', innerHTML, this.$textEle2);
-
     if (innerHTML && this.$textEle) {
       this.$textEle.innerHTML = innerHTML;
     }
