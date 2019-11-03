@@ -467,8 +467,6 @@ export default class Canvas extends Component<IProps, IState> {
                         aspectRatio={img.width / img.height}
                         zoomable="n, w, s, e, nw, ne, se, sw"
                         onRotateStart={this.props.handleRotateStart}
-                        onRotate={this.props.handleRotate.bind(this)}
-                        onRotateEnd={this.props.handleRotateEnd}
                         onResizeStart={this.props.handleResizeStart}
                         updateStartPos={img.updateStartPos}
                         src={img.src}
@@ -599,8 +597,6 @@ export default class Canvas extends Component<IProps, IState> {
                         aspectRatio={imgHovered.width / imgHovered.height}
                         zoomable="n, w, s, e, nw, ne, se, sw"
                         onRotateStart={this.props.handleRotateStart}
-                        onRotate={this.props.handleRotate.bind(this)}
-                        onRotateEnd={this.props.handleRotateEnd}
                         onResizeStart={this.props.handleResizeStart}
                         updateStartPos={imgHovered.updateStartPos}
                         src={imgHovered.src}

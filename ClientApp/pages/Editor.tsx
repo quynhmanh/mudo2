@@ -366,7 +366,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     // Creating a pauser subject to subscribe to
     var screenContainerParent = document.getElementById("screen-container-parent");
-    this.doNoObjectSelected$    = fromEvent(screenContainerParent, 'click');
+    this.doNoObjectSelected$    = fromEvent(screenContainerParent, 'mouseup');
     this.doNoObjectSelected$ = this.doNoObjectSelected$.pipe(
       map(e => e.target.id)
     );
@@ -1532,6 +1532,7 @@ class CanvaEditor extends Component<IProps, IState> {
   };
 
   handleRotateStart = (e: any) => {
+    e.stopPropagation();
     var resizers = document.getElementsByClassName(
       "resizable-handler-container"
     );
@@ -1545,6 +1546,9 @@ class CanvaEditor extends Component<IProps, IState> {
       var cur: any = rotators[i];
       cur.style.opacity = 0;
     }
+
+    let image = editorStore.images.find(img => img._id == this.state.idObjectSelected);
+    window.image = image;
 
     var tip = document.getElementById("helloTip");
     if (!tip) {
@@ -1564,12 +1568,83 @@ class CanvaEditor extends Component<IProps, IState> {
     tip.style.borderRadius = "3px";
     tip.style.padding = "0 5px";
     tip.style.fontSize = "12px";
-    tip.innerText = this.state.selectedImage.rotateAngle + "°";
+    tip.innerText = image.rotateAngle + "°";
 
     document.body.append(tip);
 
     window.rotating = true;
-    this.setState({ rotating: true });
+
+    const location$ = this.handleDragRx(e.target);
+
+    const rect = document.getElementById(this.state.idObjectSelected).getBoundingClientRect();
+    console.log('rect ', rect);
+    const center = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    };
+    const startVector = {
+      x: e.clientX - center.x,
+      y: e.clientY - center.y
+    };
+
+    let image = editorStore.images.find(img => img._id == this.state.idObjectSelected);
+    window.image = image;
+
+    this.pauser.next(true);
+
+    this.temp = location$.pipe(
+        map(([x, y]) => ({
+          moveElLocation: [x, y]
+        }))
+      )
+      .subscribe(({ moveElLocation }) => {
+        const rotateVector = {
+          x: moveElLocation[0] - center.x,
+          y: moveElLocation[1] - center.y
+        };
+        const angle = getAngle(startVector, rotateVector);
+
+        let rotateAngle = Math.round(image.rotateAngle + angle);
+        if (rotateAngle >= 360) {
+          rotateAngle -= 360;
+        } else if (rotateAngle < 0) {
+          rotateAngle += 360;
+        }
+        if (rotateAngle > 356 || rotateAngle < 4) {
+          rotateAngle = 0;
+        } else if (rotateAngle > 86 && rotateAngle < 94) {
+          rotateAngle = 90;
+        } else if (rotateAngle > 176 && rotateAngle < 184) {
+          rotateAngle = 180;
+        } else if (rotateAngle > 266 && rotateAngle < 274) {
+          rotateAngle = 270;
+        }
+        // window.image.rotateANgle = rotateAngle;
+        window.rotateAngle = rotateAngle;
+
+        var a = document.getElementsByClassName(image._id + "aaaa");
+        for (let i = 0; i < a.length; ++i) {
+          var cur = a[i];
+          cur.style.transform = `rotate(${rotateAngle}deg)`;
+        }
+
+        var tip = document.getElementById("helloTip");
+        if (!tip) {
+          tip = document.createElement("div");
+        }
+        tip.id = "helloTip";
+        tip.style.position = "absolute";
+        // tip.style.width = "100px";
+        tip.style.height = "30px";
+        tip.style.backgroundColor = "black";
+        tip.style.top = moveElLocation[1] + 20 + "px";
+        tip.style.left = moveElLocation[0] + 20 + "px";
+        tip.innerText = rotateAngle + "°";
+      }, null, 
+      () => {
+        this.handleRotateEnd(this.state.idObjectSelected);
+        this.pauser.next(false);
+      });
   };
 
   handleRotateEnd = (_id: string) => {

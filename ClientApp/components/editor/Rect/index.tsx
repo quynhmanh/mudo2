@@ -34,12 +34,9 @@ export interface IProps {
   childId: string;
   scale: number;
   onRotateStart(e): void;
-  onRotate(angle: number, startAngle: number, e: any): void;
-  onRotateEnd(_id: string): void;
   onResizeStart: any;
   handleResizeInnerImageStart: any;
   zoomable: string;
-  rotatable: boolean;
   parentRotateAngle: number;
   showController: boolean;
   updateStartPos: boolean;
@@ -119,53 +116,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   }
 
   startRotate = e => {
-    const {
-      image: {
-        _id
-      }
-    } = this.props;
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.button !== 0) return;
-    const { clientX, clientY } = e;
-    const {
-      image: {
-        rotateAngle: startAngle,
-      }
-    } = this.props;
-    const rect = this.$element.getBoundingClientRect();
-    const center = {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
-    };
-    const startVector = {
-      x: clientX - center.x,
-      y: clientY - center.y
-    };
     this.props.onRotateStart && this.props.onRotateStart(e);
-    this._isMouseDown = true;
-    const onMove = e => {
-      e.preventDefault();
-      if (!this._isMouseDown) return; // patch: fix windows press win key during mouseup issue
-      e.stopImmediatePropagation();
-      const { clientX, clientY } = e;
-      const rotateVector = {
-        x: clientX - center.x,
-        y: clientY - center.y
-      };
-      const angle = getAngle(startVector, rotateVector);
-      this.props.onRotate(angle, startAngle, e);
-    };
-    const onUp = e => {
-      e.preventDefault();
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
-      if (!this._isMouseDown) return;
-      this._isMouseDown = false;
-      this.props.onRotateEnd && this.props.onRotateEnd(_id);
-    };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
   };
 
   startResizeImage = (e, cursor, resizingInnerImage) => {
@@ -312,7 +263,6 @@ export default class Rect extends PureComponent<IProps, IState> {
   render() {
     const {
       zoomable,
-      rotatable,
       parentRotateAngle,
       showController,
       scale,
@@ -355,6 +305,8 @@ export default class Rect extends PureComponent<IProps, IState> {
         imgHeight: imgHeight2,
       }
     } = this.props;
+
+    let rotatable = true;
 
     const imgWidth = imgWidth2 * scale;
     const imgHeight = imgHeight2 * scale;
