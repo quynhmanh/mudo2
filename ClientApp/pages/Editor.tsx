@@ -911,21 +911,13 @@ class CanvaEditor extends Component<IProps, IState> {
       }
       return img;
     });
-    editorStore.images.replace(tempImages);
-    
-    document.body.style.cursor = null;
 
-    // setTimeout(
-    //   function() {
-    //     this.setState({ resizing: false });
-    //   }.bind(this),
-    //   300
-    // );
+    editorStore.images.replace(tempImages);
+    document.body.style.cursor = null;
   };
 
   switching = false;
 
-  // handle the crop area
   handleResize = (
     style,
     isShiftKey,
@@ -940,11 +932,8 @@ class CanvaEditor extends Component<IProps, IState> {
     console.log('handleResize')
     const { scale } = this.state;
     let { top, left, width, height } = style;
-    // var self = this;
     var switching = false;
     var temp = this.handleImageResize;
-    // var images = editorStore.images.map(image => {
-    //   if (image._id === _id) {
       let image = window.image;
         var deltaLeft = left - image.left;
         var deltaTop = top - image.top;
@@ -1193,25 +1182,12 @@ class CanvaEditor extends Component<IProps, IState> {
   };
 
   handleResizeInnerImageStart = (e) => {
-    var resizers = document.getElementsByClassName(
-      "resizable-handler-container"
-    );
-    for (var i = 0; i < resizers.length; ++i) {
-      var cur: any = resizers[i];
-      cur.style.opacity = 0;
-    }
-
-    var rotators = document.getElementsByClassName("rotate-container");
-    for (var i = 0; i < rotators.length; ++i) {
-      var cur: any = rotators[i];
-      cur.style.opacity = 0;
-    }
+    this.displayResizers(false);
 
     window.resizingInnerImage = true;
     window.startX = e.clientX;
     window.startY = e.clientY;
     window.resizing = true;
-    // this.setState({ resizing: true });
     this.pauser.next(true);
 
     var cursor = e.target.id;
@@ -1321,17 +1297,9 @@ class CanvaEditor extends Component<IProps, IState> {
     e
   ) => {
     console.log('handleImageResize')
+    let switching;
     const { scale } = this.state;
     let { top, left, width, height } = style;
-    // top = top / scale;
-    // left = left / scale;
-    // width = width / scale;
-    // height = height / scale;
-
-    var self = this;
-    var switching = false;
-    // let tempImages = images.map(image => {
-    //   if (image._id === _id) {
         let image = window.image;
         if (
           image.height - top - height > 0 &&
@@ -1448,44 +1416,6 @@ class CanvaEditor extends Component<IProps, IState> {
           tempEl.style.width = image.imgWidth * scale + "px";
           tempEl.style.height = image.imgHeight * scale + "px";
         } 
-  };
-
-  handleRotate = (rotateAngle, _id, e) => {
-    // console.log('arguments ', arguments);
-    var tip = document.getElementById("helloTip");
-    if (!tip) {
-      tip = document.createElement("div");
-    }
-    tip.id = "helloTip";
-    tip.style.position = "absolute";
-    // tip.style.width = "100px";
-    tip.style.height = "30px";
-    tip.style.backgroundColor = "black";
-    tip.style.top = e.clientY + 20 + "px";
-    tip.style.left = e.clientX + 20 + "px";
-    tip.innerText = rotateAngle + "°";
-
-    // var el = document.getElementById(_id + "_");
-    // el.style.transform = `rotate(${rotateAngle}deg)`;
-
-    // el = document.getElementById(_id + "__");
-    // el.style.transform = `rotate(${rotateAngle}deg)`;
-
-    updateRotate(_id + "_", rotateAngle);
-    updateRotate(_id + "__", rotateAngle);
-
-    window.rotateAngle = rotateAngle;
-
-    // let images = toJS(editorStore.images);
-    // images = images.map(image => {
-    //   if (image._id === _id) {
-    //     image.rotateAngle = rotateAngle;
-    //   }
-    //   return image;
-    // });
-
-    // editorStore.replace(images);
-    // this.setState({ images });
   };
 
   handleRotateStart = (e: any) => {
@@ -2911,6 +2841,7 @@ drag = ({ element, pan$}) => {
   };
 
   onSingleTextChange(thisImage, e, childId) {
+    console.log('onSingleTextChange ', arguments);
     // console.log('ToJS', toJS(editorStore.images));
     // var els;
     // if (childId){
@@ -2987,12 +2918,16 @@ drag = ({ element, pan$}) => {
 
             image.innerHTML = e.target.innerHTML;
           }
+
+          editorStore.imageSelected = image;
           return image;
+
         });
 
         // console.log('images 2', images);
 
-        editorStore.replace(images);
+        editorStore.replace(tempImages);
+        this.forceUpdate();
 
         // this.setState({ images, editing: true });
       } else {
@@ -3075,7 +3010,7 @@ drag = ({ element, pan$}) => {
         // console.log('onSingleTextChange 2');
         editorStore.replace(images);
       }
-    }, 50);
+    }, 0);
   }
 
   imgDragging = null;
@@ -3469,8 +3404,6 @@ drag = ({ element, pan$}) => {
           handleImageSelected={this.handleImageSelected}
           handleImageHover={this.handleImageHover}
           handleRotateStart={this.handleRotateStart}
-          handleRotate={this.handleRotate}
-          handleRotateEnd={this.handleRotateEnd}
           handleResizeStart={this.handleResizeStart}
           handleDragStart={this.handleDragStart}
           onSingleTextChange={this.onSingleTextChange.bind(this)}
