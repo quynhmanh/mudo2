@@ -878,6 +878,9 @@ class CanvaEditor extends Component<IProps, IState> {
 
         const rect2 = tLToCenter({ top: top2, left: left2, width: width2, height: height2, rotateAngle });
         const rect = { width: rect2.size.width, height: rect2.size.height, centerX: rect2.position.centerX, centerY: rect2.position.centerY, rotateAngle: rect2.transform.rotateAngle };
+        
+        console.log('eee e type ', type);
+
         let {
           position: { centerX, centerY },
           size: { width, height }
@@ -886,7 +889,7 @@ class CanvaEditor extends Component<IProps, IState> {
           { ...rect, rotateAngle },
           deltaW,
           deltaH,
-          ratio,
+          type == "r" ? null : ratio,
           10,
           10
         );
@@ -929,9 +932,10 @@ class CanvaEditor extends Component<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log('handleResize')
+    console.log('handleResize ', objectType, cursor)
     const { scale } = this.state;
     let { top, left, width, height } = style;
+    console.log('handleResize ', style);
     var switching = false;
     var temp = this.handleImageResize;
       let image = window.image;
@@ -1062,6 +1066,7 @@ class CanvaEditor extends Component<IProps, IState> {
         image.left = left;
         image.width = width;
         image.height = height;
+        console.log('objectType ', objectType, cursor);
 
         if (cursor != "e" && cursor != "w") {
           image.scaleX = image.width / image.origin_width;
@@ -1082,6 +1087,7 @@ class CanvaEditor extends Component<IProps, IState> {
             var cs = Math.abs(Math.cos((image.rotateAngle / 360) * Math.PI));
             var newHeight =
               (rec.height * cs - rec.width * as) / (cs ^ (2 - as) ^ 2);
+              console.log('newHeight', newHeight);
             image.height = newHeight / scale;
           } else if (objectType == TemplateType.TextTemplate) {
             var maxHeight = 0;
@@ -1145,6 +1151,11 @@ class CanvaEditor extends Component<IProps, IState> {
           var tempEl = b[i] as HTMLElement;
           tempEl.style.transform = `translate(${image.posX * scale}px, ${image.posY * scale}px)`;
         }
+
+        var hihi4 = document.getElementById('hihi4');
+        console.log('hihi4 ', hihi4);
+        
+        hihi4.style.width = image.width * scale * image.scaleX + "px";
 
         (window as any).scaleY = image.scaleY;
 
