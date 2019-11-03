@@ -1239,7 +1239,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   loadMoreBackground = initialload => {
-    console.log("loadmorebackground");
     let pageId;
     let count;
     if (initialload) {
@@ -1255,13 +1254,11 @@ class LeftSide extends Component<IProps, IState> {
       count = 15;
     }
     this.setState({ isBackgroundLoading: true, error: undefined });
-    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.BackgroundImage}&page=${pageId}&perPage=${count}`;
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
-          console.log("loadMoreBackground ress ", res);
           var result = res.value.key;
           var currentBackgroundHeights1 = this.state.currentBackgroundHeights1;
           var currentBackgroundHeights2 = this.state.currentBackgroundHeights2;
@@ -1330,7 +1327,6 @@ class LeftSide extends Component<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
-          console.log("loadmoretexttemplate ", res);
           var result = res.value.key;
           var currentGroupedTextsHeight = this.state.currentGroupedTextsHeight;
           var currentGroupedTexts2Height = this.state
@@ -1391,13 +1387,11 @@ class LeftSide extends Component<IProps, IState> {
       count = 15;
     }
     this.setState({ isUserUploadLoading: true, error: undefined });
-    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${count}&userEmail=${Globals.serviceUser.username}`;
     fetch(url)
       .then(res => res.json())
       .then(
         res => {
-          console.log("loadmoreUserUpload res ", res);
           var result = res.value.key;
           var currentUserUpload1 = this.state.currentUserUpload1;
           var currentUserUpload2 = this.state.currentUserUpload2;
@@ -1511,8 +1505,6 @@ class LeftSide extends Component<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
-          console.log('loadMoreFont ress ', res);
-
           for (var i = 0; i < res.value.key.length; ++i) {
             editorStore.addFontItem(res.value.key[i]);
           }
@@ -1568,7 +1560,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   render() {
-    console.log('leftside render');
     return (
       <div
         style={{

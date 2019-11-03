@@ -88,6 +88,8 @@ export default class Rect extends PureComponent<IProps, IState> {
       }
     } = this.props;
 
+    console.log('innerHTML ', innerHTML, this.$textEle2);
+
     if (innerHTML && this.$textEle) {
       this.$textEle.innerHTML = innerHTML;
     }
@@ -109,7 +111,10 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     if (
       type === 3 &&
-      selected && !prevProps.image.selected
+      // selected && 
+      // !prevProps.image.selected &&
+      selected != prevProps.image.selected &&
+      this.$textEle2
     ) {
       this.$textEle2.innerHTML = innerHTML;
     }
@@ -484,7 +489,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               </div>
             );
           })}
-        {objectType === 3 && !selected && (
+        {/* {objectType === 3 && !selected && (
           <div
             className={_id + "scaleX-scaleY"}
             style={{
@@ -494,7 +499,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               position: "absolute"
             }}
           ></div>
-        )}
+        )} */}
         {src && (objectType === 4 || objectType === 6) && (
           <div
             id={_id}
@@ -585,6 +590,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         )}
+        { ((showImage && !selected) || selected) &&
         <div
           id={_id}
           className={src ? null : _id + "scaleX-scaleY"}
@@ -592,8 +598,8 @@ export default class Rect extends PureComponent<IProps, IState> {
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
             position: "absolute",
-            width: "100%",
-            height: "100%",
+            width: width * scale / scaleX + "px",
+            height: height * scale / scaleY + "px",
           }}
         >
           {childrens && childrens.length > 0 && showImage && (
@@ -848,14 +854,14 @@ export default class Rect extends PureComponent<IProps, IState> {
                 : null}
             </div>
           )}
-          {innerHTML && showImage && (
+          {innerHTML && (
             <div style={{}}>
               <div
                 id={_id}
                 style={{
                   position: "absolute",
-                  width: width / scaleX + "px",
-                  height: height / scaleY + "px",
+                  width: width * scale / scaleX + "px",
+                  height: height * scale / scaleY + "px",
                   transformOrigin: "0 0",
                   zIndex: selected ? 1 : 0
                 }}
@@ -905,102 +911,21 @@ export default class Rect extends PureComponent<IProps, IState> {
                     </div>
                   </MathJax.Context>
                 )}
-                {objectType === 3 && showImage && (
+                {objectType === 3 && ((showImage && !selected) || (!showImage && selected) || (!showImage && hovered)) && (
                   <div
-                    id="hihi3"
+                    id="hihi4"
                     spellCheck={false}
                     onInput={onTextChange}
                     contentEditable={selected}
                     ref={this.setTextElementRef2.bind(this)}
-                    onMouseDown={this.onMouseDown.bind(this)}
+                    // onMouseDown={this.onMouseDown.bind(this)}
                     className="text single-text"
                     style={{
                       position: "absolute",
-                      display: "inline-block",
-                      width: width / scaleX / scale + "px",
-                      margin: "0px",
-                      wordBreak: "break-word",
-                      opacity,
-                      transform: `scale(${scale})`,
-                      transformOrigin: "0 0"
-                    }}
-                  ></div>
-                )}
-              </div>
-            </div>
-          )}
-          {innerHTML && !showImage && (
-            <div style={{}}>
-              <div
-                id={_id}
-                style={{
-                  position: "absolute",
-                  width: width / scaleX + "px",
-                  height: height / scaleY + "px",
-                  transformOrigin: "0 0",
-                  zIndex: selected ? 1 : 0
-                }}
-              >
-                {selected && objectType === 5 && (
-                  <div
-                    id="hihi2"
-                    spellCheck={false}
-                    onInput={onTextChange}
-                    contentEditable={selected}
-                    ref={this.setTextElementRef.bind(this)}
-                    onMouseDown={this.onMouseDown.bind(this)}
-                    className="text single-text"
-                    style={{
-                      backgroundColor: "rgb(0, 0, 0)",
-                      position: "absolute",
-                      right: "105%",
                       display: "inline-block",
                       width: width / scaleX + "px",
                       margin: "0px",
                       wordBreak: "break-word",
-                      lineHeight: 1.42857,
-                      borderColor: "rgb(136, 136, 136)",
-                      boxShadow: "rgba(0, 0, 0, 0.3) 0px 5px 5px",
-                      color: "white",
-                      padding: "5px"
-                    }}
-                  ></div>
-                )}
-                {objectType === 5 && (
-                  <MathJax.Context
-                    input="tex"
-                    options={{
-                      asciimath2jax: {
-                        useMathMLspacing: true,
-                        delimiters: [["$$", "$$"]],
-                        preview: "none",
-                        inlineMath: [["$", "$"], ["\\(", "\\)"]]
-                      }
-                    }}
-                  >
-                    <div
-                      className="text2"
-                      style={{ fontSize: "14px", color: imgColor }}
-                    >
-                      <MathJax.Text text={this.innerHTML()} />
-                    </div>
-                  </MathJax.Context>
-                )}
-                {objectType === 3 && selected && (
-                  <div
-                    id="hihi3"
-                    spellCheck={false}
-                    onInput={onTextChange}
-                    contentEditable={selected}
-                    ref={this.setTextElementRef2.bind(this)}
-                    onMouseDown={this.onMouseDown.bind(this)}
-                    className="text single-text"
-                    style={{
-                      position: "absolute",
-                      display: "inline-block",
-                      width: width / scaleX / scale + "px",
-                      margin: "0px",
-                      wordBreak: "break-word",
                       opacity,
                       transform: `scale(${scale})`,
                       transformOrigin: "0 0"
@@ -1010,7 +935,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               </div>
             </div>
           )}
-        </div>
+          
+        </div>}
         {cropMode && selected && showController && objectType !== 6 && (
           <div
             id="halo1"

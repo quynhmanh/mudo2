@@ -17,8 +17,6 @@ export const AppRoute = ({ component: Component, layout: Layout, authorizedRequi
         return <Redirect to="/" />;
     }
 
-    console.log('this.props.', rest);
-
     return <Route {...rest} render={props => (
         <Layout>
             <Component {...props} />

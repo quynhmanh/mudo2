@@ -3,6 +3,7 @@ import ResizableRect from "@Components/editor/ResizableRect";
 import StyledComponent from "styled-components";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
+import { toJS } from "mobx";
 
 
 export interface IProps {
@@ -110,17 +111,20 @@ export default class Canvas extends Component<IProps, IState> {
       rectWidth,
       rectHeight,
       scale,
-      images,
+      // images,
       childId,
       cropMode,
       index,
       id,
       staticGuides,
-      idObjectSelected
     } = this.props;
     
     var imgHovered = editorStore.imageHovered;
     var imgSelected = editorStore.imageSelected;
+
+    let images= toJS(editorStore.images).filter(img => img.page === id);
+
+    console.log('render canvas ', images);
 
     return (
       <ResizableRectContainer

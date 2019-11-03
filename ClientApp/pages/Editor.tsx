@@ -383,7 +383,6 @@ class CanvaEditor extends Component<IProps, IState> {
     this.pauser.next(false);
 
     pausable.subscribe(id => {
-      console.log('id ', id);
       if (id == "canvas" || id == "screen-container-parent") {
         this.doNoObjectSelected();
       }
@@ -1193,15 +1192,15 @@ class CanvaEditor extends Component<IProps, IState> {
     //   return image;
     // });
 
-    this.setState({ updateRect: self.switching }, () => {
-      if (self.switching) {
-        self.handleImageResize = temp;
-        // self.setState({updateRect: false});
-        setTimeout(() => {
-          (self.switching = false), self.setState({ updateRect: false });
-        }, 1);
-      }
-    });
+    // this.setState({ updateRect: self.switching }, () => {
+    //   if (self.switching) {
+    //     self.handleImageResize = temp;
+    //     // self.setState({updateRect: false});
+    //     setTimeout(() => {
+    //       (self.switching = false), self.setState({ updateRect: false });
+    //     }, 1);
+    //   }
+    // });
     // editorStore.replace(images);
   };
 
@@ -3628,8 +3627,6 @@ drag = ({ element, pan$}) => {
     });
 
     editorStore.images.replace(tempImages);
-
-    // this.setState({ images });
   };
 
   refFullName = null;
@@ -3637,25 +3634,12 @@ drag = ({ element, pan$}) => {
   refCity = null;
   refPhoneNumber = null;
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextState.dragging || nextState.resizing) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
   render() {
     const {
       scale,
-      staticGuides,
       rectWidth,
       rectHeight,
-      cropMode,
     } = this.state;
-
-    const { images } = this.props;
-
-    console.log('render Editor');
 
     const adminEmail = "llaugusty@gmail.com";
 
