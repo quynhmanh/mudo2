@@ -25,9 +25,6 @@ export interface IProps {
   handleFontColorChange: any;
   selectFont: any;
   subtype: any;
-  dragging: boolean;
-  resizing: boolean;
-  rotating: boolean;
   mounted: boolean;
   setSelectionColor: any;
   imgOnMouseDown: any;

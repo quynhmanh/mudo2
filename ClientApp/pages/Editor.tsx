@@ -75,6 +75,8 @@ declare global {
     dragging: boolean;
     posX: any;
     posY: any;
+    imgWidth: any;
+    imgHeight: any;
   }
 }
 
@@ -362,20 +364,21 @@ class CanvaEditor extends Component<IProps, IState> {
     return key;
   };
 
+  pauser = null;
+
   async componentDidMount() {
 
     // Creating a pauser subject to subscribe to
     var screenContainerParent = document.getElementById("screen-container-parent");
-    this.doNoObjectSelected$    = fromEvent(screenContainerParent, 'mouseup');
-    this.doNoObjectSelected$ = this.doNoObjectSelected$.pipe(
-      map(e => e.target.id)
+    let doNoObjectSelected$    = fromEvent(screenContainerParent, 'mouseup').pipe(
+      map(e => (e.target as HTMLElement).id)
     );
     
     this.pauser = new BehaviorSubject(false);
     const pausable = this.pauser.pipe(
       switchMap(paused => {
         console.log('paused ', paused);
-      return paused ? NEVER : this.doNoObjectSelected$; 
+      return paused ? NEVER : doNoObjectSelected$; 
     }));
 
     this.pauser.next(false);
@@ -1350,8 +1353,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
     var self = this;
     var switching = false;
-    var temp = this.handleResize;
-    let images = toJS(editorStore.images);
     // let tempImages = images.map(image => {
     //   if (image._id === _id) {
         let image = window.image;
@@ -1368,7 +1369,6 @@ class CanvaEditor extends Component<IProps, IState> {
             document.getElementById(_id + "br").getBoundingClientRect().top +
             10;
           switching = true;
-          self.handleResize = () => {};
           height = -top + image.height;
           width = -left + image.width;
         } else if (
@@ -1380,7 +1380,6 @@ class CanvaEditor extends Component<IProps, IState> {
           window.startX = e.clientX;
           window.startY = e.clientY + image.height - top - height;
           switching = true;
-          self.handleResize = () => {};
           height = -top + image.height;
           // width = -left + image.width;
         } else if (image.height - top > height && left > 0 && type == "bl") {
@@ -1392,7 +1391,6 @@ class CanvaEditor extends Component<IProps, IState> {
             document.getElementById(_id + "bl").getBoundingClientRect().top +
             10;
           switching = true;
-          self.handleResize = () => {};
           image.posX = -left;
           width += left;
           left = 0;
@@ -1406,7 +1404,6 @@ class CanvaEditor extends Component<IProps, IState> {
           window.startX = e.clientX;
           window.startY = e.clientY + image.height - top - height;
           switching = true;
-          self.handleResize = () => {};
           width = -left + image.width;
         } else if (image.width - left > width && top > 0 && type == "tr") {
           window.resizingInnerImage = false;
@@ -1417,7 +1414,6 @@ class CanvaEditor extends Component<IProps, IState> {
             document.getElementById(_id + "tr").getBoundingClientRect().top +
             10;
           switching = true;
-          self.handleResize = () => {};
           image.posY = -top;
           height += top;
           top = 0;
@@ -1431,7 +1427,6 @@ class CanvaEditor extends Component<IProps, IState> {
           height += top;
           top = 0;
           switching = true;
-          self.handleResize = () => {};
         } else if (left > 0 && top <= 0 && (type == "tl" || type == "bl")) {
           console.log('correct2');
           window.resizingInnerImage = false;
@@ -1441,7 +1436,6 @@ class CanvaEditor extends Component<IProps, IState> {
           width += left;
           left = 0;
           switching = true;
-          self.handleResize = () => {};
         } else if (left > 1 && top > 1 && type == "tl") {
           console.log('correct');
           window.resizingInnerImage = false;
@@ -1458,7 +1452,6 @@ class CanvaEditor extends Component<IProps, IState> {
           left = 0;
           top = 0;
           switching = true;
-          self.handleResize = () => {};
         }
 
         image.posY = top;
@@ -1478,21 +1471,6 @@ class CanvaEditor extends Component<IProps, IState> {
           tempEl.style.width = image.imgWidth * scale + "px";
           tempEl.style.height = image.imgHeight * scale + "px";
         } 
-      // }
-    //   return image;
-    // });
-
-    // editorStore.images.replace(tempImages);
-
-    this.setState({ updateRect: switching }, () => {
-      if (switching) {
-        self.handleResize = temp;
-        // self.setState({updateRect: false});
-        setTimeout(() => {
-          self.setState({ updateRect: false });
-        }, 1);
-      }
-    });
   };
 
   handleRotate = (rotateAngle, _id, e) => {
@@ -1589,9 +1567,6 @@ class CanvaEditor extends Component<IProps, IState> {
       y: e.clientY - center.y
     };
 
-    let image = editorStore.images.find(img => img._id == this.state.idObjectSelected);
-    window.image = image;
-
     this.pauser.next(true);
 
     this.temp = location$.pipe(
@@ -1626,7 +1601,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         var a = document.getElementsByClassName(image._id + "aaaa");
         for (let i = 0; i < a.length; ++i) {
-          var cur = a[i];
+          var cur = a[i] as HTMLElement;
           cur.style.transform = `rotate(${rotateAngle}deg)`;
         }
 
@@ -1792,7 +1767,7 @@ class CanvaEditor extends Component<IProps, IState> {
     var deltaX = (clientX - window.startX);
     var deltaY = (clientY - window.startY);
 
-    var deg = degToRadian(image.rotateAngle);
+    var deg = degToRadian(window.image.rotateAngle);
     var newX = deltaY * Math.sin(deg) + deltaX * Math.cos(deg);
     var newY = deltaY * Math.cos(deg) - deltaX * Math.sin(deg);
 
@@ -4011,9 +3986,6 @@ drag = ({ element, pan$}) => {
               imgOnMouseDown={this.imgOnMouseDown.bind(this)}
               setSelectionColor={this.setSelectionColor.bind(this)}
               mounted={this.state.mounted}
-              // dragging={this.state.dragging}
-              // resizing={this.state.resizing}
-              rotating={this.state.rotating}
               subtype={this.state.subtype}
               selectFont={this.selectFont.bind(this)}
               handleFontColorChange={this.handleFontColorChange.bind(this)}

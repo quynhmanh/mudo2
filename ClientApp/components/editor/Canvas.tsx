@@ -631,7 +631,7 @@ export default class Canvas extends Component<IProps, IState> {
                   </div>
                 }
                 </div>
-                {imgSelected && <div
+                {imgSelected && imgSelected.page === id && <div
                       className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaa"}
                       id={imgSelected._id + "__"}
                       key={imgSelected._id}

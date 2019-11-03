@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import Rect from "./Rect";
-import { centerToTL, tLToCenter, getNewStyle, degToRadian } from "@Utils";
 
 export interface IProps {
   id: string;
@@ -57,29 +56,6 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     zoomable: "",
     minWidth: 2,
     minHeight: 2
-  };
-
-  handleRotate = (angle, startAngle, e) => {
-    if (!this.props.onRotate) return;
-    let rotateAngle = Math.round(startAngle + angle);
-    if (rotateAngle >= 360) {
-      rotateAngle -= 360;
-    } else if (rotateAngle < 0) {
-      rotateAngle += 360;
-    }
-    if (rotateAngle > 356 || rotateAngle < 4) {
-      rotateAngle = 0;
-    } else if (rotateAngle > 86 && rotateAngle < 94) {
-      rotateAngle = 90;
-    } else if (rotateAngle > 176 && rotateAngle < 184) {
-      rotateAngle = 180;
-    } else if (rotateAngle > 266 && rotateAngle < 274) {
-      rotateAngle = 270;
-    }
-
-    const { image: {_id,} } = this.props;
-
-    this.props.onRotate(rotateAngle, _id, e);
   };
 
   render() {
