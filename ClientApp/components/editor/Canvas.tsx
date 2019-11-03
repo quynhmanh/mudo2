@@ -18,8 +18,6 @@ export interface IProps {
   handleImageSelected: any;
   handleImageHover: any;
   handleRotateStart: any;
-  handleRotate: any;
-  handleRotateEnd: any;
   handleResizeStart: any;
   handleDragStart: any;
   onSingleTextChange: any;
@@ -444,7 +442,7 @@ export default class Canvas extends Component<IProps, IState> {
                       key={img._id}
                       onMouseDown={(e) => {
                         e.stopPropagation();
-                        // this.props.handleImageSelected(img, e);
+                        this.props.handleImageSelected(img, e);
                         this.props.handleDragStart(e, img._id);
                       }}
                     >
@@ -569,7 +567,7 @@ export default class Canvas extends Component<IProps, IState> {
                       key={imgHovered._id}
                       onMouseDown={(e) => {
                         e.stopPropagation();
-                        // this.props.handleImageSelected(imgHovered);
+                        this.props.handleImageSelected(imgHovered);
                         this.props.handleDragStart(e, imgHovered._id);
                       }}
                     >

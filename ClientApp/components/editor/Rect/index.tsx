@@ -590,7 +590,8 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         )}
-        { ((showImage && !selected) || selected) &&
+        {/* { ((showImage && !selected) || selected || (!showImage && hovered)) && */}
+        {((showImage && !selected) || (!showImage &&selected)) &&
         <div
           id={_id}
           className={src ? null : _id + "scaleX-scaleY"}
@@ -866,7 +867,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   zIndex: selected ? 1 : 0
                 }}
               >
-                {selected && objectType === 5 && (
+                {/* {selected && objectType === 5 && (
                   <div
                     id="hihi2"
                     spellCheck={false}
@@ -910,8 +911,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                       <MathJax.Text text={this.innerHTML()} />
                     </div>
                   </MathJax.Context>
-                )}
-                {objectType === 3 && ((showImage && !selected) || (!showImage && selected) || (!showImage && hovered)) && (
+                )} */}
+                {objectType === 3 &&
                   <div
                     id="hihi4"
                     spellCheck={false}
@@ -931,12 +932,13 @@ export default class Rect extends PureComponent<IProps, IState> {
                       transformOrigin: "0 0"
                     }}
                   ></div>
-                )}
+                }
               </div>
             </div>
           )}
           
-        </div>}
+        </div>
+        }
         {cropMode && selected && showController && objectType !== 6 && (
           <div
             id="halo1"
