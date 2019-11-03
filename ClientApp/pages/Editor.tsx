@@ -1316,6 +1316,7 @@ class CanvaEditor extends Component<IProps, IState> {
         window.resizing = false;
         this.handleResizeEnd(null);
         this.pauser.next(false);
+        this.displayResizers(true);
       });
   };
 
