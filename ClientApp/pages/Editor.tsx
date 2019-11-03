@@ -1234,6 +1234,7 @@ class CanvaEditor extends Component<IProps, IState> {
     window.startY = e.clientY;
     window.resizing = true;
     // this.setState({ resizing: true });
+    this.pauser.next(true);
 
     var cursor = e.target.id;
     var type = e.target.getAttribute("class").split(" ")[0];
@@ -1324,6 +1325,7 @@ class CanvaEditor extends Component<IProps, IState> {
       () => {
         window.resizing = false;
         this.handleResizeEnd(null);
+        this.pauser.next(false);
       });
   };
 
@@ -1745,6 +1747,8 @@ class CanvaEditor extends Component<IProps, IState> {
     // window.dragging = true;
     // this.setState({ dragging: true });
 
+    this.pauser.next(true);
+
     const location$ = this.handleDragRx(e.target);
 
     this.temp = location$.pipe(
@@ -1761,6 +1765,7 @@ class CanvaEditor extends Component<IProps, IState> {
       }, null, 
       () => {
         this.handleDragEnd();
+        this.pauser.next(false);
       });
   };
 
