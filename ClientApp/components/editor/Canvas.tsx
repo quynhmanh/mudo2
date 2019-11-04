@@ -454,7 +454,7 @@ export default class Canvas extends Component<IProps, IState> {
                         id={img._id + "_1"}
                         showImage={true}
                         hidden={true}
-                        showController={img.selected}
+                        showController={false}
                         key={img._id + "2"}
                         left={img.left * scale}
                         top={img.top * scale}

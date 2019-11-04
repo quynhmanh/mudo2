@@ -40,7 +40,7 @@ var Hammer;
 //   console.log('hammerjs ', require("hammerjs"));
 // }
 
-import { fromEvent, merge, NEVER, Subject, BehaviorSubject, } from 'rxjs';
+import { fromEvent, merge, NEVER, Subject, BehaviorSubject, Observable, } from 'rxjs';
 import { map, filter, scan, switchMap, startWith, takeUntil } from 'rxjs/operators';
 
 const DownloadList = loadable(() => import("@Components/editor/DownloadList"));
@@ -819,26 +819,28 @@ class CanvaEditor extends Component<IProps, IState> {
 
   displayResizers = (show: Boolean) => {
     let opacity = show ? 1 : 0;
-    var resizers = document.getElementsByClassName(
-      "resizable-handler-container"
-    );
-    for (var i = 0; i < resizers.length; ++i) {
-      var cur: any = resizers[i];
-      cur.style.opacity = opacity;
-    }
+    var el = document.getElementById(this.state.idObjectSelected + "__");
+    if (el) {
+      var resizers = el.getElementsByClassName(
+        "resizable-handler-container"
+      );
+      for (var i = 0; i < resizers.length; ++i) {
+        var cur: any = resizers[i];
+        cur.style.opacity = opacity;
+      }
 
-    var rotators = document.getElementsByClassName("rotate-container");
-    for (var i = 0; i < rotators.length; ++i) {
-      var cur: any = rotators[i];
-      cur.style.opacity = opacity;
+      var rotators = el.getElementsByClassName("rotate-container");
+      for (var i = 0; i < rotators.length; ++i) {
+        var cur: any = rotators[i];
+        cur.style.opacity = opacity;
+      }
     }
   }
 
   handleResizeStart = (e: any) => {
+    console.log('handleResizeStart');
     e.stopPropagation();
     
-    this.displayResizers(false);
-
     window.startX = e.clientX;
     window.startY = e.clientY;
     window.resizingInnerImage = false;
@@ -859,6 +861,8 @@ class CanvaEditor extends Component<IProps, IState> {
       width: width2,
       height: height2
     } = image;
+
+    this.displayResizers(false);
 
     this.temp = location$.pipe(
         map(([x, y]) => ({
@@ -893,7 +897,8 @@ class CanvaEditor extends Component<IProps, IState> {
         );
 
         this.handleResize(centerToTL({ centerX, centerY, width, height, rotateAngle }), false, cursor, this.state.idObjectSelected, 1, 1, cursor, editorStore.imageSelected.type, e);
-      }, null, 
+      }, 
+      null,
       () => {
         this.displayResizers(true);
         window.resizing = false;
@@ -1654,7 +1659,7 @@ class CanvaEditor extends Component<IProps, IState> {
   /**
  * Create an observable stream to handle drag gesture
  */
-drag = ({ element, pan$}) => {
+drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
   const panMove$ = pan$.pipe(
     filter((e:Event) => e.type == "mousemove")
   )
@@ -1679,20 +1684,20 @@ drag = ({ element, pan$}) => {
   /**
   * Generate the drag handler for a DOM element
   */
-  handleDragRx = (element) => {
+  handleDragRx = (element: HTMLElement) : Observable<any> => {
 
     const mouseMove$    = fromEvent(document, 'mousemove');
     const mouseUp$     = fromEvent(document, 'mouseup');
 
-    const pan$ = merge(
+    const pan$ : Observable<Event> = merge(
       mouseMove$,
       mouseUp$,
     );
 
-    const drag$ = this.drag({
-      element: element,
+    const drag$ = this.drag(
+      element,
       pan$
-    });
+    );
  
     return drag$.pipe(
       map(({ x, y }) => [x, y])
