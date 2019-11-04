@@ -2922,9 +2922,8 @@ drag = ({ element, pan$}) => {
             }
 
             image.innerHTML = e.target.innerHTML;
+            editorStore.imageSelected = image;
           }
-
-          editorStore.imageSelected = image;
           return image;
 
         });
