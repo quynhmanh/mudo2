@@ -897,8 +897,9 @@ class CanvaEditor extends Component<IProps, IState> {
       () => {
         this.displayResizers(true);
         window.resizing = false;
-        // this.handleResizeEnd(null);
+        this.handleResizeEnd(null);
         this.pauser.next(false);
+        this.forceUpdate();
       });
   };
 
@@ -1071,6 +1072,8 @@ class CanvaEditor extends Component<IProps, IState> {
           for (var i = 0; i < rectalos.length; ++i) {
             var cur: any = rectalos[i];
             cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
+            cur.style.width = `calc(100%/${image.scaleX})`;
+            cur.style.height = `calc(100%/${image.scaleY})`;
           }
         } else {
           if (objectType == TemplateType.Heading) {
@@ -1286,6 +1289,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.handleResizeEnd(null);
         this.pauser.next(false);
         this.displayResizers(true);
+        this.forceUpdate();
       });
   };
 

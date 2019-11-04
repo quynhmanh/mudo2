@@ -315,7 +315,6 @@ export default class Rect extends PureComponent<IProps, IState> {
     const posX = posX2 * scale;
     const posY = posY2 * scale;
 
-
     let style = {
       width: "100%",
       height: "100%",
@@ -588,7 +587,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           </div>
         )}
         {/* { ((showImage && !selected) || selected || (!showImage && hovered)) && */}
-        {((showImage && !selected) || (!showImage &&selected)) &&
+        {((showImage && !selected) || (!showImage &&selected)) && objectType === 3 &&
         <div
           id={_id + "654"}
           className={src ? null : _id + "scaleX-scaleY"}
@@ -596,8 +595,8 @@ export default class Rect extends PureComponent<IProps, IState> {
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
             position: "absolute",
-            width: "100%",
-            height: "100%",
+            width: `calc(100%/${scaleX})`,
+            height: `calc(100%/${scaleY})`,
           }}
         >
           {childrens && childrens.length > 0 && showImage && (
