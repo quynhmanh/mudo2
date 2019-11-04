@@ -590,14 +590,14 @@ export default class Rect extends PureComponent<IProps, IState> {
         {/* { ((showImage && !selected) || selected || (!showImage && hovered)) && */}
         {((showImage && !selected) || (!showImage &&selected)) &&
         <div
-          id={_id}
+          id={_id + "654"}
           className={src ? null : _id + "scaleX-scaleY"}
           style={{
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
             position: "absolute",
-            width: width * scale / scaleX + "px",
-            height: height * scale / scaleY + "px",
+            width: "100%",
+            height: "100%",
           }}
         >
           {childrens && childrens.length > 0 && showImage && (
