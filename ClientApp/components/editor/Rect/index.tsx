@@ -586,7 +586,6 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         )}
-        
         {((showImage && !selected) || (!showImage &&selected)) && objectType === 4 &&
         <div
           id={_id + "654"}
