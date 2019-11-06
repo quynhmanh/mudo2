@@ -7,13 +7,13 @@ import { Helmet } from "react-helmet";
 import bind from 'bind-decorator';
 import LoginPopup from "@Components/shared/LoginPopup";
 import styled from 'styled-components';
-import { element } from "prop-types";
 import { withTranslation } from "react-i18next";
 import languages from "@Locales/languages";
 import uuidv4 from "uuid/v4";
 import { ILocale } from "@Models/ILocale";
 import homePageTranslation from "@Locales/default/homePage";
 import loadable from '@loadable/component';
+import { isClickOutside } from '@Functions/shared/common';
 
 const PopularTemplate = loadable(() => import("@Components/shared/PopularTemplate"));
 const CatalogList = loadable(() => import("@Components/shared/CatalogList"));
@@ -191,7 +191,18 @@ handleScroll = () => {
 }
 
 handleLogin = () => {
-    document.getElementById("downloadPopup").style.display = "block";
+    const downloadPopup = document.getElementById("downloadPopup");
+    const downloadPopupLeft = document.getElementById("downloadPopupLeft");
+    const downloadPopupRight = document.getElementById("downloadPopupRight");
+    downloadPopup.style.display = "block";
+    const onDown = e => {
+        if (isClickOutside(e, downloadPopupLeft) && isClickOutside(e, downloadPopupRight)) {
+          downloadPopup.style.display = "none";
+          document.removeEventListener("mouseup", onDown);
+        }
+      };
+    
+    document.addEventListener("mouseup", onDown);
     // document.getElementById("editor").classList.add("popup");
 }
 
@@ -222,12 +233,6 @@ handleUpdateCompleted = () => {
     this.setState({externalProviderCompleted: true,})
 }
 
-isClickOutside = (event, element) => {
-  const { clientX, clientY } = event;
-  const rect = element.getBoundingClientRect();
-  return (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom);
-}
-
 onLanguageBtnClick = () => {
   const showLanguageDropdown = !this.state.showLanguageDropdown;
   this.setState({ showLanguageDropdown });
@@ -236,7 +241,7 @@ onLanguageBtnClick = () => {
     const onDown = e => {
       const languageDropdown = document.getElementById("language-dropdown");
       const languageBtn = document.getElementById("language-btn");
-      if (this.isClickOutside(e, languageDropdown) && this.isClickOutside(e, languageBtn)) {
+      if (isClickOutside(e, languageDropdown) && isClickOutside(e, languageBtn)) {
         this.setState({ showLanguageDropdown: false });
         document.removeEventListener("mouseup", onDown);
       }

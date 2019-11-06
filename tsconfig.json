@@ -30,6 +30,7 @@
       "@Globals": ["./Globals"],
       "@Constants": ["./constants"],
       "@Locales/*": [ "./locales/*" ],
+      "@Functions/*": [ "./functions/*" ],
     }
   },
   "exclude": [
