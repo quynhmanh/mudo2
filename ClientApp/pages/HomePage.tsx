@@ -15,8 +15,8 @@ import homePageTranslation from "@Locales/default/homePage";
 import loadable from '@loadable/component';
 import { isClickOutside } from '@Functions/shared/common';
 
-const PopularTemplate = loadable(() => import("@Components/shared/PopularTemplate"));
-const CatalogList = loadable(() => import("@Components/shared/CatalogList"));
+const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
+const CatalogList = loadable(() => import("@Components/homepage/CatalogList"));
 const SuggestedList = loadable(() => import("@Components/homepage/SuggestedList"));
 
 type Props = RouteComponentProps<{}>;

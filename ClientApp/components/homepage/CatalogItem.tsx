@@ -9,7 +9,7 @@ interface IProps {
     subItems: ICatalogSubItem[];
 }
 
-const CatalogSubItem = loadable(() => import("@Components/shared/CatalogSubItem"));
+const CatalogSubItem = loadable(() => import("@Components/homepage/CatalogSubItem"));
 
 const CatalogItem = (props: IProps) => {
 
