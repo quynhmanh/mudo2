@@ -18,6 +18,7 @@ import { isClickOutside } from '@Functions/shared/common';
 const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
 const CatalogList = loadable(() => import("@Components/homepage/CatalogList"));
 const SuggestedList = loadable(() => import("@Components/homepage/SuggestedList"));
+const NavBar = loadable(() => import("@Components/homepage/NavBar"));
 
 type Props = RouteComponentProps<{}>;
 
@@ -113,9 +114,11 @@ class HomePage extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    // const nav = document.querySelector('nav');
-    const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
-    this.setState({mounted: true, navTop});
+    NavBar.load().then(() => {
+        const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
+        this.setState({ navTop });
+    });
+    this.setState({mounted: true});
     window.addEventListener('scroll', this.handleScroll);
   }
 
@@ -632,155 +635,9 @@ onLanguageBtnClick = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: '#f4f4f6',
             }}>{this.translate("create-a-design")}</h2>
-          <div
-          id="hello-world"
-          style={{
-            // boxShadow: '0 1px 8px rgba(38,49,71,.08)',
-            background: '#f4f4f6',
-        }}>
-          <div style={{padding: 0,}} className="container">
-          <nav 
-            // style={{
-            //     boxShadow: '0 1px 8px rgba(38,49,71,.08)',
-            // }}
-            className="">
-          <ul style={{
-            listStyle: 'none',
-            display: 'flex',
-            margin: 0,
-            padding: 0,
-            borderBottom: '1px solid #e0e2e7',
-          }}>
-          <li
-            style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}
-          >
-            <button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-              {this.translate("social-network")}
-              </button>
-        </li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}>
-                <button 
-                className="button-list"
-                style={{
-                    borderRadius: '4px',
-                    border: 'none',
-                    fontFamily: 'AvenirNextRoundedPro-Medium',
-                    background: 'none',
-                }}>
-                    {this.translate("discount")}
-                </button>
-        </li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}><button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-                {this.translate("office")}
-            </button></li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}><button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-                {this.translate("web")}
-            </button></li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}><button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-                {this.translate("individual")}
-            </button></li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}><button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-                {this.translate("video")}
-            </button></li>
-          </ul>
-          </nav>
-          </div>
-          </div>
+          <NavBar 
+            translate={this.translate}
+          />
           {this.state.mounted && 
             <CatalogList 
               translate={this.translate}

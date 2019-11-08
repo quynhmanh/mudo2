@@ -365,3 +365,24 @@ export const SUGGESTED_LIST = [
     size: "148 × 105 mm"
   }
 ];
+
+export const NAVBAR_LIST = [
+  {
+    title: "social-network"
+  },
+  {
+    title: "discount"
+  },
+  {
+    title: "office"
+  },
+  {
+    title: "web"
+  },
+  {
+    title: "individual"
+  },
+  {
+    title: "video"
+  }
+];
