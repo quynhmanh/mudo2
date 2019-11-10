@@ -1076,9 +1076,9 @@ class CanvaEditor extends Component<IProps, IState> {
           var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
           for (var i = 0; i < rectalos.length; ++i) {
             var cur: any = rectalos[i];
-            cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
-            cur.style.width = `calc(100%/${image.scaleX})`;
-            cur.style.height = `calc(100%/${image.scaleY})`;
+            // cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
+            // cur.style.width = `calc(100%/${image.scaleX})`;
+            // cur.style.height = `calc(100%/${image.scaleY})`;
           }
         } else {
           if (objectType == TemplateType.Heading) {
@@ -1243,6 +1243,9 @@ class CanvaEditor extends Component<IProps, IState> {
       rotateAngle: 0
     };
 
+    var startX2 = document.getElementById(image._id + "tl_").getBoundingClientRect().left + 10;
+    var startY2 = document.getElementById(image._id + "tl_").getBoundingClientRect().top + 10;
+
     this.temp = location$.pipe(
         map(([x, y]) => ({
           moveElLocation: [x, y]
@@ -1257,6 +1260,19 @@ class CanvaEditor extends Component<IProps, IState> {
         const deltaW = (deltaL * Math.cos(beta)) / scale;
         const deltaH = (deltaL * Math.sin(beta)) / scale;
         let rotateAngle = image.rotateAngle;
+        
+
+        var deltaX2 = startX2 - moveElLocation[0];
+        var deltaY2 = startY2 - moveElLocation[1];
+
+        var beta2 = Math.atan2(deltaY2, deltaX2);
+
+        var corner = 90 - image.rotateAngle - beta2;
+
+        var dis = Math.sqrt(deltaX2 * deltaX2 + deltaY2 * deltaY2);
+
+        var addedX = Math.sin(degToRadian(corner)) * dis;
+        var addedY = Math.cos(degToRadian(corner)) * dis;
 
         if (!window.resizingInnerImage) {
           let {
@@ -1310,7 +1326,6 @@ class CanvaEditor extends Component<IProps, IState> {
     objectType,
     e
   ) => {
-    console.log('handleImageResize')
     let switching;
     const { scale } = this.state;
     let { top, left, width, height } = style;
