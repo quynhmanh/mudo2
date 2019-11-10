@@ -7,16 +7,18 @@ import { Helmet } from "react-helmet";
 import bind from 'bind-decorator';
 import LoginPopup from "@Components/shared/LoginPopup";
 import styled from 'styled-components';
-import { element } from "prop-types";
 import { withTranslation } from "react-i18next";
 import languages from "@Locales/languages";
 import uuidv4 from "uuid/v4";
 import { ILocale } from "@Models/ILocale";
 import homePageTranslation from "@Locales/default/homePage";
 import loadable from '@loadable/component';
+import { isClickOutside } from '@Functions/shared/common';
 
-const PopularTemplate = loadable(() => import("@Components/shared/PopularTemplate"));
-const CatalogList = loadable(() => import("@Components/shared/CatalogList"));
+const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
+const CatalogList = loadable(() => import("@Components/homepage/CatalogList"));
+const SuggestedList = loadable(() => import("@Components/homepage/SuggestedList"));
+const NavBar = loadable(() => import("@Components/homepage/NavBar"));
 
 type Props = RouteComponentProps<{}>;
 
@@ -112,9 +114,11 @@ class HomePage extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    // const nav = document.querySelector('nav');
-    const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
-    this.setState({mounted: true, navTop});
+    NavBar.load().then(() => {
+        const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
+        this.setState({ navTop });
+    });
+    this.setState({mounted: true});
     window.addEventListener('scroll', this.handleScroll);
   }
 
@@ -191,7 +195,18 @@ handleScroll = () => {
 }
 
 handleLogin = () => {
-    document.getElementById("downloadPopup").style.display = "block";
+    const downloadPopup = document.getElementById("downloadPopup");
+    const downloadPopupLeft = document.getElementById("downloadPopupLeft");
+    const downloadPopupRight = document.getElementById("downloadPopupRight");
+    downloadPopup.style.display = "block";
+    const onDown = e => {
+        if (isClickOutside(e, downloadPopupLeft) && isClickOutside(e, downloadPopupRight)) {
+          downloadPopup.style.display = "none";
+          document.removeEventListener("mouseup", onDown);
+        }
+      };
+    
+    document.addEventListener("mouseup", onDown);
     // document.getElementById("editor").classList.add("popup");
 }
 
@@ -222,12 +237,6 @@ handleUpdateCompleted = () => {
     this.setState({externalProviderCompleted: true,})
 }
 
-isClickOutside = (event, element) => {
-  const { clientX, clientY } = event;
-  const rect = element.getBoundingClientRect();
-  return (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom);
-}
-
 onLanguageBtnClick = () => {
   const showLanguageDropdown = !this.state.showLanguageDropdown;
   this.setState({ showLanguageDropdown });
@@ -236,7 +245,7 @@ onLanguageBtnClick = () => {
     const onDown = e => {
       const languageDropdown = document.getElementById("language-dropdown");
       const languageBtn = document.getElementById("language-btn");
-      if (this.isClickOutside(e, languageDropdown) && this.isClickOutside(e, languageBtn)) {
+      if (isClickOutside(e, languageDropdown) && isClickOutside(e, languageBtn)) {
         this.setState({ showLanguageDropdown: false });
         document.removeEventListener("mouseup", onDown);
       }
@@ -605,158 +614,11 @@ onLanguageBtnClick = () => {
               }
             }
             contentEditable={true}></div>
-          {this.state.focusing && <div
-            id="homepage_list"
-            style={{
-              width: '100%',
-              position: 'absolute',
-              left: '0',
-              marginTop: '1px',
-              zIndex: 99999,
-            }}
-          >
-            
-      <ul
-        style={{
-          listStyle: 'none',
-          width: '500px',
-          margin: 'auto',
-          padding: 0,
-          backgroundColor: 'white',
-          height: '214px',
-          overflow: 'scroll',
-          borderRadius: '5px',
-          boxShadow: '0 0 0 1px rgba(14,19,24,.02), 0 2px 8px rgba(14,19,24,.15)',
-        }}
-      className="_10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88">
-        <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-          <ul className="_3iAhdo5irp6o991TKYLo_G _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88" />
-        </li>
-        <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-          <div className="_1ERFI8bZ2yaDXttvzi0r56">
-              <span style={{
-                  marginLeft: '5px',
-                  fontFamily: 'AvenirNextRoundedPro-Medium',
-              }} className="_1ZekmJX88FhNx-izKxyhf7 jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">{this.translate("suggested")}</span>
-            </div>
-        </li>
-        <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-          <ul style={{listStyle: 'none', padding: 0,}} className="_35hMZzDjUCiFAL0T8RAwqY _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88">
-            <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button onClick={() => {window.open('/editor/3/0');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1 gfcUZM2lrsYeWQPoFQxBj">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/cTgIK8jqHEubjih9549hAw.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("poster")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">42 × 59.4 cm</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li>
-            <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button onClick={() => {window.open('/editor/4/0');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/eIRfvcnuuEKn2QGfvVGOqQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("logo")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">500 × 500 px</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li>
-            <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button onClick={() => {window.open('/editor/7/0');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/owdn5oxp2UG8OjFOrxcFQ.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("brochures")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">1920 × 1080 px</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li>
-            <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button onClick={() => {window.open('/editor/7/0');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/2RswVAz1kORIR98Y7DdA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("flyer")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">210 × 297 mm</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li>
-            {/* <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="https://static.canva.com/category/icons/Card.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Thẻ</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">14.8 × 10.5 cm</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li>
-            <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="https://static.canva.com/category/icons/noun_1034191.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">A4 Tài liệu</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">21 × 29.7 cm</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li> */}
-            {/* <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="https://static.canva.com/category/icons/noun_1563397.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Thiết kế đồ hoạ thông tin (Infographic)</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">800 × 2000 px</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li> */}
-            <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button onClick={() => {window.open('/templates/business-cards');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/kPsZvFiQTEGq3asTsPBNHg.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("business-card")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">8.5 × 5 cm</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li>
-            {/* <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="https://static.canva.com/category/icons/noun_1182832.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Lý lịch cá nhân</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">21 × 29.7 cm</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li> */}
-            <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button onClick={() => {window.open('/templates/postcards');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/JGzOwEpLlkSGGHMaLuGagA.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("post-card")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li>
-            <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button onClick={() => {window.open('/templates/resume');}} type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><img src="images/xZv5tdDLc0OpQkBnGLJ8ag.svg" className="_3vRw2O1Xs0IY3kcnmLCS7O" /></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">{this.translate("resume")}</span><span className="GFAL_CbltoeGbTj3MVtfx jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">148 × 105 mm</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li>
-            {/* <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-              <div>
-                <button type="button" className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1">
-                  <div className="_2Wf-SlnxpiKP9h4IkWZoDa"><span className="_2EGWQBRVP2StSe2iTvRlDw"><span className="_3K8w6l0jetB1VHftQo2qK6 _3riOXmq8mfDI5UGnLrweQh"><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2zm0 1.5a.5.5 0 0 0-.5.5v14c0 .28.22.5.5.5h14a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5H5zm5.75 10.1l3.05-4.15a2 2 0 0 1 3.22-.01L21 15.78V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-.09l3.82-5.25a2 2 0 0 1 3.22 0l.7.95zm3.6 4.9H19a.5.5 0 0 0 .5-.5v-2.72l-3.69-4.94a.5.5 0 0 0-.8 0l-3.33 4.53 2.68 3.63zm-5.51-4.96a.5.5 0 0 0-.81 0l-3.44 4.74a.5.5 0 0 0 .41.22h7.5l-3.66-4.96zM8.5 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" /></svg></span></span><span className="_2bF18d7VlTkz11DmN_PXUM"><div className="_1pq0UtmsEXODMd3J-_HjDh"><span className="_2bXdXf_GqdFQVMmOz0A8L8">Custom dimensions</span></div>
-                    </span>
-                  </div>
-                </button>
-              </div>
-            </li> */}
-          </ul>
-        </li>
-        <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-          <ul className="_3ojNQJCHMpm1Q_3Zp_wYzn _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88" />
-        </li>
-      </ul>
-          </div>}
+          {this.state.focusing && 
+            <SuggestedList
+              translate={this.translate}
+            />
+          }
           <PopularTemplate 
             translate={this.translate.bind(this)}
           />
@@ -773,155 +635,9 @@ onLanguageBtnClick = () => {
                 fontFamily: 'AvenirNextRoundedPro-Medium',
                 background: '#f4f4f6',
             }}>{this.translate("create-a-design")}</h2>
-          <div
-          id="hello-world"
-          style={{
-            // boxShadow: '0 1px 8px rgba(38,49,71,.08)',
-            background: '#f4f4f6',
-        }}>
-          <div style={{padding: 0,}} className="container">
-          <nav 
-            // style={{
-            //     boxShadow: '0 1px 8px rgba(38,49,71,.08)',
-            // }}
-            className="">
-          <ul style={{
-            listStyle: 'none',
-            display: 'flex',
-            margin: 0,
-            padding: 0,
-            borderBottom: '1px solid #e0e2e7',
-          }}>
-          <li
-            style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}
-          >
-            <button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-              {this.translate("social-network")}
-              </button>
-        </li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}>
-                <button 
-                className="button-list"
-                style={{
-                    borderRadius: '4px',
-                    border: 'none',
-                    fontFamily: 'AvenirNextRoundedPro-Medium',
-                    background: 'none',
-                }}>
-                    {this.translate("discount")}
-                </button>
-        </li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}><button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-                {this.translate("office")}
-            </button></li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}><button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-                {this.translate("web")}
-            </button></li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}><button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-                {this.translate("individual")}
-            </button></li>
-          <li style={{
-                height: '100%',
-                textAlign: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px 0px',
-                transition: 'all 0.3s ease-in',
-                cursor: 'pointer',
-                marginRight: '20px',
-            }}><button 
-            className="button-list"
-            style={{
-                borderRadius: '4px',
-                border: 'none',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: 'none',
-            }}>
-                {this.translate("video")}
-            </button></li>
-          </ul>
-          </nav>
-          </div>
-          </div>
+          <NavBar 
+            translate={this.translate}
+          />
           {this.state.mounted && 
             <CatalogList 
               translate={this.translate}

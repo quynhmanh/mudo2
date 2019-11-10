@@ -7,7 +7,7 @@ interface IProps {
     translate: any;
 }
 
-const CatalogItem = loadable(() => import("@Components/shared/CatalogItem"));
+const CatalogItem = loadable(() => import("@Components/homepage/CatalogItem"));
 
 const CatalogList = (props: IProps) => {
 

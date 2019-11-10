@@ -183,6 +183,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
           }}
         >
           <div
+            id="downloadPopupLeft"
             style={{
               width: "400px",
               backgroundColor: "#638efc",
@@ -311,7 +312,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
               </div>
             </div>
           </div>
-          <div style={{ position: "relative", width: "400px" }}>
+          <div style={{ position: "relative", width: "400px" }} id="downloadPopupRight">
             {/* {!this.props.externalProviderCompleted ? ( */}
               <div 
               style={{

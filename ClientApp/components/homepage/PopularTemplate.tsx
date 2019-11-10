@@ -4,7 +4,7 @@ import { POPULAR_LIST } from "@Constants";
 import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
 
-const Item = loadable(() => import("@Components/shared/PopularTemplateItem"));
+const Item = loadable(() => import("@Components/homepage/PopularTemplateItem"));
 
 const popularTemplates = POPULAR_LIST.map( (item) => 
     <Item 
