@@ -589,7 +589,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         {((showImage && !selected) || (!showImage &&selected)) && objectType === 4 &&
         <div
           id={_id + "654"}
-          className={src ? null : _id + "scaleX-scaleY"}
+          className={_id + "scaleX-scaleY"}
           style={{
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
@@ -707,7 +707,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         {((showImage && !selected) || (!showImage &&selected)) && objectType === 3 &&
         <div
           id={_id + "654"}
-          className={src ? null : _id + "scaleX-scaleY"}
+          className={_id + "scaleX-scaleY"}
           style={{
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
