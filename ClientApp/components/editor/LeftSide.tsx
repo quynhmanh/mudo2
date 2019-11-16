@@ -1110,6 +1110,7 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   templateOnMouseDown(id, e) {
+    editorStore.doNoObjectSelected();
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
