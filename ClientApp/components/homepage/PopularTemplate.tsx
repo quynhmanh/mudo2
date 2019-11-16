@@ -73,6 +73,7 @@ class Popup extends PureComponent<IProps, IState> {
                             borderRadius: '50%',
                             left: '-21px',
                             border: 'none',
+                            background: 'white',
                         }} 
                         onClick={(e) => {
                             this.test.scrollLeft = this.state.yLocation - 700;
@@ -104,6 +105,7 @@ class Popup extends PureComponent<IProps, IState> {
                             borderRadius: '50%',
                             right: '-21px',
                             border: 'none',
+                            background: 'white',
                         }} 
                         onClick={(e) => {
                             this.test.scrollLeft = this.state.yLocation + 700;
