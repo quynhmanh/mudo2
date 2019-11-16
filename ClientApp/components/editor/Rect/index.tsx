@@ -336,6 +336,14 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgDirections = direction;
     }
 
+    if (height * scale <= 30) {
+      imgDirections = imgDirections.filter(d => d != "w" && d != "e")
+    }
+
+    if (width * scale <= 30) {
+      imgDirections = imgDirections.filter(d => d != "n" && d != "s")
+    }
+
     const styles = tLToCenter({ top, left, width, height, rotateAngle });
     const imgStyles = tLToCenter({
       left: posX,
