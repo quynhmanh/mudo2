@@ -920,7 +920,6 @@ class CanvaEditor extends Component<IProps, IState> {
     let images = toJS(editorStore.images);
     let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
-        img.fontSize = fontSize;
         editorStore.imageSelected = img;
       }
       return img;
@@ -1079,6 +1078,12 @@ class CanvaEditor extends Component<IProps, IState> {
         if (cursor != "e" && cursor != "w") {
           image.scaleX = image.width / image.origin_width;
           image.scaleY = image.height / image.origin_height;
+          // image.fontSize = image.scaleY * image.fontSize;
+
+          document.getElementById("fontSizeButton").innerText = `${Math.round(image.fontSize * image.scaleY * 10) / 10}`;
+
+
+          console.log('newFontSize ', image.scaleY * image.fontSize)
 
           if (objectType == TemplateType.Heading) {
             var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
@@ -1099,6 +1104,7 @@ class CanvaEditor extends Component<IProps, IState> {
             var cs = Math.abs(Math.cos((image.rotateAngle / 360) * Math.PI));
             var newHeight =
               (rec.height * cs - rec.width * as) / (cs ^ (2 - as) ^ 2);
+              console.log('newFontSize ', newHeight / image.height * image.fontSize)
             image.height = newHeight / scale;
           } else if (objectType == TemplateType.TextTemplate) {
             var maxHeight = 0;
@@ -2193,9 +2199,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
     });
 
     this.setState({ fontColor: img.color, fontName: img.fontRepresentative });
-    document.getElementById("fontSizeButton").innerText = `${Math.round(
-      img.fontSize * 10
-    ) / 10}`;
+    document.getElementById("fontSizeButton").innerText = `${Math.round(img.fontSize * img.scaleY * 10) / 10}`;
 
     editorStore.idObjectSelected = img._id;
     editorStore.imageSelected = img;
