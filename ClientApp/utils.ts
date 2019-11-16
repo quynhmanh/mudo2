@@ -541,3 +541,113 @@ export const updateRotate = function(elId, rotateAngle: any) {
     el.style.transform = `rotate(${rotateAngle}deg)`;
   }
 }
+
+export const getCursorStyleWithRotateAngle = (rotateAngle) : string => {
+  let rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/4d0e991d3ba4f5fc763640a966b6171a.png") 1x, url("https://static.canva.com/web/images/c0013ec5969d2610c26794064d159d8c.png") 2x) 12 12, auto';
+  if (rotateAngle >= 8) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/226ff3adc87fd7093018e0c8a3cc931c.png") 1x, url("https://static.canva.com/web/images/aeab367bea5bbe7496f72eea9d6edae0.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 23) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/d33c87b484f655fb60bd17688adf3e70.png") 1x, url("https://static.canva.com/web/images/2e9713fbd41bc52efff81476412ef9a1.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 34) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/a4da5947a391c4ec3b9080ca26583bb0.png") 1x, url("https://static.canva.com/web/images/8ef78f9b8e2e93577b418aa180d5a02b.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 53) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/263856851390cd905452bf7b5d39b725.png") 1x, url("https://static.canva.com/web/images/c60bd1d65fc56081c60fe21454cd5d5c.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 68) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/3fd9adc7eac568ae4407a879223a7a5b.png") 1x, url("https://static.canva.com/web/images/81cd6bf75f29bf693d5ae72fc3fe4b26.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 83) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/956c07bd1e2cf2a0e7a674681caf5be0.png") 1x, url("https://static.canva.com/web/images/5641e42456ca9302d7f5c36b3b768bdb.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 98) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/63999399c8cf3b47236a30ea6a310a32.png") 1x, url("https://static.canva.com/web/images/7630c7c6064e9bfeb38ca5fb2d610b14.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 114) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/aba8fc531953b668920076359565eb59.png") 1x, url("https://static.canva.com/web/images/304c5237c37c6f12b5f4723140851885.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 128) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/33f1440c7ada5e7e8f31a706fcf722ee.png") 1x, url("https://static.canva.com/web/images/a70b4aea98ca6fb43d271c0e7bc6e971.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 158) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/31295144b1e0601d2676be6c73dcf1b1.png") 1x, url("https://static.canva.com/web/images/8cf4a69209688d1a361b924305a03d24.png") 2x) 12 12, auto';
+  }
+  if (rotateAngle >= 173) {
+    rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/2e0ea326850959ffed4c15a186697a9f.png") 1x, url("https://static.canva.com/web/images/e8752eb4551722c4146c4fbc758bd06a.png") 2x) 12 12, auto';
+  }
+
+  return rotateCursor;
+}
+
+export const getCursorStyleForResizer = (rotateAngle, d): string => {
+  var cursor;
+  var normalizedRotateAngle = rotateAngle;
+  if (d == "n") {
+    normalizedRotateAngle = normalizedRotateAngle + 45;
+  } else if (d == "ne") {
+    normalizedRotateAngle = normalizedRotateAngle + 90;
+  } else if (d == "e") {
+    normalizedRotateAngle = normalizedRotateAngle + 135;
+  } else if (d == "es") {
+    normalizedRotateAngle = normalizedRotateAngle + 180;
+  } else if (d == "s") {
+    normalizedRotateAngle = normalizedRotateAngle + 225;
+  } else if (d == "sw") {
+    normalizedRotateAngle = normalizedRotateAngle + 270;
+  } else if (d == "w") {
+    normalizedRotateAngle = normalizedRotateAngle + 315;
+  }
+  normalizedRotateAngle = normalizedRotateAngle % 180;
+  if (normalizedRotateAngle >= 0 && normalizedRotateAngle < 8) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 8 && normalizedRotateAngle < 23) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/4434684d762b5dea2ff268f549a43269.png) 1x,url(https://static.canva.com/web/images/9b8ad9e061f825e77d1b97b71ffde9a4.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 23 && normalizedRotateAngle < 38) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/02d2d3984af99ad512694e82a689a9a8.png) 1x,url(https://static.canva.com/web/images/d2bb4fd0691527a4fd01a55d1ebb6f87.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 38 && normalizedRotateAngle < 53) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/5e315937d3456710f9684f89c7860ea8.png) 1x,url(https://static.canva.com/web/images/a3609c7d7315d7301c3832d7e76e7974.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 53 && normalizedRotateAngle < 68) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/ba88e3ebda4fdf44251c3fa36faec38e.png) 1x,url(https://static.canva.com/web/images/13d7d7347a19703627af6dc4c7e584aa.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 68 && normalizedRotateAngle < 83) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/1766922605e07ad48762f0578f23cd73.png) 1x,url(https://static.canva.com/web/images/16fdd75b90535598d4379c348bc9d39e.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 83 && normalizedRotateAngle < 98) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/d78cdce65d153748ffd0fb1a5573ac75.png) 1x,url(https://static.canva.com/web/images/ce13b386dbba73815423332724d3030a.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 98 && normalizedRotateAngle < 113) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/cf19806f9578c66128338be1742c67f9.png) 1x,url(https://static.canva.com/web/images/90f8d3f4bc588410bd1d218455116b41.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 113 && normalizedRotateAngle < 128) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/4dba7d81ce991e1546824042615cc1ef.png) 1x,url(https://static.canva.com/web/images/aed44f2fbd5cdfa5bf5d896df50dbffa.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 128 && normalizedRotateAngle < 143) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/159a13980e4a0d0a470a49f8d35eb5a6.png) 1x,url(https://static.canva.com/web/images/4ecfddb1ae830056cfa9144f81c83295.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 143 && normalizedRotateAngle < 158) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/a9079684178c3a8c1e37c4343524330b.png) 1x,url(https://static.canva.com/web/images/7d1ef78c7ac2fd9eca288126c98dc20e.png) 2x) 12 12,auto";
+  }
+  if (normalizedRotateAngle >= 158 && normalizedRotateAngle < 173) {
+    cursor =
+      "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
+  }
+
+  return cursor;
+}

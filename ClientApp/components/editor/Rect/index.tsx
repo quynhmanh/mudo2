@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { getLength, getAngle, getCursor, tLToCenter } from "@Utils";
+import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, getCursor, tLToCenter } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import MathJax from "react-mathjax2";
@@ -173,7 +173,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     //   // self.props.onFontSizeChange(res);
     // }
 
-    this.props.onResizeStart && this.props.onResizeStart(e);
+    this.props.onResizeStart && this.props.onResizeStart(e, cursor);
   };
 
   $textEle = null;
@@ -359,12 +359,14 @@ export default class Rect extends PureComponent<IProps, IState> {
       >
         {!cropMode && rotatable && showController && objectType !== 6 && (
           <div
+            id={_id + "rotate-container"}
             className="rotate-container"
             style={{
               width: "18px",
               height: "18px",
               left: `calc(50% - 6}px)`,
-              bottom: "-35px"
+              bottom: "-35px",
+              cursor: getCursorStyleWithRotateAngle(rotateAngle),
             }}
             onMouseDown={this.startRotate}
           >
@@ -396,73 +398,8 @@ export default class Rect extends PureComponent<IProps, IState> {
           showController &&
           objectType !== 6 &&
           imgDirections.map(d => {
-            var cursor;
-            var normalizedRotateAngle = rotateAngle;
-            if (d == "n") {
-              normalizedRotateAngle = normalizedRotateAngle + 45;
-            } else if (d == "ne") {
-              normalizedRotateAngle = normalizedRotateAngle + 90;
-            } else if (d == "e") {
-              normalizedRotateAngle = normalizedRotateAngle + 135;
-            } else if (d == "es") {
-              normalizedRotateAngle = normalizedRotateAngle + 180;
-            } else if (d == "s") {
-              normalizedRotateAngle = normalizedRotateAngle + 225;
-            } else if (d == "sw") {
-              normalizedRotateAngle = normalizedRotateAngle + 270;
-            } else if (d == "w") {
-              normalizedRotateAngle = normalizedRotateAngle + 315;
-            }
-            normalizedRotateAngle = normalizedRotateAngle % 180;
-            if (normalizedRotateAngle >= 0 && normalizedRotateAngle < 8) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 8 && normalizedRotateAngle < 23) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/4434684d762b5dea2ff268f549a43269.png) 1x,url(https://static.canva.com/web/images/9b8ad9e061f825e77d1b97b71ffde9a4.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 23 && normalizedRotateAngle < 38) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/02d2d3984af99ad512694e82a689a9a8.png) 1x,url(https://static.canva.com/web/images/d2bb4fd0691527a4fd01a55d1ebb6f87.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 38 && normalizedRotateAngle < 53) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/5e315937d3456710f9684f89c7860ea8.png) 1x,url(https://static.canva.com/web/images/a3609c7d7315d7301c3832d7e76e7974.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 53 && normalizedRotateAngle < 68) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/ba88e3ebda4fdf44251c3fa36faec38e.png) 1x,url(https://static.canva.com/web/images/13d7d7347a19703627af6dc4c7e584aa.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 68 && normalizedRotateAngle < 83) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/1766922605e07ad48762f0578f23cd73.png) 1x,url(https://static.canva.com/web/images/16fdd75b90535598d4379c348bc9d39e.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 83 && normalizedRotateAngle < 98) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/d78cdce65d153748ffd0fb1a5573ac75.png) 1x,url(https://static.canva.com/web/images/ce13b386dbba73815423332724d3030a.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 98 && normalizedRotateAngle < 113) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/cf19806f9578c66128338be1742c67f9.png) 1x,url(https://static.canva.com/web/images/90f8d3f4bc588410bd1d218455116b41.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 113 && normalizedRotateAngle < 128) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/4dba7d81ce991e1546824042615cc1ef.png) 1x,url(https://static.canva.com/web/images/aed44f2fbd5cdfa5bf5d896df50dbffa.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 128 && normalizedRotateAngle < 143) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/159a13980e4a0d0a470a49f8d35eb5a6.png) 1x,url(https://static.canva.com/web/images/4ecfddb1ae830056cfa9144f81c83295.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 143 && normalizedRotateAngle < 158) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/a9079684178c3a8c1e37c4343524330b.png) 1x,url(https://static.canva.com/web/images/7d1ef78c7ac2fd9eca288126c98dc20e.png) 2x) 12 12,auto";
-            }
-            if (normalizedRotateAngle >= 158 && normalizedRotateAngle < 173) {
-              cursor =
-                "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
-            }
-
+            var cursor = getCursorStyleForResizer(rotateAngle, d);
+            
             return (
               <div
                 id={d}
