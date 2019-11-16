@@ -2892,7 +2892,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
   };
 
   onSingleTextChange(thisImage, e, childId) {
-    console.log('onSingleTextChange ', arguments);
     // console.log('ToJS', toJS(editorStore.images));
     // var els;
     // if (childId){
@@ -3693,7 +3692,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     style={{
                       display: "flex",
                       marginTop: "4px",
-                      marginRight: "6px",
                       fontSize: "13px"
                     }}
                   >
@@ -3732,7 +3730,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     style={{
                       display: "flex",
                       marginTop: "4px",
-                      marginRight: "6px",
                       fontSize: "13px"
                     }}
                   >
@@ -3886,7 +3883,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
               <div
                 style={{
                   width: "100%",
-                  backgroundColor: "white",
+                  backgroundColor: "#dae0e7",
                   zIndex: 123123123,
                   boxShadow: "0 1px 0 rgba(14,19,24,.15)",
                   display: "inline-flex",
@@ -3955,10 +3952,8 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     href="#"
                     className="toolbar-btn"
                     style={{
-                      borderRadius: "4px",
                       padding: "3px",
                       paddingBottom: "0px",
-                      marginRight: "6px",
                       display: "inline-block",
                       cursor: "pointer",
                       color: "black"
@@ -4009,10 +4004,8 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     href="#"
                     className="toolbar-btn"
                     style={{
-                      borderRadius: "4px",
                       padding: "3px",
                       paddingBottom: "0px",
-                      marginRight: "6px",
                       display: "inline-block",
                       cursor: "pointer",
                       color: "black"
@@ -4067,7 +4060,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       borderRadius: "4px",
                       padding: "3px",
                       paddingBottom: "0px",
-                      marginRight: "6px",
                       display: "inline-block",
                       cursor: "pointer",
                       color: "black",
@@ -4112,7 +4104,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             height: "26px",
                             top: 0
                           }}
-                          className="dropbtn-font dropbtn-font-size"
+                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
                           onClick={e => {
                             this.setState({ cropMode: true });
                           }}
@@ -4138,7 +4130,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                           width: "27px",
                           backgroundColor: this.state.imgBackgroundColor
                         }}
-                        className="dropbtn-font dropbtn-font-size"
+                                        className="dropbtn-font dropbtn-font-size toolbar-btn"
                         onClick={e => {
                           this.setState({ selectedTab: SidebarTab.Color });
                         }}
@@ -4595,7 +4587,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                         width: "30px",
                         padding: 0
                       }}
-                      className="dropbtn-font dropbtn-font-size"
+                                        className="dropbtn-font dropbtn-font-size toolbar-btn"
                       onClick={this.onClickTransparent.bind(this)}
                     >
                       <svg
