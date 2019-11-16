@@ -1073,12 +1073,15 @@ class CanvaEditor extends Component<IProps, IState> {
           image.scaleX = image.width / image.origin_width;
           image.scaleY = image.height / image.origin_height;
 
-          var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
-          for (var i = 0; i < rectalos.length; ++i) {
-            var cur: any = rectalos[i];
-            // cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
-            // cur.style.width = `calc(100%/${image.scaleX})`;
-            // cur.style.height = `calc(100%/${image.scaleY})`;
+          console.log('handleResize objectype', objectType)
+          if (objectType == TemplateType.Heading) {
+            var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
+            for (var i = 0; i < rectalos.length; ++i) {
+              var cur: any = rectalos[i];
+              cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
+              cur.style.width = `calc(100%/${image.scaleX})`;
+              cur.style.height = `calc(100%/${image.scaleY})`;
+            }
           }
         } else {
           if (objectType == TemplateType.Heading) {

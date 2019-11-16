@@ -714,10 +714,10 @@ export default class Rect extends PureComponent<IProps, IState> {
             transformOrigin: "0 0",
             transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
             position: "absolute",
-            // width: `calc(100%/${scaleX})`,
-            // height: `calc(100%/${scaleY})`,
-            width: '100%',
-            height: '100%',
+            width: `calc(100%/${scaleX})`,
+            height: `calc(100%/${scaleY})`,
+            // width: '100%',
+            // height: '100%',
           }}
         >
           {childrens && childrens.length > 0 && showImage && (
