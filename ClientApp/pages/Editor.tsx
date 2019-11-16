@@ -1080,7 +1080,6 @@ class CanvaEditor extends Component<IProps, IState> {
           image.scaleX = image.width / image.origin_width;
           image.scaleY = image.height / image.origin_height;
 
-          console.log('handleResize objectype', objectType)
           if (objectType == TemplateType.Heading) {
             var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
             for (var i = 0; i < rectalos.length; ++i) {
