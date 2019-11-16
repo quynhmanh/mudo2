@@ -4137,6 +4137,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                         ? "block"
                         : "none"
                   }}
+                  className="toolbar-btn"
                 >
                   <FontSize fontSize={this.state.fontSize} />
                   <div
