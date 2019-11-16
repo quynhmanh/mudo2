@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
 import uuidv4 from "uuid/v4";
-import { getBoundingClientRect } from "@Utils";
+import { getBoundingClientRect, getCursorStyleWithRotateAngle, getCursorStyleForResizer, } from "@Utils";
 import "@Styles/editor.scss";
 import axios from "axios";
 import Popup from "@Components/shared/Popup";
@@ -837,7 +837,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
   }
 
-  handleResizeStart = (e: any) => {
+  handleResizeStart = (e: any, d: any) => {
     console.log('handleResizeStart');
     e.stopPropagation();
     
@@ -863,6 +863,12 @@ class CanvaEditor extends Component<IProps, IState> {
     } = image;
 
     this.displayResizers(false);
+
+    var cursorStyle = getCursorStyleForResizer(image.rotateAngle, d);
+
+    var ell = document.getElementById("screen-container-parent2");
+    ell.style.zIndex = "2";
+    ell.style.cursor = cursorStyle;
 
     this.temp = location$.pipe(
         map(([x, y]) => ({
@@ -905,6 +911,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.handleResizeEnd(null);
         this.pauser.next(false);
         this.forceUpdate();
+        ell.style.zIndex = "0";
       });
   };
 
@@ -1496,6 +1503,9 @@ class CanvaEditor extends Component<IProps, IState> {
 
     this.pauser.next(true);
 
+    var ell = document.getElementById("screen-container-parent2");
+    ell.style.zIndex = "2";
+
     this.temp = location$.pipe(
         map(([x, y]) => ({
           moveElLocation: [x, y]
@@ -1523,8 +1533,10 @@ class CanvaEditor extends Component<IProps, IState> {
         } else if (rotateAngle > 266 && rotateAngle < 274) {
           rotateAngle = 270;
         }
-        // window.image.rotateANgle = rotateAngle;
         window.rotateAngle = rotateAngle;
+
+        var cursorStyle = getCursorStyleWithRotateAngle(rotateAngle);
+        ell.style.cursor = cursorStyle;
 
         var a = document.getElementsByClassName(image._id + "aaaa");
         for (let i = 0; i < a.length; ++i) {
@@ -1538,7 +1550,6 @@ class CanvaEditor extends Component<IProps, IState> {
         }
         tip.id = "helloTip";
         tip.style.position = "absolute";
-        // tip.style.width = "100px";
         tip.style.height = "30px";
         tip.style.backgroundColor = "black";
         tip.style.top = moveElLocation[1] + 20 + "px";
@@ -1550,6 +1561,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.displayResizers(true);
         this.handleRotateEnd(this.state.idObjectSelected);
         this.pauser.next(false);
+        ell.style.zIndex = "0";
       });
   };
 
@@ -4786,6 +4798,19 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                 )}
               </div>
               <div
+                id="screen-container-parent2"
+                style={{
+                  top: "46px",
+                  overflow: "scroll",
+                  alignItems: "center",
+                  display: "flex",
+                  position: "absolute",
+                  width: "100%",
+                  height: "calc(100% - 46px)",
+                }}>
+
+              </div>
+              <div
                 id="screen-container-parent"
                 style={{
                   top: "46px",
@@ -4795,6 +4820,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                   position: "absolute",
                   width: "100%",
                   height: "calc(100% - 46px)",
+                  zIndex: 1,
                   backgroundColor:
                     this.state.cropMode && "rgba(14, 19, 24, 0.2)"
                 }}
