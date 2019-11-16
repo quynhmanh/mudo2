@@ -181,7 +181,7 @@ export default styled.div`
   }
   .l,
   .r {
-    top: calc(50% - 9px);
+    top: calc(50% - 10px);
   }
   .t,
   .b {
