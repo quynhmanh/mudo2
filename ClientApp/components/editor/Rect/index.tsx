@@ -129,7 +129,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     console.log('cursor ', cursor);
 
     this.props.handleResizeInnerImageStart &&
-      this.props.handleResizeInnerImageStart(e);
+      this.props.handleResizeInnerImageStart(e, cursor);
     window.resizingInnerImage = resizingInnerImage;
   };
 

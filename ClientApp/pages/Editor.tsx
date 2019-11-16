@@ -1204,7 +1204,7 @@ class CanvaEditor extends Component<IProps, IState> {
         }
   };
 
-  handleResizeInnerImageStart = (e) => {
+  handleResizeInnerImageStart = (e, d) => {
     this.displayResizers(false);
 
     window.resizingInnerImage = true;
@@ -1255,6 +1255,12 @@ class CanvaEditor extends Component<IProps, IState> {
 
     var startX2 = document.getElementById(image._id + "tl_").getBoundingClientRect().left + 10;
     var startY2 = document.getElementById(image._id + "tl_").getBoundingClientRect().top + 10;
+
+    var cursorStyle = getCursorStyleForResizer(image.rotateAngle, d);
+
+    var ell = document.getElementById("screen-container-parent2");
+    ell.style.zIndex = "2";
+    ell.style.cursor = cursorStyle;
 
     this.temp = location$.pipe(
         map(([x, y]) => ({
@@ -1321,6 +1327,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.pauser.next(false);
         this.displayResizers(true);
         this.forceUpdate();
+        ell.style.zIndex = "0";
       });
   };
 
