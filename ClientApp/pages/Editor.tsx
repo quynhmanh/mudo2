@@ -3940,8 +3940,10 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                           height: "4px",
                           // background:
                           //   "repeating-linear-gradient(to right, rgb(38, 23, 77) 0%, rgb(38, 23, 77) 100%)",
-                          backgroundColor: this.state.fontColor
+                          backgroundColor: this.state.fontColor,
+                          boxShadow: "inset 0 0 0 1px rgba(14,19,24,.15)"
                         }}
+                        className={this.state.fontColor === 'black' ? "font-color-btn" : ""}
                       ></div>
                     </a>
                   )}
