@@ -11,7 +11,7 @@ RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirror.0x.sg/ubuntu/|g' /
 RUN apt install $(cat /app/wwwroot/pkglist) -y
 # RUN apt-get update 
 # RUN apt-get install -y --no-install-recommends libgdiplus libc6-dev
-# RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/*
 # RUN apt update
 # RUN apt install -y python3-pip
 # RUN pip3 install tensorflow
