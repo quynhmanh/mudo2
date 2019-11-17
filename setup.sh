@@ -10,3 +10,5 @@
 
 # rm deeplabv3_mnv2_pascal_train_aug_2018_01_29.tar.gz
 # rm deeplabv3_pascal_train_aug_2018_01_04.tar.gz
+
+dotnet RCB.TypeScript.dll
