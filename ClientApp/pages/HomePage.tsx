@@ -560,7 +560,7 @@ onLanguageBtnClick = () => {
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
-                backgroundImage: 'url(https://images.unsplash.com/photo-1493932484895-752d1471eab5?ixlib=rb-1.2.1)',
+                backgroundImage: 'url(https://images.unsplash.com/photo-1489755730820-cd90f9a49424)',
               }}
             className="offset-header__header u-last-child-margin-bottom-0 u-textAlign-left@medium">
         <div className="h__hero u-color-inherit@medium ">
