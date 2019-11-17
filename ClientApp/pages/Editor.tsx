@@ -3767,7 +3767,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                 <Tooltip
                 offsetLeft={0}
                 offsetTop={5}
-                content={"Download"}
+                content={this.translate("download")}
                 delay={10}
                 style={{}}
                 position="bottom"
@@ -4653,7 +4653,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     <Tooltip
                         offsetLeft={0}
                         offsetTop={-5}
-                        content={"Position"}
+                        content={this.translate("position")}
                         delay={10}
                         style={{}}
                       >
@@ -4671,7 +4671,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     <Tooltip
                         offsetLeft={0}
                         offsetTop={-5}
-                        content={"Transparent"}
+                        content={this.translate("transparent")}
                         delay={10}
                         style={{}}
                       >
