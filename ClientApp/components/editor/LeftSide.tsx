@@ -35,6 +35,7 @@ export interface IProps {
   fontId: any;
   scale: number;
   handleEditFont: any;
+  handleImageSelected: any;
 }
 
 interface IState {
@@ -1979,16 +1980,17 @@ class LeftSide extends Component<IProps, IState> {
                         )}</div>`,
                         scaleX: 1,
                         scaleY: 1,
-                        selected: false,
                         ref: editorStore.idObjectSelected,
                         page: editorStore.activePageId,
                         zIndex: editorStore.upperZIndex + 1,
                         color: "black",
                         fontSize: 42,
-                        fontRepresentative: "images/default.png"
+                        fontRepresentative: "images/default.png",
+                        selected: true,
                       };
 
                       editorStore.addItem(item, true);
+                      this.props.handleImageSelected(item);
                       editorStore.increaseUpperzIndex();
                     }}
                   >
@@ -2024,10 +2026,12 @@ class LeftSide extends Component<IProps, IState> {
                         ref: this.props.idObjectSelected,
                         color: "black",
                         fontSize: 24,
-                        fontRepresentative: "images/default.png"
+                        fontRepresentative: "images/default.png",
+                        selected: true,
                       };
 
                       editorStore.addItem(item, true);
+                      this.props.handleImageSelected(item);
                       editorStore.increaseUpperzIndex();
                     }}
                   >
@@ -2065,10 +2069,12 @@ class LeftSide extends Component<IProps, IState> {
                         ref: editorStore.idObjectSelected,
                         color: "black",
                         fontSize: 16,
-                        fontRepresentative: "images/default.png"
+                        fontRepresentative: "images/default.png",
+                        selected: true,
                       };
 
                       editorStore.addItem(item, true);
+                      this.props.handleImageSelected(item);
                       editorStore.increaseUpperzIndex();
                     }}
                   >

@@ -70,6 +70,7 @@ export default class FontSize extends PureComponent<IProps, IState> {
               className="dropbtn-font dropbtn-font-size"
               onClick={this.onClickDropDownFontSizeList.bind(this)}
           >
+            {this.props.fontSize}
           </button>
         </React.Fragment>
     );

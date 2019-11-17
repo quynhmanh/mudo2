@@ -751,6 +751,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
           editorStore.addItem(document2, false);
 
+          this.handleImageSelected(document2);
+
           var fonts = toJS(editorStore.fonts);
           let tempFonts = [...fonts, ...doc.fontList];
           editorStore.fonts.replace(tempFonts);
@@ -2306,10 +2308,12 @@ class CanvaEditor extends Component<IProps, IState> {
       return image;
     });
 
-    this.setState({ fontColor: img.color, fontName: img.fontRepresentative });
-    document.getElementById("fontSizeButton").innerText = `${Math.round(
-      img.fontSize * img.scaleY * 10
-    ) / 10}`;
+    this.setState({ fontColor: img.color, fontName: img.fontRepresentative, fontSize: Math.round(
+        img.fontSize * img.scaleY * 10
+      ) / 10 });
+    // document.getElementById("fontSizeButton").innerText = `${Math.round(
+    //   img.fontSize * img.scaleY * 10
+    // ) / 10}`;
 
     editorStore.idObjectSelected = img._id;
     editorStore.imageSelected = img;
@@ -2817,32 +2821,30 @@ class CanvaEditor extends Component<IProps, IState> {
           rec.top < rec2.bottom &&
           rec.bottom > rec2.top
         ) {
-          editorStore.addItem(
-            {
-              _id: uuidv4(),
-              type: TemplateType.Video,
-              width: rec2.width / self.state.scale,
-              height: rec2.height / self.state.scale,
-              origin_width: rec2.width / self.state.scale,
-              origin_height: rec2.height / self.state.scale,
-              left: (rec2.left - rec.left) / self.state.scale,
-              top: (rec2.top - rec.top) / self.state.scale,
-              rotateAngle: 0.0,
-              src: target.src,
-              selected: false,
-              scaleX: 1,
-              scaleY: 1,
-              posX: 0,
-              posY: 0,
-              imgWidth: rec2.width / self.state.scale,
-              imgHeight: rec2.height / self.state.scale,
-              page: pages[i],
-              zIndex: editorStore.upperZIndex + 1
-            },
-            false
-          );
-
-          // self.setState({ images, upperZIndex: this.state.upperZIndex + 1, });
+          let newItem = {
+            _id: uuidv4(),
+            type: TemplateType.Video,
+            width: rec2.width / self.state.scale,
+            height: rec2.height / self.state.scale,
+            origin_width: rec2.width / self.state.scale,
+            origin_height: rec2.height / self.state.scale,
+            left: (rec2.left - rec.left) / self.state.scale,
+            top: (rec2.top - rec.top) / self.state.scale,
+            rotateAngle: 0.0,
+            src: target.src,
+            selected: false,
+            scaleX: 1,
+            scaleY: 1,
+            posX: 0,
+            posY: 0,
+            imgWidth: rec2.width / self.state.scale,
+            imgHeight: rec2.height / self.state.scale,
+            page: pages[i],
+            zIndex: editorStore.upperZIndex + 1
+          };
+          editorStore.addItem(newItem, false);
+          this.handleImageSelected(newItem);
+          editorStore.increaseUpperzIndex();
         }
       }
 
@@ -2927,34 +2929,34 @@ class CanvaEditor extends Component<IProps, IState> {
           rec.top < rec2.bottom &&
           rec.bottom > rec2.top
         ) {
-          editorStore.addItem(
-            {
-              _id: uuidv4(),
-              type: TemplateType.Image,
-              width: rec2.width / self.state.scale,
-              height: rec2.height / self.state.scale,
-              origin_width: rec2.width / self.state.scale,
-              origin_height: rec2.height / self.state.scale,
-              left: (rec2.left - rec.left) / self.state.scale,
-              top: (rec2.top - rec.top) / self.state.scale,
-              rotateAngle: 0.0,
-              src: !img.representative.startsWith("data")
-                ? window.location.origin + "/" + img.representative
-                : img.representative,
-              backgroundColor: target.style.backgroundColor,
-              selected: false,
-              scaleX: 1,
-              scaleY: 1,
-              posX: 0,
-              posY: 0,
-              imgWidth: rec2.width / self.state.scale,
-              imgHeight: rec2.height / self.state.scale,
-              page: editorStore.pages[i],
-              zIndex: editorStore.upperZIndex + 1,
-              freeStyle: img.freeStyle
-            },
-            false
-          );
+          let newImg = {
+            _id: uuidv4(),
+            type: TemplateType.Image,
+            width: rec2.width / self.state.scale,
+            height: rec2.height / self.state.scale,
+            origin_width: rec2.width / self.state.scale,
+            origin_height: rec2.height / self.state.scale,
+            left: (rec2.left - rec.left) / self.state.scale,
+            top: (rec2.top - rec.top) / self.state.scale,
+            rotateAngle: 0.0,
+            src: !img.representative.startsWith("data")
+              ? window.location.origin + "/" + img.representative
+              : img.representative,
+            backgroundColor: target.style.backgroundColor,
+            selected: false,
+            scaleX: 1,
+            scaleY: 1,
+            posX: 0,
+            posY: 0,
+            imgWidth: rec2.width / self.state.scale,
+            imgHeight: rec2.height / self.state.scale,
+            page: editorStore.pages[i],
+            zIndex: editorStore.upperZIndex + 1,
+            freeStyle: img.freeStyle
+          };
+
+          editorStore.addItem(newImg, false );
+          this.handleImageSelected(newImg);
 
           editorStore.increaseUpperzIndex();
 
@@ -3984,6 +3986,7 @@ class CanvaEditor extends Component<IProps, IState> {
               mode={this.state.mode}
               selectedTab={this.state.selectedTab}
               handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
+              handleImageSelected={this.handleImageSelected}
             />
             <div
               style={{
@@ -4027,10 +4030,9 @@ class CanvaEditor extends Component<IProps, IState> {
                   zIndex: 2,
                 }}
               >
-                {this.state.idObjectSelected &&
-                  this.state.selectedImage &&
-                  (this.state.selectedImage.type === TemplateType.Heading ||
-                    this.state.selectedImage.type === TemplateType.Latex ||
+                {editorStore.imageSelected &&
+                  (editorStore.imageSelected.type === TemplateType.Heading ||
+                    editorStore.imageSelected.type === TemplateType.Latex ||
                     this.state.childId) && (
                     <Tooltip
                       offsetLeft={0}
@@ -4093,8 +4095,8 @@ class CanvaEditor extends Component<IProps, IState> {
                       </a>
                     </Tooltip>
                   )}
-                {((this.state.idObjectSelected &&
-                  this.state.selectedImage.type === TemplateType.Heading) ||
+                {((editorStore.imageSelected &&
+                  editorStore.imageSelected.type === TemplateType.Heading) ||
                   this.state.childId) && (
                   <Tooltip
                     offsetLeft={0}
@@ -4154,8 +4156,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     </a>
                   </Tooltip>
                 )}
-                {((this.state.idObjectSelected &&
-                  this.state.selectedImage.type === TemplateType.Heading) ||
+                {((editorStore.imageSelected &&
+                  editorStore.imageSelected.type === TemplateType.Heading) ||
                   this.state.childId) && (
                   <Tooltip
                     offsetLeft={0}
@@ -4215,8 +4217,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     </a>
                   </Tooltip>
                 )}
-                {((this.state.idObjectSelected &&
-                  this.state.selectedImage.type === TemplateType.Heading) ||
+                {((editorStore.imageSelected &&
+                  editorStore.imageSelected.type === TemplateType.Heading) ||
                   this.state.childId) && (
                   <Tooltip
                     offsetLeft={0}
@@ -4264,9 +4266,9 @@ class CanvaEditor extends Component<IProps, IState> {
                     </a>
                   </Tooltip>
                 )}
-                {this.state.idObjectSelected &&
-                  (this.state.selectedImage.type === TemplateType.Image ||
-                    this.state.selectedImage.type === TemplateType.Video) && (
+                {editorStore.imageSelected &&
+                  (editorStore.imageSelected.type === TemplateType.Image ||
+                    editorStore.imageSelected.type === TemplateType.Video) && (
                     <div
                       style={{
                         position: "relative"
@@ -4289,9 +4291,9 @@ class CanvaEditor extends Component<IProps, IState> {
                       )}
                     </div>
                   )}
-                {this.state.idObjectSelected &&
-                  (this.state.selectedImage.type === TemplateType.Image ||
-                    this.state.selectedImage.type === TemplateType.Video) && (
+                {editorStore.imageSelected &&
+                  (editorStore.imageSelected.type === TemplateType.Image ||
+                    editorStore.imageSelected.type === TemplateType.Video) && (
                     <div
                       style={{
                         position: "relative"
@@ -4314,9 +4316,9 @@ class CanvaEditor extends Component<IProps, IState> {
                       )}
                     </div>
                   )}
-                {this.state.idObjectSelected &&
-                  (this.state.selectedImage.type === TemplateType.Image ||
-                    this.state.selectedImage.type === TemplateType.Video) && (
+                {editorStore.imageSelected &&
+                  (editorStore.imageSelected.type === TemplateType.Image ||
+                    editorStore.imageSelected.type === TemplateType.Video) && (
                     <div
                       style={{
                         position: "relative"
@@ -4339,9 +4341,9 @@ class CanvaEditor extends Component<IProps, IState> {
                       )}
                     </div>
                   )}
-                {this.state.idObjectSelected &&
-                  (this.state.selectedImage.type === TemplateType.Image ||
-                    this.state.selectedImage.type === TemplateType.Video) && (
+                {editorStore.imageSelected &&
+                  (editorStore.imageSelected.type === TemplateType.Image ||
+                    editorStore.imageSelected.type === TemplateType.Video) && (
                     <div
                       style={{
                         position: "relative"
@@ -4364,9 +4366,8 @@ class CanvaEditor extends Component<IProps, IState> {
                       )}
                     </div>
                   )}
-                {this.state.selectedImage &&
-                  this.state.selectedImage.type === TemplateType.Image &&
-                  this.state.selectedImage.backgroundColor && (
+                {editorStore.imageSelected && editorStore.imageSelected.type === TemplateType.Image &&
+                editorStore.imageSelected.backgroundColor && (
                     <div
                       style={{
                         position: "relative"
@@ -4387,6 +4388,7 @@ class CanvaEditor extends Component<IProps, IState> {
                       ></button>
                     </div>
                   )}
+                  {editorStore.imageSelected && editorStore.imageSelected.type === TemplateType.Heading &&
                 <Tooltip
                   offsetLeft={0}
                   offsetTop={-5}
@@ -4605,7 +4607,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     </div>
                   </div>
                 </Tooltip>
-                {/* } */}
+  }
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
@@ -4858,11 +4860,11 @@ class CanvaEditor extends Component<IProps, IState> {
                   >
                     <Tooltip
                       offsetLeft={0}
-                      offsetTop={-5}
+                      offsetTop={5}
                       content={this.translate("position")}
                       delay={10}
                       style={{}}
-                      position="top"
+                      position="bottom"
                     >
                       <button
                         className="toolbar-btn dropbtn-font"
@@ -4877,11 +4879,11 @@ class CanvaEditor extends Component<IProps, IState> {
                     </Tooltip>
                     <Tooltip
                       offsetLeft={0}
-                      offsetTop={-5}
+                      offsetTop={5}
                       content={this.translate("transparent")}
                       delay={10}
                       style={{}}
-                      position="top"
+                      position="bottom"
                     >
                       <button
                         style={{
