@@ -6,6 +6,9 @@
     "backward": "Backward",
     "transparent": "Transparent",
     "crop": "Crop",
+    "filter": "Filter",
+    "adjust": "Adjust",
+    "flip": "Flip",
     "home": "Home",
     "image": "Image",
     "text": "Text",
@@ -35,5 +38,5 @@
     "alignLeft": "Align Left",
     "alignCenter": "Align Center",
     "alignRight": "Align Right",
-    "download": "Download"
+    "download": "Download",
 }

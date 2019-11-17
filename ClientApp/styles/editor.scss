@@ -290,6 +290,8 @@ p.single-text:focus {
     transition: background-color .3s ease,color .2s ease-out;
     background-color: white;
     margin-right: 5px;
+    font-size: 15px;
+    height: 100%;
 }
 
 .toolbar-btn:focus {

@@ -4157,7 +4157,82 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             this.setState({ cropMode: true });
                           }}
                         >
+                          <span>{this.translate("filter")}</span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                {this.state.idObjectSelected &&
+                  (this.state.selectedImage.type === TemplateType.Image ||
+                    this.state.selectedImage.type === TemplateType.Video) && (
+                    <div
+                      style={{
+                        position: "relative"
+                      }}
+                    >
+                      {!this.state.cropMode && (
+                        <button
+                          style={{
+                            // boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                            height: "26px",
+                            top: 0
+                          }}
+                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
+                          onClick={e => {
+                            this.setState({ cropMode: true });
+                          }}
+                        >
+                          <span>{this.translate("adjust")}</span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                {this.state.idObjectSelected &&
+                  (this.state.selectedImage.type === TemplateType.Image ||
+                    this.state.selectedImage.type === TemplateType.Video) && (
+                    <div
+                      style={{
+                        position: "relative"
+                      }}
+                    >
+                      {!this.state.cropMode && (
+                        <button
+                          style={{
+                            // boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                            height: "26px",
+                            top: 0
+                          }}
+                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
+                          onClick={e => {
+                            this.setState({ cropMode: true });
+                          }}
+                        >
                           <span>{this.translate("crop")}</span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                {this.state.idObjectSelected &&
+                  (this.state.selectedImage.type === TemplateType.Image ||
+                    this.state.selectedImage.type === TemplateType.Video) && (
+                    <div
+                      style={{
+                        position: "relative"
+                      }}
+                    >
+                      {!this.state.cropMode && (
+                        <button
+                          style={{
+                            // boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                            height: "26px",
+                            top: 0
+                          }}
+                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
+                          onClick={e => {
+                            this.setState({ cropMode: true });
+                          }}
+                        >
+                          <span>{this.translate("flip")}</span>
                         </button>
                       )}
                     </div>
