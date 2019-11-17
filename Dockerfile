@@ -4,10 +4,10 @@ ADD ./bin/Release/netcoreapp2.2/publish/ /app
 ENV ASPNETCORE_URLS=http://*:${PORT}
 WORKDIR /app
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirror.0x.sg/ubuntu/|g' /etc/apt/sources.list
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+# RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 # RUN apt update
 # RUN apt-get install -y software-properties-common
-RUN apt-get install --yes nodejs
+# RUN apt-get install --yes nodejs
 RUN apt install $(cat /app/wwwroot/pkglist) -y
 # RUN apt-get update 
 RUN apt-get install -y --no-install-recommends libgdiplus libc6-dev
