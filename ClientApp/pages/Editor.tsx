@@ -921,7 +921,6 @@ class CanvaEditor extends Component<IProps, IState> {
     let images = toJS(editorStore.images);
     let tempImages = images.map(img => {
       if (img._id === this.state.idObjectSelected) {
-        img.fontSize = fontSize;
         editorStore.imageSelected = img;
       }
       return img;
@@ -1080,8 +1079,13 @@ class CanvaEditor extends Component<IProps, IState> {
         if (cursor != "e" && cursor != "w") {
           image.scaleX = image.width / image.origin_width;
           image.scaleY = image.height / image.origin_height;
+          // image.fontSize = image.scaleY * image.fontSize;
 
-          console.log('handleResize objectype', objectType)
+          document.getElementById("fontSizeButton").innerText = `${Math.round(image.fontSize * image.scaleY * 10) / 10}`;
+
+
+          console.log('newFontSize ', image.scaleY * image.fontSize)
+
           if (objectType == TemplateType.Heading) {
             var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
             for (var i = 0; i < rectalos.length; ++i) {
@@ -1101,6 +1105,7 @@ class CanvaEditor extends Component<IProps, IState> {
             var cs = Math.abs(Math.cos((image.rotateAngle / 360) * Math.PI));
             var newHeight =
               (rec.height * cs - rec.width * as) / (cs ^ (2 - as) ^ 2);
+              console.log('newFontSize ', newHeight / image.height * image.fontSize)
             image.height = newHeight / scale;
           } else if (objectType == TemplateType.TextTemplate) {
             var maxHeight = 0;
@@ -2195,9 +2200,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
     });
 
     this.setState({ fontColor: img.color, fontName: img.fontRepresentative });
-    document.getElementById("fontSizeButton").innerText = `${Math.round(
-      img.fontSize * 10
-    ) / 10}`;
+    document.getElementById("fontSizeButton").innerText = `${Math.round(img.fontSize * img.scaleY * 10) / 10}`;
 
     editorStore.idObjectSelected = img._id;
     editorStore.imageSelected = img;
@@ -2893,7 +2896,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
   };
 
   onSingleTextChange(thisImage, e, childId) {
-    console.log('onSingleTextChange ', arguments);
     // console.log('ToJS', toJS(editorStore.images));
     // var els;
     // if (childId){
@@ -3694,7 +3696,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     style={{
                       display: "flex",
                       marginTop: "4px",
-                      marginRight: "6px",
                       fontSize: "13px"
                     }}
                   >
@@ -3733,7 +3734,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     style={{
                       display: "flex",
                       marginTop: "4px",
-                      marginRight: "6px",
                       fontSize: "13px"
                     }}
                   >
@@ -3887,7 +3887,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
               <div
                 style={{
                   width: "100%",
-                  backgroundColor: "white",
+                  backgroundColor: "#dae0e7",
                   zIndex: 123123123,
                   boxShadow: "0 1px 0 rgba(14,19,24,.15)",
                   display: "inline-flex",
@@ -3951,8 +3951,10 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                           height: "4px",
                           // background:
                           //   "repeating-linear-gradient(to right, rgb(38, 23, 77) 0%, rgb(38, 23, 77) 100%)",
-                          backgroundColor: this.state.fontColor
+                          backgroundColor: this.state.fontColor,
+                          boxShadow: "inset 0 0 0 1px rgba(14,19,24,.15)"
                         }}
+                        className={this.state.fontColor === 'black' ? "font-color-btn" : ""}
                       ></div>
                     </a>
                     </Tooltip>
@@ -3964,10 +3966,8 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     href="#"
                     className="toolbar-btn"
                     style={{
-                      borderRadius: "4px",
                       padding: "3px",
                       paddingBottom: "0px",
-                      marginRight: "6px",
                       display: "inline-block",
                       cursor: "pointer",
                       color: "black"
@@ -4018,10 +4018,8 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     href="#"
                     className="toolbar-btn"
                     style={{
-                      borderRadius: "4px",
                       padding: "3px",
                       paddingBottom: "0px",
-                      marginRight: "6px",
                       display: "inline-block",
                       cursor: "pointer",
                       color: "black"
@@ -4076,7 +4074,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       borderRadius: "4px",
                       padding: "3px",
                       paddingBottom: "0px",
-                      marginRight: "6px",
                       display: "inline-block",
                       cursor: "pointer",
                       color: "black",
@@ -4121,7 +4118,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             height: "26px",
                             top: 0
                           }}
-                          className="dropbtn-font dropbtn-font-size"
+                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
                           onClick={e => {
                             this.setState({ cropMode: true });
                           }}
@@ -4147,7 +4144,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                           width: "27px",
                           backgroundColor: this.state.imgBackgroundColor
                         }}
-                        className="dropbtn-font dropbtn-font-size"
+                                        className="dropbtn-font dropbtn-font-size toolbar-btn"
                         onClick={e => {
                           this.setState({ selectedTab: SidebarTab.Color });
                         }}
@@ -4604,7 +4601,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                         width: "30px",
                         padding: 0
                       }}
-                      className="dropbtn-font dropbtn-font-size"
+                                        className="dropbtn-font dropbtn-font-size toolbar-btn"
                       onClick={this.onClickTransparent.bind(this)}
                     >
                       <svg

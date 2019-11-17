@@ -9,6 +9,7 @@ using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PuppeteerSharp;
 using RCB.TypeScript.Models;
@@ -24,8 +25,9 @@ namespace RCB.TypeScript.Controllers
         //private readonly DbContextOptions<PersonContext> _context;
         private DesignService DesignService { get; }
         private IHostingEnvironment HostingEnvironment { get; set; }
+        private IConfiguration Configuration { get; set; }
 
-        public DesignController(DesignService designService, IHostingEnvironment hostingEnvironment)
+        public DesignController(DesignService designService, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
 
             var serviceCollection = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
@@ -34,6 +36,7 @@ namespace RCB.TypeScript.Controllers
 
             DesignService = designService;
             HostingEnvironment = hostingEnvironment;
+            Configuration = configuration;
     }
 
         [HttpGet("[action]")]
@@ -297,6 +300,7 @@ namespace RCB.TypeScript.Controllers
                         if (HostingEnvironment.IsDevelopment())
                         {
                             executablePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+                            executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                         }
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
