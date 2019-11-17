@@ -30,6 +30,7 @@ ENV DISPLAY :99
 
 FROM gcr.io/google-appengine/aspnetcore:2.2
 RUN dotnet RCB.TypeScript.dll
+RUN dotnet dev-certs https --trust
 
 RUN apt-get update &&\
 apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
