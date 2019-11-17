@@ -16,8 +16,6 @@ RUN rm -rf /var/lib/apt/lists/*
 # RUN apt install -y python3-pip
 # RUN pip3 install tensorflow
 # RUN pip3 install image
-RUN chmod a+x setup.sh  
-ADD setup.sh /
 
 
 # RUN apt update
@@ -38,5 +36,8 @@ xvfb x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyri
 
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb
+
+RUN chmod a+x setup.sh  
+ADD setup.sh /
 
 ENTRYPOINT ["/bin/bash", "/app/setup.sh"]
