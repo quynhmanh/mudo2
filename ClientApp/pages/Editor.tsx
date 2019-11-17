@@ -1,6 +1,10 @@
 ﻿import React, { Component } from "react";
 import uuidv4 from "uuid/v4";
-import { getBoundingClientRect, getCursorStyleWithRotateAngle, getCursorStyleForResizer, } from "@Utils";
+import {
+  getBoundingClientRect,
+  getCursorStyleWithRotateAngle,
+  getCursorStyleForResizer
+} from "@Utils";
 import "@Styles/editor.scss";
 import axios from "axios";
 import Popup from "@Components/shared/Popup";
@@ -26,7 +30,7 @@ import {
   updateTransformXY,
   updatePosition,
   updateRotate,
-  isNode,
+  isNode
 } from "@Utils";
 import loadable from "@loadable/component";
 import { clone } from "lodash";
@@ -43,8 +47,22 @@ var Hammer;
 //   console.log('hammerjs ', require("hammerjs"));
 // }
 
-import { fromEvent, merge, NEVER, Subject, BehaviorSubject, Observable, } from 'rxjs';
-import { map, filter, scan, switchMap, startWith, takeUntil } from 'rxjs/operators';
+import {
+  fromEvent,
+  merge,
+  NEVER,
+  Subject,
+  BehaviorSubject,
+  Observable
+} from "rxjs";
+import {
+  map,
+  filter,
+  scan,
+  switchMap,
+  startWith,
+  takeUntil
+} from "rxjs/operators";
 
 const DownloadList = loadable(() => import("@Components/editor/DownloadList"));
 
@@ -370,18 +388,20 @@ class CanvaEditor extends Component<IProps, IState> {
   pauser = null;
 
   async componentDidMount() {
-
     // Creating a pauser subject to subscribe to
-    var screenContainerParent = document.getElementById("screen-container-parent");
-    let doNoObjectSelected$    = fromEvent(screenContainerParent, 'mouseup').pipe(
+    var screenContainerParent = document.getElementById(
+      "screen-container-parent"
+    );
+    let doNoObjectSelected$ = fromEvent(screenContainerParent, "mouseup").pipe(
       map(e => (e.target as HTMLElement).id)
     );
-    
+
     this.pauser = new BehaviorSubject(false);
     const pausable = this.pauser.pipe(
       switchMap(paused => {
-      return paused ? NEVER : doNoObjectSelected$; 
-    }));
+        return paused ? NEVER : doNoObjectSelected$;
+      })
+    );
 
     this.pauser.next(false);
 
@@ -390,7 +410,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.doNoObjectSelected();
       }
     });
-    
+
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
     var ge = document.getElementsByTagName.bind(document);
@@ -414,8 +434,16 @@ class CanvaEditor extends Component<IProps, IState> {
     var scaleY = (height - 100) / this.state.rectHeight;
 
     var staticGuides = {
-      x: [[0, 0], [this.state.rectWidth / 2, 0], [this.state.rectWidth, 0]],
-      y: [[0, 0], [this.state.rectHeight / 2, 0], [this.state.rectHeight, 0]]
+      x: [
+        [0, 0],
+        [this.state.rectWidth / 2, 0],
+        [this.state.rectWidth, 0]
+      ],
+      y: [
+        [0, 0],
+        [this.state.rectHeight / 2, 0],
+        [this.state.rectHeight, 0]
+      ]
     };
 
     var fitScale =
@@ -510,8 +538,16 @@ class CanvaEditor extends Component<IProps, IState> {
           var scaleX = (width - 100) / document.width;
           var scaleY = (height - 100) / document.height;
           var staticGuides = {
-            x: [[0, 0], [document.width / 2, 0], [document.width, 0]],
-            y: [[0, 0], [document.height / 2, 0], [document.height, 0]]
+            x: [
+              [0, 0],
+              [document.width / 2, 0],
+              [document.width, 0]
+            ],
+            y: [
+              [0, 0],
+              [document.height / 2, 0],
+              [document.height, 0]
+            ]
           };
 
           if (image.value.fontList) {
@@ -625,7 +661,7 @@ class CanvaEditor extends Component<IProps, IState> {
         rectHeight,
         subtype,
         scale:
-          Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY),
+          Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY)
       });
     }
 
@@ -824,9 +860,7 @@ class CanvaEditor extends Component<IProps, IState> {
     let opacity = show ? 1 : 0;
     var el = document.getElementById(this.state.idObjectSelected + "__");
     if (el) {
-      var resizers = el.getElementsByClassName(
-        "resizable-handler-container"
-      );
+      var resizers = el.getElementsByClassName("resizable-handler-container");
       for (var i = 0; i < resizers.length; ++i) {
         var cur: any = resizers[i];
         cur.style.opacity = opacity;
@@ -838,17 +872,17 @@ class CanvaEditor extends Component<IProps, IState> {
         cur.style.opacity = opacity;
       }
     }
-  }
+  };
 
   handleResizeStart = (e: any, d: any) => {
-    console.log('handleResizeStart');
+    console.log("handleResizeStart");
     e.stopPropagation();
-    
+
     window.startX = e.clientX;
     window.startY = e.clientY;
     window.resizingInnerImage = false;
     window.resizing = true;
-   
+
     this.pauser.next(true);
 
     var cursor = e.target.id;
@@ -856,14 +890,11 @@ class CanvaEditor extends Component<IProps, IState> {
     let { scale } = this.state;
     const location$ = this.handleDragRx(e.target);
 
-    let image = editorStore.images.find(img => img._id == this.state.idObjectSelected);
+    let image = editorStore.images.find(
+      img => img._id == this.state.idObjectSelected
+    );
     window.image = image;
-    let {
-      top: top2,
-      left: left2,
-      width: width2,
-      height: height2
-    } = image;
+    let { top: top2, left: left2, width: width2, height: height2 } = image;
 
     this.displayResizers(false);
 
@@ -873,49 +904,74 @@ class CanvaEditor extends Component<IProps, IState> {
     ell.style.zIndex = "2";
     ell.style.cursor = cursorStyle;
 
-    this.temp = location$.pipe(
+    this.temp = location$
+      .pipe(
         map(([x, y]) => ({
           moveElLocation: [x, y]
         }))
       )
-      .subscribe(({ moveElLocation }) => {
-        var deltaX = moveElLocation[0] - window.startX;
-        var deltaY = moveElLocation[1] - window.startY;
-        const deltaL = getLength(deltaX, deltaY);
-        const alpha = Math.atan2(deltaY, deltaX);
-        const beta = alpha - degToRadian(image.rotateAngle);
-        const deltaW = (deltaL * Math.cos(beta)) / scale;
-        const deltaH = (deltaL * Math.sin(beta)) / scale;
-        let rotateAngle = image.rotateAngle;
-        let ratio = image.width / image.height;
+      .subscribe(
+        ({ moveElLocation }) => {
+          var deltaX = moveElLocation[0] - window.startX;
+          var deltaY = moveElLocation[1] - window.startY;
+          const deltaL = getLength(deltaX, deltaY);
+          const alpha = Math.atan2(deltaY, deltaX);
+          const beta = alpha - degToRadian(image.rotateAngle);
+          const deltaW = (deltaL * Math.cos(beta)) / scale;
+          const deltaH = (deltaL * Math.sin(beta)) / scale;
+          let rotateAngle = image.rotateAngle;
+          let ratio = image.width / image.height;
 
-        const rect2 = tLToCenter({ top: top2, left: left2, width: width2, height: height2, rotateAngle });
-        const rect = { width: rect2.size.width, height: rect2.size.height, centerX: rect2.position.centerX, centerY: rect2.position.centerY, rotateAngle: rect2.transform.rotateAngle };
-        
-        let {
-          position: { centerX, centerY },
-          size: { width, height }
-        } = getNewStyle(
-          type,
-          { ...rect, rotateAngle },
-          deltaW,
-          deltaH,
-          (type == "r" || type == "l") ? null : ratio,
-          10,
-          10
-        );
+          const rect2 = tLToCenter({
+            top: top2,
+            left: left2,
+            width: width2,
+            height: height2,
+            rotateAngle
+          });
+          const rect = {
+            width: rect2.size.width,
+            height: rect2.size.height,
+            centerX: rect2.position.centerX,
+            centerY: rect2.position.centerY,
+            rotateAngle: rect2.transform.rotateAngle
+          };
 
-        this.handleResize(centerToTL({ centerX, centerY, width, height, rotateAngle }), false, cursor, this.state.idObjectSelected, 1, 1, cursor, editorStore.imageSelected.type, e);
-      }, 
-      null,
-      () => {
-        this.displayResizers(true);
-        window.resizing = false;
-        this.handleResizeEnd(null);
-        this.pauser.next(false);
-        this.forceUpdate();
-        ell.style.zIndex = "0";
-      });
+          let {
+            position: { centerX, centerY },
+            size: { width, height }
+          } = getNewStyle(
+            type,
+            { ...rect, rotateAngle },
+            deltaW,
+            deltaH,
+            type == "r" || type == "l" ? null : ratio,
+            10,
+            10
+          );
+
+          this.handleResize(
+            centerToTL({ centerX, centerY, width, height, rotateAngle }),
+            false,
+            cursor,
+            this.state.idObjectSelected,
+            1,
+            1,
+            cursor,
+            editorStore.imageSelected.type,
+            e
+          );
+        },
+        null,
+        () => {
+          this.displayResizers(true);
+          window.resizing = false;
+          this.handleResizeEnd(null);
+          this.pauser.next(false);
+          this.forceUpdate();
+          ell.style.zIndex = "0";
+        }
+      );
   };
 
   handleResizeEnd = fontSize => {
@@ -949,267 +1005,265 @@ class CanvaEditor extends Component<IProps, IState> {
     let { top, left, width, height } = style;
     var switching = false;
     var temp = this.handleImageResize;
-      let image = window.image;
-        var deltaLeft = left - image.left;
-        var deltaTop = top - image.top;
-        var deltaWidth = width - image.width;
-        var deltaHeight = height - image.height;
+    let image = window.image;
+    var deltaLeft = left - image.left;
+    var deltaTop = top - image.top;
+    var deltaWidth = width - image.width;
+    var deltaHeight = height - image.height;
 
-        var oldDeltaLeft = deltaLeft;
-        var oldDeltaHeight = deltaHeight;
+    var oldDeltaLeft = deltaLeft;
+    var oldDeltaHeight = deltaHeight;
 
-        if (this.state.cropMode) {
-          var t5 = false;
-          var t8 = false;
-          if (deltaLeft < image.posX && (type == "tl" || type == "bl")) {
-            t5 = true;
-            deltaLeft = image.posX;
-            left = image.left + deltaLeft;
-            width = image.width - deltaLeft;
-            deltaWidth = width - image.imgWidth;
-          }
+    if (this.state.cropMode) {
+      var t5 = false;
+      var t8 = false;
+      if (deltaLeft < image.posX && (type == "tl" || type == "bl")) {
+        t5 = true;
+        deltaLeft = image.posX;
+        left = image.left + deltaLeft;
+        width = image.width - deltaLeft;
+        deltaWidth = width - image.imgWidth;
+      }
 
-          var t6 = false;
-          var t7 = false;
-          if (
-            image.imgHeight + image.posY - height < 0 &&
-            (type == "bl" || type == "br")
-          ) {
-            t6 = true;
-            height = image.imgHeight + image.posY;
-          }
-          if (
-            image.imgWidth + image.posX - width < 0 &&
-            (type == "br" || type == "tr")
-          ) {
-            t7 = true;
-            width = image.imgWidth + image.posX;
-          }
+      var t6 = false;
+      var t7 = false;
+      if (
+        image.imgHeight + image.posY - height < 0 &&
+        (type == "bl" || type == "br")
+      ) {
+        t6 = true;
+        height = image.imgHeight + image.posY;
+      }
+      if (
+        image.imgWidth + image.posX - width < 0 &&
+        (type == "br" || type == "tr")
+      ) {
+        t7 = true;
+        width = image.imgWidth + image.posX;
+      }
 
-          if (deltaTop < image.posY && (type == "tl" || type == "tr")) {
-            t8 = true;
-            deltaTop = image.posY;
-            top = image.top + deltaTop;
-            height = image.height - deltaTop;
-            deltaHeight = height - image.imgHeight;
-          }
+      if (deltaTop < image.posY && (type == "tl" || type == "tr")) {
+        t8 = true;
+        deltaTop = image.posY;
+        top = image.top + deltaTop;
+        height = image.height - deltaTop;
+        deltaHeight = height - image.imgHeight;
+      }
 
-          if (t5 && t8 && type == "tl") {
-            window.resizingInnerImage = true;
-            window.startX =
-              document.getElementById(_id + "tl_").getBoundingClientRect()
-                .left + 10;
-            window.startY =
-              document.getElementById(_id + "tl_").getBoundingClientRect().top +
-              10;
-            switching = true;
-          }
+      if (t5 && t8 && type == "tl") {
+        window.resizingInnerImage = true;
+        window.startX =
+          document.getElementById(_id + "tl_").getBoundingClientRect().left +
+          10;
+        window.startY =
+          document.getElementById(_id + "tl_").getBoundingClientRect().top + 10;
+        switching = true;
+      }
 
-          if (t5 && t6 && type == "bl") {
-            window.resizingInnerImage = true;
-            window.startX =
-              document.getElementById(_id + "bl_").getBoundingClientRect()
-                .left + 10;
-            window.startY =
-              document.getElementById(_id + "bl_").getBoundingClientRect().top +
-              10;
-            switching = true;
-          }
+      if (t5 && t6 && type == "bl") {
+        window.resizingInnerImage = true;
+        window.startX =
+          document.getElementById(_id + "bl_").getBoundingClientRect().left +
+          10;
+        window.startY =
+          document.getElementById(_id + "bl_").getBoundingClientRect().top + 10;
+        switching = true;
+      }
 
-          if (t6 && t7 && type == "br") {
-            window.resizingInnerImage = true;
-            window.startX =
-              document.getElementById(_id + "br_").getBoundingClientRect()
-                .left + 10;
-            window.startY =
-              document.getElementById(_id + "br_").getBoundingClientRect().top +
-              10;
-            switching = true;
-          }
+      if (t6 && t7 && type == "br") {
+        window.resizingInnerImage = true;
+        window.startX =
+          document.getElementById(_id + "br_").getBoundingClientRect().left +
+          10;
+        window.startY =
+          document.getElementById(_id + "br_").getBoundingClientRect().top + 10;
+        switching = true;
+      }
 
-          if (t8 && t7 && type == "tr") {
-            window.resizingInnerImage = true;
-            window.startX =
-              document.getElementById(_id + "tr_").getBoundingClientRect()
-                .left + 10;
-            window.startY =
-              document.getElementById(_id + "tr_").getBoundingClientRect().top +
-              10;
-            switching = true;
-          }
+      if (t8 && t7 && type == "tr") {
+        window.resizingInnerImage = true;
+        window.startX =
+          document.getElementById(_id + "tr_").getBoundingClientRect().left +
+          10;
+        window.startY =
+          document.getElementById(_id + "tr_").getBoundingClientRect().top + 10;
+        switching = true;
+      }
+    }
+
+    if ((objectType === 4 || objectType === 9) && !this.state.cropMode) {
+      var scaleWidth = image.imgWidth / image.width;
+      var scaleHeight = image.imgHeight / image.height;
+      var scaleLeft = image.posX / image.imgWidth;
+      var scaleTop = image.posY / image.imgHeight;
+      var newImgWidth = image.imgWidth + scaleWidth * deltaWidth;
+      var newImgheight = image.imgHeight + scaleHeight * deltaHeight;
+      var newposX = scaleLeft * image.imgWidth;
+      var newposY = scaleTop * image.imgHeight;
+
+      image.imgWidth += scaleWidth * deltaWidth;
+      image.imgHeight += scaleHeight * deltaHeight;
+      image.posX = scaleLeft * image.imgWidth;
+      image.posY = scaleTop * image.imgHeight;
+
+      var el = document.getElementById(_id + "1235");
+      if (el) {
+        el.style.width = image.imgWidth * scale + "px";
+        el.style.height = image.imgHeight * scale + "px";
+      }
+
+      el = document.getElementById(_id + "1238");
+      if (el) {
+        el.style.width = image.imgWidth * scale + "px";
+        el.style.height = image.imgHeight * scale + "px";
+      }
+    }
+
+    if ((objectType === 4 || objectType == 9) && this.state.cropMode) {
+      image.posX -= deltaLeft;
+      image.posY -= deltaTop;
+    }
+
+    image.top = top;
+    image.left = left;
+    image.width = width;
+    image.height = height;
+
+    if (cursor != "e" && cursor != "w") {
+      image.scaleX = image.width / image.origin_width;
+      image.scaleY = image.height / image.origin_height;
+      // image.fontSize = image.scaleY * image.fontSize;
+
+      document.getElementById("fontSizeButton").innerText = `${Math.round(
+        image.fontSize * image.scaleY * 10
+      ) / 10}`;
+
+      console.log("newFontSize ", image.scaleY * image.fontSize);
+
+      if (objectType == TemplateType.Heading) {
+        var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
+        for (var i = 0; i < rectalos.length; ++i) {
+          var cur: any = rectalos[i];
+          cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
+          cur.style.width = `calc(100%/${image.scaleX})`;
+          cur.style.height = `calc(100%/${image.scaleY})`;
+        }
+      }
+    } else {
+      if (objectType == TemplateType.Heading) {
+        var rec = document
+          .getElementById(_id)
+          .getElementsByClassName("text")[0]
+          .getBoundingClientRect();
+        var as = Math.abs(Math.sin((image.rotateAngle / 360) * Math.PI));
+        var cs = Math.abs(Math.cos((image.rotateAngle / 360) * Math.PI));
+        var newHeight =
+          (rec.height * cs - rec.width * as) / (cs ^ (2 - as) ^ 2);
+        console.log(
+          "newFontSize ",
+          (newHeight / image.height) * image.fontSize
+        );
+        image.height = newHeight / scale;
+      } else if (objectType == TemplateType.TextTemplate) {
+        var maxHeight = 0;
+        var rec = document.getElementById(_id).getBoundingClientRect();
+        var rec2 = document.getElementById(_id).getElementsByClassName("text");
+        for (var i = 0; i < rec2.length; ++i) {
+          var rec3 = rec2[i].getBoundingClientRect();
+          maxHeight = Math.max(maxHeight, rec3.bottom - rec.top);
         }
 
-        if ((objectType === 4 || objectType === 9) && !this.state.cropMode) {
-          var scaleWidth = image.imgWidth / image.width;
-          var scaleHeight = image.imgHeight / image.height;
-          var scaleLeft = image.posX / image.imgWidth;
-          var scaleTop = image.posY / image.imgHeight;
-          var newImgWidth = image.imgWidth + scaleWidth * deltaWidth;
-          var newImgheight = image.imgHeight + scaleHeight * deltaHeight;
-          var newposX = scaleLeft * image.imgWidth;
-          var newposY = scaleTop * image.imgHeight;
+        let texts = image.document_object.map(text => {
+          text.height =
+            document.getElementById(text._id).offsetHeight * text.scaleY;
+          return text;
+        });
 
-          image.imgWidth += scaleWidth * deltaWidth;
-          image.imgHeight += scaleHeight * deltaHeight;
-          image.posX = scaleLeft * image.imgWidth;
-          image.posY = scaleTop * image.imgHeight;
-
-          var el = document.getElementById(_id + "1235");
-          if (el) {
-            el.style.width = image.imgWidth * scale + "px";
-            el.style.height = image.imgHeight * scale + "px";
-          }
-
-          el = document.getElementById(_id + "1238");
-          if (el) {
-            el.style.width = image.imgWidth * scale + "px";
-            el.style.height = image.imgHeight * scale + "px";
+        var newDocumentObjects = [];
+        for (var i = 0; i < texts.length; ++i) {
+          var d = texts[i];
+          if (!d.ref) {
+            newDocumentObjects.push(
+              ...this.normalize2(
+                d,
+                texts,
+                image.scaleX,
+                image.scaleY,
+                scale,
+                image.width,
+                image.height
+              )
+            );
           }
         }
+        image.height = maxHeight / scale;
+        image.document_object = newDocumentObjects;
+      }
+      image.origin_width = image.width / image.scaleX;
+      image.origin_height = image.height / image.scaleY;
+    }
 
-        if ((objectType === 4 || objectType == 9) && this.state.cropMode) {
-          image.posX -= deltaLeft;
-          image.posY -= deltaTop;
-        }
+    var a = document.getElementsByClassName(_id + "aaaa");
+    for (let i = 0; i < a.length; ++i) {
+      var tempEl = a[i] as HTMLElement;
+      tempEl.style.width = image.width * scale + "px";
+      tempEl.style.left = image.left * scale + "px";
+      tempEl.style.top = image.top * scale + "px";
+      tempEl.style.height = image.height * scale + "px";
+    }
 
+    a = document.getElementsByClassName(_id + "imgWidth");
+    for (let i = 0; i < a.length; ++i) {
+      var tempEl = a[i] as HTMLElement;
+      tempEl.style.width = image.imgWidth * scale + "px";
+      tempEl.style.height = image.imgHeight * scale + "px";
+    }
 
-        image.top = top;
-        image.left = left;
-        image.width = width;
-        image.height = height;
+    var b = document.getElementsByClassName(_id + "1236");
+    for (let i = 0; i < b.length; ++i) {
+      var tempEl = b[i] as HTMLElement;
+      tempEl.style.transform = `translate(${image.posX *
+        scale}px, ${image.posY * scale}px)`;
+    }
 
-        if (cursor != "e" && cursor != "w") {
-          image.scaleX = image.width / image.origin_width;
-          image.scaleY = image.height / image.origin_height;
-          // image.fontSize = image.scaleY * image.fontSize;
+    var hihi4 = document.getElementById(_id + "hihi4");
+    if (hihi4) {
+      hihi4.style.width = image.width / image.scaleX + "px";
+    }
 
-          document.getElementById("fontSizeButton").innerText = `${Math.round(image.fontSize * image.scaleY * 10) / 10}`;
+    (window as any).scaleY = image.scaleY;
 
+    if (switching) {
+      const styles = tLToCenter({
+        top: image.top,
+        left: image.left,
+        width: image.width,
+        height: image.height,
+        rotateAngle: image.rotateAngle
+      });
+      const imgStyles = tLToCenter({
+        left: image.posX,
+        top: image.posY,
+        width: image.imgWidth,
+        height: image.imgHeight,
+        rotateAngle: 0
+      });
 
-          console.log('newFontSize ', image.scaleY * image.fontSize)
-
-          if (objectType == TemplateType.Heading) {
-            var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
-            for (var i = 0; i < rectalos.length; ++i) {
-              var cur: any = rectalos[i];
-              cur.style.transform = `scaleX(${image.scaleX}) scaleY(${image.scaleY})`;
-              cur.style.width = `calc(100%/${image.scaleX})`;
-              cur.style.height = `calc(100%/${image.scaleY})`;
-            }
-          }
-        } else {
-          if (objectType == TemplateType.Heading) {
-            var rec = document
-              .getElementById(_id)
-              .getElementsByClassName("text")[0]
-              .getBoundingClientRect();
-            var as = Math.abs(Math.sin((image.rotateAngle / 360) * Math.PI));
-            var cs = Math.abs(Math.cos((image.rotateAngle / 360) * Math.PI));
-            var newHeight =
-              (rec.height * cs - rec.width * as) / (cs ^ (2 - as) ^ 2);
-              console.log('newFontSize ', newHeight / image.height * image.fontSize)
-            image.height = newHeight / scale;
-          } else if (objectType == TemplateType.TextTemplate) {
-            var maxHeight = 0;
-            var rec = document.getElementById(_id).getBoundingClientRect();
-            var rec2 = document
-              .getElementById(_id)
-              .getElementsByClassName("text");
-            for (var i = 0; i < rec2.length; ++i) {
-              var rec3 = rec2[i].getBoundingClientRect();
-              maxHeight = Math.max(maxHeight, rec3.bottom - rec.top);
-            }
-
-            let texts = image.document_object.map(text => {
-              text.height =
-                document.getElementById(text._id).offsetHeight * text.scaleY;
-              return text;
-            });
-
-            var newDocumentObjects = [];
-            for (var i = 0; i < texts.length; ++i) {
-              var d = texts[i];
-              if (!d.ref) {
-                newDocumentObjects.push(
-                  ...this.normalize2(
-                    d,
-                    texts,
-                    image.scaleX,
-                    image.scaleY,
-                    scale,
-                    image.width,
-                    image.height
-                  )
-                );
-              }
-            }
-            image.height = maxHeight / scale;
-            image.document_object = newDocumentObjects;
-          }
-          image.origin_width = image.width / image.scaleX;
-          image.origin_height = image.height / image.scaleY;
-        }
-
-        var a = document.getElementsByClassName(_id + "aaaa");
-        for (let i = 0; i < a.length; ++i) {
-          var tempEl = a[i] as HTMLElement;
-          tempEl.style.width = image.width * scale + "px";
-          tempEl.style.left = image.left * scale + "px";
-          tempEl.style.top = image.top * scale + "px";
-          tempEl.style.height = image.height * scale + "px";
-        }
-
-        a = document.getElementsByClassName(_id + "imgWidth");
-        for (let i = 0; i < a.length; ++i) {
-          var tempEl = a[i] as HTMLElement;
-          tempEl.style.width = image.imgWidth * scale + "px";
-          tempEl.style.height = image.imgHeight * scale + "px";
-        }
-
-        var b = document.getElementsByClassName(_id + "1236");
-        for (let i = 0; i < b.length; ++i) {
-          var tempEl = b[i] as HTMLElement;
-          tempEl.style.transform = `translate(${image.posX * scale}px, ${image.posY * scale}px)`;
-        }
-
-        var hihi4 = document.getElementById(_id + 'hihi4');
-        if (hihi4) {
-          hihi4.style.width = image.width / image.scaleX + "px";
-        }
-
-        (window as any).scaleY = image.scaleY;
-
-        if (switching) {
-          const styles = tLToCenter({
-            top: image.top,
-            left: image.left,
-            width: image.width,
-            height: image.height,
-            rotateAngle: image.rotateAngle
-          });
-          const imgStyles = tLToCenter({
-            left: image.posX,
-            top: image.posY,
-            width: image.imgWidth,
-            height: image.imgHeight,
-            rotateAngle: 0
-          });
-
-          window.rect = {
-            width: image.width,
-            height: image.height,
-            centerX: styles.position.centerX,
-            centerY: styles.position.centerY,
-            rotateAngle: image.rotateAngle
-          };
-          window.rect2 = {
-            width: image.imgWidth,
-            height: image.imgHeight,
-            centerX: imgStyles.position.centerX,
-            centerY: imgStyles.position.centerY,
-            rotateAngle: 0
-          };
-        }
+      window.rect = {
+        width: image.width,
+        height: image.height,
+        centerX: styles.position.centerX,
+        centerY: styles.position.centerY,
+        rotateAngle: image.rotateAngle
+      };
+      window.rect2 = {
+        width: image.imgWidth,
+        height: image.imgHeight,
+        centerX: imgStyles.position.centerX,
+        centerY: imgStyles.position.centerY,
+        rotateAngle: 0
+      };
+    }
   };
 
   handleResizeInnerImageStart = (e, d) => {
@@ -1226,7 +1280,9 @@ class CanvaEditor extends Component<IProps, IState> {
     let { scale } = this.state;
     const location$ = this.handleDragRx(e.target);
 
-    let image = editorStore.images.find(img => img._id == this.state.idObjectSelected);
+    let image = editorStore.images.find(
+      img => img._id == this.state.idObjectSelected
+    );
     window.image = image;
     let {
       top: top2,
@@ -1236,15 +1292,38 @@ class CanvaEditor extends Component<IProps, IState> {
       imgWidth: width3,
       imgHeight: height3,
       posX: left3,
-      posY: top3,
+      posY: top3
     } = image;
 
-    const rect2 = tLToCenter({ top: top2, left: left2, width: width2, height: height2, rotateAngle: image.rotateAngle });
-    const rect = { width: rect2.size.width, height: rect2.size.height, centerX: rect2.position.centerX, centerY: rect2.position.centerY, rotateAngle: rect2.transform.rotateAngle };
-    
-    const rect3 = tLToCenter({ top: top3, left: left3, width: width3, height: height3, rotateAngle: image.rotateAngle });
-    const rect4 = { width: rect3.size.width, height: rect3.size.height, centerX: rect3.position.centerX, centerY: rect3.position.centerY, rotateAngle: rect3.transform.rotateAngle };
-    
+    const rect2 = tLToCenter({
+      top: top2,
+      left: left2,
+      width: width2,
+      height: height2,
+      rotateAngle: image.rotateAngle
+    });
+    const rect = {
+      width: rect2.size.width,
+      height: rect2.size.height,
+      centerX: rect2.position.centerX,
+      centerY: rect2.position.centerY,
+      rotateAngle: rect2.transform.rotateAngle
+    };
+
+    const rect3 = tLToCenter({
+      top: top3,
+      left: left3,
+      width: width3,
+      height: height3,
+      rotateAngle: image.rotateAngle
+    });
+    const rect4 = {
+      width: rect3.size.width,
+      height: rect3.size.height,
+      centerX: rect3.position.centerX,
+      centerY: rect3.position.centerY,
+      rotateAngle: rect3.transform.rotateAngle
+    };
 
     window.rect = {
       width: image.width,
@@ -1261,8 +1340,12 @@ class CanvaEditor extends Component<IProps, IState> {
       rotateAngle: 0
     };
 
-    var startX2 = document.getElementById(image._id + "tl_").getBoundingClientRect().left + 10;
-    var startY2 = document.getElementById(image._id + "tl_").getBoundingClientRect().top + 10;
+    var startX2 =
+      document.getElementById(image._id + "tl_").getBoundingClientRect().left +
+      10;
+    var startY2 =
+      document.getElementById(image._id + "tl_").getBoundingClientRect().top +
+      10;
 
     var cursorStyle = getCursorStyleForResizer(image.rotateAngle, d);
 
@@ -1270,73 +1353,96 @@ class CanvaEditor extends Component<IProps, IState> {
     ell.style.zIndex = "2";
     ell.style.cursor = cursorStyle;
 
-    this.temp = location$.pipe(
+    this.temp = location$
+      .pipe(
         map(([x, y]) => ({
           moveElLocation: [x, y]
         }))
       )
-      .subscribe(({ moveElLocation }) => {
-        var deltaX = moveElLocation[0] - window.startX;
-        var deltaY = moveElLocation[1] - window.startY;
-        const deltaL = getLength(deltaX, deltaY);
-        const alpha = Math.atan2(deltaY, deltaX);
-        const beta = alpha - degToRadian(image.rotateAngle);
-        const deltaW = (deltaL * Math.cos(beta)) / scale;
-        const deltaH = (deltaL * Math.sin(beta)) / scale;
-        let rotateAngle = image.rotateAngle;
-        
+      .subscribe(
+        ({ moveElLocation }) => {
+          var deltaX = moveElLocation[0] - window.startX;
+          var deltaY = moveElLocation[1] - window.startY;
+          const deltaL = getLength(deltaX, deltaY);
+          const alpha = Math.atan2(deltaY, deltaX);
+          const beta = alpha - degToRadian(image.rotateAngle);
+          const deltaW = (deltaL * Math.cos(beta)) / scale;
+          const deltaH = (deltaL * Math.sin(beta)) / scale;
+          let rotateAngle = image.rotateAngle;
 
-        var deltaX2 = startX2 - moveElLocation[0];
-        var deltaY2 = startY2 - moveElLocation[1];
+          var deltaX2 = startX2 - moveElLocation[0];
+          var deltaY2 = startY2 - moveElLocation[1];
 
-        var beta2 = Math.atan2(deltaY2, deltaX2);
+          var beta2 = Math.atan2(deltaY2, deltaX2);
 
-        var corner = 90 - image.rotateAngle - beta2;
+          var corner = 90 - image.rotateAngle - beta2;
 
-        var dis = Math.sqrt(deltaX2 * deltaX2 + deltaY2 * deltaY2);
+          var dis = Math.sqrt(deltaX2 * deltaX2 + deltaY2 * deltaY2);
 
-        var addedX = Math.sin(degToRadian(corner)) * dis;
-        var addedY = Math.cos(degToRadian(corner)) * dis;
+          var addedX = Math.sin(degToRadian(corner)) * dis;
+          var addedY = Math.cos(degToRadian(corner)) * dis;
 
-        if (!window.resizingInnerImage) {
-          let {
-            position: { centerX, centerY },
-            size: { width, height }
-          } = getNewStyle(
-            type,
-            { ...window.rect, rotateAngle },
-            deltaW,
-            deltaH,
-            null,
-            10,
-            10
-          );
-            this.handleResize(centerToTL({ centerX, centerY, width, height, rotateAngle }), false, type, this.state.idObjectSelected, 1, 1, cursor, editorStore.imageSelected.type, e);
-        } else {
-          let ratio = image.imgWidth / image.imgHeight;
-          let {
-            position: { centerX, centerY },
-            size: { width, height }
-          } = getNewStyle(
-            type,
-            { ...window.rect2, rotateAngle },
-            deltaW,
-            deltaH,
-            ratio,
-            10,
-            10
-          );
-          this.handleImageResize(centerToTL({ centerX, centerY, width, height, rotateAngle }), false, type, this.state.idObjectSelected, 1, 1, cursor, editorStore.imageSelected.type, e);
+          if (!window.resizingInnerImage) {
+            let {
+              position: { centerX, centerY },
+              size: { width, height }
+            } = getNewStyle(
+              type,
+              { ...window.rect, rotateAngle },
+              deltaW,
+              deltaH,
+              null,
+              10,
+              10
+            );
+            this.handleResize(
+              centerToTL({ centerX, centerY, width, height, rotateAngle }),
+              false,
+              type,
+              this.state.idObjectSelected,
+              1,
+              1,
+              cursor,
+              editorStore.imageSelected.type,
+              e
+            );
+          } else {
+            let ratio = image.imgWidth / image.imgHeight;
+            let {
+              position: { centerX, centerY },
+              size: { width, height }
+            } = getNewStyle(
+              type,
+              { ...window.rect2, rotateAngle },
+              deltaW,
+              deltaH,
+              ratio,
+              10,
+              10
+            );
+            this.handleImageResize(
+              centerToTL({ centerX, centerY, width, height, rotateAngle }),
+              false,
+              type,
+              this.state.idObjectSelected,
+              1,
+              1,
+              cursor,
+              editorStore.imageSelected.type,
+              e
+            );
+          }
+        },
+        null,
+        () => {
+          window.resizing = false;
+          this.handleResizeEnd(null);
+          this.pauser.next(false);
+          this.displayResizers(true);
+          this.forceUpdate();
+          ell.style.zIndex = "0";
         }
-      }, null, 
-      () => {
-        window.resizing = false;
-        this.handleResizeEnd(null);
-        this.pauser.next(false);
-        this.displayResizers(true);
-        this.forceUpdate();
-        ell.style.zIndex = "0";
-      });
+      );
   };
 
   // Handle the actual miage
@@ -1354,129 +1460,124 @@ class CanvaEditor extends Component<IProps, IState> {
     let switching;
     const { scale } = this.state;
     let { top, left, width, height } = style;
-        let image = window.image;
-        if (
-          image.height - top - height > 0 &&
-          image.width - left - width > 0 &&
-          type == "br"
-        ) {
-          window.resizingInnerImage = false;
-          window.startX =
-            document.getElementById(_id + "br").getBoundingClientRect().left +
-            10;
-          window.startY =
-            document.getElementById(_id + "br").getBoundingClientRect().top +
-            10;
-          switching = true;
-          height = -top + image.height;
-          width = -left + image.width;
-        } else if (
-          image.height - top > height &&
-          left <= 0 &&
-          (type == "bl" || type == "br")
-        ) {
-          window.resizingInnerImage = false;
-          window.startX = e.clientX;
-          window.startY = e.clientY + image.height - top - height;
-          switching = true;
-          height = -top + image.height;
-          // width = -left + image.width;
-        } else if (image.height - top > height && left > 0 && type == "bl") {
-          window.resizingInnerImage = false;
-          window.startX =
-            document.getElementById(_id + "bl").getBoundingClientRect().left +
-            10;
-          window.startY =
-            document.getElementById(_id + "bl").getBoundingClientRect().top +
-            10;
-          switching = true;
-          image.posX = -left;
-          width += left;
-          left = 0;
-          height = -top + image.height;
-        } else if (
-          image.width - left > width &&
-          top < 0 &&
-          (type == "tr" || type == "br")
-        ) {
-          window.resizingInnerImage = false;
-          window.startX = e.clientX;
-          window.startY = e.clientY + image.height - top - height;
-          switching = true;
-          width = -left + image.width;
-        } else if (image.width - left > width && top > 0 && type == "tr") {
-          window.resizingInnerImage = false;
-          window.startX =
-            document.getElementById(_id + "tr").getBoundingClientRect().left +
-            10;
-          window.startY =
-            document.getElementById(_id + "tr").getBoundingClientRect().top +
-            10;
-          switching = true;
-          image.posY = -top;
-          height += top;
-          top = 0;
-          width = -left + image.width;
-        } else if (top > 0 && left <= 0 && (type == "tl" || type == "tr")) {
-          console.log('correct3');
-          window.resizingInnerImage = false;
-          window.startX = e.clientX;
-          window.startY = e.clientY - top;
-          image.posY = -top;
-          height += top;
-          top = 0;
-          switching = true;
-        } else if (left > 0 && top <= 0 && (type == "tl" || type == "bl")) {
-          console.log('correct2');
-          window.resizingInnerImage = false;
-          window.startX = e.clientX - left;
-          window.startY = e.clientY;
-          image.posX = -left;
-          width += left;
-          left = 0;
-          switching = true;
-        } else if (left > 1 && top > 1 && type == "tl") {
-          console.log('correct');
-          window.resizingInnerImage = false;
-          window.startX =
-            document.getElementById(_id + "tl").getBoundingClientRect().left +
-            10;
-          window.startY =
-            document.getElementById(_id + "tl").getBoundingClientRect().top +
-            10;
-          image.posX = -left;
-          image.posY = -top;
-          height += top;
-          width += left;
-          left = 0;
-          top = 0;
-          switching = true;
-        }
+    let image = window.image;
+    if (
+      image.height - top - height > 0 &&
+      image.width - left - width > 0 &&
+      type == "br"
+    ) {
+      window.resizingInnerImage = false;
+      window.startX =
+        document.getElementById(_id + "br").getBoundingClientRect().left + 10;
+      window.startY =
+        document.getElementById(_id + "br").getBoundingClientRect().top + 10;
+      switching = true;
+      height = -top + image.height;
+      width = -left + image.width;
+    } else if (
+      image.height - top > height &&
+      left <= 0 &&
+      (type == "bl" || type == "br")
+    ) {
+      window.resizingInnerImage = false;
+      window.startX = e.clientX;
+      window.startY = e.clientY + image.height - top - height;
+      switching = true;
+      height = -top + image.height;
+      // width = -left + image.width;
+    } else if (image.height - top > height && left > 0 && type == "bl") {
+      window.resizingInnerImage = false;
+      window.startX =
+        document.getElementById(_id + "bl").getBoundingClientRect().left + 10;
+      window.startY =
+        document.getElementById(_id + "bl").getBoundingClientRect().top + 10;
+      switching = true;
+      image.posX = -left;
+      width += left;
+      left = 0;
+      height = -top + image.height;
+    } else if (
+      image.width - left > width &&
+      top < 0 &&
+      (type == "tr" || type == "br")
+    ) {
+      window.resizingInnerImage = false;
+      window.startX = e.clientX;
+      window.startY = e.clientY + image.height - top - height;
+      switching = true;
+      width = -left + image.width;
+    } else if (image.width - left > width && top > 0 && type == "tr") {
+      window.resizingInnerImage = false;
+      window.startX =
+        document.getElementById(_id + "tr").getBoundingClientRect().left + 10;
+      window.startY =
+        document.getElementById(_id + "tr").getBoundingClientRect().top + 10;
+      switching = true;
+      image.posY = -top;
+      height += top;
+      top = 0;
+      width = -left + image.width;
+    } else if (top > 0 && left <= 0 && (type == "tl" || type == "tr")) {
+      console.log("correct3");
+      window.resizingInnerImage = false;
+      window.startX = e.clientX;
+      window.startY = e.clientY - top;
+      image.posY = -top;
+      height += top;
+      top = 0;
+      switching = true;
+    } else if (left > 0 && top <= 0 && (type == "tl" || type == "bl")) {
+      console.log("correct2");
+      window.resizingInnerImage = false;
+      window.startX = e.clientX - left;
+      window.startY = e.clientY;
+      image.posX = -left;
+      width += left;
+      left = 0;
+      switching = true;
+    } else if (left > 1 && top > 1 && type == "tl") {
+      console.log("correct");
+      window.resizingInnerImage = false;
+      window.startX =
+        document.getElementById(_id + "tl").getBoundingClientRect().left + 10;
+      window.startY =
+        document.getElementById(_id + "tl").getBoundingClientRect().top + 10;
+      image.posX = -left;
+      image.posY = -top;
+      height += top;
+      width += left;
+      left = 0;
+      top = 0;
+      switching = true;
+    }
 
-        image.posY = top;
-        image.posX = left;
-        image.imgWidth = width;
-        image.imgHeight = height;
+    image.posY = top;
+    image.posX = left;
+    image.imgWidth = width;
+    image.imgHeight = height;
 
-        var el = document.getElementsByClassName(_id + "imgWidth");
-        for (let i = 0; i < el.length; ++i) {
-          var tempEl = el[i] as HTMLElement;
-          tempEl.style.transform = `translate(${image.posX * scale}px, ${image.posY * scale}px)`
-        }
+    var el = document.getElementsByClassName(_id + "imgWidth");
+    for (let i = 0; i < el.length; ++i) {
+      var tempEl = el[i] as HTMLElement;
+      tempEl.style.transform = `translate(${image.posX *
+        scale}px, ${image.posY * scale}px)`;
+    }
 
-        el = document.getElementsByClassName(_id + "1236");
-        for (let i = 0; i < el.length; ++i) {
-          var tempEl = el[i] as HTMLElement;
-          tempEl.style.width = image.imgWidth * scale + "px";
-          tempEl.style.height = image.imgHeight * scale + "px";
-        } 
+    el = document.getElementsByClassName(_id + "1236");
+    for (let i = 0; i < el.length; ++i) {
+      var tempEl = el[i] as HTMLElement;
+      tempEl.style.width = image.imgWidth * scale + "px";
+      tempEl.style.height = image.imgHeight * scale + "px";
+    }
   };
 
   handleRotateStart = (e: any) => {
     e.stopPropagation();
     this.displayResizers(false);
 
-    let image = editorStore.images.find(img => img._id == this.state.idObjectSelected);
+    let image = editorStore.images.find(
+      img => img._id == this.state.idObjectSelected
+    );
     window.image = image;
 
     var tip = document.getElementById("helloTip");
@@ -1505,8 +1606,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
     const location$ = this.handleDragRx(e.target);
 
-    const rect = document.getElementById(this.state.idObjectSelected).getBoundingClientRect();
-    console.log('rect ', rect);
+    const rect = document
+      .getElementById(this.state.idObjectSelected)
+      .getBoundingClientRect();
+    console.log("rect ", rect);
     const center = {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2
@@ -1521,63 +1624,67 @@ class CanvaEditor extends Component<IProps, IState> {
     var ell = document.getElementById("screen-container-parent2");
     ell.style.zIndex = "2";
 
-    this.temp = location$.pipe(
+    this.temp = location$
+      .pipe(
         map(([x, y]) => ({
           moveElLocation: [x, y]
         }))
       )
-      .subscribe(({ moveElLocation }) => {
-        const rotateVector = {
-          x: moveElLocation[0] - center.x,
-          y: moveElLocation[1] - center.y
-        };
-        const angle = getAngle(startVector, rotateVector);
+      .subscribe(
+        ({ moveElLocation }) => {
+          const rotateVector = {
+            x: moveElLocation[0] - center.x,
+            y: moveElLocation[1] - center.y
+          };
+          const angle = getAngle(startVector, rotateVector);
 
-        let rotateAngle = Math.round(image.rotateAngle + angle);
-        if (rotateAngle >= 360) {
-          rotateAngle -= 360;
-        } else if (rotateAngle < 0) {
-          rotateAngle += 360;
-        }
-        if (rotateAngle > 356 || rotateAngle < 4) {
-          rotateAngle = 0;
-        } else if (rotateAngle > 86 && rotateAngle < 94) {
-          rotateAngle = 90;
-        } else if (rotateAngle > 176 && rotateAngle < 184) {
-          rotateAngle = 180;
-        } else if (rotateAngle > 266 && rotateAngle < 274) {
-          rotateAngle = 270;
-        }
-        window.rotateAngle = rotateAngle;
+          let rotateAngle = Math.round(image.rotateAngle + angle);
+          if (rotateAngle >= 360) {
+            rotateAngle -= 360;
+          } else if (rotateAngle < 0) {
+            rotateAngle += 360;
+          }
+          if (rotateAngle > 356 || rotateAngle < 4) {
+            rotateAngle = 0;
+          } else if (rotateAngle > 86 && rotateAngle < 94) {
+            rotateAngle = 90;
+          } else if (rotateAngle > 176 && rotateAngle < 184) {
+            rotateAngle = 180;
+          } else if (rotateAngle > 266 && rotateAngle < 274) {
+            rotateAngle = 270;
+          }
+          window.rotateAngle = rotateAngle;
 
-        var cursorStyle = getCursorStyleWithRotateAngle(rotateAngle);
-        ell.style.cursor = cursorStyle;
+          var cursorStyle = getCursorStyleWithRotateAngle(rotateAngle);
+          ell.style.cursor = cursorStyle;
 
-        var a = document.getElementsByClassName(image._id + "aaaa");
-        for (let i = 0; i < a.length; ++i) {
-          var cur = a[i] as HTMLElement;
-          cur.style.transform = `rotate(${rotateAngle}deg)`;
-        }
+          var a = document.getElementsByClassName(image._id + "aaaa");
+          for (let i = 0; i < a.length; ++i) {
+            var cur = a[i] as HTMLElement;
+            cur.style.transform = `rotate(${rotateAngle}deg)`;
+          }
 
-        var tip = document.getElementById("helloTip");
-        if (!tip) {
-          tip = document.createElement("div");
+          var tip = document.getElementById("helloTip");
+          if (!tip) {
+            tip = document.createElement("div");
+          }
+          tip.id = "helloTip";
+          tip.style.position = "absolute";
+          tip.style.height = "30px";
+          tip.style.backgroundColor = "black";
+          tip.style.top = moveElLocation[1] + 20 + "px";
+          tip.style.left = moveElLocation[0] + 20 + "px";
+          tip.innerText = rotateAngle + "°";
+        },
+        null,
+        () => {
+          window.rotating = false;
+          this.displayResizers(true);
+          this.handleRotateEnd(this.state.idObjectSelected);
+          this.pauser.next(false);
+          ell.style.zIndex = "0";
         }
-        tip.id = "helloTip";
-        tip.style.position = "absolute";
-        tip.style.height = "30px";
-        tip.style.backgroundColor = "black";
-        tip.style.top = moveElLocation[1] + 20 + "px";
-        tip.style.left = moveElLocation[0] + 20 + "px";
-        tip.innerText = rotateAngle + "°";
-      }, null, 
-      () => {
-        window.rotating = false;
-        this.displayResizers(true);
-        this.handleRotateEnd(this.state.idObjectSelected);
-        this.pauser.next(false);
-        ell.style.zIndex = "0";
-      });
+      );
   };
 
   handleRotateEnd = (_id: string) => {
@@ -1630,24 +1737,36 @@ class CanvaEditor extends Component<IProps, IState> {
 
     const location$ = this.handleDragRx(e.target);
 
-    this.temp = location$.pipe(
+    this.temp = location$
+      .pipe(
         map(([x, y]) => ({
           moveElLocation: [x, y]
         }))
       )
-      .subscribe(({ moveElLocation }) => {
-        if (this.state.cropMode) {
-          this.handleImageDrag(this.state.idObjectSelected, moveElLocation[0], moveElLocation[1])
-        } else {
-          this.handleDrag(this.state.idObjectSelected, moveElLocation[0], moveElLocation[1])
+      .subscribe(
+        ({ moveElLocation }) => {
+          if (this.state.cropMode) {
+            this.handleImageDrag(
+              this.state.idObjectSelected,
+              moveElLocation[0],
+              moveElLocation[1]
+            );
+          } else {
+            this.handleDrag(
+              this.state.idObjectSelected,
+              moveElLocation[0],
+              moveElLocation[1]
+            );
+          }
+        },
+        null,
+        () => {
+          window.dragging = false;
+          this.displayResizers(true);
+          this.handleDragEnd();
+          this.pauser.next(false);
         }
-      }, null, 
-      () => {
-        window.dragging = false;
-        this.displayResizers(true);
-        this.handleDragEnd();
-        this.pauser.next(false);
-      });
+      );
   };
 
   tranformImage = (image: any) => {
@@ -1670,8 +1789,8 @@ class CanvaEditor extends Component<IProps, IState> {
   handleImageDrag = (_id, clientX, clientY) => {
     const { scale } = this.state;
 
-    var deltaX = (clientX - window.startX);
-    var deltaY = (clientY - window.startY);
+    var deltaX = clientX - window.startX;
+    var deltaY = clientY - window.startY;
 
     var deg = degToRadian(window.image.rotateAngle);
     var newX = deltaY * Math.sin(deg) + deltaX * Math.cos(deg);
@@ -1684,12 +1803,12 @@ class CanvaEditor extends Component<IProps, IState> {
     if (newPosX > 0) {
       newPosX = 0;
     } else if (newPosX + img.imgWidth < img.width) {
-      newPosX = (img.width - img.imgWidth);
+      newPosX = img.width - img.imgWidth;
     }
     if (newPosY > 0) {
       newPosY = 0;
     } else if (newPosY + img.imgHeight < img.height) {
-      newPosY = (img.height - img.imgHeight);
+      newPosY = img.height - img.imgHeight;
     }
     img.posX = newPosX;
     img.posY = newPosY;
@@ -1697,57 +1816,44 @@ class CanvaEditor extends Component<IProps, IState> {
     var el = document.getElementsByClassName(_id + "imgWidth");
     for (let i = 0; i < el.length; ++i) {
       var tempEl = el[i] as HTMLElement;
-      tempEl.style.transform = `translate(${newPosX * scale}px, ${newPosY * scale}px)`;
+      tempEl.style.transform = `translate(${newPosX * scale}px, ${newPosY *
+        scale}px)`;
     }
   };
 
   /**
- * Create an observable stream to handle drag gesture
- */
-drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
-  const panMove$ = pan$.pipe(
-    filter((e:Event) => e.type == "mousemove")
-  )
+   * Create an observable stream to handle drag gesture
+   */
+  drag = (element: HTMLElement, pan$: Observable<Event>): Observable<any> => {
+    const panMove$ = pan$.pipe(filter((e: Event) => e.type == "mousemove"));
 
-  const panEnd$ = pan$.pipe(
-    filter((e:Event) => e.type == "mouseup")
-  )
+    const panEnd$ = pan$.pipe(filter((e: Event) => e.type == "mouseup"));
 
-  return panMove$
-  .pipe(
-    map((e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
-      var x = e.clientX; 
-      var y = e.clientY;
-      return {x, y}
-    }),
-    takeUntil(panEnd$)
-  );
-};
+    return panMove$.pipe(
+      map((e: any) => {
+        e.preventDefault();
+        e.stopPropagation();
+        var x = e.clientX;
+        var y = e.clientY;
+        return { x, y };
+      }),
+      takeUntil(panEnd$)
+    );
+  };
 
   /**
-  * Generate the drag handler for a DOM element
-  */
-  handleDragRx = (element: HTMLElement) : Observable<any> => {
+   * Generate the drag handler for a DOM element
+   */
+  handleDragRx = (element: HTMLElement): Observable<any> => {
+    const mouseMove$ = fromEvent(document, "mousemove");
+    const mouseUp$ = fromEvent(document, "mouseup");
 
-    const mouseMove$    = fromEvent(document, 'mousemove');
-    const mouseUp$     = fromEvent(document, 'mouseup');
+    const pan$: Observable<Event> = merge(mouseMove$, mouseUp$);
 
-    const pan$ : Observable<Event> = merge(
-      mouseMove$,
-      mouseUp$,
-    );
+    const drag$ = this.drag(element, pan$);
 
-    const drag$ = this.drag(
-      element,
-      pan$
-    );
- 
-    return drag$.pipe(
-      map(({ x, y }) => [x, y])
-    )
-  }
+    return drag$.pipe(map(({ x, y }) => [x, y]));
+  };
 
   handleDrag = (_id, clientX, clientY): any => {
     const { scale } = this.state;
@@ -1999,7 +2105,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
 
     image.left = left;
     image.top = top;
-    
+
     updatePosition(_id + "_", left * scale, top * scale, null, null);
     updatePosition(_id + "__", left * scale, top * scale, null, null);
   };
@@ -2030,7 +2136,8 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
         image[ii] = 0;
         var el = document.getElementById(image._id + "guide_" + ii);
         if (el) {
-          document.getElementById(image._id + "guide_" + ii).style.display = "none";
+          document.getElementById(image._id + "guide_" + ii).style.display =
+            "none";
         }
       }
       return image;
@@ -2119,28 +2226,28 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
 
   doNoObjectSelected = () => {
     // if (!this.state.rotating && !this.state.resizing) {
-      let images = editorStore.images.map(image => {
-        image.selected = false;
-        return image;
-      });
+    let images = editorStore.images.map(image => {
+      image.selected = false;
+      return image;
+    });
 
-      var selectedTab = this.state.selectedTab;
-      if (this.state.selectedTab === SidebarTab.Font) {
-        selectedTab = SidebarTab.Image;
-      }
+    var selectedTab = this.state.selectedTab;
+    if (this.state.selectedTab === SidebarTab.Font) {
+      selectedTab = SidebarTab.Image;
+    }
 
-      editorStore.doNoObjectSelected();
+    editorStore.doNoObjectSelected();
 
-      this.setState({
-        cropMode: false,
-        selectedTab,
-        idObjectSelected: null,
-        typeObjectSelected: null,
-        childId: null
-      });
+    this.setState({
+      cropMode: false,
+      selectedTab,
+      idObjectSelected: null,
+      typeObjectSelected: null,
+      childId: null
+    });
     // }
   };
-  
+
   removeImage(e) {
     var OSNAME = this.getPlatformName();
     if (
@@ -2160,9 +2267,9 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
   handleImageHover = (img, event) => {
     editorStore.idObjectHovered = img._id;
     editorStore.imageHovered = img;
-  }
+  };
 
-  handleImageSelected = (img) => {
+  handleImageSelected = img => {
     if (this.state.cropMode && img._id != this.state.idObjectSelected) {
       this.setState({ cropMode: false });
       this.doNoObjectSelected();
@@ -2202,7 +2309,9 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
     });
 
     this.setState({ fontColor: img.color, fontName: img.fontRepresentative });
-    document.getElementById("fontSizeButton").innerText = `${Math.round(img.fontSize * img.scaleY * 10) / 10}`;
+    document.getElementById("fontSizeButton").innerText = `${Math.round(
+      img.fontSize * img.scaleY * 10
+    ) / 10}`;
 
     editorStore.idObjectSelected = img._id;
     editorStore.imageSelected = img;
@@ -2283,7 +2392,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
           document.getElementById("editor").classList.remove("popup");
         })
         .catch(error => {
-          console.log(JSON.stringify(error.response))
+          console.log(JSON.stringify(error.response));
           Ui.showErrors(error.response.statusText);
           document.getElementById("downloadPopup").style.display = "none";
           document.getElementById("editor").classList.remove("popup");
@@ -2340,11 +2449,11 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
             document.getElementById("editor").classList.remove("popup");
           })
           .catch(error => {
-            console.log(JSON.stringify(error.response))
+            console.log(JSON.stringify(error.response));
             Ui.showErrors(error.response.statusText);
             document.getElementById("downloadPopup").style.display = "none";
             document.getElementById("editor").classList.remove("popup");
-          });;
+          });
       }
     );
   }
@@ -2378,7 +2487,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
     });
   };
 
-  async downloadPNG(transparent, png) {
+  downloadPNG(transparent, png) {
     document.getElementById("downloadPopup").style.display = "block";
     document.getElementById("editor").classList.add("popup");
 
@@ -2424,11 +2533,11 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
           document.getElementById("editor").classList.remove("popup");
         })
         .catch(error => {
-          console.log(JSON.stringify(error.response))
+          console.log(JSON.stringify(error.response));
           Ui.showErrors(error.response.statusText);
           document.getElementById("downloadPopup").style.display = "none";
           document.getElementById("editor").classList.remove("popup");
-        });;
+        });
     });
   }
 
@@ -2994,7 +3103,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
             editorStore.imageSelected = image;
           }
           return image;
-
         });
 
         // console.log('images 2', images);
@@ -3631,11 +3739,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
   refPhoneNumber = null;
 
   render() {
-    const {
-      scale,
-      rectWidth,
-      rectHeight,
-    } = this.state;
+    const { scale, rectWidth, rectHeight } = this.state;
 
     const adminEmail = "llaugusty@gmail.com";
 
@@ -3785,35 +3889,35 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                 )}
               {this.props.tReady && (
                 <Tooltip
-                offsetLeft={0}
-                offsetTop={5}
-                content={this.translate("download")}
-                delay={10}
-                style={{}}
-                position="bottom"
-              >
-                <button
-                  id="download-btn"
-                  onClick={this.handleDownloadList}
-                  style={{
-                    float: "right",
-                    color: "white",
-                    marginTop: "8px",
-                    marginRight: "10px",
-                    padding: "8px",
-                    borderRadius: "4px",
-                    textDecoration: "none",
-                    fontSize: "13px",
-                    fontFamily: "AvenirNextRoundedPro-Medium",
-                    background: "#ebebeb0f",
-                    border: "none",
-                    height: "35px",
-                    width: "36px"
-                  }}
+                  offsetLeft={0}
+                  offsetTop={5}
+                  content={this.translate("download")}
+                  delay={10}
+                  style={{}}
+                  position="bottom"
                 >
-                  {/* {" "} */}
-                  <DownloadIcon fill="white" width="18px" height="18px" />
-                </button>
+                  <button
+                    id="download-btn"
+                    onClick={this.handleDownloadList}
+                    style={{
+                      float: "right",
+                      color: "white",
+                      marginTop: "8px",
+                      marginRight: "10px",
+                      padding: "8px",
+                      borderRadius: "4px",
+                      textDecoration: "none",
+                      fontSize: "13px",
+                      fontFamily: "AvenirNextRoundedPro-Medium",
+                      background: "#ebebeb0f",
+                      border: "none",
+                      height: "35px",
+                      width: "36px"
+                    }}
+                  >
+                    {/* {" "} */}
+                    <DownloadIcon fill="white" width="18px" height="18px" />
+                  </button>
                 </Tooltip>
               )}
               {this.props.tReady && (
@@ -3932,31 +4036,111 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                   (this.state.selectedImage.type === TemplateType.Heading ||
                     this.state.selectedImage.type === TemplateType.Latex ||
                     this.state.childId) && (
-                      <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("color")}
-                        delay={10}
-                        style={{}}
+                    <Tooltip
+                      offsetLeft={0}
+                      offsetTop={-5}
+                      content={this.translate("color")}
+                      delay={10}
+                      style={{}}
+                      position="top"
+                    >
+                      <a
+                        href="#"
+                        style={{
+                          position: "relative",
+                          borderRadius: "4px",
+                          padding: "3px",
+                          paddingBottom: "0px",
+                          marginRight: "6px",
+                          display: "inline-block",
+                          cursor: "pointer",
+                          color: "black",
+                          height: "100%"
+                        }}
+                        onClick={e => {
+                          e.preventDefault();
+                          this.setState({ selectedTab: SidebarTab.Color });
+                        }}
+                        className="toolbar-btn"
                       >
+                        <svg
+                          viewBox="0 0 24 24"
+                          preserveAspectRatio="xMidYMid meet"
+                          style={{ width: "20px", height: "20px" }}
+                        >
+                          <g>
+                            <path
+                              d="M11 2L5.5 16h2.25l1.12-3h6.25l1.12 3h2.25L13 2h-2zm-1.38 9L12 4.67 14.38 11H9.62z"
+                              fill="currentColor"
+                            ></path>
+                          </g>
+                        </svg>
+                        <div
+                          style={{
+                            position: "absolute",
+                            bottom: "4px",
+                            left: "4px",
+                            borderRadius: "14px",
+                            width: "72%",
+                            height: "4px",
+                            // background:
+                            //   "repeating-linear-gradient(to right, rgb(38, 23, 77) 0%, rgb(38, 23, 77) 100%)",
+                            backgroundColor: this.state.fontColor,
+                            boxShadow: "inset 0 0 0 1px rgba(14,19,24,.15)"
+                          }}
+                          className={
+                            this.state.fontColor === "black"
+                              ? "font-color-btn"
+                              : ""
+                          }
+                        ></div>
+                      </a>
+                    </Tooltip>
+                  )}
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
+                  <Tooltip
+                    offsetLeft={0}
+                    offsetTop={-5}
+                    content={this.translate("italic")}
+                    delay={10}
+                    style={{}}
+                    position="top"
+                  >
                     <a
                       href="#"
+                      className="toolbar-btn"
                       style={{
-                        position: "relative",
-                        borderRadius: "4px",
                         padding: "3px",
                         paddingBottom: "0px",
-                        marginRight: "6px",
                         display: "inline-block",
                         cursor: "pointer",
-                        color: "black",
-                        height: '100%',
+                        color: "black"
                       }}
                       onClick={e => {
                         e.preventDefault();
-                        this.setState({ selectedTab: SidebarTab.Color });
+                        var a = document.getSelection();
+                        if (a && a.type === "Range") {
+                          document.execCommand("italic");
+                        } else {
+                          var childId = this.state.childId
+                            ? this.state.childId
+                            : this.state.idObjectSelected;
+                          var el = this.state.childId
+                            ? document.getElementById(childId)
+                            : document
+                                .getElementById(childId)
+                                .getElementsByClassName("text")[0];
+                          var sel = window.getSelection();
+                          var range = document.createRange();
+                          range.selectNodeContents(el);
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                          document.execCommand("italic");
+                          sel.removeAllRanges();
+                        }
                       }}
-                      className="toolbar-btn"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -3965,195 +4149,123 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       >
                         <g>
                           <path
-                            d="M11 2L5.5 16h2.25l1.12-3h6.25l1.12 3h2.25L13 2h-2zm-1.38 9L12 4.67 14.38 11H9.62z"
                             fill="currentColor"
+                            fillRule="evenodd"
+                            d="M14.73 6.5l-3.67 11H14l-.3 1.5H6l.3-1.5h2.81l3.68-11H10l.3-1.5H18l-.3 1.5h-2.97z"
                           ></path>
                         </g>
                       </svg>
-                      <div
-                        style={{
-                          position: "absolute",
-                          bottom: "4px",
-                          left: "4px",
-                          borderRadius: "14px",
-                          width: "72%",
-                          height: "4px",
-                          // background:
-                          //   "repeating-linear-gradient(to right, rgb(38, 23, 77) 0%, rgb(38, 23, 77) 100%)",
-                          backgroundColor: this.state.fontColor,
-                          boxShadow: "inset 0 0 0 1px rgba(14,19,24,.15)"
-                        }}
-                        className={this.state.fontColor === 'black' ? "font-color-btn" : ""}
-                      ></div>
                     </a>
-                    </Tooltip>
-                  )}
-                {((this.state.idObjectSelected &&
-                  this.state.selectedImage.type === TemplateType.Heading) ||
-                  this.state.childId) && (
-                    <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("italic")}
-                        delay={10}
-                        style={{}}
-                      >
-                  <a
-                    href="#"
-                    className="toolbar-btn"
-                    style={{
-                      padding: "3px",
-                      paddingBottom: "0px",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      color: "black"
-                    }}
-                    onClick={e => {
-                      e.preventDefault();
-                      var a = document.getSelection();
-                      if (a && a.type === "Range") {
-                        document.execCommand("italic");
-                      } else {
-                        var childId = this.state.childId
-                          ? this.state.childId
-                          : this.state.idObjectSelected;
-                        var el = this.state.childId
-                          ? document.getElementById(childId)
-                          : document
-                              .getElementById(childId)
-                              .getElementsByClassName("text")[0];
-                        var sel = window.getSelection();
-                        var range = document.createRange();
-                        range.selectNodeContents(el);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                        document.execCommand("italic");
-                        sel.removeAllRanges();
-                      }
-                    }}
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={{ width: "20px", height: "20px" }}
-                    >
-                      <g>
-                        <path
-                          fill="currentColor"
-                          fillRule="evenodd"
-                          d="M14.73 6.5l-3.67 11H14l-.3 1.5H6l.3-1.5h2.81l3.68-11H10l.3-1.5H18l-.3 1.5h-2.97z"
-                        ></path>
-                      </g>
-                    </svg>
-                  </a>
                   </Tooltip>
                 )}
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
-                    <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("bold")}
-                        delay={10}
-                        style={{}}
-                      >
-                  <a
-                    href="#"
-                    className="toolbar-btn"
-                    style={{
-                      padding: "3px",
-                      paddingBottom: "0px",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      color: "black"
-                    }}
-                    onClick={e => {
-                      e.preventDefault();
-                      var a = document.getSelection();
-                      if (a && a.type === "Range") {
-                        document.execCommand("bold");
-                      } else {
-                        var childId = this.state.childId
-                          ? this.state.childId
-                          : this.state.idObjectSelected;
-                        var el = this.state.childId
-                          ? document.getElementById(childId)
-                          : document
-                              .getElementById(childId)
-                              .getElementsByClassName("text")[0];
-                        var sel = window.getSelection();
-                        var range = document.createRange();
-                        range.selectNodeContents(el);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                        document.execCommand("bold");
-                        sel.removeAllRanges();
-                      }
-                    }}
+                  <Tooltip
+                    offsetLeft={0}
+                    offsetTop={-5}
+                    content={this.translate("bold")}
+                    delay={10}
+                    style={{}}
+                    position="top"
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={{ width: "20px", height: "20px" }}
-                    >
-                      <g>
-                        <path
-                          fill="currentColor"
-                          fillRule="evenodd"
-                          d="M7.08 4.72h4.44c2.03 0 3.5.3 4.41.87.92.57 1.37 1.49 1.37 2.75 0 .85-.2 1.55-.6 2.1-.4.54-.93.87-1.6.98v.1c.91.2 1.56.58 1.96 1.13.4.56.6 1.3.6 2.2 0 1.31-.47 2.33-1.4 3.06A6.1 6.1 0 0 1 12.41 19H7.08V4.72zm3.03 5.66h1.75c.82 0 1.42-.13 1.79-.38.36-.26.55-.68.55-1.26 0-.55-.2-.94-.6-1.18a3.86 3.86 0 0 0-1.9-.36h-1.6v3.18zm0 2.4v3.72h1.97c.83 0 1.45-.16 1.84-.48.4-.32.6-.8.6-1.46 0-1.19-.85-1.78-2.54-1.78h-1.87z"
-                        ></path>
-                      </g>
-                    </svg>
-                  </a>
-                  </Tooltip>
-                )}
-                {((this.state.idObjectSelected &&
-                  this.state.selectedImage.type === TemplateType.Heading) ||
-                  this.state.childId) && (
-                    <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("fontFamily")}
-                        delay={10}
-                        style={{}}
-                      >
-                  <a
-                    href="#"
-                    className="toolbar-btn"
-                    onClick={this.onClickDropDownFontList}
-                    style={{
-                      borderRadius: "4px",
-                      padding: "3px",
-                      paddingBottom: "0px",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      color: "black",
-                      position: "relative"
-                    }}
-                  >
-                    <img
-                      style={{ height: "21px", filter: "invert(1)" }}
-                      src={this.state.fontName}
-                    />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
+                    <a
+                      href="#"
+                      className="toolbar-btn"
                       style={{
-                        pointerEvents: "none",
-                        position: "absolute",
-                        right: "10px",
-                        top: "4px"
+                        padding: "3px",
+                        paddingBottom: "0px",
+                        display: "inline-block",
+                        cursor: "pointer",
+                        color: "black"
+                      }}
+                      onClick={e => {
+                        e.preventDefault();
+                        var a = document.getSelection();
+                        if (a && a.type === "Range") {
+                          document.execCommand("bold");
+                        } else {
+                          var childId = this.state.childId
+                            ? this.state.childId
+                            : this.state.idObjectSelected;
+                          var el = this.state.childId
+                            ? document.getElementById(childId)
+                            : document
+                                .getElementById(childId)
+                                .getElementsByClassName("text")[0];
+                          var sel = window.getSelection();
+                          var range = document.createRange();
+                          range.selectNodeContents(el);
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                          document.execCommand("bold");
+                          sel.removeAllRanges();
+                        }
                       }}
                     >
-                      <path
-                        fill="currentColor"
-                        d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"
-                      ></path>
-                    </svg>
-                  </a>
+                      <svg
+                        viewBox="0 0 24 24"
+                        preserveAspectRatio="xMidYMid meet"
+                        style={{ width: "20px", height: "20px" }}
+                      >
+                        <g>
+                          <path
+                            fill="currentColor"
+                            fillRule="evenodd"
+                            d="M7.08 4.72h4.44c2.03 0 3.5.3 4.41.87.92.57 1.37 1.49 1.37 2.75 0 .85-.2 1.55-.6 2.1-.4.54-.93.87-1.6.98v.1c.91.2 1.56.58 1.96 1.13.4.56.6 1.3.6 2.2 0 1.31-.47 2.33-1.4 3.06A6.1 6.1 0 0 1 12.41 19H7.08V4.72zm3.03 5.66h1.75c.82 0 1.42-.13 1.79-.38.36-.26.55-.68.55-1.26 0-.55-.2-.94-.6-1.18a3.86 3.86 0 0 0-1.9-.36h-1.6v3.18zm0 2.4v3.72h1.97c.83 0 1.45-.16 1.84-.48.4-.32.6-.8.6-1.46 0-1.19-.85-1.78-2.54-1.78h-1.87z"
+                          ></path>
+                        </g>
+                      </svg>
+                    </a>
+                  </Tooltip>
+                )}
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
+                  <Tooltip
+                    offsetLeft={0}
+                    offsetTop={-5}
+                    content={this.translate("fontFamily")}
+                    delay={10}
+                    style={{}}
+                    position="top"
+                  >
+                    <a
+                      href="#"
+                      className="toolbar-btn"
+                      onClick={this.onClickDropDownFontList}
+                      style={{
+                        borderRadius: "4px",
+                        padding: "3px",
+                        paddingBottom: "0px",
+                        display: "inline-block",
+                        cursor: "pointer",
+                        color: "black",
+                        position: "relative"
+                      }}
+                    >
+                      <img
+                        style={{ height: "21px", filter: "invert(1)" }}
+                        src={this.state.fontName}
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        style={{
+                          pointerEvents: "none",
+                          position: "absolute",
+                          right: "10px",
+                          top: "4px"
+                        }}
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"
+                        ></path>
+                      </svg>
+                    </a>
                   </Tooltip>
                 )}
                 {this.state.idObjectSelected &&
@@ -4171,7 +4283,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             height: "26px",
                             top: 0
                           }}
-                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
+                          className="dropbtn-font dropbtn-font-size toolbar-btn"
                           onClick={e => {
                             this.setState({ cropMode: true });
                           }}
@@ -4196,7 +4308,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             height: "26px",
                             top: 0
                           }}
-                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
+                          className="dropbtn-font dropbtn-font-size toolbar-btn"
                           onClick={e => {
                             this.setState({ cropMode: true });
                           }}
@@ -4221,7 +4333,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             height: "26px",
                             top: 0
                           }}
-                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
+                          className="dropbtn-font dropbtn-font-size toolbar-btn"
                           onClick={e => {
                             this.setState({ cropMode: true });
                           }}
@@ -4246,7 +4358,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             height: "26px",
                             top: 0
                           }}
-                                            className="dropbtn-font dropbtn-font-size toolbar-btn"
+                          className="dropbtn-font dropbtn-font-size toolbar-btn"
                           onClick={e => {
                             this.setState({ cropMode: true });
                           }}
@@ -4272,127 +4384,128 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                           width: "27px",
                           backgroundColor: this.state.imgBackgroundColor
                         }}
-                                        className="dropbtn-font dropbtn-font-size toolbar-btn"
+                        className="dropbtn-font dropbtn-font-size toolbar-btn"
                         onClick={e => {
                           this.setState({ selectedTab: SidebarTab.Color });
                         }}
                       ></button>
                     </div>
                   )}
-                                    <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("fontSize")}
-                        delay={10}
-                        style={{}}
-                      >
-                <div
-                  style={{
-                    position: "relative",
-                    display:
-                      (this.state.selectedImage &&
-                        this.state.selectedImage.type ===
-                          TemplateType.Heading) ||
-                      this.state.childId
-                        ? "block"
-                        : "none"
-                  }}
-                  className="toolbar-btn"
+                <Tooltip
+                  offsetLeft={0}
+                  offsetTop={-5}
+                  content={this.translate("fontSize")}
+                  delay={10}
+                  style={{}}
+                  position="top"
                 >
-                  <FontSize fontSize={this.state.fontSize} />
                   <div
                     style={{
-                      height: "50px",
-                      left: "0px",
-                      top: "calc(100% + 8px)",
-                      width: "100px",
-                      padding: "0",
-                      background: "white",
-                      animation: "bounce 1.2s ease-out"
+                      position: "relative",
+                      display:
+                        (this.state.selectedImage &&
+                          this.state.selectedImage.type ===
+                            TemplateType.Heading) ||
+                        this.state.childId
+                          ? "block"
+                          : "none"
                     }}
-                    id="myFontSizeList"
-                    className="dropdown-content-font-size"
+                    className="toolbar-btn"
                   >
-                    <ul
+                    <FontSize fontSize={this.state.fontSize} />
+                    <div
                       style={{
-                        listStyle: "none",
-                        margin: 0,
-                        width: "100%",
-                        padding: 0
+                        height: "50px",
+                        left: "0px",
+                        top: "calc(100% + 8px)",
+                        width: "100px",
+                        padding: "0",
+                        background: "white",
+                        animation: "bounce 1.2s ease-out"
                       }}
+                      id="myFontSizeList"
+                      className="dropdown-content-font-size"
                     >
-                      <li>
-                        <button
-                          onClick={e => {
-                            function insertAfter(newNode, referenceNode) {
-                              referenceNode.parentNode.insertBefore(
-                                newNode,
-                                referenceNode.nextSibling
-                              );
-                            }
+                      <ul
+                        style={{
+                          listStyle: "none",
+                          margin: 0,
+                          width: "100%",
+                          padding: 0
+                        }}
+                      >
+                        <li>
+                          <button
+                            onClick={e => {
+                              function insertAfter(newNode, referenceNode) {
+                                referenceNode.parentNode.insertBefore(
+                                  newNode,
+                                  referenceNode.nextSibling
+                                );
+                              }
 
-                            var scale = 6;
-                            var a = document.getSelection();
-                            if (a && a.type === "Range") {
-                              document.execCommand("FontSize", false, "7");
-                            } else {
-                              var id = this.state.childId
-                                ? this.state.childId
-                                : this.state.idObjectSelected;
-                              var el = this.state.childId
-                                ? document.getElementById(id)
-                                : document
-                                    .getElementById(id)
-                                    .getElementsByClassName("text")[0];
-                              var sel = window.getSelection();
-                              var range = document.createRange();
-                              range.selectNodeContents(el);
-                              sel.removeAllRanges();
-                              sel.addRange(range);
-                              document.execCommand("FontSize", false, "7");
-                              sel.removeAllRanges();
-                            }
-                            var fonts = document.getElementsByTagName("font");
-                            // console.log("fonts ", fonts);
-                            for (var i = 0; i < fonts.length; ++i) {
-                              var font = fonts[i];
-                              var div = document.createElement("div");
-                              div.className = "font";
-                              div.style.fontSize = font.style.fontSize;
-                              div.style.color = font.style.color;
-                              div.innerText = font.innerText;
+                              var scale = 6;
+                              var a = document.getSelection();
+                              if (a && a.type === "Range") {
+                                document.execCommand("FontSize", false, "7");
+                              } else {
+                                var id = this.state.childId
+                                  ? this.state.childId
+                                  : this.state.idObjectSelected;
+                                var el = this.state.childId
+                                  ? document.getElementById(id)
+                                  : document
+                                      .getElementById(id)
+                                      .getElementsByClassName("text")[0];
+                                var sel = window.getSelection();
+                                var range = document.createRange();
+                                range.selectNodeContents(el);
+                                sel.removeAllRanges();
+                                sel.addRange(range);
+                                document.execCommand("FontSize", false, "7");
+                                sel.removeAllRanges();
+                              }
+                              var fonts = document.getElementsByTagName("font");
+                              // console.log("fonts ", fonts);
+                              for (var i = 0; i < fonts.length; ++i) {
+                                var font = fonts[i];
+                                var div = document.createElement("div");
+                                div.className = "font";
+                                div.style.fontSize = font.style.fontSize;
+                                div.style.color = font.style.color;
+                                div.innerText = font.innerText;
 
-                              insertAfter(div, font);
+                                insertAfter(div, font);
 
-                              font.remove();
-                            }
+                                font.remove();
+                              }
 
-                            this.setState({ fontSize: scale });
-                          }}
-                          className="fontsize-picker"
-                          style={{
-                            height: "30px",
-                            width: "100%",
-                            border: "none"
-                          }}
-                        >
-                          6
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          className="fontsize-picker"
-                          style={{
-                            height: "30px",
-                            width: "100%",
-                            border: "none"
-                          }}
-                        >
-                          8
-                        </button>
-                      </li>
-                    </ul>
-                    {/* <p
+                              this.setState({ fontSize: scale });
+                            }}
+                            className="fontsize-picker"
+                            style={{
+                              height: "30px",
+                              width: "100%",
+                              border: "none"
+                            }}
+                          >
+                            6
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="fontsize-picker"
+                            style={{
+                              height: "30px",
+                              width: "100%",
+                              border: "none"
+                            }}
+                          >
+                            8
+                          </button>
+                        </li>
+                      </ul>
+                      {/* <p
                     style={{
                       display: 'inline-block',
                       margin: 0,
@@ -4493,195 +4606,198 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       }}></div>
                       </div>
                     </div> */}
+                    </div>
                   </div>
-                </div>
                 </Tooltip>
                 {/* } */}
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
-                    <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("alignLeft")}
-                        delay={10}
-                        style={{}}
-                      >
-                  <a
-                    href="#"
-                    className="toolbar-btn"
-                    onClick={e => {
-                      e.preventDefault();
-                      var a = document.getSelection();
-                      if (a && a.type === "Range") {
-                        document.execCommand("JustifyLeft", false, null);
-                      } else {
-                        var childId = this.state.childId
-                          ? this.state.childId
-                          : this.state.idObjectSelected;
-                        var el = this.state.childId
-                          ? document.getElementById(childId)
-                          : document
-                              .getElementById(childId)
-                              .getElementsByClassName("text")[0];
-                        var sel = window.getSelection();
-                        var range = document.createRange();
-                        range.selectNodeContents(el);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                        document.execCommand("JustifyLeft", false, null);
-                        sel.removeAllRanges();
-                      }
-                    }}
-                    style={{
-                      borderRadius: "4px",
-                      padding: "2px 3px 0px",
-                      marginRight: "6px",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      color: "black"
-                    }}
+                  <Tooltip
+                    offsetLeft={0}
+                    offsetTop={-5}
+                    content={this.translate("alignLeft")}
+                    delay={10}
+                    style={{}}
+                    position="top"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
+                    <a
+                      href="#"
+                      className="toolbar-btn"
+                      onClick={e => {
+                        e.preventDefault();
+                        var a = document.getSelection();
+                        if (a && a.type === "Range") {
+                          document.execCommand("JustifyLeft", false, null);
+                        } else {
+                          var childId = this.state.childId
+                            ? this.state.childId
+                            : this.state.idObjectSelected;
+                          var el = this.state.childId
+                            ? document.getElementById(childId)
+                            : document
+                                .getElementById(childId)
+                                .getElementsByClassName("text")[0];
+                          var sel = window.getSelection();
+                          var range = document.createRange();
+                          range.selectNodeContents(el);
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                          document.execCommand("JustifyLeft", false, null);
+                          sel.removeAllRanges();
+                        }
+                      }}
+                      style={{
+                        borderRadius: "4px",
+                        padding: "2px 3px 0px",
+                        marginRight: "6px",
+                        display: "inline-block",
+                        cursor: "pointer",
+                        color: "black"
+                      }}
                     >
-                      <path
-                        fill="currentColor"
-                        fillRule="evenodd"
-                        d="M20.25 5.25a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5zm0 4a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5z"
-                      ></path>
-                    </svg>
-                  </a>
-                  </Tooltip>
-                )}
-                {((this.state.idObjectSelected &&
-                  this.state.selectedImage.type === TemplateType.Heading) ||
-                  this.state.childId) && (
-                    <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("alignCenter")}
-                        delay={10}
-                        style={{}}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
                       >
-                  <a
-                    href="#"
-                    className="toolbar-btn"
-                    onClick={e => {
-                      e.preventDefault();
-                      var a = document.getSelection();
-                      if (a && a.type === "Range") {
-                        document.execCommand("JustifyCenter", false, null);
-                      } else {
-                        var childId = this.state.childId
-                          ? this.state.childId
-                          : this.state.idObjectSelected;
-                        var el = this.state.childId
-                          ? document.getElementById(childId)
-                          : document
-                              .getElementById(childId)
-                              .getElementsByClassName("text")[0];
-                        var sel = window.getSelection();
-                        var range = document.createRange();
-                        range.selectNodeContents(el);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                        document.execCommand("JustifyCenter", false, null);
-                        sel.removeAllRanges();
-                      }
-                    }}
-                    style={{
-                      borderRadius: "4px",
-                      padding: "2px 3px 0px",
-                      marginRight: "6px",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      color: "black"
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="currentColor"
-                        fillRule="evenodd"
-                        d="M3.75 5.25h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5zm-4 4h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z"
-                      ></path>
-                    </svg>
-                  </a>
-                  </Tooltip>
-                )}
-                {((this.state.idObjectSelected &&
-                  this.state.selectedImage.type === TemplateType.Heading) ||
-                  this.state.childId) && (
-                    <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("alignRight")}
-                        delay={10}
-                        style={{}}
-                      >
-                  <a
-                    href="#"
-                    className="toolbar-btn"
-                    onClick={e => {
-                      e.preventDefault();
-                      var a = document.getSelection();
-                      if (a && a.type === "Range") {
-                        document.execCommand("JustifyRight", false, null);
-                      } else {
-                        var childId = this.state.childId
-                          ? this.state.childId
-                          : this.state.idObjectSelected;
-                        var el = this.state.childId
-                          ? document.getElementById(childId)
-                          : document
-                              .getElementById(childId)
-                              .getElementsByClassName("text")[0];
-                        var sel = window.getSelection();
-                        var range = document.createRange();
-                        range.selectNodeContents(el);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                        document.execCommand("JustifyRight", false, null);
-                        sel.removeAllRanges();
-                      }
-                    }}
-                    style={{
-                      borderRadius: "4px",
-                      padding: "2px 3px 0px",
-                      marginRight: "6px",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      color: "black"
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      xmlnsXlink="http://www.w3.org/1999/xlink"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                    >
-                      <defs>
                         <path
-                          id="_3487901159__a"
-                          d="M3.75 5.25h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5zm0 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5zm0 4h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5zm0 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z"
+                          fill="currentColor"
+                          fillRule="evenodd"
+                          d="M20.25 5.25a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5zm0 4a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5h16.5zm0 4a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5h8.5z"
                         ></path>
-                      </defs>
-                      <use
-                        fill="currentColor"
-                        xlinkHref="#_3487901159__a"
-                        fillRule="evenodd"
-                      ></use>
-                    </svg>
-                  </a>
+                      </svg>
+                    </a>
+                  </Tooltip>
+                )}
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
+                  <Tooltip
+                    offsetLeft={0}
+                    offsetTop={-5}
+                    content={this.translate("alignCenter")}
+                    delay={10}
+                    style={{}}
+                    position="top"
+                  >
+                    <a
+                      href="#"
+                      className="toolbar-btn"
+                      onClick={e => {
+                        e.preventDefault();
+                        var a = document.getSelection();
+                        if (a && a.type === "Range") {
+                          document.execCommand("JustifyCenter", false, null);
+                        } else {
+                          var childId = this.state.childId
+                            ? this.state.childId
+                            : this.state.idObjectSelected;
+                          var el = this.state.childId
+                            ? document.getElementById(childId)
+                            : document
+                                .getElementById(childId)
+                                .getElementsByClassName("text")[0];
+                          var sel = window.getSelection();
+                          var range = document.createRange();
+                          range.selectNodeContents(el);
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                          document.execCommand("JustifyCenter", false, null);
+                          sel.removeAllRanges();
+                        }
+                      }}
+                      style={{
+                        borderRadius: "4px",
+                        padding: "2px 3px 0px",
+                        marginRight: "6px",
+                        display: "inline-block",
+                        cursor: "pointer",
+                        color: "black"
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          fillRule="evenodd"
+                          d="M3.75 5.25h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5zm-4 4h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5zm4 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z"
+                        ></path>
+                      </svg>
+                    </a>
+                  </Tooltip>
+                )}
+                {((this.state.idObjectSelected &&
+                  this.state.selectedImage.type === TemplateType.Heading) ||
+                  this.state.childId) && (
+                  <Tooltip
+                    offsetLeft={0}
+                    offsetTop={-5}
+                    content={this.translate("alignRight")}
+                    delay={10}
+                    style={{}}
+                    position="top"
+                  >
+                    <a
+                      href="#"
+                      className="toolbar-btn"
+                      onClick={e => {
+                        e.preventDefault();
+                        var a = document.getSelection();
+                        if (a && a.type === "Range") {
+                          document.execCommand("JustifyRight", false, null);
+                        } else {
+                          var childId = this.state.childId
+                            ? this.state.childId
+                            : this.state.idObjectSelected;
+                          var el = this.state.childId
+                            ? document.getElementById(childId)
+                            : document
+                                .getElementById(childId)
+                                .getElementsByClassName("text")[0];
+                          var sel = window.getSelection();
+                          var range = document.createRange();
+                          range.selectNodeContents(el);
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                          document.execCommand("JustifyRight", false, null);
+                          sel.removeAllRanges();
+                        }
+                      }}
+                      style={{
+                        borderRadius: "4px",
+                        padding: "2px 3px 0px",
+                        marginRight: "6px",
+                        display: "inline-block",
+                        cursor: "pointer",
+                        color: "black"
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                      >
+                        <defs>
+                          <path
+                            id="_3487901159__a"
+                            d="M3.75 5.25h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 0 1 0-1.5zm0 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5zm0 4h16.5a.75.75 0 1 1 0 1.5H3.75a.75.75 0 1 1 0-1.5zm0 4h8.5a.75.75 0 1 1 0 1.5h-8.5a.75.75 0 1 1 0-1.5z"
+                          ></path>
+                        </defs>
+                        <use
+                          fill="currentColor"
+                          xlinkHref="#_3487901159__a"
+                          fillRule="evenodd"
+                        ></use>
+                      </svg>
+                    </a>
                   </Tooltip>
                 )}
                 {this.state.cropMode && (
@@ -4745,67 +4861,69 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     }}
                   >
                     <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("position")}
-                        delay={10}
-                        style={{}}
-                      >
-                    <button
-                      className="toolbar-btn dropbtn-font"
-                      onClick={this.onClickpositionList.bind(this)}
-                      style={{
-                        display: "flex",
-                        fontSize: "16px"
-                      }}
+                      offsetLeft={0}
+                      offsetTop={-5}
+                      content={this.translate("position")}
+                      delay={10}
+                      style={{}}
+                      position="top"
                     >
-                      {this.translate("position")}
-                    </button>
+                      <button
+                        className="toolbar-btn dropbtn-font"
+                        onClick={this.onClickpositionList.bind(this)}
+                        style={{
+                          display: "flex",
+                          fontSize: "16px"
+                        }}
+                      >
+                        {this.translate("position")}
+                      </button>
                     </Tooltip>
                     <Tooltip
-                        offsetLeft={0}
-                        offsetTop={-5}
-                        content={this.translate("transparent")}
-                        delay={10}
-                        style={{}}
-                      >
-                    <button
-                      style={{
-                        boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-                        height: "26px",
-                        width: "30px",
-                        padding: 0
-                      }}
-                                        className="dropbtn-font dropbtn-font-size toolbar-btn"
-                      onClick={this.onClickTransparent.bind(this)}
+                      offsetLeft={0}
+                      offsetTop={-5}
+                      content={this.translate("transparent")}
+                      delay={10}
+                      style={{}}
+                      position="top"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
+                      <button
+                        style={{
+                          boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                          height: "26px",
+                          width: "30px",
+                          padding: 0
+                        }}
+                        className="dropbtn-font dropbtn-font-size toolbar-btn"
+                        onClick={this.onClickTransparent.bind(this)}
                       >
-                        <g fill="currentColor" fillRule="evenodd">
-                          <path d="M3 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"></path>
-                          <path
-                            d="M11 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"
-                            opacity=".45"
-                          ></path>
-                          <path
-                            d="M19 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"
-                            opacity=".15"
-                          ></path>
-                          <path
-                            d="M7 6h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"
-                            opacity=".7"
-                          ></path>
-                          <path
-                            d="M15 6h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"
-                            opacity=".3"
-                          ></path>
-                        </g>
-                      </svg>
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <g fill="currentColor" fillRule="evenodd">
+                            <path d="M3 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"></path>
+                            <path
+                              d="M11 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"
+                              opacity=".45"
+                            ></path>
+                            <path
+                              d="M19 2h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"
+                              opacity=".15"
+                            ></path>
+                            <path
+                              d="M7 6h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"
+                              opacity=".7"
+                            ></path>
+                            <path
+                              d="M15 6h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 8h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"
+                              opacity=".3"
+                            ></path>
+                          </g>
+                        </svg>
+                      </button>
                     </Tooltip>
                     <div
                       id="myPositionList"
@@ -4995,10 +5113,9 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                   display: "flex",
                   position: "absolute",
                   width: "100%",
-                  height: "calc(100% - 46px)",
-                }}>
-
-              </div>
+                  height: "calc(100% - 46px)"
+                }}
+              ></div>
               <div
                 id="screen-container-parent"
                 style={{
@@ -5315,44 +5432,44 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                           className="zoom___21DG8"
                         >
                           <Tooltip
-                offsetLeft={0}
-                offsetTop={-5}
-                content={this.translate("zoomIn")}
-                delay={10}
-                style={{}}
-                position="top"
-              >
-                          <button
-                            onClick={e => {
-                              this.setState({
-                                scale: Math.max(0.1, this.state.scale - 0.15)
-                              });
-                            }}
-                            style={{
-                              border: "none",
-                              background: "transparent",
-                              height: '100%',
-                            }}
-                            className="zoomMinus___1Ooi5"
-                            data-test="zoomMinus"
-                            data-categ="tools"
-                            data-value="zoomOut"
-                            data-subcateg="bottomPanel"
+                            offsetLeft={0}
+                            offsetTop={-5}
+                            content={this.translate("zoomIn")}
+                            delay={10}
+                            style={{}}
+                            position="top"
                           >
-                            <svg
-                              style={{
-                                width: "25px",
-                                height: "25px"
+                            <button
+                              onClick={e => {
+                                this.setState({
+                                  scale: Math.max(0.1, this.state.scale - 0.15)
+                                });
                               }}
-                              viewBox="0 0 18 18"
-                              width="18"
-                              height="18"
-                              className="zoomSvg___1IAZj"
+                              style={{
+                                border: "none",
+                                background: "transparent",
+                                height: "100%"
+                              }}
+                              className="zoomMinus___1Ooi5"
+                              data-test="zoomMinus"
+                              data-categ="tools"
+                              data-value="zoomOut"
+                              data-subcateg="bottomPanel"
                             >
-                              <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
-                              <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
-                            </svg>
-                          </button>
+                              <svg
+                                style={{
+                                  width: "25px",
+                                  height: "25px"
+                                }}
+                                viewBox="0 0 18 18"
+                                width="18"
+                                height="18"
+                                className="zoomSvg___1IAZj"
+                              >
+                                <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
+                                <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
+                              </svg>
+                            </button>
                           </Tooltip>
                           <div className="zoomPercent___3286Z">
                             <button
@@ -5386,42 +5503,44 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             </button>
                           </div>
                           <Tooltip
-                offsetLeft={0}
-                offsetTop={-5}
-                content={this.translate("zoomOut")}
-                delay={10}
-                style={{}}
-                position="top"
-              >
-                          <button
-                            onClick={e => {
-                              this.setState({ scale: this.state.scale + 0.15 });
-                            }}
-                            style={{
-                              border: "none",
-                              background: "transparent",
-                              height: "40px"
-                            }}
-                            className="zoomPlus___1TbHD"
-                            data-test="zoomPlus"
-                            data-categ="tools"
-                            data-value="zoomIn"
-                            data-subcateg="bottomPanel"
+                            offsetLeft={0}
+                            offsetTop={-5}
+                            content={this.translate("zoomOut")}
+                            delay={10}
+                            style={{}}
+                            position="top"
                           >
-                            <svg
-                              style={{
-                                width: "25px",
-                                height: "25px"
+                            <button
+                              onClick={e => {
+                                this.setState({
+                                  scale: this.state.scale + 0.15
+                                });
                               }}
-                              viewBox="0 0 18 18"
-                              width="18"
-                              height="18"
-                              className="zoomSvg___1IAZj"
+                              style={{
+                                border: "none",
+                                background: "transparent",
+                                height: "40px"
+                              }}
+                              className="zoomPlus___1TbHD"
+                              data-test="zoomPlus"
+                              data-categ="tools"
+                              data-value="zoomIn"
+                              data-subcateg="bottomPanel"
                             >
-                              <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM13,13h0a7,7,0,1,1,2.09-5A7,7,0,0,1,13,13Z"></path>
-                              <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
-                            </svg>
-                          </button>
+                              <svg
+                                style={{
+                                  width: "25px",
+                                  height: "25px"
+                                }}
+                                viewBox="0 0 18 18"
+                                width="18"
+                                height="18"
+                                className="zoomSvg___1IAZj"
+                              >
+                                <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM13,13h0a7,7,0,1,1,2.09-5A7,7,0,0,1,13,13Z"></path>
+                                <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
+                              </svg>
+                            </button>
                           </Tooltip>
                         </div>
                       </div>
