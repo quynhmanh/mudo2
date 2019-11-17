@@ -2392,7 +2392,6 @@ class CanvaEditor extends Component<IProps, IState> {
           document.getElementById("editor").classList.remove("popup");
         })
         .catch(error => {
-          console.log(JSON.stringify(error.response));
           Ui.showErrors(error.response.statusText);
           document.getElementById("downloadPopup").style.display = "none";
           document.getElementById("editor").classList.remove("popup");
@@ -2449,7 +2448,6 @@ class CanvaEditor extends Component<IProps, IState> {
             document.getElementById("editor").classList.remove("popup");
           })
           .catch(error => {
-            console.log(JSON.stringify(error.response));
             Ui.showErrors(error.response.statusText);
             document.getElementById("downloadPopup").style.display = "none";
             document.getElementById("editor").classList.remove("popup");
@@ -2533,7 +2531,6 @@ class CanvaEditor extends Component<IProps, IState> {
           document.getElementById("editor").classList.remove("popup");
         })
         .catch(error => {
-          console.log(JSON.stringify(error.response));
           Ui.showErrors(error.response.statusText);
           document.getElementById("downloadPopup").style.display = "none";
           document.getElementById("editor").classList.remove("popup");

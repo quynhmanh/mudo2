@@ -100,7 +100,6 @@ export default class Tip extends PureComponent<IProps, IState> {
 
         var screenWidth = document.body.getBoundingClientRect().width;
 
-        console.log("leftTip ", leftTip + wOf$text, screenWidth);
         if (leftTip + rec2.width > screenWidth) {
             leftTip = screenWidth - rec2.width;
         }

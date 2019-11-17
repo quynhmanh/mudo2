@@ -139,7 +139,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 }
 
                 onError={(e) => {
-                  console.log('onerror');
                 }}
 
               src={this.props.src}
