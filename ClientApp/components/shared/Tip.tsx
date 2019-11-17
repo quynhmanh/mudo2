@@ -132,7 +132,7 @@ export default class Tip extends PureComponent<IProps, IState> {
         };
 
         return (isOpen && (<div className="TipBase" 
-        // ref={this.ref}
+        ref={this.ref}
         >
             <div style={{
                     padding: "3px 5px"

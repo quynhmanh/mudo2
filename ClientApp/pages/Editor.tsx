@@ -15,6 +15,7 @@ import LeftSide from "@Components/editor/LeftSide";
 import FontSize from "@Components/editor/FontSize";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
+import Tooltip from "@Components/shared/Tooltip";
 import {
   centerToTL,
   tLToCenter,
@@ -3903,6 +3904,13 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                   (this.state.selectedImage.type === TemplateType.Heading ||
                     this.state.selectedImage.type === TemplateType.Latex ||
                     this.state.childId) && (
+                      <Tooltip
+                        offsetLeft={5}
+                        offsetTop={5}
+                        content={"Hello"}
+                        delay={10}
+                        style={{}}
+                      >
                     <a
                       href="#"
                       style={{
@@ -3947,6 +3955,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                         }}
                       ></div>
                     </a>
+                    </Tooltip>
                   )}
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
