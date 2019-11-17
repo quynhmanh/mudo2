@@ -5295,6 +5295,14 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                           }}
                           className="zoom___21DG8"
                         >
+                          <Tooltip
+                offsetLeft={0}
+                offsetTop={-5}
+                content={this.translate("zoomIn")}
+                delay={10}
+                style={{}}
+                position="top"
+              >
                           <button
                             onClick={e => {
                               this.setState({
@@ -5303,7 +5311,8 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                             }}
                             style={{
                               border: "none",
-                              background: "transparent"
+                              background: "transparent",
+                              height: '100%',
                             }}
                             className="zoomMinus___1Ooi5"
                             data-test="zoomMinus"
@@ -5325,6 +5334,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                               <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
                             </svg>
                           </button>
+                          </Tooltip>
                           <div className="zoomPercent___3286Z">
                             <button
                               onClick={e => {
@@ -5356,6 +5366,14 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                               {Math.round(this.state.scale * 100)}%
                             </button>
                           </div>
+                          <Tooltip
+                offsetLeft={0}
+                offsetTop={-5}
+                content={this.translate("zoomOut")}
+                delay={10}
+                style={{}}
+                position="top"
+              >
                           <button
                             onClick={e => {
                               this.setState({ scale: this.state.scale + 0.15 });
@@ -5385,6 +5403,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                               <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
                             </svg>
                           </button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
