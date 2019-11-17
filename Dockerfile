@@ -1,5 +1,6 @@
 FROM gcr.io/google-appengine/aspnetcore:2.2
 FROM node:8.2
+FROM jrottenberg/ffmpeg:3.3
 ADD ./bin/Release/netcoreapp2.2/publish/ /app
 ENV ASPNETCORE_URLS=http://*:${PORT}
 WORKDIR /app
@@ -20,8 +21,8 @@ RUN chmod a+x setup.sh
 ADD setup.sh /
 
 
-RUN apt update
-RUN apt install -y ffmpeg
+# RUN apt update
+# RUN apt install -y ffmpeg
 
 RUN apt-get update &&\
 apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
