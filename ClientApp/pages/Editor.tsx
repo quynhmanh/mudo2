@@ -1138,8 +1138,6 @@ class CanvaEditor extends Component<IProps, IState> {
         image.fontSize * image.scaleY * 10
       ) / 10}`;
 
-      console.log("newFontSize ", image.scaleY * image.fontSize);
-
       if (objectType == TemplateType.Heading) {
         var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
         for (var i = 0; i < rectalos.length; ++i) {
@@ -4025,7 +4023,8 @@ class CanvaEditor extends Component<IProps, IState> {
                   left: "1px",
                   height: "46px",
                   padding: "10px",
-                  marginBottom: "10px"
+                  marginBottom: "10px",
+                  zIndex: 2,
                 }}
               >
                 {this.state.idObjectSelected &&
