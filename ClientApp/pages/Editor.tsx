@@ -972,6 +972,7 @@ class CanvaEditor extends Component<IProps, IState> {
           this.pauser.next(false);
           this.forceUpdate();
           ell.style.zIndex = "0";
+          ell.style.cursor = "default";
         }
       );
   };
@@ -1136,9 +1137,9 @@ class CanvaEditor extends Component<IProps, IState> {
       image.scaleY = image.height / image.origin_height;
       // image.fontSize = image.scaleY * image.fontSize;
 
-      document.getElementById("fontSizeButton").innerText = `${Math.round(
-        image.fontSize * image.scaleY * 10
-      ) / 10}`;
+      if (objectType === TemplateType.Heading) {
+        document.getElementById("fontSizeButton").innerText = `${Math.round(image.fontSize * image.scaleY * 10) / 10}`;
+      }
 
       if (objectType == TemplateType.Heading) {
         var rectalos = document.getElementsByClassName(_id + "scaleX-scaleY");
@@ -1737,6 +1738,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
     const location$ = this.handleDragRx(e.target);
 
+    let ell = document.getElementById("screen-container-parent2");
+    ell.style.zIndex = "2";
+    // ell.style.cursor = "move";
+
     this.temp = location$
       .pipe(
         map(([x, y]) => ({
@@ -1745,6 +1750,7 @@ class CanvaEditor extends Component<IProps, IState> {
       )
       .subscribe(
         ({ moveElLocation }) => {
+          ell.style.cursor = "move";
           if (this.state.cropMode) {
             this.handleImageDrag(
               this.state.idObjectSelected,
@@ -1765,6 +1771,8 @@ class CanvaEditor extends Component<IProps, IState> {
           this.displayResizers(true);
           this.handleDragEnd();
           this.pauser.next(false);
+          ell.style.zIndex = "0";
+          ell.style.cursor = "default";
         }
       );
   };

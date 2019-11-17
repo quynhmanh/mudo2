@@ -318,7 +318,6 @@ export default class Rect extends PureComponent<IProps, IState> {
     let style = {
       width: "100%",
       height: "100%",
-      cursor: selected ? "move" : null,
       outline: hovered && "#00d9e1 solid 2px"
     };
 
