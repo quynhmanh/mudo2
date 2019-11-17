@@ -37,5 +37,6 @@ RUN dpkg -i google-chrome-stable_current_amd64.deb
 ENV DISPLAY :99
 
 FROM gcr.io/google-appengine/aspnetcore:2.2
+RUN dotnet RCB.TypeScript.dll
 
 ENTRYPOINT ["/bin/bash", "/app/setup.sh"]
