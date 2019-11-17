@@ -42,6 +42,7 @@ export interface IProps {
   freeStyle: boolean;
   hovered: boolean;
   image: any;
+  fontFace: string;
 }
 
 export interface IState {
@@ -93,6 +94,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       resizing,
       rotating,
       image,
+      fontFace,
     } = this.props;
 
     return (

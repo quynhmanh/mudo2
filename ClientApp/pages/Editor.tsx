@@ -778,37 +778,41 @@ class CanvaEditor extends Component<IProps, IState> {
     var fontsList = toJS(editorStore.fontsList);
     var font = fontsList.find(font => font.id === id);
 
-    var a = document.getSelection();
-    if (a && a.type === "Range") {
-      document.execCommand("FontName", false, id);
-    } else {
-      var childId = this.state.childId
-        ? this.state.childId
-        : this.state.idObjectSelected;
-      var el = this.state.childId
-        ? document.getElementById(childId)
-        : document.getElementById(childId).getElementsByClassName("text")[0];
-      var sel = window.getSelection();
-      var range = document.createRange();
-      range.selectNodeContents(el);
-      sel.removeAllRanges();
-      sel.addRange(range);
-      document.execCommand("FontName", false, id);
-      sel.removeAllRanges();
-    }
+    // var a = document.getSelection();
+    // if (a && a.type === "Range") {
+    //   document.execCommand("FontName", false, id);
+    // } else {
+    //   var childId = this.state.childId
+    //     ? this.state.childId
+    //     : this.state.idObjectSelected;
+    //   var el = this.state.childId
+    //     ? document.getElementById(childId)
+    //     : document.getElementById(childId).getElementsByClassName("text")[0];
+    //   var sel = window.getSelection();
+    //   var range = document.createRange();
+    //   range.selectNodeContents(el);
+    //   sel.removeAllRanges();
+    //   sel.addRange(range);
+    //   document.execCommand("FontName", false, id);
+    //   sel.removeAllRanges();
+    // }
 
-    function insertAfter(newNode, referenceNode) {
-      referenceNode.parentNode.className = "";
-      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
+    // function insertAfter(newNode, referenceNode) {
+    //   referenceNode.parentNode.className = "";
+    //   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    // }
 
-    var fonts = document.getElementsByTagName("font");
-    for (var i = 0; i < fonts.length; ++i) {
-      var font1: any = fonts[i];
-      font1.parentNode.style.fontFamily = id;
-      font1.parentNode.innerText = font1.innerText;
-      font1.remove();
-    }
+    // var fonts = document.getElementsByTagName("font");
+    // for (var i = 0; i < fonts.length; ++i) {
+    //   var font1: any = fonts[i];
+    //   font1.parentNode.style.fontFamily = id;
+    //   font1.parentNode.innerText = font1.innerText;
+    //   font1.remove();
+    // }
+
+    console.log('selected font iddd ', id);
+
+    document.getElementById(this.state.idObjectSelected + "hihi4").style.fontFamily = id;
 
     let images = toJS(editorStore.images);
     let tempImages = images.map(img => {

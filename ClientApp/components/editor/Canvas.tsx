@@ -461,6 +461,7 @@ export default class Canvas extends Component<IProps, IState> {
                         width={img.width * scale}
                         height={img.height * scale}
                         scale={scale}
+                        fontFace={img.fontFace}
                         rotateAngle={img.rotateAngle}
                         aspectRatio={img.width / img.height}
                         zoomable="n, w, s, e, nw, ne, se, sw"
@@ -587,6 +588,7 @@ export default class Canvas extends Component<IProps, IState> {
                         width={imgHovered.width * scale}
                         height={imgHovered.height * scale}
                         scale={scale}
+                        fontFace={imgHovered.fontFace}
                         rotateAngle={imgHovered.rotateAngle}
                         aspectRatio={imgHovered.width / imgHovered.height}
                         zoomable="n, w, s, e, nw, ne, se, sw"
@@ -674,6 +676,7 @@ export default class Canvas extends Component<IProps, IState> {
                           width={imgSelected.width * scale}
                           height={imgSelected.height * scale}
                           scale={scale}
+                          fontFace={imgSelected.fontFace}
                           aspectRatio={imgSelected.width / imgSelected.height}
                           zoomable="n, w, s, e, nw, ne, se, sw"
                           onRotateStart={this.props.handleRotateStart}

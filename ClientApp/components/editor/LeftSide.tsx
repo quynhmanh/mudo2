@@ -1975,7 +1975,7 @@ class LeftSide extends Component<IProps, IState> {
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="text-align: left;font-size: 42px; font-family: AvenirNextRoundedPro;">${this.props.translate(
+                        innerHTML: `<div class="font" style="text-align: left;font-size: 42px;">${this.props.translate(
                           "addAHeading"
                         )}</div>`,
                         scaleX: 1,

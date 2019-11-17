@@ -300,6 +300,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         left,
         width,
         height,
+        fontFace,
         rotateAngle,
         posX: posX2,
         posY: posY2,
@@ -990,7 +991,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                       wordBreak: "break-word",
                       opacity,
                       transform: `scale(${scale})`,
-                      transformOrigin: "0 0"
+                      transformOrigin: "0 0",
+                      fontFamily: fontFace
                     }}
                   ></div>
                 }
