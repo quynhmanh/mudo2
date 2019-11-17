@@ -501,6 +501,8 @@ class CanvaEditor extends Component<IProps, IState> {
       };
     });
 
+    console.log('fitscale ', fitScale);
+
     this.setState({
       staticGuides,
       scale: fitScale,
@@ -584,11 +586,11 @@ class CanvaEditor extends Component<IProps, IState> {
           editorStore.fonts.replace(image.value.fontList);
 
           subtype = res.data.value.printType;
+          let scale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
+          console.log('scale e e', scale)
           self.setState({
-            scale:
-              Math.min(scaleX, scaleY) === Infinity
-                ? 1
-                : Math.min(scaleX, scaleY),
+            scale,
+            fitScale: scale,
             staticGuides,
             _id: template_id,
             rectWidth: document.width,
@@ -656,12 +658,14 @@ class CanvaEditor extends Component<IProps, IState> {
 
       var scaleX = (width - 100) / rectWidth;
       var scaleY = (height - 100) / rectHeight;
+      let fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY)
+
       self.setState({
         rectWidth,
         rectHeight,
         subtype,
-        scale:
-          Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY)
+        scale: fitScale,
+        fitScale,
       });
     }
 
