@@ -16,6 +16,8 @@ import FontSize from "@Components/editor/FontSize";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
 import Tooltip from "@Components/shared/Tooltip";
+import { Ui } from "@Ui";
+
 import {
   centerToTL,
   tLToCenter,
@@ -2279,6 +2281,12 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
           self.download(`test.mp4`, response.data);
           document.getElementById("downloadPopup").style.display = "none";
           document.getElementById("editor").classList.remove("popup");
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error.response))
+          Ui.showErrors(error.response.statusText);
+          document.getElementById("downloadPopup").style.display = "none";
+          document.getElementById("editor").classList.remove("popup");
         });
     });
   };
@@ -2330,7 +2338,13 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
             self.download("test.pdf", response.data);
             document.getElementById("downloadPopup").style.display = "none";
             document.getElementById("editor").classList.remove("popup");
-          });
+          })
+          .catch(error => {
+            console.log(JSON.stringify(error.response))
+            Ui.showErrors(error.response.statusText);
+            document.getElementById("downloadPopup").style.display = "none";
+            document.getElementById("editor").classList.remove("popup");
+          });;
       }
     );
   }
@@ -2408,7 +2422,13 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
 
           document.getElementById("downloadPopup").style.display = "none";
           document.getElementById("editor").classList.remove("popup");
-        });
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error.response))
+          Ui.showErrors(error.response.statusText);
+          document.getElementById("downloadPopup").style.display = "none";
+          document.getElementById("editor").classList.remove("popup");
+        });;
     });
   }
 
@@ -3897,7 +3917,6 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                 style={{
                   width: "100%",
                   backgroundColor: "#dae0e7",
-                  zIndex: 123123123,
                   boxShadow: "0 1px 0 rgba(14,19,24,.15)",
                   display: "inline-flex",
                   position: "absolute",
