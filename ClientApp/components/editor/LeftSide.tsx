@@ -2701,7 +2701,7 @@ class LeftSide extends Component<IProps, IState> {
               style={{
                 opacity: this.props.selectedTab === SidebarTab.Font ? 1 : 0,
                 position: "absolute",
-                width: "347px",
+                width: "364px",
                 color: "white",
                 overflow: "scroll",
                 transition:
@@ -2713,7 +2713,8 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 top: "10px",
                 zIndex: this.props.selectedTab !== SidebarTab.Font && -1,
-                height: "100%"
+                height: "100%",
+                left: "0px",
               }}
             >
               <div>
