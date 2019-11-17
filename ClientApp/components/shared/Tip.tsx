@@ -38,7 +38,7 @@ export default class Tip extends PureComponent<IProps, IState> {
         return null;
     }
 
-    ref = React.createRef();
+    ref;
 
     componentDidUpdate({isOpen: wasOpen} = {
         isOpen: true
@@ -56,7 +56,7 @@ export default class Tip extends PureComponent<IProps, IState> {
     }
 
     get $tipBase(): any {
-        return this.ref.current;
+        return this.ref;
     }
 
     get $tip(): any {
@@ -144,7 +144,7 @@ export default class Tip extends PureComponent<IProps, IState> {
         };
 
         return (isOpen && (<div className="TipBase" 
-        ref={this.ref}
+        ref={i => this.ref = i}
         >
             <div style={{
                     padding: "3px 5px"
