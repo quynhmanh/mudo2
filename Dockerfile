@@ -1,4 +1,3 @@
-FROM gcr.io/google-appengine/aspnetcore:2.2
 FROM node:8.2
 FROM jrottenberg/ffmpeg:3.3
 ADD ./bin/Release/netcoreapp2.2/publish/ /app
@@ -36,5 +35,7 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 RUN dpkg -i google-chrome-stable_current_amd64.deb
 
 ENV DISPLAY :99
+
+FROM gcr.io/google-appengine/aspnetcore:2.2
 
 ENTRYPOINT ["/bin/bash", "/app/setup.sh"]
