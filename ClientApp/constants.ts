@@ -7,7 +7,7 @@
 export const POPULAR_LIST = [
   {
     dataValue: "fullHDVideoAN",
-    href: "/editor/58af44c9-8a1c-4027-844d-ad7570648002",
+    href: "/editor/design/58af44c9-8a1c-4027-844d-ad7570648002",
     pickerType: "VIDEO",
     pickerSrc: "https://draft.vn/videos/58af44c9-8a1c-4027-844d-ad7570648002.mp4",
     pickerWidth: 284,
@@ -16,7 +16,7 @@ export const POPULAR_LIST = [
   },
   {
     dataValue: "facebookSM",
-    href: "/editor/371417de-fb93-45fe-8058-984981411953",
+    href: "/editor/design/371417de-fb93-45fe-8058-984981411953",
     pickerType: "IMAGE",
     pickerSrc: "https://draft.vn/images/371417de-fb93-45fe-8058-984981411953.jpeg",
     pickerWidth: 191,
