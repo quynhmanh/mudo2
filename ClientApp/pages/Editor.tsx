@@ -3764,6 +3764,14 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                   </button>
                 )}
               {this.props.tReady && (
+                <Tooltip
+                offsetLeft={0}
+                offsetTop={5}
+                content={"Download"}
+                delay={10}
+                style={{}}
+                position="bottom"
+              >
                 <button
                   id="download-btn"
                   onClick={this.handleDownloadList}
@@ -3786,6 +3794,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                   {/* {" "} */}
                   <DownloadIcon fill="white" width="18px" height="18px" />
                 </button>
+                </Tooltip>
               )}
               {this.props.tReady && (
                 <DownloadList
@@ -3905,9 +3914,9 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     this.state.selectedImage.type === TemplateType.Latex ||
                     this.state.childId) && (
                       <Tooltip
-                        offsetLeft={5}
-                        offsetTop={5}
-                        content={"Hello"}
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={this.translate("color")}
                         delay={10}
                         style={{}}
                       >
@@ -3921,7 +3930,8 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                         marginRight: "6px",
                         display: "inline-block",
                         cursor: "pointer",
-                        color: "black"
+                        color: "black",
+                        height: '100%',
                       }}
                       onClick={e => {
                         e.preventDefault();
@@ -3962,6 +3972,13 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
+                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={this.translate("italic")}
+                        delay={10}
+                        style={{}}
+                      >
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4010,10 +4027,18 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       </g>
                     </svg>
                   </a>
+                  </Tooltip>
                 )}
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
+                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={this.translate("bold")}
+                        delay={10}
+                        style={{}}
+                      >
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4062,10 +4087,18 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       </g>
                     </svg>
                   </a>
+                  </Tooltip>
                 )}
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
+                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={this.translate("fontFamily")}
+                        delay={10}
+                        style={{}}
+                      >
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4102,6 +4135,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       ></path>
                     </svg>
                   </a>
+                  </Tooltip>
                 )}
                 {this.state.idObjectSelected &&
                   (this.state.selectedImage.type === TemplateType.Image ||
@@ -4151,6 +4185,13 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       ></button>
                     </div>
                   )}
+                                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={this.translate("fontSize")}
+                        delay={10}
+                        style={{}}
+                      >
                 <div
                   style={{
                     position: "relative",
@@ -4360,10 +4401,18 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     </div> */}
                   </div>
                 </div>
+                </Tooltip>
                 {/* } */}
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
+                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={this.translate("alignLeft")}
+                        delay={10}
+                        style={{}}
+                      >
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4412,10 +4461,18 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       ></path>
                     </svg>
                   </a>
+                  </Tooltip>
                 )}
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
+                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={this.translate("alignCenter")}
+                        delay={10}
+                        style={{}}
+                      >
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4464,10 +4521,18 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       ></path>
                     </svg>
                   </a>
+                  </Tooltip>
                 )}
                 {((this.state.idObjectSelected &&
                   this.state.selectedImage.type === TemplateType.Heading) ||
                   this.state.childId) && (
+                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={this.translate("alignRight")}
+                        delay={10}
+                        style={{}}
+                      >
                   <a
                     href="#"
                     className="toolbar-btn"
@@ -4523,6 +4588,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       ></use>
                     </svg>
                   </a>
+                  </Tooltip>
                 )}
                 {this.state.cropMode && (
                   <button
@@ -4584,6 +4650,13 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                       display: "flex"
                     }}
                   >
+                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={"Position"}
+                        delay={10}
+                        style={{}}
+                      >
                     <button
                       className="toolbar-btn dropbtn-font"
                       onClick={this.onClickpositionList.bind(this)}
@@ -4594,6 +4667,14 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                     >
                       {this.translate("position")}
                     </button>
+                    </Tooltip>
+                    <Tooltip
+                        offsetLeft={0}
+                        offsetTop={-5}
+                        content={"Transparent"}
+                        delay={10}
+                        style={{}}
+                      >
                     <button
                       style={{
                         boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
@@ -4631,6 +4712,7 @@ drag = (element: HTMLElement, pan$: Observable<Event>) : Observable<any> => {
                         </g>
                       </svg>
                     </button>
+                    </Tooltip>
                     <div
                       id="myPositionList"
                       style={{

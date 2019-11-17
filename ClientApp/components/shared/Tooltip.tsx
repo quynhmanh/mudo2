@@ -24,6 +24,7 @@ export interface IProps {
     content: any;
     delay: number;
     style: any;
+    position: string;
 }
 
 export interface IState {
@@ -64,7 +65,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     };
 
     render() {
-        const {children, offsetTop, offsetLeft, content} = this.props;
+        const {children, offsetTop, offsetLeft, content, position, } = this.props;
 
         const {isOpen, isClicked} = this.state;
 
@@ -99,7 +100,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         <Fragment>
             {children}
 
-            <Tip offsetLeft={offsetLeft} offsetTop={offsetTop} content={children} $text={this.ref.current} isOpen={isOpen} position="top" inflexible={true}>
+            <Tip offsetLeft={offsetLeft} offsetTop={offsetTop} content={children} $text={this.ref.current} isOpen={isOpen} position={position ? position : "top"} inflexible={true}>
                 {parseContent(content, eventName)}
             </Tip>
         </Fragment>);

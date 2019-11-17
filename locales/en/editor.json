@@ -26,5 +26,13 @@
     "clickTextToAddToPage": "Click text to add to page",
     "uploadAnImage": "Upload an image",
     "uploadAVideo": "Upload a video",
-    "addAPage": "Add a page"
+    "addAPage": "Add a page",
+    "color": "Color",
+    "italic": "Italic",
+    "bold": "Bold",
+    "fontFamily": "Font Family",
+    "fontSize": "Font Size",
+    "alignLeft": "Align Left",
+    "alignCenter": "Align Center",
+    "alignRight": "Align Right"
 }

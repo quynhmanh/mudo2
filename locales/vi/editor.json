@@ -27,4 +27,12 @@
     "uploadAnImage": "Tải lên một hình ảnh",
     "uploadAVideo": "Tải lên một video",
     "addAPage": "Thêm 1 trang",
+    "color": "Màu sắc",
+    "italic": "In nghiêng",
+    "bold": "In đậm",
+    "fontFamily": "Font chữ",
+    "fontSize": "Kích thước phông chữ",
+    "alignLeft": "Căn trái",
+    "alignCenter": "Căn giữa",
+    "alignRight": "Căn phải"
 }

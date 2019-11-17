@@ -92,9 +92,22 @@ export default class Tip extends PureComponent<IProps, IState> {
         };
         const setStyleForTip = src => Object.assign(tipStyle, src);
 
+        let topTip = position == "top" ? `${midYOf$text - hOf$text / 2 - rec2.height + offsetTop}px` : `${midYOf$text - rec2.height/2}px`;
+        if (position == "bottom") {
+            topTip = `${midYOf$text + hOf$text / 2 + offsetTop}px`;
+        }
+        let leftTip = midXOf$text - rec2.width/2;
+
+        var screenWidth = document.body.getBoundingClientRect().width;
+
+        console.log("leftTip ", leftTip + wOf$text, screenWidth);
+        if (leftTip + rec2.width > screenWidth) {
+            leftTip = screenWidth - rec2.width;
+        }
+
         setStyleForTip({
-            top: `${top + offsetTop}px`,
-            left: `${left + offsetLeft}px`,
+            top: topTip,
+            left: `${leftTip}px`,
             textAlign: "center"
         });
 
