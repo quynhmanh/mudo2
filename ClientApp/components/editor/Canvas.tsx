@@ -431,6 +431,7 @@ export default class Canvas extends Component<IProps, IState> {
                   >
                     <div
                       id={img._id + "____"}
+                      className="hover-outline"
                       style={{
                         width: "100%",
                         height: "100%",

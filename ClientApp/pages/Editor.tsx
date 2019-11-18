@@ -2283,6 +2283,10 @@ class CanvaEditor extends Component<IProps, IState> {
   handleImageHover = (img, event) => {
     editorStore.idObjectHovered = img._id;
     editorStore.imageHovered = img;
+    let el = document.getElementById(img._id + "___");
+    if (el) {
+      el.style.outline = 'rgb(0, 217, 225) solid 2px';
+    }
   };
 
   handleImageSelected = img => {
@@ -2408,6 +2412,7 @@ class CanvaEditor extends Component<IProps, IState> {
           self.download(`test.mp4`, response.data);
           document.getElementById("downloadPopup").style.display = "none";
           document.getElementById("editor").classList.remove("popup");
+          Ui.showInfo("Success");
         })
         .catch(error => {
           Ui.showErrors(error.response.statusText);
@@ -2464,6 +2469,7 @@ class CanvaEditor extends Component<IProps, IState> {
             self.download("test.pdf", response.data);
             document.getElementById("downloadPopup").style.display = "none";
             document.getElementById("editor").classList.remove("popup");
+            Ui.showInfo("Success");
           })
           .catch(error => {
             Ui.showErrors(error.response.statusText);
@@ -2547,6 +2553,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
           document.getElementById("downloadPopup").style.display = "none";
           document.getElementById("editor").classList.remove("popup");
+          Ui.showInfo("Success");
         })
         .catch(error => {
           Ui.showErrors(error.response.statusText);
@@ -2563,10 +2570,11 @@ class CanvaEditor extends Component<IProps, IState> {
     var self = this;
     const { rectWidth, rectHeight } = this.state;
 
-    let images = toJS(self.props.images);
-    images = images.map(image => {
+    let images = toJS(editorStore.images);
+    let tempImages = images.map(image => {
       image.width2 = image.width / rectWidth;
       image.height2 = image.height / rectHeight;
+      image.selected = false;
       return image;
     });
 
@@ -2578,14 +2586,14 @@ class CanvaEditor extends Component<IProps, IState> {
           newImages.push(...this.normalize(image, images));
         }
       }
-      images = newImages;
+      tempImages = newImages;
     }
 
     if (
       this.state.mode === Mode.CreateTextTemplate ||
       this.state.mode == Mode.EditTextTemplate
     ) {
-      images = images.map(img => {
+      tempImages = images.map(img => {
         if (img.innerHTML) {
           img.innerHTML = img.innerHTML.replace(/#ffffff/g, "black");
           img.innerHTML = img.innerHTML.replace(
@@ -2657,7 +2665,7 @@ class CanvaEditor extends Component<IProps, IState> {
             type: type,
             scaleX: 1,
             scaleY: 1,
-            document_object: images
+            document_object: tempImages
           }),
           FontList: toJS(editorStore.fonts),
           Width: self.state.rectWidth,
@@ -2685,6 +2693,10 @@ class CanvaEditor extends Component<IProps, IState> {
           })
           .then(res => {
             self.setState({ isSaving: false });
+            Ui.showInfo("Success");
+          })
+          .catch(error => {
+            Ui.showErrors(error.response.statusText)
           });
       });
     }, 300);
