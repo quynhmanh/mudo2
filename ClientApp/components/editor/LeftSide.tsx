@@ -1380,7 +1380,6 @@ class LeftSide extends Component<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
-          console.log("loadMoreRemovedBackgroundImage res", res);
           var result = res.value.key;
           var currentHeightRemoveImage1 = this.state.currentHeightRemoveImage1;
           var currentHeightRemoveImage2 = this.state.currentHeightRemoveImage2;
@@ -2839,7 +2838,7 @@ class LeftSide extends Component<IProps, IState> {
                   ))}
                   <TooltipClick
                     content={
-                      <div className="pcr-app visible" data-theme="nano" aria-label="color picker dialog" role="form" style={{top: '314.763px', left: '309.194px'}}>
+                      <div className="pcr-app visible" data-theme="nano" aria-label="color picker dialog" role="form">
         <div className="pcr-selection">
           <div className="pcr-color-preview">
             <button type="button" className="pcr-last-color" aria-label="use previous color" style={{color: 'rgb(66, 68, 90)'}} />

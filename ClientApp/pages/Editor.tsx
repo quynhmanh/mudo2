@@ -6,6 +6,7 @@ import {
   getCursorStyleForResizer
 } from "@Utils";
 import "@Styles/editor.scss";
+import "@Styles/colorPicker.scss";
 import axios from "axios";
 import Popup from "@Components/shared/Popup";
 import MediaEditPopup from "@Components/editor/MediaEditor";
@@ -501,8 +502,6 @@ class CanvaEditor extends Component<IProps, IState> {
       };
     });
 
-    console.log('fitscale ', fitScale);
-
     this.setState({
       staticGuides,
       scale: fitScale,
@@ -587,7 +586,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
           subtype = res.data.value.printType;
           let scale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
-          console.log('scale e e', scale)
           self.setState({
             scale,
             fitScale: scale,
@@ -810,8 +808,6 @@ class CanvaEditor extends Component<IProps, IState> {
     //   font1.remove();
     // }
 
-    console.log('selected font iddd ', id);
-
     document.getElementById(this.state.idObjectSelected + "hihi4").style.fontFamily = id;
 
     let images = toJS(editorStore.images);
@@ -885,7 +881,6 @@ class CanvaEditor extends Component<IProps, IState> {
   };
 
   handleResizeStart = (e: any, d: any) => {
-    console.log("handleResizeStart");
     e.stopPropagation();
 
     window.startX = e.clientX;
@@ -1168,10 +1163,6 @@ class CanvaEditor extends Component<IProps, IState> {
         var cs = Math.abs(Math.cos((image.rotateAngle / 360) * Math.PI));
         var newHeight =
           (rec.height * cs - rec.width * as) / (cs ^ (2 - as) ^ 2);
-        console.log(
-          "newFontSize ",
-          (newHeight / image.height) * image.fontSize
-        );
         image.height = newHeight / scale;
       } else if (objectType == TemplateType.TextTemplate) {
         var maxHeight = 0;
@@ -1527,7 +1518,6 @@ class CanvaEditor extends Component<IProps, IState> {
       top = 0;
       width = -left + image.width;
     } else if (top > 0 && left <= 0 && (type == "tl" || type == "tr")) {
-      console.log("correct3");
       window.resizingInnerImage = false;
       window.startX = e.clientX;
       window.startY = e.clientY - top;
@@ -1536,7 +1526,6 @@ class CanvaEditor extends Component<IProps, IState> {
       top = 0;
       switching = true;
     } else if (left > 0 && top <= 0 && (type == "tl" || type == "bl")) {
-      console.log("correct2");
       window.resizingInnerImage = false;
       window.startX = e.clientX - left;
       window.startY = e.clientY;
@@ -1545,7 +1534,6 @@ class CanvaEditor extends Component<IProps, IState> {
       left = 0;
       switching = true;
     } else if (left > 1 && top > 1 && type == "tl") {
-      console.log("correct");
       window.resizingInnerImage = false;
       window.startX =
         document.getElementById(_id + "tl").getBoundingClientRect().left + 10;
@@ -1618,7 +1606,6 @@ class CanvaEditor extends Component<IProps, IState> {
     const rect = document
       .getElementById(this.state.idObjectSelected)
       .getBoundingClientRect();
-    console.log("rect ", rect);
     const center = {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2
