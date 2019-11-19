@@ -1,4 +1,4 @@
-﻿import "@Styles/tooltip.scss";
+import "@Styles/tooltip.scss";
 import React, {PureComponent, Fragment, isValidElement} from "react";
 import {isArray, isEqual, isString, isObject} from "lodash";
 import {trimList, getOtherProps} from "@Utils";
@@ -52,7 +52,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     onMouseLeave = () => {
         clearTimeout(this.hoverTimeout);
 
-        this.setState({isOpen: false, isClicked: false});
+        // this.setState({isOpen: false, isClicked: false});
     };
 
     onClick = e => {
@@ -100,7 +100,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         <Fragment>
             {children}
 
-            <Tip backgroundColor="black" offsetLeft={offsetLeft} offsetTop={offsetTop} content={children} $text={this.ref.current} isOpen={isOpen} position={position ? position : "top"} inflexible={true}>
+            <Tip backgroundColor={null}  offsetLeft={offsetLeft} offsetTop={offsetTop} content={children} $text={this.ref.current} isOpen={isClicked} position={position ? position : "top"} inflexible={true}>
                 {parseContent(content, eventName)}
             </Tip>
         </Fragment>);

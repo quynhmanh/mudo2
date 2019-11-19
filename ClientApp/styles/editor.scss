@@ -278,7 +278,6 @@ p.single-text:focus {
   z-index: 123123123123;
   position: absolute;
   color: white;
-  background-color: black;
   border-radius: 3px;
   // opacity: 0.8;
 }
@@ -929,4 +928,8 @@ button {
 
 .hover-outline:hover {
   outline: rgb(0, 217, 225) solid 2px;
+}
+
+.pcr-app {
+  position: static;
 }

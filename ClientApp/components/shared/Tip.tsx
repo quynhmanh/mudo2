@@ -10,6 +10,7 @@ export interface IProps {
     offsetTop: number;
     content: React.ReactNode;
     inflexible: boolean;
+    backgroundColor: string;
 }
 
 export interface IState {
@@ -138,12 +139,15 @@ export default class Tip extends PureComponent<IProps, IState> {
     }
 
     get tip() {
-        const {children} = this.props;
+        const {children, backgroundColor} = this.props;
         const {isOpen} = this.state || {
             isOpen: false
         };
 
-        return (isOpen && (<div className="TipBase" 
+        return (isOpen && (<div className="TipBase"
+        style={{
+            backgroundColor: backgroundColor,
+        }} 
         ref={i => this.ref = i}
         >
             <div style={{
