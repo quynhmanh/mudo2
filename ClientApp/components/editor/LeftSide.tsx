@@ -2806,7 +2806,7 @@ class LeftSide extends Component<IProps, IState> {
                     this.props.selectedTab < SidebarTab.Color ? 40 : -40
                   }px), 0px)`,
                 zIndex: this.props.selectedTab !== SidebarTab.Color && -1,
-                height: "98%",
+                height: "100%",
                 backgroundColor: "white",
               }}
             >
