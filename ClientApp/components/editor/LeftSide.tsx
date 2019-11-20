@@ -120,6 +120,7 @@ enum SidebarTab {
 const adminEmail = "llaugusty@gmail.com";
 
 const fontColors = [
+  "rgb(255, 255, 255)",
   "rgb(239, 66, 71)",
   "rgb(244, 135, 41)",
   "rgb(252, 223, 24)",
@@ -129,7 +130,6 @@ const fontColors = [
   "rgb(90, 53, 148)",
   "rgb(201, 34, 105)",
   "rgb(35, 31, 32)",
-  "rgb(255, 255, 255)",
 ];
 
 const allColors = [
@@ -1603,7 +1603,6 @@ class LeftSide extends Component<IProps, IState> {
                   : 0
               }px)`,
               width: "370px",
-              padding: "10px 5px 0px 18px",
               transitionDuration: "10s, 10s"
             }}
           >
@@ -1621,7 +1620,8 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 zIndex: this.props.selectedTab !== SidebarTab.Image && -1,
                 top: "10px",
-                height: "100%"
+                height: "100%",
+                left: '19px',
               }}
             >
               <div
@@ -1822,7 +1822,8 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 top: "20px",
                 zIndex: this.props.selectedTab !== SidebarTab.Text && -1,
-                height: "100%"
+                height: "100%",
+                left: '19px',
               }}
             >
               <div style={{ color: "white" }}>
@@ -2194,7 +2195,8 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 top: "10px",
                 zIndex: this.props.selectedTab !== SidebarTab.Template && -1,
-                height: "100%"
+                height: "100%",
+                left: '19px',
               }}
             >
               <InfiniteScroll
@@ -2428,7 +2430,8 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 top: "10px",
                 zIndex: this.props.selectedTab !== SidebarTab.Background && -1,
-                height: "100%"
+                height: "100%",
+                left: '19px',
               }}
             >
               <InfiniteScroll
@@ -2651,6 +2654,7 @@ class LeftSide extends Component<IProps, IState> {
                 zIndex: this.props.selectedTab !== SidebarTab.Font && -1,
                 height: "100%",
                 left: "0px",
+                left: '19px',
               }}
             >
               <div>
@@ -2791,7 +2795,7 @@ class LeftSide extends Component<IProps, IState> {
               style={{
                 opacity: this.props.selectedTab === SidebarTab.Color ? 1 : 0,
                 position: "absolute",
-                width: "347px",
+                width: "100%",
                 color: "white",
                 overflow: "scroll",
                 transition:
@@ -2801,9 +2805,9 @@ class LeftSide extends Component<IProps, IState> {
                   `translate3d(0px, calc(${
                     this.props.selectedTab < SidebarTab.Color ? 40 : -40
                   }px), 0px)`,
-                top: "10px",
                 zIndex: this.props.selectedTab !== SidebarTab.Color && -1,
-                height: "98%"
+                height: "98%",
+                backgroundColor: "white",
               }}
             >
               <div style={{ display: "inline-block" }}>
@@ -2852,6 +2856,7 @@ class LeftSide extends Component<IProps, IState> {
                             borderRadius: '.15em',
                             color: font,
                             border: 'none',
+                            boxShadow: 'inset 0 0 0 1px rgba(14,19,24,.15)',
                           }}                        
                         >
                         </button>
@@ -2897,11 +2902,24 @@ class LeftSide extends Component<IProps, IState> {
                             top: 0,
                             bottom: 0,
                             position: 'absolute',
-                            backgroundColor: '#a94442',
-                            boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.85), 0 0 0 3px #a94442',
+                            color: "white",
+                            backgroundColor: 'currentColor',
+                            // boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.85), 0 0 0 3px currentColor',
                             borderRadius: '.15em',
+                            boxShadow: 'inset 0 0 0 1px rgba(14,19,24,.15)',
                           }}                        
                         >
+                          <svg style={{
+                            width: '70%',
+                            height: '70%',
+                            color: 'black',
+                            position: 'absolute',
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            margin: 'auto',
+                          }} width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7.25 13.25a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5z"></path></svg>
                         </div>
                       </li>
                     </a>}
@@ -3052,7 +3070,8 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 top: "10px",
                 zIndex: this.props.selectedTab !== SidebarTab.Element && -1,
-                height: "100%"
+                height: "100%",
+                left: '19px',
               }}
             >
               <div style={{ display: "inline-block", width: "100%" }}>
@@ -3108,7 +3127,8 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 top: "10px",
                 zIndex: this.props.selectedTab !== SidebarTab.Video && -1,
-                height: "100%"
+                height: "100%",
+                left: '19px',
               }}
             >
               <div style={{ display: "inline-block", width: "100%" }}>
@@ -3175,7 +3195,8 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 top: "10px",
                 zIndex: this.props.selectedTab !== SidebarTab.Upload && -1,
-                height: "100%"
+                height: "100%",
+                left: '19px',
               }}
             >
               <InfiniteScroll
@@ -3351,7 +3372,7 @@ class LeftSide extends Component<IProps, IState> {
                   position: "absolute",
                   top: "6px",
                   boxShadow:
-                    "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
+                    "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
                 }}
                 onClick={() => {
                   document.getElementById("image-file").click();
