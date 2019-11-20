@@ -145,15 +145,15 @@
         display: grid;
         -webkit-box-align: center;
         align-items: center;
-        grid-template-columns: repeat(auto-fit, 1.75em)
+        grid-template-columns: repeat(auto-fit, 2.75em)
     }
 }
 
 .pcr-app .pcr-swatches>button {
     font-size: 1em;
     position: relative;
-    width: calc(1.75em - 5px);
-    height: calc(1.75em - 5px);
+    width: 30px;
+    height: 30px;
     border-radius: .15em;
     cursor: pointer;
     margin: 2.5px;
@@ -212,7 +212,7 @@
 
 .pcr-app .pcr-interaction input {
     letter-spacing: .07em;
-    font-size: .75em;
+    font-size: 1em;
     text-align: center;
     cursor: pointer;
     color: #75797e;
@@ -326,7 +326,7 @@
 }
 
 .pcr-app[data-theme=nano] {
-    width: 14.25em;
+    width: 23em;
     max-width: 95vw
 }
 
@@ -346,7 +346,7 @@
     grid-template-rows: 5fr auto auto;
     -webkit-box-align: center;
     align-items: center;
-    height: 10.5em;
+    height: 15em;
     width: 100%;
     align-self: flex-start
 }
