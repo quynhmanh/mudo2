@@ -2996,31 +2996,32 @@ class CanvaEditor extends Component<IProps, IState> {
     });
     editorStore.replace(images);
     e.preventDefault();
-    document.execCommand("foreColor", false, color);
-    if (
-      this.state.typeObjectSelected === TemplateType.Heading ||
-      this.state.typeObjectSelected === TemplateType.TextTemplate
-    ) {
-      var a = document.getSelection();
-      if (a && a.type === "Range") {
-        this.handleFontColorChange(color);
-      } else {
-        var childId = this.state.childId
-          ? this.state.childId
-          : this.state.idObjectSelected;
-        var el = this.state.childId
-          ? document.getElementById(childId)
-          : document.getElementById(childId).getElementsByClassName("text")[0];
-        var sel = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        sel.removeAllRanges();
-        sel.addRange(range);
-        this.handleFontColorChange(color);
-        document.execCommand("foreColor", false, color);
-        sel.removeAllRanges();
-      }
-    }
+    document.getElementById(editorStore.idObjectSelected + "hihi4").style.color = color;
+    // document.execCommand("foreColor", false, color);
+    // if (
+    //   this.state.typeObjectSelected === TemplateType.Heading ||
+    //   this.state.typeObjectSelected === TemplateType.TextTemplate
+    // ) {
+    //   var a = document.getSelection();
+    //   if (a && a.type === "Range") {
+    //     this.handleFontColorChange(color);
+    //   } else {
+    //     var childId = this.state.childId
+    //       ? this.state.childId
+    //       : this.state.idObjectSelected;
+    //     var el = this.state.childId
+    //       ? document.getElementById(childId)
+    //       : document.getElementById(childId).getElementsByClassName("text")[0];
+    //     var sel = window.getSelection();
+    //     var range = document.createRange();
+    //     range.selectNodeContents(el);
+    //     sel.removeAllRanges();
+    //     sel.addRange(range);
+    //     this.handleFontColorChange(color);
+    //     document.execCommand("foreColor", false, color);
+    //     sel.removeAllRanges();
+    //   }
+    // }
 
     let images2 = toJS(editorStore.images);
     function insertAfter(newNode, referenceNode) {

@@ -2819,6 +2819,7 @@ class LeftSide extends Component<IProps, IState> {
                       key={uuidv4()}
                       href="#"
                       onClick={e => {
+                        e.preventDefault();
                         this.props.setSelectionColor(font, e);
                       }}
                       style={{
@@ -2829,13 +2830,32 @@ class LeftSide extends Component<IProps, IState> {
                         style={{
                           width: "42px",
                           height: "42px",
-                          backgroundColor: font,
                           float: "left",
                           marginLeft: "13px",
                           marginTop: "13px",
                           borderRadius: '3px',
+                          position: 'relative',
                         }}
-                      ></li>
+                      >
+                        <button
+                          className="color-picker-block"
+                          style={{
+                            width: 'calc(100% - 10px)',
+                            height: 'calc(100% - 10px)',
+                            margin: 'auto',
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            position: 'absolute',
+                            backgroundColor: 'currentColor',
+                            borderRadius: '.15em',
+                            color: font,
+                            border: 'none',
+                          }}                        
+                        >
+                        </button>
+                      </li>
                     </a>
                   ))}
                   <TooltipClick
@@ -2860,13 +2880,30 @@ class LeftSide extends Component<IProps, IState> {
                         style={{
                           width: "42px",
                           height: "42px",
-                          backgroundColor: "pink",
                           float: "left",
                           marginLeft: "13px",
                           marginTop: "13px",
                           borderRadius: '3px',
+                          position: 'relative',
                         }}
-                      ></li>
+                      >
+                        <div
+                          style={{
+                            width: 'calc(100% - 10px)',
+                            height: 'calc(100% - 10px)',
+                            margin: 'auto',
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            position: 'absolute',
+                            backgroundColor: '#a94442',
+                            boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.85), 0 0 0 3px #a94442',
+                            borderRadius: '.15em',
+                          }}                        
+                        >
+                        </div>
+                      </li>
                     </a>}
                   />
                   {/* <a
