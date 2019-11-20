@@ -64,7 +64,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         e.persist();
 
         document.addEventListener("mouseup", (e) => {
-            console.log('target ', e.target)
             this.setState({isClicked: false})
         })
     };
