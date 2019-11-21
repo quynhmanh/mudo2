@@ -2864,6 +2864,7 @@ class LeftSide extends Component<IProps, IState> {
                     </a>
                   ))}
                   <TooltipClick
+                    tipbaseClass="tipbase-color-picker"
                     content={<ColorPicker />}
                     offsetLeft={5}
                     offsetTop={5}

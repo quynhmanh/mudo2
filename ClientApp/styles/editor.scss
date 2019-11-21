@@ -933,3 +933,10 @@ button {
 .color-picker-block:focus {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85), 0 0 0 3px currentColor !important;
 }
+
+.tipbase-color-picker {
+  -webkit-animation: bounce 1.2s ease-out;
+  -moz-animation: bounce .8s ease-out;
+  -o-animation: bounce .8s ease-out;
+  animation: bounce 1.2s ease-out;
+}
