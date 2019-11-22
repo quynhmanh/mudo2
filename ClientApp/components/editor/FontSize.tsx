@@ -30,7 +30,7 @@ enum Mode {
 
 export default class FontSize extends PureComponent<IProps, IState> {
     onClickDropDownFontSizeList = () => {
-        document.getElementById("myFontSizeList").classList.toggle("show");
+        document.getElementById("myFontSizeList").classList.toggle("show");
     
         const onDown = e => {
           if (!e.target.matches(".dropbtn-font-size")) {
