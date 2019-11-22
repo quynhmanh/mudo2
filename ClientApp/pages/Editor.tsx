@@ -2415,7 +2415,7 @@ class CanvaEditor extends Component<IProps, IState> {
         });
 
         var selectedTab = this.state.selectedTab;
-        if (this.state.selectedTab === SidebarTab.Font) {
+        if (this.state.selectedTab === SidebarTab.Font || this.state.selectedTab === SidebarTab.Color) {
             selectedTab = SidebarTab.Image;
         }
 
@@ -2477,6 +2477,10 @@ class CanvaEditor extends Component<IProps, IState> {
         if (img._id === this.state.idObjectSelected) {
             return;
         }
+
+        if (editorStore.imageSelected && editorStore.imageSelected.type == TemplateType.Heading && this.state.selectedTab === SidebarTab.Color) {
+            this.setState({selectedTab: SidebarTab.Image})
+        } 
 
         if (img.backgroundColor) {
             this.setState({
@@ -3950,8 +3954,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     <div
                         id="editor-navbar"
                         style={{
-                            backgroundImage:
-                                "linear-gradient(to right, rgb(67, 198, 172), rgb(48, 45, 111))",
+                            backgroundColor: "turquoise",
                             height: "55px",
                             padding: "5px",
                             display: "flex"
