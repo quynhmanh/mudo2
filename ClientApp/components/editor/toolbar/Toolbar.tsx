@@ -22,9 +22,7 @@ interface IProps {
     selectedImage: any;
     fontSize: number;
     handleFontSizeBtnClick: any;
-    handleAlignLeftBtnClick: any;
-    handleAlignCenterBtnClick: any;
-    handleAlignRightBtnClick: any;
+    handleAlignBtnClick: any;
     handleOkBtnClick: any;
     handleCancelBtnClick: any;
     idObjectSelected: string;
@@ -75,9 +73,7 @@ const Toolbar = (props: IProps) => {
                 fontSize={props.fontSize}
                 handleFontSizeBtnClick={props.handleFontSizeBtnClick}
                 idObjectSelected={props.idObjectSelected}
-                handleAlignLeftBtnClick={props.handleAlignLeftBtnClick}
-                handleAlignCenterBtnClick={props.handleAlignCenterBtnClick}
-                handleAlignRightBtnClick={props.handleAlignRightBtnClick}
+                handleAlignBtnClick={props.handleAlignBtnClick}
                 handleOkBtnClick={props.handleOkBtnClick}
                 handleCancelBtnClick={props.handleCancelBtnClick}
             />

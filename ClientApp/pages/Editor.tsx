@@ -332,9 +332,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.handleFlipBtnClick = this.handleFlipBtnClick.bind(this);
         this.handleImageBackgroundColorBtnClick = this.handleImageBackgroundColorBtnClick.bind(this);
         this.handleFontSizeBtnClick = this.handleFontSizeBtnClick.bind(this);
-        this.handleAlignLeftBtnClick = this.handleAlignLeftBtnClick.bind(this);
-        this.handleAlignCenterBtnClick = this.handleAlignCenterBtnClick.bind(this);
-        this.handleAlignRightBtnClick = this.handleAlignRightBtnClick.bind(this);
+        this.handleAlignBtnClick = this.handleAlignBtnClick.bind(this);
         this.handleOkBtnClick = this.handleOkBtnClick.bind(this);
         this.onClickpositionList = this.onClickpositionList.bind(this);
         this.onClickTransparent = this.onClickTransparent.bind(this);
@@ -486,35 +484,25 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ fontSize: scale });
     }
 
-    handleAlignLeftBtnClick = (e: any) => {
+    handleAlignBtnClick = (e: any, type: string) => {
         e.preventDefault();
         var a = document.getSelection();
-        if (a && a.type === "Range") {
-            document.execCommand("JustifyLeft", false, null);
-        } else {
-            var childId = this.state.childId
-                ? this.state.childId
-                : this.state.idObjectSelected;
-            var el = this.state.childId
-                ? document.getElementById(childId)
-                : document
-                    .getElementById(childId)
-                    .getElementsByClassName("text")[0];
-            var sel = window.getSelection();
-            var range = document.createRange();
-            range.selectNodeContents(el);
-            sel.removeAllRanges();
-            sel.addRange(range);
-            document.execCommand("JustifyLeft", false, null);
-            sel.removeAllRanges();
+        let command;
+        switch (type) {
+            case "alignLeft":
+                command = "JustifyLeft";
+                break;
+            case "alignCenter":
+                command = "JustifyCenter";
+                break;
+            case "alignRight":
+                command = "JustifyRight";
+                break;
+            default:
+                return;
         }
-    }
-
-    handleAlignCenterBtnClick = (e: any) => {
-        e.preventDefault();
-        var a = document.getSelection();
         if (a && a.type === "Range") {
-            document.execCommand("JustifyCenter", false, null);
+            document.execCommand(command, false, null);
         } else {
             var childId = this.state.childId
                 ? this.state.childId
@@ -529,31 +517,7 @@ class CanvaEditor extends Component<IProps, IState> {
             range.selectNodeContents(el);
             sel.removeAllRanges();
             sel.addRange(range);
-            document.execCommand("JustifyCenter", false, null);
-            sel.removeAllRanges();
-        }
-    }
-
-    handleAlignRightBtnClick = (e: any) => {
-        e.preventDefault();
-        var a = document.getSelection();
-        if (a && a.type === "Range") {
-            document.execCommand("JustifyRight", false, null);
-        } else {
-            var childId = this.state.childId
-                ? this.state.childId
-                : this.state.idObjectSelected;
-            var el = this.state.childId
-                ? document.getElementById(childId)
-                : document
-                    .getElementById(childId)
-                    .getElementsByClassName("text")[0];
-            var sel = window.getSelection();
-            var range = document.createRange();
-            range.selectNodeContents(el);
-            sel.removeAllRanges();
-            sel.addRange(range);
-            document.execCommand("JustifyRight", false, null);
+            document.execCommand(command, false, null);
             sel.removeAllRanges();
         }
     }
@@ -4269,9 +4233,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 selectedImage={this.state.selectedImage}
                                 fontSize={this.state.fontSize}
                                 handleFontSizeBtnClick={this.handleFontSizeBtnClick}
-                                handleAlignLeftBtnClick={this.handleAlignLeftBtnClick}
-                                handleAlignCenterBtnClick={this.handleAlignCenterBtnClick}
-                                handleAlignRightBtnClick={this.handleAlignRightBtnClick}
+                                handleAlignBtnClick={this.handleAlignBtnClick}
                                 handleOkBtnClick={this.handleOkBtnClick}
                                 handleCancelBtnClick={this.handleCancelBtnClick}
                                 idObjectSelected={this.state.idObjectSelected}

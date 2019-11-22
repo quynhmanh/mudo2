@@ -10,9 +10,7 @@ import Crop from "@Components/editor/toolbar/left/Crop";
 import Flip from "@Components/editor/toolbar/left/Flip";
 import ImageBackgroundColor from "@Components/editor/toolbar/left/ImageBackgroundColor";
 import FontSizeWrapper from "@Components/editor/toolbar/left/FontSizeWrapper";
-import AlignLeft from "@Components/editor/toolbar/left/AlignLeft";
-import AlignCenter from "@Components/editor/toolbar/left/AlignCenter";
-import AlignRight from "@Components/editor/toolbar/left/AlignRight";
+import Align from "@Components/editor/toolbar/left/Align";
 import OK from "@Components/editor/toolbar/left/OK";
 import Cancel from "@Components/editor/toolbar/left/Cancel";
 
@@ -37,12 +35,16 @@ interface IProps {
     fontSize: number;
     handleFontSizeBtnClick: any;
     idObjectSelected: string;
-    handleAlignLeftBtnClick: any;
-    handleAlignCenterBtnClick: any;
-    handleAlignRightBtnClick: any;
+    handleAlignBtnClick: any;
     handleOkBtnClick: any;
     handleCancelBtnClick: any;
 }
+
+const alignList = [
+    { title: "alignLeft", iconPath: require("@Components/shared/svgs/alignLeft.svg") },
+    { title: "alignCenter", iconPath: require("@Components/shared/svgs/alignCenter.svg") },
+    { title: "alignRight", iconPath: require("@Components/shared/svgs/alignCenter.svg") }
+];
 
 const LeftSide = (props: IProps) => {
     const { editorStore } = props;
@@ -179,48 +181,28 @@ const LeftSide = (props: IProps) => {
                 fontSize={props.fontSize}
                 handleFontSizeBtnClick={props.handleFontSizeBtnClick}
             />
-            <AlignLeft
-                show=
-                {
+            {
+                alignList.map
                     (
-                        props.childId !== null ||
-                        (
-                            props.idObjectSelected &&
-                            props.selectedImage.type === TemplateType.Heading
-                        )
+                        item =>
+                            <Align
+                                show=
+                                {
+                                    (
+                                        props.childId !== null ||
+                                        (
+                                            props.idObjectSelected &&
+                                            props.selectedImage.type === TemplateType.Heading
+                                        )
+                                    )
+                                }
+                                translate={props.translate}
+                                title={item.title}
+                                iconPath={item.iconPath}
+                                handleAlignBtnClick={props.handleAlignBtnClick}
+                            />
                     )
-                }
-                translate={props.translate}
-                handleAlignLeftBtnClick={props.handleAlignLeftBtnClick}
-            />
-            <AlignCenter
-                show=
-                {
-                    (
-                        props.childId !== null ||
-                        (
-                            props.idObjectSelected &&
-                            props.selectedImage.type === TemplateType.Heading
-                        )
-                    )
-                }
-                translate={props.translate}
-                handleAlignCenterBtnClick={props.handleAlignCenterBtnClick}
-            />
-            <AlignRight
-                show=
-                {
-                    (
-                        props.childId !== null ||
-                        (
-                            props.idObjectSelected &&
-                            props.selectedImage.type === TemplateType.Heading
-                        )
-                    )
-                }
-                translate={props.translate}
-                handleAlignRightBtnClick={props.handleAlignRightBtnClick}
-            />
+            }
             <OK
                 show=
                 {
