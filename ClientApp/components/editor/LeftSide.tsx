@@ -2230,7 +2230,7 @@ class LeftSide extends Component<IProps, IState> {
                 <ul
                   style={{
                     listStyle: "none",
-                    padding: 0
+                    padding: "0 23px"
                   }}
                 >
                   {fontColors.map(font => (
@@ -2247,8 +2247,8 @@ class LeftSide extends Component<IProps, IState> {
                     >
                       <li
                         style={{
-                          width: "42px",
-                          height: "42px",
+                          width: "50px",
+                          height: "50px",
                           float: "left",
                           marginLeft: "13px",
                           marginTop: "13px",

@@ -98,8 +98,8 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                     >
                       <li
                         style={{
-                          width: "42px",
-                          height: "42px",
+                          width: "50px",
+                          height: "50px",
                           float: "left",
                           marginLeft: "13px",
                           marginTop: "13px",
