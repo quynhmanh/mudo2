@@ -4,6 +4,8 @@ import {isArray, isEqual, isString, isObject} from "lodash";
 import {trimList, getOtherProps} from "@Utils";
 import {TYPE_ELEMENT_MAP} from "@Constants";
 import Tip from "@Components/shared/Tip";
+import loadable from "@loadable/component";
+import Pickr from "@Components/pickr";
 
 import AppComponent from "@Components/shared/AppComponent";
 
@@ -35,15 +37,99 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     }
 
     componentDidMount = () => {
-        let colorPicker = document.getElementById("color-picker");
-        colorPicker.addEventListener("mouseup", (e) => {
-            e.stopImmediatePropagation();
-        })
+        // let colorPicker = document.getElementById("color-picker");
+        // colorPicker.addEventListener("mouseup", (e) => {
+        //     e.stopImmediatePropagation();
+        // })
+
+        console.log('pickr ', Pickr)
+
+        const pickr = Pickr.create({
+          el: '.color-picker',
+          theme: 'nano', // or 'monolith', or 'nano'
+    
+          swatches: [
+              'rgba(244, 67, 54, 1)',
+              'rgba(233, 30, 99, 0.95)',
+              'rgba(156, 39, 176, 0.9)',
+              'rgba(103, 58, 183, 0.85)',
+              'rgba(63, 81, 181, 0.8)',
+              'rgba(33, 150, 243, 0.75)',
+              'rgba(3, 169, 244, 0.7)',
+              'rgba(0, 188, 212, 0.7)',
+              'rgba(0, 150, 136, 0.75)',
+              'rgba(76, 175, 80, 0.8)',
+              'rgba(139, 195, 74, 0.85)',
+              'rgba(205, 220, 57, 0.9)',
+              'rgba(255, 235, 59, 0.95)',
+              'rgba(255, 193, 7, 1)'
+          ],
+    
+          components: {
+    
+              // Main components
+              // preview: true,
+              // opacity: true,
+              // hue: true,
+              // palette: true,
+              palette: true,
+              preview: true, // Display comparison between previous state and new color
+        opacity: true, // Display opacity slider
+        hue: true,     // Display hue slider
+    
+              // Input / output Options
+              interaction: {
+                  input: true,
+                  clear: true,
+                  save: true
+              }
+          }
+        });
     }
 
     render() {
+      return (
+      <a
+                      href="#"
+                      style={{
+                        display: 'inline-block',
+                      }}
+                      onClick={e => e.preventDefault()}
+                    >
+                      <li
+                        style={{
+                          width: "42px",
+                          height: "42px",
+                          float: "left",
+                          marginLeft: "13px",
+                          marginTop: "13px",
+                          borderRadius: '3px',
+                          position: 'relative',
+                        }}
+                      >
+                        <button
+                          className="color-picker-block color-picker"
+                          style={{
+                            width: 'calc(100% - 10px)',
+                            height: 'calc(100% - 10px)',
+                            margin: 'auto',
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            position: 'absolute',
+                            backgroundColor: 'currentColor',
+                            borderRadius: '.15em',
+                            border: 'none',
+                            boxShadow: 'inset 0 0 0 1px rgba(14,19,24,.15)',
+                          }}                        
+                        >
+                        </button>
+                      </li>
+      </a> )
+      
 
-        return <div id="color-picker" className="pcr-app visible" data-theme="nano" aria-label="color picker dialog" role="form">
+        return <div id="color-picker" className="color-picker pcr-app visible" data-theme="nano" aria-label="color picker dialog" role="form">
         <div className="pcr-selection">
           <div className="pcr-color-preview">
             <button type="button" className="pcr-last-color" aria-label="use previous color" style={{color: 'rgb(66, 68, 90)'}} />

@@ -16,8 +16,8 @@
 
 .pickr .pcr-button {
     position: relative;
-    height: 2em;
-    width: 2em;
+    height: 100%;
+    width: 100%;
     padding: .5em;
     cursor: pointer;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
@@ -103,13 +103,13 @@
 }
 
 .pcr-app {
-    position: static;
+    position: absolute;
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     flex-direction: column;
-    z-index: 10000;
+    z-index: 9999999;
     border-radius: .1em;
     background: #fff;
     opacity: 0;
@@ -454,4 +454,20 @@
     background: -webkit-gradient(linear, left top, right top, from(transparent), to(#000)), url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
     background: linear-gradient(90deg, transparent, #000), url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
     background-size: 100%, .25em
+}
+
+.pickr {
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+}
+
+.pcr-button {
+    width: 100%;
+    height: 100%;
 }

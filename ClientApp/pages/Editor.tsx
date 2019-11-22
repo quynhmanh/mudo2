@@ -3781,6 +3781,9 @@ class CanvaEditor extends Component<IProps, IState> {
                 alignItems: "center"
               }}
             >
+              {/* <a
+                className="color-picker"
+              >Hello</a> */}
               {this.state.mounted && (
                 <a
                   id="logo-editor"
