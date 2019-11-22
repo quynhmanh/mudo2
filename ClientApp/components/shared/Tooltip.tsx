@@ -34,6 +34,10 @@ export interface IState {
 }
 
 export default class Tooltip extends AppComponent<IProps, IState> {
+    static defaultProps = {
+        tipbaseClass: ""
+    }
+
     constructor(props) {
         super(props);
         this.state = {
