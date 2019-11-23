@@ -9,6 +9,7 @@ interface IProps {
 
 const Filter = (props: IProps) => {
     const { show, cropMode, handleFilterBtnClick, translate } = props;
+    const content = translate("filter");
     return (
         <div
             style={{
@@ -25,7 +26,7 @@ const Filter = (props: IProps) => {
                     className="dropbtn-font dropbtn-font-size toolbar-btn"
                     onClick={handleFilterBtnClick}
                 >
-                    <span>{translate("filter")}</span>
+                    <span>{content}</span>
                 </button>
             )}
         </div>

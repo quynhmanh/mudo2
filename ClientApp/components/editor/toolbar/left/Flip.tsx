@@ -9,6 +9,7 @@ interface IProps {
 
 const Flip = (props: IProps) => {
     const { show, cropMode, handleFlipBtnClick, translate } = props;
+    const content = translate("flip");
     return (
         <div
             style={{
@@ -25,7 +26,7 @@ const Flip = (props: IProps) => {
                     className="dropbtn-font dropbtn-font-size toolbar-btn"
                     onClick={handleFlipBtnClick}
                 >
-                    <span>{translate("flip")}</span>
+                    <span>{content}</span>
                 </button>
             )}
         </div>
