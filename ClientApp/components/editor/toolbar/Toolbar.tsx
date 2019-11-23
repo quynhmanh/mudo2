@@ -45,7 +45,7 @@ const Toolbar = (props: IProps) => {
                 display: "inline-flex",
                 position: "absolute",
                 right: 0,
-                left: "1px",
+                left: "0px",
                 height: "46px",
                 padding: "10px",
                 marginBottom: "10px",
