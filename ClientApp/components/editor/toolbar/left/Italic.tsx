@@ -9,11 +9,12 @@ interface IProps {
 
 const Italic = (props: IProps) => {
     const { show, handleItalicBtnClick, translate } = props;
+    const content = translate("italic");
     return (
         <Tooltip
             offsetLeft={0}
             offsetTop={-5}
-            content={translate("italic")}
+            content={content}
             delay={10}
             style={{ display: show ? "block" : "none" }}
             position="top"
@@ -30,17 +31,7 @@ const Italic = (props: IProps) => {
                 }}
                 onClick={handleItalicBtnClick}
             >
-                <svg
-                    viewBox="0 0 24 24"
-                    preserveAspectRatio="xMidYMid meet"
-                    style={{ width: "20px", height: "20px" }}
-                >
-                    <path
-                        fill="currentColor"
-                        fillRule="evenodd"
-                        d="M14.73 6.5l-3.67 11H14l-.3 1.5H6l.3-1.5h2.81l3.68-11H10l.3-1.5H18l-.3 1.5h-2.97z"
-                    />
-                </svg>
+                <img src={require("@Components/shared/svgs/editor/toolbar/italic.svg")} alt={content} />
             </a>
         </Tooltip>
     );

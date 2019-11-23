@@ -14,11 +14,12 @@ interface IProps {
 
 const FontSizeWrapper = (props: IProps) => {
     const { show, childId, selectedImage, handleFontSizeBtnClick, translate, fontSize } = props;
+    const content = translate("fontSize");
     return (
         <Tooltip
             offsetLeft={0}
             offsetTop={-5}
-            content={translate("fontSize")}
+            content={content}
             delay={10}
             style={{ display: show ? "block" : "none" }}
             position="top"
@@ -37,7 +38,7 @@ const FontSizeWrapper = (props: IProps) => {
                 }}
                 className="toolbar-btn"
             >
-                <FontSize fontSize={fontSize} />
+                <FontSize fontSize={fontSize} content={content} />
                 <div
                     style={{
                         height: "50px",

@@ -9,6 +9,7 @@ interface IProps {
 
 const Crop = (props: IProps) => {
     const { show, cropMode, handleCropBtnClick, translate } = props;
+    const content = translate("crop");
     return (
         <div
             style={{
@@ -25,7 +26,7 @@ const Crop = (props: IProps) => {
                     className="dropbtn-font dropbtn-font-size toolbar-btn"
                     onClick={handleCropBtnClick}
                 >
-                    <span>{translate("crop")}</span>
+                    <span>{content}</span>
                 </button>
             )}
         </div>

@@ -41,9 +41,9 @@ interface IProps {
 }
 
 const alignList = [
-    { title: "alignLeft", iconPath: require("@Components/shared/svgs/alignLeft.svg") },
-    { title: "alignCenter", iconPath: require("@Components/shared/svgs/alignCenter.svg") },
-    { title: "alignRight", iconPath: require("@Components/shared/svgs/alignCenter.svg") }
+    { title: "alignLeft", iconPath: require("@Components/shared/svgs/editor/toolbar/alignLeft.svg") },
+    { title: "alignCenter", iconPath: require("@Components/shared/svgs/editor/toolbar/alignCenter.svg") },
+    { title: "alignRight", iconPath: require("@Components/shared/svgs/editor/toolbar/alignCenter.svg") }
 ];
 
 const LeftSide = (props: IProps) => {

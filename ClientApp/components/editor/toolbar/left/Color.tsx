@@ -10,11 +10,12 @@ interface IProps {
 
 const Color = (props: IProps) => {
     const { show, fontColor, handleColorBtnClick, translate } = props;
+    const content = translate("color");
     return (
         <Tooltip
             offsetLeft={0}
             offsetTop={-5}
-            content={translate("color")}
+            content={content}
             delay={10}
             style={{ display: show ? "block" : "none" }}
             position="top"
@@ -35,16 +36,7 @@ const Color = (props: IProps) => {
                 onClick={handleColorBtnClick}
                 className="toolbar-btn"
             >
-                <svg
-                    viewBox="0 0 24 24"
-                    preserveAspectRatio="xMidYMid meet"
-                    style={{ width: "20px", height: "20px" }}
-                >
-                    <path
-                        d="M11 2L5.5 16h2.25l1.12-3h6.25l1.12 3h2.25L13 2h-2zm-1.38 9L12 4.67 14.38 11H9.62z"
-                        fill="currentColor"
-                    />
-                </svg>
+                <img src={require("@Components/shared/svgs/editor/toolbar/colorPicker.svg")} alt={content}/>
                 <div
                     style={{
                         position: "absolute",

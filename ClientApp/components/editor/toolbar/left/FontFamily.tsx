@@ -10,11 +10,12 @@ interface IProps {
 
 const FontFamily = (props: IProps) => {
     const { show, fontName, onClickDropDownFontList, translate } = props;
+    const content = translate("fontFamily");
     return (
         <Tooltip
             offsetLeft={0}
             offsetTop={-5}
-            content={translate("fontFamily")}
+            content={content}
             delay={10}
             style={{ display: show ? "block" : "none" }}
             position="top"
@@ -37,23 +38,7 @@ const FontFamily = (props: IProps) => {
                     style={{ height: "21px", filter: "invert(1)" }}
                     src={fontName}
                 />
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    style={{
-                        pointerEvents: "none",
-                        position: "absolute",
-                        right: "10px",
-                        top: "4px"
-                    }}
-                >
-                    <path
-                        fill="currentColor"
-                        d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"
-                    ></path>
-                </svg>
+                <img src={require("@Components/shared/svgs/editor/toolbar/fontFamily.svg")} alt={content} style={{ pointerEvents: "none", position: "absolute", right: "10px", top: "4px" }}/>
             </a>
         </Tooltip>
     );
