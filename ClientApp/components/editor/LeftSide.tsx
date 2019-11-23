@@ -38,6 +38,7 @@ export interface IProps {
   scale: number;
   handleEditFont: any;
   handleImageSelected: any;
+  colorPickerShown: any;
 }
 
 interface IState {
@@ -2327,6 +2328,7 @@ class LeftSide extends Component<IProps, IState> {
                       </li> */}
                       <ColorPicker 
                         setSelectionColor={this.props.setSelectionColor}
+                        colorPickerShown={this.props.colorPickerShown}
                       />
                     {/* </a> */}
                     }

@@ -255,6 +255,7 @@ interface IState {
     mounted: boolean;
     showZoomPopup: boolean;
     selectedImage: any;
+    colorPickerShown: boolean;
 }
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
@@ -265,6 +266,7 @@ class CanvaEditor extends Component<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            colorPickerShown: false,
             selectedImage: null,
             showFontEditPopup: false,
             currentPrintStep: 1,
@@ -2408,6 +2410,10 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     doNoObjectSelected = () => {
+        console.log('colorPickerVisibility', editorStore.colorPickerVisibility.get())
+        if (editorStore.colorPickerVisibility.get()) {
+            return;
+        }
         // if (!this.state.rotating && !this.state.resizing) {
         let images = editorStore.images.map(image => {
             image.selected = false;
@@ -3231,6 +3237,11 @@ class CanvaEditor extends Component<IProps, IState> {
             fontColor: color,
         })
     };
+    
+    colorPickerShown = () => {
+        console.log('colorPickerShown');
+        this.setState({colorPickerShown: true})
+    }
 
     onSingleTextChange(thisImage, e, childId) {
         // console.log('ToJS', toJS(editorStore.images));
@@ -4173,6 +4184,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         }}
                     >
                         <LeftSide
+                            colorPickerShown={this.colorPickerShown}
                             handleEditFont={this.handleEditFont}
                             scale={this.state.scale}
                             fontId={""}

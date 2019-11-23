@@ -30,6 +30,7 @@ class Images {
     @observable pages = observable([this.activePageId]);
     @observable scale = 1;
     @observable fontColors = observable(fontColors)
+    @observable colorPickerVisibility = observable.box(false);
   
     @action addItem = (item, isChild) => {
       if (isChild) {
@@ -95,6 +96,12 @@ class Images {
       this.idObjectSelected = null;
       this.imageHovered = null;
       this.imageSelected = null;
+    }
+
+    @action toggleColorPickerVisibility = () => {
+      console.log('toggleColorPickerVisibility ', !this.colorPickerVisibility.get())
+      this.colorPickerVisibility.set(!this.colorPickerVisibility.get());
+      console.log('toggled ', this.colorPickerVisibility.get())
     }
   }
 
