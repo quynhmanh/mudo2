@@ -29,7 +29,6 @@
 }
 
 .pickr .pcr-button:before {
-    background: url('data:image/svg+xml;utf8, <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7.25 13.25a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5z"></path></svg>');
     background-size: .5em;
     z-index: -1;
     z-index: auto
@@ -457,6 +456,7 @@
 }
 
 .pickr {
+    color: transparent;
     margin: auto;
     position: absolute;
     left: 0;
@@ -470,4 +470,11 @@
 .pcr-button {
     width: 100%;
     height: 100%;
+    background-size: 70% !important;
+    color: transparent;
+}
+
+.color-picker-block:hover { 
+    -webkit-filter: brightness(1.05);
+    filter: brightness(1.05);
 }

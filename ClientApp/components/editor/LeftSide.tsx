@@ -12,6 +12,7 @@ import editorStore from "@Store/EditorStore";
 import TooltipClick from "@Components/shared/TooltipClick";
 import ColorPicker from "@Components/editor/ColorPicker";
 import Pickr from "@Components/pickr";
+import { observer } from "mobx-react";
 
 export interface IProps {
   toolbarOpened: any;

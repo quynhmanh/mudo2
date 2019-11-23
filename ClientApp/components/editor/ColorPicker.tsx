@@ -49,25 +49,27 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         console.log('pickr ', Pickr)
 
         const pickr = Pickr.create({
+          default: null,
           el: '.color-picker',
           theme: 'nano', // or 'monolith', or 'nano'
     
           swatches: [
-              'rgba(244, 67, 54, 1)',
-              'rgba(233, 30, 99, 0.95)',
-              'rgba(156, 39, 176, 0.9)',
-              'rgba(103, 58, 183, 0.85)',
-              'rgba(63, 81, 181, 0.8)',
-              'rgba(33, 150, 243, 0.75)',
-              'rgba(3, 169, 244, 0.7)',
-              'rgba(0, 188, 212, 0.7)',
-              'rgba(0, 150, 136, 0.75)',
-              'rgba(76, 175, 80, 0.8)',
-              'rgba(139, 195, 74, 0.85)',
-              'rgba(205, 220, 57, 0.9)',
-              'rgba(255, 235, 59, 0.95)',
-              'rgba(255, 193, 7, 1)'
+              'rgb(244, 67, 54)',
+              'rgb(233, 30, 99)',
+              'rgb(156, 39, 176)',
+              'rgb(103, 58, 183)',
+              'rgb(63, 81, 181)',
+              'rgb(33, 150, 243)',
+              'rgb(3, 169, 244)',
+              'rgb(0, 188, 212)',
+              'rgb(0, 150, 136)',
+              'rgb(76, 175, 80)',
+              'rgb(139, 195, 74)',
+              'rgb(205, 220, 57)',
+              'rgb(255, 235, 59)',
+              'rgb(255, 193, 7)'
           ],
+          defaultRepresentation: 'HEX',
     
           components: {
     
@@ -78,7 +80,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
               // palette: true,
               palette: true,
               preview: true, // Display comparison between previous state and new color
-        opacity: true, // Display opacity slider
+        // opacity: true, // Display opacity slider
         hue: true,     // Display hue slider
     
               // Input / output Options
@@ -90,15 +92,22 @@ export default class Tooltip extends AppComponent<IProps, IState> {
           }
         });
 
+        // pickr.clear();
+
+        console.log('pickr ', pickr);
+
         pickr
         .on("save", (color, instance) => {
           console.log('save', color.toRGBA(), instance)
           let colorCode = color.toRGBA();
           this.props.setSelectionColor(colorCode)
+          editorStore.addFontColor(colorCode.toString())
         })
         .on("show", instance => {
           // this.props.colorPickerShown()
-          editorStore.toggleColorPickerVisibility();
+          console.log('pickr show');
+          // editorStore.toggleColorPickerVisibility();
+          editorStore.setToggleColorPickerVisibility(true);
         })
         .on("change", (color, instance) => {
           document.getElementById(editorStore.idObjectSelected + "hihi4").style.color = color.toRGBA();
@@ -106,11 +115,15 @@ export default class Tooltip extends AppComponent<IProps, IState> {
           this.props.setSelectionColor(colorCode)
         })
         .on("hide", instance => {
+          console.log('pickr hide');
           let colorCode = instance.getColor().toRGBA().toString();
           console.log('instance ', instance);
           console.log('colorCode ', colorCode);
-          editorStore.addFontColor(colorCode)
-          setTimeout(editorStore.toggleColorPickerVisibility, 100);
+          setTimeout(() => {editorStore.setToggleColorPickerVisibility(false);}, 100);
+          // instance.setColor(null);
+
+          // instance._clearColor();
+          // instance.setColor('transparent');
         })
     }
 

@@ -3178,7 +3178,6 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     setSelectionColor = (color, e) => {
-        console.log('setSelectionColor ', color.toString());
         color = color.toString();
         if (e) {
             e.preventDefault();
