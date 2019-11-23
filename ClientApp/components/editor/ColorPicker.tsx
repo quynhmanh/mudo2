@@ -100,6 +100,12 @@ export default class Tooltip extends AppComponent<IProps, IState> {
           let colorCode = color.toRGBA();
           this.props.setSelectionColor(colorCode)
         })
+        .on("hide", instance => {
+          let colorCode = instance.getColor().toRGBA().toString();
+          console.log('instance ', instance);
+          console.log('colorCode ', colorCode);
+          editorStore.addFontColor(colorCode)
+        })
     }
 
     render() {

@@ -3,6 +3,20 @@ import uuidv4 from "uuid/v4";
 import { toJS } from "mobx";
 import { replace } from "connected-react-router";
 
+
+const fontColors = [
+  "rgb(255, 255, 255)",
+  "rgb(239, 66, 71)",
+  "rgb(244, 135, 41)",
+  "rgb(252, 223, 24)",
+  "rgb(5, 170, 91)",
+  "rgb(6, 177, 162)",
+  "rgb(70, 185, 233)",
+  "rgb(90, 53, 148)",
+  "rgb(201, 34, 105)",
+  "rgb(35, 31, 32)",
+];
+
 class Images {
     @observable images = observable([]);
     @observable fontsList = observable([]);
@@ -15,6 +29,7 @@ class Images {
     @observable activePageId = uuidv4();
     @observable pages = observable([this.activePageId]);
     @observable scale = 1;
+    @observable fontColors = observable(fontColors)
   
     @action addItem = (item, isChild) => {
       if (isChild) {
@@ -34,6 +49,10 @@ class Images {
   
     @action addFont = (item) => {
       this.fonts.push(item);
+    }
+
+    @action addFontColor = color => {
+      this.fontColors.push(color)
     }
   
     @action addFontItem = (item) => {

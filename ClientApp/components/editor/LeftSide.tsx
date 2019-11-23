@@ -120,20 +120,6 @@ enum SidebarTab {
 
 const adminEmail = "llaugusty@gmail.com";
 
-const fontColors = [
-  "rgb(255, 255, 255)",
-  "rgb(239, 66, 71)",
-  "rgb(244, 135, 41)",
-  "rgb(252, 223, 24)",
-  "rgb(5, 170, 91)",
-  "rgb(6, 177, 162)",
-  "rgb(70, 185, 233)",
-  "rgb(90, 53, 148)",
-  "rgb(201, 34, 105)",
-  "rgb(35, 31, 32)",
-];
-
-
 class LeftSide extends Component<IProps, IState> {
   state = {
     query: "",
@@ -2233,7 +2219,7 @@ class LeftSide extends Component<IProps, IState> {
                     padding: "0 23px"
                   }}
                 >
-                  {fontColors.map(font => (
+                  {editorStore.fontColors.map(font => (
                     <a
                       key={uuidv4()}
                       href="#"
