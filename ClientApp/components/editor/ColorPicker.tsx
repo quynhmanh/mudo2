@@ -6,6 +6,8 @@ import {TYPE_ELEMENT_MAP} from "@Constants";
 import Tip from "@Components/shared/Tip";
 import loadable from "@loadable/component";
 import Pickr from "@Components/pickr";
+import editorStore from "@Store/EditorStore";
+
 
 import AppComponent from "@Components/shared/AppComponent";
 
@@ -20,6 +22,7 @@ function parseContent(content : any, eventName : string = "hover") {
 }
 
 export interface IProps {
+  setSelectionColor: any;
 }
 
 export interface IState {
@@ -85,6 +88,18 @@ export default class Tooltip extends AppComponent<IProps, IState> {
               }
           }
         });
+
+        pickr
+        .on("save", (color, instance) => {
+          console.log('save', color.toRGBA(), instance)
+          let colorCode = color.toRGBA();
+          this.props.setSelectionColor(colorCode)
+        })
+        .on("change", (color, instance) => {
+          document.getElementById(editorStore.idObjectSelected + "hihi4").style.color = color.toRGBA();
+          let colorCode = color.toRGBA();
+          this.props.setSelectionColor(colorCode)
+        })
     }
 
     render() {

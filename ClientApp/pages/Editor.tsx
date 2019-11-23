@@ -3172,6 +3172,11 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     setSelectionColor = (color, e) => {
+        console.log('setSelectionColor ', color.toString());
+        color = color.toString();
+        if (e) {
+            e.preventDefault();
+        }
         // if (this.props.typeObjectSelected === TemplateType.Latex) {
         var images = editorStore.images.map(img => {
             if (img._id === this.state.idObjectSelected) {
@@ -3181,7 +3186,7 @@ class CanvaEditor extends Component<IProps, IState> {
             return img;
         });
         editorStore.replace(images);
-        e.preventDefault();
+        if (e)
         document.getElementById(editorStore.idObjectSelected + "hihi4").style.color = color;
         // document.execCommand("foreColor", false, color);
         // if (
@@ -3221,6 +3226,10 @@ class CanvaEditor extends Component<IProps, IState> {
             font1.parentNode.innerText = font1.innerText;
             font1.remove();
         }
+
+        this.setState({
+            fontColor: color,
+        })
     };
 
     onSingleTextChange(thisImage, e, childId) {
