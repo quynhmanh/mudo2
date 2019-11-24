@@ -5,10 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
+            "type": "coreclr",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${file}"
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp2.2/RCB.TypeScript.dll",
+            "args": [],
+            "console": "internalConsole"
         }
     ]
 }
