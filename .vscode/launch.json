@@ -10,7 +10,8 @@
             "name": "Launch Program",
             "program": "${workspaceRoot}/bin/Debug/netcoreapp2.2/RCB.TypeScript.dll",
             "args": [],
-            "console": "internalConsole"
+            "console": "internalConsole",
+            "requireExactSource": false,
         }
     ]
 }

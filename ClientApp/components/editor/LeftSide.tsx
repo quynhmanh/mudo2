@@ -1321,6 +1321,7 @@ class LeftSide extends Component<IProps, IState> {
                         fontSize: 42,
                         fontRepresentative: "images/default.png",
                         selected: true,
+                        fontFace: "O5mEMMs7UejmI1WeSKWQ",
                       };
 
                       editorStore.addItem(item, true);
@@ -1362,6 +1363,7 @@ class LeftSide extends Component<IProps, IState> {
                         fontSize: 24,
                         fontRepresentative: "images/default.png",
                         selected: true,
+                        fontFace: "O5mEMMs7UejmI1WeSKWQ",
                       };
 
                       editorStore.addItem(item, true);
@@ -1405,6 +1407,7 @@ class LeftSide extends Component<IProps, IState> {
                         fontSize: 16,
                         fontRepresentative: "images/default.png",
                         selected: true,
+                        fontFace: "O5mEMMs7UejmI1WeSKWQ",
                       };
 
                       editorStore.addItem(item, true);
