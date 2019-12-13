@@ -1,8 +1,7 @@
 import React, { PureComponent } from "react";
-import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, getCursor, tLToCenter } from "@Utils";
+import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, getCursor, tLToCenter, getImageResizerVisibility, } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
-import MathJax from "react-mathjax2";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -122,6 +121,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   startResizeImage = (e, cursor, resizingInnerImage) => {
+    console.log('startResizeImage ', e, cursor);
     e.preventDefault();
     e.stopPropagation();
     document.body.style.cursor = cursor;
@@ -547,7 +547,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           {!showImage && cropMode && selected && (
             <div
               id={_id + "1237"}
-              className={_id + "imgWidth" + " " + _id + "1236"}
+              className={`${_id}imgWidth ${_id}1236`}
               style={{
                 transform: `translate(${posX}px, ${posY}px)`,
                 width: imgWidth + "px",
@@ -558,7 +558,8 @@ export default class Rect extends PureComponent<IProps, IState> {
               }}
             >
               {cropMode && selected
-                ? imgResizeDirection.map(d => {
+                ? imgResizeDirection
+                .map(d => {
                   var cursor;
                   var normalizedRotateAngle = rotateAngle;
                   if (d == "n") {
@@ -630,7 +631,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                         key={d}
                         style={{
                           cursor,
-                          zIndex: 999999
+                          zIndex: 999999,
+                          // visibility: posX < -10 || posY < -10 ? "visible" : "hidden",
+                          visibility: getImageResizerVisibility(this.props.image, scale, d),
                         }}
                         id={_id + zoomableMap[d] + "_"}
                         className={`${zoomableMap[d]} resizable-handler-container hehe`}
@@ -815,7 +818,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           {!showImage && cropMode && selected && (
             <div
               id={_id + "1237"}
-              className={_id + "imgWidth" + " " + _id + "1236"}
+              className={`${_id}imgWidth ${_id}1236 7`}
               style={{
                 transform: `translate(${posX}px, ${posY}px)`,
                 width: imgWidth + "px",
@@ -991,7 +994,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       opacity,
                       transform: `scale(${scale})`,
                       transformOrigin: "0 0",
-                      fontFamily: fontFace,
+                      fontFamily: `${fontFace}, AvenirNextRoundedPro`,
                       color: color,
                     }}
                   ></div>
@@ -1092,7 +1095,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     }}
                     className={`${zoomableMap[d]} resizable-handler-container cropMode`}
                     onMouseDown={e => {
-                      this.startResizeImage(e, cursor, false);
+                      this.startResizeImage(e, d, false);
                     }}
                   >
                     <svg
@@ -1208,14 +1211,14 @@ export default class Rect extends PureComponent<IProps, IState> {
                         cursor
                       }}
                       className={`${zoomableMap[d]} resizable-handler-container hehe`}
-                      onMouseDown={e => this.startResizeImage(e, cursor, true)}
+                      onMouseDown={e => this.startResizeImage(e, d, true)}
                     >
                       <div
                         key={d}
                         style={{ cursor }}
                         className={`${zoomableMap[d]} resizable-handler`}
                         onMouseDown={e =>
-                          this.startResizeImage(e, cursor, true)
+                          this.startResizeImage(e, d, true)
                         }
                       />
                     </div>
