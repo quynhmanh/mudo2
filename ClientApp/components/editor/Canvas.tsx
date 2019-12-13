@@ -411,12 +411,11 @@ export default class Canvas extends Component<IProps, IState> {
                       zIndex: img.zIndex,
                       width: img.width * scale + "px",
                       height: img.height * scale + "px",
-                      left: img.left * scale + "px",
-                      top: img.top * scale + "px",
+                      // left: img.left * scale + "px",
+                      // top: img.top * scale + "px",
                       position: "absolute",
-                      transform: `rotate(${
-                        img.rotateAngle ? img.rotateAngle : 0
-                      }deg)`
+                      // transform: `rotate(${img.rotateAngle ? img.rotateAngle : 0}deg)`
+                      transform: `translate(${img.left * scale}px, ${img.top * scale}px) rotate(${img.rotateAngle ? img.rotateAngle : 0}deg)`
                     }}
                     onMouseEnter={(e) => {
                       if (!window.dragging && !window.resizing && !window.rotating && !window.rotating && !this.props.cropMode) {
@@ -527,15 +526,13 @@ export default class Canvas extends Component<IProps, IState> {
                       zIndex: 99999999,
                       width: imgHovered.width * scale + "px",
                       height: imgHovered.height * scale + "px",
-                      left: imgHovered.left * scale + "px",
-                      top: imgHovered.top * scale + "px",
+                      // left: imgHovered.left * scale + "px",
+                      // top: imgHovered.top * scale + "px",
                       position: "absolute",
-                      transform: `rotate(${
-                        imgHovered.rotateAngle ? imgHovered.rotateAngle : 0
-                      }deg)`,
+                      transform: `translate(${imgHovered.left * scale}px, ${imgHovered.top * scale}px) rotate(${imgHovered.rotateAngle ? imgHovered.rotateAngle : 0}deg)`,
+
                       pointerEvents: "none",
                     }}
-
                     onMouseLeave={(e) => {
                       editorStore.idObjectHovered = null;
                       editorStore.imageHovered = null;
@@ -638,12 +635,10 @@ export default class Canvas extends Component<IProps, IState> {
                         zIndex: 99999999,
                         width: imgSelected.width * scale + "px",
                         height: imgSelected.height * scale + "px",
-                        left: imgSelected.left * scale + "px",
-                        top: imgSelected.top * scale + "px",
+                        // left: imgSelected.left * scale + "px",
+                        // top: imgSelected.top * scale + "px",
                         position: "absolute",
-                        transform: `rotate(${
-                          imgSelected.rotateAngle ? imgSelected.rotateAngle : 0
-                        }deg)`
+                        transform: `translate(${imgSelected.left * scale}px, ${imgSelected.top * scale}px) rotate(${imgSelected.rotateAngle ? imgSelected.rotateAngle : 0}deg)`,
                       }}
                     >
                       <div

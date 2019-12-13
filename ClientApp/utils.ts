@@ -501,38 +501,22 @@ export const updateTransformXY = function(elId, x, y: any) {
   }
 }
 
-export const updatePosition = function(elId, left, top, width, height: any) {
+export const updatePosition = function(elId, image: any) {
+  let scale = this.state.scale;
   let el = document.getElementById(elId);
   if (el) {
-    if (width) {
-      el.style.width = width + "px";
-    }
-    if (height) {
-      el.style.height = height + "px";
-    }
-    if (el.style.top) {
-      el.style.top = top + "px";
-    }
-    if (el.style.left) {
-      el.style.left = left + "px";
-    }
+    el.style.width = image.width * scale + "px";
+    el.style.height = image.height * scale + "px";
+    el.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
   }
 
   var temp = document.getElementsByClassName(elId) as HTMLCollectionOf<HTMLElement>;
   for (var i = 0; i < temp.length; ++i) {
     let el2 = temp[i];
-    if (width) {
-      el2.style.width = width + "px";
-    }
-    if (height) {
-      el2.style.height = height + "px";
-    }
-    if (el2.style.top) {
-      el2.style.top = top + "px";
-    }
-    if (el.style.left) {
-      el2.style.left = left + "px";
-    }
+    el2.style.width = image.width * scale + "px";
+    el2.style.height = image.height * scale + "px";
+    el.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
+
   }
 }
 

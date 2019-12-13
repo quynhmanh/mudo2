@@ -1193,15 +1193,11 @@ class CanvaEditor extends Component<IProps, IState> {
         const { scale } = this.state;
         let { top, left, width, height } = style;
         var switching = false;
-        var temp = this.handleImageResize;
         let image = window.image;
         var deltaLeft = left - image.left;
         var deltaTop = top - image.top;
         var deltaWidth = width - image.width;
         var deltaHeight = height - image.height;
-
-        var oldDeltaLeft = deltaLeft;
-        var oldDeltaHeight = deltaHeight;
 
         if (this.state.cropMode) {
             var t5 = false;
@@ -1291,10 +1287,6 @@ class CanvaEditor extends Component<IProps, IState> {
             var scaleHeight = image.imgHeight / image.height;
             var scaleLeft = image.posX / image.imgWidth;
             var scaleTop = image.posY / image.imgHeight;
-            var newImgWidth = image.imgWidth + scaleWidth * deltaWidth;
-            var newImgheight = image.imgHeight + scaleHeight * deltaHeight;
-            var newposX = scaleLeft * image.imgWidth;
-            var newposY = scaleTop * image.imgHeight;
 
             image.imgWidth += scaleWidth * deltaWidth;
             image.imgHeight += scaleHeight * deltaHeight;
@@ -1315,8 +1307,12 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if ((objectType === 4 || objectType == 9) && this.state.cropMode) {
-            image.posX -= deltaLeft;
-            image.posY -= deltaTop;
+            if (type == "tl" || type == "bl") {
+                image.posX -= deltaLeft;
+            }
+            if (type == "tl" || type == "tr") {
+                image.posY -= deltaTop;
+            }
         }
 
         image.top = top;
@@ -1396,9 +1392,11 @@ class CanvaEditor extends Component<IProps, IState> {
         for (let i = 0; i < a.length; ++i) {
             var tempEl = a[i] as HTMLElement;
             tempEl.style.width = image.width * scale + "px";
-            tempEl.style.left = image.left * scale + "px";
-            tempEl.style.top = image.top * scale + "px";
+            // tempEl.style.left = image.left * scale + "px";
+            // tempEl.style.top = image.top * scale + "px";
             tempEl.style.height = image.height * scale + "px";
+            tempEl.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
+
         }
 
         a = document.getElementsByClassName(_id + "imgWidth");
@@ -1648,6 +1646,7 @@ class CanvaEditor extends Component<IProps, IState> {
         objectType,
         e
     ) => {
+        console.log('handleImageResize ');
         let switching;
         const { scale } = this.state;
         let { top, left, width, height } = style;
@@ -1760,6 +1759,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleRotateStart = (e: any) => {
+        let scale = this.state.scale;
         e.stopPropagation();
         this.displayResizers(false);
 
@@ -1848,7 +1848,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     var a = document.getElementsByClassName(image._id + "aaaa");
                     for (let i = 0; i < a.length; ++i) {
                         var cur = a[i] as HTMLElement;
-                        cur.style.transform = `rotate(${rotateAngle}deg)`;
+                        // cur.style.transform = `rotate(${rotateAngle}deg)`;
+                        cur.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${rotateAngle}deg)`;
                     }
 
                     var tip = document.getElementById("helloTip");
@@ -2300,8 +2301,8 @@ class CanvaEditor extends Component<IProps, IState> {
         image.left = left;
         image.top = top;
 
-        updatePosition(_id + "_", left * scale, top * scale, null, null);
-        updatePosition(_id + "__", left * scale, top * scale, null, null);
+        updatePosition.bind(this)(_id + "_", image);
+        updatePosition.bind(this)(_id + "__", image);
     };
 
     handleDragEnd = () => {

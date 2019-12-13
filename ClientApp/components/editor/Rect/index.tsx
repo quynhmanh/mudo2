@@ -185,7 +185,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     this.$textEle2 = ref;
   };
 
-  endEditing = e => {};
+  endEditing = e => { };
 
   startEditing = selectionScaleY => {
     this.setState({ selectionScaleY: 2 });
@@ -199,7 +199,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         scaleY,
       }
     } = this.props;
-    
+
     var self = this;
     var size;
     var fontFace;
@@ -343,14 +343,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgDirections = imgDirections.filter(d => d != "n" && d != "s")
     }
 
-    const styles = tLToCenter({ top, left, width, height, rotateAngle });
-    const imgStyles = tLToCenter({
-      left: posX,
-      top: posY,
-      width: imgWidth,
-      height: imgHeight,
-      rotateAngle,
-    });
 
     return (
       <StyledRect
@@ -406,7 +398,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           objectType !== 6 &&
           imgDirections.map(d => {
             var cursor = getCursorStyleForResizer(rotateAngle, d);
-            
+
             return (
               <div
                 id={d}
@@ -453,46 +445,46 @@ export default class Rect extends PureComponent<IProps, IState> {
             }}
           >
             {showImage &&
-            <div
-              id={_id + "_____"}
-              className={_id + "rect-alo"}
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                overflow: !this.props.bleed && "hidden",
-                opacity,
-              }}
-            >
-                  <img
-                    id={_id + "1235"}
-                    className={
-                      _id +
-                      "rect-alo" +
-                      " " +
-                      _id +
-                      "imgWidth" +
-                      " " +
-                      _id +
-                      "1236"
-                    }
-                    style={{
-                      zIndex: 9999999,
-                      width: imgWidth  + "px",
-                      height: imgHeight  + "px",
-                      transform: `translate(${posX}px, ${posY}px)`,
-                      opacity: selected || !cropMode ? 1 : 0.5,
-                      outline:
-                        cropMode && selected
-                          ? `#00d9e1 solid ${outlineWidth - 1}px`
-                          : null,
-                      transformOrigin: "0 0",
-                      backgroundColor: backgroundColor
-                    }}
-                    onDoubleClick={enableCropMode}
-                    src={src}
-                  />
-            </div>}
+              <div
+                id={_id + "_____"}
+                className={_id + "rect-alo"}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  overflow: !this.props.bleed && "hidden",
+                  opacity,
+                }}
+              >
+                <img
+                  id={_id + "1235"}
+                  className={
+                    _id +
+                    "rect-alo" +
+                    " " +
+                    _id +
+                    "imgWidth" +
+                    " " +
+                    _id +
+                    "1236"
+                  }
+                  style={{
+                    zIndex: 9999999,
+                    width: imgWidth + "px",
+                    height: imgHeight + "px",
+                    transform: `translate(${posX}px, ${posY}px)`,
+                    opacity: selected || !cropMode ? 1 : 0.5,
+                    outline:
+                      cropMode && selected
+                        ? `#00d9e1 solid ${outlineWidth - 1}px`
+                        : null,
+                    transformOrigin: "0 0",
+                    backgroundColor: backgroundColor
+                  }}
+                  onDoubleClick={enableCropMode}
+                  src={src}
+                />
+              </div>}
             {selected && cropMode && !showImage && (
               <div
                 id={_id + "123"}
@@ -530,242 +522,242 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         )}
-        {((showImage && !selected) || (!showImage &&selected)) && objectType === 4 &&
-        <div
-          id={_id + "654"}
-          className={_id + "scaleX-scaleY"}
-          style={{
-            transformOrigin: "0 0",
-            transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
-            position: "absolute",
-            // width: `calc(100%/${scaleX})`,
-            // height: `calc(100%/${scaleY})`,
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          {!showImage && cropMode && selected && (
-            <div
-              id={_id + "1237"}
-              className={`${_id}imgWidth ${_id}1236`}
-              style={{
-                transform: `translate(${posX}px, ${posY}px)`,
-                width: imgWidth + "px",
-                height: imgHeight + "px",
-                zIndex: 999999,
-                outline:
-                  cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
-              }}
-            >
-              {cropMode && selected
-                ? imgResizeDirection
-                .map(d => {
-                  let cursor = getCursorStyleForResizer(rotateAngle, d);
-                  let visibility = getImageResizerVisibility(this.props.image, scale, d);
-                  return (
-                      <div
-                        key={d}
-                        style={{
-                          cursor,
-                          zIndex: 999999,
-                          visibility,
-                        }}
-                        id={_id + zoomableMap[d] + "_"}
-                        className={`${zoomableMap[d]} resizable-handler-container hehe`}
-                        onMouseDown={e => this.startResizeImage(e, d, true)}
-                      >
+        {((showImage && !selected) || (!showImage && selected)) && objectType === 4 &&
+          <div
+            id={_id + "654"}
+            className={_id + "scaleX-scaleY"}
+            style={{
+              transformOrigin: "0 0",
+              transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
+              position: "absolute",
+              // width: `calc(100%/${scaleX})`,
+              // height: `calc(100%/${scaleY})`,
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            {!showImage && cropMode && selected && (
+              <div
+                id={_id + "1237"}
+                className={`${_id}imgWidth ${_id}1236`}
+                style={{
+                  transform: `translate(${posX}px, ${posY}px)`,
+                  width: imgWidth + "px",
+                  height: imgHeight + "px",
+                  zIndex: 999999,
+                  outline:
+                    cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
+                }}
+              >
+                {cropMode && selected
+                  ? imgResizeDirection
+                    .map(d => {
+                      let cursor = getCursorStyleForResizer(rotateAngle, d);
+                      let visibility = getImageResizerVisibility(this.props.image, scale, d);
+                      return (
                         <div
                           key={d}
-                          style={{ cursor, zIndex: 999999 }}
-                          className={`${zoomableMap[d]} resizable-handler`}
+                          style={{
+                            cursor,
+                            zIndex: 999999,
+                            visibility,
+                          }}
+                          id={_id + zoomableMap[d] + "_"}
+                          className={`${zoomableMap[d]} resizable-handler-container hehe`}
                           onMouseDown={e => this.startResizeImage(e, d, true)}
-                        />
-                      </div>
-                    );
-                  })
-                : null}
-            </div>
-          )}
-        </div>
+                        >
+                          <div
+                            key={d}
+                            style={{ cursor, zIndex: 999999 }}
+                            className={`${zoomableMap[d]} resizable-handler`}
+                            onMouseDown={e => this.startResizeImage(e, d, true)}
+                          />
+                        </div>
+                      );
+                    })
+                  : null}
+              </div>
+            )}
+          </div>
         }
-        {((showImage && !selected) || (!showImage &&selected)) && objectType === 3 &&
-        <div
-          id={_id + "654"}
-          className={_id + "scaleX-scaleY"}
-          style={{
-            transformOrigin: "0 0",
-            transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
-            position: "absolute",
-            width: `calc(100%/${scaleX})`,
-            height: `calc(100%/${scaleY})`,
-            // width: '100%',
-            // height: '100%',
-          }}
-        >
-          {childrens && childrens.length > 0 && showImage && (
-            <div
-              id="hello-3"
-              style={{
-                width: "100%",
-                height: "100%"
-              }}
-            >
-              {childrens.map(child => {
-                const styles = tLToCenter({
-                  top: child.top,
-                  left: child.left,
-                  width: child.width,
-                  height: child.height,
-                  rotateAngle: child.rotateAngle
-                });
-                const {
-                  position: { centerX, centerY },
-                  transform: { rotateAngle }
-                } = styles;
-                return (
-                  <div
-                    key={child._id}
-                    style={{
-                      zIndex: selected && objectType !== 4 ? 1 : 0,
-                      left: child.left,
-                      top: child.top,
-                      position: "absolute",
-                      width: (width * child.width2) / scaleX,
-                      height: child.height,
-                      outline:
-                        selected && childId === child._id
-                          ? `#00d9e1 solid ${2 / scale}px`
-                          : null,
-                      transform: `rotate(${rotateAngle}deg)`,
-                      opacity: opacity
-                    }}
-                    className="text-container"
-                  >
-                    <SingleText
-                      selectionScaleY={this.state.selectionScaleY}
-                      zIndex={zIndex}
-                      scaleX={child.scaleX}
-                      scaleY={child.scaleY}
-                      parentScaleX={scaleX}
-                      parentScaleY={scaleY}
-                      width={(width * child.width2) / scaleX / child.scaleX}
-                      height={child.height}
-                      centerX={centerX / child.scaleX}
-                      centerY={centerY / child.scaleY}
-                      rotateAngle={rotateAngle}
-                      parentIndex={_id}
-                      innerHTML={child.innerHTML}
-                      _id={child._id}
-                      selected={selected}
-                      onInput={onTextChange}
-                      onBlur={this.endEditing.bind(this)}
-                      onMouseDown={this.startEditing.bind(this)}
-                      outlineWidth={outlineWidth}
-                      onFontSizeChange={(fontSize, scaleY) => {
-                        onFontSizeChange(fontSize * scaleY);
-                        this.startEditing(scaleY);
+        {((showImage && !selected) || (!showImage && selected)) && objectType === 3 &&
+          <div
+            id={_id + "654"}
+            className={_id + "scaleX-scaleY"}
+            style={{
+              transformOrigin: "0 0",
+              transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
+              position: "absolute",
+              width: `calc(100%/${scaleX})`,
+              height: `calc(100%/${scaleY})`,
+              // width: '100%',
+              // height: '100%',
+            }}
+          >
+            {childrens && childrens.length > 0 && showImage && (
+              <div
+                id="hello-3"
+                style={{
+                  width: "100%",
+                  height: "100%"
+                }}
+              >
+                {childrens.map(child => {
+                  const styles = tLToCenter({
+                    top: child.top,
+                    left: child.left,
+                    width: child.width,
+                    height: child.height,
+                    rotateAngle: child.rotateAngle
+                  });
+                  const {
+                    position: { centerX, centerY },
+                    transform: { rotateAngle }
+                  } = styles;
+                  return (
+                    <div
+                      key={child._id}
+                      style={{
+                        zIndex: selected && objectType !== 4 ? 1 : 0,
+                        left: child.left,
+                        top: child.top,
+                        position: "absolute",
+                        width: (width * child.width2) / scaleX,
+                        height: child.height,
+                        outline:
+                          selected && childId === child._id
+                            ? `#00d9e1 solid ${2 / scale}px`
+                            : null,
+                        transform: `rotate(${rotateAngle}deg)`,
+                        opacity: opacity
                       }}
-                      handleFontColorChange={handleFontColorChange}
-                      handleFontFaceChange={handleFontFaceChange}
-                      handleChildIdSelected={handleChildIdSelected}
-                      childId={childId}
-                    />
-                  </div>
-                );
-              })}{" "}
-            </div>
-          )}
-          {childrens && childrens.length > 0 && !showImage && (
-            <div
-              id="hello-2"
-              style={{
-                width: "100%",
-                height: "100%"
-              }}
-            >
-              {childrens.map(child => {
-                const styles = tLToCenter({
-                  top: child.top,
-                  left: child.left,
-                  width: child.width,
-                  height: child.height,
-                  rotateAngle: child.rotateAngle
-                });
-                const {
-                  position: { centerX, centerY },
-                  transform: { rotateAngle }
-                } = styles;
-                return (
-                  <div
-                    key={child._id}
-                    style={{
-                      zIndex: selected && objectType !== 4 ? 1 : 0,
-                      left: child.left,
-                      top: child.top,
-                      position: "absolute",
-                      width: (width * child.width2) / scaleX,
-                      height: child.height,
-                      outline:
-                        selected && childId === child._id
-                          ? `#00d9e1 solid ${2 /
-                              scale /
-                              Math.min(scaleX, scaleY)}px`
-                          : null,
-                      transform: `rotate(${rotateAngle}deg)`,
-                      opacity: opacity
-                    }}
-                    className="text-container"
-                  >
-                    <SingleText
-                      selectionScaleY={this.state.selectionScaleY}
-                      zIndex={zIndex}
-                      scaleX={child.scaleX}
-                      scaleY={child.scaleY}
-                      parentScaleX={scaleX}
-                      parentScaleY={scaleY}
-                      width={(width * child.width2) / scaleX / child.scaleX}
-                      height={child.height}
-                      centerX={centerX / child.scaleX}
-                      centerY={centerY / child.scaleY}
-                      rotateAngle={rotateAngle}
-                      parentIndex={_id}
-                      innerHTML={child.innerHTML}
-                      _id={child._id}
-                      selected={selected}
-                      onInput={onTextChange}
-                      onBlur={this.endEditing.bind(this)}
-                      onMouseDown={this.startEditing.bind(this)}
-                      outlineWidth={outlineWidth}
-                      onFontSizeChange={(fontSize, scaleY) => {
-                        onFontSizeChange(fontSize * scaleY);
-                        this.startEditing(scaleY);
+                      className="text-container"
+                    >
+                      <SingleText
+                        selectionScaleY={this.state.selectionScaleY}
+                        zIndex={zIndex}
+                        scaleX={child.scaleX}
+                        scaleY={child.scaleY}
+                        parentScaleX={scaleX}
+                        parentScaleY={scaleY}
+                        width={(width * child.width2) / scaleX / child.scaleX}
+                        height={child.height}
+                        centerX={centerX / child.scaleX}
+                        centerY={centerY / child.scaleY}
+                        rotateAngle={rotateAngle}
+                        parentIndex={_id}
+                        innerHTML={child.innerHTML}
+                        _id={child._id}
+                        selected={selected}
+                        onInput={onTextChange}
+                        onBlur={this.endEditing.bind(this)}
+                        onMouseDown={this.startEditing.bind(this)}
+                        outlineWidth={outlineWidth}
+                        onFontSizeChange={(fontSize, scaleY) => {
+                          onFontSizeChange(fontSize * scaleY);
+                          this.startEditing(scaleY);
+                        }}
+                        handleFontColorChange={handleFontColorChange}
+                        handleFontFaceChange={handleFontFaceChange}
+                        handleChildIdSelected={handleChildIdSelected}
+                        childId={childId}
+                      />
+                    </div>
+                  );
+                })}{" "}
+              </div>
+            )}
+            {childrens && childrens.length > 0 && !showImage && (
+              <div
+                id="hello-2"
+                style={{
+                  width: "100%",
+                  height: "100%"
+                }}
+              >
+                {childrens.map(child => {
+                  const styles = tLToCenter({
+                    top: child.top,
+                    left: child.left,
+                    width: child.width,
+                    height: child.height,
+                    rotateAngle: child.rotateAngle
+                  });
+                  const {
+                    position: { centerX, centerY },
+                    transform: { rotateAngle }
+                  } = styles;
+                  return (
+                    <div
+                      key={child._id}
+                      style={{
+                        zIndex: selected && objectType !== 4 ? 1 : 0,
+                        left: child.left,
+                        top: child.top,
+                        position: "absolute",
+                        width: (width * child.width2) / scaleX,
+                        height: child.height,
+                        outline:
+                          selected && childId === child._id
+                            ? `#00d9e1 solid ${2 /
+                            scale /
+                            Math.min(scaleX, scaleY)}px`
+                            : null,
+                        transform: `rotate(${rotateAngle}deg)`,
+                        opacity: opacity
                       }}
-                      handleFontColorChange={handleFontColorChange}
-                      handleFontFaceChange={handleFontFaceChange}
-                      handleChildIdSelected={handleChildIdSelected}
-                      childId={childId}
-                    />
-                  </div>
-                );
-              })}{" "}
-            </div>
-          )}
-          {!showImage && cropMode && selected && (
-            <div
-              id={_id + "1237"}
-              className={`${_id}imgWidth ${_id}1236 7`}
-              style={{
-                transform: `translate(${posX}px, ${posY}px)`,
-                width: imgWidth + "px",
-                height: imgHeight + "px",
-                zIndex: 999999,
-                outline:
-                  cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
-              }}
-            >
-              {cropMode && selected
-                ? imgResizeDirection.map(d => {
-                  let cursor = getCursorStyleForResizer(rotateAngle, d);
+                      className="text-container"
+                    >
+                      <SingleText
+                        selectionScaleY={this.state.selectionScaleY}
+                        zIndex={zIndex}
+                        scaleX={child.scaleX}
+                        scaleY={child.scaleY}
+                        parentScaleX={scaleX}
+                        parentScaleY={scaleY}
+                        width={(width * child.width2) / scaleX / child.scaleX}
+                        height={child.height}
+                        centerX={centerX / child.scaleX}
+                        centerY={centerY / child.scaleY}
+                        rotateAngle={rotateAngle}
+                        parentIndex={_id}
+                        innerHTML={child.innerHTML}
+                        _id={child._id}
+                        selected={selected}
+                        onInput={onTextChange}
+                        onBlur={this.endEditing.bind(this)}
+                        onMouseDown={this.startEditing.bind(this)}
+                        outlineWidth={outlineWidth}
+                        onFontSizeChange={(fontSize, scaleY) => {
+                          onFontSizeChange(fontSize * scaleY);
+                          this.startEditing(scaleY);
+                        }}
+                        handleFontColorChange={handleFontColorChange}
+                        handleFontFaceChange={handleFontFaceChange}
+                        handleChildIdSelected={handleChildIdSelected}
+                        childId={childId}
+                      />
+                    </div>
+                  );
+                })}{" "}
+              </div>
+            )}
+            {!showImage && cropMode && selected && (
+              <div
+                id={_id + "1237"}
+                className={`${_id}imgWidth ${_id}1236 7`}
+                style={{
+                  transform: `translate(${posX}px, ${posY}px)`,
+                  width: imgWidth + "px",
+                  height: imgHeight + "px",
+                  zIndex: 999999,
+                  outline:
+                    cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
+                }}
+              >
+                {cropMode && selected
+                  ? imgResizeDirection.map(d => {
+                    let cursor = getCursorStyleForResizer(rotateAngle, d);
                     return (
                       <div
                         key={d}
@@ -786,22 +778,22 @@ export default class Rect extends PureComponent<IProps, IState> {
                       </div>
                     );
                   })
-                : null}
-            </div>
-          )}
-          {innerHTML && (
-            <div style={{}}>
-              <div
-                id={_id}
-                style={{
-                  position: "absolute",
-                  width: width * scale / scaleX + "px",
-                  height: height * scale / scaleY + "px",
-                  transformOrigin: "0 0",
-                  zIndex: selected ? 1 : 0
-                }}
-              >
-                {/* {selected && objectType === 5 && (
+                  : null}
+              </div>
+            )}
+            {innerHTML && (
+              <div style={{}}>
+                <div
+                  id={_id}
+                  style={{
+                    position: "absolute",
+                    width: width * scale / scaleX + "px",
+                    height: height * scale / scaleY + "px",
+                    transformOrigin: "0 0",
+                    zIndex: selected ? 1 : 0
+                  }}
+                >
+                  {/* {selected && objectType === 5 && (
                   <div
                     id="hihi2"
                     spellCheck={false}
@@ -846,34 +838,34 @@ export default class Rect extends PureComponent<IProps, IState> {
                     </div>
                   </MathJax.Context>
                 )} */}
-                {objectType === 3 &&
-                  <div
-                    id={_id + "hihi4"}
-                    spellCheck={false}
-                    onInput={onTextChange}
-                    contentEditable={selected}
-                    ref={this.setTextElementRef2.bind(this)}
-                    // onMouseDown={this.onMouseDown.bind(this)}
-                    className="text single-text"
-                    style={{
-                      position: "absolute",
-                      display: "inline-block",
-                      width: width / scaleX + "px",
-                      margin: "0px",
-                      wordBreak: "break-word",
-                      opacity,
-                      transform: `scale(${scale})`,
-                      transformOrigin: "0 0",
-                      fontFamily: `${fontFace}, AvenirNextRoundedPro`,
-                      color: color,
-                    }}
-                  ></div>
-                }
+                  {objectType === 3 &&
+                    <div
+                      id={_id + "hihi4"}
+                      spellCheck={false}
+                      onInput={onTextChange}
+                      contentEditable={selected}
+                      ref={this.setTextElementRef2.bind(this)}
+                      // onMouseDown={this.onMouseDown.bind(this)}
+                      className="text single-text"
+                      style={{
+                        position: "absolute",
+                        display: "inline-block",
+                        width: width / scaleX + "px",
+                        margin: "0px",
+                        wordBreak: "break-word",
+                        opacity,
+                        transform: `scale(${scale})`,
+                        transformOrigin: "0 0",
+                        fontFamily: `${fontFace}, AvenirNextRoundedPro`,
+                        color: color,
+                      }}
+                    ></div>
+                  }
+                </div>
               </div>
-            </div>
-          )}
-          
-        </div>
+            )}
+
+          </div>
         }
         {cropMode && selected && showController && objectType !== 6 && (
           <div
@@ -887,97 +879,97 @@ export default class Rect extends PureComponent<IProps, IState> {
             }}
           >
             {imgResizeDirection.map((d, i) => {
-                var cursor = getCursorStyleForResizer(rotateAngle, d);
-                return (
-                  <div
-                    id={_id + zoomableMap[d]}
-                    key={d}
-                    style={{
-                      cursor,
-                      // transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
-                      transform: `rotate(${i * 90}deg)`,
-                      zIndex: 2
-                    }}
-                    className={`${zoomableMap[d]} resizable-handler-container cropMode`}
-                    onMouseDown={e => {
-                      this.startResizeImage(e, d, false);
-                    }}
+              var cursor = getCursorStyleForResizer(rotateAngle, d);
+              return (
+                <div
+                  id={_id + zoomableMap[d]}
+                  key={d}
+                  style={{
+                    cursor,
+                    // transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
+                    transform: `rotate(${i * 90}deg)`,
+                    zIndex: 2
+                  }}
+                  className={`${zoomableMap[d]} resizable-handler-container cropMode`}
+                  onMouseDown={e => {
+                    this.startResizeImage(e, d, false);
+                  }}
+                >
+                  <svg
+                    className={`${zoomableMap[d]}`}
+                    width={24}
+                    height={24}
+                    style={{ zIndex: -1 }}
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      className={`${zoomableMap[d]}`}
-                      width={24}
-                      height={24}
-                      style={{ zIndex: -1 }}
-                      viewBox="0 0 24 24"
-                    >
-                      <defs>
-                        <path
-                          id="_619015639__b"
-                          d="M10 18.95a2.51 2.51 0 0 1-3-2.45v-7a2.5 2.5 0 0 1 2.74-2.49L10 7h6a3 3 0 0 1 3 3h-9v8.95z"
-                        ></path>
-                        <filter
-                          id="_619015639__a"
-                          width="250%"
-                          height="250%"
-                          x="-75%"
-                          y="-66.7%"
-                          filterUnits="objectBoundingBox"
-                        >
-                          <feMorphology
-                            in="SourceAlpha"
-                            operator="dilate"
-                            radius=".5"
-                            result="shadowSpreadOuter1"
-                          ></feMorphology>
-                          <feOffset
-                            in="shadowSpreadOuter1"
-                            result="shadowOffsetOuter1"
-                          ></feOffset>
-                          <feColorMatrix
-                            in="shadowOffsetOuter1"
-                            result="shadowMatrixOuter1"
-                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"
-                          ></feColorMatrix>
-                          <feOffset
-                            dy="1"
-                            in="SourceAlpha"
-                            result="shadowOffsetOuter2"
-                          ></feOffset>
-                          <feGaussianBlur
-                            in="shadowOffsetOuter2"
-                            result="shadowBlurOuter2"
-                            stdDeviation="2.5"
-                          ></feGaussianBlur>
-                          <feColorMatrix
-                            in="shadowBlurOuter2"
-                            result="shadowMatrixOuter2"
-                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
-                          ></feColorMatrix>
-                          <feMerge>
-                            <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
-                            <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
-                          </feMerge>
-                        </filter>
-                      </defs>
-                      <g fill="none" fillRule="evenodd">
-                        <use
-                          className={`${zoomableMap[d]}`}
-                          style={{
-                            fill: "#000",
-                            filter: "url(#_619015639__a)"
-                          }}
-                          xlinkHref="#_619015639__a"
-                        ></use>
-                        <use
-                          className={`${zoomableMap[d]}`}
-                          style={{ fill: "#FFF" }}
-                          xlinkHref="#_619015639__b"
-                        ></use>
-                      </g>
-                    </svg>
-                  </div>
-                );
-              })}
+                    <defs>
+                      <path
+                        id="_619015639__b"
+                        d="M10 18.95a2.51 2.51 0 0 1-3-2.45v-7a2.5 2.5 0 0 1 2.74-2.49L10 7h6a3 3 0 0 1 3 3h-9v8.95z"
+                      ></path>
+                      <filter
+                        id="_619015639__a"
+                        width="250%"
+                        height="250%"
+                        x="-75%"
+                        y="-66.7%"
+                        filterUnits="objectBoundingBox"
+                      >
+                        <feMorphology
+                          in="SourceAlpha"
+                          operator="dilate"
+                          radius=".5"
+                          result="shadowSpreadOuter1"
+                        ></feMorphology>
+                        <feOffset
+                          in="shadowSpreadOuter1"
+                          result="shadowOffsetOuter1"
+                        ></feOffset>
+                        <feColorMatrix
+                          in="shadowOffsetOuter1"
+                          result="shadowMatrixOuter1"
+                          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"
+                        ></feColorMatrix>
+                        <feOffset
+                          dy="1"
+                          in="SourceAlpha"
+                          result="shadowOffsetOuter2"
+                        ></feOffset>
+                        <feGaussianBlur
+                          in="shadowOffsetOuter2"
+                          result="shadowBlurOuter2"
+                          stdDeviation="2.5"
+                        ></feGaussianBlur>
+                        <feColorMatrix
+                          in="shadowBlurOuter2"
+                          result="shadowMatrixOuter2"
+                          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
+                        ></feColorMatrix>
+                        <feMerge>
+                          <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                          <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+                        </feMerge>
+                      </filter>
+                    </defs>
+                    <g fill="none" fillRule="evenodd">
+                      <use
+                        className={`${zoomableMap[d]}`}
+                        style={{
+                          fill: "#000",
+                          filter: "url(#_619015639__a)"
+                        }}
+                        xlinkHref="#_619015639__a"
+                      ></use>
+                      <use
+                        className={`${zoomableMap[d]}`}
+                        style={{ fill: "#FFF" }}
+                        xlinkHref="#_619015639__b"
+                      ></use>
+                    </g>
+                  </svg>
+                </div>
+              );
+            })}
           </div>
         )}
         {src && objectType === 9 && showImage && (

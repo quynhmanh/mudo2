@@ -140,7 +140,7 @@ namespace RCB.TypeScript.Controllers
                                 Height = (int)double.Parse(height),
                             },
                             Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
-                            Headless = false,
+                            IgnoreHTTPSErrors = true,
                         }))
                         {
 
@@ -222,7 +222,7 @@ namespace RCB.TypeScript.Controllers
             var filePath = "/app/wwwroot/" + videoId + ".webm";
             if (HostingEnvironment.IsDevelopment())
             {
-                filePath = "/Users/llaugusty/Downloads/" + videoId + ".webm";
+                filePath = "./wwwroot/" + videoId + ".webm";
             }
 
             using (var fontFile = new FileStream(filePath, FileMode.Append))
@@ -300,7 +300,6 @@ namespace RCB.TypeScript.Controllers
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
-                            executablePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
                             executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                         }
 
@@ -451,12 +450,9 @@ namespace RCB.TypeScript.Controllers
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
-                            //executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
-                            executablePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-                            path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
-                            //path = "/Users/llaugusty/Documents/quynh-ext";
-                            extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
-                            //extensionId = "hniebljpgcogalllopnjokppmgbhaden";
+                            path = "/Users/theodd1ou1/Projects/test-extension";
+                            extensionId = "kchhnephgklnbcicdcamknajeebchgmj";
+                            executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                         }
 
                         List<string> arguments = new List<string>()
@@ -486,6 +482,7 @@ namespace RCB.TypeScript.Controllers
                             Args = arguments.ToArray(),
                             Headless = false,
                             IgnoredDefaultArgs = new string[] { "--disable-extensions" },
+                            IgnoreHTTPSErrors = true,
                         });
 
                         await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
@@ -552,7 +549,7 @@ namespace RCB.TypeScript.Controllers
                             var inp = "/app/wwwroot/" + videoId + ".webm";
                             if (HostingEnvironment.IsDevelopment())
                             {
-                                inp = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
+                                inp = "./wwwroot/" + videoId + ".webm";
                             }
 
                             if (System.IO.File.Exists(inp))
@@ -575,8 +572,8 @@ namespace RCB.TypeScript.Controllers
                 if (HostingEnvironment.IsDevelopment())
                 {
                     exePath = "/usr/local/bin/ffmpeg";
-                    inputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm -crf " + crf.ToString();
-                    outputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".mp4";
+                    inputArgs = "./wwwroot" + "/" + videoId + ".webm -crf " + crf.ToString();
+                    outputArgs = "./wwwroot" + "/" + videoId + ".mp4";
                 }
 
                 var process = new Process
