@@ -44,7 +44,6 @@
     "ts-nameof-loader": "1.0.2",
     "typescript": "3.5.1",
     "url-loader": "1.1.2",
-    "webpack": "4.32.2",
     "webpack-cli": "3.3.2",
     "webpack-dev-middleware": "3.7.0",
     "webpack-hot-middleware": "2.25.0",
@@ -55,6 +54,7 @@
     "@babel/polyfill": "7.4.4",
     "@loadable/component": "^5.10.3",
     "@loadable/server": "^5.10.3",
+    "acorn": "^6.4.0",
     "awesome-debounce-promise": "2.1.0",
     "axios": "0.19.0",
     "bind-decorator": "1.0.11",
@@ -93,7 +93,8 @@
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
     "rxjs": "^6.5.3",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.1.2",
+    "webpack": "^4.28.4"
   },
   "scripts": {
     "build:dev": "node build.before.js --mode=development && node ./node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js && node ./node_modules/webpack/bin/webpack.js --config webpack.config.js",

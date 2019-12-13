@@ -184,8 +184,9 @@ const LeftSide = (props: IProps) => {
             {
                 alignList.map
                     (
-                        item =>
+                        (item, id) =>
                             <Align
+                                key={id}
                                 show=
                                 {
                                     (

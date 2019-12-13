@@ -140,6 +140,7 @@ namespace RCB.TypeScript.Controllers
                                 Height = (int)double.Parse(height),
                             },
                             Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
+                            Headless = false,
                         }))
                         {
 
@@ -286,7 +287,7 @@ namespace RCB.TypeScript.Controllers
                         try
                         {
                             byte[] bytes = Encoding.ASCII.GetBytes(html);
-                            using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
+                            using (var htmlFile = new FileStream("/Users/theodd1ou1/Downloads/quynh2.html", FileMode.Create))
                             {
                                 htmlFile.Write(bytes, 0, bytes.Length);
                                 htmlFile.Flush();
@@ -313,10 +314,14 @@ namespace RCB.TypeScript.Controllers
                             },
                             Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
                             ExecutablePath = executablePath,
+                            //Headless = false,
+                            IgnoreHTTPSErrors = true,
                         }))
                         {
                             var page = await browser.NewPageAsync();
-                            await page.SetContentAsync(html);
+                            await page.SetContentAsync(html, new NavigationOptions() {
+                                WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Networkidle0}
+                            });
                             Stream a = await page.PdfStreamAsync(new PdfOptions()
                             {
                                 Width = width + "px",

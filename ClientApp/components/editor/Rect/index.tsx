@@ -554,7 +554,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 height: imgHeight + "px",
                 zIndex: 999999,
                 outline:
-                  cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
+                  cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
               }}
             >
               {cropMode && selected
@@ -825,7 +825,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 height: imgHeight + "px",
                 zIndex: 999999,
                 outline:
-                  cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
+                  cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
               }}
             >
               {cropMode && selected

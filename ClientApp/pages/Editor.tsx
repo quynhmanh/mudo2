@@ -1063,6 +1063,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleResizeStart = (e: any, d: any) => {
+        console.log('handleResizeStart ', d);
         e.stopPropagation();
 
         window.startX = e.clientX;
@@ -1240,11 +1241,17 @@ class CanvaEditor extends Component<IProps, IState> {
 
             if (t5 && t8 && type == "tl") {
                 window.resizingInnerImage = true;
-                window.startX =
-                    document.getElementById(_id + "tl_").getBoundingClientRect().left +
-                    10;
-                window.startY =
-                    document.getElementById(_id + "tl_").getBoundingClientRect().top + 10;
+                // window.startX =
+                //     document.getElementById(_id + "tl_").getBoundingClientRect().left +
+                //     10;
+                // window.startY =
+                //     document.getElementById(_id + "tl_").getBoundingClientRect().top + 10;
+                let element = document.getElementById(_id + "tl_");
+                if (element) {
+                    let bcr = element.getBoundingClientRect();
+                    window.startX = bcr.left + 10;
+                    window.startY = bcr.top + 10;
+                }
                 switching = true;
             }
 
@@ -1449,6 +1456,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleResizeInnerImageStart = (e, d) => {
+        console.log('handleResizeInnerImageStart ', d);
         this.displayResizers(false);
 
         window.resizingInnerImage = true;
@@ -1522,12 +1530,13 @@ class CanvaEditor extends Component<IProps, IState> {
             rotateAngle: 0
         };
 
-        var startX2 =
-            document.getElementById(image._id + "tl_").getBoundingClientRect().left +
-            10;
-        var startY2 =
-            document.getElementById(image._id + "tl_").getBoundingClientRect().top +
-            10;
+        let startX2, startY2;
+        var element = document.getElementById(image._id + "tl_");
+        if (element) {
+            let bcr = element.getBoundingClientRect();
+            startX2 = bcr.left + 10;
+            startY2 = bcr.top + 10;
+        }
 
         var cursorStyle = getCursorStyleForResizer(image.rotateAngle, d);
 
@@ -3150,7 +3159,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             ? window.location.origin + "/" + img.representative
                             : img.representative,
                         backgroundColor: target.style.backgroundColor,
-                        selected: false,
+                        selected: true,
                         scaleX: 1,
                         scaleY: 1,
                         posX: 0,
