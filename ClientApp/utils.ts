@@ -615,7 +615,6 @@ export const getCursorStyleWithRotateAngle = (rotateAngle) : string => {
 }
 
 export const getCursorStyleForResizer = (rotateAngle, d): string => {
-  console.log('rotateAngle  d', rotateAngle, d);
   var cursor;
   var normalizedRotateAngle = rotateAngle;
   if (d == "n") {
@@ -683,15 +682,33 @@ export const getCursorStyleForResizer = (rotateAngle, d): string => {
       "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
   }
 
-  console.log('cursor ', cursor);
-
   return cursor;
 }
 
 export const getImageResizerVisibility = (img,  scale, d): VisibilityProperty => {
-  console.log('getImageResizerVisibility d ', d);
-  if (img.posX * scale < -10 || img.posY * scale < -10) {
-    return "visible";
+  console.log('getImageResizerVisibility d', d, (img.imgWidth + img.posX - img.width) * scale);
+  let result = "visible" as VisibilityProperty;
+  switch (d) {
+    case "nw":
+        if (img.posX * scale >= -10 && img.posY * scale >= -10) {
+          result = "hidden";
+        }
+      break;
+    case "ne":
+        if ((img.imgWidth + img.posX - img.width) * scale <= 10 && img.posY * scale >= -10) {
+          result = "hidden";
+        }
+      break;
+    case "sw":
+        if (img.posX * scale >= -10 && (img.imgHeight + img.posY - img.height) * scale <= 10) {
+          result = "hidden";
+        }
+      break;
+    case "se":
+        if ((img.imgWidth + img.posX - img.width) * scale <= 10 && (img.imgHeight + img.posY - img.height) * scale <= 10) {
+          result = "hidden";
+        }
+      break;
   }
-  return "hidden";
+  return result;
 }
