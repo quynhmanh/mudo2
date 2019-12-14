@@ -1263,11 +1263,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
             if (t6 && t7 && type == "br") {
                 window.resizingInnerImage = true;
-                window.startX =
-                    document.getElementById(_id + "br_").getBoundingClientRect().left +
-                    10;
-                window.startY =
-                    document.getElementById(_id + "br_").getBoundingClientRect().top + 10;
+                window.startX = document.getElementById(_id + "br_").getBoundingClientRect().left + 10;
+                window.startY = document.getElementById(_id + "br_").getBoundingClientRect().top + 10;
                 switching = true;
             }
 
@@ -1308,10 +1305,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
         if ((objectType === 4 || objectType == 9) && this.state.cropMode) {
             if (type == "tl" || type == "bl") {
-                image.posX -= deltaLeft;
+                image.posX += width - image.width;
             }
             if (type == "tl" || type == "tr") {
-                image.posY -= deltaTop;
+                image.posY += height - image.height;
             }
         }
 

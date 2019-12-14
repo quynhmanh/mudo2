@@ -670,7 +670,6 @@ export const getCursorStyleForResizer = (rotateAngle, d): string => {
 }
 
 export const getImageResizerVisibility = (img,  scale, d): VisibilityProperty => {
-  console.log('getImageResizerVisibility d', d, (img.imgWidth + img.posX - img.width) * scale);
   let result = "visible" as VisibilityProperty;
   switch (d) {
     case "nw":
