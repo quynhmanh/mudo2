@@ -1448,13 +1448,13 @@ class CanvaEditor extends Component<IProps, IState> {
                 centerY: styles.position.centerY,
                 rotateAngle: image.rotateAngle
             };
-            // window.rect2 = {
-            //     width: image.imgWidth,
-            //     height: image.imgHeight,
-            //     centerX: imgStyles.position.centerX,
-            //     centerY: imgStyles.position.centerY,
-            //     rotateAngle: 0
-            // };
+            window.rect2 = {
+                width: image.imgWidth,
+                height: image.imgHeight,
+                centerX: imgStyles.position.centerX,
+                centerY: imgStyles.position.centerY,
+                rotateAngle: 0
+            };
         }
     };
 
