@@ -1084,6 +1084,21 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image = image;
         let { top: top2, left: left2, width: width2, height: height2 } = image;
 
+        const rect2 = tLToCenter({
+            top: top2,
+            left: left2,
+            width: width2,
+            height: height2,
+            rotateAngle: 0,
+        });
+        const rect = {
+            width: rect2.size.width,
+            height: rect2.size.height,
+            centerX: rect2.position.centerX,
+            centerY: rect2.position.centerY,
+            rotateAngle: rect2.transform.rotateAngle
+        };
+
         this.displayResizers(false);
 
         var cursorStyle = getCursorStyleForResizer(image.rotateAngle, d);
@@ -1110,21 +1125,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     let rotateAngle = image.rotateAngle;
                     let ratio = image.width / image.height;
 
-                    const rect2 = tLToCenter({
-                        top: top2,
-                        left: left2,
-                        width: width2,
-                        height: height2,
-                        rotateAngle
-                    });
-                    const rect = {
-                        width: rect2.size.width,
-                        height: rect2.size.height,
-                        centerX: rect2.position.centerX,
-                        centerY: rect2.position.centerY,
-                        rotateAngle: rect2.transform.rotateAngle
-                    };
-
                     let {
                         position: { centerX, centerY },
                         size: { width, height }
@@ -1138,8 +1138,11 @@ class CanvaEditor extends Component<IProps, IState> {
                         10
                     );
 
+                    let style = centerToTL({ centerX, centerY, width, height, rotateAngle });
+                    console.log('left top ', style);
+
                     this.handleResize(
-                        centerToTL({ centerX, centerY, width, height, rotateAngle }),
+                        style,
                         false,
                         cursor,
                         this.state.idObjectSelected,
@@ -1190,6 +1193,7 @@ class CanvaEditor extends Component<IProps, IState> {
         objectType,
         e
     ) => {
+        console.log('handleResize ');
         const { scale } = this.state;
         let { top, left, width, height } = style;
         var switching = false;
@@ -1228,9 +1232,11 @@ class CanvaEditor extends Component<IProps, IState> {
             }
 
             if (deltaTop < image.posY && (type == "tl" || type == "tr")) {
+                console.log('handleResize t8', toJS(image))
                 t8 = true;
                 deltaTop = image.posY;
                 top = image.top + deltaTop;
+                console.log('image.top, newTop', image.top, top)
                 height = image.height - deltaTop;
                 deltaHeight = height - image.imgHeight;
             }
@@ -1311,6 +1317,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 image.posY += height - image.height;
             }
         }
+
+        console.log('image.top, newTop', image.top, top)
 
         image.top = top;
         image.left = left;
@@ -1394,14 +1402,14 @@ class CanvaEditor extends Component<IProps, IState> {
             tempEl.style.height = image.height * scale + "px";
             tempEl.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
 
-        }
+        } 
 
-        a = document.getElementsByClassName(_id + "imgWidth");
-        for (let i = 0; i < a.length; ++i) {
-            var tempEl = a[i] as HTMLElement;
-            tempEl.style.width = image.imgWidth * scale + "px";
-            tempEl.style.height = image.imgHeight * scale + "px";
-        }
+        // a = document.getElementsByClassName(_id + "imgWidth");
+        // for (let i = 0; i < a.length; ++i) {
+        //     var tempEl = a[i] as HTMLElement;
+        //     tempEl.style.width = image.imgWidth * scale + "px";
+        //     tempEl.style.height = image.imgHeight * scale + "px";
+        // }
 
         var b = document.getElementsByClassName(_id + "1236");
         for (let i = 0; i < b.length; ++i) {
@@ -1440,13 +1448,13 @@ class CanvaEditor extends Component<IProps, IState> {
                 centerY: styles.position.centerY,
                 rotateAngle: image.rotateAngle
             };
-            window.rect2 = {
-                width: image.imgWidth,
-                height: image.imgHeight,
-                centerX: imgStyles.position.centerX,
-                centerY: imgStyles.position.centerY,
-                rotateAngle: 0
-            };
+            // window.rect2 = {
+            //     width: image.imgWidth,
+            //     height: image.imgHeight,
+            //     centerX: imgStyles.position.centerX,
+            //     centerY: imgStyles.position.centerY,
+            //     rotateAngle: 0
+            // };
         }
     };
 
@@ -1485,30 +1493,30 @@ class CanvaEditor extends Component<IProps, IState> {
             left: left2,
             width: width2,
             height: height2,
-            rotateAngle: image.rotateAngle
+            rotateAngle: 0,
         });
-        const rect = {
-            width: rect2.size.width,
-            height: rect2.size.height,
-            centerX: rect2.position.centerX,
-            centerY: rect2.position.centerY,
-            rotateAngle: rect2.transform.rotateAngle
-        };
+        // const rect = {
+        //     width: rect2.size.width,
+        //     height: rect2.size.height,
+        //     centerX: rect2.position.centerX,
+        //     centerY: rect2.position.centerY,
+        //     rotateAngle: rect2.transform.rotateAngle
+        // };
 
         const rect3 = tLToCenter({
             top: top3,
             left: left3,
             width: width3,
             height: height3,
-            rotateAngle: image.rotateAngle
+            rotateAngle: 0
         });
-        const rect4 = {
-            width: rect3.size.width,
-            height: rect3.size.height,
-            centerX: rect3.position.centerX,
-            centerY: rect3.position.centerY,
-            rotateAngle: rect3.transform.rotateAngle
-        };
+        // const rect4 = {
+        //     width: rect3.size.width,
+        //     height: rect3.size.height,
+        //     centerX: rect3.position.centerX,
+        //     centerY: rect3.position.centerY,
+        //     rotateAngle: rect3.transform.rotateAngle
+        // };
 
         window.rect = {
             width: image.width,
@@ -1522,16 +1530,18 @@ class CanvaEditor extends Component<IProps, IState> {
             height: image.imgHeight,
             centerX: rect3.position.centerX,
             centerY: rect3.position.centerY,
-            rotateAngle: 0
+            rotateAngle: 0,
         };
 
-        let startX2, startY2;
-        var element = document.getElementById(image._id + "tl_");
-        if (element) {
-            let bcr = element.getBoundingClientRect();
-            startX2 = bcr.left + 10;
-            startY2 = bcr.top + 10;
-        }
+        console.log('windowr.rect2 ', window.rect2);
+
+        // let startX2, startY2;
+        // var element = document.getElementById(image._id + "tl_");
+        // if (element) {
+        //     let bcr = element.getBoundingClientRect();
+        //     startX2 = bcr.left + 10;
+        //     startY2 = bcr.top + 10;
+        // }
 
         var cursorStyle = getCursorStyleForResizer(image.rotateAngle, d);
 
@@ -1549,6 +1559,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 ({ moveElLocation }) => {
                     var deltaX = moveElLocation[0] - window.startX;
                     var deltaY = moveElLocation[1] - window.startY;
+                    console.log('deltaX deltaY ', deltaX, deltaY);
                     const deltaL = getLength(deltaX, deltaY);
                     const alpha = Math.atan2(deltaY, deltaX);
                     const beta = alpha - degToRadian(image.rotateAngle);
@@ -1556,17 +1567,16 @@ class CanvaEditor extends Component<IProps, IState> {
                     const deltaH = (deltaL * Math.sin(beta)) / scale;
                     let rotateAngle = image.rotateAngle;
 
-                    var deltaX2 = startX2 - moveElLocation[0];
-                    var deltaY2 = startY2 - moveElLocation[1];
+                    // var deltaX2 = startX2 - moveElLocation[0];
+                    // var deltaY2 = startY2 - moveElLocation[1];
 
-                    var beta2 = Math.atan2(deltaY2, deltaX2);
+                    // var beta2 = Math.atan2(deltaY2, deltaX2);
 
-                    var corner = 90 - image.rotateAngle - beta2;
+                    // var corner = 90 - image.rotateAngle - beta2;
 
-                    var dis = Math.sqrt(deltaX2 * deltaX2 + deltaY2 * deltaY2);
-
-                    var addedX = Math.sin(degToRadian(corner)) * dis;
-                    var addedY = Math.cos(degToRadian(corner)) * dis;
+                    // var dis = Math.sqrt(deltaX2 * deltaX2 + deltaY2 * deltaY2);
+                    // var addedX = Math.sin(degToRadian(corner)) * dis;
+                    // var addedY = Math.cos(degToRadian(corner)) * dis;
 
                     if (!window.resizingInnerImage) {
                         let {
@@ -1581,8 +1591,10 @@ class CanvaEditor extends Component<IProps, IState> {
                             10,
                             10
                         );
+                        let style = centerToTL({ centerX, centerY, width, height, rotateAngle });
+                        console.log('left top ', style);
                         this.handleResize(
-                            centerToTL({ centerX, centerY, width, height, rotateAngle }),
+                            style,
                             false,
                             type,
                             this.state.idObjectSelected,
@@ -1599,15 +1611,20 @@ class CanvaEditor extends Component<IProps, IState> {
                             size: { width, height }
                         } = getNewStyle(
                             type,
-                            { ...window.rect2, rotateAngle },
+                            { ...window.rect2},
                             deltaW,
                             deltaH,
                             ratio,
                             10,
                             10
                         );
+                        console.log('rotateAngle ', rotateAngle);
+                        let style = centerToTL({ centerX, centerY, width, height, rotateAngle: 0 });
+
+                        console.log('top left handleimageresize type ', type, style, toJS(image));
+
                         this.handleImageResize(
-                            centerToTL({ centerX, centerY, width, height, rotateAngle }),
+                            style,
                             false,
                             type,
                             this.state.idObjectSelected,
@@ -1666,11 +1683,11 @@ class CanvaEditor extends Component<IProps, IState> {
             left <= 0 &&
             (type == "bl" || type == "br")
         ) {
-            window.resizingInnerImage = false;
-            window.startX = e.clientX;
-            window.startY = e.clientY + image.height - top - height;
-            switching = true;
-            height = -top + image.height;
+            // window.resizingInnerImage = false;
+            // window.startX = e.clientX;
+            // window.startY = e.clientY + image.height - top - height;
+            // switching = true;
+            // height = -top + image.height;
             // width = -left + image.width;
         } else if (image.height - top > height && left > 0 && type == "bl") {
             window.resizingInnerImage = false;
@@ -1722,10 +1739,9 @@ class CanvaEditor extends Component<IProps, IState> {
             switching = true;
         } else if (left > 1 && top > 1 && type == "tl") {
             window.resizingInnerImage = false;
-            window.startX =
-                document.getElementById(_id + "tl").getBoundingClientRect().left + 10;
-            window.startY =
-                document.getElementById(_id + "tl").getBoundingClientRect().top + 10;
+            var rect = document.getElementById(_id + "tl").getBoundingClientRect();
+            window.startX = rect.left + rect.width / 2;
+            window.startY = rect.top + rect.height / 2;
             image.posX = -left;
             image.posY = -top;
             height += top;
@@ -1734,6 +1750,8 @@ class CanvaEditor extends Component<IProps, IState> {
             top = 0;
             switching = true;
         }
+
+        console.log('document.getElementById(_id + "tl").getBoundingClientRect() ', document.getElementById(_id + "tl").getBoundingClientRect());        
 
         image.posY = top;
         image.posX = left;
@@ -1745,14 +1763,16 @@ class CanvaEditor extends Component<IProps, IState> {
             var tempEl = el[i] as HTMLElement;
             tempEl.style.transform = `translate(${image.posX *
                 scale}px, ${image.posY * scale}px)`;
-        }
-
-        el = document.getElementsByClassName(_id + "1236");
-        for (let i = 0; i < el.length; ++i) {
-            var tempEl = el[i] as HTMLElement;
             tempEl.style.width = image.imgWidth * scale + "px";
             tempEl.style.height = image.imgHeight * scale + "px";
         }
+
+        // el = document.getElementsByClassName(_id + "1236");
+        // for (let i = 0; i < el.length; ++i) {
+        //     var tempEl = el[i] as HTMLElement;
+        //     tempEl.style.width = image.imgWidth * scale + "px";
+        //     tempEl.style.height = image.imgHeight * scale + "px";
+        // }
     };
 
     handleRotateStart = (e: any) => {
@@ -3818,7 +3838,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleFontFamilyChange={this.handleFontFamilyChange}
                     handleChildIdSelected={this.handleChildIdSelected}
                     enableCropMode={this.enableCropMode}
-                    handleImageResize={this.handleImageResize}
                     handleResizeInnerImageStart={this.handleResizeInnerImageStart}
                     updateRect={this.state.updateRect}
                     doNoObjectSelected={this.doNoObjectSelected}
