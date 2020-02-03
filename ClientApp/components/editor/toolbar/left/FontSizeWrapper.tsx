@@ -44,7 +44,6 @@ const FontSizeWrapper = (props: IProps) => {
                         height: "50px",
                         left: "0px",
                         top: "calc(100% + 8px)",
-                        width: "100px",
                         padding: "0",
                         background: "white",
                         animation: "bounce 1.2s ease-out"

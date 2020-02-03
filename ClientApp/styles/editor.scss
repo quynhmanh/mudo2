@@ -1,6 +1,8 @@
 // Variables
 $toolbar-bg-color-hover: rgba(14,19,24,.07);
 
+$my-font-size-list-width: 100px;
+
 @font-face {
   font-family: 'AvenirNextRoundedPro';
   src: url('https://draft.vn/fonts/O5mEMMs7UejmI1WeSKWQ.ttf');
@@ -196,6 +198,7 @@ div[data-reactroot] {
   z-index: 1;
   padding: 5px 10px;
   border-radius: 3px;
+  width: $my-font-size-list-width;
 }
 
 /* Links inside the dropdown */
@@ -923,6 +926,7 @@ button:focus {
 
 #fontSizeButton {
   top: 4px;
+  width: $my-font-size-list-width;
 }
 
 button {
