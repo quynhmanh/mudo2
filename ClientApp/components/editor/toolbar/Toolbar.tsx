@@ -41,7 +41,7 @@ const Toolbar = (props: IProps) => {
             {{
                 width: "100%",
                 backgroundColor: "#dae0e7",
-                boxShadow: "0 1px 0 rgba(14,19,24,.15)",
+                // boxShadow: "0 1px 0 rgba(14,19,24,.15)",
                 display: "inline-flex",
                 position: "absolute",
                 right: 0,
@@ -49,7 +49,10 @@ const Toolbar = (props: IProps) => {
                 height: "46px",
                 padding: "10px",
                 marginBottom: "10px",
-                zIndex: 2
+                zIndex: 2,
+                background: '#fff',
+                boxShadow: '0 1px 0 rgba(14,19,24,.15)',
+                // padding: '8px',
             }}
         >
             <LeftSide
