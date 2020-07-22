@@ -5,17 +5,17 @@ $my-font-size-list-width: 100px;
 
 @font-face {
   font-family: 'AvenirNextRoundedPro';
-  src: url('https://draft.vn/fonts/O5mEMMs7UejmI1WeSKWQ.ttf');
+  src: url('/fonts/AvenirNextRoundedPro.ttf');
 }
 
 @font-face {
   font-family: 'AvenirNextRoundedPro-Medium';
-  src: url('https://draft.vn/fonts/bTXfgLwtk2mp4AnfZytw.ttf');
+  src: url('/fonts/AvenirNextRoundedPro-Medium.ttf');
 }
 
 @font-face {
   font-family: 'AvenirNextRoundedPro-Bold';
-  src: url('https://draft.vn/fonts/LOEy8wxUfUWQdFsNyNBcGA.ttf');
+  src: url('/fonts/AvenirNextRoundedPro-Bold.ttf');
 }
 
 @keyframes gradient___UgeAv {
@@ -939,7 +939,7 @@ button {
 }
 
 .hover-outline:hover {
-  outline: rgb(0, 217, 225) solid 2px;
+  // outline: rgb(0, 217, 225) solid 2px;
 }
 
 .color-picker-block:focus {

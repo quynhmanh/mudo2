@@ -196,7 +196,7 @@ export default class Canvas extends Component<IProps, IState> {
                   className="guide axis-x static"
                   style={{
                     left: `${g[0] * scale}px`,
-                    border: g[1] === 1 ? "0.5px dashed #B14AED" : null
+                    borderLeft: g[1] === 1 ? "0.1em dashed #B14AED" : null
                   }}
                 ></div>
               )
@@ -208,7 +208,7 @@ export default class Canvas extends Component<IProps, IState> {
                   className="guide axis-y static"
                   style={{
                     top: `${g[0] * scale}px`,
-                    border: g[1] === 1 ? "0.5px dashed #B14AED" : null
+                    borderLeft: g[1] === 1 ? "0.1em dashed #B14AED" : null
                   }}
                 ></div>
               )
@@ -222,7 +222,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     left: `${transformImage.x[0] * scale}px`,
-                    border: "0.5px dashed #B14AED"
+                    borderLeft: "0.1em dashed #B14AED"
                   }}
                 ></div>
               );
@@ -236,7 +236,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     left: `${transformImage.x[1] * scale}px`,
-                    border: "0.5px dashed #B14AED",
+                    borderLeft: "0.1em dashed #B14AED"
                   }}
                 ></div>
               );
@@ -251,7 +251,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     left: `${transformImage.x[2] * scale}px`,
-                    border: "0.5px dashed #B14AED"
+                    borderLeft: "0.1em dashed #B14AED"
                   }}
                 ></div>
               );
@@ -266,7 +266,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     top: `${transformImage.y[0] * scale}px`,
-                    border: "0.5px dashed #B14AED"
+                    borderTop: "0.1em dashed #B14AED"
                   }}
                 ></div>
               );
@@ -281,7 +281,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     top: `${transformImage.y[1] * scale}px`,
-                    border: "0.5px dashed #B14AED"
+                    borderTop: "0.1em dashed #B14AED"
                   }}
                 ></div>
               );
@@ -296,7 +296,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     top: `${transformImage.y[2] * scale}px`,
-                    border: "0.5px dashed #B14AED"
+                    borderTop: "0.1em dashed #B14AED"
                   }}
                 ></div>
               );

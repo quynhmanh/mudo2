@@ -2485,7 +2485,7 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.imageHovered = img;
         let el = document.getElementById(img._id + "___");
         if (el) {
-            el.style.outline = 'rgb(0, 217, 225) solid 2px';
+            // el.style.outline = 'rgb(0, 217, 225) solid 2px';
         }
     };
 
@@ -4034,7 +4034,8 @@ class CanvaEditor extends Component<IProps, IState> {
                                                 display: "flex",
                                                 alignItems: "center",
                                                 fontSize: "14px",
-                                                fontFamily: "AvenirNextRoundedPro"
+                                                fontFamily: "AvenirNextRoundedPro",
+                                                fontWeight: 600,
                                             }}
                                         >
                                             <span>

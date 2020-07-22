@@ -42,6 +42,7 @@ export default class Selector extends PureComponent<IProps, IState> {
             textAlign: 'center',
             backgroundColor: !selected ? '#0e1318' : 'rgb(41, 48, 57)',
             height: '70px',
+            fontFamily: "AvenirNextRoundedPro",
           }}
           onClick={disabled ? null : onClick}
         >

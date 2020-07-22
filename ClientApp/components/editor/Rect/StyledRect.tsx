@@ -85,7 +85,7 @@ export default styled.div`
     }
   }
   .resizable-handler {
-    box-shadow: 0 0 1px 1px rgba(123,134,144,0.23), 0 0 0 1px rgba(5, 13, 21, 0.08);
+    box-shadow: 0 0 5px 1px rgba(14,19,24,.15), 0 0 0 1px rgba(14,19,24,.2);
     background-color: white;
     border-radius: 50%;
     position: absolute;
@@ -188,15 +188,15 @@ export default styled.div`
     left: calc(50% - 9px);
   }
   .l {
-    left: -11px;
+    left: -10px;
   }
   .r {
-    right: -11px;
+    right: -10px;
   }
   .t {
-    top: -11px;
+    top: -10px;
   }
   .b {
-    bottom: -11px;
+    bottom: -10px;
   }
 `
