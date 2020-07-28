@@ -24,6 +24,7 @@ function parseContent(content : any, eventName : string = "hover") {
 export interface IProps {
   setSelectionColor: any;
   colorPickerShown: any;
+  handleColorPick: any;
 }
 
 export interface IState {
@@ -102,6 +103,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
           let colorCode = color.toRGBA();
           this.props.setSelectionColor(colorCode)
           editorStore.addFontColor(colorCode.toString())
+          instance.setColor(null);
         })
         .on("show", instance => {
           // this.props.colorPickerShown()
@@ -116,14 +118,16 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         })
         .on("hide", instance => {
           console.log('pickr hide');
-          let colorCode = instance.getColor().toRGBA().toString();
-          console.log('instance ', instance);
-          console.log('colorCode ', colorCode);
+          // let colorCode = instance.getColor().toRGBA().toString();
+          // console.log('instance ', instance);
+          // console.log('colorCode ', colorCode);
           setTimeout(() => {editorStore.setToggleColorPickerVisibility(false);}, 100);
           // instance.setColor(null);
 
           // instance._clearColor();
           // instance.setColor('transparent');
+          console.log('handleColorPick');
+          this.props.handleColorPick();
         })
     }
 

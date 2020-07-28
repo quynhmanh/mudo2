@@ -174,6 +174,11 @@ class LeftSide extends Component<IProps, IState> {
     hasMoreVideos: true
   };
 
+  constructor(props) {
+    super(props);
+    this.handleColorPick = this.handleColorPick.bind(this);
+  }
+
   componentDidMount() {
     this.loadMore.bind(this)(true);
     this.loadMoreBackground.bind(this)(true);
@@ -893,6 +898,11 @@ class LeftSide extends Component<IProps, IState> {
     this.props.handleSidebarSelectorClicked(tab, e);
     this.forceUpdate();
   };
+
+  handleColorPick = (e) => {
+    console.log("handleColorPick");
+    this.forceUpdate();
+  }
 
   render() {
     return (
@@ -2213,7 +2223,6 @@ class LeftSide extends Component<IProps, IState> {
                   }px), 0px)`,
                 zIndex: this.props.selectedTab !== SidebarTab.Color && -1,
                 height: "100%",
-                backgroundColor: "white",
               }}
             >
               <div style={{ display: "inline-block" }}>
@@ -2225,7 +2234,7 @@ class LeftSide extends Component<IProps, IState> {
                   }}
                 >
                   {editorStore.fontColors.map(font => (
-                    <a
+                    <div
                       key={uuidv4()}
                       href="#"
                       onClick={e => {
@@ -2267,7 +2276,7 @@ class LeftSide extends Component<IProps, IState> {
                         >
                         </button>
                       </li>
-                    </a>
+                    </div>
                   ))}
                   {/* <TooltipClick
                     tipbaseClass="tipbase-color-picker"
@@ -2333,10 +2342,9 @@ class LeftSide extends Component<IProps, IState> {
                       <ColorPicker 
                         setSelectionColor={this.props.setSelectionColor}
                         colorPickerShown={this.props.colorPickerShown}
+                        handleColorPick={this.handleColorPick}
                       />
                     {/* </a> */}
-                    }
-                  />
                   {/* <a
                       key={uuidv4()}
                       href="#"
