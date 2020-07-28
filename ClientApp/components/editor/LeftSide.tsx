@@ -1319,7 +1319,7 @@ class LeftSide extends Component<IProps, IState> {
                         zIndex: editorStore.upperZIndex + 1,
                         color: "black",
                         fontSize: 42,
-                        fontRepresentative: "images/default.png",
+                        fontRepresentative: "images/font-AvenirNextRoundedPro.png",
                         selected: true,
                         fontFace: "O5mEMMs7UejmI1WeSKWQ",
                       };
@@ -1361,7 +1361,7 @@ class LeftSide extends Component<IProps, IState> {
                         ref: this.props.idObjectSelected,
                         color: "black",
                         fontSize: 24,
-                        fontRepresentative: "images/default.png",
+                        fontRepresentative: "images/font-AvenirNextRoundedPro.png",
                         selected: true,
                         fontFace: "O5mEMMs7UejmI1WeSKWQ",
                       };
@@ -1405,7 +1405,7 @@ class LeftSide extends Component<IProps, IState> {
                         ref: editorStore.idObjectSelected,
                         color: "black",
                         fontSize: 16,
-                        fontRepresentative: "images/default.png",
+                        fontRepresentative: "images/font-AvenirNextRoundedPro.png",
                         selected: true,
                         fontFace: "O5mEMMs7UejmI1WeSKWQ",
                       };

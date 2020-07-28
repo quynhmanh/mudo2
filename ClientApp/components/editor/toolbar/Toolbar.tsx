@@ -47,7 +47,7 @@ const Toolbar = (props: IProps) => {
                 right: 0,
                 left: "0px",
                 height: "46px",
-                padding: "10px",
+                padding: "8px",
                 marginBottom: "10px",
                 zIndex: 2,
                 background: '#fff',

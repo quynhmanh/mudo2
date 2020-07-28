@@ -31,7 +31,11 @@ const Bold = (props: IProps) => {
                 }}
                 onClick={handleBoldBtnClick}
             >
-                <img src={require("@Components/shared/svgs/editor/toolbar/bold.svg")} alt={content}/>
+                <img 
+                    style={{
+                        width: "25px",
+                    }}
+                    src={require("@Components/shared/svgs/editor/toolbar/bold.svg")} alt={content}/>
             </a>
         </Tooltip>
     );

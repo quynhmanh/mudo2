@@ -22,7 +22,8 @@ const Position = (props: IProps) => {
                 onClick={onClickpositionList}
                 style={{
                     display: "flex",
-                    fontSize: "16px"
+                    fontSize: "16px",
+                    fontFamily: "AvenirNextRoundedPro-Medium",
                 }}
             >
                 {translate("position")}

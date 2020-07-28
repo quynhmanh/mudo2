@@ -14,7 +14,8 @@ const Cancel = (props: IProps) => {
             className="toolbar-btn dropbtn-font"
             onClick={handleCancelBtnClick}
             style={{
-                display: show ? "flex" : "none"
+                display: show ? "flex" : "none",
+                fontFamily: "AvenirNextRoundedPro-Medium",
             }}
         >
             <img src={require("@Components/shared/svgs/editor/toolbar/cancel.svg")} alt={content}/>

@@ -842,6 +842,10 @@ button:focus {
 // 	}
 // }
 
+#download-btn {
+  background: rgba(0, 0, 0, 0.13) !important;
+}
+
 #download-btn:hover{
   background: rgba(0, 0, 0, 0.43) !important;
 }

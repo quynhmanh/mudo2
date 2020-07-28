@@ -890,7 +890,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: "100%",
               position: "absolute",
               outline:
-                cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
+                cropMode && selected ? "rgb(0, 217, 225) solid 1px" : "none"
             }}
           >
             {imgResizeDirection.map((d, i) => {

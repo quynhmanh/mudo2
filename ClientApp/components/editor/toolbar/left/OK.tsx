@@ -15,6 +15,7 @@ const OK = (props: IProps) => {
             onClick={handleOkBtnClick}
             style={{
                 display: show ? "flex" : "none",
+                fontFamily: "AvenirNextRoundedPro-Medium",
             }}
         >
             <img src={require("@Components/shared/svgs/editor/toolbar/ok.svg")} alt={content} />

@@ -275,7 +275,7 @@ class CanvaEditor extends Component<IProps, IState> {
             showMediaEditPopup: false,
             updateRect: false,
             childId: null,
-            fontName: "images/833bdf3b-7c22-4e79-9b0a-eece6711eacd.png",
+            fontName: "images/font-AvenirNextRoundedPro.png",
             isSaving: false,
             showPopup: false,
             showMediaEditingPopup: false,
@@ -618,16 +618,18 @@ class CanvaEditor extends Component<IProps, IState> {
 
         var staticGuides = {
             x: [
-                [0, 0],
-                [this.state.rectWidth / 2, 0],
-                [this.state.rectWidth, 0]
+                [0, uuidv4()],
+                [this.state.rectWidth / 2, uuidv4()],
+                [this.state.rectWidth, uuidv4()]
             ],
             y: [
-                [0, 0],
-                [this.state.rectHeight / 2, 0],
-                [this.state.rectHeight, 0]
+                [0, uuidv4()],
+                [this.state.rectHeight / 2, uuidv4()],
+                [this.state.rectHeight, uuidv4()]
             ]
         };
+
+        console.log('staticGuides ', this.state);
 
         var fitScale =
             Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
@@ -840,13 +842,29 @@ class CanvaEditor extends Component<IProps, IState> {
             var scaleY = (height - 100) / rectHeight;
             let fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY)
 
+            staticGuides = {
+                x: [
+                    [0, uuidv4()],
+                    [rectWidth / 2, uuidv4()],
+                    [rectWidth, uuidv4()]
+                ],
+                y: [
+                    [0, staticGuides],
+                    [rectHeight / 2, uuidv4()],
+                    [rectHeight, uuidv4()]
+                ]
+            };
+    
             self.setState({
+                staticGuides,
                 rectWidth,
                 rectHeight,
                 subtype,
                 scale: fitScale,
                 fitScale,
             });
+
+            
         }
 
         document.addEventListener("keydown", this.removeImage.bind(this));
@@ -2277,18 +2295,34 @@ class CanvaEditor extends Component<IProps, IState> {
             var e = v[0];
             if (!updateStartPosX && Math.abs(newLeft - e) < 5) {
                 left -= newLeft - e;
-                v[1] = 1;
+                // v[1] = 1;
+                var el = document.getElementById(v[1]);
+                if (el) {
+                    document.getElementById(v[1]).style.display = "block";
+                }
                 updateStartPosX = true;
             } else if (!updateStartPosX && Math.abs(newLeft3 - e) < 5) {
                 left -= newLeft3 - e;
-                v[1] = 1;
+                // v[1] = 1;
+                var el = document.getElementById(v[1]);
+                if (el) {
+                    document.getElementById(v[1]).style.display = "block";
+                }
                 updateStartPosX = true;
             } else if (!updateStartPosX && Math.abs(newLeft2 - e) < 5) {
                 left -= newLeft2 - e;
-                v[1] = 1;
+                // v[1] = 1;
+                var el = document.getElementById(v[1]);
+                if (el) {
+                    document.getElementById(v[1]).style.display = "block";
+                }
                 updateStartPosX = true;
             } else {
-                v[1] = 0;
+                var el = document.getElementById(v[1]);
+                if (el) {
+                    document.getElementById(v[1]).style.display = "none";
+                }
+                // v[1] = 0;
             }
 
             return v;
@@ -2298,18 +2332,30 @@ class CanvaEditor extends Component<IProps, IState> {
             var e = v[0];
             if (!updateStartPosY && Math.abs(newTop - e) < 5) {
                 top -= newTop - e;
-                v[1] = 1;
+                var el = document.getElementById(v[1]);
+                if (el) {
+                    document.getElementById(v[1]).style.display = "block";
+                }
                 updateStartPosY = true;
             } else if (!updateStartPosY && Math.abs(newTop3 - e) < 5) {
                 top -= newTop3 - e;
-                v[1] = 1;
+                var el = document.getElementById(v[1]);
+                if (el) {
+                    document.getElementById(v[1]).style.display = "block";
+                }
                 updateStartPosY = true;
             } else if (!updateStartPosY && Math.abs(newTop2 - e) < 5) {
                 top -= newTop2 - e;
-                v[1] = 1;
+                var el = document.getElementById(v[1]);
+                if (el) {
+                    document.getElementById(v[1]).style.display = "block";
+                }
                 updateStartPosY = true;
             } else {
-                v[1] = 0;
+                var el = document.getElementById(v[1]);
+                if (el) {
+                    document.getElementById(v[1]).style.display = "none";
+                }
             }
 
             return v;
@@ -2325,18 +2371,18 @@ class CanvaEditor extends Component<IProps, IState> {
     handleDragEnd = () => {
         this.temp.unsubscribe();
 
-        let {
-            staticGuides: { x, y }
-        } = this.state;
+        // let {
+        //     staticGuides: { x, y }
+        // } = this.state;
 
-        x = x.map(e => {
-            e[1] = 0;
-            return e;
-        });
-        y = y.map(e => {
-            e[1] = 0;
-            return e;
-        });
+        // x = x.map(e => {
+        //     e[1] = 0;
+        //     return e;
+        // });
+        // y = y.map(e => {
+        //     e[1] = 0;
+        //     return e;
+        // });
 
         var images = toJS(editorStore.images).map(image => {
             if (image._id == this.state.idObjectSelected) {

@@ -36,12 +36,16 @@ const Color = (props: IProps) => {
                 onClick={handleColorBtnClick}
                 className="toolbar-btn"
             >
-                <img src={require("@Components/shared/svgs/editor/toolbar/colorPicker.svg")} alt={content}/>
+                <img
+                    style={{
+                        width: "25px",
+                    }} 
+                    src={require("@Components/shared/svgs/editor/toolbar/colorPicker.svg")} alt={content}/>
                 <div
                     style={{
                         position: "absolute",
-                        bottom: "4px",
-                        left: "4px",
+                        bottom: "3px",
+                        left: "5px",
                         borderRadius: "14px",
                         width: "72%",
                         height: "4px",

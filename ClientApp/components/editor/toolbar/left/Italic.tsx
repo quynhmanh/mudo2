@@ -31,7 +31,11 @@ const Italic = (props: IProps) => {
                 }}
                 onClick={handleItalicBtnClick}
             >
-                <img src={require("@Components/shared/svgs/editor/toolbar/italic.svg")} alt={content} />
+                <img 
+                    style={{
+                        width: "25px",
+                    }} 
+                    src={require("@Components/shared/svgs/editor/toolbar/italic.svg")} alt={content} />
             </a>
         </Tooltip>
     );

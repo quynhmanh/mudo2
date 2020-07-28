@@ -190,28 +190,32 @@ export default class Canvas extends Component<IProps, IState> {
             }}
           >
             {staticGuides.x.map(g =>
-              g[1] !== 1 ? null : (
+              // g[1] !== 1 ? null : (
                 <div
                   key={uuidv4()}
+                  id={g[1]}
                   className="guide axis-x static"
                   style={{
+                    display: 'none',
                     left: `${g[0] * scale}px`,
-                    borderLeft: g[1] === 1 ? "0.1em dashed #B14AED" : null
+                    borderLeft:"0.1em solid #B14AED"
                   }}
                 ></div>
-              )
+              // )
             )}
             {staticGuides.y.map(g =>
-              g[1] !== 1 ? null : (
+              // g[1] !== 1 ? null : (
                 <div
                   key={uuidv4()}
+                  id={g[1]}
                   className="guide axis-y static"
                   style={{
+                    display: 'none',
                     top: `${g[0] * scale}px`,
-                    borderLeft: g[1] === 1 ? "0.1em dashed #B14AED" : null
+                    borderTop: "0.1em solid #B14AED"
                   }}
                 ></div>
-              )
+              // )
             )}
             {images.map(g => {
               var transformImage = this.tranformImage(g);

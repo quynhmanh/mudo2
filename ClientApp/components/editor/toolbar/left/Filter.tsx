@@ -14,7 +14,8 @@ const Filter = (props: IProps) => {
         <div
             style={{
                 position: "relative",
-                display: show ? "block" : "none"
+                display: show ? "block" : "none",
+                fontFamily: "AvenirNextRoundedPro-Medium",
             }}
         >
             {!cropMode && (
