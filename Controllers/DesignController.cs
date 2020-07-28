@@ -246,26 +246,20 @@ namespace RCB.TypeScript.Controllers
                 DownloadBody oDownloadBody = JsonConvert.DeserializeObject<DownloadBody>(body);
 
                 string style = AppSettings.style;
-                try
+                for (int i = 0; i < oDownloadBody.Fonts.Length; ++i)
                 {
-                    for (int i = 0; i < oDownloadBody.Fonts.Length; ++i)
+                    try
                     {
-                        try
-                        {
-                            byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{oDownloadBody.Fonts[i]}.ttf");
-                            String file = Convert.ToBase64String(AsBytes);
+                        byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{oDownloadBody.Fonts[i]}.ttf");
+                        String file = Convert.ToBase64String(AsBytes);
 
-                            string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
-                            style += s;
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
+                        string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url('https://localhost:64099/fonts/{oDownloadBody.Fonts[i]}.ttf'); }}";
+                        style += s;
                     }
-                } catch (Exception e)
-                {
+                    catch (Exception e)
+                    {
 
+                    }
                 }
 
                 string template =
@@ -413,7 +407,7 @@ namespace RCB.TypeScript.Controllers
 
                 DownloadBody oDownloadBody = JsonConvert.DeserializeObject<DownloadBody>(body);
 
-                string style = AppSettings.style;
+                string style = String.Empty;
                 for (int i = 0; i < oDownloadBody.Fonts.Length; ++i)
                 {
                     try
@@ -421,7 +415,7 @@ namespace RCB.TypeScript.Controllers
                         byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{oDownloadBody.Fonts[i]}.ttf");
                         String file = Convert.ToBase64String(AsBytes);
 
-                        string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
+                        string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url('https://localhost:64099/fonts/{oDownloadBody.Fonts[i]}.ttf'); }}";
                         style += s;
                     }
                     catch (Exception e)
@@ -429,6 +423,8 @@ namespace RCB.TypeScript.Controllers
 
                     }
                 }
+
+                style += AppSettings.style;
 
                 string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
                     .Replace("[FONT_FACE]", style)
@@ -445,13 +441,13 @@ namespace RCB.TypeScript.Controllers
                     for (var i = 0; i < canvas.Length; ++i)
                     {
                         var html = template.Replace("[CANVAS]", canvas[i]);
-                        var path = "/app/test-extension";
+                        var path = "/Users/quynhnguyen/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
-                            path = "/Users/theodd1ou1/Projects/test-extension";
-                            extensionId = "kchhnephgklnbcicdcamknajeebchgmj";
+                            path = "/Users/quynhnguyen/test-extension";
+                            extensionId = "jobanehgmdbmmbedknkojbiafgcjclki";
                             executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                         }
 

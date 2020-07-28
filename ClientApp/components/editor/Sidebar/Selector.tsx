@@ -50,7 +50,9 @@ export default class Selector extends PureComponent<IProps, IState> {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            margin: 'auto',
+            marginTop: '7px',
+            position: "relative",
+            width: "100%",
           }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +74,7 @@ export default class Selector extends PureComponent<IProps, IState> {
               ></path>})
               )}
             </svg>
-            <span style={{ fontSize: "11px" }}>{content}</span>
+            <span style={{ fontSize: "11px", position: "absolute", top: "100%", }}>{content}</span>
           </div>
         </div>
     );
