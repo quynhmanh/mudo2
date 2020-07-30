@@ -41,7 +41,6 @@ const FontSizeWrapper = (props: IProps) => {
                 <FontSize fontSize={fontSize} content={content} />
                 <div
                     style={{
-                        height: "50px",
                         left: "0px",
                         top: "calc(100% + 8px)",
                         padding: "0",
@@ -61,7 +60,7 @@ const FontSizeWrapper = (props: IProps) => {
                     >
                         <li>
                             <button
-                                onClick={handleFontSizeBtnClick}
+                                onClick={(e) => {handleFontSizeBtnClick(e, 6)}}
                                 className="fontsize-picker"
                                 style={{
                                     height: "30px",
@@ -75,6 +74,7 @@ const FontSizeWrapper = (props: IProps) => {
                         <li>
                             <button
                                 className="fontsize-picker"
+                                onClick={(e) => {handleFontSizeBtnClick(e, 8)}}
                                 style={{
                                     height: "30px",
                                     width: "100%",
@@ -82,6 +82,32 @@ const FontSizeWrapper = (props: IProps) => {
                                 }}
                             >
                                 8
+                  </button>
+                        </li>
+                        <li>
+                            <button
+                                className="fontsize-picker"
+                                onClick={(e) => {handleFontSizeBtnClick(e, 100)}}
+                                style={{
+                                    height: "30px",
+                                    width: "100%",
+                                    border: "none"
+                                }}
+                            >
+                                100
+                  </button>
+                        </li>
+                        <li>
+                            <button
+                                className="fontsize-picker"
+                                onClick={(e) => {handleFontSizeBtnClick(e, 42)}}
+                                style={{
+                                    height: "30px",
+                                    width: "100%",
+                                    border: "none"
+                                }}
+                            >
+                                42
                   </button>
                         </li>
                     </ul>

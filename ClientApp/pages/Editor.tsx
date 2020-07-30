@@ -63,7 +63,8 @@ import {
     scan,
     switchMap,
     startWith,
-    takeUntil
+    takeUntil,
+    ignoreElements
 } from "rxjs/operators";
 
 const DownloadList = loadable(() => import("@Components/editor/DownloadList"));
@@ -440,50 +441,123 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ selectedTab: SidebarTab.Color });
     }
 
-    handleFontSizeBtnClick = (e: any) => {
-        function insertAfter(newNode, referenceNode) {
-            referenceNode.parentNode.insertBefore(
-                newNode,
-                referenceNode.nextSibling
-            );
-        }
+    /**
+     * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
+     * 
+     * @param {String} text The text to be rendered.
+     * @param {String} font The css font descriptor that text is to be rendered with (e.g. "bold 14px verdana").
+     * 
+     * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
+     */
+    getTextWidth = (text, font) => {
+        // re-use canvas object for better performance
+        var canvas = this.getTextWidth.canvas || (this.getTextWidth.canvas = document.createElement("canvas"));
+        var context = canvas.getContext("2d");
+        context.font = font;
+        var metrics = context.measureText(text);
+        return metrics.width;
+    }
 
-        var scale = 6;
-        var a = document.getSelection();
-        if (a && a.type === "Range") {
-            document.execCommand("FontSize", false, "7");
-        } else {
-            var id = this.state.childId
-                ? this.state.childId
-                : this.state.idObjectSelected;
-            var el = this.state.childId
-                ? document.getElementById(id)
-                : document
-                    .getElementById(id)
-                    .getElementsByClassName("text")[0];
-            var sel = window.getSelection();
-            var range = document.createRange();
-            range.selectNodeContents(el);
-            sel.removeAllRanges();
-            sel.addRange(range);
-            document.execCommand("FontSize", false, "7");
-            sel.removeAllRanges();
-        }
-        var fonts = document.getElementsByTagName("font");
+    getTextHeight = (text, font) => {
+        console.log('getTextHeight');
+        // re-use canvas object for better performance
+        var canvas = this.getTextWidth.canvas || (this.getTextWidth.canvas = document.createElement("canvas"));
+        var context = canvas.getContext("2d");
+        context.font = font;
+        var metrics = context.measureText(text);
+        console.log('metrics ', metrics);
+
+        return parseInt(context.font.match(/\d+/), 10);
+    }
+
+    handleFontSizeBtnClick = (e: any, fontSize: Number) => {
+
+        var fonts = document
+          .getElementById(this.state.idObjectSelected)
+          .getElementsByClassName("font");
+
+        var width2 = 0, height2 = 0;
+
+        console.log('fontSize ', fontSize);
+
+        var fontSizePx = fontSize + "px";
+        var fontSizePt = fontSize + "pt";
+
         for (var i = 0; i < fonts.length; ++i) {
             var font = fonts[i];
-            var div = document.createElement("div");
-            div.className = "font";
-            div.style.fontSize = font.style.fontSize;
-            div.style.color = font.style.color;
-            div.innerText = font.innerText;
+            (font as HTMLElement).style.fontSize = fontSizePx;
 
-            insertAfter(div, font);
-
-            font.remove();
+            width2 = Math.max(width2, this.getTextWidth(font.innerHTML, fontSizePt + " " + editorStore.imageSelected.fontFace));
+            height2 += this.getTextHeight(font.innerHTML, fontSizePt + " " + editorStore.imageSelected.fontFace);
         }
 
-        this.setState({ fontSize: scale });
+        let images = toJS(editorStore.images);
+        let tempImages = images.map(img => {
+            if (img._id === this.state.idObjectSelected) {
+                img.scaleX = 1;
+                img.scaleY = 1;
+                img.width = width2;
+                img.origin_width = width2;
+                img.height = height2;
+                img.origin_height = height2;
+                editorStore.imageSelected = img;
+            }
+
+            var hihi4 = document.getElementById(img._id + "hihi4");
+            if (hihi4) {
+                img.innerHTML = hihi4.innerHTML;
+            }
+            console.log('img selected ', img);
+            return img;
+        });
+
+        // var hihi4 = document.getElementById(_id + "hihi4");
+        // if (hihi4) {
+        //     hihi4.style.width = image.width / image.scaleX + "px";
+        // }
+
+        editorStore.replace(tempImages);
+
+        // // this.forceUpdate();
+
+        // var scale = 6;
+        // var a = document.getSelection();
+        // if (a && a.type === "Range") {
+        //     document.execCommand("FontSize", false, "7");
+        // } else {
+        //     var id = this.state.childId
+        //         ? this.state.childId
+        //         : this.state.idObjectSelected;
+        //     var el = this.state.childId
+        //         ? document.getElementById(id)
+        //         : document
+        //             .getElementById(id)
+        //             .getElementsByClassName("text")[0];
+        //     var sel = window.getSelection();
+        //     var range = document.createRange();
+        //     range.selectNodeContents(el);
+        //     sel.removeAllRanges();
+        //     sel.addRange(range);
+        //     document.execCommand("FontSize", false, "7");
+        //     sel.removeAllRanges();
+        // }
+        // var fonts = document.getElementsByTagName("font");
+        // for (var i = 0; i < fonts.length; ++i) {
+        //     var font = fonts[i];
+        //     var div = document.createElement("div");
+        //     div.className = "font";
+        //     div.style.fontSize = font.style.fontSize;
+        //     div.style.color = font.style.color;
+        //     div.innerText = font.innerText;
+
+        //     insertAfter(div, font);
+
+        //     font.remove();
+        // }
+
+        // this.setState({ fontSize: scale });
+
+        // this.forceUpdate();
     }
 
     handleAlignBtnClick = (e: any, type: string) => {
