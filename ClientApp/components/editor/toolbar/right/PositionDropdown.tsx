@@ -26,6 +26,7 @@ const PositionDropdown = (props: IProps) => {
                     }}
                 >
                     <button
+                        className="positionBtn"
                         style={{
                             padding: "6px",
                             border: "none",
@@ -43,6 +44,7 @@ const PositionDropdown = (props: IProps) => {
                         </span>
                     </button>
                     <button
+                        className="positionBtn"
                         style={{
                             padding: "6px",
                             border: "none",

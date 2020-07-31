@@ -470,7 +470,7 @@ class CanvaEditor extends Component<IProps, IState> {
         return parseInt(context.font.match(/\d+/), 10);
     }
 
-    handleFontSizeBtnClick = (e: any, fontSize: Number) => {
+    handleFontSizeBtnClick = (e: any, fontSize: number) => {
 
         var fonts = document
           .getElementById(this.state.idObjectSelected)
@@ -500,6 +500,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 img.origin_width = width2;
                 img.height = height2;
                 img.origin_height = height2;
+                img.fontSize = fontSize;
                 editorStore.imageSelected = img;
             }
 
@@ -555,7 +556,7 @@ class CanvaEditor extends Component<IProps, IState> {
         //     font.remove();
         // }
 
-        // this.setState({ fontSize: scale });
+        this.setState({ fontSize: fontSize });
 
         // this.forceUpdate();
     }
@@ -3636,7 +3637,8 @@ class CanvaEditor extends Component<IProps, IState> {
         document.getElementById("myTransparent").classList.toggle("show");
 
         const onDown = e => {
-            if (!e.target.matches(".dropbtn-font-size")) {
+            console.log('eeee ', e.target);
+            if (!document.getElementById("myTransparent").contains(e.target)) {
                 var dropdowns = document.getElementsByClassName(
                     "dropdown-content-font-size"
                 );
@@ -3659,7 +3661,8 @@ class CanvaEditor extends Component<IProps, IState> {
         document.getElementById("myPositionList").classList.toggle("show");
 
         const onDown = e => {
-            if (!e.target.matches(".dropbtn-font-size")) {
+            if (!document.getElementById("myPositionList").contains(e.target)) {
+            // if (!e.target.matches(".dropbtn-font-size")) {
                 var dropdowns = document.getElementsByClassName(
                     "dropdown-content-font-size"
                 );
@@ -4086,6 +4089,12 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleOpacityChange = opacity => {
+
+        var el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        if (el) {
+            el.style.opacity = opacity / 100;
+        }
+
         let images = toJS(editorStore.images);
         let tempImages = images.map(img => {
             if (img._id === this.state.idObjectSelected) {

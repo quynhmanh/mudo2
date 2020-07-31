@@ -1,7 +1,7 @@
 // Variables
 $toolbar-bg-color-hover: rgba(14,19,24,.07);
 
-$my-font-size-list-width: 100px;
+$my-font-size-list-width: 75px;
 
 @font-face {
   font-family: 'AvenirNextRoundedPro';
@@ -955,4 +955,8 @@ button {
   -moz-animation: bounce .8s ease-out;
   -o-animation: bounce .8s ease-out;
   animation: bounce 1.2s ease-out;
+}
+
+.positionBtn:hover {
+  background-color: #ddd !important;
 }

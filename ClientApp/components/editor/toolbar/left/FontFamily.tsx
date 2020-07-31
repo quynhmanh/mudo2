@@ -31,7 +31,8 @@ const FontFamily = (props: IProps) => {
                     display: "inline-block",
                     cursor: "pointer",
                     color: "black",
-                    position: "relative"
+                    position: "relative",
+                    width: "216px",
                 }}
             >
                 <img

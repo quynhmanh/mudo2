@@ -29,12 +29,12 @@ const FontSizeWrapper = (props: IProps) => {
                     position: "relative",
                     display:
                         childId ||
-                        (
-                            selectedImage &&
-                            selectedImage.type === TemplateType.Heading
-                        ) 
-                        ? "block" 
-                        : "none"
+                            (
+                                selectedImage &&
+                                selectedImage.type === TemplateType.Heading
+                            )
+                            ? "block"
+                            : "none"
                 }}
                 className="toolbar-btn"
             >
@@ -42,7 +42,7 @@ const FontSizeWrapper = (props: IProps) => {
                 <div
                     style={{
                         left: "0px",
-                        top: "calc(100% + 8px)",
+                        top: "4px",
                         padding: "0",
                         background: "white",
                         animation: "bounce 1.2s ease-out"
@@ -60,7 +60,7 @@ const FontSizeWrapper = (props: IProps) => {
                     >
                         <li>
                             <button
-                                onClick={(e) => {handleFontSizeBtnClick(e, 6)}}
+                                onClick={(e) => { handleFontSizeBtnClick(e, 6) }}
                                 className="fontsize-picker"
                                 style={{
                                     height: "30px",
@@ -74,7 +74,7 @@ const FontSizeWrapper = (props: IProps) => {
                         <li>
                             <button
                                 className="fontsize-picker"
-                                onClick={(e) => {handleFontSizeBtnClick(e, 8)}}
+                                onClick={(e) => { handleFontSizeBtnClick(e, 8) }}
                                 style={{
                                     height: "30px",
                                     width: "100%",
@@ -87,20 +87,7 @@ const FontSizeWrapper = (props: IProps) => {
                         <li>
                             <button
                                 className="fontsize-picker"
-                                onClick={(e) => {handleFontSizeBtnClick(e, 100)}}
-                                style={{
-                                    height: "30px",
-                                    width: "100%",
-                                    border: "none"
-                                }}
-                            >
-                                100
-                  </button>
-                        </li>
-                        <li>
-                            <button
-                                className="fontsize-picker"
-                                onClick={(e) => {handleFontSizeBtnClick(e, 42)}}
+                                onClick={(e) => { handleFontSizeBtnClick(e, 42) }}
                                 style={{
                                     height: "30px",
                                     width: "100%",
@@ -108,6 +95,19 @@ const FontSizeWrapper = (props: IProps) => {
                                 }}
                             >
                                 42
+                  </button>
+                        </li>
+                        <li>
+                            <button
+                                className="fontsize-picker"
+                                onClick={(e) => { handleFontSizeBtnClick(e, 100) }}
+                                style={{
+                                    height: "30px",
+                                    width: "100%",
+                                    border: "none"
+                                }}
+                            >
+                                100
                   </button>
                         </li>
                     </ul>

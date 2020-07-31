@@ -37,7 +37,7 @@ const TransparentDropdown = (props: IProps) => {
             <div
                 style={{
                     display: "flex",
-                    height: "4px",
+                    height: "3px",
                     backgroundColor: "black",
                     borderRadius: "5px",
                     top: 0,
@@ -49,7 +49,7 @@ const TransparentDropdown = (props: IProps) => {
                 <div
                     id="myOpacity-3"
                     style={{
-                        borderRadius: "5px",
+                        borderRadius: "50%",
                         width: "100%"
                     }}
                 >
@@ -58,14 +58,15 @@ const TransparentDropdown = (props: IProps) => {
                         id="myOpacity-3slider"
                         style={{
                             left: props.currentOpacity - 3 + "%",
-                            backgroundColor: "#5c5c5f",
-                            width: "10px",
-                            height: "10px",
-                            borderRadius: "5px",
+                            backgroundColor: "white",
+                            width: "15px",
+                            height: "15px",
+                            borderRadius: "50%",
                             top: 0,
                             bottom: 0,
                             margin: "auto",
-                            position: "absolute"
+                            position: "absolute",
+                            border: "1px solid rgba(14, 19, 24, 0.2)",
                         }}
                     ></div>
                 </div>
