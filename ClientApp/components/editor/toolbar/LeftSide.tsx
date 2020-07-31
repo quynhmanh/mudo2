@@ -13,6 +13,7 @@ import FontSizeWrapper from "@Components/editor/toolbar/left/FontSizeWrapper";
 import Align from "@Components/editor/toolbar/left/Align";
 import OK from "@Components/editor/toolbar/left/OK";
 import Cancel from "@Components/editor/toolbar/left/Cancel";
+import Effect from "@Components/editor/toolbar/left/Effect";
 
 interface IProps {
     editorStore: any;
@@ -23,6 +24,7 @@ interface IProps {
     handleItalicBtnClick: any;
     handleBoldBtnClick: any;
     onClickDropDownFontList: any;
+    onClickEffectList: any;
     fontName: string;
     cropMode: boolean;
     handleFilterBtnClick: any;
@@ -204,6 +206,18 @@ const LeftSide = (props: IProps) => {
                             />
                     )
             }
+            <Effect
+                show=
+                {
+                    editorStore.imageSelected &&
+                    (
+                        editorStore.imageSelected.type === TemplateType.Heading
+                    )
+                }
+                translate={props.translate}
+                cropMode={props.cropMode}
+                handleAdjustBtnClick={props.onClickEffectList}
+            />
             <OK
                 show=
                 {

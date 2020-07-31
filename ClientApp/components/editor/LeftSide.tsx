@@ -40,6 +40,7 @@ export interface IProps {
   handleEditFont: any;
   handleImageSelected: any;
   colorPickerShown: any;
+  handleApplyEffect: any;
 }
 
 interface IState {
@@ -117,7 +118,8 @@ enum SidebarTab {
   RemovedBackgroundImage = 128,
   Font = 248,
   Color = 496,
-  Emoji = 992
+  Emoji = 992,
+  Effect = 1984,
 }
 
 const adminEmail = "llaugusty@gmail.com";
@@ -2204,6 +2206,41 @@ class LeftSide extends Component<IProps, IState> {
                       </div>
                     </div>
                   </InfiniteScroll>
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                opacity: this.props.selectedTab === SidebarTab.Effect ? 1 : 0,
+                position: "absolute",
+                width: "364px",
+                color: "white",
+                overflow: "scroll",
+                transition:
+                  "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
+                transform:
+                  this.props.selectedTab !== SidebarTab.Effect &&
+                  `translate3d(0px, calc(${
+                    this.props.selectedTab < SidebarTab.Effect ? 40 : -40
+                  }px), 0px)`,
+                top: "10px",
+                zIndex: this.props.selectedTab !== SidebarTab.Effect && -1,
+                height: "100%",
+                left: "0px",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    height: "calc(100% - 10px)"
+                  }}
+                >
+                  <button onClick={e => {this.props.handleApplyEffect("rgb(0, 255, 255) -6.15498px 0px 0px, rgb(255, 0, 255) 6.15498px 0px 0px")}}>
+                    <img src="https://static.canva.com/web/images/10d3bc08aa9d6ba94ddba7a67a6ff83e.png"/>
+                  </button>
+                  <button onClick={e => {this.props.handleApplyEffect("")}}>
+                    <img src="https://static.canva.com/web/images/10d3bc08aa9d6ba94ddba7a67a6ff83e.png"/>
+                  </button>
                 </div>
               </div>
             </div>

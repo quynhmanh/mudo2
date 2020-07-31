@@ -11,6 +11,7 @@ interface IProps {
     handleItalicBtnClick: any;
     handleBoldBtnClick: any;
     onClickDropDownFontList: any;
+    onClickEffectList: any;
     fontName: string;
     cropMode: boolean;
     handleFilterBtnClick: any;
@@ -64,6 +65,7 @@ const Toolbar = (props: IProps) => {
                 handleItalicBtnClick={props.handleItalicBtnClick}
                 handleBoldBtnClick={props.handleBoldBtnClick}
                 onClickDropDownFontList={props.onClickDropDownFontList}
+                onClickEffectList={props.onClickEffectList}
                 fontName={props.fontName}
                 cropMode={props.cropMode}
                 handleFilterBtnClick={props.handleFilterBtnClick}

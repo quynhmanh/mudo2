@@ -873,6 +873,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                         transformOrigin: "0 0",
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
                         color: color,
+                        textShadow: this.props.image.textShadow,
                       }}
                     ></div>
                   }

@@ -18,7 +18,8 @@ export enum SidebarTab {
     RemovedBackgroundImage = 128,
     Font = 248,
     Color = 496,
-    Emoji = 992
+    Emoji = 992,
+    Effect = 1984,
 }
 
 export enum Mode {
