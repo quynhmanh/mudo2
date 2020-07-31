@@ -924,7 +924,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     [rectWidth, uuidv4()]
                 ],
                 y: [
-                    [0, staticGuides],
+                    [0, uuidv4()],
                     [rectHeight / 2, uuidv4()],
                     [rectHeight, uuidv4()]
                 ]
@@ -2365,37 +2365,38 @@ class CanvaEditor extends Component<IProps, IState> {
         });
 
         const { staticGuides } = this.state;
+        var pageId = img.page;
 
         var x = staticGuides.x.map(v => {
             var e = v[0];
             if (!updateStartPosX && Math.abs(newLeft - e) < 5) {
                 left -= newLeft - e;
                 // v[1] = 1;
-                var el = document.getElementById(v[1]);
+                var el = document.getElementById(v[1] + pageId);
                 if (el) {
-                    document.getElementById(v[1]).style.display = "block";
+                    el.style.display = "block";
                 }
                 updateStartPosX = true;
             } else if (!updateStartPosX && Math.abs(newLeft3 - e) < 5) {
                 left -= newLeft3 - e;
                 // v[1] = 1;
-                var el = document.getElementById(v[1]);
+                var el = document.getElementById(v[1] + pageId);
                 if (el) {
-                    document.getElementById(v[1]).style.display = "block";
+                    el.style.display = "block";
                 }
                 updateStartPosX = true;
             } else if (!updateStartPosX && Math.abs(newLeft2 - e) < 5) {
                 left -= newLeft2 - e;
                 // v[1] = 1;
-                var el = document.getElementById(v[1]);
+                var el = document.getElementById(v[1] + pageId);
                 if (el) {
-                    document.getElementById(v[1]).style.display = "block";
+                    el.style.display = "block";
                 }
                 updateStartPosX = true;
             } else {
-                var el = document.getElementById(v[1]);
+                var el = document.getElementById(v[1] + pageId);
                 if (el) {
-                    document.getElementById(v[1]).style.display = "none";
+                    el.style.display = "none";
                 }
                 // v[1] = 0;
             }
@@ -2407,29 +2408,29 @@ class CanvaEditor extends Component<IProps, IState> {
             var e = v[0];
             if (!updateStartPosY && Math.abs(newTop - e) < 5) {
                 top -= newTop - e;
-                var el = document.getElementById(v[1]);
+                var el = document.getElementById(v[1] + pageId);
                 if (el) {
-                    document.getElementById(v[1]).style.display = "block";
+                    el.style.display = "block";
                 }
                 updateStartPosY = true;
             } else if (!updateStartPosY && Math.abs(newTop3 - e) < 5) {
                 top -= newTop3 - e;
-                var el = document.getElementById(v[1]);
+                var el = document.getElementById(v[1] + pageId);
                 if (el) {
-                    document.getElementById(v[1]).style.display = "block";
+                    el.style.display = "block";
                 }
                 updateStartPosY = true;
             } else if (!updateStartPosY && Math.abs(newTop2 - e) < 5) {
                 top -= newTop2 - e;
-                var el = document.getElementById(v[1]);
+                var el = document.getElementById(v[1] + pageId);
                 if (el) {
-                    document.getElementById(v[1]).style.display = "block";
+                    el.style.display = "block";
                 }
                 updateStartPosY = true;
             } else {
-                var el = document.getElementById(v[1]);
+                var el = document.getElementById(v[1] + pageId);
                 if (el) {
-                    document.getElementById(v[1]).style.display = "none";
+                    el.style.display = "none";
                 }
             }
 

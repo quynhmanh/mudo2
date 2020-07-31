@@ -193,7 +193,7 @@ export default class Canvas extends Component<IProps, IState> {
               // g[1] !== 1 ? null : (
                 <div
                   key={uuidv4()}
-                  id={g[1]}
+                  id={g[1] + id}
                   className="guide axis-x static"
                   style={{
                     display: 'none',
@@ -207,7 +207,7 @@ export default class Canvas extends Component<IProps, IState> {
               // g[1] !== 1 ? null : (
                 <div
                   key={uuidv4()}
-                  id={g[1]}
+                  id={g[1] + id}
                   className="guide axis-y static"
                   style={{
                     display: 'none',
