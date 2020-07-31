@@ -56,7 +56,15 @@ export default class FontSize extends PureComponent<IProps, IState> {
   render () {
     return (
         <React.Fragment>
-          <img src={require("@Components/shared/svgs/editor/toolbar/arrowDown.svg")} alt={this.props.content} style={{ pointerEvents: 'none', position: 'absolute', right: '10px', top: '4px' }}/> 
+          <img 
+            src={require("@Components/shared/svgs/editor/toolbar/arrowDown.svg")} 
+            alt={this.props.content} 
+            style={{ 
+              pointerEvents: 'none', 
+              position: 'absolute', 
+              right: '4px', 
+              top: '4px' 
+            }}/> 
           <button
               id="fontSizeButton"
               style={{
