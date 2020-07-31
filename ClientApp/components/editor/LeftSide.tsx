@@ -1306,8 +1306,11 @@ class LeftSide extends Component<IProps, IState> {
                   <div
                     style={{
                       fontSize: "28px",
-                      width: "100%",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      background: "hsla(0,0%,100%,.07)",
+                      borderRadius: "7px",
+                      padding: "10px",
+                      width: "95%",
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
@@ -1347,9 +1350,12 @@ class LeftSide extends Component<IProps, IState> {
                   <div
                     style={{
                       fontSize: "22px",
-                      width: "100%",
                       cursor: "pointer",
-                      marginTop: "6px"
+                      marginTop: "10px",
+                      background: "hsla(0,0%,100%,.07)",
+                      borderRadius: "7px",
+                      padding: "10px",
+                      width: "95%",
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
@@ -1389,10 +1395,13 @@ class LeftSide extends Component<IProps, IState> {
                   <div
                     style={{
                       fontSize: "16px",
-                      width: "100%",
                       cursor: "pointer",
                       marginTop: "10px",
-                      marginBottom: "18px"
+                      marginBottom: "18px",
+                      background: "hsla(0,0%,100%,.07)",
+                      borderRadius: "7px",
+                      padding: "10px",
+                      width: "95%",
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
