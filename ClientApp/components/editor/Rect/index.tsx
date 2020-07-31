@@ -347,17 +347,19 @@ export default class Rect extends PureComponent<IProps, IState> {
     return (
       <div>
         {(hovered || selected) &&
-        <div style={{
-          position: "absolute",
-          top: "-1px",
-          left: "-1px",
-          right: "-1px",
-          bottom: "-1px",
-          backgroundImage: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
-          backgroundPosition: 'top,100%,bottom,0',
-          backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
-          backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-        }}>
+        <div 
+          className="hideWhenDownload"
+          style={{
+            position: "absolute",
+            top: "-1px",
+            left: "-1px",
+            right: "-1px",
+            bottom: "-1px",
+            backgroundImage: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+            backgroundPosition: 'top,100%,bottom,0',
+            backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
+            backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+          }}>
 
         </div>}
       <StyledRect

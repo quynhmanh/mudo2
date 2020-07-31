@@ -2569,7 +2569,7 @@ class CanvaEditor extends Component<IProps, IState> {
         });
 
         var selectedTab = this.state.selectedTab;
-        if (this.state.selectedTab === SidebarTab.Font || this.state.selectedTab === SidebarTab.Color) {
+        if (this.state.selectedTab === SidebarTab.Font || this.state.selectedTab === SidebarTab.Color || this.state.selectedTab === SidebarTab.Effect) {
             selectedTab = SidebarTab.Image;
         }
 
@@ -2609,6 +2609,19 @@ class CanvaEditor extends Component<IProps, IState> {
             // el.style.outline = 'rgb(0, 217, 225) solid 2px';
         }
     };
+
+    handleApplyEffect = ef => {
+        console.log('handleApplyEffect ', ef);
+        var images = editorStore.images.map(img => {
+            if (img._id === this.state.idObjectSelected) {
+                img.textShadow = ef;
+            }
+            editorStore.imageSelected = img;
+            return img;
+        });
+        editorStore.replace(images);
+        this.forceUpdate();
+    }
 
     handleImageSelected = img => {
         if (this.state.cropMode && img._id != this.state.idObjectSelected) {
@@ -3587,6 +3600,11 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ selectedTab: SidebarTab.Font, toolbarOpened: true });
     };
 
+    onClickEffectList = e => {
+        e.preventDefault();
+        this.setState({selectedTab: SidebarTab.Effect, toolbarOpened: true});
+    }
+
     onClickDropDownFontSizeList = () => {
         document.getElementById("myFontSizeList").classList.toggle("show");
 
@@ -4364,6 +4382,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             selectedTab={this.state.selectedTab}
                             handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
                             handleImageSelected={this.handleImageSelected}
+                            handleApplyEffect={this.handleApplyEffect}
                         />
                         <div
                             style={{
@@ -4401,6 +4420,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 handleItalicBtnClick={this.handleItalicBtnClick}
                                 handleBoldBtnClick={this.handleBoldBtnClick}
                                 onClickDropDownFontList={this.onClickDropDownFontList}
+                                onClickEffectList={this.onClickEffectList}
                                 fontName={this.state.fontName}
                                 cropMode={this.state.cropMode}
                                 handleFilterBtnClick={this.handleFilterBtnClick}

@@ -4,10 +4,11 @@ import Tooltip from "@Components/shared/Tooltip";
 interface IProps {
     translate: any;
     onClickTransparent: any;
+    show: any;
 }
 
 const Transparent = (props: IProps) => {
-    const { onClickTransparent, translate } = props;
+    const { onClickTransparent, translate, show } = props;
     const { content } = translate("transparent");
     return (
         <Tooltip
@@ -15,7 +16,7 @@ const Transparent = (props: IProps) => {
             offsetTop={5}
             content={content}
             delay={10}
-            style={{}}
+            style={{ display: show ? "block" : "none" }}
             position="bottom"
         >
             <button

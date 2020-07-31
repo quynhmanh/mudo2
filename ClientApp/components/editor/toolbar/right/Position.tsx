@@ -9,14 +9,14 @@ interface IProps {
 const Position = (props: IProps) => {
     const { onClickpositionList, translate } = props;
     return (
-        <Tooltip
-            offsetLeft={0}
-            offsetTop={5}
-            content={translate("position")}
-            delay={10}
-            style={{}}
-            position="bottom"
-        >
+        // <Tooltip
+        //     offsetLeft={0}
+        //     offsetTop={5}
+        //     content={translate("position")}
+        //     delay={10}
+        //     style={{}}
+        //     position="bottom"
+        // >
             <button
                 className="toolbar-btn dropbtn-font"
                 onClick={onClickpositionList}
@@ -28,7 +28,7 @@ const Position = (props: IProps) => {
             >
                 {translate("position")}
             </button>
-        </Tooltip>
+        // </Tooltip>
     );
 }
 

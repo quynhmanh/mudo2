@@ -2232,14 +2232,113 @@ class LeftSide extends Component<IProps, IState> {
               <div>
                 <div
                   style={{
-                    height: "calc(100% - 10px)"
+                    height: "calc(100% - 10px)",
+                    padding: "17px",
                   }}
                 >
-                  <button onClick={e => {this.props.handleApplyEffect("rgb(0, 255, 255) -6.15498px 0px 0px, rgb(255, 0, 255) 6.15498px 0px 0px")}}>
-                    <img src="https://static.canva.com/web/images/10d3bc08aa9d6ba94ddba7a67a6ff83e.png"/>
+                  <button 
+                    style={{
+                      border: "none",
+                      width: "110px",
+                    }}
+                    onClick={e => {this.props.handleApplyEffect("")}}>
+                    <img 
+                      style={{
+                        width: "100%",
+                      }}
+                      src="https://static.canva.com/web/images/d461ce14740df06b826ab8517b88344c.png"/>
+                      <p>None</p>
                   </button>
-                  <button onClick={e => {this.props.handleApplyEffect("")}}>
-                    <img src="https://static.canva.com/web/images/10d3bc08aa9d6ba94ddba7a67a6ff83e.png"/>
+                  <button 
+                    style={{
+                      border: "none",
+                      width: "110px",
+                    }}
+                    onClick={e => {this.props.handleApplyEffect("rgba(25, 25, 25, 0.4) 8.8821px 8.8821px 0px")}}>
+                    <img 
+                      style={{
+                        width: "100%",
+                      }}
+                      src="https://static.canva.com/web/images/544ebef63f65bc118af1a353d8e3456c.png"/>
+                      <p>Shadow</p>
+                  </button>
+                  <button 
+                    style={{
+                      border: "none",
+                      width: "110px",
+                    }}
+                    onClick={e => {this.props.handleApplyEffect("rgba(0, 0, 0, 0.325) 0px 7.53671px 32.031px")}}>
+                    <img 
+                      style={{
+                        width: "100%",
+                      }}
+                      src="https://static.canva.com/web/images/39e8991a556615f8130d7d36580f9276.jpg"/>
+                      <p>Lift</p>
+                  </button>
+                  <button 
+                    style={{
+                      border: "none",
+                      width: "110px",
+                    }}
+                    onClick={e => {this.props.handleApplyEffect("rgb(0, 255, 255) -6.15498px 0px 0px, rgb(255, 0, 255) 6.15498px 0px 0px")}}>
+                    <img 
+                      style={{
+                        width: "100%",
+                      }}
+                      src="https://static.canva.com/web/images/014d16e44f8c5dfddf2ccdb10fb97b6b.png"/>
+                      <p>Hollow</p>
+                  </button>
+                  <button 
+                    style={{
+                      border: "none",
+                      width: "110px",
+                    }}
+                    onClick={e => {this.props.handleApplyEffect("")}}>
+                    <img 
+                      style={{
+                        width: "100%",
+                      }}
+                      src="https://static.canva.com/web/images/6bec5afe4433f7030024ed9287752d08.png"/>
+                      <p>Splice</p>
+                  </button>
+                  <button 
+                    style={{
+                      border: "none",
+                      width: "110px",
+                    }}
+                    onClick={e => {this.props.handleApplyEffect("rgba(25, 25, 25, 0.5) 8.8821px 8.8821px 0px, rgba(25, 25, 25, 0.3) 17.7642px 17.7642px 0px")}}>
+                    <img 
+                      style={{
+                        width: "100%",
+                      }}
+                      src="https://static.canva.com/web/images/3df11ae4feb176c0e1326a83078863d2.png"/>
+                      <p>Echo</p>
+                  </button>
+                  <button 
+                    style={{
+                      border: "none",
+                      width: "110px",
+                    }}
+                    onClick={e => {this.props.handleApplyEffect("rgb(0, 255, 255) -3.76836px 0px 0px, rgb(255, 0, 255) 3.76836px 0px 0px")}}>
+                    <img 
+                      style={{
+                        width: "100%",
+                      }}
+                      src="https://static.canva.com/web/images/10d3bc08aa9d6ba94ddba7a67a6ff83e.png"/>
+                      <p>Glitch</p>
+                  </button>
+                  <button 
+                    style={{
+                      border: "none",
+                      width: "110px",
+                    }}
+                    onClick={e => {this.props.handleApplyEffect("")}}>
+                    <img 
+                      style={{
+                        width: "100%",
+                      }}
+                      src="https://static.canva.com/web/images/2c6d9ae58209c023b5bc05b3581d3e51.jpg"/>
+                      <p>Neon</p>
                   </button>
                 </div>
               </div>

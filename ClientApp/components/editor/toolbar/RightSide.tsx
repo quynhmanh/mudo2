@@ -30,6 +30,7 @@ const RightSide = (props: IProps) => {
                 onClickpositionList={props.onClickpositionList}
             />
             <Transparent
+                show={true}
                 translate={props.translate}
                 onClickTransparent={props.onClickTransparent}
             />
