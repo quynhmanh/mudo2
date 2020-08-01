@@ -2254,6 +2254,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
+                        borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/d461ce14740df06b826ab8517b88344c.png"/>
                       <p>None</p>
@@ -2267,6 +2268,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
+                        borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/544ebef63f65bc118af1a353d8e3456c.png"/>
                       <p>Shadow</p>
@@ -2280,6 +2282,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
+                        borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/39e8991a556615f8130d7d36580f9276.jpg"/>
                       <p>Lift</p>
@@ -2293,6 +2296,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
+                        borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/014d16e44f8c5dfddf2ccdb10fb97b6b.png"/>
                       <p>Hollow</p>
@@ -2306,6 +2310,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
+                        borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/6bec5afe4433f7030024ed9287752d08.png"/>
                       <p>Splice</p>
@@ -2319,6 +2324,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
+                        borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/3df11ae4feb176c0e1326a83078863d2.png"/>
                       <p>Echo</p>
@@ -2332,6 +2338,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
+                        borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/10d3bc08aa9d6ba94ddba7a67a6ff83e.png"/>
                       <p>Glitch</p>
@@ -2345,6 +2352,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
+                        borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/2c6d9ae58209c023b5bc05b3581d3e51.jpg"/>
                       <p>Neon</p>
