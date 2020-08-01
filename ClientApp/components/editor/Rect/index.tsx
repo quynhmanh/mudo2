@@ -807,7 +807,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                     width: width * scale / scaleX + "px",
                     height: height * scale / scaleY + "px",
                     transformOrigin: "0 0",
-                    zIndex: selected ? 1 : 0
+                    zIndex: selected ? 1 : 0,
+                    WebkitTextStroke: this.props.image.textStroke,
                   }}
                 >
                   {/* {selected && objectType === 5 && (
@@ -876,6 +877,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
                         color: color,
                         textShadow: this.props.image.textShadow,
+                        filter: this.props.image.filter,
                       }}
                     ></div>
                   }

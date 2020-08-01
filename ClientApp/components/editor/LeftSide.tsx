@@ -2250,7 +2250,7 @@ class LeftSide extends Component<IProps, IState> {
                       border: "none",
                       width: "110px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("")}}>
+                    onClick={e => {this.props.handleApplyEffect("", "", "black")}}>
                     <img 
                       style={{
                         width: "100%",
@@ -2263,7 +2263,7 @@ class LeftSide extends Component<IProps, IState> {
                       border: "none",
                       width: "110px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgba(25, 25, 25, 0.4) 8.8821px 8.8821px 0px")}}>
+                    onClick={e => {this.props.handleApplyEffect("rgba(25, 25, 25, 0.4) 8.8821px 8.8821px 0px", "", "black")}}>
                     <img 
                       style={{
                         width: "100%",
@@ -2276,7 +2276,7 @@ class LeftSide extends Component<IProps, IState> {
                       border: "none",
                       width: "110px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgba(0, 0, 0, 0.325) 0px 7.53671px 32.031px")}}>
+                    onClick={e => {this.props.handleApplyEffect("rgba(0, 0, 0, 0.325) 0px 7.53671px 32.031px", "", "black")}}>
                     <img 
                       style={{
                         width: "100%",
@@ -2289,7 +2289,7 @@ class LeftSide extends Component<IProps, IState> {
                       border: "none",
                       width: "110px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgb(0, 255, 255) -6.15498px 0px 0px, rgb(255, 0, 255) 6.15498px 0px 0px")}}>
+                    onClick={e => {this.props.handleApplyEffect("", "1.428873px rgb(25, 25, 25)", "transparent")}}>
                     <img 
                       style={{
                         width: "100%",
@@ -2302,7 +2302,7 @@ class LeftSide extends Component<IProps, IState> {
                       border: "none",
                       width: "110px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("")}}>
+                    onClick={e => {this.props.handleApplyEffect("rgb(128, 128, 128) 10.4888px 10.4888px 0px", "1.9px rgb(0, 0, 0)", "transparent")}}>
                     <img 
                       style={{
                         width: "100%",
@@ -2315,7 +2315,7 @@ class LeftSide extends Component<IProps, IState> {
                       border: "none",
                       width: "110px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgba(25, 25, 25, 0.5) 8.8821px 8.8821px 0px, rgba(25, 25, 25, 0.3) 17.7642px 17.7642px 0px")}}>
+                    onClick={e => {this.props.handleApplyEffect("rgba(25, 25, 25, 0.5) 8.8821px 8.8821px 0px, rgba(25, 25, 25, 0.3) 17.7642px 17.7642px 0px", "", "black")}}>
                     <img 
                       style={{
                         width: "100%",
@@ -2328,7 +2328,7 @@ class LeftSide extends Component<IProps, IState> {
                       border: "none",
                       width: "110px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgb(0, 255, 255) -3.76836px 0px 0px, rgb(255, 0, 255) 3.76836px 0px 0px")}}>
+                    onClick={e => {this.props.handleApplyEffect("rgb(0, 255, 255) -3.76836px 0px 0px, rgb(255, 0, 255) 3.76836px 0px 0px", "", "black")}}>
                     <img 
                       style={{
                         width: "100%",
@@ -2341,7 +2341,7 @@ class LeftSide extends Component<IProps, IState> {
                       border: "none",
                       width: "110px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("")}}>
+                    onClick={e => {this.props.handleApplyEffect("", "", "white", "drop-shadow(rgb(255, 82, 188) 0px 0px 5.93333px) drop-shadow(rgba(255, 82, 188, 0.95) 0px 0px 35.6px) drop-shadow(rgba(255, 82, 188, 0.54) 0px 0px 118.667px)")}}>
                     <img 
                       style={{
                         width: "100%",
