@@ -41,6 +41,7 @@ export interface IProps {
   handleImageSelected: any;
   colorPickerShown: any;
   handleApplyEffect: any;
+  selectedImage: any;
 }
 
 interface IState {
@@ -918,7 +919,8 @@ class LeftSide extends Component<IProps, IState> {
             : "80px",
           height: "100%",
           position: "relative",
-          display: "flex"
+          display: "flex",
+          outline: "1px solid rgba(14,19,24,.15)",
         }}
       >
         {this.props.mounted && (
@@ -1018,7 +1020,8 @@ class LeftSide extends Component<IProps, IState> {
                   : 0
               }px)`,
               width: "370px",
-              transitionDuration: "10s, 10s"
+              transitionDuration: "10s, 10s",
+              // backgroundColor: this.props.selectedTab === SidebarTab.Effect ? "white" : "#293039",
             }}
           >
             <div
@@ -2222,141 +2225,289 @@ class LeftSide extends Component<IProps, IState> {
               style={{
                 opacity: this.props.selectedTab === SidebarTab.Effect ? 1 : 0,
                 position: "absolute",
-                width: "364px",
-                color: "white",
+                width: "379px",
                 overflow: "scroll",
-                transition:
-                  "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                transform:
-                  this.props.selectedTab !== SidebarTab.Effect &&
-                  `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Effect ? 40 : -40
-                  }px), 0px)`,
-                top: "10px",
+                // transition:
+                //   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
+                // transform:
+                //   this.props.selectedTab !== SidebarTab.Effect &&
+                //   `translate3d(0px, calc(${
+                //     this.props.selectedTab < SidebarTab.Effect ? 40 : -40
+                //   }px), 0px)`,
                 zIndex: this.props.selectedTab !== SidebarTab.Effect && -1,
                 height: "100%",
                 left: "0px",
+                backgroundColor: "white",
               }}
             >
               <div>
                 <div
                   style={{
                     height: "calc(100% - 10px)",
-                    padding: "17px",
+                    padding: "22px",
                   }}
                 >
-                  <button 
+                  <div 
                     style={{
-                      border: "none",
-                      width: "110px",
+                      display: "inline-block",
+                      width: "100px",
+                      marginRight: "10px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("", "", "black")}}>
+                    >
+                      <button
+                        className="effect-btn"
+                        id="effect-btn-8"
+                        onClick={e => {
+                          this.props.handleApplyEffect(0, "", "", "black");
+                          if (window.prevEffectId) {
+                            document.getElementById("effect-btn-" + window.prevEffectId).style.border = "1px solid #afb3b566";
+                          }
+                          document.getElementById("effect-btn-8").style.border = "1px solid rgb(37, 145, 199)";
+                          window.prevEffectId = 8;
+                        }}
+                        >
                     <img 
                       style={{
                         width: "100%",
                         borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/d461ce14740df06b826ab8517b88344c.png"/>
-                      <p>None</p>
-                  </button>
-                  <button 
+                      </button>
+                      <p
+                        style={{
+                          textAlign: "center",
+                        }}
+                        >None</p>
+                  </div>
+                  <div 
                     style={{
-                      border: "none",
-                      width: "110px",
+                      display: "inline-block",
+                      width: "100px",
+                      marginRight: "10px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgba(25, 25, 25, 0.4) 8.8821px 8.8821px 0px", "", "black")}}>
+                    >
+                    <button
+                      id="effect-btn-1"
+                      className="effect-btn"
+                      style={{
+                        border: this.props.selectedImage && this.props.selectedImage.effectId == 1 && "2px solid #2591c7",
+                      }}
+                      onClick={e => {
+                        this.props.handleApplyEffect(1, "rgba(25, 25, 25, 0.4) 8.8821px 8.8821px 0px", "", "black");
+                        if (window.prevEffectId) {
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                        }
+                        document.getElementById("effect-btn-1").style.border = "2px solid rgb(37, 145, 199)";
+                        window.prevEffectId = 1;
+                      }}
+                      >
                     <img 
                       style={{
                         width: "100%",
                         borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/544ebef63f65bc118af1a353d8e3456c.png"/>
-                      <p>Shadow</p>
-                  </button>
-                  <button 
+                      </button>
+                      <p
+                        style={{
+                          textAlign: "center",
+                        }}
+                        >Shadow</p>
+                  </div>
+                  <div 
                     style={{
-                      border: "none",
-                      width: "110px",
+                      display: "inline-block",
+                      width: "100px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgba(0, 0, 0, 0.325) 0px 7.53671px 32.031px", "", "black")}}>
+                    >
+                    <button
+                      id="effect-btn-2"
+                      onClick={e => {
+                        this.props.handleApplyEffect(2, "rgba(0, 0, 0, 0.325) 0px 7.53671px 32.031px", "", "black");
+                        if (window.prevEffectId) {
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                        }
+                        document.getElementById("effect-btn-2").style.border = "2px solid rgb(37, 145, 199)";
+                        window.prevEffectId = 2;
+                      }}
+                      className="effect-btn"
+                      style={{
+                      }}>
                     <img 
                       style={{
                         width: "100%",
                         borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/39e8991a556615f8130d7d36580f9276.jpg"/>
-                      <p>Lift</p>
-                  </button>
-                  <button 
+                      </button>
+                      <p
+                        style={{
+                          textAlign: "center",
+                        }}
+                        >Lift</p>
+                  </div>
+                  <div 
                     style={{
-                      border: "none",
-                      width: "110px",
+                      display: "inline-block",
+                      width: "100px",
+                      marginRight: "10px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("", "1.428873px rgb(25, 25, 25)", "transparent")}}>
+                    >
+                      <button
+                        onClick={e => {
+                          this.props.handleApplyEffect(3, "", "1.428873px rgb(25, 25, 25)", "transparent");
+                          if (window.prevEffectId) {
+                            document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                          }
+                          document.getElementById("effect-btn-3").style.border = "2px solid rgb(37, 145, 199)";
+                          window.prevEffectId = 3;
+                        }}
+                        id="effect-btn-3"
+                        className="effect-btn"
+                        style={{
+                        }}>
                     <img 
                       style={{
                         width: "100%",
                         borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/014d16e44f8c5dfddf2ccdb10fb97b6b.png"/>
-                      <p>Hollow</p>
-                  </button>
-                  <button 
+                      </button>
+                      <p
+                        style={{
+                          textAlign: "center",
+                        }}>Hollow</p>
+                  </div>
+                  <div 
                     style={{
-                      border: "none",
-                      width: "110px",
+                      display: "inline-block",
+                      width: "100px",
+                      marginRight: "10px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgb(128, 128, 128) 10.4888px 10.4888px 0px", "1.9px rgb(0, 0, 0)", "transparent")}}>
+                    >
+                    <button
+                      onClick={e => {
+                        this.props.handleApplyEffect(4, "rgb(128, 128, 128) 10.4888px 10.4888px 0px", "1.9px rgb(0, 0, 0)", "transparent");
+                        if (window.prevEffectId) {
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                        }
+                        document.getElementById("effect-btn-4").style.border = "2px solid rgb(37, 145, 199)";
+                        window.prevEffectId = 4;
+                      }}
+                      id="effect-btn-4"
+                      className="effect-btn"
+                      style={{
+                      }}
+                    >
                     <img 
                       style={{
                         width: "100%",
                         borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/6bec5afe4433f7030024ed9287752d08.png"/>
-                      <p>Splice</p>
-                  </button>
-                  <button 
+                      </button>
+                      <p
+                        style={{
+                          textAlign: "center",
+                        }}>Splice</p>
+                  </div>
+                  <div 
                     style={{
-                      border: "none",
-                      width: "110px",
+                      display: "inline-block",
+                      width: "100px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgba(25, 25, 25, 0.5) 8.8821px 8.8821px 0px, rgba(25, 25, 25, 0.3) 17.7642px 17.7642px 0px", "", "black")}}>
+                    >
+                    <button
+                      onClick={e => {
+                        this.props.handleApplyEffect(5, "rgba(25, 25, 25, 0.5) 8.8821px 8.8821px 0px, rgba(25, 25, 25, 0.3) 17.7642px 17.7642px 0px", "", "black");
+                        if (window.prevEffectId) {
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                        }
+                        document.getElementById("effect-btn-5").style.border = "2px solid rgb(37, 145, 199)";
+                        window.prevEffectId = 5;
+                      }}
+                      className="effect-btn"
+                      id="effect-btn-5"
+                      style={{
+                      }}
+                    >
                     <img 
                       style={{
                         width: "100%",
                         borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/3df11ae4feb176c0e1326a83078863d2.png"/>
-                      <p>Echo</p>
-                  </button>
-                  <button 
+                      </button>
+                      <p
+                        style={{
+                          textAlign: "center",
+                        }}>Echo</p>
+                  </div>
+                  <div 
                     style={{
-                      border: "none",
-                      width: "110px",
+                      display: "inline-block",
+                      width: "100px",
+                      marginRight: "10px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("rgb(0, 255, 255) -3.76836px 0px 0px, rgb(255, 0, 255) 3.76836px 0px 0px", "", "black")}}>
+                    >
+                    <button
+                      onClick={e => {
+                        this.props.handleApplyEffect(6, "rgb(0, 255, 255) -3.76836px 0px 0px, rgb(255, 0, 255) 3.76836px 0px 0px", "", "black");
+                        if (window.prevEffectId) {
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                        }
+                        document.getElementById("effect-btn-6").style.border = "2px solid rgb(37, 145, 199)";
+                        window.prevEffectId = 6;
+                      }}
+                      className="effect-btn"
+                      id="effect-btn-6"
+                      style={{
+                      }}
+                    >
                     <img 
                       style={{
                         width: "100%",
                         borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/10d3bc08aa9d6ba94ddba7a67a6ff83e.png"/>
-                      <p>Glitch</p>
-                  </button>
-                  <button 
+                      </button>
+                      <p
+                        style={{
+                          textAlign: "center",
+                        }}>Glitch</p>
+                  </div>
+                  <div 
                     style={{
-                      border: "none",
-                      width: "110px",
+                      display: "inline-block",
+                      width: "100px",
                     }}
-                    onClick={e => {this.props.handleApplyEffect("", "", "white", "drop-shadow(rgb(255, 82, 188) 0px 0px 5.93333px) drop-shadow(rgba(255, 82, 188, 0.95) 0px 0px 35.6px) drop-shadow(rgba(255, 82, 188, 0.54) 0px 0px 118.667px)")}}>
+                    >
+                    <button
+                      onClick={e => {
+                        this.props.handleApplyEffect(7, "", "", "white", "drop-shadow(rgb(255, 82, 188) 0px 0px 5.93333px) drop-shadow(rgba(255, 82, 188, 0.95) 0px 0px 35.6px) drop-shadow(rgba(255, 82, 188, 0.54) 0px 0px 118.667px)");
+                        if (window.prevEffectId) {
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                        }
+                        document.getElementById("effect-btn-7").style.border = "2px solid rgb(37, 145, 199)";
+                        window.prevEffectId = 7;
+                      }}
+                      className="effect-btn"
+                      id="effect-btn-7"
+                      style={{
+                      }}
+                    >
                     <img 
                       style={{
                         width: "100%",
                         borderRadius: "10px",
                       }}
                       src="https://static.canva.com/web/images/2c6d9ae58209c023b5bc05b3581d3e51.jpg"/>
-                      <p>Neon</p>
-                  </button>
+                      </button>
+                      <p
+                        style={{
+                          textAlign: "center",
+                        }}>Neon</p>
+                  </div>
                 </div>
               </div>
             </div>

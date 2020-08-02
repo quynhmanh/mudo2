@@ -2611,14 +2611,14 @@ class CanvaEditor extends Component<IProps, IState> {
         }
     };
 
-    handleApplyEffect = (ef, textStroke, color, filter) => {
-        console.log('handleApplyEffect ', ef);
+    handleApplyEffect = (effectId, textShadow, textStroke, color, filter) => {
         var images = editorStore.images.map(img => {
             if (img._id === this.state.idObjectSelected) {
-                img.textShadow = ef;
+                img.textShadow = textShadow;
                 img.textStroke = textStroke;
                 img.color = color;
                 img.filter = filter;
+                img.effectId = effectId;
             }
             editorStore.imageSelected = img;
             return img;
@@ -4361,6 +4361,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         }}
                     >
                         <LeftSide
+                            selectedImage={this.state.selectedImage}
                             colorPickerShown={this.colorPickerShown}
                             handleEditFont={this.handleEditFont}
                             scale={this.state.scale}

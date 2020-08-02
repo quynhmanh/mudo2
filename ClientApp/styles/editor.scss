@@ -960,3 +960,13 @@ button {
 .positionBtn:hover {
   background-color: #ddd !important;
 }
+
+.effect-btn {
+  border: 1px solid #afb3b566;
+  padding: 1px;
+  border-radius: 13px;
+}
+
+.effect-btn:hover {
+  border: 2px solid #2591c7 !important;
+}
