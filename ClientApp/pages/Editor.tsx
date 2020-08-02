@@ -4417,6 +4417,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             )}
 
                             <Toolbar
+                                selectedTab={this.state.selectedTab}
                                 translate={this.translate}
                                 editorStore={editorStore}
                                 childId={this.state.childId}

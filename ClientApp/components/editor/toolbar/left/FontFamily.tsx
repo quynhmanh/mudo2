@@ -1,11 +1,13 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
+import {SidebarTab} from "@Components/editor/enums";
 
 interface IProps {
     translate: any;
     show: boolean;
     onClickDropDownFontList: any;
     fontName: string;
+    selectedTab: any;
 }
 
 const FontFamily = (props: IProps) => {
@@ -33,6 +35,7 @@ const FontFamily = (props: IProps) => {
                     color: "black",
                     position: "relative",
                     width: "216px",
+                    backgroundColor: props.selectedTab === SidebarTab.Font ? "rgba(14, 19, 24, 0.07) " : "white",
                 }}
             >
                 <img

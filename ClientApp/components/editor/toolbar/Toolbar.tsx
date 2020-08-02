@@ -3,6 +3,7 @@ import LeftSide from "@Components/editor/toolbar/LeftSide";
 import RightSide from "@Components/editor/toolbar/RightSide";
 
 interface IProps {
+    selectedTab: any;
     translate: any;
     editorStore: any;
     childId: string;
@@ -57,6 +58,7 @@ const Toolbar = (props: IProps) => {
             }}
         >
             <LeftSide
+                selectedTab={props.selectedTab}
                 editorStore={props.editorStore}
                 childId={props.childId}
                 translate={props.translate}

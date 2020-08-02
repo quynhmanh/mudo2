@@ -40,6 +40,7 @@ interface IProps {
     handleAlignBtnClick: any;
     handleOkBtnClick: any;
     handleCancelBtnClick: any;
+    selectedTab: any;
 }
 
 const alignList = [
@@ -108,6 +109,7 @@ const LeftSide = (props: IProps) => {
                 translate={props.translate}
                 onClickDropDownFontList={props.onClickDropDownFontList}
                 fontName={props.fontName}
+                selectedTab={props.selectedTab}
             />
             <Filter
                 show=
@@ -217,6 +219,7 @@ const LeftSide = (props: IProps) => {
                 translate={props.translate}
                 cropMode={props.cropMode}
                 handleAdjustBtnClick={props.onClickEffectList}
+                selectedTab={props.selectedTab}
             />
             <OK
                 show=

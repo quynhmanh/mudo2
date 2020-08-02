@@ -2260,9 +2260,9 @@ class LeftSide extends Component<IProps, IState> {
                         onClick={e => {
                           this.props.handleApplyEffect(0, "", "", "black");
                           if (window.prevEffectId) {
-                            document.getElementById("effect-btn-" + window.prevEffectId).style.border = "1px solid #afb3b566";
+                            document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                           }
-                          document.getElementById("effect-btn-8").style.border = "1px solid rgb(37, 145, 199)";
+                          document.getElementById("effect-btn-8").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
                           window.prevEffectId = 8;
                         }}
                         >
@@ -2295,9 +2295,9 @@ class LeftSide extends Component<IProps, IState> {
                       onClick={e => {
                         this.props.handleApplyEffect(1, "rgba(25, 25, 25, 0.4) 8.8821px 8.8821px 0px", "", "black");
                         if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
-                        document.getElementById("effect-btn-1").style.border = "2px solid rgb(37, 145, 199)";
+                        document.getElementById("effect-btn-1").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
                         window.prevEffectId = 1;
                       }}
                       >
@@ -2325,9 +2325,9 @@ class LeftSide extends Component<IProps, IState> {
                       onClick={e => {
                         this.props.handleApplyEffect(2, "rgba(0, 0, 0, 0.325) 0px 7.53671px 32.031px", "", "black");
                         if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
-                        document.getElementById("effect-btn-2").style.border = "2px solid rgb(37, 145, 199)";
+                        document.getElementById("effect-btn-2").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
                         window.prevEffectId = 2;
                       }}
                       className="effect-btn"
@@ -2357,9 +2357,9 @@ class LeftSide extends Component<IProps, IState> {
                         onClick={e => {
                           this.props.handleApplyEffect(3, "", "1.428873px rgb(25, 25, 25)", "transparent");
                           if (window.prevEffectId) {
-                            document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                            document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                           }
-                          document.getElementById("effect-btn-3").style.border = "2px solid rgb(37, 145, 199)";
+                          document.getElementById("effect-btn-3").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
                           window.prevEffectId = 3;
                         }}
                         id="effect-btn-3"
@@ -2389,9 +2389,9 @@ class LeftSide extends Component<IProps, IState> {
                       onClick={e => {
                         this.props.handleApplyEffect(4, "rgb(128, 128, 128) 10.4888px 10.4888px 0px", "1.9px rgb(0, 0, 0)", "transparent");
                         if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
-                        document.getElementById("effect-btn-4").style.border = "2px solid rgb(37, 145, 199)";
+                        document.getElementById("effect-btn-4").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
                         window.prevEffectId = 4;
                       }}
                       id="effect-btn-4"
@@ -2421,9 +2421,9 @@ class LeftSide extends Component<IProps, IState> {
                       onClick={e => {
                         this.props.handleApplyEffect(5, "rgba(25, 25, 25, 0.5) 8.8821px 8.8821px 0px, rgba(25, 25, 25, 0.3) 17.7642px 17.7642px 0px", "", "black");
                         if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
-                        document.getElementById("effect-btn-5").style.border = "2px solid rgb(37, 145, 199)";
+                        document.getElementById("effect-btn-5").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
                         window.prevEffectId = 5;
                       }}
                       className="effect-btn"
@@ -2454,9 +2454,9 @@ class LeftSide extends Component<IProps, IState> {
                       onClick={e => {
                         this.props.handleApplyEffect(6, "rgb(0, 255, 255) -3.76836px 0px 0px, rgb(255, 0, 255) 3.76836px 0px 0px", "", "black");
                         if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
-                        document.getElementById("effect-btn-6").style.border = "2px solid rgb(37, 145, 199)";
+                        document.getElementById("effect-btn-6").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
                         window.prevEffectId = 6;
                       }}
                       className="effect-btn"
@@ -2486,9 +2486,9 @@ class LeftSide extends Component<IProps, IState> {
                       onClick={e => {
                         this.props.handleApplyEffect(7, "", "", "white", "drop-shadow(rgb(255, 82, 188) 0px 0px 5.93333px) drop-shadow(rgba(255, 82, 188, 0.95) 0px 0px 35.6px) drop-shadow(rgba(255, 82, 188, 0.54) 0px 0px 118.667px)");
                         if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.border = "2px solid #afb3b566";
+                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
-                        document.getElementById("effect-btn-7").style.border = "2px solid rgb(37, 145, 199)";
+                        document.getElementById("effect-btn-7").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
                         window.prevEffectId = 7;
                       }}
                       className="effect-btn"
@@ -2518,15 +2518,9 @@ class LeftSide extends Component<IProps, IState> {
                 width: "100%",
                 color: "white",
                 overflow: "scroll",
-                transition:
-                  "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                transform:
-                  this.props.selectedTab !== SidebarTab.Color &&
-                  `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Color ? 40 : -40
-                  }px), 0px)`,
                 zIndex: this.props.selectedTab !== SidebarTab.Color && -1,
                 height: "100%",
+                backgroundColor: "white",
               }}
             >
               <div style={{ display: "inline-block" }}>

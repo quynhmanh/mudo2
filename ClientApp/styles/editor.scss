@@ -309,7 +309,7 @@ p.single-text:focus {
 
 .toolbar-btn:hover {
   cursor: pointer;
-  background-color: $toolbar-bg-color-hover;
+  background-color: $toolbar-bg-color-hover !important;
 }
 
 #sidebar-toggle:before, #sidebar-toggle:after {
@@ -962,11 +962,13 @@ button {
 }
 
 .effect-btn {
-  border: 1px solid #afb3b566;
+  border: none;
   padding: 1px;
   border-radius: 13px;
+  transition: box-shadow .2s ease-in-out;
+  box-shadow: 0 0 0 1px rgba(14,19,24,.15);
 }
 
 .effect-btn:hover {
-  border: 2px solid #2591c7 !important;
+  box-shadow: 0 0 0 2px #00c4cc, inset 0 0 0 2px #fff;
 }
