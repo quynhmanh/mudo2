@@ -13,6 +13,8 @@ interface IProps {
     backwardSelectedObject: any;
     handleTransparentAdjust: any;
     currentOpacity: number;
+    selectedImage: any;
+    handleOpacityChange: any;
 }
 
 const RightSide = (props: IProps) => {
@@ -43,6 +45,7 @@ const RightSide = (props: IProps) => {
                 translate={props.translate}
                 handleTransparentAdjust={props.handleTransparentAdjust}
                 currentOpacity={props.currentOpacity}
+                handleOpacityChange={props.handleOpacityChange}
             />
         </div>
     );

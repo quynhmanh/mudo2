@@ -34,6 +34,7 @@ interface IProps {
     backwardSelectedObject: any;
     handleTransparentAdjust: any;
     currentOpacity: number;
+    handleOpacityChange: any;
 }
 
 const Toolbar = (props: IProps) => {
@@ -96,6 +97,7 @@ const Toolbar = (props: IProps) => {
                 backwardSelectedObject={props.backwardSelectedObject}
                 handleTransparentAdjust={props.handleTransparentAdjust}
                 currentOpacity={props.currentOpacity}
+                handleOpacityChange={props.handleOpacityChange}
             />
         </div>
     );

@@ -610,6 +610,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleTransparentAdjust = (e: any) => {
+        document.activeElement.blur();
         e.preventDefault();
         var self = this;
         const onMove = e => {
@@ -2587,6 +2588,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     removeImage(e) {
+        console.log('removeImage ', e);
         var OSNAME = this.getPlatformName();
         if (
             this.state.idObjectSelected != "undefined" &&
@@ -4111,6 +4113,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleOpacityChange = opacity => {
+        console.log('handleOpacityChange ', opacity);
 
         var el = document.getElementById(this.state.idObjectSelected + "hihi4");
         if (el) {
@@ -4126,6 +4129,10 @@ class CanvaEditor extends Component<IProps, IState> {
         });
 
         editorStore.images.replace(tempImages);
+
+        this.setState({
+            currentOpacity: opacity,
+        })
     };
 
     refFullName = null;
@@ -4448,6 +4455,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 backwardSelectedObject={this.backwardSelectedObject}
                                 handleTransparentAdjust={this.handleTransparentAdjust}
                                 currentOpacity={this.state.currentOpacity}
+                                handleOpacityChange={this.handleOpacityChange}
                             />
 
                             <div

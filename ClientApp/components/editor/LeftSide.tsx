@@ -2289,9 +2289,9 @@ class LeftSide extends Component<IProps, IState> {
                     <button
                       id="effect-btn-1"
                       className="effect-btn"
-                      style={{
-                        border: this.props.selectedImage && this.props.selectedImage.effectId == 1 && "2px solid #2591c7",
-                      }}
+                      // style={{
+                      //   border: this.props.selectedImage && this.props.selectedImage.effectId == 1 && "2px solid #2591c7",
+                      // }}
                       onClick={e => {
                         this.props.handleApplyEffect(1, "rgba(25, 25, 25, 0.4) 8.8821px 8.8821px 0px", "", "black");
                         if (window.prevEffectId) {
