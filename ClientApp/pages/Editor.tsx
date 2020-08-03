@@ -610,6 +610,8 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleTransparentAdjust = (e: any) => {
+        this.pauserTransparentPopup.next(true);
+        this.pauser.next(true);
         document.activeElement.blur();
         e.preventDefault();
         var self = this;
@@ -632,12 +634,15 @@ class CanvaEditor extends Component<IProps, IState> {
         };
 
         const onUp = e => {
+            e.stopImmediatePropagation();
             e.preventDefault();
             document.removeEventListener(
                 "mousemove",
                 onMove
             );
             document.removeEventListener("mouseup", onUp);
+            this.pauser.next(false);
+            this.pauserTransparentPopup.next(false);
         };
 
         document.addEventListener("mousemove", onMove);
@@ -645,6 +650,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     pauser = null;
+    pauserTransparentPopup = null;
 
     async componentDidMount() {
         // Creating a pauser subject to subscribe to
@@ -655,19 +661,34 @@ class CanvaEditor extends Component<IProps, IState> {
             map(e => (e.target as HTMLElement).id)
         );
 
+        let clickOnTransparentPopup$ = fromEvent(document, "mouseup");
+
         this.pauser = new BehaviorSubject(false);
+        this.pauserTransparentPopup = new BehaviorSubject(false);
+
         const pausable = this.pauser.pipe(
             switchMap(paused => {
                 return paused ? NEVER : doNoObjectSelected$;
             })
         );
 
+        const pausable2 = this.pauserTransparentPopup.pipe(
+            switchMap(paused => {
+                return paused ? NEVER : clickOnTransparentPopup$;
+            })
+        );
+
         this.pauser.next(false);
+        this.pauserTransparentPopup.next(false)
 
         pausable.subscribe(id => {
             if (id == "canvas" || id == "screen-container-parent") {
                 this.doNoObjectSelected();
             }
+        });
+
+        pausable2.subscribe(e => {
+            
         });
 
         var ce = document.createElement.bind(document);
@@ -3658,6 +3679,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     onClickTransparent = () => {
+
         document.getElementById("myTransparent").classList.toggle("show");
 
         const onDown = e => {
@@ -3678,7 +3700,23 @@ class CanvaEditor extends Component<IProps, IState> {
             }
         };
 
-        document.addEventListener("mouseup", onDown);
+        this.pauserTransparentPopup = new BehaviorSubject(false);
+
+        let clickOnTransparentPopup$ = fromEvent(document, "mouseup");
+
+        const pausable2 = this.pauserTransparentPopup.pipe(
+            switchMap(paused => {
+                return paused ? NEVER : clickOnTransparentPopup$;
+            })
+        );
+
+        this.pauserTransparentPopup.next(true)
+
+        pausable2.subscribe(e => {
+            onDown(e)
+        });
+
+        // document.addEventListener("mouseup", onDown);
     };
 
     onClickpositionList = () => {

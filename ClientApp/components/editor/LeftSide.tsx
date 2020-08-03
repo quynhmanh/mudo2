@@ -13,6 +13,7 @@ import TooltipClick from "@Components/shared/TooltipClick";
 import ColorPicker from "@Components/editor/ColorPicker";
 import Pickr from "@Components/pickr";
 import { observer } from "mobx-react";
+import Slider from "@Components/editor/Slider";
 
 export interface IProps {
   toolbarOpened: any;
@@ -886,6 +887,10 @@ class LeftSide extends Component<IProps, IState> {
       return true;
     }
 
+    if (nextProps.selectedTab === SidebarTab.Effect) {
+      return true;
+    }
+
     if (this.props.scale != nextProps.scale) {
       return false;
     }
@@ -908,6 +913,7 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   render() {
+    console.log('Leftside render ', editorStore.imageSelected);
     return (
       <div
         style={{
@@ -2225,7 +2231,7 @@ class LeftSide extends Component<IProps, IState> {
               style={{
                 opacity: this.props.selectedTab === SidebarTab.Effect ? 1 : 0,
                 position: "absolute",
-                width: "379px",
+                width: "370px",
                 overflow: "scroll",
                 // transition:
                 //   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
@@ -2251,7 +2257,7 @@ class LeftSide extends Component<IProps, IState> {
                     style={{
                       display: "inline-block",
                       width: "100px",
-                      marginRight: "10px",
+                      marginRight: "12px",
                     }}
                     >
                       <button
@@ -2269,7 +2275,7 @@ class LeftSide extends Component<IProps, IState> {
                     <img 
                       style={{
                         width: "100%",
-                        borderRadius: "10px",
+                        borderRadius: "12px",
                       }}
                       src="https://static.canva.com/web/images/d461ce14740df06b826ab8517b88344c.png"/>
                       </button>
@@ -2283,7 +2289,7 @@ class LeftSide extends Component<IProps, IState> {
                     style={{
                       display: "inline-block",
                       width: "100px",
-                      marginRight: "10px",
+                      marginRight: "12px",
                     }}
                     >
                     <button
@@ -2346,11 +2352,41 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                         >Lift</p>
                   </div>
+                  { editorStore.imageSelected && editorStore.imageSelected.effectId == 1 &&
+                  <div style={{
+                    marginBottom: "15px",
+                  }}>
+                    <Slider 
+                      title="Offset" 
+                      currentValue={50}
+                    />
+                    <Slider 
+                      title="Direction" 
+                      currentValue={30}
+                    />
+                    <Slider 
+                      title="Blue" 
+                      currentValue={30}
+                    />
+                    <Slider 
+                      title="Transparency" 
+                      currentValue={30}
+                    />
+            </div>}
+            { editorStore.imageSelected && editorStore.imageSelected.effectId == 2 &&
+                  <div style={{
+                    marginBottom: "15px",
+                  }}>
+                    <Slider 
+                      title="Intensity" 
+                      currentValue={50}
+                    />
+            </div>}
                   <div 
                     style={{
                       display: "inline-block",
                       width: "100px",
-                      marginRight: "10px",
+                      marginRight: "12px",
                     }}
                     >
                       <button
@@ -2382,7 +2418,7 @@ class LeftSide extends Component<IProps, IState> {
                     style={{
                       display: "inline-block",
                       width: "100px",
-                      marginRight: "10px",
+                      marginRight: "12px",
                     }}
                     >
                     <button
@@ -2443,11 +2479,50 @@ class LeftSide extends Component<IProps, IState> {
                           textAlign: "center",
                         }}>Echo</p>
                   </div>
+                  { editorStore.imageSelected && editorStore.imageSelected.effectId == 3 &&
+                  <div style={{
+                    marginBottom: "15px",
+                  }}>
+                    <Slider 
+                      title="Thickness" 
+                      currentValue={50}
+                    />
+            </div>}
+            { editorStore.imageSelected && editorStore.imageSelected.effectId == 4 &&
+                  <div style={{
+                    marginBottom: "15px",
+                  }}>
+                    <Slider 
+                      title="Thickness" 
+                      currentValue={50}
+                    />
+                    <Slider 
+                      title="Offset" 
+                      currentValue={50}
+                    />
+                    <Slider 
+                      title="Direction" 
+                      currentValue={50}
+                    />
+            </div>}
+            { editorStore.imageSelected && editorStore.imageSelected.effectId == 5 &&
+                  <div style={{
+                    marginBottom: "15px",
+                  }}>
+                    <Slider 
+                      title="Offset" 
+                      currentValue={50}
+                    />
+                    <Slider 
+                      title="Direction" 
+                      currentValue={50}
+                    />
+            </div>}
                   <div 
                     style={{
                       display: "inline-block",
                       width: "100px",
-                      marginRight: "10px",
+                      marginRight: "12px",
                     }}
                     >
                     <button
@@ -2508,6 +2583,28 @@ class LeftSide extends Component<IProps, IState> {
                           textAlign: "center",
                         }}>Neon</p>
                   </div>
+                  { editorStore.imageSelected && editorStore.imageSelected.effectId == 6 &&
+                  <div style={{
+                    marginBottom: "15px",
+                  }}>
+                    <Slider 
+                      title="Offset" 
+                      currentValue={50}
+                    />
+                    <Slider 
+                      title="Direction" 
+                      currentValue={50}
+                    />
+            </div>}
+            { editorStore.imageSelected && editorStore.imageSelected.effectId == 7 &&
+                  <div style={{
+                    marginBottom: "15px",
+                  }}>
+                    <Slider 
+                      title="Intensity" 
+                      currentValue={50}
+                    />
+            </div>}
                 </div>
               </div>
             </div>

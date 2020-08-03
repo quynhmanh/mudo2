@@ -12,16 +12,20 @@ interface IState {
 }
 
 export default class Effect extends Component<IProps, IState> {
+    $input
+
     constructor(props: any) {
         super(props);
     }
-    // shouldComponentUpdate (nextProps, nextState) {
-    //     console.log("shouldComponentUpdate ", this.props, nextProps);
-    //     if (nextProps.currentOpacity === this.props.currentOpacity) {
-    //         return false;
-    //     }
-    //     return true;
-    // }
+
+    shouldComponentUpdate (nextProps, nextState) {
+        console.log("shouldComponentUpdate ", this.props, nextProps);
+        // if (nextProps.currentOpacity === this.props.currentOpacity) {
+        //     return false;
+        // }
+        this.$input.value = nextProps.currentOpacity;
+        return true;
+    }
 
     render () {
         const { currentOpacity } = this.props;
@@ -91,6 +95,7 @@ export default class Effect extends Component<IProps, IState> {
                     </div>
                 </div>
                 <input 
+                    ref={el => {this.$input = el;} }
                     onClick={e => {
                         document.execCommand('selectall', null, false);
                     }}
