@@ -43,6 +43,7 @@ export interface IProps {
   colorPickerShown: any;
   handleApplyEffect: any;
   selectedImage: any;
+  pauser: any;
 }
 
 interface IState {
@@ -865,6 +866,8 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log('this.props ', this.props);
+    console.log('nextProps.props ', nextProps);
     if (nextProps.selectedTab != this.props.selectedTab) {
       return true;
     }
@@ -887,7 +890,7 @@ class LeftSide extends Component<IProps, IState> {
       return true;
     }
 
-    if (nextProps.selectedTab === SidebarTab.Effect) {
+    if (nextProps.selectedTab === SidebarTab.Effect && this.props.selectedImage.effectId != nextProps.selectedImage.effectId) {
       return true;
     }
 
@@ -2359,18 +2362,22 @@ class LeftSide extends Component<IProps, IState> {
                     <Slider 
                       title="Offset" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
                     <Slider 
                       title="Direction" 
                       currentValue={30}
+                      pauser={this.props.pauser}
                     />
                     <Slider 
                       title="Blue" 
                       currentValue={30}
+                      pauser={this.props.pauser}
                     />
                     <Slider 
                       title="Transparency" 
                       currentValue={30}
+                      pauser={this.props.pauser}
                     />
             </div>}
             { editorStore.imageSelected && editorStore.imageSelected.effectId == 2 &&
@@ -2380,6 +2387,7 @@ class LeftSide extends Component<IProps, IState> {
                     <Slider 
                       title="Intensity" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
             </div>}
                   <div 
@@ -2486,6 +2494,7 @@ class LeftSide extends Component<IProps, IState> {
                     <Slider 
                       title="Thickness" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
             </div>}
             { editorStore.imageSelected && editorStore.imageSelected.effectId == 4 &&
@@ -2495,14 +2504,17 @@ class LeftSide extends Component<IProps, IState> {
                     <Slider 
                       title="Thickness" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
                     <Slider 
                       title="Offset" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
                     <Slider 
                       title="Direction" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
             </div>}
             { editorStore.imageSelected && editorStore.imageSelected.effectId == 5 &&
@@ -2512,10 +2524,12 @@ class LeftSide extends Component<IProps, IState> {
                     <Slider 
                       title="Offset" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
                     <Slider 
                       title="Direction" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
             </div>}
                   <div 
@@ -2590,10 +2604,12 @@ class LeftSide extends Component<IProps, IState> {
                     <Slider 
                       title="Offset" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
                     <Slider 
                       title="Direction" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
             </div>}
             { editorStore.imageSelected && editorStore.imageSelected.effectId == 7 &&
@@ -2603,6 +2619,7 @@ class LeftSide extends Component<IProps, IState> {
                     <Slider 
                       title="Intensity" 
                       currentValue={50}
+                      pauser={this.props.pauser}
                     />
             </div>}
                 </div>

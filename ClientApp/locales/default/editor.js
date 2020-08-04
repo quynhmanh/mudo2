@@ -18,7 +18,8 @@ const editorTranslation = {
     "office": "OFFICE",
     "web": "WEB",
     "individual": "INDIVIDUAL",
-    "video": "VIDEO"
+    "video": "VIDEO",
+    "transparent": "transparent",
   };
   
   export default editorTranslation;

@@ -11,7 +11,7 @@ interface IState {
 
 }
 
-export default class Effect extends Component<IProps, IState> {
+export default class TransparentDropdown extends Component<IProps, IState> {
     $input
 
     constructor(props: any) {
@@ -23,8 +23,16 @@ export default class Effect extends Component<IProps, IState> {
         // if (nextProps.currentOpacity === this.props.currentOpacity) {
         //     return false;
         // }
+
+        if (this.props.translate != nextProps.translate) {
+            return true;
+        }
+
         this.$input.value = nextProps.currentOpacity;
-        return true;
+
+        var el = document.getElementById("myOpacity-3slider");
+        el.style.left = (nextProps.currentOpacity - 3) + "%";
+        return false;
     }
 
     render () {
@@ -40,7 +48,8 @@ export default class Effect extends Component<IProps, IState> {
                     width: "310px",
                     padding: "10px 20px",
                     background: "white",
-                    animation: "bounce 1.2s ease-out"
+                    animation: "bounce 1.2s ease-out",
+                    paddingRight: 0,
                 }}
                 id="myTransparent"
                 className="dropdown-content-font-size"
@@ -50,11 +59,10 @@ export default class Effect extends Component<IProps, IState> {
                         display: "inline-block",
                         margin: 0,
                         lineHeight: "30px",
-                        width: "65px",
+                        // width: "65px",
                         fontSize: "12px"
                     }}
                 >
-                    {/* Mức trong suốt */}
                     {this.props.translate("transparent")}:{" "}
                 </p>
                 <div

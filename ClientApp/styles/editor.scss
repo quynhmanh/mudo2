@@ -989,3 +989,7 @@ button {
 .effect-btn:hover {
   box-shadow: 0 0 0 2px #00c4cc, inset 0 0 0 2px #fff !important;
 }
+
+.slider:hover {
+  cursor: grab;
+}

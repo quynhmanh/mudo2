@@ -3,12 +3,56 @@ import React, { PureComponent } from 'react'
 export interface IProps {
     title: string;
     currentValue: number;
+    pauser: any;
 }
 
 export interface IState {
+    currentValue: number;
 }
 
 export default class Slider extends PureComponent<IProps, IState> {
+    $input = null;
+
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            currentValue: props.currentValue,
+        }
+
+        this.onSlideClick = this.onSlideClick.bind(this);
+        this.onMove = this.onMove.bind(this);
+        this.onUp = this.onUp.bind(this);
+    }
+    
+    onSlideClick (e) {
+        this.props.pauser.next(true);
+        console.log("onSLideClick");
+        document.addEventListener("mousemove", this.onMove);
+        document.addEventListener("mouseup", this.onUp);
+    }
+
+    onUp (e) {
+        document.removeEventListener("mousemove", this.onMove);
+        document.removeEventListener("mouseup", this.onUp);
+        this.props.pauser.next(false);
+    }
+
+    onMove (e) {
+        e.preventDefault();
+        var rec1 = this.$el
+            .getBoundingClientRect();
+        var slide = e.pageX - rec1.left;
+        var scale = (slide / rec1.width) * 100;
+        scale = Math.max(1, scale);
+        scale = Math.min(100, scale);
+
+        this.setState({ currentValue: scale });
+
+        this.$input.value = scale;
+    }
+
+    $el = null;
 
   render () {
     return <div
@@ -36,6 +80,7 @@ export default class Slider extends PureComponent<IProps, IState> {
         {this.props.title}
     </p>
     <input 
+        ref={i => {this.$input = i;}}
         onClick={e => {
             document.execCommand('selectall', null, false);
         }}
@@ -55,7 +100,7 @@ export default class Slider extends PureComponent<IProps, IState> {
             textAlign: "center",
             position: "absolute",
             right: 0,
-        }} type="number" max="100" min="0" defaultValue={this.props.currentValue} ></input>
+        }} type="number" max="100" min="0" defaultValue={this.state.currentValue} ></input>
         </div>
     <div
         style={{
@@ -70,6 +115,7 @@ export default class Slider extends PureComponent<IProps, IState> {
         }}
     >
         <div
+            ref={el => {this.$el = el;}}
             style={{
                 borderRadius: "50%",
                 width: "100%",
@@ -77,9 +123,10 @@ export default class Slider extends PureComponent<IProps, IState> {
             }}
         >
             <div
+                className="slider"
                 style={{
                     position: "absolute",
-                    left: this.props.currentValue - 3 + "%",
+                    left: this.state.currentValue - 3 + "%",
                     backgroundColor: "white",
                     width: "15px",
                     height: "15px",
@@ -89,6 +136,7 @@ export default class Slider extends PureComponent<IProps, IState> {
                     margin: "auto",
                     border: "1px solid rgba(14, 19, 24, 0.2)",
                 }}
+                onMouseDown={this.onSlideClick}
             ></div>
         </div>
     </div>
