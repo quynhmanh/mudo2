@@ -1,7 +1,7 @@
 // Variables
 $toolbar-bg-color-hover: rgba(14,19,24,.07);
 
-$my-font-size-list-width: 75px;
+$my-font-size-list-width: 60px;
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -948,6 +948,7 @@ button:focus {
 #fontSizeButton {
   top: 4px;
   width: $my-font-size-list-width;
+  text-align: left;
 }
 
 button {

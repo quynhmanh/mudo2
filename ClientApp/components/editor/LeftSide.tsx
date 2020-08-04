@@ -2112,7 +2112,7 @@ class LeftSide extends Component<IProps, IState> {
               style={{
                 opacity: this.props.selectedTab === SidebarTab.Font ? 1 : 0,
                 position: "absolute",
-                width: "364px",
+                width: "370px",
                 color: "white",
                 overflow: "scroll",
                 transition:
@@ -2126,7 +2126,7 @@ class LeftSide extends Component<IProps, IState> {
                 zIndex: this.props.selectedTab !== SidebarTab.Font && -1,
                 height: "100%",
                 left: "0px",
-                left: '19px',
+                // left: '19px',
               }}
             >
               <div>
@@ -2148,7 +2148,7 @@ class LeftSide extends Component<IProps, IState> {
                     <div id="image-container-picker">
                       <div
                         style={{
-                          marginRight: "10px"
+                          // marginRight: "10px"
                         }}
                       >
                         {editorStore.fontsList.map((font, key) => (
