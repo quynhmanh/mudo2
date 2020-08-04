@@ -876,7 +876,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                         transformOrigin: "0 0",
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
                         color: color,
-                        textShadow: this.props.image.textShadow,
+                        textShadow: this.props.image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * this.props.image.textShadowTransparent / 100}) ${21.0 * this.props.image.offSet / 100}px ${21.0 * this.props.image.offSet / 100}px ${30.0 * this.props.image.blur / 100}px` :
+                        `rgba(0, 0, 0, ${0.6 * this.props.image.intensity}) 0 8.9px ${66.75 * this.props.image.intensity / 100}px`,
                         filter: this.props.image.filter,
                       }}
                     ></div>

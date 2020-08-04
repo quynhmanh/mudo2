@@ -45,6 +45,9 @@ export interface IProps {
   selectedImage: any;
   pauser: any;
   handleChangeOffset: any;
+  handleChangeBlur: any;
+  handleChangeTextShadowTransparent: any;
+  handleChangeIntensity: any;
 }
 
 interface IState {
@@ -2288,7 +2291,7 @@ class LeftSide extends Component<IProps, IState> {
                         className="effect-btn"
                         id="effect-btn-8"
                         onClick={e => {
-                          this.props.handleApplyEffect(0, "", "", "black");
+                          this.props.handleApplyEffect(0, null, null, null, null, null, "black");
                           if (window.prevEffectId) {
                             document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                           }
@@ -2323,7 +2326,7 @@ class LeftSide extends Component<IProps, IState> {
                       //   border: this.props.selectedImage && this.props.selectedImage.effectId == 1 && "2px solid #2591c7",
                       // }}
                       onClick={e => {
-                        this.props.handleApplyEffect(1, "rgba(25, 25, 25, 0.4) 8.8821px 8.8821px 0px", "", "black");
+                        this.props.handleApplyEffect(1, 50, 0, 0, 40, null, "black");
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2353,7 +2356,7 @@ class LeftSide extends Component<IProps, IState> {
                     <button
                       id="effect-btn-2"
                       onClick={e => {
-                        this.props.handleApplyEffect(2, "rgba(0, 0, 0, 0.325) 0px 7.53671px 32.031px", "", "black");
+                        this.props.handleApplyEffect(2, null, null, null, null, 50, "black");
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2393,14 +2396,16 @@ class LeftSide extends Component<IProps, IState> {
                       pauser={this.props.pauser}
                     />
                     <Slider 
-                      title="Blue" 
-                      currentValue={30}
+                      title="Blur" 
+                      currentValue={this.props.selectedImage.blur}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeBlur}
                     />
                     <Slider 
                       title="Transparency" 
-                      currentValue={30}
+                      currentValue={this.props.selectedImage.textShadowTransparent}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeTextShadowTransparent}
                     />
             </div>}
             { editorStore.imageSelected && editorStore.imageSelected.effectId == 2 &&
@@ -2409,8 +2414,9 @@ class LeftSide extends Component<IProps, IState> {
                   }}>
                     <Slider 
                       title="Intensity" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.intensity}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeIntensity}
                     />
             </div>}
                   <div 

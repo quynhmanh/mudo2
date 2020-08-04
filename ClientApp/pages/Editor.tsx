@@ -2635,16 +2635,19 @@ class CanvaEditor extends Component<IProps, IState> {
         }
     };
 
-    handleApplyEffect = (effectId, textShadow, textStroke, color, filter) => {
+    handleApplyEffect = (effectId, offSet, direction, blur, textShadowTransparent, intensity, textStroke, color, filter) => {
         var self = this;
         var images = editorStore.images.map(img => {
             if (img._id === this.state.idObjectSelected) {
-                img.textShadow = textShadow;
                 img.textStroke = textStroke;
                 img.color = color;
                 img.filter = filter;
                 img.effectId = effectId;
-                img.offSet = 50;
+                img.offSet = offSet;
+                img.direction = direction;
+                img.blur = blur;
+                img.textShadowTransparent = textShadowTransparent;
+                img.intensity = intensity;
 
                 editorStore.imageSelected = img;
 
@@ -2660,10 +2663,79 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleChangeOffset = (val) => {
+        // console.log('handleChangeOffset');
+
+        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        // if (el) {
+        //     el.style.textShadow = `rgba(25, 25, 25, ${1.0 * this.state.selectedImage.textShadowTransparent / 100}) ${21.0 * val / 100}px ${21.0 * val / 100}px 0px`;
+        // }
         var self = this;
         var images = editorStore.images.map(img => {
             if (img._id === this.state.idObjectSelected) {
                 img.offSet = val;
+                self.setState({
+                    selectedImage: {...img},
+                });
+                editorStore.imageSelected = img;
+            }
+
+            return img;
+        });
+        editorStore.replace(images);
+    }
+
+    handleChangeBlur = (val) => {
+        // console.log('handleChangeBlur');
+        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        // if (el) {
+        //     el.style.textShadow = `rgba(25, 25, 25, ${1.0 * this.state.selectedImage.textShadowTransparent / 100}) ${21.0 * this.state.selectedImage.offSet / 100}px ${21.0 * this.state.selectedImage.offSet / 100}px ${30.0 * val / 100}px`;
+        // }
+        var self = this;
+        var images = editorStore.images.map(img => {
+            if (img._id === this.state.idObjectSelected) {
+                img.blur = val;
+                self.setState({
+                    selectedImage: {...img},
+                });
+                editorStore.imageSelected = img;
+            }
+
+            return img;
+        });
+        editorStore.replace(images);
+    }
+
+    handleChangeTextShadowTransparent = (val) => {
+        // console.log('handleChangeTextShadowTransparent');
+        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        // if (el) {
+        //     el.style.textShadow = `rgba(25, 25, 25, ${1.0 * this.state.selectedImage.textShadowTransparent / 100}) ${21.0 * this.state.selectedImage.offSet / 100}px ${21.0 * this.state.selectedImage.offSet / 100}px ${30.0 * this.state.selectedImage.blur / 100}px`;
+        // }
+        var self = this;
+        var images = editorStore.images.map(img => {
+            if (img._id === this.state.idObjectSelected) {
+                img.textShadowTransparent = val;
+                self.setState({
+                    selectedImage: {...img},
+                });
+                editorStore.imageSelected = img;
+            }
+
+            return img;
+        });
+        editorStore.replace(images);
+    }
+
+    handleChangeIntensity = val => {
+        // console.log('handleChangeInte');
+        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        // if (el) {
+        //     el.style.textShadow = `rgba(0, 0, 0, ${0.6 * val / 100}) 0 8.9px ${66.75 * val / 100}px`;
+        // }
+        var self = this;
+        var images = editorStore.images.map(img => {
+            if (img._id === this.state.idObjectSelected) {
+                img.intensity = val;
                 self.setState({
                     selectedImage: {...img},
                 });
@@ -4441,6 +4513,9 @@ class CanvaEditor extends Component<IProps, IState> {
                             handleImageSelected={this.handleImageSelected}
                             handleApplyEffect={this.handleApplyEffect}
                             handleChangeOffset={this.handleChangeOffset}
+                            handleChangeBlur={this.handleChangeBlur}
+                            handleChangeTextShadowTransparent={this.handleChangeTextShadowTransparent}
+                            handleChangeIntensity={this.handleChangeIntensity}
                         />
                         <div
                             style={{
