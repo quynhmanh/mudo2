@@ -102,7 +102,10 @@ export default class Slider extends PureComponent<IProps, IState> {
             e.nativeEvent.stopImmediatePropagation();
             if (e.keyCode == 13) {
                 var val = e.target.value;
-                this.props.handleOpacityChange(val);
+                this.setState({ currentValue: val });
+
+                this.$input.value = val;
+                this.props.onChange(val);
                 window.getSelection().removeAllRanges();
             }
         }}
