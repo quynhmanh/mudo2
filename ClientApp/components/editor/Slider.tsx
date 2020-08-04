@@ -4,6 +4,7 @@ export interface IProps {
     title: string;
     currentValue: number;
     pauser: any;
+    onChange: any;
 }
 
 export interface IState {
@@ -23,6 +24,17 @@ export default class Slider extends PureComponent<IProps, IState> {
         this.onSlideClick = this.onSlideClick.bind(this);
         this.onMove = this.onMove.bind(this);
         this.onUp = this.onUp.bind(this);
+    }
+
+    shouldComponentUpdate (nextProps, nextState) {
+        if (this.props.currentValue != nextProps.currentValue) {
+            this.setState({
+                currentValue: nextProps.currentValue,
+            });
+
+            this.$input.value = nextProps.currentValue;
+        }
+        return true;
     }
     
     onSlideClick (e) {
@@ -50,6 +62,7 @@ export default class Slider extends PureComponent<IProps, IState> {
         this.setState({ currentValue: scale });
 
         this.$input.value = scale;
+        this.props.onChange(scale);
     }
 
     $el = null;

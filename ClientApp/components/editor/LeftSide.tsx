@@ -44,6 +44,7 @@ export interface IProps {
   handleApplyEffect: any;
   selectedImage: any;
   pauser: any;
+  handleChangeOffset: any;
 }
 
 interface IState {
@@ -866,8 +867,23 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('this.props ', this.props);
-    console.log('nextProps.props ', nextProps);
+    if (this.props.selectedImage && nextProps.selectedImage && nextProps.selectedImage.effectId != this.props.selectedImage.effectId) {
+      console.log('Quynh2')
+      if (window.prevEffectId) {
+        var el = document.getElementById("effect-btn-" + window.prevEffectId);
+        if (el) {
+          el.style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
+        }
+      }
+      var el = document.getElementById("effect-btn-" + nextProps.selectedImage.effectId);
+      if (el) {
+        el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
+      }
+      window.prevEffectId = nextProps.selectedImage.effectId;
+    }
+
+    console.log('this.props ', this.props.selectedImage);
+    console.log('nextProps.props ', nextProps.selectedImage);
     if (nextProps.selectedTab != this.props.selectedTab) {
       return true;
     }
@@ -894,6 +910,11 @@ class LeftSide extends Component<IProps, IState> {
       return true;
     }
 
+    if (this.props.selectedImage && nextProps.selectedImage && nextProps.selectedImage._id != this.props.selectedImage._id) {
+      console.log('Quynh')
+      return true;
+    }
+
     if (this.props.scale != nextProps.scale) {
       return false;
     }
@@ -916,7 +937,7 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   render() {
-    console.log('Leftside render ', editorStore.imageSelected);
+    // console.log('Leftside render ', editorStore.imageSelected);
     return (
       <div
         style={{
@@ -2355,14 +2376,16 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                         >Lift</p>
                   </div>
-                  { editorStore.imageSelected && editorStore.imageSelected.effectId == 1 &&
+                  {/* { editorStore.imageSelected && editorStore.imageSelected.effectId == 1 && */}
+                  { this.props.selectedImage && this.props.selectedImage.effectId == 1 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
                     <Slider 
                       title="Offset" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.offSet}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeOffset}
                     />
                     <Slider 
                       title="Direction" 

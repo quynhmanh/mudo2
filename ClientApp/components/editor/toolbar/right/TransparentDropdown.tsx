@@ -19,7 +19,6 @@ export default class TransparentDropdown extends Component<IProps, IState> {
     }
 
     shouldComponentUpdate (nextProps, nextState) {
-        console.log("shouldComponentUpdate ", this.props, nextProps);
         // if (nextProps.currentOpacity === this.props.currentOpacity) {
         //     return false;
         // }

@@ -343,6 +343,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.backwardSelectedObject = this.backwardSelectedObject.bind(this);
         this.handleTransparentAdjust = this.handleTransparentAdjust.bind(this);
         this.handleApplyEffect = this.handleApplyEffect.bind(this);
+        this.handleChangeOffset = this.handleChangeOffset.bind(this);
     }
 
     $app = null;
@@ -2643,17 +2644,35 @@ class CanvaEditor extends Component<IProps, IState> {
                 img.color = color;
                 img.filter = filter;
                 img.effectId = effectId;
-            }
-            editorStore.imageSelected = img;
+                img.offSet = 50;
 
-            self.setState({
-                selectedImage: {...img},
-            })
+                editorStore.imageSelected = img;
+
+                self.setState({
+                    selectedImage: {...img},
+                })
+            }
 
             return img;
         });
         editorStore.replace(images);
         this.forceUpdate();
+    }
+
+    handleChangeOffset = (val) => {
+        var self = this;
+        var images = editorStore.images.map(img => {
+            if (img._id === this.state.idObjectSelected) {
+                img.offSet = val;
+                self.setState({
+                    selectedImage: {...img},
+                });
+                editorStore.imageSelected = img;
+            }
+
+            return img;
+        });
+        editorStore.replace(images);
     }
 
     handleImageSelected = img => {
@@ -4421,6 +4440,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
                             handleImageSelected={this.handleImageSelected}
                             handleApplyEffect={this.handleApplyEffect}
+                            handleChangeOffset={this.handleChangeOffset}
                         />
                         <div
                             style={{
