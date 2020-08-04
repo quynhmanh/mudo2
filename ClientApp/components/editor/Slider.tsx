@@ -13,6 +13,7 @@ export interface IState {
 
 export default class Slider extends PureComponent<IProps, IState> {
     $input = null;
+    $leftSLide = null;
 
     constructor(props: any) {
         super(props);
@@ -61,7 +62,10 @@ export default class Slider extends PureComponent<IProps, IState> {
 
         this.setState({ currentValue: scale });
 
+        console.log('onMove ', scale);
+
         this.$input.value = scale;
+        this.$leftSLide.style.width = scale + "%";
         this.props.onChange(scale);
     }
 
@@ -116,14 +120,17 @@ export default class Slider extends PureComponent<IProps, IState> {
             textAlign: "center",
             position: "absolute",
             right: 0,
+            borderRadius: "3px",
+            border: "1px solid #dbdcdc",
+            fontSize: "13px",
+            width: "40px",
         }} type="number" max="100" min="0" defaultValue={this.state.currentValue} ></input>
         </div>
     <div
         style={{
             display: "flex",
             height: "2px",
-            backgroundColor: "black",
-            borderRadius: "5px",
+            backgroundColor: "#dbdcdc",
             top: 0,
             bottom: 0,
             margin: "auto",
@@ -133,11 +140,19 @@ export default class Slider extends PureComponent<IProps, IState> {
         <div
             ref={el => {this.$el = el;}}
             style={{
-                borderRadius: "50%",
                 width: "100%",
                 position: "relative",
             }}
         >
+            <div 
+                ref={el => {this.$leftSLide = el;}}
+                style={{
+                    width: this.state.currentValue - 3 + "%",
+                    height: "2px",
+                    backgroundColor: "#05c4cc",
+                }}>
+
+            </div>
             <div
                 className="slider"
                 style={{

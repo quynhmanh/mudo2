@@ -885,6 +885,14 @@ class LeftSide extends Component<IProps, IState> {
       window.prevEffectId = nextProps.selectedImage.effectId;
     }
 
+    if (!window.prevEffectId && nextProps.selectedImage && nextProps.selectedImage.effectId) {
+      var el = document.getElementById("effect-btn-" + nextProps.selectedImage.effectId);
+      if (el) {
+        el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
+      }
+      window.prevEffectId = nextProps.selectedImage.effectId;
+    }
+
     console.log('this.props ', this.props.selectedImage);
     console.log('nextProps.props ', nextProps.selectedImage);
     if (nextProps.selectedTab != this.props.selectedTab) {
@@ -1373,6 +1381,7 @@ class LeftSide extends Component<IProps, IState> {
                         fontRepresentative: "images/font-AvenirNextRoundedPro.png",
                         selected: true,
                         fontFace: "O5mEMMs7UejmI1WeSKWQ",
+                        effectId: 8,
                       };
 
                       editorStore.addItem(item, true);
@@ -2291,7 +2300,7 @@ class LeftSide extends Component<IProps, IState> {
                         className="effect-btn"
                         id="effect-btn-8"
                         onClick={e => {
-                          this.props.handleApplyEffect(0, null, null, null, null, null, "black");
+                          this.props.handleApplyEffect(8, null, null, null, null, null, "black");
                           if (window.prevEffectId) {
                             document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                           }

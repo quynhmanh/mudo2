@@ -66,6 +66,7 @@ const LeftSide = (props: IProps) => {
                 translate={props.translate}
                 handleColorBtnClick={props.handleColorBtnClick}
                 fontColor={props.fontColor}
+                selectedTab={props.selectedTab}
             />
             <Italic
                 show=

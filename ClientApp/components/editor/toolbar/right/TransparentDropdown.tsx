@@ -5,6 +5,7 @@ interface IProps {
     handleTransparentAdjust: any;
     currentOpacity: number;
     handleOpacityChange: any;
+    title: any;
 }
 
 interface IState {
@@ -31,6 +32,8 @@ export default class TransparentDropdown extends Component<IProps, IState> {
 
         var el = document.getElementById("myOpacity-3slider");
         el.style.left = (nextProps.currentOpacity - 3) + "%";
+        el = document.getElementById("myOpacity-4");
+        el.style.width = (nextProps.currentOpacity - 3) + "%";
         return false;
     }
 
@@ -62,14 +65,12 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                         fontSize: "12px"
                     }}
                 >
-                    {this.props.translate("transparent")}:{" "}
+                    {this.props.title}:{" "}
                 </p>
                 <div
                     style={{
                         display: "flex",
                         height: "2px",
-                        backgroundColor: "black",
-                        borderRadius: "5px",
                         top: 0,
                         bottom: 0,
                         margin: "auto",
@@ -79,10 +80,19 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                     <div
                         id="myOpacity-3"
                         style={{
-                            borderRadius: "50%",
-                            width: "100%"
+                            width: "100%",
+                            backgroundColor: "#dbdcdc",
                         }}
                     >
+                        <div 
+                            id="myOpacity-4"
+                            style={{
+                                width: this.props.currentOpacity - 3 + "%",
+                                height: "2px",
+                                backgroundColor: "#05c4cc",
+                            }}>
+
+            </div>
                         <div
                             onMouseDown={this.props.handleTransparentAdjust}
                             id="myOpacity-3slider"

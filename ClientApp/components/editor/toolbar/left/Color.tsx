@@ -1,11 +1,13 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
+import {SidebarTab} from "@Components/editor/enums";
 
 interface IProps {
     translate: any;
     show: boolean;
     handleColorBtnClick: any;
     fontColor: string;
+    selectedTab: any;
 }
 
 const Color = (props: IProps) => {
@@ -31,7 +33,8 @@ const Color = (props: IProps) => {
                     display: "inline-block",
                     cursor: "pointer",
                     color: "black",
-                    height: "100%"
+                    height: "100%",
+                    backgroundColor: props.selectedTab === SidebarTab.Color ? "rgba(14, 19, 24, 0.15) " : "white",
                 }}
                 onClick={handleColorBtnClick}
                 className="toolbar-btn"

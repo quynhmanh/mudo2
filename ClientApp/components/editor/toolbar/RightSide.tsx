@@ -43,6 +43,7 @@ const RightSide = (props: IProps) => {
             />
             <TransparentDropdown
                 translate={props.translate}
+                title={props.translate("transparent")}
                 handleTransparentAdjust={props.handleTransparentAdjust}
                 currentOpacity={props.currentOpacity}
                 handleOpacityChange={props.handleOpacityChange}
