@@ -4451,6 +4451,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         id="download-btn"
                                         onClick={this.handleDownloadList}
                                         style={{
+                                            display: "flex",
                                             float: "right",
                                             color: "white",
                                             marginTop: "8px",
@@ -4463,11 +4464,20 @@ class CanvaEditor extends Component<IProps, IState> {
                                             background: "#ebebeb0f",
                                             border: "none",
                                             height: "35px",
-                                            width: "36px"
+                                            // width: "36px"
                                         }}
                                     >
                                         {/* {" "} */}
-                                        <DownloadIcon fill="white" width="18px" height="18px" />
+                                        <p
+                                            style={{
+                                                marginRight: "10px",
+                                            }}>{this.translate("download")}</p>
+                                            <div
+                                                style={{
+                                                    width: "18px",
+                                                }}>
+                                                <DownloadIcon fill="white" width="18px" height="18px" />
+                                            </div>
                                     </button>
                                 </Tooltip>
                             )}
