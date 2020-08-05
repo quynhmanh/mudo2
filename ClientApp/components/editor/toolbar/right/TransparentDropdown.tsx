@@ -28,6 +28,10 @@ export default class TransparentDropdown extends Component<IProps, IState> {
             return true;
         }
 
+        if (this.props.title != nextProps.title) {
+            return true;
+        }
+
         this.$input.value = nextProps.currentOpacity;
 
         var el = document.getElementById("myOpacity-3slider");
