@@ -1347,6 +1347,7 @@ class LeftSide extends Component<IProps, IState> {
                 Thêm LaTeX
             </div> */}
                   <div
+                    className="add-heading-btn"
                     style={{
                       fontSize: "28px",
                       cursor: "pointer",
@@ -1392,6 +1393,7 @@ class LeftSide extends Component<IProps, IState> {
                     {this.props.translate("addAHeading")}
                   </div>
                   <div
+                    className="add-heading-btn"
                     style={{
                       fontSize: "22px",
                       cursor: "pointer",
@@ -1437,6 +1439,7 @@ class LeftSide extends Component<IProps, IState> {
                     {this.props.translate("addASubHeading")}
                   </div>
                   <div
+                    className="add-heading-btn"
                     style={{
                       fontSize: "16px",
                       cursor: "pointer",
