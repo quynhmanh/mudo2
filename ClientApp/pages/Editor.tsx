@@ -1447,7 +1447,7 @@ class CanvaEditor extends Component<IProps, IState> {
             // image.fontSize = image.scaleY * image.fontSize;
 
             if (objectType === TemplateType.Heading) {
-                document.getElementById("fontSizeButton").innerText = `${Math.round(image.fontSize * image.scaleY * 10) / 10}`;
+                document.getElementById("fontSizeButton").innerText = `${Math.round(image.fontSize * image.scaleY)}`;
             }
 
             if (objectType == TemplateType.Heading) {
