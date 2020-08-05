@@ -15,6 +15,7 @@ const thick = 16;
 export interface IProps {
     fontSize: any;
     content: string;
+    handleFontSizeBtnClick: any;
 }
 
 export interface IState {
@@ -30,6 +31,13 @@ enum Mode {
   }
 
 export default class FontSize extends PureComponent<IProps, IState> {
+
+  shouldComponentUpdate(nextProps) {
+    if (this.props.fontSize != nextProps.fontSize) {
+      document.getElementById("fontSizeButton").value = Math.round(nextProps.fontSize);
+    }
+  }
+
     onClickDropDownFontSizeList = () => {
         document.getElementById("myFontSizeList").classList.toggle("show");
     
@@ -67,16 +75,32 @@ export default class FontSize extends PureComponent<IProps, IState> {
               right: "4px",
               margin: "auto",
             }}/> 
-          <button
+          <input
               id="fontSizeButton"
               style={{
                 height: '100%',
+                backgroundColor: "transparent",
+                padding: "0 10px",
               }}
               className="dropbtn-font dropbtn-font-size"
-              onClick={this.onClickDropDownFontSizeList.bind(this)}
+              defaultValue={Math.round(this.props.fontSize)}
+              onClick={ e=> {
+                document.execCommand('selectall', null, false);
+                this.onClickDropDownFontSizeList.bind(this)(e);
+              }}
+              onKeyDown={e => {
+                console.log('onKeyDown', e.nativeEvent);
+                e.nativeEvent.stopImmediatePropagation();
+                if (e.keyCode == 13) {
+                    var val = e.target.value;
+                    this.props.handleFontSizeBtnClick(e, val);
+                    window.getSelection().removeAllRanges();
+                    document.getElementById("myFontSizeList").classList.toggle("show");
+                }
+            }}
           >
-            {Math.round(this.props.fontSize)}
-          </button>
+            {/* {Math.round(this.props.fontSize)} */}
+          </input>
         </React.Fragment>
     );
   }

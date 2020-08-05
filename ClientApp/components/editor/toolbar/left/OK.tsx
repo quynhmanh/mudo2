@@ -18,8 +18,17 @@ const OK = (props: IProps) => {
                 fontFamily: "AvenirNextRoundedPro-Medium",
             }}
         >
-            <img src={require("@Components/shared/svgs/editor/toolbar/ok.svg")} alt={content} />
-            <span style={{ marginLeft: "5px" }}>
+            <img
+                style={{
+                    height: "100%",
+                }} 
+                src={require("@Components/shared/svgs/editor/toolbar/ok.svg")} 
+                alt={content} />
+            <span 
+                style={{ 
+                    marginLeft: "5px",
+                    lineHeight: "30px",
+                }}>
                 {content}
             </span>
         </button>

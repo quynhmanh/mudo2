@@ -18,8 +18,12 @@ const Cancel = (props: IProps) => {
                 fontFamily: "AvenirNextRoundedPro-Medium",
             }}
         >
-            <img src={require("@Components/shared/svgs/editor/toolbar/cancel.svg")} alt={content}/>
-            <span style={{ marginLeft: "5px" }}>
+            <img 
+                style={{
+                    height: "100%",
+                }}
+                src={require("@Components/shared/svgs/editor/toolbar/cancel.svg")} alt={content}/>
+            <span style={{ lineHeight: "30px", marginLeft: "5px" }}>
                 {content}
             </span>
         </button>

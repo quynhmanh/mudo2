@@ -38,7 +38,7 @@ const FontSizeWrapper = (props: IProps) => {
                 }}
                 className="toolbar-btn"
             >
-                <FontSize fontSize={fontSize} content={content} />
+                <FontSize fontSize={fontSize} content={content} handleFontSizeBtnClick={props.handleFontSizeBtnClick}/>
                 <div
                     style={{
                         left: "0px",

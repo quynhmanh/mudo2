@@ -21,7 +21,7 @@ const Crop = (props: IProps) => {
             {!cropMode && (
                 <button
                     style={{
-                        height: "26px",
+                        height: "100%",
                         top: 0
                     }}
                     className="dropbtn-font dropbtn-font-size toolbar-btn"

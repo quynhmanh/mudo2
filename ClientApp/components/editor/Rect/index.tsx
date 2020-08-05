@@ -239,7 +239,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         parseInt(size.substring(0, size.length - 2)) *
         selectionScaleY *
         scaleY;
-      document.getElementById("fontSizeButton").innerText = `${Math.round(
+      document.getElementById("fontSizeButton").value = `${Math.round(
         fontSize
       )}`;
     }

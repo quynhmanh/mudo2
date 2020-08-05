@@ -394,9 +394,11 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         var images = editorStore.images.map(img => {
-            img.italic = !img.italic;
-            editorStore.imageSelected = img;
-            this.setState({selectedImage: {...img}});
+            if (img._id === this.state.idObjectSelected) {
+                img.italic = !img.italic;
+                editorStore.imageSelected = img;
+                this.setState({selectedImage: {...img}});
+            }
             return img;
         });
 
@@ -427,9 +429,11 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         var images = editorStore.images.map(img => {
-            img.bold = !img.bold;
-            editorStore.imageSelected = img;
-            this.setState({selectedImage: {...img}});
+            if (img._id === this.state.idObjectSelected) {
+                img.bold = !img.bold;
+                editorStore.imageSelected = img;
+                this.setState({selectedImage: {...img}});
+            }
             return img;
         });
 
@@ -578,6 +582,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
         this.setState({ fontSize: fontSize });
 
+        document.getElementById("fontSizeButton").value = fontSize;
+
         // this.forceUpdate();
     }
 
@@ -619,9 +625,11 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         var images = editorStore.images.map(img => {
-            img.align = type;
-            editorStore.imageSelected = img;
-            this.setState({selectedImage: {...img}});
+                if (img._id === this.state.idObjectSelected) {
+                    img.align = type;
+                    editorStore.imageSelected = img;
+                    this.setState({selectedImage: {...img}});
+                }
             return img;
         });
 
@@ -1473,8 +1481,9 @@ class CanvaEditor extends Component<IProps, IState> {
             image.scaleY = image.height / image.origin_height;
             // image.fontSize = image.scaleY * image.fontSize;
 
+            console.log('resizing ');
             if (objectType === TemplateType.Heading) {
-                document.getElementById("fontSizeButton").innerText = `${Math.round(image.fontSize * image.scaleY)}`;
+                document.getElementById("fontSizeButton").value = `${Math.round(image.fontSize * image.scaleY)}`;
             }
 
             if (objectType == TemplateType.Heading) {
@@ -4497,6 +4506,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         {/* {" "} */}
                                         <p
                                             style={{
+                                                fontSize: "15px",
                                                 marginRight: "10px",
                                             }}>{this.translate("download")}</p>
                                             <div
