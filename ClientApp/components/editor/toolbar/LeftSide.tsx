@@ -112,7 +112,7 @@ const LeftSide = (props: IProps) => {
                 fontName={props.fontName}
                 selectedTab={props.selectedTab}
             />
-            <Filter
+            {/* <Filter
                 show=
                 {
                     editorStore.imageSelected &&
@@ -137,7 +137,7 @@ const LeftSide = (props: IProps) => {
                 translate={props.translate}
                 cropMode={props.cropMode}
                 handleAdjustBtnClick={props.handleAdjustBtnClick}
-            />
+            /> */}
             <Crop
                 show=
                 {
@@ -151,7 +151,7 @@ const LeftSide = (props: IProps) => {
                 cropMode={props.cropMode}
                 handleCropBtnClick={props.handleCropBtnClick}
             />
-            <Flip
+            {/* <Flip
                 show=
                 {
                     editorStore.imageSelected &&
@@ -163,7 +163,7 @@ const LeftSide = (props: IProps) => {
                 translate={props.translate}
                 cropMode={props.cropMode}
                 handleFlipBtnClick={props.handleFlipBtnClick}
-            />
+            /> */}
             <ImageBackgroundColor
                 show=
                 {

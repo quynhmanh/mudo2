@@ -90,6 +90,7 @@ const Toolbar = (props: IProps) => {
                 {
                     props.idObjectSelected !== null
                 }
+                cropMode={props.cropMode}
                 translate={props.translate}
                 onClickpositionList={props.onClickpositionList}
                 onClickTransparent={props.onClickTransparent}

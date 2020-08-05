@@ -15,6 +15,7 @@ interface IProps {
     currentOpacity: number;
     selectedImage: any;
     handleOpacityChange: any;
+    cropMode: any;
 }
 
 const RightSide = (props: IProps) => {
@@ -26,16 +27,19 @@ const RightSide = (props: IProps) => {
                 right: 0,
                 display: show ? "flex" : "none"
             }}
-        >
+        >   
+        {!props.cropMode &&
             <Position 
                 translate={props.translate}
                 onClickpositionList={props.onClickpositionList}
-            />
+            />}
+        {!props.cropMode &&
             <Transparent
                 show={true}
                 translate={props.translate}
                 onClickTransparent={props.onClickTransparent}
             />
+        }
             <PositionDropdown
                 translate={props.translate}
                 forwardSelectedObject={props.forwardSelectedObject}
