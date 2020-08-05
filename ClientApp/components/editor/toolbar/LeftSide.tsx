@@ -81,6 +81,7 @@ const LeftSide = (props: IProps) => {
                 }
                 translate={props.translate}
                 handleItalicBtnClick={props.handleItalicBtnClick}
+                checked={props.selectedImage && props.selectedImage.italic}
             />
             <Bold
                 show=
@@ -95,6 +96,7 @@ const LeftSide = (props: IProps) => {
                 }
                 translate={props.translate}
                 handleBoldBtnClick={props.handleBoldBtnClick}
+                checked={props.selectedImage && props.selectedImage.bold}
             />
             <FontFamily
                 show=
@@ -206,6 +208,7 @@ const LeftSide = (props: IProps) => {
                                 title={item.title}
                                 iconPath={item.iconPath}
                                 handleAlignBtnClick={props.handleAlignBtnClick}
+                                checked={props.selectedImage && props.selectedImage.align == item.title}
                             />
                     )
             }

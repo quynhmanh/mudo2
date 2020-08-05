@@ -5,6 +5,7 @@ interface IProps {
     translate: any;
     show: boolean;
     handleBoldBtnClick: any;
+    checked: boolean;
 }
 
 const Bold = (props: IProps) => {
@@ -27,7 +28,9 @@ const Bold = (props: IProps) => {
                     paddingBottom: "0px",
                     display: "inline-block",
                     cursor: "pointer",
-                    color: "black"
+                    color: "black",
+                    height: "100%",
+                    backgroundColor: props.checked ? "rgba(14, 19, 24, 0.15) " : "white",
                 }}
                 onClick={handleBoldBtnClick}
             >

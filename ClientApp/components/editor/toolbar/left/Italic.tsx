@@ -5,6 +5,7 @@ interface IProps {
     translate: any;
     show: boolean;
     handleItalicBtnClick: any;
+    checked: boolean;
 }
 
 const Italic = (props: IProps) => {
@@ -27,7 +28,9 @@ const Italic = (props: IProps) => {
                     paddingBottom: "0px",
                     display: "inline-block",
                     cursor: "pointer",
-                    color: "black"
+                    color: "black",
+                    height: "100%",
+                    backgroundColor: props.checked ? "rgba(14, 19, 24, 0.15) " : "white",
                 }}
                 onClick={handleItalicBtnClick}
             >

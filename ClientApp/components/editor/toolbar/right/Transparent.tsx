@@ -22,9 +22,9 @@ const Transparent = (props: IProps) => {
             <button
                 style={{
                     boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-                    height: "26px",
                     width: "30px",
-                    padding: 0
+                    padding: 0,
+                    height: "100%",
                 }}
                 className="dropbtn-font dropbtn-font-size toolbar-btn"
                 onClick={onClickTransparent}

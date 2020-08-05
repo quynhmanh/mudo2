@@ -392,6 +392,15 @@ class CanvaEditor extends Component<IProps, IState> {
             document.execCommand("italic");
             sel.removeAllRanges();
         }
+
+        var images = editorStore.images.map(img => {
+            img.italic = !img.italic;
+            editorStore.imageSelected = img;
+            this.setState({selectedImage: {...img}});
+            return img;
+        });
+
+        editorStore.replace(images);
     }
 
     handleBoldBtnClick = (e: any) => {
@@ -416,6 +425,15 @@ class CanvaEditor extends Component<IProps, IState> {
             document.execCommand("bold");
             sel.removeAllRanges();
         }
+
+        var images = editorStore.images.map(img => {
+            img.bold = !img.bold;
+            editorStore.imageSelected = img;
+            this.setState({selectedImage: {...img}});
+            return img;
+        });
+
+        editorStore.replace(images);
     }
 
     handleFilterBtnClick = (e: any) => {
@@ -599,6 +617,15 @@ class CanvaEditor extends Component<IProps, IState> {
             document.execCommand(command, false, null);
             sel.removeAllRanges();
         }
+
+        var images = editorStore.images.map(img => {
+            img.align = type;
+            editorStore.imageSelected = img;
+            this.setState({selectedImage: {...img}});
+            return img;
+        });
+
+        editorStore.replace(images);
     }
 
     handleOkBtnClick = (e: any) => {

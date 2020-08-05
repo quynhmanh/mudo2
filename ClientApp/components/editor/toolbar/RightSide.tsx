@@ -25,7 +25,8 @@ const RightSide = (props: IProps) => {
             style={{
                 position: "absolute",
                 right: 0,
-                display: show ? "flex" : "none"
+                display: show ? "flex" : "none",
+                height: "30px",
             }}
         >   
         {!props.cropMode &&

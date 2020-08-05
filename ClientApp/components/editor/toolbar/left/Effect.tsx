@@ -30,7 +30,7 @@ export default class Effect extends Component<IProps, IState> {
                 {!cropMode && (
                     <button
                         style={{
-                            height: "26px",
+                            height: "100%",
                             top: 0,
                             backgroundColor: this.props.selectedTab === SidebarTab.Effect ? "rgba(14, 19, 24, 0.15) " : "white",
                         }}

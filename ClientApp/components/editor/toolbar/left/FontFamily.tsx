@@ -36,13 +36,31 @@ const FontFamily = (props: IProps) => {
                     position: "relative",
                     width: "216px",
                     backgroundColor: props.selectedTab === SidebarTab.Font ? "rgba(14, 19, 24, 0.15) " : "white",
+                    height: "100%",
                 }}
             >
                 <img
-                    style={{ height: "21px", filter: "invert(1)" }}
+                    style={{ 
+                        height: "21px", 
+                        filter: "invert(1)", 
+                        position: "absolute", 
+                        top: 0, 
+                        bottom: 0, 
+                        margin: "auto",
+                    }}
                     src={fontName}
                 />
-                <img src={require("@Components/shared/svgs/editor/toolbar/fontFamily.svg")} alt={content} style={{ pointerEvents: "none", position: "absolute", right: "10px", top: "4px" }}/>
+                <img 
+                    src={require("@Components/shared/svgs/editor/toolbar/fontFamily.svg")} 
+                    alt={content} 
+                    style={{ 
+                        pointerEvents: "none", 
+                        position: "absolute", 
+                        right: "10px", 
+                        top: 0,
+                        bottom: 0,
+                        margin: "auto",
+                    }}/>
             </a>
         </Tooltip>
     );

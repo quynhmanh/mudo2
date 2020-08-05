@@ -7,6 +7,7 @@ interface IProps {
     handleAlignBtnClick: any;
     title: string;
     iconPath: string;
+    checked: boolean;
 }
 
 const Align = (props: IProps) => {
@@ -31,7 +32,9 @@ const Align = (props: IProps) => {
                     marginRight: "6px",
                     display: "inline-block",
                     cursor: "pointer",
-                    color: "black"
+                    color: "black",
+                    height: "100%",
+                    backgroundColor: props.checked ? "rgba(14, 19, 24, 0.15) " : "white",
                 }}
             >
                 <img src={iconPath} alt={content}/>

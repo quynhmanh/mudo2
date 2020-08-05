@@ -62,13 +62,15 @@ export default class FontSize extends PureComponent<IProps, IState> {
             style={{ 
               pointerEvents: 'none', 
               position: 'absolute', 
-              right: '4px', 
-              top: '4px' 
+              top: 0,
+              bottom: 0,
+              right: "4px",
+              margin: "auto",
             }}/> 
           <button
               id="fontSizeButton"
               style={{
-                height: '26px'
+                height: '100%',
               }}
               className="dropbtn-font dropbtn-font-size"
               onClick={this.onClickDropDownFontSizeList.bind(this)}
