@@ -48,6 +48,8 @@ export interface IProps {
   handleChangeBlur: any;
   handleChangeTextShadowTransparent: any;
   handleChangeIntensity: any;
+  handleChangeHollowThickness: any;
+  handleChangeDirection: any;
 }
 
 interface IState {
@@ -2332,7 +2334,7 @@ class LeftSide extends Component<IProps, IState> {
                       //   border: this.props.selectedImage && this.props.selectedImage.effectId == 1 && "2px solid #2591c7",
                       // }}
                       onClick={e => {
-                        this.props.handleApplyEffect(1, 50, 0, 0, 40, null, "black");
+                        this.props.handleApplyEffect(1, 50, 12.5, 0, 40, null, "black");
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2398,7 +2400,7 @@ class LeftSide extends Component<IProps, IState> {
                     />
                     <Slider 
                       title="Direction" 
-                      currentValue={30}
+                      currentValue={this.props.selectedImage.direction}
                       pauser={this.props.pauser}
                       multiplier={3.6}
                       onChange={this.props.handleChangeDirection}
@@ -2436,7 +2438,7 @@ class LeftSide extends Component<IProps, IState> {
                     >
                       <button
                         onClick={e => {
-                          this.props.handleApplyEffect(3, "", "1.428873px rgb(25, 25, 25)", "transparent");
+                          this.props.handleApplyEffect(3, null, null, null, null, null, 30, "transparent");
                           if (window.prevEffectId) {
                             document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                           }
@@ -2468,7 +2470,7 @@ class LeftSide extends Component<IProps, IState> {
                     >
                     <button
                       onClick={e => {
-                        this.props.handleApplyEffect(4, "rgb(128, 128, 128) 10.4888px 10.4888px 0px", "1.9px rgb(0, 0, 0)", "transparent");
+                        this.props.handleApplyEffect(4, 50, 12.5, 0, 40, null, 30, "transparent");
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2500,7 +2502,7 @@ class LeftSide extends Component<IProps, IState> {
                     >
                     <button
                       onClick={e => {
-                        this.props.handleApplyEffect(5, "rgba(25, 25, 25, 0.5) 8.8821px 8.8821px 0px, rgba(25, 25, 25, 0.3) 17.7642px 17.7642px 0px", "", "black");
+                        this.props.handleApplyEffect(5, 50, 12.5, 0, 40, null, "", "black");
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2530,8 +2532,9 @@ class LeftSide extends Component<IProps, IState> {
                   }}>
                     <Slider 
                       title="Thickness" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.hollowThickness}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeHollowThickness}
                     />
             </div>}
             { editorStore.imageSelected && editorStore.imageSelected.effectId == 4 &&
@@ -2540,18 +2543,22 @@ class LeftSide extends Component<IProps, IState> {
                   }}>
                     <Slider 
                       title="Thickness" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.hollowThickness}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeHollowThickness}
                     />
                     <Slider 
                       title="Offset" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.offSet}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeOffset}
                     />
                     <Slider 
                       title="Direction" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.direction}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeDirection}
+                      multiplier={3.6}
                     />
             </div>}
             { editorStore.imageSelected && editorStore.imageSelected.effectId == 5 &&
@@ -2560,13 +2567,16 @@ class LeftSide extends Component<IProps, IState> {
                   }}>
                     <Slider 
                       title="Offset" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.offSet}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeOffset}
                     />
                     <Slider 
                       title="Direction" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.direction}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeDirection}
+                      multiplier={3.6}
                     />
             </div>}
                   <div 
@@ -2578,7 +2588,7 @@ class LeftSide extends Component<IProps, IState> {
                     >
                     <button
                       onClick={e => {
-                        this.props.handleApplyEffect(6, "rgb(0, 255, 255) -3.76836px 0px 0px, rgb(255, 0, 255) 3.76836px 0px 0px", "", "black");
+                        this.props.handleApplyEffect(6, 50, 12.5, 0, 40, null, "", "black");
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2610,7 +2620,7 @@ class LeftSide extends Component<IProps, IState> {
                     >
                     <button
                       onClick={e => {
-                        this.props.handleApplyEffect(7, "", "", "white", "drop-shadow(rgb(255, 82, 188) 0px 0px 5.93333px) drop-shadow(rgba(255, 82, 188, 0.95) 0px 0px 35.6px) drop-shadow(rgba(255, 82, 188, 0.54) 0px 0px 118.667px)");
+                        this.props.handleApplyEffect(7, null, null, null, null, null, null, "white", "drop-shadow(rgb(255, 82, 188) 0px 0px 5.93333px) drop-shadow(rgba(255, 82, 188, 0.95) 0px 0px 35.6px) drop-shadow(rgba(255, 82, 188, 0.54) 0px 0px 118.667px)");
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2640,13 +2650,16 @@ class LeftSide extends Component<IProps, IState> {
                   }}>
                     <Slider 
                       title="Offset" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.offSet}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeOffset}
                     />
                     <Slider 
                       title="Direction" 
-                      currentValue={50}
+                      currentValue={this.props.selectedImage.direction}
                       pauser={this.props.pauser}
+                      onChange={this.props.handleChangeDirection}
+                      multiplier={3.6}
                     />
             </div>}
             { editorStore.imageSelected && editorStore.imageSelected.effectId == 7 &&

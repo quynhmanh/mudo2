@@ -64,7 +64,7 @@ export default class Slider extends PureComponent<IProps, IState> {
             .getBoundingClientRect();
         var slide = e.pageX - rec1.left;
         var scale = (slide / rec1.width) * 100;
-        scale = Math.max(1, scale);
+        scale = Math.max(0, scale);
         scale = Math.min(100, scale);
 
         this.setState({ currentValue: scale });
@@ -112,10 +112,10 @@ export default class Slider extends PureComponent<IProps, IState> {
             console.log('onKeyDown', e.nativeEvent);
             e.nativeEvent.stopImmediatePropagation();
             if (e.keyCode == 13) {
-                var val = e.target.value;
+                var val = e.target.value / (this.props.multiplier ? this.props.multiplier : 1);
                 this.setState({ currentValue: val });
 
-                this.$input.value = val;
+                this.$input.value = e.target.value;
                 this.props.onChange(val);
                 window.getSelection().removeAllRanges();
             }
@@ -131,7 +131,7 @@ export default class Slider extends PureComponent<IProps, IState> {
             border: "1px solid #dbdcdc",
             fontSize: "13px",
             width: "40px",
-        }} type="number" max="100" min="0" defaultValue={this.state.currentValue} ></input>
+        }} type="number" max="100" min="0" defaultValue={this.state.currentValue * (this.props.multiplier ? this.props.multiplier : 1)} ></input>
         </div>
     <div
         style={{

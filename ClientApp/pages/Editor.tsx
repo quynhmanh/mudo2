@@ -2635,11 +2635,11 @@ class CanvaEditor extends Component<IProps, IState> {
         }
     };
 
-    handleApplyEffect = (effectId, offSet, direction, blur, textShadowTransparent, intensity, textStroke, color, filter) => {
+    handleApplyEffect = (effectId, offSet, direction, blur, textShadowTransparent, intensity, hollowThickness, color, filter) => {
         var self = this;
         var images = editorStore.images.map(img => {
             if (img._id === this.state.idObjectSelected) {
-                img.textStroke = textStroke;
+                img.hollowThickness = hollowThickness;
                 img.color = color;
                 img.filter = filter;
                 img.effectId = effectId;
@@ -2660,6 +2660,22 @@ class CanvaEditor extends Component<IProps, IState> {
         });
         editorStore.replace(images);
         this.forceUpdate();
+    }
+
+    handleChangeHollowThickness = val => {
+        var self = this;
+        var images = editorStore.images.map(img => {
+            if (img._id === this.state.idObjectSelected) {
+                img.hollowThickness = val;
+                self.setState({
+                    selectedImage: {...img},
+                });
+                editorStore.imageSelected = img;
+            }
+
+            return img;
+        });
+        editorStore.replace(images);
     }
 
     handleChangeOffset = (val) => {
@@ -2685,6 +2701,8 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleChangeDirection = val => {
+        console.log('handleChangeDirection ', val);
+        console.log(`rgb(0, 255, 255) ${21.0 * this.state.selectedImage.offSet / 100 * Math.sin(val * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.state.selectedImage.offSet / 100 * Math.cos(val * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * this.state.selectedImage.offSet / 100 * Math.sin(val * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * this.state.selectedImage.offSet / 100 * Math.cos(val * 3.6 / 360 * 2 * Math.PI))}px 0px`);
         var self = this;
         var images = editorStore.images.map(img => {
             if (img._id === this.state.idObjectSelected) {
@@ -4532,6 +4550,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             handleChangeTextShadowTransparent={this.handleChangeTextShadowTransparent}
                             handleChangeIntensity={this.handleChangeIntensity}
                             handleChangeDirection={this.handleChangeDirection}
+                            handleChangeHollowThickness={this.handleChangeHollowThickness}
                         />
                         <div
                             style={{

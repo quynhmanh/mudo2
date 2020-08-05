@@ -808,7 +808,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                     height: height * scale / scaleY + "px",
                     transformOrigin: "0 0",
                     zIndex: selected ? 1 : 0,
-                    WebkitTextStroke: this.props.image.textStroke,
+                    WebkitTextStroke: `${1.0 * this.props.image.hollowThickness / 100 * 4}px rgb(0, 0, 0)`,
+                    // this.props.image.textStroke,
                   }}
                 >
                   {/* {selected && objectType === 5 && (
@@ -877,7 +878,10 @@ export default class Rect extends PureComponent<IProps, IState> {
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
                         color: color,
                         textShadow: this.props.image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * this.props.image.textShadowTransparent / 100}) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * this.props.image.blur / 100}px` :
-                        this.props.image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * this.props.image.intensity}) 0 8.9px ${66.75 * this.props.image.intensity / 100}px` : this.props.image.effectId == 6 && "rgb(0, 255, 255) -3.76836px 0px 0px, rgb(255, 0, 255) 3.76836px 0px 0px" ,
+                        this.props.image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * this.props.image.intensity}) 0 8.9px ${66.75 * this.props.image.intensity / 100}px` : 
+                        this.props.image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+                        this.props.image.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+                        this.props.image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
                         filter: this.props.image.filter,
                       }}
                     ></div>
