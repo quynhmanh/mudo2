@@ -2684,6 +2684,22 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.replace(images);
     }
 
+    handleChangeDirection = val => {
+        var self = this;
+        var images = editorStore.images.map(img => {
+            if (img._id === this.state.idObjectSelected) {
+                img.direction = val;
+                self.setState({
+                    selectedImage: {...img},
+                });
+                editorStore.imageSelected = img;
+            }
+
+            return img;
+        });
+        editorStore.replace(images);
+    }
+
     handleChangeBlur = (val) => {
         // console.log('handleChangeBlur');
         // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
@@ -4229,7 +4245,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleOpacityChange = opacity => {
-        console.log('handleOpacityChange ', opacity);
 
         var el = document.getElementById(this.state.idObjectSelected + "hihi4");
         if (el) {
@@ -4516,6 +4531,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             handleChangeBlur={this.handleChangeBlur}
                             handleChangeTextShadowTransparent={this.handleChangeTextShadowTransparent}
                             handleChangeIntensity={this.handleChangeIntensity}
+                            handleChangeDirection={this.handleChangeDirection}
                         />
                         <div
                             style={{

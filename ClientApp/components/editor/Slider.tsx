@@ -5,6 +5,7 @@ export interface IProps {
     currentValue: number;
     pauser: any;
     onChange: any;
+    multiplier: number;
 }
 
 export interface IState {
@@ -14,6 +15,7 @@ export interface IState {
 export default class Slider extends PureComponent<IProps, IState> {
     $input = null;
     $leftSLide = null;
+    $grabSlider = null;
 
     constructor(props: any) {
         super(props);
@@ -33,7 +35,7 @@ export default class Slider extends PureComponent<IProps, IState> {
                 currentValue: nextProps.currentValue,
             });
 
-            this.$input.value = nextProps.currentValue;
+            this.$input.value = nextProps.currentValue * (nextProps.multiplier ? nextProps.multiplier : 1);
         }
         return true;
     }
@@ -43,12 +45,17 @@ export default class Slider extends PureComponent<IProps, IState> {
         console.log("onSLideClick");
         document.addEventListener("mousemove", this.onMove);
         document.addEventListener("mouseup", this.onUp);
+
+        this.$grabSlider.style.boxShadow = '0 0 0 8px rgba(0,196,204,.5)';
+        this.$grabSlider.style.border = '1px solid #00afb5';
     }
 
     onUp (e) {
         document.removeEventListener("mousemove", this.onMove);
         document.removeEventListener("mouseup", this.onUp);
         this.props.pauser.next(false);
+        this.$grabSlider.style.boxShadow = '';
+        this.$grabSlider.style.border = '1px solid rgba(14, 19, 24, 0.2)';
     }
 
     onMove (e) {
@@ -64,7 +71,7 @@ export default class Slider extends PureComponent<IProps, IState> {
 
         console.log('onMove ', scale);
 
-        this.$input.value = scale;
+        this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
         this.$leftSLide.style.width = scale + "%";
         this.props.onChange(scale);
     }
@@ -75,7 +82,7 @@ export default class Slider extends PureComponent<IProps, IState> {
     return <div
     style={{
         width: "100%",
-        padding: "10px 0px",
+        padding: "15px 0px",
         background: "white",
         // animation: "bounce 1.2s ease-out",
         position: "relative",
@@ -147,13 +154,14 @@ export default class Slider extends PureComponent<IProps, IState> {
             <div 
                 ref={el => {this.$leftSLide = el;}}
                 style={{
-                    width: this.state.currentValue - 3 + "%",
+                    width: Math.max(0, this.state.currentValue - 3) + "%",
                     height: "2px",
                     backgroundColor: "#05c4cc",
                 }}>
 
             </div>
             <div
+                ref={i => {this.$grabSlider = i;}}
                 className="slider"
                 style={{
                     position: "absolute",
@@ -166,6 +174,7 @@ export default class Slider extends PureComponent<IProps, IState> {
                     bottom: 0,
                     margin: "auto",
                     border: "1px solid rgba(14, 19, 24, 0.2)",
+                    transition: 'box-shadow 0.1s ease-in-out 0s',
                 }}
                 onMouseDown={this.onSlideClick}
             ></div>

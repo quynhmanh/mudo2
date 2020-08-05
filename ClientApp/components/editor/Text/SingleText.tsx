@@ -101,7 +101,7 @@ endEditing() {
       handleFontFaceChange(fontFace);
       handleChildIdSelected(_id);
 
-      document.getElementById("fontSizeButton").innerText = `${Math.round(res * 10) / 10}`;
+      document.getElementById("fontSizeButton").innerText = `${Math.round(res)}`;
     }, 50);
   }
 

@@ -871,7 +871,6 @@ class LeftSide extends Component<IProps, IState> {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.selectedImage && nextProps.selectedImage && nextProps.selectedImage.effectId != this.props.selectedImage.effectId) {
-      console.log('Quynh2')
       if (window.prevEffectId) {
         var el = document.getElementById("effect-btn-" + window.prevEffectId);
         if (el) {
@@ -893,8 +892,6 @@ class LeftSide extends Component<IProps, IState> {
       window.prevEffectId = nextProps.selectedImage.effectId;
     }
 
-    console.log('this.props ', this.props.selectedImage);
-    console.log('nextProps.props ', nextProps.selectedImage);
     if (nextProps.selectedTab != this.props.selectedTab) {
       return true;
     }
@@ -2403,6 +2400,8 @@ class LeftSide extends Component<IProps, IState> {
                       title="Direction" 
                       currentValue={30}
                       pauser={this.props.pauser}
+                      multiplier={3.6}
+                      onChange={this.props.handleChangeDirection}
                     />
                     <Slider 
                       title="Blur" 
