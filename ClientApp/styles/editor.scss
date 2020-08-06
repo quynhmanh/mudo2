@@ -992,8 +992,20 @@ button {
 
 .slider:hover {
   cursor: grab;
+  box-shadow: 0 0 4px 1px rgba(14, 19, 24, 0.2);
+}
+
+.slider-input:hover {
+  border: 1px solid #999 !important;
 }
 
 .add-heading-btn:hover {
   background: hsla(0,0%,100%,.17) !important;
+}
+
+.slider-bar:hover {
+  cursor: pointer;
+  .slider {
+    box-shadow: 0 0 4px 1px rgba(14, 19, 24, 0.2);
+  }
 }

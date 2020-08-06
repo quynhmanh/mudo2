@@ -103,7 +103,8 @@ export default class Slider extends PureComponent<IProps, IState> {
         {/* Mức trong suốt */}
         {this.props.title}
     </p>
-    <input 
+    <input
+        className="slider-input" 
         ref={i => {this.$input = i;}}
         onClick={e => {
             document.execCommand('selectall', null, false);
@@ -133,6 +134,27 @@ export default class Slider extends PureComponent<IProps, IState> {
             width: "40px",
         }} type="number" max="100" min="0" defaultValue={this.state.currentValue * (this.props.multiplier ? this.props.multiplier : 1)} ></input>
         </div>
+        <div 
+            className="slider-bar"
+            style={{
+                height: "20px",
+                paddingTop: "10px",
+            }}
+            onClick={e => {
+                console.log('onClick sliderbar');
+                var rec1 = this.$el.getBoundingClientRect();
+                var slide = e.pageX - rec1.left;
+                var scale = (slide / rec1.width) * 100;
+
+                this.setState({ currentValue: scale });
+
+                console.log('onMove ', scale);
+
+                this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
+                this.$leftSLide.style.width = scale + "%";
+                this.props.onChange(scale);
+            }}
+            >
     <div
         style={{
             display: "flex",
@@ -179,7 +201,7 @@ export default class Slider extends PureComponent<IProps, IState> {
                 onMouseDown={this.onSlideClick}
             ></div>
         </div>
-    </div>
+    </div></div>
 </div>;
   }
 }

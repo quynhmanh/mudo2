@@ -1214,7 +1214,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleResizeStart = (e: any, d: any) => {
-        console.log('handleResizeStart ', d);
         e.stopPropagation();
 
         window.startX = e.clientX;
@@ -1290,7 +1289,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     );
 
                     let style = centerToTL({ centerX, centerY, width, height, rotateAngle });
-                    console.log('left top ', style);
 
                     this.handleResize(
                         style,
@@ -1344,7 +1342,6 @@ class CanvaEditor extends Component<IProps, IState> {
         objectType,
         e
     ) => {
-        console.log('handleResize ');
         const { scale } = this.state;
         let { top, left, width, height } = style;
         var switching = false;
@@ -1469,8 +1466,6 @@ class CanvaEditor extends Component<IProps, IState> {
             }
         }
 
-        console.log('image.top, newTop', image.top, top)
-
         image.top = top;
         image.left = left;
         image.width = width;
@@ -1481,7 +1476,6 @@ class CanvaEditor extends Component<IProps, IState> {
             image.scaleY = image.height / image.origin_height;
             // image.fontSize = image.scaleY * image.fontSize;
 
-            console.log('resizing ');
             if (objectType === TemplateType.Heading) {
                 document.getElementById("fontSizeButton").value = `${Math.round(image.fontSize * image.scaleY)}`;
             }
@@ -2196,7 +2190,7 @@ class CanvaEditor extends Component<IProps, IState> {
         return panMove$.pipe(
             map((e: any) => {
                 e.preventDefault();
-                e.stopPropagation();
+                // e.stopPropagation();
                 var x = e.clientX;
                 var y = e.clientY;
                 return { x, y };
@@ -2229,7 +2223,7 @@ class CanvaEditor extends Component<IProps, IState> {
         var img;
         var updateStartPosX = false;
         var updateStartPosY = false;
-        let images = toJS(editorStore.images);
+        // let images = toJS(editorStore.images);
         var image = window.image;
         newLeft = (clientX - window.startX + window.startLeft) / scale;
         newTop = (clientY - window.startY + window.startTop) / scale;
@@ -2254,7 +2248,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (img.type === TemplateType.BackgroundImage) {
             return;
         }
-        let tempImages = images.map(image => {
+        editorStore.images.forEach(image => {
             if (image.page === img.page) {
                 var imageTransformed = this.tranformImage(image);
                 if (image._id !== _id) {
@@ -2646,7 +2640,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     removeImage(e) {
-        console.log('removeImage ', e);
         var OSNAME = this.getPlatformName();
         if (
             this.state.idObjectSelected != "undefined" &&
@@ -3846,7 +3839,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     onDownClickTransparent = e => {
-        console.log('eeee ', e.target);
         if (!document.getElementById("myTransparent").contains(e.target)) {
             var dropdowns = document.getElementsByClassName(
                 "dropdown-content-font-size"
