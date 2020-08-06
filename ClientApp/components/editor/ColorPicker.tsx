@@ -194,7 +194,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         </div>
         <div className="pcr-swatches "><button type="button" style={{color: 'rgba(244, 67, 54, 1)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(233, 30, 99, 0.95)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(156, 39, 176, 0.9)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(103, 58, 183, 0.85)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(63, 81, 181, 0.8)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(33, 150, 243, 0.75)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(3, 169, 244, 0.7)'}} aria-label="color swatch" /></div> 
         <div className="pcr-interaction">
-          <input className="pcr-result" type="text" spellCheck="false" />
+          <input className="pcr-result" type="text" spellCheck={false} />
           <input className="pcr-type active" data-type="HEXA" defaultValue="HEXA" type="button" style={{display: 'none'}} hidden />
           <input className="pcr-type" data-type="RGBA" defaultValue="RGBA" type="button" style={{display: 'none'}} hidden />
           <input className="pcr-type" data-type="HSLA" defaultValue="HSLA" type="button" style={{display: 'none'}} hidden />

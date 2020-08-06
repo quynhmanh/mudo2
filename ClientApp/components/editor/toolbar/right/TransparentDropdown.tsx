@@ -118,13 +118,13 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                 <input 
                     ref={el => {this.$input = el;} }
                     onClick={e => {
-                        document.execCommand('selectall', null, false);
+                        document.execCommand('selectall', null);
                     }}
                     onKeyDown={e => {
                         console.log('onKeyDown', e.nativeEvent);
                         e.nativeEvent.stopImmediatePropagation();
                         if (e.keyCode == 13) {
-                            var val = e.target.value;
+                            var val = (e.target as HTMLInputElement).value;
                             this.props.handleOpacityChange(val);
                             window.getSelection().removeAllRanges();
                         }
@@ -136,7 +136,7 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                         textAlign: "center",
                         height: "23px",
                         margin: "auto",
-                    }} type="number" max="100" min="0" defaultValue={this.props.currentOpacity} ></input>
+                    }} type="number" max="100" min="0" defaultValue={this.props.currentOpacity.toString()} ></input>
             </div>
         );
             }

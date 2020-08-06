@@ -11,6 +11,12 @@ class Pickr {
     // Will be used to prevent specific actions during initilization
     _initializingActive = true;
 
+    _representation = null;
+
+    _eventBindings = null
+
+    _components = null;
+
     // If the current color value should be recalculated
     _recalc = true;
 
@@ -35,6 +41,8 @@ class Pickr {
         cancel: [],
         swatchselect: []
     };
+
+    options: any;
 
     constructor(opt) {
 
@@ -134,6 +142,8 @@ class Pickr {
             // Initialization is done - pickr is usable, fire init event
             that._initializingActive = false;
             that._emit('init');
+
+            return null;
         }));
     }
 
@@ -209,7 +219,7 @@ class Pickr {
         const inst = this;
         const cs = this.options.components;
         const sliders = (inst.options.sliders || 'v').repeat(2);
-        const [so, sh] = sliders.match(/^[vh]+$/g) ? sliders : [];
+        const [so, sh] = sliders.match(/^[vh]+$/g) ? sliders : [null, null];
 
         // Re-assign if null
         const getColor = () =>
@@ -344,7 +354,8 @@ class Pickr {
                 _root.preview.lastColor
             ], 'click', () => {
                 this._emit('cancel', this);
-                this.setHSVA(...(this._lastColor || this._color).toHSVA(), true);
+                var [h, s, v, a] = (this._lastColor || this._color).toHSVA();
+                this.setHSVA(h, s, v, a, true);
             }),
 
             // Save color
@@ -604,7 +615,8 @@ class Pickr {
             // Bind event
             this._eventBindings.push(
                 _.on(el, 'click', () => {
-                    this.setHSVA(...color.toHSVA(), true);
+                    var [h, s, v, a] = color.toHSVA();
+                    this.setHSVA(h, s, v, a, true);
                     this._emit('swatchselect', color);
                     this._emit('change', color);
                 })
@@ -786,6 +798,7 @@ class Pickr {
         }
 
         const {values, type} = this._parseLocalColor(string);
+        const [h, s, v, a] = values;
 
         // Check if color is ok
         if (values) {
@@ -803,7 +816,7 @@ class Pickr {
             }
 
             // Update color (fires 'save' event if silent is 'false')
-            if (!this.setHSVA(...values, silent)) {
+            if (!this.setHSVA(h, s, v, a, silent)) {
                 return false;
             }
 
@@ -878,20 +891,33 @@ class Pickr {
         this._root.button.classList.remove('disabled');
         return this;
     }
+    
+    static create(options) {
+        return new Pickr(options);
+    }
+
+    utils = _;
+
+    libs = {
+        HSVaColor,
+        Moveable,
+        Nanopop,
+        Selectable
+    }
 }
 
 // Expose pickr utils
-Pickr.utils = _;
+// Pickr.utils = _;
 
 // Expose libraries for easier integration in things build on top of it
-Pickr.libs = {
-    HSVaColor,
-    Moveable,
-    Nanopop,
-    Selectable
-};
+// Pickr.libs = {
+//     HSVaColor,
+//     Moveable,
+//     Nanopop,
+//     Selectable
+// };
 
 // Create instance via method
-Pickr.create = options => new Pickr(options);
+// Pickr.create = options => new Pickr(options);
 
 export default Pickr;

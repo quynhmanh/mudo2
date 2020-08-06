@@ -1,7 +1,7 @@
 ﻿import "@Styles/editorLayout.scss";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 
 interface IProps {
   children: any;
@@ -14,7 +14,7 @@ export default class EditorLayout extends React.Component<Props, {}> {
     return (
       <div id="editorLayout" className="layout">
         {this.props.children}
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </div>
     );
   }

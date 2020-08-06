@@ -30,12 +30,17 @@ enum Mode {
     EditTextTemplate = 4,
   }
 
-export default class FontSize extends PureComponent<IProps, IState> {
+export default class FontSize extends Component<IProps, IState> {
 
-  shouldComponentUpdate(nextProps) {
-    if (this.props.fontSize != nextProps.fontSize) {
-      document.getElementById("fontSizeButton").value = Math.round(nextProps.fontSize);
+  constructor(props: any) {
+    super(props);
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+      if (this.props.fontSize != nextProps.fontSize) {
+      (document.getElementById("fontSizeButton") as HTMLInputElement).value = Math.round(nextProps.fontSize).toString();
     }
+    return true;
   }
 
     onClickDropDownFontSizeList = () => {
@@ -83,16 +88,16 @@ export default class FontSize extends PureComponent<IProps, IState> {
                 padding: "0 10px",
               }}
               className="dropbtn-font dropbtn-font-size"
-              defaultValue={Math.round(this.props.fontSize)}
+              defaultValue={Math.round(this.props.fontSize).toString()}
               onClick={ e=> {
-                document.execCommand('selectall', null, false);
+                document.execCommand('selectall', null);
                 this.onClickDropDownFontSizeList.bind(this)(e);
               }}
               onKeyDown={e => {
                 console.log('onKeyDown', e.nativeEvent);
                 e.nativeEvent.stopImmediatePropagation();
                 if (e.keyCode == 13) {
-                    var val = e.target.value;
+                    var val = (e.target as HTMLInputElement).value;
                     this.props.handleFontSizeBtnClick(e, val);
                     window.getSelection().removeAllRanges();
                     document.getElementById("myFontSizeList").classList.toggle("show");

@@ -31,7 +31,8 @@
       "@Constants": ["./constants"],
       "@Locales/*": [ "./locales/*" ],
       "@Functions/*": [ "./functions/*" ],
-    }
+    },
+    "skipLibCheck": true
   },
   "exclude": [
       "bin",

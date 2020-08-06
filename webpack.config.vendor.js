@@ -52,8 +52,6 @@ module.exports = (env) => {
                 'react-paginating',
                 'axios',
                 './ClientApp/styles/preloader.css',
-                'react-toastify/dist/ReactToastify.css',
-                'react-toastify',
                 'nserializejson',
                 'nval-tippy',
                 'bootstrap3-native',

@@ -2673,6 +2673,7 @@ class LeftSide extends Component<IProps, IState> {
                       title="Intensity" 
                       currentValue={50}
                       pauser={this.props.pauser}
+                      onChange={null}
                     />
             </div>}
                 </div>
@@ -2701,7 +2702,6 @@ class LeftSide extends Component<IProps, IState> {
                   {editorStore.fontColors.map(font => (
                     <div
                       key={uuidv4()}
-                      href="#"
                       onClick={e => {
                         e.preventDefault();
                         this.props.setSelectionColor(font, e);

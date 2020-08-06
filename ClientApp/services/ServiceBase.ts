@@ -1,5 +1,4 @@
-﻿import { Ui } from "@Ui";
-import Result from "@Models/Result";
+﻿import Result from "@Models/Result";
 import Axios, { AxiosRequestConfig } from "axios";
 import { transformUrl } from "domain-wait";
 import jsonToUrl from "json-to-url";
@@ -109,7 +108,7 @@ export abstract class ServiceBase {
         }
 
         if (result.hasErrors) {
-            Ui.showErrors(...result.errors);
+            // Ui.showErrors(...result.errors);
         }
 
         return result;
@@ -149,7 +148,7 @@ export abstract class ServiceBase {
         }
 
         if (result.hasErrors) {
-            Ui.showErrors(...result.errors);
+            // Ui.showErrors(...result.errors);
         }
 
         return result;

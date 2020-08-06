@@ -1,7 +1,7 @@
 ﻿import "@Styles/guestLayout.scss";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 
 
 interface IProps {
@@ -104,7 +104,7 @@ export default class GuestLayout extends React.Component<Props, {}> {
       </div>
       </div>
       </div>
-                <ToastContainer />
+                {/* <ToastContainer /> */}
             </div>;
     }
 }

@@ -13,7 +13,7 @@ import * as RoutesModule from './routes';
 let routes = RoutesModule.routes;
 
 import "@Styles/main.scss";
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 import Globals from "@Globals";
 import { isNode } from '@Utils';
 import { IPublicSession } from "@Models/IPublicSession";

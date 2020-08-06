@@ -20,7 +20,6 @@ import LeftSide from "@Components/editor/LeftSide";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
 import Tooltip from "@Components/shared/Tooltip";
-import { Ui } from "@Ui";
 import { SubType, SidebarTab, Mode, TemplateType } from "@Components/editor/enums";
 import Toolbar from "@Components/editor/toolbar/Toolbar";
 
@@ -101,6 +100,7 @@ declare global {
         posY: any;
         imgWidth: any;
         imgHeight: any;
+        prevEffectId: any;
     }
 }
 
@@ -465,6 +465,8 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ selectedTab: SidebarTab.Color });
     }
 
+    canvas = null;
+
     /**
      * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
      * 
@@ -475,7 +477,7 @@ class CanvaEditor extends Component<IProps, IState> {
      */
     getTextWidth = (text, font) => {
         // re-use canvas object for better performance
-        var canvas = this.getTextWidth.canvas || (this.getTextWidth.canvas = document.createElement("canvas"));
+        var canvas = this.canvas || (this.canvas = document.createElement("canvas"));
         var context = canvas.getContext("2d");
         context.font = font;
         var metrics = context.measureText(text);
@@ -485,7 +487,7 @@ class CanvaEditor extends Component<IProps, IState> {
     getTextHeight = (text, font) => {
         console.log('getTextHeight');
         // re-use canvas object for better performance
-        var canvas = this.getTextWidth.canvas || (this.getTextWidth.canvas = document.createElement("canvas"));
+        var canvas = this.canvas || (this.canvas = document.createElement("canvas"));
         var context = canvas.getContext("2d");
         context.font = font;
         var metrics = context.measureText(text);
@@ -582,7 +584,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         this.setState({ fontSize: fontSize });
 
-        document.getElementById("fontSizeButton").value = fontSize;
+        (document.getElementById("fontSizeButton") as HTMLInputElement).value = fontSize.toString();
 
         // this.forceUpdate();
     }
@@ -649,7 +651,7 @@ class CanvaEditor extends Component<IProps, IState> {
     handleTransparentAdjust = (e: any) => {
         this.pauserTransparentPopup.next(true);
         this.pauser.next(true);
-        document.activeElement.blur();
+        (document.activeElement as HTMLElement).blur();
         e.preventDefault();
         var self = this;
         const onMove = e => {
@@ -1477,7 +1479,7 @@ class CanvaEditor extends Component<IProps, IState> {
             // image.fontSize = image.scaleY * image.fontSize;
 
             if (objectType === TemplateType.Heading) {
-                document.getElementById("fontSizeButton").value = `${Math.round(image.fontSize * image.scaleY)}`;
+                (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(image.fontSize * image.scaleY)}`;
             }
 
             if (objectType == TemplateType.Heading) {
@@ -2939,10 +2941,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     self.download(`test.mp4`, response.data);
                     document.getElementById("downloadPopup").style.display = "none";
                     document.getElementById("editor").classList.remove("popup");
-                    Ui.showInfo("Success");
+                    // Ui.showInfo("Success");
                 })
                 .catch(error => {
-                    Ui.showErrors(error.response.statusText);
+                    // Ui.showErrors(error.response.statusText);
                     document.getElementById("downloadPopup").style.display = "none";
                     document.getElementById("editor").classList.remove("popup");
                 });
@@ -2996,10 +2998,10 @@ class CanvaEditor extends Component<IProps, IState> {
                         self.download("test.pdf", response.data);
                         document.getElementById("downloadPopup").style.display = "none";
                         document.getElementById("editor").classList.remove("popup");
-                        Ui.showInfo("Success");
+                        // Ui.showInfo("Success");
                     })
                     .catch(error => {
-                        Ui.showErrors(error.response.statusText);
+                        // Ui.showErrors(error.response.statusText);
                         document.getElementById("downloadPopup").style.display = "none";
                         document.getElementById("editor").classList.remove("popup");
                     });
@@ -3080,10 +3082,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
                     document.getElementById("downloadPopup").style.display = "none";
                     document.getElementById("editor").classList.remove("popup");
-                    Ui.showInfo("Success");
+                    // Ui.showInfo("Success");
                 })
                 .catch(error => {
-                    Ui.showErrors(error.response.statusText);
+                    // Ui.showErrors(error.response.statusText);
                     document.getElementById("downloadPopup").style.display = "none";
                     document.getElementById("editor").classList.remove("popup");
                 });
@@ -3220,10 +3222,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     })
                     .then(res => {
                         self.setState({ isSaving: false });
-                        Ui.showInfo("Success");
+                        // Ui.showInfo("Success");
                     })
                     .catch(error => {
-                        Ui.showErrors(error.response.statusText)
+                        // Ui.showErrors(error.response.statusText)
                     });
             });
         }, 300);
@@ -4294,7 +4296,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         var el = document.getElementById(this.state.idObjectSelected + "hihi4");
         if (el) {
-            el.style.opacity = opacity / 100;
+            el.style.opacity = (opacity / 100).toString();
         }
 
         let images = toJS(editorStore.images);

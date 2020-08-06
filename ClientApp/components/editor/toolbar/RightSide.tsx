@@ -13,7 +13,6 @@ interface IProps {
     backwardSelectedObject: any;
     handleTransparentAdjust: any;
     currentOpacity: number;
-    selectedImage: any;
     handleOpacityChange: any;
     cropMode: any;
 }

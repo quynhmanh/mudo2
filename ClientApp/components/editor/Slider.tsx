@@ -17,6 +17,10 @@ export default class Slider extends PureComponent<IProps, IState> {
     $leftSLide = null;
     $grabSlider = null;
 
+    static defaultProps = {
+        multiplier: 1,
+    }
+
     constructor(props: any) {
         super(props);
 
@@ -107,16 +111,16 @@ export default class Slider extends PureComponent<IProps, IState> {
         className="slider-input" 
         ref={i => {this.$input = i;}}
         onClick={e => {
-            document.execCommand('selectall', null, false);
+            document.execCommand('selectall', null);
         }}
         onKeyDown={e => {
             console.log('onKeyDown', e.nativeEvent);
             e.nativeEvent.stopImmediatePropagation();
             if (e.keyCode == 13) {
-                var val = e.target.value / (this.props.multiplier ? this.props.multiplier : 1);
+                var val = parseInt((e.target as HTMLInputElement).value) / (this.props.multiplier ? this.props.multiplier : 1);
                 this.setState({ currentValue: val });
 
-                this.$input.value = e.target.value;
+                this.$input.value = (e.target as HTMLInputElement).value;
                 this.props.onChange(val);
                 window.getSelection().removeAllRanges();
             }
@@ -132,7 +136,7 @@ export default class Slider extends PureComponent<IProps, IState> {
             border: "1px solid #dbdcdc",
             fontSize: "13px",
             width: "40px",
-        }} type="number" max="100" min="0" defaultValue={this.state.currentValue * (this.props.multiplier ? this.props.multiplier : 1)} ></input>
+        }} type="number" max="100" min="0" defaultValue={(this.state.currentValue * (this.props.multiplier ? this.props.multiplier : 1)).toString()} ></input>
         </div>
         <div 
             className="slider-bar"
