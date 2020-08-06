@@ -44,7 +44,8 @@
     "ts-nameof-loader": "1.0.2",
     "typescript": "3.5.1",
     "url-loader": "1.1.2",
-    "webpack-cli": "3.3.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "3.7.0",
     "webpack-hot-middleware": "2.25.0",
     "webpack-merge": "4.2.1"
@@ -62,7 +63,7 @@
     "bootstrap3-native": "^1.0.11",
     "connected-react-router": "6.4.0",
     "custom-event-polyfill": "1.0.7",
-    "domain-wait": "^1.2.1",
+    "domain-wait": "1.2.1",
     "formik": "1.5.7",
     "history": "4.9.0",
     "i18next": "^17.0.18",
@@ -88,12 +89,10 @@
     "react-redux": "7.0.3",
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
-    "react-toastify": "5.2.1",
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
     "rxjs": "^6.5.3",
-    "styled-components": "^4.1.2",
-    "webpack": "^4.28.4"
+    "styled-components": "^4.1.2"
   },
   "scripts": {
     "build:dev": "node build.before.js --mode=development && node ./node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js && node ./node_modules/webpack/bin/webpack.js --config webpack.config.js",
