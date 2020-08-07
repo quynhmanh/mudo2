@@ -800,6 +800,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               <div style={{}}>
                 <div
                   id={_id}
+                  className={_id + "hihi5"}
                   style={{
                     position: "absolute",
                     width: width * scale / scaleX + "px",

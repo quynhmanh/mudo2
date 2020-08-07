@@ -45,11 +45,17 @@ export interface IProps {
   selectedImage: any;
   pauser: any;
   handleChangeOffset: any;
+  handleChangeOffsetEnd: any;
   handleChangeBlur: any;
+  handleChangeBlurEnd: any;
   handleChangeTextShadowTransparent: any;
+  handleChangeTextShadowTransparentEnd: any;
   handleChangeIntensity: any;
+  handleChangeIntensityEnd: any;
   handleChangeHollowThickness: any;
+  handleChangeHollowThicknessEnd: any;
   handleChangeDirection: any;
+  handleChangeDirectionEnd: any;
 }
 
 interface IState {
@@ -923,9 +929,6 @@ class LeftSide extends Component<IProps, IState> {
       result = true;
     }
 
-    console.log('nextProps ', nextProps);
-    console.log('this.props ', this.props);
-
     if (nextProps.selectedTab === SidebarTab.Effect && (!this.props.selectedImage) && nextProps.selectedImage) {
       result = true;
     }
@@ -957,7 +960,7 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   render() {
-    // console.log('Leftside render ', editorStore.imageSelected);
+    console.log('Leftside render ', editorStore.imageSelected);
     return (
       <div
         style={{
@@ -2413,6 +2416,7 @@ class LeftSide extends Component<IProps, IState> {
                       currentValue={this.props.selectedImage.offSet}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeOffset}
+                      onChangeEnd={this.props.handleChangeOffsetEnd}
                     />
                     <Slider 
                       title="Direction" 
@@ -2420,18 +2424,21 @@ class LeftSide extends Component<IProps, IState> {
                       pauser={this.props.pauser}
                       multiplier={3.6}
                       onChange={this.props.handleChangeDirection}
+                      onChangeEnd={this.props.handleChangeDirectionEnd}
                     />
                     <Slider 
                       title="Blur" 
                       currentValue={this.props.selectedImage.blur}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeBlur}
+                      onChangeEnd={this.props.handleChangeBlurEnd}
                     />
                     <Slider 
                       title="Transparency" 
                       currentValue={this.props.selectedImage.textShadowTransparent}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeTextShadowTransparent}
+                      onChangeEnd={this.props.handleChangeTextShadowTransparentEnd}
                     />
             </div>}
             { this.props.selectedImage && this.props.selectedImage.effectId == 2 && 
@@ -2443,6 +2450,7 @@ class LeftSide extends Component<IProps, IState> {
                       currentValue={this.props.selectedImage.intensity}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeIntensity}
+                      onChangeEnd={this.props.handleChangeIntensityEnd}
                     />
             </div>}
                   <div 
@@ -2551,6 +2559,7 @@ class LeftSide extends Component<IProps, IState> {
                       currentValue={this.props.selectedImage.hollowThickness}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeHollowThickness}
+                      onChangeEnd={this.props.handleChangeHollowThicknessEnd}
                     />
             </div>}
             { this.props.selectedImage && this.props.selectedImage.effectId == 4 &&
@@ -2562,12 +2571,14 @@ class LeftSide extends Component<IProps, IState> {
                       currentValue={this.props.selectedImage.hollowThickness}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeHollowThickness}
+                      onChangeEnd={this.props.handleChangeTextShadowTransparentEnd}
                     />
                     <Slider 
                       title="Offset" 
                       currentValue={this.props.selectedImage.offSet}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeOffset}
+                      onChangeEnd={this.props.handleChangeOffsetEnd}
                     />
                     <Slider 
                       title="Direction" 
@@ -2575,6 +2586,7 @@ class LeftSide extends Component<IProps, IState> {
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeDirection}
                       multiplier={3.6}
+                      onChangeEnd={this.props.handleChangeDirectionEnd}
                     />
             </div>}
             { this.props.selectedImage && this.props.selectedImage.effectId == 5 &&
@@ -2586,6 +2598,7 @@ class LeftSide extends Component<IProps, IState> {
                       currentValue={this.props.selectedImage.offSet}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeOffset}
+                      onChangeEnd={this.props.handleChangeOffsetEnd}
                     />
                     <Slider 
                       title="Direction" 
@@ -2593,6 +2606,7 @@ class LeftSide extends Component<IProps, IState> {
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeDirection}
                       multiplier={3.6}
+                      onChangeEnd={this.props.handleChangeDirectionEnd}
                     />
             </div>}
                   <div 
@@ -2669,6 +2683,7 @@ class LeftSide extends Component<IProps, IState> {
                       currentValue={this.props.selectedImage.offSet}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeOffset}
+                      onChangeEnd={this.props.handleChangeOffsetEnd}
                     />
                     <Slider 
                       title="Direction" 
@@ -2676,6 +2691,7 @@ class LeftSide extends Component<IProps, IState> {
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeDirection}
                       multiplier={3.6}
+                      onChangeEnd={this.props.handleChangeDirectionEnd}
                     />
             </div>}
             { this.props.selectedImage && this.props.selectedImage.effectId == 7 &&
@@ -2687,6 +2703,7 @@ class LeftSide extends Component<IProps, IState> {
                       currentValue={50}
                       pauser={this.props.pauser}
                       onChange={null}
+                      onChangeEnd={this.props.handleChangeIntensityEnd}
                     />
             </div>}
                 </div>

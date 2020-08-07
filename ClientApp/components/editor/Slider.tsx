@@ -5,6 +5,7 @@ export interface IProps {
     currentValue: number;
     pauser: any;
     onChange: any;
+    onChangeEnd: any;
     multiplier: number;
 }
 
@@ -46,7 +47,6 @@ export default class Slider extends PureComponent<IProps, IState> {
     
     onSlideClick (e) {
         this.props.pauser.next(true);
-        console.log("onSLideClick");
         document.addEventListener("mousemove", this.onMove);
         document.addEventListener("mouseup", this.onUp);
 
@@ -60,6 +60,8 @@ export default class Slider extends PureComponent<IProps, IState> {
         this.props.pauser.next(false);
         this.$grabSlider.style.boxShadow = '';
         this.$grabSlider.style.border = '1px solid rgba(14, 19, 24, 0.2)';
+
+        this.props.onChangeEnd(window.scale);
     }
 
     onMove (e) {
@@ -71,12 +73,13 @@ export default class Slider extends PureComponent<IProps, IState> {
         scale = Math.max(0, scale);
         scale = Math.min(100, scale);
 
-        this.setState({ currentValue: scale });
+        window.scale = scale;
 
-        console.log('onMove ', scale);
+        // this.setState({ currentValue: scale });
 
         this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
         this.$leftSLide.style.width = scale + "%";
+        this.$grabSlider.style.left = scale + "%";
         this.props.onChange(scale);
     }
 
@@ -114,7 +117,6 @@ export default class Slider extends PureComponent<IProps, IState> {
             document.execCommand('selectall', null);
         }}
         onKeyDown={e => {
-            console.log('onKeyDown', e.nativeEvent);
             e.nativeEvent.stopImmediatePropagation();
             if (e.keyCode == 13) {
                 var val = parseInt((e.target as HTMLInputElement).value) / (this.props.multiplier ? this.props.multiplier : 1);
@@ -145,14 +147,11 @@ export default class Slider extends PureComponent<IProps, IState> {
                 paddingTop: "10px",
             }}
             onClick={e => {
-                console.log('onClick sliderbar');
                 var rec1 = this.$el.getBoundingClientRect();
                 var slide = e.pageX - rec1.left;
                 var scale = (slide / rec1.width) * 100;
 
                 this.setState({ currentValue: scale });
-
-                console.log('onMove ', scale);
 
                 this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
                 this.$leftSLide.style.width = scale + "%";

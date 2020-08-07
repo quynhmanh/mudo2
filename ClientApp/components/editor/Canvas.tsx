@@ -117,14 +117,14 @@ export default class Canvas extends Component<IProps, IState> {
       id,
       staticGuides,
     } = this.props;
+
+    console.log('render canvas');
     
     var imgHovered = editorStore.imageHovered;
     var imgSelected = editorStore.imageSelected;
 
     // let images= toJS(editorStore.images).filter(img => img.page === id);
     const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));
-    console.log("images ", toJS(images[0]));
-    console.log("images2 " , images);
     return (
       <ResizableRectContainer
         // onTransitionEnd={this.props.handleDeleteThisPage}

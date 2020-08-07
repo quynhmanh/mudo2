@@ -101,6 +101,7 @@ declare global {
         imgWidth: any;
         imgHeight: any;
         prevEffectId: any;
+        scale: any;
     }
 }
 
@@ -2713,8 +2714,6 @@ class CanvaEditor extends Component<IProps, IState> {
     handleApplyEffect = (effectId, offSet, direction, blur, textShadowTransparent, intensity, hollowThickness, color, filter) => {
         var self = this;
         var image = toJS(editorStore.imageSelected);
-        // var images = editorStore.images.map(img => {
-        //     if (img._id === this.state.idObjectSelected) {
         image.hollowThickness = hollowThickness;
         image.color = color;
         image.filter = filter;
@@ -2724,138 +2723,117 @@ class CanvaEditor extends Component<IProps, IState> {
         image.blur = blur;
         image.textShadowTransparent = textShadowTransparent;
         image.intensity = intensity;
-
-        // editorStore.imageSelected = image;
-
-                // self.setState({
-                //     selectedImage: {...img},
-                // })
-            // }
-
-        //     return img;
-        // });
         editorStore.images2.set(this.state.idObjectSelected, image);
         editorStore.imageSelected = image;
-        // this.setState({selectedImage: image});
     }
 
-    handleChangeHollowThickness = val => {
-        var self = this;
-        var images = editorStore.images.map(img => {
-            if (img._id === this.state.idObjectSelected) {
-                img.hollowThickness = val;
-                self.setState({
-                    selectedImage: {...img},
-                });
-                editorStore.imageSelected = img;
-            }
-
-            return img;
-        });
-        editorStore.replace(images);
+    handleChangeHollowThicknessEnd = val => {
+        let image = toJS(editorStore.imageSelected);
+        image.hollowThickness = val;
+        editorStore.imageSelected = image;
+        editorStore.images2.set(this.state.idObjectSelected, image);
     }
 
-    handleChangeOffset = (val) => {
-        // console.log('handleChangeOffset');
-
-        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
-        // if (el) {
-        //     el.style.textShadow = `rgba(25, 25, 25, ${1.0 * this.state.selectedImage.textShadowTransparent / 100}) ${21.0 * val / 100}px ${21.0 * val / 100}px 0px`;
-        // }
-        var self = this;
-        var images = editorStore.images.map(img => {
-            if (img._id === this.state.idObjectSelected) {
-                img.offSet = val;
-                self.setState({
-                    selectedImage: {...img},
-                });
-                editorStore.imageSelected = img;
-            }
-
-            return img;
-        });
-        editorStore.replace(images);
+    handleChangeHollowThickness = (val) => {
+        let el = document.getElementsByClassName(this.state.idObjectSelected + "hihi5")[0];
+        let image = toJS(editorStore.imageSelected);
+        image.hollowThickness = val;
+        el.style.webkitTextStroke = `${1.0 * image.hollowThickness / 100 * 4}px rgb(0, 0, 0)`;
+        // el.style.textShadow = image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px` :
+        // image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * image.intensity}) 0 8.9px ${66.75 * image.intensity / 100}px` : 
+        // image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+        // image.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+        // image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px`;
     }
 
-    handleChangeDirection = val => {
-        console.log('handleChangeDirection ', val);
-        console.log(`rgb(0, 255, 255) ${21.0 * this.state.selectedImage.offSet / 100 * Math.sin(val * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.state.selectedImage.offSet / 100 * Math.cos(val * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * this.state.selectedImage.offSet / 100 * Math.sin(val * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * this.state.selectedImage.offSet / 100 * Math.cos(val * 3.6 / 360 * 2 * Math.PI))}px 0px`);
-        var self = this;
-        var images = editorStore.images.map(img => {
-            if (img._id === this.state.idObjectSelected) {
-                img.direction = val;
-                self.setState({
-                    selectedImage: {...img},
-                });
-                editorStore.imageSelected = img;
-            }
+    handleChangeDirection = (val) => {
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        let image = toJS(editorStore.imageSelected);
+        image.direction = val;
+        el.style.textShadow = image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px` :
+        image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * image.intensity}) 0 8.9px ${66.75 * image.intensity / 100}px` : 
+        image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+        image.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+        image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px`;
+    }
 
-            return img;
-        });
-        editorStore.replace(images);
+    handleChangeOffsetEnd = val => {
+        let image = toJS(editorStore.imageSelected);
+        image.offSet = val;
+        editorStore.imageSelected = image;
+        editorStore.images2.set(this.state.idObjectSelected, image);
+    }
+
+    handleChangeOffset = val => {
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        let image = toJS(editorStore.imageSelected);
+        image.offSet = val;
+        el.style.textShadow = image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px` :
+        image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * image.intensity}) 0 8.9px ${66.75 * image.intensity / 100}px` : 
+        image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+        image.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+        image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px`;
+    }
+
+    handleChangeDirectionEnd = val => {
+        let image = toJS(editorStore.imageSelected);
+        image.direction = val;
+        editorStore.imageSelected = image;
+        editorStore.images2.set(this.state.idObjectSelected, image);
     }
 
     handleChangeBlur = (val) => {
-        // console.log('handleChangeBlur');
-        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
-        // if (el) {
-        //     el.style.textShadow = `rgba(25, 25, 25, ${1.0 * this.state.selectedImage.textShadowTransparent / 100}) ${21.0 * this.state.selectedImage.offSet / 100}px ${21.0 * this.state.selectedImage.offSet / 100}px ${30.0 * val / 100}px`;
-        // }
-        var self = this;
-        var images = editorStore.images.map(img => {
-            if (img._id === this.state.idObjectSelected) {
-                img.blur = val;
-                self.setState({
-                    selectedImage: {...img},
-                });
-                editorStore.imageSelected = img;
-            }
-
-            return img;
-        });
-        editorStore.replace(images);
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        let image = toJS(editorStore.imageSelected);
+        image.blur = val;
+        el.style.textShadow = image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px` :
+        image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * image.intensity}) 0 8.9px ${66.75 * image.intensity / 100}px` : 
+        image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+        image.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+        image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px`;
     }
 
-    handleChangeTextShadowTransparent = (val) => {
-        // console.log('handleChangeTextShadowTransparent');
-        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
-        // if (el) {
-        //     el.style.textShadow = `rgba(25, 25, 25, ${1.0 * this.state.selectedImage.textShadowTransparent / 100}) ${21.0 * this.state.selectedImage.offSet / 100}px ${21.0 * this.state.selectedImage.offSet / 100}px ${30.0 * this.state.selectedImage.blur / 100}px`;
-        // }
-        var self = this;
-        var images = editorStore.images.map(img => {
-            if (img._id === this.state.idObjectSelected) {
-                img.textShadowTransparent = val;
-                self.setState({
-                    selectedImage: {...img},
-                });
-                editorStore.imageSelected = img;
-            }
+    handleChangeBlurEnd = val => {
+        let image = toJS(editorStore.imageSelected);
+        image.blur = val;
+        editorStore.imageSelected = image;
+        editorStore.images2.set(this.state.idObjectSelected, image);
+    }
 
-            return img;
-        });
-        editorStore.replace(images);
+    handleChangeTextShadowTransparentEnd = (val) => {
+        let image = toJS(editorStore.imageSelected);
+        image.textShadowTransparent = val;
+        editorStore.imageSelected = image;
+        editorStore.images2.set(this.state.idObjectSelected, image);
+    }
+
+    handleChangeTextShadowTransparent = val => {
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        let image = toJS(editorStore.imageSelected);
+        image.textShadowTransparent = val;
+        el.style.textShadow = image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px` :
+        image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * image.intensity}) 0 8.9px ${66.75 * image.intensity / 100}px` : 
+        image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+        image.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+        image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px`;
     }
 
     handleChangeIntensity = val => {
-        // console.log('handleChangeInte');
-        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
-        // if (el) {
-        //     el.style.textShadow = `rgba(0, 0, 0, ${0.6 * val / 100}) 0 8.9px ${66.75 * val / 100}px`;
-        // }
-        var self = this;
-        var images = editorStore.images.map(img => {
-            if (img._id === this.state.idObjectSelected) {
-                img.intensity = val;
-                self.setState({
-                    selectedImage: {...img},
-                });
-                editorStore.imageSelected = img;
-            }
+        let image = toJS(editorStore.imageSelected);
+        image.intensity = val;
+        editorStore.imageSelected = image;
+        editorStore.images2.set(this.state.idObjectSelected, image);
+    }
 
-            return img;
-        });
-        editorStore.replace(images);
+    handleChangeIntensityEnd = val => {
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        let image = toJS(editorStore.imageSelected);
+        image.intensity = val;
+        el.style.textShadow = image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px` :
+        image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * image.intensity}) 0 8.9px ${66.75 * image.intensity / 100}px` : 
+        image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+        image.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+        image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px`;
     }
 
     handleImageSelected = img => {
@@ -4668,11 +4646,17 @@ class CanvaEditor extends Component<IProps, IState> {
                             handleImageSelected={this.handleImageSelected}
                             handleApplyEffect={this.handleApplyEffect}
                             handleChangeOffset={this.handleChangeOffset}
+                            handleChangeOffsetEnd={this.handleChangeOffsetEnd}
                             handleChangeBlur={this.handleChangeBlur}
+                            handleChangeBlurEnd={this.handleChangeBlurEnd}
                             handleChangeTextShadowTransparent={this.handleChangeTextShadowTransparent}
+                            handleChangeTextShadowTransparentEnd={this.handleChangeTextShadowTransparentEnd}
                             handleChangeIntensity={this.handleChangeIntensity}
+                            handleChangeIntensityEnd={this.handleChangeIntensityEnd}
                             handleChangeDirection={this.handleChangeDirection}
+                            handleChangeDirectionEnd={this.handleChangeDirectionEnd}
                             handleChangeHollowThickness={this.handleChangeHollowThickness}
+                            handleChangeHollowThicknessEnd={this.handleChangeHollowThicknessEnd}
                         />
                         <div
                             style={{
