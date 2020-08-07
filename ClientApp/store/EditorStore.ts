@@ -1,4 +1,4 @@
-import { observable, action, IObservableArray } from "mobx";
+import { observable, action, IObservableArray, ObservableMap } from "mobx";
 import uuidv4 from "uuid/v4";
 import { toJS } from "mobx";
 import { replace } from "connected-react-router";
@@ -19,6 +19,7 @@ const fontColors = [
 
 class Images {
     @observable images = observable([]);
+    @observable images2 = observable(new Map());
     @observable fontsList = observable([]);
     @observable fonts = observable([]);
     @observable upperZIndex = 1;
@@ -46,6 +47,10 @@ class Images {
       } else {
         this.images.push(item);
       }
+    }
+
+    @action addItem2 = (item) => {
+      this.images2.set(item._id, item);
     }
   
     @action addFont = (item) => {

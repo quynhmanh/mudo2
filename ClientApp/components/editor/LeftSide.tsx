@@ -894,46 +894,56 @@ class LeftSide extends Component<IProps, IState> {
       window.prevEffectId = nextProps.selectedImage.effectId;
     }
 
+    let result = false;
+
     if (nextProps.selectedTab != this.props.selectedTab) {
-      return true;
+      result = true;
     }
 
     if (nextProps.mounted && !this.props.mounted) {
-      return true;
+      result = true;
     }
 
     if (nextProps.toolbarOpened != this.props.toolbarOpened) {
-      return true;
+      result = true;
     }
     if (this.props.subtype !== nextProps.subtype) {
-      return true;
+      result = true;
     }
     if (this.props.tReady !== nextProps.tReady) {
-      return true;
+      result = true;
     }
 
     if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
-      return true;
+      result = true;
     }
 
-    if (nextProps.selectedTab === SidebarTab.Effect && this.props.selectedImage.effectId != nextProps.selectedImage.effectId) {
-      return true;
+    if (nextProps.selectedTab === SidebarTab.Effect && this.props.selectedImage && nextProps.selectedImage && 
+      this.props.selectedImage.effectId != nextProps.selectedImage.effectId) {
+      result = true;
+    }
+
+    console.log('nextProps ', nextProps);
+    console.log('this.props ', this.props);
+
+    if (nextProps.selectedTab === SidebarTab.Effect && (!this.props.selectedImage) && nextProps.selectedImage) {
+      result = true;
     }
 
     if (this.props.selectedImage && nextProps.selectedImage && nextProps.selectedImage._id != this.props.selectedImage._id) {
       console.log('Quynh')
-      return true;
+      result = true;
     }
 
-    if (this.props.scale != nextProps.scale) {
-      return false;
-    }
+    // if (this.props.scale != nextProps.scale) {
+    //   return false;
+    // }
 
-    if (nextProps.dragging || nextProps.resizing || nextProps.rotating) {
-      return false;
-    }
+    // if (nextProps.dragging || nextProps.resizing || nextProps.rotating) {
+    //   return false;
+    // }
 
-    return false;
+    return result;
   }
 
   handleSidebarSelectorClicked = (tab, e) => {
@@ -1384,7 +1394,9 @@ class LeftSide extends Component<IProps, IState> {
                         effectId: 8,
                       };
 
-                      editorStore.addItem(item, true);
+                      // editorStore.addItem(item, true);
+                      editorStore.addItem2(item);
+                    
                       this.props.handleImageSelected(item);
                       editorStore.increaseUpperzIndex();
                     }}
@@ -1430,7 +1442,8 @@ class LeftSide extends Component<IProps, IState> {
                         fontFace: "O5mEMMs7UejmI1WeSKWQ",
                       };
 
-                      editorStore.addItem(item, true);
+                      // editorStore.addItem(item, true);
+                      editorStore.addItem2(item);
                       this.props.handleImageSelected(item);
                       editorStore.increaseUpperzIndex();
                     }}
@@ -1478,7 +1491,8 @@ class LeftSide extends Component<IProps, IState> {
                         fontFace: "O5mEMMs7UejmI1WeSKWQ",
                       };
 
-                      editorStore.addItem(item, true);
+                      // editorStore.addItem(item, true);
+                      editorStore.addItem2(item);
                       this.props.handleImageSelected(item);
                       editorStore.increaseUpperzIndex();
                     }}
@@ -2390,7 +2404,6 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                         >Lift</p>
                   </div>
-                  {/* { editorStore.imageSelected && editorStore.imageSelected.effectId == 1 && */}
                   { this.props.selectedImage && this.props.selectedImage.effectId == 1 && 
                   <div style={{
                     marginBottom: "15px",
@@ -2421,7 +2434,7 @@ class LeftSide extends Component<IProps, IState> {
                       onChange={this.props.handleChangeTextShadowTransparent}
                     />
             </div>}
-            { editorStore.imageSelected && editorStore.imageSelected.effectId == 2 &&
+            { this.props.selectedImage && this.props.selectedImage.effectId == 2 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2529,7 +2542,7 @@ class LeftSide extends Component<IProps, IState> {
                           textAlign: "center",
                         }}>Echo</p>
                   </div>
-                  { editorStore.imageSelected && editorStore.imageSelected.effectId == 3 &&
+                  { this.props.selectedImage && this.props.selectedImage.effectId == 3 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2540,7 +2553,7 @@ class LeftSide extends Component<IProps, IState> {
                       onChange={this.props.handleChangeHollowThickness}
                     />
             </div>}
-            { editorStore.imageSelected && editorStore.imageSelected.effectId == 4 &&
+            { this.props.selectedImage && this.props.selectedImage.effectId == 4 &&
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2564,7 +2577,7 @@ class LeftSide extends Component<IProps, IState> {
                       multiplier={3.6}
                     />
             </div>}
-            { editorStore.imageSelected && editorStore.imageSelected.effectId == 5 &&
+            { this.props.selectedImage && this.props.selectedImage.effectId == 5 &&
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2647,7 +2660,7 @@ class LeftSide extends Component<IProps, IState> {
                           textAlign: "center",
                         }}>Neon</p>
                   </div>
-                  { editorStore.imageSelected && editorStore.imageSelected.effectId == 6 &&
+                  { this.props.selectedImage && this.props.selectedImage.effectId == 6 &&
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2665,7 +2678,7 @@ class LeftSide extends Component<IProps, IState> {
                       multiplier={3.6}
                     />
             </div>}
-            { editorStore.imageSelected && editorStore.imageSelected.effectId == 7 &&
+            { this.props.selectedImage && this.props.selectedImage.effectId == 7 &&
                   <div style={{
                     marginBottom: "15px",
                   }}>

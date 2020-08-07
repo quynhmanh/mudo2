@@ -1,5 +1,5 @@
 // Variables
-$toolbar-bg-color-hover: rgba(14,19,24,.15);
+$toolbar-bg-color-hover: rgba(14,19,24,.07);
 
 $my-font-size-list-width: 80px;
 
@@ -214,7 +214,7 @@ div[data-reactroot] {
   z-index: 1;
   padding: 5px 10px;
   border-radius: 3px;
-  width: $my-font-size-list-width;
+  width: 120px;
 }
 
 /* Links inside the dropdown */

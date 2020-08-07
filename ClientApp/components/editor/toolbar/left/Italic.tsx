@@ -30,7 +30,7 @@ const Italic = (props: IProps) => {
                     cursor: "pointer",
                     color: "black",
                     height: "100%",
-                    backgroundColor: props.checked ? "rgba(14, 19, 24, 0.15) " : "white",
+                    backgroundColor: props.checked ? "rgba(14, 19, 24, 0.07) " : "white",
                 }}
                 onClick={handleItalicBtnClick}
             >

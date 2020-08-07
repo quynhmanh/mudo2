@@ -187,6 +187,7 @@ const LeftSide = (props: IProps) => {
                 childId={props.childId}
                 fontSize={props.fontSize}
                 handleFontSizeBtnClick={props.handleFontSizeBtnClick}
+                selectedTab={props.selectedTab}
             />
             {
                 alignList.map
@@ -200,6 +201,7 @@ const LeftSide = (props: IProps) => {
                                         props.childId !== null ||
                                         (
                                             props.idObjectSelected &&
+                                            props.selectedImage &&
                                             props.selectedImage.type === TemplateType.Heading
                                         )
                                     )

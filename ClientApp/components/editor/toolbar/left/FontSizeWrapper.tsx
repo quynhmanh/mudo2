@@ -2,6 +2,7 @@ import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import { TemplateType } from "@Components/editor/enums";
 import FontSize from "@Components/editor/FontSize";
+import {SidebarTab} from "@Components/editor/enums";
 
 interface IProps {
     show: boolean;
@@ -10,6 +11,7 @@ interface IProps {
     childId: string;
     fontSize: number;
     handleFontSizeBtnClick: any;
+    selectedTab: any;
 }
 
 const FontSizeWrapper = (props: IProps) => {
@@ -21,7 +23,10 @@ const FontSizeWrapper = (props: IProps) => {
             offsetTop={-5}
             content={content}
             delay={10}
-            style={{ display: show ? "block" : "none" }}
+            style={{ 
+                display: show ? "block" : "none",
+                width: "80px",
+            }}
             position="top"
         >
             <div
@@ -34,7 +39,8 @@ const FontSizeWrapper = (props: IProps) => {
                                 selectedImage.type === TemplateType.Heading
                             )
                             ? "block"
-                            : "none"
+                            : "none",
+                    width: "80px",
                 }}
                 className="toolbar-btn"
             >

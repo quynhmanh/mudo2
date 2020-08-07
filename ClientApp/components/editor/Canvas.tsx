@@ -43,6 +43,7 @@ export interface IProps {
   dragging: boolean;
   rotating: boolean;
   translate: any;
+  selectedImage: any;
 }
 
 export interface IState {
@@ -120,8 +121,10 @@ export default class Canvas extends Component<IProps, IState> {
     var imgHovered = editorStore.imageHovered;
     var imgSelected = editorStore.imageSelected;
 
-    let images= toJS(editorStore.images).filter(img => img.page === id);
-
+    // let images= toJS(editorStore.images).filter(img => img.page === id);
+    const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));
+    console.log("images ", toJS(images[0]));
+    console.log("images2 " , images);
     return (
       <ResizableRectContainer
         // onTransitionEnd={this.props.handleDeleteThisPage}
@@ -134,7 +137,13 @@ export default class Canvas extends Component<IProps, IState> {
       >
         {!this.props.preview && (
           <span
-            style={{ fontSize: "12px", display: "block", marginBottom: "5px" }}
+            style={{ 
+              fontSize: "12px", 
+              display: "block", 
+              marginBottom: "5px",
+              fontFamily: "AvenirNextRoundedPro-Medium",
+              color: "#989899",
+            }}
           >
             Trang {index + 1}
           </span>
