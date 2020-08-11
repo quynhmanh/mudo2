@@ -281,7 +281,7 @@ namespace RCB.TypeScript.Controllers
                         try
                         {
                             byte[] bytes = Encoding.ASCII.GetBytes(html);
-                            using (var htmlFile = new FileStream("/Users/theodd1ou1/Downloads/quynh2.html", FileMode.Create))
+                            using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
                             {
                                 htmlFile.Write(bytes, 0, bytes.Length);
                                 htmlFile.Flush();
@@ -568,7 +568,7 @@ namespace RCB.TypeScript.Controllers
                 if (HostingEnvironment.IsDevelopment())
                 {
                     exePath = "/usr/local/bin/ffmpeg";
-                    inputArgs = "./wwwroot" + "/" + videoId + ".webm -crf " + crf.ToString();
+                    inputArgs = "./wwwroot" + "/" + videoId + ".webm -c:v copy ";
                     outputArgs = "./wwwroot" + "/" + videoId + ".mp4";
                 }
 

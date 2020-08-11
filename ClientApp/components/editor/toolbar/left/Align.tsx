@@ -28,13 +28,12 @@ const Align = (props: IProps) => {
                 onClick={e => handleAlignBtnClick(e, title)}
                 style={{
                     borderRadius: "4px",
-                    padding: "2px 3px 0px",
-                    marginRight: "6px",
+                    padding: "3px 3px 0px",
                     display: "inline-block",
                     cursor: "pointer",
                     color: "black",
                     height: "100%",
-                    backgroundColor: props.checked ? "rgba(14, 19, 24, 0.07) " : "white",
+                    backgroundColor: props.checked ? "rgba(14, 19, 24, 0.13) " : "white",
                 }}
             >
                 <img src={iconPath} alt={content}/>

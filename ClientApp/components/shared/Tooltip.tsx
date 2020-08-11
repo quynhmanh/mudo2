@@ -70,7 +70,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     };
 
     render() {
-        const {children, offsetTop, offsetLeft, content, position, } = this.props;
+        const {children, offsetTop, offsetLeft, content, position, style, } = this.props;
 
         const {isOpen, isClicked} = this.state;
 
@@ -98,7 +98,10 @@ export default class Tooltip extends AppComponent<IProps, IState> {
             onMouseEnter: this.onMouseEnter,
             onClick: this.onClick,
             onMouseLeave: this.onMouseLeave,
-            ...this.props,
+            children: children,
+            content: content,
+            position,
+            style: style,
         },
 
         // Children:

@@ -117,13 +117,10 @@ export default class Canvas extends Component<IProps, IState> {
       id,
       staticGuides,
     } = this.props;
-
-    console.log('render canvas');
     
     var imgHovered = editorStore.imageHovered;
     var imgSelected = editorStore.imageSelected;
 
-    // let images= toJS(editorStore.images).filter(img => img.page === id);
     const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));
     return (
       <ResizableRectContainer
@@ -458,6 +455,7 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                     >
                       <ResizableRect
+                        downloading={this.props.downloading}
                         image={img}
                         hovered={false}
                         freeStyle={img.freeStyle}
@@ -482,6 +480,7 @@ export default class Canvas extends Component<IProps, IState> {
                         onResizeStart={this.props.handleResizeStart}
                         updateStartPos={img.updateStartPos}
                         src={img.src}
+                        srcThumnail={img.srcThumnail}
                         onTextChange={this.props.onSingleTextChange.bind(
                           this,
                           img

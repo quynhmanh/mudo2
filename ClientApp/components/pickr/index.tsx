@@ -521,7 +521,6 @@ class Pickr {
     }
 
     _clearColor(silent = false) {
-        console.log('_clearColor')
         const {_root, options} = this;
 
         // Change only the button color if it isn't customized
@@ -531,7 +530,6 @@ class Pickr {
 
         _root.button.classList.add('clear');
 
-        console.log("button ", _root.button);
 
         if (!options.showAlways) {
             this.hide();
@@ -790,7 +788,6 @@ class Pickr {
      * @param silent
      */
     setColor(string, silent = false) {
-        console.log('string color', string)
         // Check if null
         if (string === null) {
             this._clearColor(silent);

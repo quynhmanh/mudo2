@@ -204,9 +204,6 @@ class LeftSide extends Component<IProps, IState> {
     this.loadMoreTemplate.bind(this)(true, this.props.subtype);
     this.loadmoreUserUpload.bind(this)(true);
     this.loadMoreVideo.bind(this)(true);
-
-    console.log(document.getElementsByClassName("color-picker"));
-
     this.forceUpdate();
   }
 
@@ -843,10 +840,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   loadMoreFont = initialLoad => {
-    // console.log('loadmorefont');
-    // if (!this.state.hasMoreFonts) {
-    //   return;
-    // }
     let pageId;
     let count;
     if (initialLoad) {
@@ -934,7 +927,10 @@ class LeftSide extends Component<IProps, IState> {
     }
 
     if (this.props.selectedImage && nextProps.selectedImage && nextProps.selectedImage._id != this.props.selectedImage._id) {
-      console.log('Quynh')
+      result = true;
+    }
+
+    if (this.props.fontId != nextProps.fontId) {
       result = true;
     }
 
@@ -955,12 +951,10 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   handleColorPick = (e) => {
-    console.log("handleColorPick");
     this.forceUpdate();
   }
 
   render() {
-    console.log('Leftside render ', editorStore.imageSelected);
     return (
       <div
         style={{
@@ -2171,9 +2165,11 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                       >
                         {editorStore.fontsList.map((font, key) => (
-                          <div style={{
-                            display: 'flex',
-                          }}>
+                          <div 
+                            key={key}
+                            style={{
+                              display: 'flex',
+                            }}>
                             {Globals.serviceUser &&
                               Globals.serviceUser.username &&
                               Globals.serviceUser.username == adminEmail && (
@@ -2245,7 +2241,7 @@ class LeftSide extends Component<IProps, IState> {
                                   style={{ fill: "white" }}
                                   version="1.1"
                                   viewBox="0 0 44 44"
-                                  enable-background="new 0 0 44 44"
+                                  enableBackground="new 0 0 44 44"
                                 >
                                   <path d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z" />
                                 </svg>

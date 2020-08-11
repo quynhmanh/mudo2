@@ -156,6 +156,7 @@ export default class Slider extends PureComponent<IProps, IState> {
                 this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
                 this.$leftSLide.style.width = scale + "%";
                 this.props.onChange(scale);
+                this.props.onChangeEnd(scale);
             }}
             >
     <div

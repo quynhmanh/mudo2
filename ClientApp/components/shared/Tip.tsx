@@ -15,8 +15,8 @@ export interface IProps {
 }
 
 export interface IState {
-    offsetLeft: number;
-    offsetTop: number;
+    // offsetLeft: number;
+    // offsetTop: number;
     isOpen: boolean;
     className: string;
     position: string;
@@ -26,8 +26,8 @@ export interface IState {
 export default class Tip extends PureComponent<IProps, IState> {
     state = {
         className: "",
-        offsetLeft: 0,
-        offsetTop: 0,
+        // offsetLeft: 0,
+        // offsetTop: 0,
         prevProps: this.props,
         isOpen: this.props.isOpen,
         position: this.props.position

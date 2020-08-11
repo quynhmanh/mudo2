@@ -23,7 +23,6 @@ const Position = (props: IProps) => {
                 style={{
                     display: "flex",
                     fontSize: "15px",
-                    fontFamily: "AvenirNextRoundedPro-Medium",
                     height: "100%",
                     lineHeight: "30px",
                 }}

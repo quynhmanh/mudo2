@@ -45,11 +45,11 @@ export default class FontSize extends Component<IProps, IState> {
 
     onClickDropDownFontSizeList = () => {
         document.getElementById("myFontSizeList").classList.toggle("show");
-        document.getElementById("fontSizeButton").style.backgroundColor = "rgba(14, 19, 24, 0.07)";
+        document.getElementById("fontSizeButton").style.backgroundColor = "rgba(14, 19, 24, 0.13)";
 
         const onDown = e => {
           if (!e.target.matches(".dropbtn-font-size")) {
-            document.getElementById("fontSizeButton").style.backgroundColor = "";
+            document.getElementById("fontSizeButton").style.backgroundColor = "transparent";
             var dropdowns = document.getElementsByClassName(
               "dropdown-content-font-size"
             );
@@ -96,7 +96,6 @@ export default class FontSize extends Component<IProps, IState> {
                 this.onClickDropDownFontSizeList.bind(this)(e);
               }}
               onKeyDown={e => {
-                console.log('onKeyDown', e.nativeEvent);
                 e.nativeEvent.stopImmediatePropagation();
                 if (e.keyCode == 13) {
                     var val = (e.target as HTMLInputElement).value;

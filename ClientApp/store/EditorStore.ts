@@ -104,9 +104,7 @@ class Images {
     }
 
     @action toggleColorPickerVisibility = () => {
-      console.log('toggleColorPickerVisibility ', !this.colorPickerVisibility.get())
       this.colorPickerVisibility.set(!this.colorPickerVisibility.get());
-      console.log('toggled ', this.colorPickerVisibility.get())
     }
 
     @action setToggleColorPickerVisibility = (value : boolean) => {

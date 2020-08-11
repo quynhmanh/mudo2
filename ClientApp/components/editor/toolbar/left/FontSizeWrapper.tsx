@@ -25,7 +25,6 @@ const FontSizeWrapper = (props: IProps) => {
             delay={10}
             style={{ 
                 display: show ? "block" : "none",
-                width: "80px",
             }}
             position="top"
         >
@@ -51,7 +50,7 @@ const FontSizeWrapper = (props: IProps) => {
                         top: "4px",
                         padding: "0",
                         background: "white",
-                        animation: "bounce 1.2s ease-out"
+                        animation: "bounce 0.8s ease-out"
                     }}
                     id="myFontSizeList"
                     className="dropdown-content-font-size"

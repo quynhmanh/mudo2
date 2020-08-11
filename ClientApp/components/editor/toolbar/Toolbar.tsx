@@ -35,6 +35,7 @@ interface IProps {
     handleTransparentAdjust: any;
     currentOpacity: number;
     handleOpacityChange: any;
+    handleOpacityChangeEnd: any;
 }
 
 const Toolbar = (props: IProps) => {
@@ -99,6 +100,7 @@ const Toolbar = (props: IProps) => {
                 handleTransparentAdjust={props.handleTransparentAdjust}
                 currentOpacity={props.currentOpacity}
                 handleOpacityChange={props.handleOpacityChange}
+                handleOpacityChangeEnd={props.handleOpacityChangeEnd}
             />
         </div>
     );

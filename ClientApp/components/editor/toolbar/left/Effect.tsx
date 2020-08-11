@@ -24,7 +24,6 @@ export default class Effect extends Component<IProps, IState> {
                 style={{
                     position: "relative",
                     display: show ? "block" : "none",
-                    fontFamily: "AvenirNextRoundedPro-Medium",
                 }}
             >
                 {!cropMode && (
@@ -32,7 +31,7 @@ export default class Effect extends Component<IProps, IState> {
                         style={{
                             height: "100%",
                             top: 0,
-                            backgroundColor: this.props.selectedTab === SidebarTab.Effect ? "rgba(14, 19, 24, 0.07) " : "white",
+                            backgroundColor: this.props.selectedTab === SidebarTab.Effect ? "rgba(14, 19, 24, 0.13) " : "white",
                         }}
                         className="dropbtn-font dropbtn-font-size toolbar-btn"
                         onClick={e => {

@@ -74,7 +74,7 @@ export default styled.div`
     transform-origin: center;
     z-index: 12312313;
     &.tr {
-      top: -10px;
+      top: -9px;
       transform-origin: center;
     }
     &.tl {

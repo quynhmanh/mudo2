@@ -1,5 +1,5 @@
 // Variables
-$toolbar-bg-color-hover: rgba(14,19,24,.07);
+$toolbar-bg-color-hover: rgba(14,19,24,.13);
 
 $my-font-size-list-width: 80px;
 
@@ -314,9 +314,10 @@ p.single-text:focus {
     border-radius: 3px;
     transition: background-color .3s ease,color .2s ease-out;
     background-color: white;
-    margin-right: 5px;
+    margin-right: 10px;
     font-size: 15px;
     height: 100%;
+    font-weight: 600;
 }
 
 .toolbar-btn:focus {
@@ -544,17 +545,17 @@ button:focus {
     }
   }
 
-  -webkit-animation: bounce 1.2s ease-out;
+  -webkit-animation: bounce 0.8s ease-out;
 	-moz-animation: bounce 800ms ease-out;
 	-o-animation: bounce 800ms ease-out;
-	animation: bounce 1.2s ease-out;
+	animation: bounce 0.8s ease-out;
 }
 
 #myLogoLogin {
-  -webkit-animation: bounce 1.2s ease-out;
+  -webkit-animation: bounce 0.8s ease-out;
 	-moz-animation: bounce 800ms ease-out;
 	-o-animation: bounce 800ms ease-out;
-	animation: bounce 1.2s ease-out;
+	animation: bounce 0.8s ease-out;
 }
 
 ._1sXEXOyAuGxKeBcoq3FFet {
@@ -968,10 +969,10 @@ button {
 }
 
 .tipbase-color-picker {
-  -webkit-animation: bounce 1.2s ease-out;
+  -webkit-animation: bounce 0.8s ease-out;
   -moz-animation: bounce .8s ease-out;
   -o-animation: bounce .8s ease-out;
-  animation: bounce 1.2s ease-out;
+  animation: bounce 0.8s ease-out;
 }
 
 .positionBtn:hover {

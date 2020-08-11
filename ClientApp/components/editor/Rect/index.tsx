@@ -2,6 +2,8 @@ import React, { PureComponent } from "react";
 import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, getCursor, tLToCenter, getImageResizerVisibility, } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
+import Image from "@Components/editor/Rect/Image";
+import { endBatch } from "mobx/lib/internal";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -57,6 +59,8 @@ export interface IProps {
   rotating: boolean;
   hovered: boolean;
   image: any;
+  srcThumnail: any;
+  downloading: boolean;
 }
 
 export interface IState {
@@ -299,10 +303,12 @@ export default class Rect extends PureComponent<IProps, IState> {
         fontFace,
         color,
         rotateAngle,
+        srcThumnail,
         posX: posX2,
         posY: posY2,
         imgWidth: imgWidth2,
         imgHeight: imgHeight2,
+        downloading, 
       }
     } = this.props;
 
@@ -471,18 +477,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                   opacity,
                 }}
               >
-                <img
+                {/* <img
                   id={_id + "1235"}
-                  className={
-                    _id +
-                    "rect-alo" +
-                    " " +
-                    _id +
-                    "imgWidth" +
-                    " " +
-                    _id +
-                    "1236"
-                  }
+                  className={`${_id}rect-alo ${_id}imgWidth ${_id}1236`}
                   style={{
                     zIndex: 9999999,
                     width: imgWidth + "px",
@@ -498,6 +495,21 @@ export default class Rect extends PureComponent<IProps, IState> {
                   }}
                   onDoubleClick={enableCropMode}
                   src={src}
+                /> */}
+                <Image 
+                  _id={_id}
+                  imgWidth={imgWidth}
+                  imgHeight={imgHeight}
+                  posX={posX}
+                  posY={posY}
+                  selected={selected}
+                  cropMode={cropMode}
+                  outlineWidth={outlineWidth}
+                  backgroundColor={backgroundColor}
+                  src={src}
+                  enableCropMode={enableCropMode}
+                  srcThumnail={srcThumnail}
+                  downloading={downloading}
                 />
               </div>}
             {selected && cropMode && !showImage && (
@@ -899,7 +911,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: "100%",
               position: "absolute",
               outline:
-                cropMode && selected ? "rgb(0, 217, 225) solid 1px" : "none"
+                cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
             }}
           >
             {imgResizeDirection.map((d, i) => {

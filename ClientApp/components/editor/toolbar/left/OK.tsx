@@ -15,7 +15,7 @@ const OK = (props: IProps) => {
             onClick={handleOkBtnClick}
             style={{
                 display: show ? "flex" : "none",
-                fontFamily: "AvenirNextRoundedPro-Medium",
+                fontFamily: "AvenirNextRoundedPro",
             }}
         >
             <img

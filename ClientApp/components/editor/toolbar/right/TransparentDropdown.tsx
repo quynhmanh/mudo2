@@ -5,6 +5,7 @@ interface IProps {
     handleTransparentAdjust: any;
     currentOpacity: number;
     handleOpacityChange: any;
+    handleOpacityChangeEnd: any;
     title: any;
 }
 
@@ -43,7 +44,6 @@ export default class TransparentDropdown extends Component<IProps, IState> {
 
     render () {
         const { currentOpacity } = this.props;
-        console.log('render', currentOpacity);
         return (
             <div
                 style={{
@@ -54,7 +54,7 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                     width: "310px",
                     padding: "10px 20px",
                     background: "white",
-                    animation: "bounce 1.2s ease-out",
+                    animation: "bounce 0.8s ease-out",
                     paddingRight: 0,
                 }}
                 id="myTransparent"
@@ -121,11 +121,14 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                         document.execCommand('selectall', null);
                     }}
                     onKeyDown={e => {
-                        console.log('onKeyDown', e.nativeEvent);
                         e.nativeEvent.stopImmediatePropagation();
                         if (e.keyCode == 13) {
-                            var val = (e.target as HTMLInputElement).value;
-                            this.props.handleOpacityChange(val);
+                            var val = parseFloat((e.target as HTMLInputElement).value);
+                            var el = document.getElementById("myOpacity-3slider");
+                            el.style.left = (val - 3) + "%";
+                            el = document.getElementById("myOpacity-4");
+                            el.style.width = (val - 3) + "%";
+                            this.props.handleOpacityChangeEnd(val);
                             window.getSelection().removeAllRanges();
                         }
                     }}
@@ -136,6 +139,10 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                         textAlign: "center",
                         height: "23px",
                         margin: "auto",
+                        border: "1px solid rgb(219, 220, 220)",
+                        fontSize: "13px",
+                        width: "40px",
+                        borderRadius: "3px",
                     }} type="number" max="100" min="0" defaultValue={this.props.currentOpacity.toString()} ></input>
             </div>
         );

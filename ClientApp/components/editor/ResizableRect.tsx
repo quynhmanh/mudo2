@@ -43,6 +43,8 @@ export interface IProps {
   hovered: boolean;
   image: any;
   fontFace: string;
+  srcThumnail: any;
+  downloading: boolean;
 }
 
 export interface IState {
@@ -56,7 +58,8 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
     rotatable: true,
     zoomable: "",
     minWidth: 2,
-    minHeight: 2
+    minHeight: 2,
+    downloading: true,
   };
 
   render() {
@@ -95,10 +98,13 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       rotating,
       image,
       fontFace,
+      srcThumnail,
+      downloading,
     } = this.props;
 
     return (
       <Rect
+        downloading={downloading}
         image={image}
         hovered={this.props.hovered}
         rotating={rotating}
@@ -128,6 +134,7 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
         updateRect={updateRect}
         showImage={showImage}
         bleed={bleed}
+        srcThumnail={srcThumnail}
       />
     );
   }

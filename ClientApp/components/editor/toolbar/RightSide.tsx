@@ -14,6 +14,7 @@ interface IProps {
     handleTransparentAdjust: any;
     currentOpacity: number;
     handleOpacityChange: any;
+    handleOpacityChangeEnd: any;
     cropMode: any;
 }
 
@@ -51,6 +52,7 @@ const RightSide = (props: IProps) => {
                 handleTransparentAdjust={props.handleTransparentAdjust}
                 currentOpacity={props.currentOpacity}
                 handleOpacityChange={props.handleOpacityChange}
+                handleOpacityChangeEnd={props.handleOpacityChangeEnd}
             />
         </div>
     );

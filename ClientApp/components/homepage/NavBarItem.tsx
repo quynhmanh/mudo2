@@ -25,7 +25,6 @@ const NavBarItem = (props: IProps) => {
                 style={{
                     borderRadius: '4px',
                     border: 'none',
-                    fontFamily: 'AvenirNextRoundedPro-Medium',
                     background: 'none',
                 }}
             >
