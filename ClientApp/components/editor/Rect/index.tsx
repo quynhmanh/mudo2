@@ -125,7 +125,6 @@ export default class Rect extends PureComponent<IProps, IState> {
   };
 
   startResizeImage = (e, cursor, resizingInnerImage) => {
-    console.log('startResizeImage ', e, cursor);
     e.preventDefault();
     e.stopPropagation();
     document.body.style.cursor = cursor;
@@ -819,7 +818,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     height: height * scale / scaleY + "px",
                     transformOrigin: "0 0",
                     zIndex: selected ? 1 : 0,
-                    WebkitTextStroke: `${1.0 * this.props.image.hollowThickness / 100 * 4}px rgb(0, 0, 0)`,
+                    WebkitTextStroke: `${1.0 * this.props.image.hollowThickness / 100 * 4 + 0.1}px ${this.props.image.effectId == 3 ? color : "black"}`,
                     // this.props.image.textStroke,
                   }}
                 >
@@ -887,7 +886,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                         transform: `scale(${scale})`,
                         transformOrigin: "0 0",
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
-                        color: color,
+                        color: this.props.image.effectId == 3 ? "transparent" : color,
                         textShadow: this.props.image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * this.props.image.textShadowTransparent / 100}) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * this.props.image.blur / 100}px` :
                         this.props.image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * this.props.image.intensity}) 0 8.9px ${66.75 * this.props.image.intensity / 100}px` : 
                         this.props.image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 

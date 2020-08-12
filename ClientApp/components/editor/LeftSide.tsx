@@ -2458,7 +2458,7 @@ class LeftSide extends Component<IProps, IState> {
                     >
                       <button
                         onClick={e => {
-                          this.props.handleApplyEffect(3, null, null, null, null, null, 30, "transparent");
+                          this.props.handleApplyEffect(3, null, null, null, null, null, 30, "black");
                           if (window.prevEffectId) {
                             document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                           }

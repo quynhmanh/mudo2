@@ -1251,7 +1251,28 @@ class CanvaEditor extends Component<IProps, IState> {
         }
     };
 
+    popuplateImageProperties = () => {
+        // console.log('popuplateImageProperties');
+        let image = toJS(editorStore.imageSelected);
+        window.imageTop = image.top;
+        window.imageLeft = image.left;
+        window.imageWidth = image.width;
+        window.imageHeight = image.height;
+        window.imageimgWidth = image.imgWidth;
+        window.imageimgHeight = image.imgHeight;
+        window.posX = image.posX;
+        window.posY = image.posY;
+        window.scaleX = image.scaleX;
+        window.scaleY = image.scaleY;
+        window.origin_width = image.origin_width;
+        window.origin_height = image.origin_height;
+    }
+
     handleResizeStart = (e: any, d: any) => {
+
+        this.popuplateImageProperties();
+
+        // console.log('handleResizeStart ');
         e.stopPropagation();
 
         window.startX = e.clientX;
@@ -1265,7 +1286,7 @@ class CanvaEditor extends Component<IProps, IState> {
         var type = e.target.getAttribute("class").split(" ")[0];
         let { scale } = this.state;
         const location$ = this.handleDragRx(e.target);
-        let image = toJS(editorStore.images2.get(this.state.idObjectSelected));
+        let image = toJS(editorStore.imageSelected);
         window.image = image
         let { top: top2, left: left2, width: width2, height: height2 } = image;
 
@@ -1352,6 +1373,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleResizeEnd = () => {
+        // console.log('handleResizeEnd');
         // this.temp.unsubscribe();
 
         window.image.top = window.imageTop;
@@ -1387,6 +1409,7 @@ class CanvaEditor extends Component<IProps, IState> {
         e,
         moveElLocation,
     ) => {
+        // console.log('handleResize');
         const { scale } = this.state;
         let { top, left, width, height } = style;
         var switching = false;
@@ -1518,11 +1541,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             if (t5 && t8 && type == "tl") {
                 window.resizingInnerImage = true;
-                // window.startX =
-                //     document.getElementById(_id + "tl_").getBoundingClientRect().left +
-                //     10;
-                // window.startY =
-                //     document.getElementById(_id + "tl_").getBoundingClientRect().top + 10;
+                
                 let element = document.getElementById(_id + "tl_");
                 if (element) {
                     let bcr = element.getBoundingClientRect();
@@ -1559,7 +1578,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
         let {imgWidth, imgHeight, posX, posY} = toJS(editorStore.imageSelected);
         let image2 = toJS(editorStore.imageSelected);
-        // let {posX, posY} = window.image;
 
         if ((objectType === TemplateType.Image || objectType === TemplateType.Video) && !this.state.cropMode) {
             var scaleWidth = image2.imgWidth / image2.width;
@@ -1732,6 +1750,9 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleResizeInnerImageStart = (e, d) => {
+        // console.log('handleResizeInnerImageStart')
+        this.popuplateImageProperties();
+
         this.displayResizers(false);
 
         window.resizingInnerImage = true;
@@ -1745,7 +1766,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let { scale } = this.state;
         const location$ = this.handleDragRx(e.target);
 
-        let image = toJS(editorStore.images2.get(this.state.idObjectSelected));
+        let image = toJS(editorStore.imageSelected);
         window.image = image;
         let {
             top: top2,
@@ -1871,6 +1892,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 () => {
                     window.resizing = false;
                     this.handleResizeEnd();
+                    // editorStore.imageSelected = window.image;
+                    // editorStore.images2.set(this.state.idObjectSelected, window.image);
                     this.pauser.next(false);
                     this.displayResizers(true);
                     this.forceUpdate();
@@ -1891,6 +1914,7 @@ class CanvaEditor extends Component<IProps, IState> {
         objectType,
         moveElLocation
     ) => {
+        // console.log('handleImageResize');
         let switching;
         const { scale } = this.state;
         let { left: posX, top: posY, width: imageimgWidth, height: imageimgHeight } = style;
@@ -2782,7 +2806,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleApplyEffect = (effectId, offSet, direction, blur, textShadowTransparent, intensity, hollowThickness, color, filter) => {
-        var self = this;
         var image = toJS(editorStore.imageSelected);
         image.hollowThickness = hollowThickness;
         image.color = color;
@@ -2808,7 +2831,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let el = document.getElementsByClassName(this.state.idObjectSelected + "hihi5")[0] as HTMLElement;
         let image = toJS(editorStore.imageSelected);
         image.hollowThickness = val;
-        el.style.webkitTextStroke = `${1.0 * image.hollowThickness / 100 * 4}px rgb(0, 0, 0)`;
+        el.style.webkitTextStroke = `${1.0 * image.hollowThickness / 100 * 4 + 0.1}px rgb(0, 0, 0)`;
         // el.style.textShadow = image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px` :
         // image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * image.intensity}) 0 8.9px ${66.75 * image.intensity / 100}px` : 
         // image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
@@ -3630,7 +3653,7 @@ class CanvaEditor extends Component<IProps, IState> {
         //     return img;
         // });
         // editorStore.replace(images);
-        if (e) document.getElementById(editorStore.idObjectSelected + "hihi4").style.color = color;
+        // if (e) document.getElementById(editorStore.idObjectSelected + "hihi4").style.color = color;
         // document.execCommand("foreColor", false, color);
         // if (
         //   this.state.typeObjectSelected === TemplateType.Heading ||
@@ -4238,6 +4261,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     id={pages[i]}
                     translate={this.translate}
                     rotating={this.state.rotating}
+                    numberOfPages={pages.length}
                     // resizing={this.state.resizing}
                     // dragging={this.state.dragging}
                     isSaving={this.state.isSaving}
@@ -4815,7 +4839,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                     height: "calc(100% - 46px)",
                                     zIndex: 1,
                                     backgroundColor:
-                                        this.state.cropMode && "rgba(14, 19, 24, 0.2)"
+                                        this.state.cropMode && "rgba(14, 19, 24, 0.15)"
                                 }}
                             >
                                 {this.state.mounted && (

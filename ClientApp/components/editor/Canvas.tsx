@@ -44,6 +44,7 @@ export interface IProps {
   rotating: boolean;
   translate: any;
   selectedImage: any;
+  numberOfPages: number;
 }
 
 export interface IState {
@@ -110,12 +111,12 @@ export default class Canvas extends Component<IProps, IState> {
       rectWidth,
       rectHeight,
       scale,
-      // images,
       childId,
       cropMode,
       index,
       id,
       staticGuides,
+      numberOfPages,
     } = this.props;
     
     var imgHovered = editorStore.imageHovered;
@@ -153,7 +154,7 @@ export default class Canvas extends Component<IProps, IState> {
               right: 0
             }}
           >
-            <button
+            {numberOfPages != 1 && <button
               onClick={() => {
                 document.getElementById(id).style.opacity = "0";
                 setTimeout(() => {
@@ -175,7 +176,7 @@ export default class Canvas extends Component<IProps, IState> {
                   fill="currentColor"
                 ></path>
               </svg>
-            </button>
+            </button>}
           </div>
         )}
         <div
@@ -323,7 +324,7 @@ export default class Canvas extends Component<IProps, IState> {
                 mode == Mode.EditTextTemplate
                   ? "#00000030"
                   : this.props.cropMode
-                  ? "rgba(14, 19, 24, 0.2)"
+                  ? "#ddd"
                   : "white"),
               width: this.props.preview
                 ? rectWidth + "px"
@@ -606,6 +607,7 @@ export default class Canvas extends Component<IProps, IState> {
                         onResizeStart={this.props.handleResizeStart}
                         updateStartPos={imgHovered.updateStartPos}
                         src={imgHovered.src}
+                        srcThumnail={imgHovered.srcThumnail}
                         posX={imgHovered.posX * scale}
                         posY={imgHovered.posY * scale}
                         onTextChange={this.props.onSingleTextChange.bind(
@@ -691,6 +693,7 @@ export default class Canvas extends Component<IProps, IState> {
                           onResizeStart={this.props.handleResizeStart}
                           updateStartPos={imgSelected.updateStartPos}
                           src={imgSelected.src}
+                          srcThumnail={imgSelected.srcThumnail}
                           onTextChange={this.props.onSingleTextChange.bind(
                             this,
                             imgSelected

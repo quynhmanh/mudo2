@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 
 export interface IProps {
     title: string;
@@ -13,7 +13,7 @@ export interface IState {
     currentValue: number;
 }
 
-export default class Slider extends PureComponent<IProps, IState> {
+export default class Slider extends Component<IProps, IState> {
     $input = null;
     $leftSLide = null;
     $grabSlider = null;
@@ -74,7 +74,6 @@ export default class Slider extends PureComponent<IProps, IState> {
         scale = Math.min(100, scale);
 
         window.scale = scale;
-
         // this.setState({ currentValue: scale });
 
         this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
@@ -91,7 +90,6 @@ export default class Slider extends PureComponent<IProps, IState> {
         width: "100%",
         padding: "15px 0px",
         background: "white",
-        // animation: "bounce 1.2s ease-out",
         position: "relative",
     }}
 >

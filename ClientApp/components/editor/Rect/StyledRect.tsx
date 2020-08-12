@@ -74,7 +74,7 @@ export default styled.div`
     transform-origin: center;
     z-index: 12312313;
     &.tr {
-      top: -9px;
+      top: -10px;
       transform-origin: center;
     }
     &.tl {
@@ -167,17 +167,17 @@ export default styled.div`
   .b,
   .bl,
   .br {
-    bottom: -9px;
+    bottom: -10px;
   }
   .r,
   .tr,
   .br {
-    right: -9px;
+    right: -10px;
   }
   .tl,
   .l,
   .bl {
-    left: -9px;
+    left: -10px;
   }
   .l,
   .r {

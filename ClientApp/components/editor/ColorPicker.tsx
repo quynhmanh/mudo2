@@ -47,7 +47,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         //     e.stopImmediatePropagation();
         // })
 
-        console.log('pickr ', Pickr)
 
         const pickr = Pickr.create({
           default: null,
@@ -95,11 +94,9 @@ export default class Tooltip extends AppComponent<IProps, IState> {
 
         // pickr.clear();
 
-        console.log('pickr ', pickr);
 
         pickr
         .on("save", (color, instance) => {
-          console.log('save', color.toRGBA(), instance)
           let colorCode = color.toRGBA();
           this.props.setSelectionColor(colorCode)
           editorStore.addFontColor(colorCode.toString())
@@ -107,7 +104,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         })
         .on("show", instance => {
           // this.props.colorPickerShown()
-          console.log('pickr show');
           // editorStore.toggleColorPickerVisibility();
           editorStore.setToggleColorPickerVisibility(true);
         })
@@ -117,16 +113,12 @@ export default class Tooltip extends AppComponent<IProps, IState> {
           this.props.setSelectionColor(colorCode)
         })
         .on("hide", instance => {
-          console.log('pickr hide');
           // let colorCode = instance.getColor().toRGBA().toString();
-          // console.log('instance ', instance);
-          // console.log('colorCode ', colorCode);
           setTimeout(() => {editorStore.setToggleColorPickerVisibility(false);}, 100);
           // instance.setColor(null);
 
           // instance._clearColor();
           // instance.setColor('transparent');
-          console.log('handleColorPick');
           this.props.handleColorPick();
         })
     }
