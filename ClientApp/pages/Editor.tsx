@@ -1746,7 +1746,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 //     (rec.height * cs - rec.width * as) / (cs ^ (2 - as) ^ 2);
                 // height = newHeight / scale;
                 // window.imageHeight = height;
-                let newHeight = document.getElementById(_id).getElementsByClassName("text")[0].offsetHeight;
+                let newHeight = document.getElementById(_id).getElementsByClassName("text")[0].offsetHeight * image.scaleY;
                 height = newHeight;
                 deltaHeight = image.height - newHeight;
                 window.imageHeight = height;
@@ -3214,6 +3214,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleImageSelected = img => {
+        console.log('handleImageSelected ',img);
         if (this.state.cropMode && img._id != this.state.idObjectSelected) {
             this.setState({ cropMode: false });
             this.doNoObjectSelected();
@@ -4386,7 +4387,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleChildIdSelected = childId => {
-        let align, effectId, bold, italic, fontId;
+        let align, effectId, bold, italic, fontId, fontColor;
         const image = toJS(editorStore.imageSelected);
         image.document_object.forEach(doc => {
             if (doc._id == childId) {
@@ -4396,6 +4397,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 bold = doc.bold;
                 italic = doc.italic;
                 fontId = doc.fontFace;
+                fontColor = doc.color;
             }
         });
 
@@ -4406,6 +4408,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let text = image.document_object.find(text => text._id == childId);
 
         this.setState({ 
+            fontColor,
             childId, 
             align, 
             effectId,
