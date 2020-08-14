@@ -26,6 +26,7 @@ interface IProps {
     onClickDropDownFontList: any;
     onClickEffectList: any;
     fontName: string;
+    fontId: string;
     cropMode: boolean;
     handleFilterBtnClick: any;
     handleAdjustBtnClick: any;
@@ -41,6 +42,10 @@ interface IProps {
     handleOkBtnClick: any;
     handleCancelBtnClick: any;
     selectedTab: any;
+    align: any;
+    effectId: number;
+    bold: boolean;
+    italic: boolean;
 }
 
 const alignList = [
@@ -81,7 +86,7 @@ const LeftSide = (props: IProps) => {
                 }
                 translate={props.translate}
                 handleItalicBtnClick={props.handleItalicBtnClick}
-                checked={props.selectedImage && props.selectedImage.italic}
+                checked={props.italic}
             />
             <Bold
                 show=
@@ -96,7 +101,7 @@ const LeftSide = (props: IProps) => {
                 }
                 translate={props.translate}
                 handleBoldBtnClick={props.handleBoldBtnClick}
-                checked={props.selectedImage && props.selectedImage.bold}
+                checked={props.bold}
             />
             <FontFamily
                 show=
@@ -179,8 +184,9 @@ const LeftSide = (props: IProps) => {
             <FontSizeWrapper
                 show=
                 {
-                    editorStore.imageSelected &&
-                    editorStore.imageSelected.type === TemplateType.Heading
+                    (editorStore.imageSelected &&
+                    editorStore.imageSelected.type === TemplateType.Heading) || 
+                    props.childId
                 }
                 translate={props.translate}
                 selectedImage={props.selectedImage}
@@ -210,17 +216,17 @@ const LeftSide = (props: IProps) => {
                                 title={item.title}
                                 iconPath={item.iconPath}
                                 handleAlignBtnClick={props.handleAlignBtnClick}
-                                checked={props.selectedImage && props.selectedImage.align == item.title}
+                                checked={props.align == item.title}
                             />
                     )
             }
             <Effect
                 show=
                 {
-                    editorStore.imageSelected &&
+                    (editorStore.imageSelected &&
                     (
                         editorStore.imageSelected.type === TemplateType.Heading
-                    )
+                    )) || (!!props.childId)
                 }
                 translate={props.translate}
                 cropMode={props.cropMode}

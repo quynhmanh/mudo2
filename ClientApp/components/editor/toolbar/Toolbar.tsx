@@ -3,6 +3,7 @@ import LeftSide from "@Components/editor/toolbar/LeftSide";
 import RightSide from "@Components/editor/toolbar/RightSide";
 
 interface IProps {
+    align: any;
     selectedTab: any;
     translate: any;
     editorStore: any;
@@ -14,6 +15,7 @@ interface IProps {
     onClickDropDownFontList: any;
     onClickEffectList: any;
     fontName: string;
+    fontId: string;
     cropMode: boolean;
     handleFilterBtnClick: any;
     handleAdjustBtnClick: any;
@@ -36,6 +38,9 @@ interface IProps {
     currentOpacity: number;
     handleOpacityChange: any;
     handleOpacityChangeEnd: any;
+    effectId: number;
+    bold: boolean;
+    italic: boolean;
 }
 
 const Toolbar = (props: IProps) => {
@@ -60,6 +65,10 @@ const Toolbar = (props: IProps) => {
             }}
         >
             <LeftSide
+                italic={props.italic}
+                bold={props.bold}
+                effectId={props.effectId}
+                align={props.align}
                 selectedTab={props.selectedTab}
                 editorStore={props.editorStore}
                 childId={props.childId}
@@ -71,6 +80,7 @@ const Toolbar = (props: IProps) => {
                 onClickDropDownFontList={props.onClickDropDownFontList}
                 onClickEffectList={props.onClickEffectList}
                 fontName={props.fontName}
+                fontId={props.fontId}
                 cropMode={props.cropMode}
                 handleFilterBtnClick={props.handleFilterBtnClick}
                 handleAdjustBtnClick={props.handleAdjustBtnClick}

@@ -16,6 +16,8 @@ import { observer } from "mobx-react";
 import Slider from "@Components/editor/Slider";
 
 export interface IProps {
+  effectId: number;
+  align: any;
   toolbarOpened: any;
   toolbarSize: any;
   mode: any;
@@ -871,18 +873,18 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.selectedImage && nextProps.selectedImage && nextProps.selectedImage.effectId != this.props.selectedImage.effectId) {
+    if (this.props.selectedImage && nextProps.selectedImage && nextProps.effectId != this.props.effectId) {
       if (window.prevEffectId) {
         var el = document.getElementById("effect-btn-" + window.prevEffectId);
         if (el) {
           el.style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
         }
       }
-      var el = document.getElementById("effect-btn-" + nextProps.selectedImage.effectId);
+      var el = document.getElementById("effect-btn-" + nextProps.effectId);
       if (el) {
         el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
       }
-      window.prevEffectId = nextProps.selectedImage.effectId;
+      window.prevEffectId = nextProps.effectId;
     }
 
     if (!window.prevEffectId && nextProps.selectedImage && nextProps.selectedImage.effectId) {
@@ -917,8 +919,8 @@ class LeftSide extends Component<IProps, IState> {
       result = true;
     }
 
-    if (nextProps.selectedTab === SidebarTab.Effect && this.props.selectedImage && nextProps.selectedImage && 
-      this.props.selectedImage.effectId != nextProps.selectedImage.effectId) {
+    if (nextProps.selectedTab === SidebarTab.Effect && 
+      this.props.effectId != nextProps.effectId) {
       result = true;
     }
 
@@ -926,7 +928,7 @@ class LeftSide extends Component<IProps, IState> {
       result = true;
     }
 
-    if (this.props.selectedImage && nextProps.selectedImage && nextProps.selectedImage._id != this.props.selectedImage._id) {
+    if (nextProps.childId != this.props.childId) {
       result = true;
     }
 
@@ -955,6 +957,11 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   render() {
+    let image = this.props.selectedImage || {};
+    if (this.props.childId) {
+      image = image.document_object.find(text => text._id == this.props.childId);
+      console.log('image asda ', image);
+    }
     return (
       <div
         style={{
@@ -1387,7 +1394,7 @@ class LeftSide extends Component<IProps, IState> {
                         fontSize: 42,
                         fontRepresentative: "images/font-AvenirNextRoundedPro.png",
                         selected: true,
-                        fontFace: "O5mEMMs7UejmI1WeSKWQ",
+                        fontFace: "gtg56Ft3mEm1ReZboyBOGA",
                         effectId: 8,
                       };
 
@@ -2347,10 +2354,10 @@ class LeftSide extends Component<IProps, IState> {
                       id="effect-btn-1"
                       className="effect-btn"
                       // style={{
-                      //   border: this.props.selectedImage && this.props.selectedImage.effectId == 1 && "2px solid #2591c7",
+                      //   border: image && image.effectId == 1 && "2px solid #2591c7",
                       // }}
                       onClick={e => {
-                        this.props.handleApplyEffect(1, 50, 12.5, 0, 40, null, "black");
+                        this.props.handleApplyEffect(1, 50, 12.5, 0, 40, null, null);
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2403,20 +2410,20 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                         >Lift</p>
                   </div>
-                  { this.props.selectedImage && this.props.selectedImage.effectId == 1 && 
+                  { this.props.effectId == 1 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
                     <Slider 
                       title="Offset" 
-                      currentValue={this.props.selectedImage.offSet}
+                      currentValue={image.offSet}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeOffset}
                       onChangeEnd={this.props.handleChangeOffsetEnd}
                     />
                     <Slider 
                       title="Direction" 
-                      currentValue={this.props.selectedImage.direction}
+                      currentValue={image.direction}
                       pauser={this.props.pauser}
                       multiplier={3.6}
                       onChange={this.props.handleChangeDirection}
@@ -2424,26 +2431,26 @@ class LeftSide extends Component<IProps, IState> {
                     />
                     <Slider 
                       title="Blur" 
-                      currentValue={this.props.selectedImage.blur}
+                      currentValue={image.blur}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeBlur}
                       onChangeEnd={this.props.handleChangeBlurEnd}
                     />
                     <Slider 
                       title="Transparency" 
-                      currentValue={this.props.selectedImage.textShadowTransparent}
+                      currentValue={image.textShadowTransparent}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeTextShadowTransparent}
                       onChangeEnd={this.props.handleChangeTextShadowTransparentEnd}
                     />
             </div>}
-            { this.props.selectedImage && this.props.selectedImage.effectId == 2 && 
+            { this.props.effectId == 2 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
                     <Slider 
                       title="Intensity" 
-                      currentValue={this.props.selectedImage.intensity}
+                      currentValue={image.intensity}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeIntensity}
                       onChangeEnd={this.props.handleChangeIntensityEnd}
@@ -2490,7 +2497,7 @@ class LeftSide extends Component<IProps, IState> {
                     >
                     <button
                       onClick={e => {
-                        this.props.handleApplyEffect(4, 50, 12.5, 0, 40, null, 30, "transparent");
+                        this.props.handleApplyEffect(4, 50, 12.5, 0, 40, null, 30, "black");
                         if (window.prevEffectId) {
                           document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
                         }
@@ -2546,59 +2553,59 @@ class LeftSide extends Component<IProps, IState> {
                           textAlign: "center",
                         }}>Echo</p>
                   </div>
-                  { this.props.selectedImage && this.props.selectedImage.effectId == 3 && 
+                  { this.props.effectId == 3 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
                     <Slider 
                       title="Thickness" 
-                      currentValue={this.props.selectedImage.hollowThickness}
+                      currentValue={image.hollowThickness}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeHollowThickness}
                       onChangeEnd={this.props.handleChangeHollowThicknessEnd}
                     />
             </div>}
-            { this.props.selectedImage && this.props.selectedImage.effectId == 4 &&
+            { this.props.effectId == 4 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
                     <Slider 
                       title="Thickness" 
-                      currentValue={this.props.selectedImage.hollowThickness}
+                      currentValue={image.hollowThickness}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeHollowThickness}
-                      onChangeEnd={this.props.handleChangeTextShadowTransparentEnd}
+                      onChangeEnd={this.props.handleChangeHollowThicknessEnd}
                     />
                     <Slider 
                       title="Offset" 
-                      currentValue={this.props.selectedImage.offSet}
+                      currentValue={image.offSet}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeOffset}
                       onChangeEnd={this.props.handleChangeOffsetEnd}
                     />
                     <Slider 
                       title="Direction" 
-                      currentValue={this.props.selectedImage.direction}
+                      currentValue={image.direction}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeDirection}
                       multiplier={3.6}
                       onChangeEnd={this.props.handleChangeDirectionEnd}
                     />
             </div>}
-            { this.props.selectedImage && this.props.selectedImage.effectId == 5 &&
+            { this.props.effectId == 5 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
                     <Slider 
                       title="Offset" 
-                      currentValue={this.props.selectedImage.offSet}
+                      currentValue={image.offSet}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeOffset}
                       onChangeEnd={this.props.handleChangeOffsetEnd}
                     />
                     <Slider 
                       title="Direction" 
-                      currentValue={this.props.selectedImage.direction}
+                      currentValue={image.direction}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeDirection}
                       multiplier={3.6}
@@ -2670,27 +2677,27 @@ class LeftSide extends Component<IProps, IState> {
                           textAlign: "center",
                         }}>Neon</p>
                   </div>
-                  { this.props.selectedImage && this.props.selectedImage.effectId == 6 &&
+                  { this.props.effectId == 6 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
                     <Slider 
                       title="Offset" 
-                      currentValue={this.props.selectedImage.offSet}
+                      currentValue={image.offSet}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeOffset}
                       onChangeEnd={this.props.handleChangeOffsetEnd}
                     />
                     <Slider 
                       title="Direction" 
-                      currentValue={this.props.selectedImage.direction}
+                      currentValue={image.direction}
                       pauser={this.props.pauser}
                       onChange={this.props.handleChangeDirection}
                       multiplier={3.6}
                       onChangeEnd={this.props.handleChangeDirectionEnd}
                     />
             </div>}
-            { this.props.selectedImage && this.props.selectedImage.effectId == 7 &&
+            { this.props.effectId == 7 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>

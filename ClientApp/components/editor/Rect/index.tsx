@@ -3,7 +3,8 @@ import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, getCursor, tLT
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import Image from "@Components/editor/Rect/Image";
-import { endBatch } from "mobx/lib/internal";
+import { toJS } from "mobx";
+import { TemplateType } from "../enums";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -296,7 +297,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         backgroundColor,
         opacity: opacity2,
         top,
-        left,
+        effectId,
         width,
         height,
         fontFace,
@@ -308,6 +309,12 @@ export default class Rect extends PureComponent<IProps, IState> {
         imgWidth: imgWidth2,
         imgHeight: imgHeight2,
         downloading, 
+        textShadowTransparent,
+        filter,
+        intensity,
+        offSet,
+        direction: effectDirection,
+        blur,
       }
     } = this.props;
 
@@ -349,7 +356,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     return (
       <div>
-        {(hovered || selected) &&
+        {(hovered || selected) && !cropMode &&
         <div 
           className="hideWhenDownload"
           style={{
@@ -358,7 +365,9 @@ export default class Rect extends PureComponent<IProps, IState> {
             left: "-1px",
             right: "-1px",
             bottom: "-1px",
-            backgroundImage: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+            backgroundImage: 
+              objectType == TemplateType.TextTemplate ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+              :'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
             backgroundPosition: 'top,100%,bottom,0',
             backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
             backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
@@ -466,7 +475,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           >
             {showImage &&
               <div
-                id={_id + "_____"}
+                id={_id + "hihi4"}
                 className={_id + "rect-alo"}
                 style={{
                   width: "100%",
@@ -606,7 +615,48 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         }
-        {((showImage && !selected) || (!showImage && selected)) && objectType === 3 &&
+        {((showImage && !selected) || (!showImage && selected)) && (objectType === 3 || objectType == 2) &&
+          <div
+            // className={_id + "scaleX-scaleY"}
+            style={{
+              transformOrigin: "0 0",
+              // transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
+              position: "absolute",
+              width: `calc(100% + 2px)`,
+              height: `calc(100% + 2px)`,
+              left: "-1px",
+              top: "-1px",
+              // width: '100%',
+              // height: '100%',
+            }}
+          >
+            <div 
+              style={{
+                position: "relative",
+                width: "100%",
+                height: "100%",
+              }}>
+            {childrens && childrens.length > 0 && (childrens.map(child => (
+              <div
+                id={child._id + "b2"}
+                style={{
+                    left: `${child.left/width * scaleX*100}%`,
+                    top: `${child.top/(child.height / child.height2)*100}%`,
+                    position: "absolute",
+                    width: `${child.width2 * 100}%`,
+                    height: `${child.height2 * 100}%`,
+                    backgroundImage: selected && childId === child._id && 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+                    backgroundPosition: 'top,100%,bottom,0',
+                    backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+                    backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
+                }}>
+                
+              </div>)))
+            }
+            </div>
+          </div>
+        }
+        {((showImage && !selected) || (!showImage && selected)) && (objectType === 3 || objectType == 2) &&
           <div
             id={_id + "654"}
             className={_id + "scaleX-scaleY"}
@@ -642,52 +692,65 @@ export default class Rect extends PureComponent<IProps, IState> {
                   } = styles;
                   return (
                     <div
-                      key={child._id}
                       style={{
-                        zIndex: selected && objectType !== 4 ? 1 : 0,
-                        left: child.left,
-                        top: child.top,
-                        position: "absolute",
-                        width: (width * child.width2) / scaleX,
-                        height: child.height,
-                        outline:
-                          selected && childId === child._id
-                            ? `#00d9e1 solid ${2 / scale}px`
-                            : null,
-                        transform: `rotate(${rotateAngle}deg)`,
-                        opacity: opacity
+                        WebkitTextStroke: (child.effectId == 3 || child.effectId == 4) && (`${1.0 * child.hollowThickness / 100 * 4 + 0.1}px ${(child.effectId == 3 || child.effectId == 4) ? child.color : "black"}`),
                       }}
-                      className="text-container"
                     >
-                      <SingleText
-                        selectionScaleY={this.state.selectionScaleY}
-                        zIndex={zIndex}
-                        scaleX={child.scaleX}
-                        scaleY={child.scaleY}
-                        parentScaleX={scaleX}
-                        parentScaleY={scaleY}
-                        width={(width * child.width2) / scaleX / child.scaleX}
-                        height={child.height}
-                        centerX={centerX / child.scaleX}
-                        centerY={centerY / child.scaleY}
-                        rotateAngle={rotateAngle}
-                        parentIndex={_id}
-                        innerHTML={child.innerHTML}
-                        _id={child._id}
-                        selected={selected}
-                        onInput={onTextChange}
-                        onBlur={this.endEditing.bind(this)}
-                        onMouseDown={this.startEditing.bind(this)}
-                        outlineWidth={outlineWidth}
-                        onFontSizeChange={(fontSize, scaleY) => {
-                          onFontSizeChange(fontSize * scaleY);
-                          this.startEditing(scaleY);
+                      <div
+                        id={child._id + "text-container"}
+                        key={child._id}
+                        style={{
+                          zIndex: selected && objectType !== 4 ? 1 : 0,
+                          left: child.left * scale,
+                          top: child.top * scale,
+                          position: "absolute",
+                          width: (width * child.width2) / scaleX * scale,
+                          height: child.height * scale,
+                          transform: `rotate(${rotateAngle}deg)`,
+                          opacity: opacity,
+                          fontFamily: `${child.fontFace}, AvenirNextRoundedPro`,
+                          color: (child.effectId == 3 || child.effectId == 4) ? "transparent" : child.color,
+                          textShadow: child.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * child.textShadowTransparent / 100}) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * child.blur / 100}px` :
+                          child.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * child.intensity}) 0 8.9px ${66.75 * child.intensity / 100}px` :
+                          child.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+                          child.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+                          child.effectId == 6 && `rgb(0, 255, 255) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
+                          filter: child.filter,
                         }}
-                        handleFontColorChange={handleFontColorChange}
-                        handleFontFaceChange={handleFontFaceChange}
-                        handleChildIdSelected={handleChildIdSelected}
-                        childId={childId}
-                      />
+                        className="text-container"
+                      >
+                        <SingleText
+                          selectionScaleY={this.state.selectionScaleY}
+                          zIndex={zIndex}
+                          fontFace={child.fontFace}
+                          scaleX={child.scaleX}
+                          scaleY={child.scaleY}
+                          parentScaleX={scaleX}
+                          parentScaleY={scaleY}
+                          width={(width * child.width2) / scaleX / child.scaleX}
+                          height={child.height}
+                          centerX={centerX / child.scaleX}
+                          centerY={centerY / child.scaleY}
+                          rotateAngle={rotateAngle}
+                          parentIndex={_id}
+                          innerHTML={child.innerHTML}
+                          _id={child._id}
+                          selected={selected}
+                          onInput={onTextChange}
+                          onBlur={this.endEditing.bind(this)}
+                          onMouseDown={this.startEditing.bind(this)}
+                          outlineWidth={outlineWidth}
+                          onFontSizeChange={(fontSize, scaleY) => {
+                            onFontSizeChange(fontSize * scaleY);
+                            this.startEditing(scaleY);
+                          }}
+                          handleFontColorChange={handleFontColorChange}
+                          handleFontFaceChange={handleFontFaceChange}
+                          handleChildIdSelected={handleChildIdSelected}
+                          childId={childId}
+                          scale={scale}
+                        />
+                      </div>
                     </div>
                   );
                 })}{" "}
@@ -695,7 +758,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
             {childrens && childrens.length > 0 && !showImage && (
               <div
-                id="hello-2"
+                id={_id}
                 style={{
                   width: "100%",
                   height: "100%"
@@ -715,54 +778,66 @@ export default class Rect extends PureComponent<IProps, IState> {
                   } = styles;
                   return (
                     <div
-                      key={child._id}
+                      id={child._id + "text-container3"}
                       style={{
-                        zIndex: selected && objectType !== 4 ? 1 : 0,
-                        left: child.left,
-                        top: child.top,
-                        position: "absolute",
-                        width: (width * child.width2) / scaleX,
-                        height: child.height,
-                        outline:
-                          selected && childId === child._id
-                            ? `#00d9e1 solid ${2 /
-                            scale /
-                            Math.min(scaleX, scaleY)}px`
-                            : null,
-                        transform: `rotate(${rotateAngle}deg)`,
-                        opacity: opacity
+                        WebkitTextStroke: (child.effectId == 3 || child.effectId == 4) && (`${1.0 * child.hollowThickness / 100 * 4 + 0.1}px ${(child.effectId == 3 || child.effectId == 4) ? child.color : "black"}`),
                       }}
-                      className="text-container"
                     >
-                      <SingleText
-                        selectionScaleY={this.state.selectionScaleY}
-                        zIndex={zIndex}
-                        scaleX={child.scaleX}
-                        scaleY={child.scaleY}
-                        parentScaleX={scaleX}
-                        parentScaleY={scaleY}
-                        width={(width * child.width2) / scaleX / child.scaleX}
-                        height={child.height}
-                        centerX={centerX / child.scaleX}
-                        centerY={centerY / child.scaleY}
-                        rotateAngle={rotateAngle}
-                        parentIndex={_id}
-                        innerHTML={child.innerHTML}
-                        _id={child._id}
-                        selected={selected}
-                        onInput={onTextChange}
-                        onBlur={this.endEditing.bind(this)}
-                        onMouseDown={this.startEditing.bind(this)}
-                        outlineWidth={outlineWidth}
-                        onFontSizeChange={(fontSize, scaleY) => {
-                          onFontSizeChange(fontSize * scaleY);
-                          this.startEditing(scaleY);
+                      <div
+                      id={child._id + "text-container2"}
+                        key={child._id}
+                        style={{
+                          zIndex: selected && objectType !== 4 ? 1 : 0,
+                          left: child.left * scale,
+                          top: child.top * scale,
+                          position: "absolute",
+                          width: (width * child.width2) / scaleX * scale,
+                          height: child.height * scale,
+                          transform: `rotate(${rotateAngle}deg)`,
+                          opacity: opacity,
+                          fontFamily: `${child.fontFace}, AvenirNextRoundedPro`,
+                          color: (child.effectId == 3 || child.effectId == 4) ? "transparent" : child.color,
+                          textShadow: child.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * child.textShadowTransparent / 100}) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * child.blur / 100}px` :
+                          child.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * child.intensity}) 0 8.9px ${66.75 * child.intensity / 100}px` :
+                          child.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+                          child.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+                          child.effectId == 6 && `rgb(0, 255, 255) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
+                          filter: child.filter,
                         }}
-                        handleFontColorChange={handleFontColorChange}
-                        handleFontFaceChange={handleFontFaceChange}
-                        handleChildIdSelected={handleChildIdSelected}
-                        childId={childId}
-                      />
+                        className="text-container"
+                      >
+                        <SingleText
+                          fontFace={child.fontFace}
+                          selectionScaleY={this.state.selectionScaleY}
+                          zIndex={zIndex}
+                          scaleX={child.scaleX}
+                          scaleY={child.scaleY}
+                          parentScaleX={scaleX}
+                          parentScaleY={scaleY}
+                          width={(width * child.width2) / scaleX / child.scaleX}
+                          height={child.height}
+                          centerX={centerX / child.scaleX}
+                          centerY={centerY / child.scaleY}
+                          rotateAngle={rotateAngle}
+                          parentIndex={_id}
+                          innerHTML={child.innerHTML}
+                          _id={child._id}
+                          selected={selected}
+                          onInput={onTextChange}
+                          onBlur={this.endEditing.bind(this)}
+                          onMouseDown={this.startEditing.bind(this)}
+                          outlineWidth={outlineWidth}
+                          onFontSizeChange={(fontSize, scaleY) => {
+                            onFontSizeChange(fontSize * scaleY);
+                            this.startEditing(scaleY);
+                          }}
+                          handleFontColorChange={handleFontColorChange}
+                          handleFontFaceChange={handleFontFaceChange}
+                          handleChildIdSelected={handleChildIdSelected}
+                          childId={childId}
+                          scale={scale}
+                        />
+                      </div>
                     </div>
                   );
                 })}{" "}
@@ -818,8 +893,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                     height: height * scale / scaleY + "px",
                     transformOrigin: "0 0",
                     zIndex: selected ? 1 : 0,
-                    WebkitTextStroke: `${1.0 * this.props.image.hollowThickness / 100 * 4 + 0.1}px ${this.props.image.effectId == 3 ? color : "black"}`,
-                    // this.props.image.textStroke,
+                    WebkitTextStroke: (effectId == 3 || effectId == 4) && (`${1.0 * this.props.image.hollowThickness / 100 * 4 + 0.1}px ${(effectId == 3 || effectId == 4) ? color : "black"}`),
+                    // textStroke,
                   }}
                 >
                   {/* {selected && objectType === 5 && (
@@ -886,13 +961,13 @@ export default class Rect extends PureComponent<IProps, IState> {
                         transform: `scale(${scale})`,
                         transformOrigin: "0 0",
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
-                        color: this.props.image.effectId == 3 ? "transparent" : color,
-                        textShadow: this.props.image.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * this.props.image.textShadowTransparent / 100}) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * this.props.image.blur / 100}px` :
-                        this.props.image.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * this.props.image.intensity}) 0 8.9px ${66.75 * this.props.image.intensity / 100}px` : 
-                        this.props.image.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
-                        this.props.image.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
-                        this.props.image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * this.props.image.offSet / 100 * Math.sin(this.props.image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * this.props.image.offSet / 100 * Math.cos(this.props.image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
-                        filter: this.props.image.filter,
+                        color: (effectId == 3 || effectId == 4) ? "transparent" : color,
+                        textShadow: effectId == 1 ? `rgba(25, 25, 25, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
+                        effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` : 
+                        effectId == 4 ? `rgb(128, 128, 128) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
+                        effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+                        effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
+                        filter: filter,
                       }}
                     ></div>
                   }

@@ -29,6 +29,8 @@ export interface IProps {
   parentScaleY: number;
   handleChildIdSelected(childId: string): void;
   selectionScaleY: any;
+  scale: number;
+  fontFace: any;
 }
 
 export interface IState {
@@ -89,19 +91,19 @@ endEditing() {
     const { handleChildIdSelected, onFontSizeChange, _id, scaleY, parentScaleX, parentScaleY, handleFontColorChange, handleFontFaceChange } = this.props;
     var self = this;
     setTimeout(() => {
-      var res;
-      var color;
-      var el = document.getElementById(_id).getElementsByClassName("font")[0];
-      const size = window.getComputedStyle(el, null).getPropertyValue('font-size');
-      color = window.getComputedStyle(el, null).getPropertyValue('color');
-      var fontFace = window.getComputedStyle(el, null).getPropertyValue('font-family');
-      res = parseInt(size.substring(0, size.length - 2)) * self.props.scaleY * parentScaleY;
-      onFontSizeChange(res, scaleY);
-      handleFontColorChange(color);
-      handleFontFaceChange(fontFace);
+      // var res;
+      // var color;
+      // var el = document.getElementById(_id).getElementsByClassName("font")[0];
+      // const size = window.getComputedStyle(el, null).getPropertyValue('font-size');
+      // color = window.getComputedStyle(el, null).getPropertyValue('color');
+      // var fontFace = window.getComputedStyle(el, null).getPropertyValue('font-family');
+      // res = parseInt(size.substring(0, size.length - 2)) * self.props.scaleY * parentScaleY;
+      // onFontSizeChange(res, scaleY);
+      // handleFontColorChange(color);
+      // handleFontFaceChange(this.props.fontFace);
       handleChildIdSelected(_id);
 
-      (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(res)}`;
+      // (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(res)}`;
     }, 50);
   }
 
@@ -115,6 +117,7 @@ endEditing() {
       zIndex,
       scaleX,
       scaleY,
+      scale,
     } = this.props
 
     const style = {
@@ -130,7 +133,7 @@ endEditing() {
     return (
       <div
         style={{
-          transform: `scaleX(${scaleX}) scaleY(${scaleY})`,
+          transform: `scaleX(${scaleX * scale}) scaleY(${scaleY * scale})`,
           transformOrigin: '0 0',
         }}>
       <div
