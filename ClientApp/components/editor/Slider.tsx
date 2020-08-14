@@ -122,6 +122,7 @@ export default class Slider extends Component<IProps, IState> {
 
                 this.$input.value = (e.target as HTMLInputElement).value;
                 this.props.onChange(val);
+                this.props.onChangeEnd(val);
                 window.getSelection().removeAllRanges();
             }
         }}
