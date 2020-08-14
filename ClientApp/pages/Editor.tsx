@@ -1720,7 +1720,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             if (objectType === TemplateType.Heading) {
                 (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(image.fontSize * window.scaleY)}`;
-            } else if (objectType === TemplateType.TextTemplate) {
+            } else if (objectType === TemplateType.TextTemplate && this.state.childId) {
                 let text = image.document_object.find(text => text._id === this.state.childId);
                 (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(text.fontSize * text.scaleY * window.scaleY)}`;
             }
@@ -1852,8 +1852,8 @@ class CanvaEditor extends Component<IProps, IState> {
             tempEl.style.width = width * scale + "px";
             tempEl.style.height = height * scale + "px";
             tempEl.style.transform = `translate(${left * scale}px, ${top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
-
         } 
+        
         var b = document.getElementsByClassName(_id + "1236");
         for (let i = 0; i < b.length; ++i) {
             var tempEl = b[i] as HTMLElement;
