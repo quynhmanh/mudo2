@@ -58,6 +58,8 @@ export interface IProps {
   handleChangeHollowThicknessEnd: any;
   handleChangeDirection: any;
   handleChangeDirectionEnd: any;
+  handleLineHeightChange: any
+  handleLineHieghtChangeEnd: any;
 }
 
 interface IState {
@@ -1378,8 +1380,8 @@ class LeftSide extends Component<IProps, IState> {
                       var item = {
                         _id: uuidv4(),
                         type: TemplateType.Heading,
-                        width: 300 * 1,
-                        origin_width: 300,
+                        width: 350 * 1,
+                        origin_width: 350,
                         height: 60 * 1,
                         origin_height: 60,
                         left: 0,
@@ -1399,11 +1401,12 @@ class LeftSide extends Component<IProps, IState> {
                         selected: true,
                         fontFace: "gtg56Ft3mEm1ReZboyBOGA",
                         effectId: 8,
+                        lineHeight: 1.4,
+                        letterSpacing: 30,
                       };
 
                       // editorStore.addItem(item, true);
                       editorStore.addItem2(item);
-                    
                       this.props.handleImageSelected(item);
                       editorStore.increaseUpperzIndex();
                     }}
@@ -1447,6 +1450,7 @@ class LeftSide extends Component<IProps, IState> {
                         fontRepresentative: "images/font-AvenirNextRoundedPro.png",
                         selected: true,
                         fontFace: "O5mEMMs7UejmI1WeSKWQ",
+                        lineHeight: 1.4,
                       };
 
                       // editorStore.addItem(item, true);
@@ -1496,6 +1500,7 @@ class LeftSide extends Component<IProps, IState> {
                         fontRepresentative: "images/font-AvenirNextRoundedPro.png",
                         selected: true,
                         fontFace: "O5mEMMs7UejmI1WeSKWQ",
+                        lineHeight: 1.4,
                       };
 
                       // editorStore.addItem(item, true);

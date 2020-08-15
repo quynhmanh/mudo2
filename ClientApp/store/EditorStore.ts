@@ -20,6 +20,7 @@ const fontColors = [
 class Images {
     @observable images = observable([]);
     @observable images2 = observable(new Map());
+    @observable pageColor = observable(new Map());
     @observable fontsList = observable([]);
     @observable fonts = observable([]);
     @observable upperZIndex = 1;

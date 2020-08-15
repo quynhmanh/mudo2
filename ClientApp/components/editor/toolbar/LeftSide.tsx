@@ -14,6 +14,7 @@ import Align from "@Components/editor/toolbar/left/Align";
 import OK from "@Components/editor/toolbar/left/OK";
 import Cancel from "@Components/editor/toolbar/left/Cancel";
 import Effect from "@Components/editor/toolbar/left/Effect";
+import Spacing from "@Components/editor/toolbar/left/Spacing";
 
 interface IProps {
     editorStore: any;
@@ -46,6 +47,14 @@ interface IProps {
     effectId: number;
     bold: boolean;
     italic: boolean;
+    handleLineHeightChange: any;
+    handleLineHeightChangeEnd: any;
+    handleLetterSpacing: any;
+    handleLetterSpacingEnd: any;
+    currentLineHeight: number;
+    currentLetterSpacing: number;
+    pauser: any;
+    selectedCanvas: any;
 }
 
 const alignList = [
@@ -66,7 +75,7 @@ const LeftSide = (props: IProps) => {
                         editorStore.imageSelected.type === TemplateType.Heading ||
                         editorStore.imageSelected.type === TemplateType.Latex ||
                         props.childId !== null
-                    )
+                    ) || !!props.selectedCanvas
                 }
                 translate={props.translate}
                 handleColorBtnClick={props.handleColorBtnClick}
@@ -220,6 +229,23 @@ const LeftSide = (props: IProps) => {
                             />
                     )
             }
+            {editorStore.imageSelected && editorStore.imageSelected.type === TemplateType.Heading &&
+            <Spacing 
+                show=
+                {
+                    (editorStore.imageSelected &&
+                    editorStore.imageSelected.type === TemplateType.Heading) || 
+                    props.childId
+                }
+                pauser={props.pauser}
+                currentLineHeight={props.currentLineHeight}
+                currentLetterSpacing={props.currentLetterSpacing}
+                translate={props.translate}
+                handleLineHeightChange={props.handleLineHeightChange}
+                handleLineHeightChangeEnd={props.handleLineHeightChangeEnd}
+                handleLetterSpacing={props.handleLetterSpacing}
+                handleLetterSpacingEnd={props.handleLetterSpacingEnd}
+            />}
             <Effect
                 show=
                 {

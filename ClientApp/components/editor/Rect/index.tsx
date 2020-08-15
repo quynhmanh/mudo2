@@ -315,6 +315,9 @@ export default class Rect extends PureComponent<IProps, IState> {
         offSet,
         direction: effectDirection,
         blur,
+        lineHeight,
+        letterSpacing,
+        fontSize,
       }
     } = this.props;
 
@@ -716,6 +719,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                           child.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
                           child.effectId == 6 && `rgb(0, 255, 255) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
                           filter: child.filter,
+                          lineHeight: `${child.lineHeight}px`,
                         }}
                         className="text-container"
                       >
@@ -803,6 +807,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                           child.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
                           child.effectId == 6 && `rgb(0, 255, 255) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
                           filter: child.filter,
+                          lineHeight: `${child.lineHeight}px`,
                         }}
                         className="text-container"
                       >
@@ -968,6 +973,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                         effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
                         effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
                         filter: filter,
+                        lineHeight: `${lineHeight * fontSize}px`,
+                        letterSpacing: `${1.0*letterSpacing/100*4}px`,
                       }}
                     ></div>
                   }

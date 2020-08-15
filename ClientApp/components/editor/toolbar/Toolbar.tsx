@@ -3,6 +3,7 @@ import LeftSide from "@Components/editor/toolbar/LeftSide";
 import RightSide from "@Components/editor/toolbar/RightSide";
 
 interface IProps {
+    selectedCanvas: any;
     align: any;
     selectedTab: any;
     translate: any;
@@ -36,11 +37,18 @@ interface IProps {
     backwardSelectedObject: any;
     handleTransparentAdjust: any;
     currentOpacity: number;
+    currentLineHeight: number;
+    currentLetterSpacing: number;
     handleOpacityChange: any;
     handleOpacityChangeEnd: any;
+    handleLineHeightChange: any;
+    handleLineHeightChangeEnd: any;
+    handleLetterSpacingEnd: any;
+    handleLetterSpacing: any;
     effectId: number;
     bold: boolean;
     italic: boolean;
+    pauser: any;
 }
 
 const Toolbar = (props: IProps) => {
@@ -65,6 +73,7 @@ const Toolbar = (props: IProps) => {
             }}
         >
             <LeftSide
+                selectedCanvas={props.selectedCanvas}
                 italic={props.italic}
                 bold={props.bold}
                 effectId={props.effectId}
@@ -95,6 +104,13 @@ const Toolbar = (props: IProps) => {
                 handleAlignBtnClick={props.handleAlignBtnClick}
                 handleOkBtnClick={props.handleOkBtnClick}
                 handleCancelBtnClick={props.handleCancelBtnClick}
+                handleLineHeightChange={props.handleLineHeightChange}
+                handleLineHeightChangeEnd={props.handleLineHeightChangeEnd}
+                handleLetterSpacingEnd={props.handleLetterSpacingEnd}
+                handleLetterSpacing={props.handleLetterSpacing}
+                currentLineHeight={props.currentLineHeight}
+                currentLetterSpacing={props.currentLetterSpacing}
+                pauser={props.pauser}
             />
             <RightSide
                 show=

@@ -46,6 +46,7 @@ export interface IProps {
   translate: any;
   selectedImage: any;
   numberOfPages: number;
+  selected: boolean;
 }
 
 export interface IState {
@@ -134,6 +135,9 @@ export default class Canvas extends Component<IProps, IState> {
         key={id}
         id={id}
       >
+        <div>
+
+        </div>
         {!this.props.preview && (
           <span
             style={{ 
@@ -369,6 +373,21 @@ export default class Canvas extends Component<IProps, IState> {
               boxSizing: "border-box"
             }}
           >
+            { this.props.selected &&
+            <div 
+              id="alo4"
+              style={{
+                top: "-2px",
+                left: "-2px",
+                width: "calc(100% + 4px)",
+                height: "calc(100% + 4px)",
+                position: "absolute",
+                backgroundImage: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+                backgroundPosition: 'top,100%,bottom,0',
+                backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
+                backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+              }}
+              ></div>}
             {this.props.bleed && (
               <div
                 style={{
@@ -422,6 +441,7 @@ export default class Canvas extends Component<IProps, IState> {
               ></div>
             )}
             <div
+              myattribute={id}
               id="canvas"
               className="canvas unblurred"
               style={{
@@ -430,17 +450,13 @@ export default class Canvas extends Component<IProps, IState> {
                 display: "inline-block",
                 position: "absolute",
                 overflow: "hidden",
+                backgroundColor: editorStore.pageColor.get(id),
               }}
-              // onClick={e => {
-              //   if ((e.target as Element).id === "canvas" && 
-              //     !this.props.resizing &&
-              //     !this.props.dragging) {
-              //     this.props.doNoObjectSelected();
-              //   }
-              // }}
+              onClick={e => {
+                console.log('canvas clicked');
+              }}
             >
               {images
-                // .filter(img => img.selected)
                 .map(img => (
                   <div
                     key={img._id}
@@ -544,6 +560,7 @@ export default class Canvas extends Component<IProps, IState> {
             </div>
             {(editorStore.idObjectSelected || editorStore.idObjectHovered) &&
             <div
+              myattribute={id}
               id="canvas"
               className="canvas unblurred"
               style={{
@@ -552,11 +569,9 @@ export default class Canvas extends Component<IProps, IState> {
                 display: "inline-block",
                 position: "relative",
               }}
-              // onClick={e => {
-              //   if ((e.target as Element).id === "canvas" && !this.props.dragging && !this.props.resizing) {
-              //     this.props.doNoObjectSelected();
-              //   }
-              // }}
+              onClick={e => {
+                console.log('canvas clicked');
+              }}
             >
               <div>
                 {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&

@@ -117,6 +117,8 @@ declare global {
         imageHeight: number;
         imageimgWidth: number;
         imageimgHeight: number;
+        lineHeight: number;
+        letterSpacing: number;
         scaleX: number;
         scaleY: number;
         origin_width: number;
@@ -257,6 +259,8 @@ interface IState {
     canRenderClientSide: boolean;
     fontSize: number;
     currentOpacity: number;
+    currentLineHeight: number;
+    currentLetterSpacing: number;
     fontColor: string;
     showPopup: boolean;
     showMediaEditingPopup: boolean;
@@ -285,6 +289,7 @@ interface IState {
     showZoomPopup: boolean;
     selectedImage: any;
     colorPickerShown: boolean;
+    selectedCanvas: string;
 }
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
@@ -354,7 +359,8 @@ class CanvaEditor extends Component<IProps, IState> {
             imageIdBackgroundRemoved: null,
             mounted: false,
             showZoomPopup: false,
-            currentOpacity: 100
+            currentOpacity: 100,
+            selectedCanvas: "",
         };
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
@@ -784,9 +790,7 @@ class CanvaEditor extends Component<IProps, IState> {
         var screenContainerParent = document.getElementById(
             "screen-container-parent"
         );
-        let doNoObjectSelected$ = fromEvent(screenContainerParent, "mouseup").pipe(
-            map(e => (e.target as HTMLElement).id)
-        );
+        let doNoObjectSelected$ = fromEvent(screenContainerParent, "mouseup");
 
         this.pauser = new BehaviorSubject(false);
 
@@ -797,8 +801,12 @@ class CanvaEditor extends Component<IProps, IState> {
         );
         this.pauser.next(false);
 
-        pausable.subscribe(id => {
-            if (id == "canvas" || id == "screen-container-parent") {
+        pausable.subscribe(e => {
+            console.log('pausable ', e.target);
+            if (e.target.id == "canvas") {
+                this.doNoObjectSelected();
+                this.selectBackground(e);
+            } else if (e.target.id == "screen-container-parent" || this.state.idObjectSelected) {
                 this.doNoObjectSelected();
             }
         });
@@ -806,16 +814,6 @@ class CanvaEditor extends Component<IProps, IState> {
         this.pauserTransparentPopup = new BehaviorSubject(false);
 
         let clickOnTransparentPopup$ = fromEvent(document, "mouseup");
-
-        const pausable2 = this.pauserTransparentPopup.pipe(
-            switchMap(paused => {
-                return paused ? NEVER : clickOnTransparentPopup$;
-            })
-        );
-
-        pausable2.subscribe(e => {
-            this.onDownClickTransparent(e)
-        });
 
         var ce = document.createElement.bind(document);
         var ca = document.createAttribute.bind(document);
@@ -2860,7 +2858,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleScroll = () => {
-        console.log('handleSCrool');
         const screensRect = getBoundingClientRect("screens");
         const canvasRect = getBoundingClientRect("canvas");
         if (screensRect && canvasRect) {
@@ -2889,9 +2886,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleWheel = e => {
-        // e.preventDefault();
-        // e.stopPropagation();
-        console.log('handleWheel');
         if (e.ctrlKey || e.metaKey) {
             e.preventDefault();
             e.stopPropagation();
@@ -2902,7 +2896,15 @@ class CanvaEditor extends Component<IProps, IState> {
         }
     };
 
+    selectBackground = (e) => {
+        console.log('selectedBackground ', e.target);
+        const canvasId = e.target.getAttribute("myattribute");
+        this.setState({selectedCanvas: canvasId});
+        // e.target.style.border = "1px solid black";
+    }
+
     doNoObjectSelected = () => {
+        console.log('doNoObjectSelected');
         if (editorStore.colorPickerVisibility.get()) {
             return;
         }
@@ -2929,11 +2931,12 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.doNoObjectSelected();
 
         this.setState({
+            selectedCanvas: null,
             cropMode: false,
             selectedTab,
             idObjectSelected: null,
             typeObjectSelected: null,
-            childId: null
+            childId: null,
         });
         // }
     };
@@ -3273,6 +3276,7 @@ class CanvaEditor extends Component<IProps, IState> {
         img.selected = true;
 
         this.setState({
+            selectedCanvas: null,
             effectId: img.effectId,
             italic: img.italic,
             bold: img.bold,
@@ -3282,7 +3286,9 @@ class CanvaEditor extends Component<IProps, IState> {
             typeObjectSelected: img.type,
             childId: null,
             fontId: img.fontFace,
-            currentOpacity: img.opacity ? img.opacity : 100
+            currentOpacity: img.opacity ? img.opacity : 100,
+            currentLineHeight: img.lineHeight,
+            currentLetterSpacing: img.letterSpacing,
         });
     };
 
@@ -3938,70 +3944,38 @@ class CanvaEditor extends Component<IProps, IState> {
         if (e) {
             e.preventDefault();
         }
-        // if (this.props.typeObjectSelected === TemplateType.Latex) {
-        let image = toJS(editorStore.imageSelected);
-        image.color = color;
-        image.backgroundColor = color;
-        if (this.state.childId) {
-            let texts = image.document_object.map(d => {
-                if (d._id == this.state.childId) {
-                    d.color = color;
-                }
-                return d;
-            });
-            image.document_object = texts;
-        }
-        editorStore.imageSelected = image;
-        editorStore.images2.set(image._id, image);
-        // var images = editorStore.images.map(img => {
-        //     if (img._id === this.state.idObjectSelected) {
-            // }
-        //     return img;
-        // });
-        // editorStore.replace(images);
-        // if (e) document.getElementById(editorStore.idObjectSelected + "hihi4").style.color = color;
-        // document.execCommand("foreColor", false, color);
-        // if (
-        //   this.state.typeObjectSelected === TemplateType.Heading ||
-        //   this.state.typeObjectSelected === TemplateType.TextTemplate
-        // ) {
-        //   var a = document.getSelection();
-        //   if (a && a.type === "Range") {
-        //     this.handleFontColorChange(color);
-        //   } else {
-        //     var childId = this.state.childId
-        //       ? this.state.childId
-        //       : this.state.idObjectSelected;
-        //     var el = this.state.childId
-        //       ? document.getElementById(childId)
-        //       : document.getElementById(childId).getElementsByClassName("text")[0];
-        //     var sel = window.getSelection();
-        //     var range = document.createRange();
-        //     range.selectNodeContents(el);
-        //     sel.removeAllRanges();
-        //     sel.addRange(range);
-        //     this.handleFontColorChange(color);
-        //     document.execCommand("foreColor", false, color);
-        //     sel.removeAllRanges();
-        //   }
-        // }
+        if (editorStore.idObjectSelected){
+            let image = toJS(editorStore.imageSelected);
+            image.color = color;
+            image.backgroundColor = color;
+            if (this.state.childId) {
+                let texts = image.document_object.map(d => {
+                    if (d._id == this.state.childId) {
+                        d.color = color;
+                    }
+                    return d;
+                });
+                image.document_object = texts;
+            }
+            editorStore.imageSelected = image;
+            editorStore.images2.set(image._id, image);
 
-        // let images2 = toJS(editorStore.images);
-        function insertAfter(newNode, referenceNode) {
-            referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-        }
+            var fonts = document.getElementsByTagName("font");
+            for (var i = 0; i < fonts.length; ++i) {
+                var font1: any = fonts[i];
+                font1.parentNode.style.color = color;
+                font1.parentNode.innerText = font1.innerText;
+                font1.remove();
+            }
 
-        var fonts = document.getElementsByTagName("font");
-        for (var i = 0; i < fonts.length; ++i) {
-            var font1: any = fonts[i];
-            font1.parentNode.style.color = color;
-            font1.parentNode.innerText = font1.innerText;
-            font1.remove();
-        }
-
-        this.setState({
-            fontColor: color,
-        })
+            this.setState({
+                fontColor: color,
+            })
+        } else if (this.state.selectedCanvas) {
+            console.log('aloalo');
+            editorStore.pageColor.set(this.state.selectedCanvas, color);
+            this.forceUpdate();
+        };
     };
     
     colorPickerShown = () => {
@@ -4036,11 +4010,11 @@ class CanvaEditor extends Component<IProps, IState> {
                 let image = toJS(editorStore.imageSelected);
                 let centerX = image.left + image.width / 2;
                 let centerY = image.top + image.height / 2;
-                if (image.origin_height === 0) {
-                    image.scaleY = 0;
-                } else {
-                    image.scaleY = image.height / image.origin_height;
-                }
+                // if (image.origin_height === 0) {
+                //     image.scaleY = 0;
+                // } else {
+                //     image.scaleY = image.height / image.origin_height;
+                // }
                 image.width = target.offsetWidth * image.scaleX;
 
                 let oldHeight = image.height;
@@ -4529,6 +4503,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             res.push(
                 <Canvas
+                    selected={pages[i] == this.state.selectedCanvas}
                     id={pages[i]}
                     translate={this.translate}
                     rotating={this.state.rotating}
@@ -4686,6 +4661,77 @@ class CanvaEditor extends Component<IProps, IState> {
             };
             axios.post(url, res);
         }
+    };
+
+    handleLetterSpacingChangeEnd = (letterSpacing) => {
+        console.log('handleLetterSpacingChangeEnd')
+        let image = toJS(editorStore.imageSelected);
+        image.height = window.imageHeight;
+        image.letterSpacing = window.letterSpacing;
+        image.origin_height = window.imageHeight / image.scaleY;
+        editorStore.imageSelected = image;
+        editorStore.images2.set(this.state.idObjectSelected, image);
+    }
+
+    handleLetterSpacingChange = letterSpacing => {
+        console.log('handleLetterSpacingChange ', letterSpacing);
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        if (el) {
+            el.style.letterSpacing = `${1.0*letterSpacing/100*4}px`;
+        }
+        let image = toJS(editorStore.imageSelected);
+        let height = el.offsetHeight;
+
+        let a = document.getElementsByClassName(this.state.idObjectSelected + "aaaa");
+        for (let i = 0; i < a.length; ++i) {
+            let tempEl = a[i] as HTMLElement;
+            tempEl.style.height = height * image.scaleY * this.state.scale + "px";
+        } 
+
+        window.imageHeight = height;
+        window.letterSpacing = letterSpacing;
+    };F
+
+    handleLineHeightChangeEnd = (val) => {
+        let lineHeight = 1.0 * val / 100 * 2 + 0.5;
+        console.log('handleLineHeightChangeEnd ', lineHeight);
+        let image = toJS(editorStore.imageSelected);
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        let height = el.offsetHeight;
+        if (el) {
+            el.style.lineHeight = lineHeight.toString();
+        }
+
+        var a = document.getElementsByClassName(this.state.idObjectSelected + "aaaa");
+        for (let i = 0; i < a.length; ++i) {
+            var tempEl = a[i] as HTMLElement;
+            tempEl.style.height = height * image.scaleY * this.state.scale + "px";
+        } 
+        image.lineHeight = lineHeight;
+        image.height = height;
+        image.origin_height = height / image.scaleY;
+        editorStore.imageSelected = image;
+        editorStore.images2.set(this.state.idObjectSelected, image);
+    }
+
+    handleLineHeightChange = val => {
+        let lineHeight = 1.0 * val / 100 * 2 + 0.5;
+        console.log('handleLineHeightChange ', lineHeight);
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        let height = el.offsetHeight;
+        let image = toJS(editorStore.imageSelected);
+        if (el) {
+            el.style.lineHeight = lineHeight.toString();
+        }
+
+        var a = document.getElementsByClassName(this.state.idObjectSelected + "aaaa");
+        for (let i = 0; i < a.length; ++i) {
+            var tempEl = a[i] as HTMLElement;
+            tempEl.style.height = height * image.scaleY * this.state.scale + "px";
+        } 
+
+        window.lineHeight = lineHeight;
+        window.imageHeight = height;
     };
 
     handleOpacityChangeEnd = () => {
@@ -5001,6 +5047,8 @@ class CanvaEditor extends Component<IProps, IState> {
                             handleChangeDirectionEnd={this.handleChangeDirectionEnd}
                             handleChangeHollowThickness={this.handleChangeHollowThickness}
                             handleChangeHollowThicknessEnd={this.handleChangeHollowThicknessEnd}
+                            handleLineHeightChange={this.handleLineHeightChange}
+                            handleLineHieghtChangeEnd={this.handleLineHeightChangeEnd}
                         />
                         <div
                             style={{
@@ -5030,6 +5078,8 @@ class CanvaEditor extends Component<IProps, IState> {
                             )}
 
                             <Toolbar
+                                selectedCanvas={this.state.selectedCanvas}
+                                pauser={this.pauser}
                                 effectId={this.state.effectId}
                                 bold={this.state.bold}
                                 italic={this.state.italic}
@@ -5066,8 +5116,14 @@ class CanvaEditor extends Component<IProps, IState> {
                                 backwardSelectedObject={this.backwardSelectedObject}
                                 handleTransparentAdjust={this.handleTransparentAdjust}
                                 currentOpacity={this.state.currentOpacity}
+                                currentLineHeight={this.state.currentLineHeight}
+                                currentLetterSpacing={this.state.currentLetterSpacing}
                                 handleOpacityChange={this.handleOpacityChange}
                                 handleOpacityChangeEnd={this.handleOpacityChangeEnd}
+                                handleLineHeightChange={this.handleLineHeightChange}
+                                handleLineHeightChangeEnd={this.handleLineHeightChangeEnd}
+                                handleLetterSpacing={this.handleLetterSpacingChange}
+                                handleLetterSpacingEnd={this.handleLetterSpacingChangeEnd}
                             />
 
                             <div
