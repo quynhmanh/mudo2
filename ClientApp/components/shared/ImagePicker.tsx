@@ -7,6 +7,7 @@ export interface IProps {
     onPick: any;
     onEdit: any;
     className: string;
+    classNameContainer: string;
     height: number;
     defaultHeight: number;
     width: number;
@@ -14,6 +15,7 @@ export interface IProps {
     id: string;
     delay: number;
     showButton: boolean;
+    padding: number;
 }
 
 export interface IState {
@@ -89,7 +91,9 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
       render() {
         let { loaded } = this.state;
         return (
-          <Container style={{
+          <Container 
+            className={this.props.classNameContainer}
+          style={{
             position: 'relative',
             backgroundSize: '300% 300%',
             width: `${this.state.loaded ? this.state.width : this.props.width}px`,
@@ -99,8 +103,10 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             animationName: 'XhtCamN749DcvC-ecDUzp',
             animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
             animationDelay: this.props.delay + 'ms',
-            backgroundColor: this.state.loaded ? "transparent" : "#fff",
-          }} delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
+            backgroundColor: this.state.loaded ? "rgba(255, 255, 255, 0.07)" : "#fff",
+            padding: this.props.padding ? `${this.props.padding}px` : 0,
+          }} 
+          delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
             {this.props.showButton && Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
             <button
               style={{
@@ -122,7 +128,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
               ref={i => this.image = i}
               className={this.props.className}
               style={loaded ? {
-                height: this.props.height + 'px',
+                // height: this.props.height + 'px',
                 width: '100%',
                 marginBottom: '10px',
                 // backgroundColor: this.props.color,

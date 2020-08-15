@@ -1090,6 +1090,8 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         document.addEventListener("keydown", this.removeImage.bind(this));
+        this.$app.addEventListener("scroll", this.handleScroll.bind(this), { passive: true });
+        document.addEventListener("wheel", this.handleWheel.bind(this), {passive: false});
     }
 
     textOnMouseDown(e, doc) {
@@ -1781,9 +1783,9 @@ class CanvaEditor extends Component<IProps, IState> {
                 });
 
                 let texts = image.document_object.map(text => {
-                    const h = document.getElementById(text._id).offsetHeight
+                    const h = document.getElementById(text._id).offsetHeight * text.scaleY;
                     maxHeight = Math.max(maxHeight, h + text.top);
-                    text.height = h * text.scaleY;
+                    text.height = h;
                     return text;
                 });
 
@@ -2858,6 +2860,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleScroll = () => {
+        console.log('handleSCrool');
         const screensRect = getBoundingClientRect("screens");
         const canvasRect = getBoundingClientRect("canvas");
         if (screensRect && canvasRect) {
@@ -2886,7 +2889,12 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleWheel = e => {
+        // e.preventDefault();
+        // e.stopPropagation();
+        console.log('handleWheel');
         if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            e.stopPropagation();
             const nextScale = parseFloat(
                 Math.max(0.1, this.state.scale - e.deltaY / 500).toFixed(2)
             );

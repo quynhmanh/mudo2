@@ -466,6 +466,7 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   templateOnMouseDown(id, e) {
+    console.log('templateOnMouseDown ');
     editorStore.doNoObjectSelected();
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
@@ -480,6 +481,7 @@ class LeftSide extends Component<IProps, IState> {
       doc = this.state.templates2.find(doc => doc.id == id);
     }
     var template = JSON.parse(doc.document);
+    console.log('template ', template);
     var scaleX = rectWidth / template.width;
     var scaleY = rectHeight / template.height;
 
@@ -1296,6 +1298,7 @@ class LeftSide extends Component<IProps, IState> {
                 zIndex: this.props.selectedTab !== SidebarTab.Text && -1,
                 height: "100%",
                 left: '19px',
+                overflow: "scroll",
               }}
             >
               <div style={{ color: "white" }}>
@@ -1506,7 +1509,7 @@ class LeftSide extends Component<IProps, IState> {
                   </div>
                 </div>
                 {
-                  <div style={{ height: "calc(100% - 152px)" }}>
+                  <div style={{ height: "calc(100% - 221px)" }}>
                     <InfiniteScroll
                       scroll={true}
                       throttle={500}
@@ -1541,6 +1544,7 @@ class LeftSide extends Component<IProps, IState> {
                               width={imgWidth}
                               delay={0}
                               className="text-picker"
+                              classNameContainer="text-picker-container"
                               onPick={this.textOnMouseDown.bind(this, item.id)}
                               onEdit={() => {
                                 // this.setState({
@@ -1548,6 +1552,7 @@ class LeftSide extends Component<IProps, IState> {
                                 //   editingMedia: item
                                 // });
                               }}
+                              padding={10}
                               showButton={false}
                             />
                           ))}
@@ -1556,6 +1561,7 @@ class LeftSide extends Component<IProps, IState> {
                               .fill(0)
                               .map((item, i) => (
                                 <ImagePicker
+                                  padding={10}
                                   key={i}
                                   id="sentinel-texttemplate"
                                   color="black"
@@ -1610,6 +1616,7 @@ class LeftSide extends Component<IProps, IState> {
                               key={key}
                               color={item.color}
                               className="text-picker"
+                              classNameContainer="text-picker-container"
                               height={imgWidth / (item.width / item.height)}
                               src={item.representative}
                               onPick={this.textOnMouseDown.bind(this, item.id)}
@@ -1619,6 +1626,7 @@ class LeftSide extends Component<IProps, IState> {
                                 //   editingMedia: item
                                 // });
                               }}
+                              padding={10}
                               showButton={false}
                             />
                           ))}

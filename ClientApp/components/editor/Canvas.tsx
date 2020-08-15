@@ -4,6 +4,7 @@ import StyledComponent from "styled-components";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import { toJS } from "mobx";
+import Tooltip from "@Components/shared/Tooltip";
 
 
 export interface IProps {
@@ -136,7 +137,7 @@ export default class Canvas extends Component<IProps, IState> {
         {!this.props.preview && (
           <span
             style={{ 
-              fontSize: "12px", 
+              fontSize: "13px", 
               display: "block", 
               marginBottom: "5px",
               fontFamily: "AvenirNextRoundedPro-Medium",
@@ -154,7 +155,17 @@ export default class Canvas extends Component<IProps, IState> {
               right: 0
             }}
           >
-            {numberOfPages != 1 && <button
+            {numberOfPages != 1 && 
+            <Tooltip
+            offsetLeft={0}
+            offsetTop={-15}
+            content={"Delete page"}
+            delay={10}
+            // style={{ display: show ? "block" : "none" }}
+            position="top"
+        >
+            <button
+              className="controllers-btn"
               onClick={() => {
                 document.getElementById(id).style.opacity = "0";
                 setTimeout(() => {
@@ -176,7 +187,25 @@ export default class Canvas extends Component<IProps, IState> {
                   fill="currentColor"
                 ></path>
               </svg>
-            </button>}
+            </button>
+            </Tooltip>}
+            <Tooltip
+            offsetLeft={0}
+            offsetTop={-15}
+            content={"Add page"}
+            delay={10}
+            // style={{ display: show ? "block" : "none" }}
+            position="top"
+        >
+            <button
+              className="controllers-btn"
+              onClick={e => {
+                this.props.addAPage(e, id);
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.875 10.208a.625.625 0 1 0 1.25 0v-3.75h3.75a.625.625 0 1 0 0-1.25h-3.75v-3.75a.625.625 0 1 0-1.25 0v3.75h-3.75a.625.625 0 0 0 0 1.25h3.75v3.75z" fill="currentColor"></path><path d="M6.015 3.333H5c-.92 0-1.667.746-1.667 1.667v10c0 .92.746 1.666 1.667 1.666h8.333c.92 0 1.667-.746 1.667-1.666v-2.151h-1.25v2.15c0 .23-.187.417-.417.417H5A.417.417 0 0 1 4.583 15V5c0-.23.187-.417.417-.417h1.015v-1.25z" fill="currentColor"></path></svg>
+            </button>
+            </Tooltip>
           </div>
         )}
         <div
@@ -730,7 +759,7 @@ export default class Canvas extends Component<IProps, IState> {
             }
           </div>
         </div>
-        {!this.props.preview && (
+        {/* {!this.props.preview && (
           <a
             style={{
               width: "100%",
@@ -748,7 +777,7 @@ export default class Canvas extends Component<IProps, IState> {
           >
             {this.props.translate("addAPage")}
           </a>
-        )}
+        )} */}
       </ResizableRectContainer>
     );
   }
@@ -758,10 +787,12 @@ const ResizableRectContainer = StyledComponent.div`
   .controllers {
     display: none;
     top: -2px;
+  }
+  .controllers-btn {
     border-radius: 5px;
   }
-  .controllers:hover {
-    background-color: #8080801f;
+  .controllers-btn:hover {
+    background-color: #ccc9;
   }
   button {
     background: none;

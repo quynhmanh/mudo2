@@ -78,18 +78,16 @@ class Images {
     }
   
     @action applyTemplate = (template) => {
-      var images = toJS(this.images);
-      images = images.filter(image => {
-        return image.page !== this.activePageId;
-      }) as IObservableArray;
-  
-      var appendedImages = template.map(img => {
+      let images = Array.from(this.images2.values());
+      images.forEach(image => {
+        if (image.page == this.activePageId) {
+          this.images2.delete(image._id);
+        }
+      });
+      template.forEach(img => {
         img._id = uuidv4();
-        return img;
+        this.images2.set(img._id, img);
       })
-  
-      images = [...images, ...appendedImages] as IObservableArray;
-      this.images.replace(images);
     }
 
     @action replace = (images) => {
