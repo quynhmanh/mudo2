@@ -801,13 +801,16 @@ export default class Canvas extends Component<IProps, IState> {
 const ResizableRectContainer = StyledComponent.div`
   .controllers {
     display: none;
-    top: -2px;
+    top: -10px;
   }
   .controllers-btn {
-    border-radius: 5px;
+    border-radius: 3px;
+    padding: 5px;
+    color: rgba(43, 59, 74, 0.45);
   }
   .controllers-btn:hover {
-    background-color: #ccc9;
+    background-color: rgba(75,102,129,.15);
+    color: rgb(14, 19, 24);
   }
   button {
     background: none;

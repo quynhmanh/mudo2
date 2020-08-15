@@ -77,6 +77,7 @@ const LeftSide = (props: IProps) => {
                         props.childId !== null
                     ) || !!props.selectedCanvas
                 }
+                isText={editorStore.imageSelected && editorStore.imageSelected.type === TemplateType.Heading}
                 translate={props.translate}
                 handleColorBtnClick={props.handleColorBtnClick}
                 fontColor={props.fontColor}

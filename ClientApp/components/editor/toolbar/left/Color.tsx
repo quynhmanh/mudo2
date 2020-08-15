@@ -8,10 +8,11 @@ interface IProps {
     handleColorBtnClick: any;
     fontColor: string;
     selectedTab: any;
+    isText: boolean;
 }
 
 const Color = (props: IProps) => {
-    const { show, fontColor, handleColorBtnClick, translate } = props;
+    const { show, fontColor, handleColorBtnClick, translate, isText, } = props;
     const content = translate("color");
     return (
         <Tooltip
@@ -38,11 +39,29 @@ const Color = (props: IProps) => {
                 onClick={handleColorBtnClick}
                 className="toolbar-btn"
             >
+                {isText && 
                 <img
                     style={{
                         width: "25px",
                     }} 
-                    src={require("@Components/shared/svgs/editor/toolbar/colorPicker.svg")} alt={content}/>
+                    src={require("@Components/shared/svgs/editor/toolbar/colorPicker.svg")} alt={content}/>}
+                {!isText && (fontColor ? <div
+                    style={{
+                        width: "24px",
+                        height: "24px",
+                        borderRadius: "2px",
+                        backgroundColor: fontColor,
+                    }}></div> :
+                <img 
+                    style={{
+                        width: "24px",
+                        height: "24px",
+                        borderRadius: "2px",
+                    }}
+                    src="images/test.png"
+                    />)
+                }
+                {isText && 
                 <div
                     style={{
                         position: "absolute",
@@ -59,7 +78,7 @@ const Color = (props: IProps) => {
                             ? "font-color-btn"
                             : ""
                     }
-                ></div>
+                ></div>}
             </a>
         </Tooltip>
     );

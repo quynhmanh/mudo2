@@ -2899,7 +2899,10 @@ class CanvaEditor extends Component<IProps, IState> {
     selectBackground = (e) => {
         console.log('selectedBackground ', e.target);
         const canvasId = e.target.getAttribute("myattribute");
-        this.setState({selectedCanvas: canvasId});
+        this.setState({
+            selectedCanvas: canvasId,
+            fontColor: editorStore.pageColor.get(canvasId),
+        });
         // e.target.style.border = "1px solid black";
     }
 
@@ -3974,6 +3977,7 @@ class CanvaEditor extends Component<IProps, IState> {
         } else if (this.state.selectedCanvas) {
             console.log('aloalo');
             editorStore.pageColor.set(this.state.selectedCanvas, color);
+            this.setState({fontColor: color, })
             this.forceUpdate();
         };
     };
