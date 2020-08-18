@@ -34,7 +34,7 @@ const Color = (props: IProps) => {
                     cursor: "pointer",
                     color: "black",
                     height: "100%",
-                    backgroundColor: props.selectedTab === SidebarTab.Color ? "rgba(14, 19, 24, 0.13) " : "white",
+                    backgroundColor: props.selectedTab === SidebarTab.Color ? "#f2f5f7 " : "white",
                 }}
                 onClick={handleColorBtnClick}
                 className="toolbar-btn"
@@ -51,6 +51,7 @@ const Color = (props: IProps) => {
                         height: "24px",
                         borderRadius: "2px",
                         backgroundColor: fontColor,
+                        boxShadow: "rgba(75, 102, 129, 0.15) 0px 0px 0px 1px inset",
                     }}></div> :
                 <img 
                     style={{

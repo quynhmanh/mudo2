@@ -43,6 +43,9 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "data")]
             public string data;
+
+            [JsonProperty(PropertyName = "name")]
+            public string name;
         }
 
         [HttpPost("[action]")]
@@ -56,7 +59,9 @@ namespace RCB.TypeScript.Controllers
                 AddFontRequest oDownloadBody = JsonConvert.DeserializeObject<AddFontRequest>(body);
                 var dataFont = oDownloadBody.data;
                 var id = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "");
-
+                if (oDownloadBody.id != null) {
+                    id = oDownloadBody.id;
+                }
                 string file2 = "fonts" + Path.DirectorySeparatorChar + id + ".ttf";
                 var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2);
                 string base64 = dataFont.Substring(dataFont.IndexOf(',') + 1);
@@ -72,16 +77,16 @@ namespace RCB.TypeScript.Controllers
 
                 string style = $"@font-face {{ font-family: '{id}'; src: url(data:font/ttf;base64,{base64} ); }}";
 
-                var template = $"<html><head><style type='text/css'>[FONT_FACE] body {{ margin: 0; }}</style></head><body><span style=\"display: block; width: 250px; text-align: center; color: white; line-height: 25px; font-size: 21px; font-family: '{id}';\" >Xin chào!</span></body></html>";
+                var template = $"<html><head><style type='text/css'>[FONT_FACE] body {{ margin: 0; }}</style></head><body><span style=\"display: block; width: 250px; line-height: 25px; font-size: 21px; font-family: '{id}';\" >{oDownloadBody.name}</span></body></html>";
 
                 template = template.Replace("[FONT_FACE]", style);
 
-                //byte[] bytes = Encoding.ASCII.GetBytes(template);
-                //using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh.html", FileMode.Create))
-                //{
-                //    htmlFile.Write(bytes, 0, bytes.Length);
-                //    htmlFile.Flush();
-                //}
+                byte[] bytes = Encoding.ASCII.GetBytes(template);
+                using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh.html", FileMode.Create))
+                {
+                   htmlFile.Write(bytes, 0, bytes.Length);
+                   htmlFile.Flush();
+                }
 
                 await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                 var browser = await Puppeteer.LaunchAsync(new LaunchOptions
@@ -109,7 +114,7 @@ namespace RCB.TypeScript.Controllers
                         Height = 25,
                     },
                 });
-                string file2Rep = "images" + Path.DirectorySeparatorChar + Guid.NewGuid() + ".png";
+                string file2Rep = "images" + Path.DirectorySeparatorChar + "font-" + id + ".png";
                 var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2Rep);
 
                 using (var imageFile = new FileStream(filePathRep, FileMode.Create))

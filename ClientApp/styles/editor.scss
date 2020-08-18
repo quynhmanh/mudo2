@@ -1,5 +1,5 @@
 // Variables
-$toolbar-bg-color-hover: rgba(14,19,24,.13);
+$toolbar-bg-color-hover: rgba(75,102,129,.15);
 
 $my-font-size-list-width: 80px;
 
@@ -28,6 +28,21 @@ input[type=number] {
 @font-face {
   font-family: 'AvenirNextRoundedPro-Bold';
   src: url('/fonts/AvenirNextRoundedPro-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Open-Sans-Extra-Bold';
+  src: url('/fonts/OpenSans-ExtraBold.ttf');
+}
+
+@font-face {
+  font-family: 'Open-Sans-Regular';
+  src: url('/fonts/OpenSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Open-Sans-Light';
+  src: url('/fonts/OpenSans-Light.ttf');
 }
 
 @keyframes gradient___UgeAv {
@@ -217,11 +232,13 @@ div[data-reactroot] {
 #myFontSizeList {
   position: relative;
   background-color: white;
-  box-shadow: 0 0 0 1px rgba(14,19,24,.07), 0 2px 12px rgba(14,19,24,.2);
+  box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.09) 0px 9px 24px;
   z-index: 1;
   padding: 5px 10px;
   border-radius: 3px;
   width: 120px;
+  height: 400px;
+  overflow: scroll;
 }
 
 /* Links inside the dropdown */
@@ -258,7 +275,7 @@ div[data-reactroot] {
 .dropdown-content-font-size {
   position: absolute;
   background-color: #f1f1f1;
-  box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
+  box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.09) 0px 9px 24px;
   z-index: 1;
   top: calc(100% + 10px);
   border-radius: 3px;
@@ -381,9 +398,16 @@ p.single-text:focus {
   width: 100%;
 }
 
+.font-picker {
+  height: 40px;
+  img {
+    margin: auto 0;
+    height: 18px;
+  }
+}
 
 .font-picker:hover {
-  background-color: #80808026 !important;
+  background-color: #f2f5f7 !important;
 }
 
 .stage {
@@ -474,7 +498,7 @@ input:focus {
 }
 
 #logo-editor:hover {
-  background-color: rgba(0, 0, 0, 0.17);
+  background-color: hsla(0,0%,100%,.15);
 }
 
 #map {
@@ -626,7 +650,7 @@ button:focus {
 }
 
 .fontsize-picker:hover {
-  background-color: #ddd;
+  background-color: #f2f5f7;
 }
 
 .disable-hover:hover {

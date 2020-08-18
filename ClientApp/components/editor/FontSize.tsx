@@ -45,7 +45,7 @@ export default class FontSize extends Component<IProps, IState> {
 
     onClickDropDownFontSizeList = () => {
         document.getElementById("myFontSizeList").classList.toggle("show");
-        document.getElementById("fontSizeButton").style.backgroundColor = "rgba(14, 19, 24, 0.13)";
+        document.getElementById("fontSizeButton").style.backgroundColor = "#f2f5f7";
 
         const onDown = e => {
           if (!e.target.matches(".dropbtn-font-size")) {

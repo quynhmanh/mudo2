@@ -15,16 +15,19 @@ using PuppeteerSharp;
 using RCB.TypeScript.dbcontext;
 using RCB.TypeScript.Infrastructure;
 using RCB.TypeScript.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace RCB.TypeScript.Services
 {
     public class TemplateService : ServiceBase
     {
         private IHostingEnvironment HostingEnvironment { get; set; }
+        private IConfiguration Configuration { get; set; }
 
-        public TemplateService(TemplateContext templateContext, IHostingEnvironment hostingEnvironment)
+        public TemplateService(TemplateContext templateContext, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             HostingEnvironment = hostingEnvironment;
+            Configuration = configuration;
         }
 
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "", string printType = "")
@@ -116,7 +119,7 @@ namespace RCB.TypeScript.Services
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
-                            executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
+                            executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                             path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
                             extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
                         }
@@ -447,17 +450,17 @@ namespace RCB.TypeScript.Services
         {
             string resPath = null;
             string style = AppSettings.style;
-            if (backgroundBlack)
-            {
-                style += @"
-    #alo {
-        background-color: rgb(33, 39, 46) !important;
-    }
-    body {
-        background: #293039;
-    }
-";
-            }
+//             if (backgroundBlack)
+//             {
+//                 style += @"
+//     #alo {
+//         background-color: rgb(33, 39, 46) !important;
+//     }
+//     body {
+//         background: #293039;
+//     }
+// ";
+//             }
             for (int i = 0; i < templateModel.FontList.Length; ++i)
             {
                 try {
@@ -495,7 +498,7 @@ namespace RCB.TypeScript.Services
                     try
                     {
                         byte[] bytes = Encoding.ASCII.GetBytes(html);
-                        using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
+                        using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
                         {
                             htmlFile.Write(bytes, 0, bytes.Length);
                             htmlFile.Flush();
@@ -514,13 +517,13 @@ namespace RCB.TypeScript.Services
                     var executablePath = "/usr/bin/google-chrome-stable";
                     if (HostingEnvironment.IsDevelopment())
                     {
-                        executablePath = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary";
+                        executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                     }
 
                     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                     using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
-                        //Headless = false,
+                        Headless = false,
                         DefaultViewport = new ViewPortOptions()
                         {
                             Width = width,
@@ -528,6 +531,7 @@ namespace RCB.TypeScript.Services
                         },
                         ExecutablePath = executablePath,
                         Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
+                        IgnoreHTTPSErrors = true,
                     }))
                     {
 
@@ -555,8 +559,9 @@ namespace RCB.TypeScript.Services
                                 Width = (decimal)width,
                                 Height = (decimal)height,
                             },
-                            Type = ScreenshotType.Jpeg,
-                            Quality = 90,
+                            Type = ScreenshotType.Png,
+                            // Quality = 90,
+                            OmitBackground = true,
                         });
 
                         using (var memoryStream = new MemoryStream())

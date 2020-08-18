@@ -85,7 +85,7 @@ export default styled.div`
     }
   }
   .resizable-handler {
-    box-shadow: 0 0 5px 1px rgba(14,19,24,.15), 0 0 0 1px rgba(14,19,24,.2);
+    box-shadow: 0 0 5px 1px rgba(75,102,129,.15), 0 0 0 1px rgba(70,94,119,.2);
     background-color: white;
     border-radius: 50%;
     position: absolute;

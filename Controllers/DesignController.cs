@@ -51,7 +51,7 @@ namespace RCB.TypeScript.Controllers
             if (model == null)
                 return BadRequest($"{nameof(model)} is null.");
 
-            TemplateService designService = new TemplateService(null, HostingEnvironment);
+            TemplateService designService = new TemplateService(null, HostingEnvironment, Configuration);
 
             string res = await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, false, model.Representative);
             model.Representative = res;

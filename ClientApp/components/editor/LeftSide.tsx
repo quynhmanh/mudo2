@@ -60,6 +60,7 @@ export interface IProps {
   handleChangeDirectionEnd: any;
   handleLineHeightChange: any
   handleLineHieghtChangeEnd: any;
+  backgroundOnMouseDown: any;
 }
 
 interface IState {
@@ -109,6 +110,7 @@ interface IState {
   currentTemplatesHeight: number;
   currentTemplate2sHeight: number;
   isLoadingFont: boolean;
+  handleImageSelected: any;
 }
 
 const imgWidth = 162;
@@ -198,6 +200,7 @@ class LeftSide extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.handleColorPick = this.handleColorPick.bind(this);
+    this.backgroundOnMouseDown = this.backgroundOnMouseDown.bind(this);
   }
 
   componentDidMount() {
@@ -273,7 +276,12 @@ class LeftSide extends Component<IProps, IState> {
     fr.readAsDataURL(file);
     fr.onload = () => {
       var url = `/api/Font/Add`;
-      axios.post(url, { id: uuidv4(), data: fr.result }).then(() => {
+      axios.post(url, 
+        { 
+          id: document.getElementById("fontId").value,
+          data: fr.result, 
+          name: document.getElementById("fontNameInp").value,
+        }).then(() => {
         self.setState({ hasMoreFonts: true });
       });
     };
@@ -407,7 +415,9 @@ class LeftSide extends Component<IProps, IState> {
     // this.setState({showMediaEditPopup: true, editingMedia: item})
   };
 
+
   backgroundOnMouseDown(item, e) {
+
     var rec2 = e.target.getBoundingClientRect();
     var { rectWidth, rectHeight } = this.props;
     var imgRatio = rec2.width / rec2.height;
@@ -418,39 +428,72 @@ class LeftSide extends Component<IProps, IState> {
       width = imgRatio * height;
     }
 
-    editorStore.addItem(
-      {
-        _id: uuidv4(),
-        type: TemplateType.BackgroundImage,
-        width: rectWidth,
-        height: rectHeight,
-        origin_width: width,
-        origin_height: height,
-        left: 0,
-        top: 0,
-        rotateAngle: 0.0,
-        src: window.location.origin + "/" + item.representative,
-        selected: false,
-        scaleX: 1,
-        scaleY: 1,
-        posX: -(width - rectWidth) / 2,
-        posY: -(height - rectHeight) / 2,
-        imgWidth: width,
-        imgHeight: height,
-        page: editorStore.activePageId,
-        zIndex: 1,
-        width2: 1,
-        height2: 1,
-        document_object: [],
-        ref: null,
-        innerHTML: null,
-        color: null,
-        opacity: 100,
-        backgroundColor: null,
-        childId: null
-      },
-      false
-    );
+    let image = Array.from(editorStore.images2.values()).find(image => 
+      image.page == editorStore.activePageId && image.type == TemplateType.BackgroundImage);
+    image = toJS(image);
+    image.src = window.location.origin + "/" + item.representative;
+    image.color = "";
+    image.width = rectWidth;
+    image.height = rectHeight;
+    image.origin_width = rectWidth;
+    image.origin_height = rectHeight;
+    image.posX = -(width - rectWidth) / 2;
+    image.posY = -(height - rectHeight) / 2;
+    image.imgWidth = width;
+    image.imgHeight = height;
+    image.selected = true;
+    image.zIndex = 1;
+
+    
+
+    editorStore.images2.set(image._id, image);
+    // editorStore.imageSelected = image;
+
+    this.props.handleImageSelected(image);
+
+    // var rec2 = e.target.getBoundingClientRect();
+    // var { rectWidth, rectHeight } = this.props;
+    // var imgRatio = rec2.width / rec2.height;
+    // var width = rectWidth;
+    // var height = rectWidth / imgRatio;
+    // if (height < rectHeight) {
+    //   height = rectHeight;
+    //   width = imgRatio * height;
+    // }
+
+    // editorStore.addItem2(
+    //   {
+    //     _id: uuidv4(),
+    //     type: TemplateType.BackgroundImage,
+    //     width: rectWidth,
+    //     height: rectHeight,
+    //     origin_width: width,
+    //     origin_height: height,
+    //     left: 0,
+    //     top: 0,
+    //     rotateAngle: 0.0,
+    //     src: window.location.origin + "/" + item.representative,
+    //     selected: false,
+    //     scaleX: 1,
+    //     scaleY: 1,
+    //     posX: -(width - rectWidth) / 2,
+    //     posY: -(height - rectHeight) / 2,
+    //     imgWidth: width,
+    //     imgHeight: height,
+    //     page: editorStore.activePageId,
+    //     zIndex: 1,
+    //     width2: 1,
+    //     height2: 1,
+    //     document_object: [],
+    //     ref: null,
+    //     innerHTML: null,
+    //     color: null,
+    //     opacity: 100,
+    //     backgroundColor: null,
+    //     childId: null
+    //   },
+    //   false
+    // );
   }
 
   handleEditFont = item => {
@@ -1064,6 +1107,8 @@ class LeftSide extends Component<IProps, IState> {
           >
             RemoveAll
           </button>
+          <input id="fontNameInp" type="text"/>
+          <input id="fontId" type="text"/>
         </div>
         {this.props.mounted && this.props.toolbarOpened && (
           <div
@@ -1374,20 +1419,21 @@ class LeftSide extends Component<IProps, IState> {
                       borderRadius: "7px",
                       padding: "10px",
                       width: "95%",
+                      fontFamily: "Open-Sans-Extra-Bold",
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
                       var item = {
                         _id: uuidv4(),
                         type: TemplateType.Heading,
-                        width: 350 * 1,
-                        origin_width: 350,
-                        height: 60 * 1,
-                        origin_height: 60,
+                        width: 500 * 1,
+                        origin_width: 500,
+                        height: 78 * 1,
+                        origin_height: 78,
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="text-align: left;font-size: 42px;">${this.props.translate(
+                        innerHTML: `<div class="font" style="text-align: left; font-size: 56px;">${this.props.translate(
                           "addAHeading"
                         )}</div>`,
                         scaleX: 1,
@@ -1396,10 +1442,10 @@ class LeftSide extends Component<IProps, IState> {
                         page: editorStore.activePageId,
                         zIndex: editorStore.upperZIndex + 1,
                         color: "black",
-                        fontSize: 42,
-                        fontRepresentative: "images/font-AvenirNextRoundedPro.png",
+                        fontSize: 56,
+                        fontRepresentative: "images/font-Open Sans Extra Bold.png",
                         selected: true,
-                        fontFace: "gtg56Ft3mEm1ReZboyBOGA",
+                        fontFace: "Open-Sans-Extra-Bold",
                         effectId: 8,
                         lineHeight: 1.4,
                         letterSpacing: 30,
@@ -1408,6 +1454,17 @@ class LeftSide extends Component<IProps, IState> {
                       // editorStore.addItem(item, true);
                       editorStore.addItem2(item);
                       this.props.handleImageSelected(item);
+
+                      setTimeout(() => {
+                        let el = document.getElementById(item._id + "hihi4");
+                        console.log('el ', el);
+                        let range = document.createRange();
+                        range.selectNodeContents(el)
+                        var sel = window.getSelection();
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                      }, 100);
+                      
                       editorStore.increaseUpperzIndex();
                     }}
                   >
@@ -1424,20 +1481,21 @@ class LeftSide extends Component<IProps, IState> {
                       borderRadius: "7px",
                       padding: "10px",
                       width: "95%",
+                      fontFamily: "Open-Sans-Regular",
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
                       var item = {
                         _id: uuidv4(),
                         type: TemplateType.Heading,
-                        width: 250 * 1,
-                        origin_width: 250,
-                        height: 32 * 1,
-                        origin_height: 32,
+                        width: 300 * 1,
+                        origin_width: 300,
+                        height: 44 * 1,
+                        origin_height: 44,
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="text-align: left;font-size: 24px; font-family: AvenirNextRoundedPro;">${this.props.translate(
+                        innerHTML: `<div class="font" style="text-align: left;font-size: 32px;">${this.props.translate(
                           "addASubHeading"
                         )}</div>`,
                         scaleX: 1,
@@ -1446,16 +1504,27 @@ class LeftSide extends Component<IProps, IState> {
                         zIndex: 1,
                         ref: this.props.idObjectSelected,
                         color: "black",
-                        fontSize: 24,
-                        fontRepresentative: "images/font-AvenirNextRoundedPro.png",
+                        fontSize: 32,
+                        fontRepresentative: "images/font-Open Sans Regular.png",
                         selected: true,
-                        fontFace: "O5mEMMs7UejmI1WeSKWQ",
+                        fontFace: "Open-Sans-Regular",
                         lineHeight: 1.4,
                       };
 
                       // editorStore.addItem(item, true);
                       editorStore.addItem2(item);
                       this.props.handleImageSelected(item);
+
+                      setTimeout(() => {
+                        let el = document.getElementById(item._id + "hihi4");
+                        console.log('el ', el);
+                        let range = document.createRange();
+                        range.selectNodeContents(el)
+                        var sel = window.getSelection();
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                      }, 100);
+
                       editorStore.increaseUpperzIndex();
                     }}
                   >
@@ -1473,6 +1542,7 @@ class LeftSide extends Component<IProps, IState> {
                       borderRadius: "7px",
                       padding: "10px",
                       width: "95%",
+                      fontFamily: "Open-Sans-Light",
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
@@ -1480,14 +1550,14 @@ class LeftSide extends Component<IProps, IState> {
                       var item = {
                         _id: uuidv4(),
                         type: TemplateType.Heading,
-                        width: 200 * 1,
-                        origin_width: 200,
-                        height: 22 * 1,
-                        origin_height: 22,
+                        width: 300 * 1,
+                        origin_width: 300,
+                        height: 30 * 1,
+                        origin_height: 30,
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="text-align: left;font-size: 16px; font-family: AvenirNextRoundedPro;">${this.props.translate(
+                        innerHTML: `<div class="font" style="text-align: left;font-size: 22px; font-family: Open-Sans-Light;">${this.props.translate(
                           "addABodyText"
                         )}</div>`,
                         scaleX: 1,
@@ -1496,16 +1566,27 @@ class LeftSide extends Component<IProps, IState> {
                         zIndex: editorStore.upperZIndex + 1,
                         ref: editorStore.idObjectSelected,
                         color: "black",
-                        fontSize: 16,
-                        fontRepresentative: "images/font-AvenirNextRoundedPro.png",
+                        fontSize: 22,
+                        fontRepresentative: "images/font-Open Sans Light.png",
                         selected: true,
-                        fontFace: "O5mEMMs7UejmI1WeSKWQ",
+                        fontFace: "Open-Sans-Light",
                         lineHeight: 1.4,
                       };
 
                       // editorStore.addItem(item, true);
                       editorStore.addItem2(item);
                       this.props.handleImageSelected(item);
+
+                      setTimeout(() => {
+                        let el = document.getElementById(item._id + "hihi4");
+                        console.log('el ', el);
+                        let range = document.createRange();
+                        range.selectNodeContents(el)
+                        var sel = window.getSelection();
+                          sel.removeAllRanges();
+                          sel.addRange(range);
+                      }, 100);
+
                       editorStore.increaseUpperzIndex();
                     }}
                   >
@@ -2155,10 +2236,10 @@ class LeftSide extends Component<IProps, IState> {
                   `translate3d(0px, calc(${
                     this.props.selectedTab < SidebarTab.Font ? 40 : -40
                   }px), 0px)`,
-                top: "10px",
                 zIndex: this.props.selectedTab !== SidebarTab.Font && -1,
                 height: "100%",
                 left: "0px",
+                backgroundColor: "white",
                 // left: '19px',
               }}
             >
@@ -2230,6 +2311,7 @@ class LeftSide extends Component<IProps, IState> {
                             key={uuidv4()}
                             className="font-picker"
                             style={{
+                              padding: "7px",
                               display: "flex",
                               position: "relative",
                               width: "100%",
@@ -2242,8 +2324,7 @@ class LeftSide extends Component<IProps, IState> {
                           >
                             <img
                               style={{
-                                height: "25px",
-                                margin: "auto"
+                                // margin: "auto"
                               }}
                               src={font.representative}
                             />
@@ -2258,7 +2339,7 @@ class LeftSide extends Component<IProps, IState> {
                                 }}
                               >
                                 <svg
-                                  style={{ fill: "white" }}
+                                  style={{ fill: "black" }}
                                   version="1.1"
                                   viewBox="0 0 44 44"
                                   enableBackground="new 0 0 44 44"

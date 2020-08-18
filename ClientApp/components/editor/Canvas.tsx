@@ -81,7 +81,7 @@ export default class Canvas extends Component<IProps, IState> {
 
   shouldComponentUpdate(nextProps, nextState) {
     if ((nextProps.dragging ||
-       nextProps.resizing || 
+       window.resizing || 
        nextProps.rotating) && this.props.idObjectSelected == nextProps.idObjectSelected) {
       return false;
     }
@@ -120,6 +120,8 @@ export default class Canvas extends Component<IProps, IState> {
       staticGuides,
       numberOfPages,
     } = this.props;
+
+    console.log('canvas rendered');
     
     var imgHovered = editorStore.imageHovered;
     var imgSelected = editorStore.imageSelected;
@@ -151,12 +153,13 @@ export default class Canvas extends Component<IProps, IState> {
             Trang {index + 1}
           </span>
         )}
-        {!this.props.preview && (
+        {(!this.props.preview || editorStore.activePageId == id) && (
           <div
             className="controllers"
             style={{
               position: "absolute",
-              right: 0
+              right: 0,
+              display: editorStore.activePageId == id ? "inline" : "none",
             }}
           >
             {numberOfPages != 1 && 
@@ -373,7 +376,7 @@ export default class Canvas extends Component<IProps, IState> {
               boxSizing: "border-box"
             }}
           >
-            { this.props.selected &&
+            { this.props.selected && !this.props.cropMode &&
             <div 
               id="alo4"
               style={{
@@ -451,6 +454,7 @@ export default class Canvas extends Component<IProps, IState> {
                 position: "absolute",
                 overflow: "hidden",
                 backgroundColor: editorStore.pageColor.get(id),
+                backgroundImage: `url(${editorStore.pageBackgroundImage.get(id)})`,
               }}
               onClick={e => {
                 console.log('canvas clicked');
@@ -558,7 +562,8 @@ export default class Canvas extends Component<IProps, IState> {
                   </div>
                 ))}
             </div>
-            {(editorStore.idObjectSelected || editorStore.idObjectHovered) &&
+            {((editorStore.idObjectSelected && editorStore.imageSelected && editorStore.imageSelected.page == id) || 
+            (editorStore.idObjectHovered && editorStore.imageHovered && editorStore.imageHovered.page == id)) &&
             <div
               myattribute={id}
               id="canvas"
@@ -690,7 +695,7 @@ export default class Canvas extends Component<IProps, IState> {
                       id={imgSelected._id + "__"}
                       key={imgSelected._id}
                       style={{
-                        zIndex: 99999999,
+                        zIndex: imgSelected.type == TemplateType.BackgroundImage ? 1 : 99999999,
                         width: imgSelected.width * scale + "px",
                         height: imgSelected.height * scale + "px",
                         // left: imgSelected.left * scale + "px",
@@ -799,10 +804,6 @@ export default class Canvas extends Component<IProps, IState> {
 }
 
 const ResizableRectContainer = StyledComponent.div`
-  .controllers {
-    display: none;
-    top: -10px;
-  }
   .controllers-btn {
     border-radius: 3px;
     padding: 5px;
@@ -820,7 +821,11 @@ const ResizableRectContainer = StyledComponent.div`
   button:focus {
     outline: none;
   }
+  .controllers {
+    display: none;
+    top: -10px;
+  }
   :hover .controllers {
-    display: inline;
+    display: inline !important;
   }
 `;

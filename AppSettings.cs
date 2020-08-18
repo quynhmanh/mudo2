@@ -241,12 +241,29 @@ padding: 1px 0 0 0!important;
 * {
     outline: none !important;
 }
+.hideWhenDownload {
+    display: none;
+}
 html {
           -webkit-print-color-adjust: exact;
         }
         @font-face {
           font-family: 'Amatic SC';
           src: url('localhost:64099/fonts/broadb.ttf')
+        }
+        @font-face {
+            font-family: 'Open-Sans-Extra-Bold';
+            src: url('https://localhost:64099/fonts/OpenSans-ExtraBold.ttf');
+        }
+
+        @font-face {
+            font-family: 'Open-Sans-Regular';
+            src: url('https://localhost:64099/fonts/OpenSans-Regular.ttf');
+        }
+
+        @font-face {
+            font-family: 'Open-Sans-Light';
+            src: url('https://localhost:64099/fonts/OpenSans-Light.ttf');
         }
         [FONT_FACE]
 body {

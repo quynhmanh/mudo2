@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -18,8 +19,10 @@ namespace RCB.TypeScript.Controllers
         //private readonly DbContextOptions<PersonContext> _context;
         private TemplateService TemplateService { get; }
         private IHostingEnvironment HostingEnvironment { get; set; }
+        private IConfiguration Configuration { get; set; }
 
-        public TemplateController(TemplateService templateService, IHostingEnvironment hostingEnvironment)
+
+        public TemplateController(TemplateService templateService, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
 
             var serviceCollection = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
@@ -28,6 +31,7 @@ namespace RCB.TypeScript.Controllers
 
             TemplateService = templateService;
             HostingEnvironment = hostingEnvironment;
+            Configuration = configuration;
         }
 
         [HttpGet("[action]")]
@@ -58,7 +62,7 @@ namespace RCB.TypeScript.Controllers
             if (model == null)
                 return BadRequest($"{nameof(model)} is null.");
 
-            TemplateService designService = new TemplateService(null, HostingEnvironment);
+            TemplateService designService = new TemplateService(null, HostingEnvironment, Configuration);
 
             await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2", model.Representative);
 
@@ -120,7 +124,7 @@ namespace RCB.TypeScript.Controllers
                 System.IO.File.Delete(model.VideoRepresentative);
             }
 
-            TemplateService designService = new TemplateService(null, HostingEnvironment);
+            TemplateService designService = new TemplateService(null, HostingEnvironment, Configuration);
 
             await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2", model.Representative);
 

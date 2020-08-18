@@ -344,7 +344,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     const imgResizeDirection = ["nw", "ne", "se", "sw"];
 
     var imgDirections = imgResizeDirection;
-    if (objectType === 3 || objectType === 5 || objectType === 2) {
+    if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate || objectType === TemplateType.Latex) {
       imgDirections = direction;
     }
 
@@ -359,7 +359,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     return (
       <div>
-        {(hovered || selected) && !cropMode &&
+        {(hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage &&
         <div 
           className="hideWhenDownload"
           style={{
@@ -388,7 +388,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         rotating={rotating}
         cropMode={cropMode}
       >
-        {!cropMode && rotatable && showController && objectType !== 6 && (
+        {!cropMode && rotatable && showController && objectType !== TemplateType.BackgroundImage && (
           <div
             id={_id + "rotate-container"}
             className="rotate-container"
@@ -427,7 +427,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
         {!cropMode &&
           showController &&
-          objectType !== 6 &&
+          objectType !== TemplateType.BackgroundImage &&
           imgDirections.map(d => {
             var cursor = getCursorStyleForResizer(rotateAngle, d);
 
@@ -464,12 +464,12 @@ export default class Rect extends PureComponent<IProps, IState> {
             }}
           ></div>
         )} */}
-        {src && (objectType === 4 || objectType === 6) && (
+        {src && (objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
           <div
             id={_id}
             className={_id + "rect-alo"}
             style={{
-              zIndex: selected && objectType !== 4 ? 1 : 0,
+              zIndex: selected && objectType !== TemplateType.Image && objectType !== TemplateType.BackgroundImage ? 1 : 0,
               transformOrigin: "0 0",
               position: "absolute",
               width: "100%",
@@ -542,7 +542,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     transform: `translate(${posX}px, ${posY}px)`
                   }}
                 >
-                  {(objectType === 4 || objectType === 6) && (
+                  {(objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
                     <img
                       className={_id + "rect-alo"}
                       style={{
@@ -560,7 +560,8 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         )}
-        {((showImage && !selected) || (!showImage && selected)) && objectType === 4 &&
+        {((showImage && !selected) || (!showImage && selected)) && 
+        (objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) &&
           <div
             id={_id + "654"}
             className={_id + "scaleX-scaleY"}
@@ -572,6 +573,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               // height: `calc(100%/${scaleY})`,
               width: '100%',
               height: '100%',
+              backgroundColor: color,
             }}
           >
             {!showImage && cropMode && selected && (
@@ -591,7 +593,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   ? imgResizeDirection
                     .map(d => {
                       let cursor = getCursorStyleForResizer(rotateAngle, d);
-                      let visibility = getImageResizerVisibility(this.props.image, scale, d);
+                      let visibility = objectType === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.props.image, scale, d);
                       return (
                         <div
                           key={d}
@@ -618,7 +620,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         }
-        {((showImage && !selected) || (!showImage && selected)) && (objectType === 3 || objectType == 2) &&
+        {((showImage && !selected) || (!showImage && selected)) && (objectType === TemplateType.Heading || objectType == TemplateType.TextTemplate) &&
           <div
             // className={_id + "scaleX-scaleY"}
             style={{
@@ -659,7 +661,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           </div>
         }
-        {((showImage && !selected) || (!showImage && selected)) && (objectType === 3 || objectType == 2) &&
+        {((showImage && !selected) || (!showImage && selected)) && (objectType === TemplateType.Heading || objectType == TemplateType.TextTemplate) &&
           <div
             id={_id + "654"}
             className={_id + "scaleX-scaleY"}
@@ -703,7 +705,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                         id={child._id + "text-container"}
                         key={child._id}
                         style={{
-                          zIndex: selected && objectType !== 4 ? 1 : 0,
+                          zIndex: selected && objectType !== TemplateType.Image ? 1 : 0,
                           left: child.left * scale,
                           top: child.top * scale,
                           position: "absolute",
@@ -791,7 +793,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       id={child._id + "text-container2"}
                         key={child._id}
                         style={{
-                          zIndex: selected && objectType !== 4 ? 1 : 0,
+                          zIndex: selected && objectType !== TemplateType.Image ? 1 : 0,
                           left: child.left * scale,
                           top: child.top * scale,
                           position: "absolute",
@@ -947,7 +949,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     </div>
                   </MathJax.Context>
                 )} */}
-                  {objectType === 3 &&
+                  {objectType === TemplateType.Heading &&
                     <div
                       id={_id + "hihi4"}
                       spellCheck={false}
@@ -984,7 +986,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
           </div>
         }
-        {cropMode && selected && showController && objectType !== 6 && (
+        {cropMode && selected && showController && objectType !== TemplateType.BackgroundImage && (
           <div
             id="halo1"
             style={{
@@ -1089,7 +1091,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             })}
           </div>
         )}
-        {src && objectType === 9 && showImage && (
+        {src && objectType === TemplateType.Video && showImage && (
           <div
             id={_id}
             style={{

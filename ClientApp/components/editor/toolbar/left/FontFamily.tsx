@@ -28,24 +28,19 @@ const FontFamily = (props: IProps) => {
                 onClick={onClickDropDownFontList}
                 style={{
                     borderRadius: "4px",
-                    padding: "3px",
-                    paddingBottom: "0px",
-                    display: "inline-block",
+                    padding: "0 10px",
+                    display: "flex",
                     cursor: "pointer",
                     color: "black",
                     position: "relative",
-                    width: "216px",
-                    backgroundColor: props.selectedTab === SidebarTab.Font ? "rgba(14, 19, 24, 0.13) " : "white",
+                    backgroundColor: props.selectedTab === SidebarTab.Font ? "#f2f5f7 " : "white",
                     height: "100%",
+                    width: "216px",
                 }}
             >
                 <img
                     style={{ 
-                        height: "21px", 
-                        filter: "invert(1)", 
-                        position: "absolute", 
-                        top: 0, 
-                        bottom: 0, 
+                        height: "18px", 
                         margin: "auto",
                     }}
                     src={fontName ? fontName : "images/font-AvenirNextRoundedPro.png"}
@@ -55,10 +50,6 @@ const FontFamily = (props: IProps) => {
                     alt={content} 
                     style={{ 
                         pointerEvents: "none", 
-                        position: "absolute", 
-                        right: "10px", 
-                        top: 0,
-                        bottom: 0,
                         margin: "auto",
                     }}/>
             </a>

@@ -33,7 +33,7 @@ const Align = (props: IProps) => {
                     cursor: "pointer",
                     color: "black",
                     height: "100%",
-                    backgroundColor: props.checked ? "rgba(14, 19, 24, 0.13) " : "white",
+                    backgroundColor: props.checked ? "#f2f5f7 " : "white",
                 }}
             >
                 <img src={iconPath} alt={content}/>

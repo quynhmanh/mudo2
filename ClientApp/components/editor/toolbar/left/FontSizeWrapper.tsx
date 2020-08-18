@@ -14,6 +14,11 @@ interface IProps {
     selectedTab: any;
 }
 
+const fontSizes = [
+    6, 8, 10, 12, 14, 16, 18, 21, 24, 28, 32, 36, 42, 48, 56, 64, 72, 80, 88,
+    96, 104, 120, 144,
+];
+
 const FontSizeWrapper = (props: IProps) => {
     const { show, childId, selectedImage, handleFontSizeBtnClick, translate, fontSize } = props;
     const content = translate("fontSize");
@@ -47,7 +52,7 @@ const FontSizeWrapper = (props: IProps) => {
                 <div
                     style={{
                         left: "0px",
-                        top: "4px",
+                        top: "9px",
                         padding: "0",
                         background: "white",
                         animation: "bounce 0.8s ease-out"
@@ -63,58 +68,22 @@ const FontSizeWrapper = (props: IProps) => {
                             padding: 0
                         }}
                     >
+                        {fontSizes.map(size => 
                         <li>
                             <button
-                                onClick={(e) => { handleFontSizeBtnClick(e, 6) }}
+                                onClick={(e) => { handleFontSizeBtnClick(e, size) }}
                                 className="fontsize-picker"
                                 style={{
-                                    height: "30px",
+                                    height: "36px",
                                     width: "100%",
-                                    border: "none"
+                                    border: "none",
+                                    textAlign: "left",
+                                    padding: "0 18px",
                                 }}
                             >
-                                6
+                                {size}
                   </button>
-                        </li>
-                        <li>
-                            <button
-                                className="fontsize-picker"
-                                onClick={(e) => { handleFontSizeBtnClick(e, 8) }}
-                                style={{
-                                    height: "30px",
-                                    width: "100%",
-                                    border: "none"
-                                }}
-                            >
-                                8
-                  </button>
-                        </li>
-                        <li>
-                            <button
-                                className="fontsize-picker"
-                                onClick={(e) => { handleFontSizeBtnClick(e, 42) }}
-                                style={{
-                                    height: "30px",
-                                    width: "100%",
-                                    border: "none"
-                                }}
-                            >
-                                42
-                  </button>
-                        </li>
-                        <li>
-                            <button
-                                className="fontsize-picker"
-                                onClick={(e) => { handleFontSizeBtnClick(e, 100) }}
-                                style={{
-                                    height: "30px",
-                                    width: "100%",
-                                    border: "none"
-                                }}
-                            >
-                                100
-                  </button>
-                        </li>
+                        </li>)}
                     </ul>
                 </div>
             </div>

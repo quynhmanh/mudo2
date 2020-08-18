@@ -67,6 +67,36 @@ const LeftSide = (props: IProps) => {
     const { editorStore } = props;
     return (
         <React.Fragment>
+             <FontFamily
+                show=
+                {
+                    (
+                        props.childId !== null ||
+                        (
+                            editorStore.imageSelected &&
+                            editorStore.imageSelected.type === TemplateType.Heading
+                        )
+                    )
+                }
+                translate={props.translate}
+                onClickDropDownFontList={props.onClickDropDownFontList}
+                fontName={props.fontName}
+                selectedTab={props.selectedTab}
+            />
+            <FontSizeWrapper
+                show=
+                {
+                    (editorStore.imageSelected &&
+                    editorStore.imageSelected.type === TemplateType.Heading) || 
+                    props.childId
+                }
+                translate={props.translate}
+                selectedImage={props.selectedImage}
+                childId={props.childId}
+                fontSize={props.fontSize}
+                handleFontSizeBtnClick={props.handleFontSizeBtnClick}
+                selectedTab={props.selectedTab}
+            />
             <Color
                 show=
                 {
@@ -74,8 +104,9 @@ const LeftSide = (props: IProps) => {
                     (
                         editorStore.imageSelected.type === TemplateType.Heading ||
                         editorStore.imageSelected.type === TemplateType.Latex ||
+                        editorStore.imageSelected.type === TemplateType.BackgroundImage ||
                         props.childId !== null
-                    ) || !!props.selectedCanvas
+                    )
                 }
                 isText={editorStore.imageSelected && editorStore.imageSelected.type === TemplateType.Heading}
                 translate={props.translate}
@@ -113,22 +144,6 @@ const LeftSide = (props: IProps) => {
                 handleBoldBtnClick={props.handleBoldBtnClick}
                 checked={props.bold}
             />
-            <FontFamily
-                show=
-                {
-                    (
-                        props.childId !== null ||
-                        (
-                            editorStore.imageSelected &&
-                            editorStore.imageSelected.type === TemplateType.Heading
-                        )
-                    )
-                }
-                translate={props.translate}
-                onClickDropDownFontList={props.onClickDropDownFontList}
-                fontName={props.fontName}
-                selectedTab={props.selectedTab}
-            />
             {/* <Filter
                 show=
                 {
@@ -161,7 +176,9 @@ const LeftSide = (props: IProps) => {
                     editorStore.imageSelected &&
                     (
                         editorStore.imageSelected.type === TemplateType.Image ||
-                        editorStore.imageSelected.type === TemplateType.Video
+                        editorStore.imageSelected.type === TemplateType.Video ||
+                        (editorStore.imageSelected.type === TemplateType.BackgroundImage && 
+                            editorStore.imageSelected.src)
                     )
                 }
                 translate={props.translate}
@@ -190,20 +207,6 @@ const LeftSide = (props: IProps) => {
                 }
                 imgBackgroundColor={props.imgBackgroundColor}
                 handleImageBackgroundColorBtnClick={props.handleImageBackgroundColorBtnClick}
-            />
-            <FontSizeWrapper
-                show=
-                {
-                    (editorStore.imageSelected &&
-                    editorStore.imageSelected.type === TemplateType.Heading) || 
-                    props.childId
-                }
-                translate={props.translate}
-                selectedImage={props.selectedImage}
-                childId={props.childId}
-                fontSize={props.fontSize}
-                handleFontSizeBtnClick={props.handleFontSizeBtnClick}
-                selectedTab={props.selectedTab}
             />
             {
                 alignList.map
