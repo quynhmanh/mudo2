@@ -8,6 +8,7 @@ import Tooltip from "@Components/shared/Tooltip";
 
 
 export interface IProps {
+  uiKey: string;
   id: string;
   images: any;
   mode: number;
@@ -47,6 +48,7 @@ export interface IProps {
   selectedImage: any;
   numberOfPages: number;
   selected: boolean;
+  activePageId: string;
 }
 
 export interface IState {
@@ -80,9 +82,20 @@ export default class Canvas extends Component<IProps, IState> {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if ((nextProps.dragging ||
-       window.resizing || 
-       nextProps.rotating) && this.props.idObjectSelected == nextProps.idObjectSelected) {
+    if (this.props.uiKey != nextProps.uiKey) {
+      return true;
+    }
+    if (this.props.activePageId != nextProps.activePageId) {
+      return true;
+    }
+    // if ((nextProps.dragging ||
+    //    window.resizing || 
+    //    nextProps.rotating) && this.props.idObjectSelected == nextProps.idObjectSelected) {
+    //   return false;
+    // }
+    if (!nextProps.images.find(img => img._id == nextProps.idObjectSelected) &&
+      !nextProps.images.find(img => img._id == this.props.idObjectSelected) &&
+      this.props.scale == nextProps.scale) {
       return false;
     }
     return true;
@@ -121,7 +134,6 @@ export default class Canvas extends Component<IProps, IState> {
       numberOfPages,
     } = this.props;
 
-    console.log('canvas rendered');
     
     var imgHovered = editorStore.imageHovered;
     var imgSelected = editorStore.imageSelected;
@@ -146,6 +158,7 @@ export default class Canvas extends Component<IProps, IState> {
               fontSize: "13px", 
               display: "block", 
               marginBottom: "5px",
+              marginTop: "15px",
               fontFamily: "AvenirNextRoundedPro-Medium",
               color: "#989899",
             }}
@@ -352,13 +365,13 @@ export default class Canvas extends Component<IProps, IState> {
           <div
             id="alo"
             ref={i => this.refAlo = i}
-            className={this.props.downloading && !this.props.preview ? "alo2" : "alo"}
+            className={"alo"}
             style={{
               backgroundColor:
                 !this.props.showPopup &&
                 (mode == Mode.CreateTextTemplate ||
                 mode == Mode.EditTextTemplate
-                  ? "#00000030"
+                  ? "white"
                   : this.props.cropMode
                   ? "#ddd"
                   : "white"),
@@ -457,10 +470,10 @@ export default class Canvas extends Component<IProps, IState> {
                 backgroundImage: `url(${editorStore.pageBackgroundImage.get(id)})`,
               }}
               onClick={e => {
-                console.log('canvas clicked');
               }}
             >
               {images
+                // .filter(img => img._id != this.props.idObjectSelected)
                 .map(img => (
                   <div
                     key={img._id}
@@ -505,7 +518,9 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                     >
                       <ResizableRect
-                        downloading={this.props.downloading}
+                        name="all-images"
+                        selected={false}
+                        downloading={false}
                         image={img}
                         hovered={false}
                         freeStyle={img.freeStyle}
@@ -575,7 +590,6 @@ export default class Canvas extends Component<IProps, IState> {
                 position: "relative",
               }}
               onClick={e => {
-                console.log('canvas clicked');
               }}
             >
               <div>
@@ -631,6 +645,8 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                     >
                       <ResizableRect
+                        name="imgHovered"
+                        selected={false}
                         image={imgHovered}
                         hovered={true}
                         freeStyle={imgHovered.freeStyle}
@@ -718,6 +734,8 @@ export default class Canvas extends Component<IProps, IState> {
                         }}
                       >
                         <ResizableRect
+                          name="imgSelected"
+                          selected={true}
                           image={imgSelected}
                           hovered={true}
                           freeStyle={imgSelected.freeStyle}
@@ -778,6 +796,329 @@ export default class Canvas extends Component<IProps, IState> {
             </div>
             }
           </div>
+          {this.props.downloading && <div
+            id="alo"
+            ref={i => this.refAlo = i}
+            className="alo2"
+            style={{
+              backgroundColor: "white",
+              width: this.props.preview
+                ? rectWidth + "px"
+                : rectWidth * scale + (this.props.bleed ? 20 : 0) + "px",
+              height: this.props.preview
+                ? rectHeight + "px"
+                : rectHeight * scale + (this.props.bleed ? 20 : 0) + "px",
+              position: "relative",
+              boxShadow: "0 2px 8px rgba(14,19,24,.07)",
+              padding: this.props.bleed ? "10px" : 0,
+              // transition: 'all 2s linear',
+              overflow: this.props.bleed && "hidden",
+              boxSizing: "border-box"
+            }}
+          >
+            {this.props.bleed && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "10px",
+                  height: "10px",
+                  backgroundColor: "black",
+                  zIndex: 99999999
+                }}
+              ></div>
+            )}
+            {this.props.bleed && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  width: "10px",
+                  height: "10px",
+                  backgroundColor: "black",
+                  zIndex: 99999999
+                }}
+              ></div>
+            )}
+            {this.props.bleed && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "10px",
+                  height: "10px",
+                  backgroundColor: "black",
+                  zIndex: 99999999
+                }}
+              ></div>
+            )}
+            {this.props.bleed && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                  width: "10px",
+                  height: "10px",
+                  backgroundColor: "black",
+                  zIndex: 99999999
+                }}
+              ></div>
+            )}
+            <div
+              myattribute={id}
+              id="canvas"
+              className="canvas unblurred"
+              style={{
+                width: rectWidth * scale + "px",
+                height: rectHeight * scale + "px",
+                display: "inline-block",
+                position: "absolute",
+                overflow: "hidden",
+                backgroundColor: editorStore.pageColor.get(id),
+                backgroundImage: `url(${editorStore.pageBackgroundImage.get(id)})`,
+              }}
+              onClick={e => {
+              }}
+            >
+              {images
+                .map(img => (
+                  <div
+                    key={img._id}
+                    className={img._id + "_" + " " +  img._id + "aaaa"}
+                    id={img._id + "_"}
+                    style={{
+                      // zIndex: img.selected ? 99999999 : img.zIndex,
+                      zIndex: img.zIndex,
+                      width: img.width * scale + "px",
+                      height: img.height * scale + "px",
+                      // left: img.left * scale + "px",
+                      // top: img.top * scale + "px",
+                      position: "absolute",
+                      // transform: `rotate(${img.rotateAngle ? img.rotateAngle : 0}deg)`
+                      transform: `translate(${img.left * scale}px, ${img.top * scale}px) rotate(${img.rotateAngle ? img.rotateAngle : 0}deg)`
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!window.dragging && !window.resizing && !window.rotating && !window.rotating && !this.props.cropMode) {
+                        this.props.handleImageHover(img, e);
+                        this.forceUpdate();
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      editorStore.imageHovered = null;
+                      this.forceUpdate();
+                    }}
+                  >
+                    <div
+                      id={img._id + "____"}
+                      className="hover-outline"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        // transform: `scale(${scale})`,
+                        transformOrigin: "0 0"
+                      }}
+                      key={img._id}
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                        this.props.handleImageSelected(img, e);
+                        this.props.handleDragStart(e, img._id);
+                      }}
+                    >
+                      <ResizableRect
+                        name="downloadImages"
+                        selected={false}
+                        downloading={this.props.downloading}
+                        image={img}
+                        hovered={false}
+                        freeStyle={img.freeStyle}
+                        rotating={this.props.rotating}
+                        dragging={this.props.dragging}
+                        resizing={this.props.resizing}
+                        id={img._id + "_1"}
+                        showImage={true}
+                        hidden={true}
+                        showController={false}
+                        key={img._id + "2"}
+                        left={img.left * scale}
+                        top={img.top * scale}
+                        width={img.width * scale}
+                        height={img.height * scale}
+                        scale={scale}
+                        fontFace={img.fontFace}
+                        rotateAngle={img.rotateAngle}
+                        aspectRatio={img.width / img.height}
+                        zoomable="n, w, s, e, nw, ne, se, sw"
+                        onRotateStart={this.props.handleRotateStart}
+                        onResizeStart={this.props.handleResizeStart}
+                        updateStartPos={img.updateStartPos}
+                        src={img.src}
+                        srcThumnail={img.srcThumnail}
+                        onTextChange={this.props.onSingleTextChange.bind(
+                          this,
+                          img
+                        )}
+                        outlineWidth={Math.min(
+                          2,
+                          Math.min(rectHeight * scale, rectWidth * scale) / 100
+                        )}
+                        handleFontColorChange={this.props.handleFontColorChange}
+                        onFontSizeChange={this.props.handleFontSizeChange}
+                        handleFontFaceChange={this.props.handleFontFamilyChange.bind(
+                          this
+                        )}
+                        handleChildIdSelected={this.props.handleChildIdSelected.bind(
+                          this
+                        )}
+                        childId={this.props.childId}
+                        posX={img.posX * scale}
+                        posY={img.posY * scale}
+                        enableCropMode={this.props.enableCropMode}
+                        cropMode={false}
+                        handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
+                          this
+                        )}
+                        updateRect={this.props.updateRect}
+                        bleed={this.props.bleed}
+                      />
+                    </div>
+                  </div>
+                ))}
+            </div>
+            {((editorStore.idObjectSelected && editorStore.imageSelected && editorStore.imageSelected.page == id) || 
+            (editorStore.idObjectHovered && editorStore.imageHovered && editorStore.imageHovered.page == id)) &&
+            <div
+              myattribute={id}
+              id="canvas"
+              className="canvas unblurred"
+              style={{
+                width: rectWidth * scale + "px",
+                height: rectHeight * scale + "px",
+                display: "inline-block",
+                position: "relative",
+              }}
+              onClick={e => {
+              }}
+            >
+              <div>
+                {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&
+                  <div
+                    className={imgHovered._id + "__"}
+                    id={imgHovered._id + "__"}
+                    key={imgHovered._id}
+                    style={{
+                      zIndex: 99999999,
+                      width: imgHovered.width * scale + "px",
+                      height: imgHovered.height * scale + "px",
+                      // left: imgHovered.left * scale + "px",
+                      // top: imgHovered.top * scale + "px",
+                      position: "absolute",
+                      transform: `translate(${imgHovered.left * scale}px, ${imgHovered.top * scale}px) rotate(${imgHovered.rotateAngle ? imgHovered.rotateAngle : 0}deg)`,
+
+                      pointerEvents: "none",
+                    }}
+                    onMouseLeave={(e) => {
+                      editorStore.idObjectHovered = null;
+                      editorStore.imageHovered = null;
+                      this.forceUpdate();
+                    }}
+                    onMouseMove={(e) => {
+                      var page = imgHovered.page;
+                      var alo = document.getElementById(page);
+                      var rect = this.refAlo.getBoundingClientRect();
+                      
+                      var contained = rect.left <= e.clientX && e.clientX <= rect.left + rect.width &&
+                        rect.top <= e.clientY && e.clientY <= rect.top + rect.height;
+                      
+                      if (!contained) {
+                        editorStore.idObjectHovered = null;
+                        editorStore.imageHovered = null;
+                        this.forceUpdate();
+                      }
+                    }}
+                  >
+                    <div
+                      id={imgHovered._id + "___"}
+                      style={{
+                        width: imgHovered.width * scale + "px",
+                        height: imgHovered.height * scale + "px",
+                        // transform: `scale(${scale})`,
+                        transformOrigin: "0 0"
+                      }}
+                      key={imgHovered._id}
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                        this.props.handleImageSelected(imgHovered);
+                        this.props.handleDragStart(e, imgHovered._id);
+                      }}
+                    >
+                      <ResizableRect
+                        selected={false}
+                        image={imgHovered}
+                        hovered={true}
+                        freeStyle={imgHovered.freeStyle}
+                        rotating={this.props.rotating}
+                        dragging={this.props.dragging}
+                        resizing={this.props.resizing}
+                        id={imgHovered._id + "_2"}
+                        bleed={this.props.bleed}
+                        showImage={false}
+                        hidden={true}
+                        showController={false}
+                        key={imgHovered._id + "2"}
+                        left={imgHovered.left * scale}
+                        top={imgHovered.top * scale }
+                        width={imgHovered.width * scale}
+                        height={imgHovered.height * scale}
+                        scale={scale}
+                        fontFace={imgHovered.fontFace}
+                        rotateAngle={imgHovered.rotateAngle}
+                        aspectRatio={imgHovered.width / imgHovered.height}
+                        zoomable="n, w, s, e, nw, ne, se, sw"
+                        onRotateStart={this.props.handleRotateStart}
+                        onResizeStart={this.props.handleResizeStart}
+                        updateStartPos={imgHovered.updateStartPos}
+                        src={imgHovered.src}
+                        srcThumnail={imgHovered.srcThumnail}
+                        posX={imgHovered.posX * scale}
+                        posY={imgHovered.posY * scale}
+                        onTextChange={this.props.onSingleTextChange.bind(
+                          this,
+                          imgHovered
+                        )}
+                        outlineWidth={Math.min(
+                          2,
+                          Math.min(rectHeight * scale, rectWidth * scale) /
+                            100
+                        )}
+                        handleFontColorChange={
+                          this.props.handleFontColorChange
+                        }
+                        onFontSizeChange={this.props.handleFontSizeChange}
+                        handleFontFaceChange={this.props.handleFontFamilyChange.bind(
+                          this
+                        )}
+                        handleChildIdSelected={this.props.handleChildIdSelected.bind(
+                          this
+                        )}
+                        childId={this.props.childId}
+                        enableCropMode={this.props.enableCropMode}
+                        cropMode={cropMode}
+                        handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
+                          this
+                        )}
+                        updateRect={this.props.updateRect}
+                      />
+                    </div>
+                  </div>
+                }
+                </div>
+            </div>
+            }
+          </div>}
         </div>
         {/* {!this.props.preview && (
           <a

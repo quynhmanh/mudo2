@@ -44,6 +44,9 @@ http://localhost:9200/template
             },
             "subType": {
                 "type": "keyword"
+            },
+            "userName": {
+              "analyzer": "keyword"
             }
         }
   }

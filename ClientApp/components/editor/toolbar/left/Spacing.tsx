@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import Slider from "@Components/editor/Slider";
 
@@ -18,97 +18,114 @@ interface IProps {
     pauser: any;
 }
 
-const Spacing = (props: IProps) => {
-    const { show, handleAlignBtnClick, translate, title, iconPath } = props;
-    const content = translate(title);
-    return (
-        <Tooltip
-            offsetLeft={0}
-            offsetTop={-5}
-            content={content}
-            delay={10}
-            style={{ display: show ? "block" : "none" }}
-            position="top"
-        >
-            <div style={{
-                position: "relative",
-            }}>
-            <a
-                href="#"
-                className="toolbar-btn"
-                onClick={e => {
-                    e.preventDefault();
-                    document.getElementById("mySpacingList").classList.toggle("show");
+interface IState {
 
-                    const onDown = e => {
-                        e.preventDefault();
-                        console.log('e.target ', document.getElementById("mySpacingList"), e.target)
-                        if (!document.getElementById("mySpacingList").contains(e.target)) {
-                            console.log('ok');
-                            var dropdowns = document.getElementsByClassName(
-                                "dropdown-content-font-size"
-                            );
-                            var i;
-                            for (i = 0; i < dropdowns.length; i++) {
-                                var openDropdown = dropdowns[i];
-                                if (openDropdown.classList.contains("show")) {
-                                    openDropdown.classList.remove("show");
-                                }
-                            }
-
-                            document.removeEventListener("mouseup", onDown);
-                        }
-                    };
-
-                    document.addEventListener("mouseup", onDown);
-                }}
-                style={{
-                    borderRadius: "4px",
-                    padding: "3px",
-                    display: "inline-block",
-                    cursor: "pointer",
-                    color: "black",
-                    height: "100%",
-                    backgroundColor: props.checked ? "#f2f5f7 " : "white",
-                }}
-            >
-                <img
-                    style={{
-                        height: "100%",
-                    }} 
-                    src={require("@Components/shared/svgs/editor/toolbar/spacing.svg")} 
-                    alt={content} />
-            </a>
-            <div
-                style={{
-                    left: "0px",
-                    top: "39px",
-                    padding: "0 20px",
-                    background: "white",
-                    animation: "bounce 0.8s ease-out",
-                    flexDirection: "column",
-                }}
-                id="mySpacingList"
-                className="dropdown-content-font-size"
-            >
-                <Slider
-                    pauser={props.pauser}
-                    title="Letter" 
-                    currentValue={props.currentLetterSpacing}
-                    onChange={props.handleLetterSpacing}
-                    onChangeEnd={props.handleLetterSpacingEnd}
-                    />
-                <Slider 
-                    pauser={props.pauser}
-                    title="Line letter" 
-                    currentValue={(100*props.currentLineHeight - 50)/2}
-                    onChange={props.handleLineHeightChange}
-                    onChangeEnd={props.handleLineHeightChangeEnd}
-                    />
-            </div>
-            </div>
-        </Tooltip>
-    );
 }
 
-export default Spacing;
+export default class Spacing extends Component<IProps, IState> {
+
+    onDown(e) {
+        e.preventDefault();
+        console.log('e.target ', document.getElementById("mySpacingList"), e.target)
+        if (!document.getElementById("mySpacingList").contains(e.target)) {
+            console.log('ok');
+            var dropdowns = document.getElementsByClassName(
+                "dropdown-content-font-size"
+            );
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains("show")) {
+                    openDropdown.classList.remove("show");
+                }
+            }
+
+            document.removeEventListener("mouseup", this.onDown);
+        }
+    }
+
+    render() {
+        const { show, handleAlignBtnClick, translate, title, iconPath } = this.props;
+        const content = translate(title);
+        return (
+            <Tooltip
+                offsetLeft={0}
+                offsetTop={-5}
+                content={content}
+                delay={10}
+                style={{ display: show ? "block" : "none" }}
+                position="top"
+            >
+                <div style={{
+                    position: "relative",
+                }}>
+                <a
+                    href="#"
+                    className="toolbar-btn"
+                    onClick={e => {
+                        e.preventDefault();
+                        document.getElementById("mySpacingList").classList.toggle("show");
+
+                        document.addEventListener("mouseup", this.onDown);
+                    }}
+                    style={{
+                        borderRadius: "4px",
+                        padding: "3px",
+                        display: "inline-block",
+                        cursor: "pointer",
+                        color: "black",
+                        height: "100%",
+                        backgroundColor: this.props.checked ? "#f2f5f7 " : "white",
+                    }}
+                >
+                    <img
+                        style={{
+                            height: "100%",
+                        }} 
+                        src={require("@Components/shared/svgs/editor/toolbar/spacing.svg")} 
+                        alt={content} />
+                </a>
+                <div
+                    style={{
+                        left: "0px",
+                        top: "39px",
+                        padding: "0 20px",
+                        background: "white",
+                        animation: "bounce 0.8s ease-out",
+                        flexDirection: "column",
+                    }}
+                    id="mySpacingList"
+                    className="dropdown-content-font-size"
+                >
+                    <Slider
+                        pauser={this.props.pauser}
+                        title="Letter" 
+                        currentValue={this.props.currentLetterSpacing ? this.props.currentLetterSpacing : 30 }
+                        onChangeStart={e => {
+                            document.removeEventListener("mouseup", this.onDown);
+                        }}
+                        onChange={this.props.handleLetterSpacing}
+                        onChangeEnd={val => {
+                            document.addEventListener("mouseup", this.onDown);
+                            this.props.handleLetterSpacingEnd(val);
+                        }}
+                        />
+                    <Slider 
+                        pauser={this.props.pauser}
+                        title="Line letter" 
+                        currentValue={(100*(this.props.currentLineHeight ? this.props.currentLineHeight : 30) - 50)/2}
+                        onChangeStart={e => {
+                            document.removeEventListener("mouseup", this.onDown);
+                        }}
+                        onChange={this.props.handleLineHeightChange}
+                        onChangeEnd={val => {
+                            document.addEventListener("mouseup", this.onDown);
+                            this.props.handleLineHeightChangeEnd(val);
+                        }}
+                        />
+                </div>
+                </div>
+            </Tooltip>
+        );
+    }
+}

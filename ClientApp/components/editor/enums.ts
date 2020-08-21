@@ -27,7 +27,8 @@ export enum Mode {
     CreateTemplate = 1,
     CreateTextTemplate = 2,
     EditTemplate = 3,
-    EditTextTemplate = 4
+    EditTextTemplate = 4,
+    EditDesign = 5,
 }
 
 export enum TemplateType {

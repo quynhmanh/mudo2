@@ -5,6 +5,26 @@ using Nest;
 
 namespace RCB.TypeScript.Models
 {
+
+
+    public interface IDesignBaseModel
+    {
+        [Ignore]
+        string[] Canvas { get; set; }
+
+        [Ignore]
+        string[] Canvas2 { get; set; }
+
+        float Width { get; set; }
+        float Height { get; set; }
+
+        string[] FontList { get; set; }
+
+        [Ignore]
+        string AdditionalStyle { get; set; }
+    }
+
+    [ElasticsearchType(RelationName = "design")]
     public class DesignModel : Base, ITemplateBaseModel
     {
         [Key]
@@ -22,6 +42,7 @@ namespace RCB.TypeScript.Models
 
         public string Representative { get; set; }
         public string Representative2 { get; set; }
+        public string VideoRepresentative { get; set; }
         public string[] FontList { get; set; }
 
         public float Width { get; set; }
@@ -32,7 +53,7 @@ namespace RCB.TypeScript.Models
 
         public string[] Pages { get; set; }
 
-        public int PrintType { get; set; }
+        public int? PrintType { get; set; }
 
         [Text(Name = "filePath.tree")]
         public string FilePathTree { get; set; }
@@ -46,13 +67,16 @@ namespace RCB.TypeScript.Models
         [Ignore]
         public string AdditionalStyle { get; set; }
 
+        public bool IsVideo { get; set; }
+
+        public string UserName { get; set; } 
 
         public DesignModel()
         {
 
         }
 
-        public DesignModel(string id, string document, DateTime createdAt, int createdBy, DateTime updatedAt, int updatedBy, string representative)
+        public DesignModel(string id, string document, DateTime createdAt, int createdBy, DateTime updatedAt, int updatedBy, string representative, float width, float height)
         {
             Id = id;
             Document = document;
@@ -61,6 +85,9 @@ namespace RCB.TypeScript.Models
             UpdatedAt = updatedAt;
             UpdatedBy = updatedBy;
             Representative = representative;
+            FontList = new string[0];
+            Width = width;
+            Height = height;
         }
     }
 }

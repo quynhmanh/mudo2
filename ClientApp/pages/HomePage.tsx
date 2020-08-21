@@ -14,6 +14,7 @@ import { ILocale } from "@Models/ILocale";
 import homePageTranslation from "@Locales/default/homePage";
 import loadable from '@loadable/component';
 import { isClickOutside } from '@Functions/shared/common';
+import axios from "axios";
 
 const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
 const CatalogList = loadable(() => import("@Components/homepage/CatalogList"));
@@ -35,6 +36,7 @@ interface IState {
   externalProviderCompleted: boolean;
   showLanguageDropdown: boolean;
   locale: ILocale;
+  recentDesign: any;
 }
 
 
@@ -61,7 +63,8 @@ class HomePage extends React.Component<IProps, IState> {
     navTop: 0,
     externalProviderCompleted: false,
     showLanguageDropdown: false,
-    locale: initLocale
+    locale: initLocale,
+    recentDesign: [],
   };
 
   getLocale = (value: string) => {
@@ -120,6 +123,18 @@ class HomePage extends React.Component<IProps, IState> {
     });
     this.setState({mounted: true});
     window.addEventListener('scroll', this.handleScroll);
+
+    if (Globals.serviceUser) {
+      const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}`;
+      axios
+        .get(url)
+        .then(res => {
+          this.setState({recentDesign: res.data.value.key});
+        })
+        .catch(error => {
+            // Ui.showErrors(error.response.statusText)
+        });
+    }
   }
 
   @bind
@@ -536,7 +551,6 @@ onLanguageBtnClick = () => {
             }}>
             <div
             style={{
-              height: '446px',
               position: 'absolute',
               width: '100%',  
               backgroundColor: 'rgb(201, 217, 225)',
@@ -544,7 +558,7 @@ onLanguageBtnClick = () => {
             </div>
             <header 
               style={{
-                height: '446px',
+                height: "300px",
                 position: 'relative',
                 marginTop: 'auto',
                 marginBottom: 'auto',
@@ -619,30 +633,44 @@ onLanguageBtnClick = () => {
               translate={this.translate}
             />
           }
-          <PopularTemplate 
+          {/* <PopularTemplate 
             translate={this.translate.bind(this)}
-          />
+          /> */}
           </div>
       </header>
             </div>
           </div>
           </div>
-          <h2 
+          <div
             style={{
-                margin: 0,
-                padding: '30px', 
-                textAlign: 'center', 
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                background: '#f4f4f6',
-            }}>{this.translate("create-a-design")}</h2>
-          <NavBar 
-            translate={this.translate}
+              padding: "0 50px 50px",
+            }}
+          >
+            <h2
+              style={{
+                marginBottom: '20px',
+                marginTop: '20px',
+              }}
+            >Recent designs</h2>
+          {this.state.recentDesign.map(design =>
+          <a target="_blank" rel="noopener noreferrer" href={`/editor/design/${design.id}`}>
+          <img
+            style={{
+              height: "200px",
+              boxShadow: "0 2px 4px rgba(0,0,0,.08), 0 0 1px rgba(0,0,0,.16)",
+              marginRight: "30px",
+              borderRadius: "10px",
+            }}
+            src={design.representative}
           />
-          {this.state.mounted && 
+          </a> 
+          )}
+          </div>
+          {/* {this.state.mounted && 
             <CatalogList 
               translate={this.translate}
             />
-          }
+          } */}
       </div>
       <LoginPopup
         locale={this.state.locale}

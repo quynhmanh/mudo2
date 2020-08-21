@@ -7,6 +7,7 @@ export interface IProps {
     onChange: any;
     onChangeEnd: any;
     multiplier: number;
+    onChangeStart: any;
 }
 
 export interface IState {
@@ -46,6 +47,9 @@ export default class Slider extends Component<IProps, IState> {
     }
     
     onSlideClick (e) {
+        if (this.props.onChangeStart) {
+            this.props.onChangeStart();
+        }
         this.props.pauser.next(true);
         document.addEventListener("mousemove", this.onMove);
         document.addEventListener("mouseup", this.onUp);
@@ -55,6 +59,8 @@ export default class Slider extends Component<IProps, IState> {
     }
 
     onUp (e) {
+        e.preventDefault();
+        e.stopPropagation();
         document.removeEventListener("mousemove", this.onMove);
         document.removeEventListener("mouseup", this.onUp);
         this.props.pauser.next(false);
@@ -66,6 +72,7 @@ export default class Slider extends Component<IProps, IState> {
 
     onMove (e) {
         e.preventDefault();
+        e.stopPropagation();
         var rec1 = this.$el
             .getBoundingClientRect();
         var slide = e.pageX - rec1.left;

@@ -68,6 +68,8 @@ namespace RCB.TypeScript.Models
 
         public bool IsVideo { get; set; }
 
+        public string UserName { get; set; } 
+
         public TemplateModel()
         {
 

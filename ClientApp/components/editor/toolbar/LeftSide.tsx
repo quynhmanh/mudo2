@@ -58,9 +58,9 @@ interface IProps {
 }
 
 const alignList = [
-    { title: "alignLeft", iconPath: require("@Components/shared/svgs/editor/toolbar/alignLeft.svg") },
-    { title: "alignCenter", iconPath: require("@Components/shared/svgs/editor/toolbar/alignCenter.svg") },
-    { title: "alignRight", iconPath: require("@Components/shared/svgs/editor/toolbar/alignRight.svg") }
+    { title: "alignLeft", align: "left", iconPath: require("@Components/shared/svgs/editor/toolbar/alignLeft.svg") },
+    { title: "alignCenter", align: "center",iconPath: require("@Components/shared/svgs/editor/toolbar/alignCenter.svg") },
+    { title: "alignRight", align: "right",iconPath: require("@Components/shared/svgs/editor/toolbar/alignRight.svg") }
 ];
 
 const LeftSide = (props: IProps) => {
@@ -229,17 +229,17 @@ const LeftSide = (props: IProps) => {
                                 title={item.title}
                                 iconPath={item.iconPath}
                                 handleAlignBtnClick={props.handleAlignBtnClick}
-                                checked={props.align == item.title}
+                                checked={props.align == item.align}
                             />
                     )
             }
-            {editorStore.imageSelected && editorStore.imageSelected.type === TemplateType.Heading &&
+            {editorStore.imageSelected && (editorStore.imageSelected.type === TemplateType.Heading || props.childId) &&
             <Spacing 
                 show=
                 {
                     (editorStore.imageSelected &&
                     editorStore.imageSelected.type === TemplateType.Heading) || 
-                    props.childId
+                    !!props.childId
                 }
                 pauser={props.pauser}
                 currentLineHeight={props.currentLineHeight}

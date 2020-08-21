@@ -53,7 +53,7 @@ export default class Image extends Component<IProps, IState> {
                     width: imgWidth + "px",
                     height: imgHeight + "px",
                     transform: `translate(${posX}px, ${posY}px)`,
-                    opacity: selected || !cropMode ? 1 : 0.5,
+                    opacity: 1,
                     outline:
                       cropMode && selected
                         ? `#00d9e1 solid ${outlineWidth - 1}px`

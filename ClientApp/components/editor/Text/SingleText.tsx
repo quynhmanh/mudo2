@@ -31,6 +31,7 @@ export interface IProps {
   selectionScaleY: any;
   scale: number;
   fontFace: any;
+  textAlign: any;
 }
 
 export interface IState {
@@ -88,7 +89,7 @@ endEditing() {
   }
 
   onMouseDown() {
-    const { handleChildIdSelected, onFontSizeChange, _id, scaleY, parentScaleX, parentScaleY, handleFontColorChange, handleFontFaceChange } = this.props;
+    const { handleChildIdSelected, childId, } = this.props;
     var self = this;
     setTimeout(() => {
       // var res;
@@ -101,7 +102,7 @@ endEditing() {
       // onFontSizeChange(res, scaleY);
       // handleFontColorChange(color);
       // handleFontFaceChange(this.props.fontFace);
-      handleChildIdSelected(_id);
+      handleChildIdSelected(childId);
 
       // (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(res)}`;
     }, 50);
@@ -118,6 +119,8 @@ endEditing() {
       scaleX,
       scaleY,
       scale,
+      textAlign,
+      childId,
     } = this.props
 
     const style = {
@@ -128,6 +131,7 @@ endEditing() {
       position: 'absolute' as 'absolute',
       wordBreak: 'break-word' as 'break-word',
       display: 'inline-block',
+      textAlign,
     }
 
     return (
@@ -141,7 +145,7 @@ endEditing() {
           spellCheck={false}  
           style={style}
           ref={this.setTextElementRef.bind(this)}
-          onInput={(e) => {onInput(e, _id)}}
+          onInput={(e) => {onInput(e, childId)}}
           className="text" 
           contentEditable={selected} 
           onBlur={onBlur}

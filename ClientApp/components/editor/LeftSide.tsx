@@ -1426,6 +1426,7 @@ class LeftSide extends Component<IProps, IState> {
                       var item = {
                         _id: uuidv4(),
                         type: TemplateType.Heading,
+                        align: "alignLeft",
                         width: 500 * 1,
                         origin_width: 500,
                         height: 78 * 1,
@@ -1433,7 +1434,7 @@ class LeftSide extends Component<IProps, IState> {
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="text-align: left; font-size: 56px;">${this.props.translate(
+                        innerHTML: `<div class="font" style="font-size: 56px;">${this.props.translate(
                           "addAHeading"
                         )}</div>`,
                         scaleX: 1,
@@ -1452,7 +1453,7 @@ class LeftSide extends Component<IProps, IState> {
                       };
 
                       // editorStore.addItem(item, true);
-                      editorStore.addItem2(item);
+                      editorStore.addItem2(item, true);
                       this.props.handleImageSelected(item);
 
                       setTimeout(() => {
@@ -1495,7 +1496,7 @@ class LeftSide extends Component<IProps, IState> {
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="text-align: left;font-size: 32px;">${this.props.translate(
+                        innerHTML: `<div class="font" style="ont-size: 32px;">${this.props.translate(
                           "addASubHeading"
                         )}</div>`,
                         scaleX: 1,
@@ -1512,7 +1513,7 @@ class LeftSide extends Component<IProps, IState> {
                       };
 
                       // editorStore.addItem(item, true);
-                      editorStore.addItem2(item);
+                      editorStore.addItem2(item, true);
                       this.props.handleImageSelected(item);
 
                       setTimeout(() => {
@@ -1557,7 +1558,7 @@ class LeftSide extends Component<IProps, IState> {
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="text-align: left;font-size: 22px; font-family: Open-Sans-Light;">${this.props.translate(
+                        innerHTML: `<div class="font" style="ont-size: 22px; font-family: Open-Sans-Light;">${this.props.translate(
                           "addABodyText"
                         )}</div>`,
                         scaleX: 1,
@@ -1574,7 +1575,7 @@ class LeftSide extends Component<IProps, IState> {
                       };
 
                       // editorStore.addItem(item, true);
-                      editorStore.addItem2(item);
+                      editorStore.addItem2(item, true);
                       this.props.handleImageSelected(item);
 
                       setTimeout(() => {
@@ -1633,13 +1634,10 @@ class LeftSide extends Component<IProps, IState> {
                               classNameContainer="text-picker-container"
                               onPick={this.textOnMouseDown.bind(this, item.id)}
                               onEdit={() => {
-                                // this.setState({
-                                //   showTemplateEditPopup: true,
-                                //   editingMedia: item
-                                // });
+                                window.open(`/editor/template/${item.id}`);
                               }}
                               padding={10}
-                              showButton={false}
+                              showButton={true}
                             />
                           ))}
                           {this.state.hasMoreTextTemplate &&
@@ -1707,13 +1705,10 @@ class LeftSide extends Component<IProps, IState> {
                               src={item.representative}
                               onPick={this.textOnMouseDown.bind(this, item.id)}
                               onEdit={() => {
-                                // this.setState({
-                                //   showTemplateEditPopup: true,
-                                //   editingMedia: item
-                                // });
+                                window.open(`/editor/template/${item.id}`);
                               }}
                               padding={10}
-                              showButton={false}
+                              showButton={true}
                             />
                           ))}
                           {this.state.hasMoreTextTemplate &&
@@ -1819,10 +1814,7 @@ class LeftSide extends Component<IProps, IState> {
                           className="template-picker"
                           onPick={this.templateOnMouseDown.bind(this, item.id)}
                           onEdit={() => {
-                            // this.setState({
-                            //   showTemplateEditPopup: true,
-                            //   editingMedia: item
-                            // });
+                            window.open(`/editor/template/${item.id}`);
                           }}
                           showButton={false}
                         />
@@ -1839,12 +1831,9 @@ class LeftSide extends Component<IProps, IState> {
                           className="template-picker"
                           onPick={this.templateOnMouseDown.bind(this, item.id)}
                           onEdit={() => {
-                            // this.setState({
-                            //   showTemplateEditPopup: true,
-                            //   editingMedia: item
-                            // });
+                            window.open(`/editor/template/${item.id}`);
                           }}
-                          showButton={false}
+                          showButton={true}
                         />
                       )
                     )}
@@ -1906,12 +1895,9 @@ class LeftSide extends Component<IProps, IState> {
                           className="template-picker"
                           onPick={this.templateOnMouseDown.bind(this, item.id)}
                           onEdit={() => {
-                            // this.setState({
-                            //   showTemplateEditPopup: true,
-                            //   editingMedia: item
-                            // });
+                            window.open(`/editor/template/${item.id}`);
                           }}
-                          showButton={false}
+                          showButton={true}
                         />
                       ) : (
                         <ImagePicker
@@ -1926,12 +1912,9 @@ class LeftSide extends Component<IProps, IState> {
                           src={item.representative}
                           onPick={this.templateOnMouseDown.bind(this, item.id)}
                           onEdit={() => {
-                            // this.setState({
-                            //   showTemplateEditPopup: true,
-                            //   editingMedia: item
-                            // });
+                            window.open(`/editor/template/${item.id}`);
                           }}
-                          showButton={false}
+                          showButton={true}
                         />
                       )
                     )}

@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import Rect from "./Rect";
 
 export interface IProps {
+  name: string;
   id: string;
   childId: string;
   zoomable: string;
@@ -45,6 +46,7 @@ export interface IProps {
   fontFace: string;
   srcThumnail: any;
   downloading: boolean;
+  selected: boolean;
 }
 
 export interface IState {
@@ -100,10 +102,14 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       fontFace,
       srcThumnail,
       downloading,
+      selected,
+      name,
     } = this.props;
 
     return (
       <Rect
+        name={name}
+        selected={selected}
         downloading={downloading}
         image={image}
         hovered={this.props.hovered}

@@ -53,11 +53,45 @@ namespace RCB.TypeScript.Controllers
 
             TemplateService designService = new TemplateService(null, HostingEnvironment, Configuration);
 
-            string res = await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, false, model.Representative);
-            model.Representative = res;
+            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, true, false, model.Representative);
+            // model.Representative = res;
 
             var result = DesignService.Add(model);
             return Json(result);
+        }
+
+        [HttpPost("[action]")]
+        [RequestSizeLimit(2147483648)] // e.g. 2 GB request limit
+        public async Task<IActionResult> Update(DesignModel model)
+        {
+
+            if (System.IO.File.Exists(model.Representative))
+            {
+                System.IO.File.Delete(model.Representative);
+            }
+
+            if (System.IO.File.Exists(model.Representative2))
+            {
+                System.IO.File.Delete(model.Representative2);
+            }
+
+            if (System.IO.File.Exists(model.VideoRepresentative))
+            {
+                System.IO.File.Delete(model.VideoRepresentative);
+            }
+
+            TemplateService designService = new TemplateService(null, HostingEnvironment, Configuration);
+
+            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, true, model.Type == "2", model.Representative);
+
+            var result = DesignService.Update(model);
+            return Json(Ok());
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult SearchWithUserName([FromQuery]string userName = null)
+        {
+            return Json(DesignService.SearchWithUserName(userName));
         }
 
         private class DownloadBody

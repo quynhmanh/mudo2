@@ -31,6 +31,7 @@ class Images {
     @observable imageHovered = null;
     @observable activePageId = uuidv4();
     @observable pages = observable([this.activePageId]);
+    @observable keys = observable([0]);
     @observable scale = 1;
     @observable fontColors = observable(fontColors)
     @observable colorPickerVisibility = observable.box(false);
@@ -51,7 +52,13 @@ class Images {
       }
     }
 
-    @action addItem2 = (item) => {
+    @action addItem2 = (item, isChild) => {
+      if (isChild && this.idObjectSelected) {
+        let image = this.images2.get(this.idObjectSelected);
+        image.childId = item._id;
+        this.images2.set(image._id, image);  
+      }
+
       this.images2.set(item._id, item);
     }
   
@@ -86,6 +93,12 @@ class Images {
           this.images2.delete(image._id);
         }
       });
+      this.pages.forEach((pageId, i) => {
+        if (pageId == this.activePageId) {
+          this.keys[i] = this.keys[i] + 1;
+        }
+      });
+
       template.forEach(img => {
         img._id = uuidv4();
         this.images2.set(img._id, img);

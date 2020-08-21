@@ -502,6 +502,7 @@ export const updateTransformXY = function(elId, x, y: any) {
 }
 
 export const updatePosition = function(elId, image: any) {
+  console.log('updatePosition', elId, image.left, image.top)
   let scale = this.state.scale;
   let el = document.getElementById(elId);
   if (el) {
@@ -515,7 +516,7 @@ export const updatePosition = function(elId, image: any) {
     let el2 = temp[i];
     el2.style.width = image.width * scale + "px";
     el2.style.height = image.height * scale + "px";
-    el.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
+    el2.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
 
   }
 }

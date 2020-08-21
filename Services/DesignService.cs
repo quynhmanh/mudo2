@@ -12,6 +12,7 @@ namespace RCB.TypeScript.Services
 {
     public class DesignService : ServiceBase
     {
+        const string DefaultIndex = "design-01";
         private DesignContext _designContext;
 
         public DesignService(DesignContext designContext)
@@ -35,7 +36,13 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<DesignModel> Get(string id)
         {
-            return Ok(_designContext.Designs.Where(template => template.Id == id).First());
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
+            var client = new ElasticClient(settings);
+
+            var response = client.Get<DesignModel>(id);
+
+            return Ok(response.Source);
         }
 
         public virtual async Task<Result<string>> Add(DesignModel model)
@@ -43,11 +50,11 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error<string>();
 
-            var node = new Uri("http://192.168.0.1:9200");
+            var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
-            var response = client.Index(model, idx => idx.Index("design"));
+            var response = client.Index(model, idx => idx.Index(DefaultIndex));
 
             return Ok(model.Id);
         }
@@ -67,8 +74,59 @@ namespace RCB.TypeScript.Services
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
-            var response = client.Index(design, idx => idx.Index("design"));
+            var response = client.Index(design, idx => idx.Index(DefaultIndex));
 
+
+            return Ok();
+        }
+
+        public virtual Result<KeyValuePair<List<DesignModel>, long>> SearchWithUserName(string userName)
+        {
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
+                .DisableDirectStreaming();
+            var client = new ElasticClient(settings);
+            string query = $"UserName:{userName}";
+
+            var res = client.Search<DesignModel>(s => 
+            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName))).Take(15));
+
+            var res2 = new KeyValuePair<List<DesignModel>, long>(res.Documents.ToList(), res.Total);
+
+            return Ok(res2);
+        }
+
+        public virtual Infrastructure.Result Update(DesignModel model)
+        {
+            if (model == null)
+                return Error();
+
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
+            var client = new ElasticClient(settings);
+
+            var getResponse = client.Get<DesignModel>(model.Id);
+
+            var template = getResponse.Source;
+
+            template.Document = model.Document;
+            template.CreatedAt = model.CreatedAt;
+            template.CreatedBy = model.CreatedBy;
+            template.UpdatedAt = model.UpdatedAt;
+            template.UpdatedBy = model.UpdatedBy;
+            template.FontList = model.FontList;
+            template.Type = model.Type;
+            template.Width = model.Width;
+            template.Height = model.Height;
+            template.Keywords = model.Keywords;
+            template.FirstName = model.FirstName;
+            template.Representative = model.Representative;
+            template.Representative2 = model.Representative2;
+            template.IsVideo = model.IsVideo;
+            template.VideoRepresentative = model.VideoRepresentative;
+            template.Pages = model.Pages;
+
+            var updateResponse = client.Update<DesignModel>(template, u => u.Doc(template));
 
             return Ok();
         }

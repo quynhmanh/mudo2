@@ -41,6 +41,12 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpGet("[action]")]
+        public IActionResult SearchWithUserName([FromQuery]string userName = null)
+        {
+            return Json(TemplateService.SearchWithUserName(userName));
+        }
+
+        [HttpGet("[action]")]
         public IActionResult SearchAngAggregate([FromQuery]string type = null, [FromQuery]int page = 1, [FromQuery]int perPage = 5, [FromQuery]string filePath = "", [FromQuery]string subType = "")
         {
             return Json(TemplateService.SearchAngAggregate(type, page, perPage, filePath, subType));
@@ -64,38 +70,39 @@ namespace RCB.TypeScript.Controllers
 
             TemplateService designService = new TemplateService(null, HostingEnvironment, Configuration);
 
-            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2", model.Representative);
+            bool omitBackground = model.Type == "2" ? true : false;
+            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, true, model.Type == "2", model.Representative, omitBackground);
 
-            int width = 656;
-            int height = 436;
-            //if (model.PrintType > 3)
-            //{
-            width = (int)model.Width;
-            height = (int)model.Height;
-            //}
+            // int width = 656;
+            // int height = 436;
+            // //if (model.PrintType > 3)
+            // //{
+            // width = (int)model.Width;
+            // height = (int)model.Height;
+            // //}
 
-            await designService.GenerateRepresentative(model, width, height, true, model.Type == "2", model.Representative2);
+            // await designService.GenerateRepresentative(model, width, height, true, model.Type == "2", model.Representative2);
 
-            if (model.IsVideo)
-            {
-                string body = null;
-                using (var reader = new StreamReader(Request.Body))
-                {
-                    body = reader.ReadToEnd();
-                }
+            // if (model.IsVideo)
+            // {
+            //     string body = null;
+            //     using (var reader = new StreamReader(Request.Body))
+            //     {
+            //         body = reader.ReadToEnd();
+            //     }
 
-                var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + model.VideoRepresentative);
-                byte[] res = await designService.DownloadVideo(width.ToString(), height.ToString(), model.Id, model);
-                using (var imageFile = new FileStream(filePath, FileMode.Create))
-                {
-                    imageFile.Write(res, 0, res.Length);
-                    imageFile.Flush();
-                }
-            }
+            //     var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + model.VideoRepresentative);
+            //     byte[] res = await designService.DownloadVideo(width.ToString(), height.ToString(), model.Id, model);
+            //     using (var imageFile = new FileStream(filePath, FileMode.Create))
+            //     {
+            //         imageFile.Write(res, 0, res.Length);
+            //         imageFile.Flush();
+            //     }
+            // }
 
             var result = TemplateService.Add(model);
 
-            return Json(result);
+            return Json(Ok());
         }
 
         [HttpGet("[action]")]
@@ -126,37 +133,11 @@ namespace RCB.TypeScript.Controllers
 
             TemplateService designService = new TemplateService(null, HostingEnvironment, Configuration);
 
-            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, false, model.Type == "2", model.Representative);
-
-            int width = 656;
-            int height = 436;
-            if (model.PrintType > 3)
-            {
-                width = (int)model.Width;
-                height = (int)model.Height;
-            }
-
-            await designService.GenerateRepresentative(model, width, height, true, model.Type == "2", model.Representative2);
-
-            if (model.IsVideo)
-            {
-                string body = null;
-                using (var reader = new StreamReader(Request.Body))
-                {
-                    body = reader.ReadToEnd();
-                }
-
-                var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + model.VideoRepresentative);
-                byte[] res = await designService.DownloadVideo(width.ToString(), height.ToString(), Guid.NewGuid().ToString(), model);
-                using (var imageFile = new FileStream(filePath, FileMode.Create))
-                {
-                    imageFile.Write(res, 0, res.Length);
-                    imageFile.Flush();
-                }
-            }
+            bool omitBackground = model.Type == "2" ? true : false;
+            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, true, model.Type == "2", model.Representative, omitBackground);
 
             var result = TemplateService.Update(model);
-            return Json(result);
+            return Json(Ok());
         }
 
         [HttpDelete("[action]")]

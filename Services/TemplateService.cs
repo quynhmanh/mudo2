@@ -21,6 +21,7 @@ namespace RCB.TypeScript.Services
 {
     public class TemplateService : ServiceBase
     {
+        const string DefaultIndex = "template-01";
         private IHostingEnvironment HostingEnvironment { get; set; }
         private IConfiguration Configuration { get; set; }
 
@@ -33,7 +34,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "", string printType = "")
         {
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming();
             var client = new ElasticClient(settings);
             string query = $"type:{type}";
 
@@ -47,6 +48,22 @@ namespace RCB.TypeScript.Services
                 .From((page - 1) * perPage)
                 .Size(perPage)
                 .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
+
+            var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
+
+            return Ok(res2);
+        }
+
+        public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchWithUserName(string userName)
+        {
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
+            .DisableDirectStreaming();
+            var client = new ElasticClient(settings);
+            string query = $"UserName:{userName}";
+
+            var res = client.Search<TemplateModel>(s => 
+            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName))).Take(15));
 
             var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
 
@@ -274,7 +291,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<ResultSearchAngAggregate> SearchAngAggregate(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "")
         {
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex("template").DisableDirectStreaming();
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming();
             var client = new ElasticClient(settings);
 
             //var response = client.Indices.Create("template", c => c
@@ -326,7 +343,7 @@ namespace RCB.TypeScript.Services
             //return Ok(_templateContext.Templates.Where(template => template.Id == id).First());
 
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var response = client.Get<TemplateModel>(id);
@@ -343,7 +360,7 @@ namespace RCB.TypeScript.Services
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
-            var response = client.Index(model, idx => idx.Index("template"));
+            var response = client.Index(model, idx => idx.Index(DefaultIndex));
 
             return Ok(response.Id);
         }
@@ -354,7 +371,7 @@ namespace RCB.TypeScript.Services
                 return Error();
 
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var getResponse = client.Get<TemplateModel>(model.Id);
@@ -376,6 +393,7 @@ namespace RCB.TypeScript.Services
             template.Representative2 = model.Representative2;
             template.IsVideo = model.IsVideo;
             template.VideoRepresentative = model.VideoRepresentative;
+            template.Pages = model.Pages;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
@@ -385,7 +403,7 @@ namespace RCB.TypeScript.Services
         public virtual Infrastructure.Result Delete(string id)
         {
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var getResponse = client.Delete<TemplateModel>(id);
@@ -396,7 +414,7 @@ namespace RCB.TypeScript.Services
         public virtual Infrastructure.Result UpdateRepresentative(string id, string filePath)
         {
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var getResponse = client.Get<TemplateModel>(id);
@@ -418,7 +436,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<int> RemoveAll()
         {
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var res = client.DeleteByQuery<TemplateModel>(q => q.MatchAll());
@@ -428,7 +446,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<int> Edit(TemplateModel model)
         {
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex("template");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var getResponse = client.Get<TemplateModel>(model.Id);
@@ -446,7 +464,7 @@ namespace RCB.TypeScript.Services
             return Ok(1);
         }
 
-        public async virtual Task<string> GenerateRepresentative(ITemplateBaseModel templateModel, int width, int height, Boolean preview, Boolean backgroundBlack, string path)
+        public async virtual Task<string> GenerateRepresentative(ITemplateBaseModel templateModel, int width, int height, Boolean preview, Boolean backgroundBlack, string path, bool omitBackground = false)
         {
             string resPath = null;
             string style = AppSettings.style;
@@ -475,7 +493,12 @@ namespace RCB.TypeScript.Services
                 }
             }
 
-            var template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", templateModel.AdditionalStyle);
+            string additionalStyle = "";
+            if (omitBackground) {
+                additionalStyle = $".alo2 {{background-color: transparent !important; }}";
+            }
+
+            var template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", additionalStyle);
 
             template = template.Replace("[FONT_FACE]", style);
             byte[] data = null;
@@ -492,9 +515,10 @@ namespace RCB.TypeScript.Services
                 {
                     canvas = templateModel.Canvas;
                 }
-                for (var i = 0; i < canvas.Length; ++i)
-                {
-                    var html = template.Replace("[CANVAS]", canvas[i]);
+                var cv = canvas[0];
+                // for (var i = 0; i < canvas.Length; ++i)
+                // {
+                    var html = template.Replace("[CANVAS]", cv);
                     try
                     {
                         byte[] bytes = Encoding.ASCII.GetBytes(html);
@@ -508,11 +532,11 @@ namespace RCB.TypeScript.Services
 
                     }
 
-                    if (preview)
-                    {
-                        width = width * 2;
-                        height = height * 2;
-                    }
+                    // if (preview)
+                    // {
+                    //     width = width * 2;
+                    //     height = height * 2;
+                    // }
 
                     var executablePath = "/usr/bin/google-chrome-stable";
                     if (HostingEnvironment.IsDevelopment())
@@ -523,7 +547,7 @@ namespace RCB.TypeScript.Services
                     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                     using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
-                        Headless = false,
+                        // Headless = false,
                         DefaultViewport = new ViewPortOptions()
                         {
                             Width = width,
@@ -544,6 +568,14 @@ namespace RCB.TypeScript.Services
                                 WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
                                 Timeout = 0,
                             });
+
+                        if (omitBackground) {
+                            await page.EvaluateFunctionAsync(@"() => {
+                                if (document.getElementById('alo2')) {
+                                    document.getElementById('alo2').style.backgroundColor = 'transparent !important';
+                                }
+                            }");
+                        }
 
                         await page.EvaluateFunctionAsync(@"() => {
                             if (document.getElementById('alo2')) {
@@ -578,7 +610,7 @@ namespace RCB.TypeScript.Services
                             imageFile.Flush();
                         }
                     }
-                }
+                // }
 
                 //doc.Close();
                 //pCopy.Close();

@@ -5,6 +5,7 @@ import SingleText from "@Components/editor/Text/SingleText";
 import Image from "@Components/editor/Rect/Image";
 import { toJS } from "mobx";
 import { TemplateType } from "../enums";
+import editorStore from "@Store/EditorStore";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -31,6 +32,7 @@ declare global {
 }
 
 export interface IProps {
+  selected: boolean;
   dragging: boolean;
   id: string;
   childId: string;
@@ -62,6 +64,7 @@ export interface IProps {
   image: any;
   srcThumnail: any;
   downloading: boolean;
+  name: string;
 }
 
 export interface IState {
@@ -103,15 +106,16 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   componentDidUpdate(prevProps) {
     const {
+      selected,
       image: {
         type,
-        selected,
+        // selected,
         innerHTML,
       }
     } = this.props;
 
     if (
-      type === 3 &&
+      type === TemplateType.Heading &&
       // selected && 
       // !prevProps.image.selected &&
       selected != prevProps.image.selected &&
@@ -284,8 +288,10 @@ export default class Rect extends PureComponent<IProps, IState> {
       resizing,
       rotating,
       hovered,
+      selected,
+      name,
       image: {
-        selected,
+        selected: imageSelected,
         _id,
         scaleX,
         scaleY,
@@ -301,6 +307,9 @@ export default class Rect extends PureComponent<IProps, IState> {
         width,
         height,
         fontFace,
+        italic,
+        align,
+        bold,
         color,
         rotateAngle,
         srcThumnail,
@@ -488,25 +497,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                   opacity,
                 }}
               >
-                {/* <img
-                  id={_id + "1235"}
-                  className={`${_id}rect-alo ${_id}imgWidth ${_id}1236`}
-                  style={{
-                    zIndex: 9999999,
-                    width: imgWidth + "px",
-                    height: imgHeight + "px",
-                    transform: `translate(${posX}px, ${posY}px)`,
-                    opacity: selected || !cropMode ? 1 : 0.5,
-                    outline:
-                      cropMode && selected
-                        ? `#00d9e1 solid ${outlineWidth - 1}px`
-                        : null,
-                    transformOrigin: "0 0",
-                    backgroundColor: backgroundColor
-                  }}
-                  onDoubleClick={enableCropMode}
-                  src={src}
-                /> */}
                 <Image 
                   _id={_id}
                   imgWidth={imgWidth}
@@ -644,6 +634,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             {childrens && childrens.length > 0 && (childrens.map(child => (
               <div
                 id={child._id + "b2"}
+                className={_id + child._id + "b2"}
                 style={{
                     left: `${child.left/width * scaleX*100}%`,
                     top: `${child.top/(child.height / child.height2)*100}%`,
@@ -675,7 +666,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               // height: '100%',
             }}
           >
-            {childrens && childrens.length > 0 && showImage && (
+            {/* {childrens && childrens.length > 0 && showImage && (
               <div
                 id="hello-3"
                 style={{
@@ -721,7 +712,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                           child.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
                           child.effectId == 6 && `rgb(0, 255, 255) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
                           filter: child.filter,
-                          lineHeight: `${child.lineHeight}px`,
+                          lineHeight: `${child.lineHeight * fontSize}px`,
                         }}
                         className="text-container"
                       >
@@ -761,8 +752,11 @@ export default class Rect extends PureComponent<IProps, IState> {
                   );
                 })}{" "}
               </div>
-            )}
-            {childrens && childrens.length > 0 && !showImage && (
+            )} */}
+            {childrens && childrens.length > 0 &&
+            ((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages") &&
+            // && !showImage && 
+            (
               <div
                 id={_id}
                 style={{
@@ -784,13 +778,13 @@ export default class Rect extends PureComponent<IProps, IState> {
                   } = styles;
                   return (
                     <div
-                      id={child._id + "text-container3"}
+                      id={_id + child._id + "text-container3"}
                       style={{
                         WebkitTextStroke: (child.effectId == 3 || child.effectId == 4) && (`${1.0 * child.hollowThickness / 100 * 4 + 0.1}px ${(child.effectId == 3 || child.effectId == 4) ? child.color : "black"}`),
                       }}
                     >
                       <div
-                      id={child._id + "text-container2"}
+                      id={_id + child._id + "text-container2"}
                         key={child._id}
                         style={{
                           zIndex: selected && objectType !== TemplateType.Image ? 1 : 0,
@@ -809,11 +803,15 @@ export default class Rect extends PureComponent<IProps, IState> {
                           child.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
                           child.effectId == 6 && `rgb(0, 255, 255) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
                           filter: child.filter,
-                          lineHeight: `${child.lineHeight}px`,
+                          lineHeight: `${child.lineHeight * child.fontSize}px`,
+                          fontStyle: child.italic ? "italic" : "",
+                          fontWeight: child.bold ? "bold" : "normal",
+                          letterSpacing: `${1.0*child.letterSpacing/100*4}px`,
                         }}
                         className="text-container"
                       >
                         <SingleText
+                          textAlign={child.align}
                           fontFace={child.fontFace}
                           selectionScaleY={this.state.selectionScaleY}
                           zIndex={zIndex}
@@ -828,7 +826,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                           rotateAngle={rotateAngle}
                           parentIndex={_id}
                           innerHTML={child.innerHTML}
-                          _id={child._id}
+                          _id={_id + child._id}
                           selected={selected}
                           onInput={onTextChange}
                           onBlur={this.endEditing.bind(this)}
@@ -841,7 +839,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                           handleFontColorChange={handleFontColorChange}
                           handleFontFaceChange={handleFontFaceChange}
                           handleChildIdSelected={handleChildIdSelected}
-                          childId={childId}
+                          childId={child._id}
                           scale={scale}
                         />
                       </div>
@@ -949,7 +947,10 @@ export default class Rect extends PureComponent<IProps, IState> {
                     </div>
                   </MathJax.Context>
                 )} */}
-                  {objectType === TemplateType.Heading &&
+                  {
+                  // ((_id == editorStore.idObjectSelected && selected) || (!selected && _id != editorStore.idObjectSelected)) && 
+                  ((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages") &&
+                  objectType === TemplateType.Heading &&
                     <div
                       id={_id + "hihi4"}
                       spellCheck={false}
@@ -957,7 +958,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       contentEditable={selected}
                       ref={this.setTextElementRef2.bind(this)}
                       // onMouseDown={this.onMouseDown.bind(this)}
-                      className="text single-text"
+                      className={"text single-text " + _id + "hihi4"}
                       style={{
                         position: "absolute",
                         display: "inline-block",
@@ -968,6 +969,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                         transform: `scale(${scale})`,
                         transformOrigin: "0 0",
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
+                        fontStyle: italic ? "italic" : "",
+                        fontWeight: bold ? "bold" : "normal",
+                        textAlign: align,
                         color: (effectId == 3 || effectId == 4) ? "transparent" : color,
                         textShadow: effectId == 1 ? `rgba(25, 25, 25, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
                         effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` : 
