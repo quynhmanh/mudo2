@@ -265,6 +265,9 @@ html {
             font-family: 'Open-Sans-Light';
             src: url('https://localhost:64099/fonts/OpenSans-Light.ttf');
         }
+        .alo2 {
+            display: block !important;
+        }
         [ADDITIONAL_STYLE]
         [FONT_FACE]
 body {

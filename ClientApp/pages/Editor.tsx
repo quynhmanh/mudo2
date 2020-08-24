@@ -35,17 +35,11 @@ import {
 } from "@Utils";
 import loadable from "@loadable/component";
 import { clone } from "lodash";
-import editorStore from "@Store/EditorStore";
+import editorStore, {Images,AllImage} from "@Store/EditorStore";
 const DownloadIcon = loadable(() =>
     import("@Components/shared/svgs/DownloadIcon")
 );
 import { getLength, getAngle, getCursor } from "@Utils";
-
-var Hammer;
-
-// if (!isNode()) {
-//   Hammer = require("hammerjs");
-// }
 
 import {
     fromEvent,
@@ -127,6 +121,7 @@ declare global {
         origin_height: number;
         opacity: number;
         document_object: any;
+        cloneImages: any;
     }
 }
 
@@ -417,26 +412,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleItalicBtnClick = (e: any) => {
         e.preventDefault();
-        // var a = document.getSelection();
-        // if (a && a.type === "Range") {
-        //     document.execCommand("italic");
-        // } else {
-        //     var childId = this.state.childId
-        //         ? this.state.childId
-        //         : this.state.idObjectSelected;
-        //     var el = this.state.childId
-        //         ? document.getElementById(childId)
-        //         : document
-        //             .getElementById(childId)
-        //             .getElementsByClassName("text")[0];
-        //     var sel = window.getSelection();
-        //     var range = document.createRange();
-        //     range.selectNodeContents(el);
-        //     sel.removeAllRanges();
-        //     sel.addRange(range);
-        //     document.execCommand("italic");
-        //     sel.removeAllRanges();
-        // }
 
         let italic;
         let image = toJS(editorStore.imageSelected);
@@ -503,6 +478,8 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (e: any) => {
+        let pageKeys = editorStore.keys.map(key => key + 1);
+        editorStore.keys.replace(pageKeys);
         e.preventDefault();
         this.setState({ cropMode: true });
     }
@@ -563,7 +540,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 .getElementsByClassName("font");
         } else {
             fonts = document
-                .getElementById(this.state.idObjectSelected + "hihi4")
+                .getElementById(this.state.idObjectSelected + "hihi4alo")
                 .getElementsByClassName("font");
         }
 
@@ -590,7 +567,7 @@ class CanvaEditor extends Component<IProps, IState> {
             image.height = height2;
             image.origin_height = height2;
             image.fontSize = fontSize;
-            let hihi4 = document.getElementById(image._id + "hihi4");
+            let hihi4 = document.getElementById(image._id + "hihi4alo");
             if (hihi4) {
                 image.innerHTML = hihi4.innerHTML;
             } 
@@ -615,7 +592,7 @@ class CanvaEditor extends Component<IProps, IState> {
             // return img;
         // });
 
-        // var hihi4 = document.getElementById(_id + "hihi4");
+        // var hihi4 = document.getElementById(_id + "hihi4alo");
         // if (hihi4) {
         //     hihi4.style.width = image.width / image.scaleX + "px";
         // }
@@ -708,11 +685,18 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleOkBtnClick = (e: any) => {
+        this.rerenderAllPages();
         e.preventDefault();
         this.setState({ cropMode: false });
     }
 
+    rerenderAllPages() {
+        let pageKeys = editorStore.keys.map(key => key + 1);
+        editorStore.keys.replace(pageKeys);
+    }
+
     handleCancelBtnClick = (e: any) => {
+        this.rerenderAllPages();
         e.preventDefault();
         this.setState({ cropMode: false });
     }
@@ -1273,12 +1257,12 @@ class CanvaEditor extends Component<IProps, IState> {
         //   font1.parentNode.innerText = font1.innerText;
         //   font1.remove();
         // }
-        let el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        let el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         if (el) {
             el.style.fontFamily = id;
         }
 
-        el = document.getElementById(this.state.childId + "text-container2");
+        el = document.getElementById(this.state.childId + "text-container2alo");
         if( el) {
             el.style.fontFamily = id;
         }
@@ -1354,7 +1338,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     displayResizers = (show: Boolean) => {
         let opacity = show ? 1 : 0;
-        var el = document.getElementById(this.state.idObjectSelected + "__");
+        var el = document.getElementById(this.state.idObjectSelected + "__alo");
         if (el) {
             var resizers = el.getElementsByClassName("resizable-handler-container");
             for (var i = 0; i < resizers.length; ++i) {
@@ -1389,7 +1373,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleResizeStart = (e: any, d: any) => {
 
-        this.setState({saved: false});
+        // this.setState({saved: false});
 
         if (this.saving) {
             clearTimeout(this.saving);
@@ -1412,8 +1396,8 @@ class CanvaEditor extends Component<IProps, IState> {
         let { scale } = this.state;
         const location$ = this.handleDragRx(e.target);
         let image = toJS(editorStore.imageSelected);
-        window.image = image
-        let { top: top2, left: left2, width: width2, height: height2 } = image;
+        window.image = clone(image);
+        let { top: top2, left: left2, width: width2, height: height2 } = window.image;
 
         const rect2 = tLToCenter({
             top: top2,
@@ -1706,7 +1690,7 @@ class CanvaEditor extends Component<IProps, IState> {
             posX = scaleLeft * imgWidth;
             posY = scaleTop * imgHeight;
 
-            var el = document.getElementById(_id + "1235");
+            var el = document.getElementById(_id + "1235alo");
             if (el) {
                 el.style.width = imgWidth * scale + "px";
                 el.style.height = imgHeight * scale + "px";
@@ -1765,7 +1749,7 @@ class CanvaEditor extends Component<IProps, IState> {
             }
         } else {
             if (objectType == TemplateType.Heading) {
-                let el = document.getElementsByClassName(_id + "hihi4")[0] as HTMLElement;
+                let el = document.getElementsByClassName(_id + "hihi4alo")[0] as HTMLElement;
                 let newHeight = el.offsetHeight * image.scaleY;
                 height = newHeight;
                 deltaHeight = image.height - newHeight;
@@ -1794,14 +1778,14 @@ class CanvaEditor extends Component<IProps, IState> {
                 var maxHeight = 0;
                 
                 image.document_object.map(text => {
-                    let textContainer2 = document.getElementById(_id + text._id + "text-container2");
+                    let textContainer2 = document.getElementById(_id + text._id + "text-container2alo");
                     textContainer2.style.width = (width * text.width2) / image.scaleX * scale + "px";
                     textContainer2.getElementsByClassName("text")[0].style.width = 
                         (width * text.width2) / image.scaleX / text.scaleX + "px";
                 });
 
                 let texts = image.document_object.map(text => {
-                    const h = document.getElementById(_id + text._id).offsetHeight * text.scaleY;
+                    const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
                     maxHeight = Math.max(maxHeight, h + text.top);
                     text.height = h;
                     return text;
@@ -1842,12 +1826,12 @@ class CanvaEditor extends Component<IProps, IState> {
                     let els = document.getElementsByClassName(_id + text._id + "b2");
                     for (let i = 0; i < els.length; ++i) {
                         let el = els[i] as HTMLElement;
-                        el.style.height = text.height2 * 100 + "%";
-                        el.style.left = `${text.left/width * image.scaleX *100}%`;
-                        el.style.top = `${text.top/(text.height / text.height2)*100}%`;
+                        el.style.height = `calc(${text.height2 * 100}% + 2px)`
+                        el.style.left = `calc(${text.left/width * image.scaleX *100}% - 1px)`;
+                        el.style.top = `calc(${text.top/(text.height / text.height2)*100}% - 1px)`;
                     }
 
-                    let childEl = document.getElementById(_id + text._id + "text-container2") as HTMLElement;
+                    let childEl = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
                     childEl.style.left = text.left * scale + "px";
                     childEl.style.top = text.top * scale + "px";
 
@@ -1884,7 +1868,7 @@ class CanvaEditor extends Component<IProps, IState> {
             window.origin_height = height / window.scaleY;
         }
 
-        var a = document.getElementsByClassName(_id + "aaaa");
+        var a = document.getElementsByClassName(_id + "aaaaalo");
         for (let i = 0; i < a.length; ++i) {
             var tempEl = a[i] as HTMLElement;
             tempEl.style.width = width * scale + "px";
@@ -1899,15 +1883,29 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (objectType === TemplateType.Heading) {
-            var hihi4s = document.getElementsByClassName(_id + "hihi4");
+            var hihi4s = document.getElementsByClassName(_id + "hihi4alo");
             for (let i = 0; i < hihi4s.length; ++i) {
-                let el = hihi4s[i];
+                let el = hihi4s[i] as HTMLElement;
                 el.style.width = width / window.scaleX + "px";
             }
         }
 
         if (switching) {
-            this.handleResizeEnd();
+            // this.handleResizeEnd();
+
+            window.image.top = window.imageTop;
+            window.image.left = window.imageLeft;
+            window.image.width = window.imageWidth;
+            window.image.height = window.imageHeight;
+            window.image.imgWidth = window.imageimgWidth;
+            window.image.imgHeight = window.imageimgHeight;
+            window.image.posX = window.posX;
+            window.image.posY = window.posY;
+            window.image.scaleX = window.scaleX;
+            window.image.scaleY = window.scaleY;
+            window.image.origin_width = window.origin_width;
+            window.image.origin_height = window.origin_height;
+            window.image.document_object = window.document_object;
 
             const styles = tLToCenter({
                 top: top,
@@ -2358,7 +2356,7 @@ class CanvaEditor extends Component<IProps, IState> {
         const location$ = this.handleDragRx(e.target);
 
         const rect = document
-            .getElementById(this.state.idObjectSelected)
+            .getElementById(this.state.idObjectSelected + "_alo")
             .getBoundingClientRect();
         const center = {
             x: rect.left + rect.width / 2,
@@ -2408,7 +2406,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     var cursorStyle = getCursorStyleWithRotateAngle(rotateAngle);
                     ell.style.cursor = cursorStyle;
 
-                    var a = document.getElementsByClassName(image._id + "aaaa");
+                    var a = document.getElementsByClassName(image._id + "aaaaalo");
                     for (let i = 0; i < a.length; ++i) {
                         var cur = a[i] as HTMLElement;
                         // cur.style.transform = `rotate(${rotateAngle}deg)`;
@@ -2454,7 +2452,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleDragStart = (e, _id) => {
 
-        this.setState({saved: false});
+        // this.setState({saved: false});
 
         if (this.saving) {
             clearTimeout(this.saving);
@@ -2492,6 +2490,16 @@ class CanvaEditor extends Component<IProps, IState> {
         ell.style.zIndex = "2";
         // ell.style.cursor = "move";
 
+        let images = [];
+        Array.from(editorStore.images2.values()).forEach(image => {
+            if (image.page === window.image.page) {
+                let clonedImage = this.tranformImage(clone(image));
+                images.push(clonedImage);
+            }
+        });
+
+        window.cloneImages = images;
+
         this.temp = location$
             .pipe(
                 map(([x, y]) => ({
@@ -2500,7 +2508,6 @@ class CanvaEditor extends Component<IProps, IState> {
             )
             .subscribe(
                 ({ moveElLocation }) => {
-                    console.log('dragging');
                     window.dragged = true;
                     ell.style.cursor = "move";
                     if (this.state.cropMode) {
@@ -2542,11 +2549,13 @@ class CanvaEditor extends Component<IProps, IState> {
 
         if (!image.rotateAngle || image.rotateAngle === 0) {
             return {
+                _id: image._id,
                 x: [centerX - image.width / 2, centerX, centerX + image.width / 2],
                 y: [centerY - image.height / 2, centerY, centerY + image.height / 2]
             };
         } else {
             return {
+                _id: image._id,
                 x: [centerX - image.height / 2, centerX, centerX + image.height / 2],
                 y: [centerY - image.width / 2, centerY, centerY + image.width / 2]
             };
@@ -2657,253 +2666,340 @@ class CanvaEditor extends Component<IProps, IState> {
         if (img.type === TemplateType.BackgroundImage) {
             return;
         }
-        Array.from(editorStore.images2.values()).forEach(image => {
-            if (image.page === img.page) {
-                var imageTransformed = this.tranformImage(image);
-                if (image._id !== _id) {
-                    if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft - imageTransformed.x[0]) < 5
-                    ) {
+        window.cloneImages.forEach(imageTransformed => {
+            if (imageTransformed._id !== _id) {
+                let el0 = document.getElementById(imageTransformed._id + "guide_0");
+                let el1 = document.getElementById(imageTransformed._id + "guide_1");
+                let el2 = document.getElementById(imageTransformed._id + "guide_2");
+                let el3 = document.getElementById(imageTransformed._id + "guide_3");
+                let el4 = document.getElementById(imageTransformed._id + "guide_4");
+                let el5 = document.getElementById(imageTransformed._id + "guide_5");
+
+                if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft - imageTransformed.x[0]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft - imageTransformed.x[0];
-                        image[0] = 1;
-                        updateStartPosX = true;
-                    } else if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft2 - imageTransformed.x[0]) < 5
-                    ) {
+                    }
+                    if (el0) {
+                        el0.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft2 - imageTransformed.x[0]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft2 - imageTransformed.x[0];
-                        image[0] = 1;
-                        updateStartPosX = true;
-                    } else if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft3 - imageTransformed.x[0]) < 5
-                    ) {
+                    }
+                    if (el0) {
+                        el0.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft3 - imageTransformed.x[0]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft3 - imageTransformed.x[0];
-                        image[0] = 1;
-                        updateStartPosX = true;
-                    } else {
-                        image[0] = 0;
                     }
+                    if (el0) {
+                        el0.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else {
+                    if (el0) {
+                        el0.style.display = "none";
+                    }
+                }
 
-                    if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft - imageTransformed.x[1]) < 5
-                    ) {
+                if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft - imageTransformed.x[1]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft - imageTransformed.x[1];
-                        image[1] = 1;
-                        updateStartPosX = true;
-                    } else if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft2 - imageTransformed.x[1]) < 5
-                    ) {
+                    }
+                    if (el1) {
+                        el1.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft2 - imageTransformed.x[1]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft2 - imageTransformed.x[1];
-                        image[1] = 1;
-                        updateStartPosX = true;
-                    } else if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft3 - imageTransformed.x[1]) < 5
-                    ) {
+                    }
+                    if (el1) {
+                        el1.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft3 - imageTransformed.x[1]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft3 - imageTransformed.x[1];
-                        image[1] = 1;
-                        updateStartPosX = true;
-                    } else {
-                        image[1] = 0;
                     }
+                    if (el1) {
+                        el1.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else {
+                    if (el1) {
+                        el1.style.display = "none";
+                    }
+                }
 
-                    if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft - imageTransformed.x[2]) < 5
-                    ) {
+                if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft - imageTransformed.x[2]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft - imageTransformed.x[2];
-                        image[2] = 1;
-                        updateStartPosX = true;
-                    } else if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft2 - imageTransformed.x[2]) < 5
-                    ) {
+                    }
+                    if (el2) {
+                        el2.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft2 - imageTransformed.x[2]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft2 - imageTransformed.x[2];
-                        image[2] = 1;
-                        updateStartPosX = true;
-                    } else if (
-                        !updateStartPosX &&
-                        Math.abs(newLeft3 - imageTransformed.x[2]) < 5
-                    ) {
+                    }
+                    if (el2) {
+                        el2.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else if (
+                    // !updateStartPosX &&
+                    Math.abs(newLeft3 - imageTransformed.x[2]) < 5
+                ) {
+                    if (!updateStartPosX) {
                         left -= newLeft3 - imageTransformed.x[2];
-                        image[2] = 1;
-                        updateStartPosX = true;
-                    } else {
-                        image[2] = 0;
                     }
+                    if (el2) {
+                        el2.style.display = "block";
+                    }
+                    updateStartPosX = true;
+                } else {
+                    if (el2) {
+                        el2.style.display = "none";
+                    }
+                }
 
-                    if (
-                        !updateStartPosY &&
-                        Math.abs(newTop - imageTransformed.y[0]) < 5
-                    ) {
+                if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop - imageTransformed.y[0]) < 5
+                ) {
+                    if (!updateStartPosY) {
                         top -= newTop - imageTransformed.y[0];
-                        image[3] = 1;
-                        updateStartPosY = true;
-                    } else if (
-                        !updateStartPosY &&
-                        Math.abs(newTop2 - imageTransformed.y[0]) < 5
-                    ) {
+                    }
+                    if (el3) {
+                        el3.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop2 - imageTransformed.y[0]) < 5
+                ) {
+                    if (!updateStartPosY) {
                         top -= newTop2 - imageTransformed.y[0];
-                        image[3] = 1;
-                        updateStartPosY = true;
-                    } else if (
-                        !updateStartPosY &&
-                        Math.abs(newTop3 - imageTransformed.y[0]) < 5
-                    ) {
+                    }
+                    if (el3) {
+                        el3.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop3 - imageTransformed.y[0]) < 5
+                ) {
+                    if (!updateStartPosY) {
                         top -= newTop3 - imageTransformed.y[0];
-                        image[3] = 1;
-                        updateStartPosY = true;
-                    } else {
-                        image[3] = 0;
                     }
+                    if (el3) {
+                        el3.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else {
+                    if (el3) {
+                        el3.style.display = "none";
+                    }
+                }
 
-                    if (
-                        !updateStartPosY &&
-                        Math.abs(newTop - imageTransformed.y[1]) < 5
-                    ) {
+                if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop - imageTransformed.y[1]) < 5
+                ) {
+                    if (!updateStartPosY) {
                         top -= newTop - imageTransformed.y[1];
-                        image[4] = 1;
-                        updateStartPosY = true;
-                    } else if (
-                        !updateStartPosY &&
-                        Math.abs(newTop2 - imageTransformed.y[1]) < 5
-                    ) {
+                    }
+                    if (el4) {
+                        el4.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop2 - imageTransformed.y[1]) < 5
+                ) {
+                    if (!updateStartPosY) {
                         top -= newTop2 - imageTransformed.y[1];
-                        image[4] = 1;
-                        updateStartPosY = true;
-                    } else if (
-                        !updateStartPosY &&
-                        Math.abs(newTop3 - imageTransformed.y[1]) < 5
-                    ) {
+                    }
+                    if (el4) {
+                        el4.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop3 - imageTransformed.y[1]) < 5
+                ) {
+                    if (!updateStartPosY) {
                         top -= newTop3 - imageTransformed.y[1];
-                        image[4] = 1;
-                        updateStartPosY = true;
-                    } else {
-                        image[4] = 0;
                     }
+                    if (el4) {
+                        el4.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else {
+                    if (el4) {
+                        el4.style.display = "none";
+                    }
+                }
 
-                    if (
-                        !updateStartPosY &&
-                        Math.abs(newTop - imageTransformed.y[2]) < 5
-                    ) {
+                if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop - imageTransformed.y[2]) < 5
+                ) {
+                    if (!updateStartPosY) {
                         top -= newTop - imageTransformed.y[2];
-                        image[5] = 1;
-                        updateStartPosY = true;
-                    } else if (
-                        !updateStartPosY &&
-                        Math.abs(newTop2 - imageTransformed.y[2]) < 5
-                    ) {
+                    }
+                    if (el5) {
+                        el5.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop2 - imageTransformed.y[2]) < 5
+                ) {
+                    if (!updateStartPosY) { 
                         top -= newTop2 - imageTransformed.y[2];
-                        image[5] = 1;
-                        updateStartPosY = true;
-                    } else if (
-                        !updateStartPosY &&
-                        Math.abs(newTop3 - imageTransformed.y[2]) < 5
-                    ) {
+                    }
+                    if (el5) {
+                        el5.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else if (
+                    // !updateStartPosY &&
+                    Math.abs(newTop3 - imageTransformed.y[2]) < 5
+                ) {
+                    if (!updateStartPosY) {
                         top -= newTop3 - imageTransformed.y[2];
-                        image[5] = 1;
-                        updateStartPosY = true;
-                    } else {
-                        image[5] = 0;
                     }
-
-                    for (var ii = 0; ii < 6; ++ii) {
-                        var el = document.getElementById(image._id + "guide_" + ii);
-                        if (el) {
-                            if (image[ii] == 1) {
-                                el.style.display = "block";
-                            } else {
-                                el.style.display = "none";
-                            }
-                        }
+                    if (el5) {
+                        el5.style.display = "block";
+                    }
+                    updateStartPosY = true;
+                } else {
+                    if (el5) {
+                        el5.style.display = "none";
                     }
                 }
+
+                // for (var ii = 0; ii < 6; ++ii) {
+                //     var el = document.getElementById(image._id + "guide_" + ii);
+                //     if (el) {
+                //         if (image[ii] == 1) {
+                //             el.style.display = "block";
+                //         } else {
+                //             el.style.display = "none";
+                //         }
+                //     }
+                // }
             }
-            return image;
         });
 
-        const { staticGuides } = this.state;
-        var pageId = img.page;
+        // const { staticGuides } = this.state;
+        // var pageId = img.page;
 
-        var x = staticGuides.x.map(v => {
-            var e = v[0];
-            if (!updateStartPosX && Math.abs(newLeft - e) < 5) {
-                left -= newLeft - e;
-                // v[1] = 1;
-                var el = document.getElementById(v[1] + pageId);
-                if (el) {
-                    el.style.display = "block";
-                }
-                updateStartPosX = true;
-            } else if (!updateStartPosX && Math.abs(newLeft3 - e) < 5) {
-                left -= newLeft3 - e;
-                // v[1] = 1;
-                var el = document.getElementById(v[1] + pageId);
-                if (el) {
-                    el.style.display = "block";
-                }
-                updateStartPosX = true;
-            } else if (!updateStartPosX && Math.abs(newLeft2 - e) < 5) {
-                left -= newLeft2 - e;
-                // v[1] = 1;
-                var el = document.getElementById(v[1] + pageId);
-                if (el) {
-                    el.style.display = "block";
-                }
-                updateStartPosX = true;
-            } else {
-                var el = document.getElementById(v[1] + pageId);
-                if (el) {
-                    el.style.display = "none";
-                }
-                // v[1] = 0;
-            }
+        // var x = staticGuides.x.map(v => {
+        //     var e = v[0];
+        //     if (!updateStartPosX && Math.abs(newLeft - e) < 5) {
+        //         left -= newLeft - e;
+        //         // v[1] = 1;
+        //         var el = document.getElementById(v[1] + pageId);
+        //         if (el) {
+        //             el.style.display = "block";
+        //         }
+        //         updateStartPosX = true;
+        //     } else if (!updateStartPosX && Math.abs(newLeft3 - e) < 5) {
+        //         left -= newLeft3 - e;
+        //         // v[1] = 1;
+        //         var el = document.getElementById(v[1] + pageId);
+        //         if (el) {
+        //             el.style.display = "block";
+        //         }
+        //         updateStartPosX = true;
+        //     } else if (!updateStartPosX && Math.abs(newLeft2 - e) < 5) {
+        //         left -= newLeft2 - e;
+        //         // v[1] = 1;
+        //         var el = document.getElementById(v[1] + pageId);
+        //         if (el) {
+        //             el.style.display = "block";
+        //         }
+        //         updateStartPosX = true;
+        //     } else {
+        //         var el = document.getElementById(v[1] + pageId);
+        //         if (el) {
+        //             el.style.display = "none";
+        //         }
+        //         // v[1] = 0;
+        //     }
 
-            return v;
-        });
+        //     return v;
+        // });
 
-        var y = staticGuides.y.map(v => {
-            var e = v[0];
-            if (!updateStartPosY && Math.abs(newTop - e) < 5) {
-                top -= newTop - e;
-                var el = document.getElementById(v[1] + pageId);
-                if (el) {
-                    el.style.display = "block";
-                }
-                updateStartPosY = true;
-            } else if (!updateStartPosY && Math.abs(newTop3 - e) < 5) {
-                top -= newTop3 - e;
-                var el = document.getElementById(v[1] + pageId);
-                if (el) {
-                    el.style.display = "block";
-                }
-                updateStartPosY = true;
-            } else if (!updateStartPosY && Math.abs(newTop2 - e) < 5) {
-                top -= newTop2 - e;
-                var el = document.getElementById(v[1] + pageId);
-                if (el) {
-                    el.style.display = "block";
-                }
-                updateStartPosY = true;
-            } else {
-                var el = document.getElementById(v[1] + pageId);
-                if (el) {
-                    el.style.display = "none";
-                }
-            }
+        // var y = staticGuides.y.map(v => {
+        //     var e = v[0];
+        //     if (!updateStartPosY && Math.abs(newTop - e) < 5) {
+        //         top -= newTop - e;
+        //         var el = document.getElementById(v[1] + pageId);
+        //         if (el) {
+        //             el.style.display = "block";
+        //         }
+        //         updateStartPosY = true;
+        //     } else if (!updateStartPosY && Math.abs(newTop3 - e) < 5) {
+        //         top -= newTop3 - e;
+        //         var el = document.getElementById(v[1] + pageId);
+        //         if (el) {
+        //             el.style.display = "block";
+        //         }
+        //         updateStartPosY = true;
+        //     } else if (!updateStartPosY && Math.abs(newTop2 - e) < 5) {
+        //         top -= newTop2 - e;
+        //         var el = document.getElementById(v[1] + pageId);
+        //         if (el) {
+        //             el.style.display = "block";
+        //         }
+        //         updateStartPosY = true;
+        //     } else {
+        //         var el = document.getElementById(v[1] + pageId);
+        //         if (el) {
+        //             el.style.display = "none";
+        //         }
+        //     }
 
-            return v;
-        });
+        //     return v;
+        // });
 
         image.left = left;
         image.top = top;
 
-        updatePosition.bind(this)(_id + "_", image);
-        updatePosition.bind(this)(_id + "__", image);
+        updatePosition.bind(this)(_id + "_alo", image);
+        updatePosition.bind(this)(_id + "__alo", image);
     };
 
     handleDragEnd = () => {
@@ -2912,15 +3008,20 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.set(window.image._id, window.image);
         editorStore.imageSelected = window.image;
 
-        Array.from(editorStore.images2.values()).map(image => {
-            for (var ii = 0; ii < 6; ++ii) {
-                image[ii] = 0;
-                var el = document.getElementById(image._id + "guide_" + ii);
-                if (el) {
-                    document.getElementById(image._id + "guide_" + ii).style.display =
-                        "none";
-                }
-            }
+        window.cloneImages.forEach(imageTransformed => {
+            let el0 = document.getElementById(imageTransformed._id + "guide_0");
+            let el1 = document.getElementById(imageTransformed._id + "guide_1");
+            let el2 = document.getElementById(imageTransformed._id + "guide_2");
+            let el3 = document.getElementById(imageTransformed._id + "guide_3");
+            let el4 = document.getElementById(imageTransformed._id + "guide_4");
+            let el5 = document.getElementById(imageTransformed._id + "guide_5");
+
+            el0.style.display = "none";
+            el1.style.display = "none";
+            el2.style.display = "none";
+            el3.style.display = "none";
+            el4.style.display = "none";
+            el5.style.display = "none";
         });
     };
 
@@ -3021,11 +3122,6 @@ class CanvaEditor extends Component<IProps, IState> {
         if (editorStore.colorPickerVisibility.get()) {
             return;
         }
-        // if (!this.state.rotating && !this.state.resizing) {
-        // let images = editorStore.images.map(image => {
-        //     image.selected = false;
-        //     return image;
-        // });
         if (editorStore.imageSelected) {
             var imageSelected = toJS(editorStore.imageSelected);
             imageSelected.selected = false;
@@ -3033,15 +3129,16 @@ class CanvaEditor extends Component<IProps, IState> {
             editorStore.images2.set(this.state.idObjectSelected, imageSelected);
         }
 
-
-        // editorStore.images2.set(this.state.idObjectSelected, imageSelected);
-
         var selectedTab = this.state.selectedTab;
         if (this.state.selectedTab === SidebarTab.Font || this.state.selectedTab === SidebarTab.Color || this.state.selectedTab === SidebarTab.Effect) {
             selectedTab = SidebarTab.Image;
         }
 
         editorStore.doNoObjectSelected();
+
+        if (this.state.cropMode) {
+            this.rerenderAllPages();
+        }
 
         this.setState({
             selectedCanvas: null,
@@ -3156,7 +3253,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (this.state.childId) {
             el = document.getElementById(this.state.idObjectSelected + this.state.childId + "text-container3");
         } else {
-            el = document.getElementById(this.state.idObjectSelected + "hihi4");
+            el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         }
         let image = toJS(editorStore.imageSelected);
         if (this.state.childId) {
@@ -3171,7 +3268,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (this.state.childId) {
             el = el = this.getSingleTextHTMLElement();
         } else {
-            el = document.getElementById(this.state.idObjectSelected + "hihi4");
+            el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         }
         let image = toJS(editorStore.imageSelected);
         if (this.state.childId) {
@@ -3207,7 +3304,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (this.state.childId) {
             el = this.getSingleTextHTMLElement();
         } else {
-            el = document.getElementById(this.state.idObjectSelected + "hihi4");
+            el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         }
         let image = toJS(editorStore.imageSelected);
         if (this.state.childId) {
@@ -3239,7 +3336,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     getSingleTextHTMLElement() {
-        return document.getElementById(this.state.idObjectSelected + this.state.childId + "text-container2"); 
+        return document.getElementById(this.state.idObjectSelected + this.state.childId + "text-container2alo"); 
     }
 
     handleChangeBlur = (val) => {
@@ -3247,7 +3344,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (this.state.childId) {
             el = this.getSingleTextHTMLElement();
         } else {
-            el = document.getElementById(this.state.idObjectSelected + "hihi4");
+            el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         }
         let image = toJS(editorStore.imageSelected);
         if (this.state.childId) {
@@ -3300,7 +3397,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (this.state.childId) {
             el = this.getSingleTextHTMLElement();
         } else {
-            el = document.getElementById(this.state.idObjectSelected + "hihi4");
+            el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         }
         let image = toJS(editorStore.imageSelected);
         if (this.state.childId) {
@@ -3336,7 +3433,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (this.state.childId) {
             el = this.getSingleTextHTMLElement();
         } else {
-            el = document.getElementById(this.state.idObjectSelected + "hihi4");
+            el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         }
         let image = toJS(editorStore.imageSelected);
         if (this.state.childId) {
@@ -3351,21 +3448,21 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleImageSelected = img => {
-        if (this.state.cropMode && img._id != this.state.idObjectSelected) {
+        if (this.state.cropMode && img._id != editorStore.idObjectSelected) {
             this.setState({ cropMode: false });
             this.doNoObjectSelected();
             return;
         }
         if (
-            this.state.idObjectSelected &&
-            img._id !== this.state.idObjectSelected
+            editorStore.idObjectSelected &&
+            img._id !== editorStore.idObjectSelected
         ) {
-            var temp = document.getElementById(this.state.idObjectSelected + "_1");
+            var temp = document.getElementById(editorStore.idObjectSelected + "_1");
             if (temp) {
                 temp.style.outline = null;
             }
         }
-        if (img._id === this.state.idObjectSelected) {
+        if (img._id === editorStore.idObjectSelected) {
             return;
         }
 
@@ -3379,14 +3476,12 @@ class CanvaEditor extends Component<IProps, IState> {
             });
         }
 
-        if (this.state.idObjectSelected) {
+        if (editorStore.idObjectSelected) {
             var imgSelected = editorStore.images2.get(this.state.idObjectSelected);
             imgSelected.selected = false;
             editorStore.images2.set(this.state.idObjectSelected, imgSelected);
         }
-
-        editorStore.idObjectSelected = img._id;
-        editorStore.imageSelected = img;
+        img.selected = true;
         editorStore.idObjectHovered = null;
         editorStore.imageHovered = null;
 
@@ -3394,11 +3489,8 @@ class CanvaEditor extends Component<IProps, IState> {
         imgSelected2.selected = true;
         editorStore.images2.set(img._id, imgSelected2);
 
-        this.setState({
-            fontColor: img.color, fontName: img.fontRepresentative, fontSize: Math.round(img.fontSize * img.scaleY * 10) / 10
-        });
-
-        img.selected = true;
+        editorStore.idObjectSelected = img._id;
+        editorStore.imageSelected = img;
 
         this.setState({
             selectedCanvas: null,
@@ -3415,6 +3507,8 @@ class CanvaEditor extends Component<IProps, IState> {
             currentLineHeight: img.lineHeight,
             currentLetterSpacing: img.letterSpacing,
             fontColor: img.color,
+            fontName: img.fontRepresentative, 
+            fontSize: Math.round(img.fontSize * img.scaleY * 10) / 10
         });
     };
 
@@ -3464,7 +3558,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     {
                         fonts: toJS(editorStore.fonts),
                         canvas,
-                        additionalStyle: a[0].outerHTML
+                        // additionalStyle: a[0].outerHTML
                     },
                     {
                         headers: {
@@ -3704,11 +3798,11 @@ class CanvaEditor extends Component<IProps, IState> {
             }
 
             window.downloading = true;
-            self.setState({ 
-                // scale: 1, 
-                downloading: true,
-                // showPopup: true 
-            }, () => {
+            // self.setState({ 
+            //     // scale: 1, 
+            //     downloading: true,
+            //     // showPopup: true 
+            // }, () => {
                 // var aloCloned = document.getElementsByClassName("alo");
                 // var canvas = [];
                 // for (var i = 0; i < aloCloned.length; ++i) {
@@ -3788,7 +3882,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     .catch(error => {
                         // Ui.showErrors(error.response.statusText)
                     });
-            });
+            // });
         }, 300);
 
         return _id;
@@ -4144,14 +4238,13 @@ class CanvaEditor extends Component<IProps, IState> {
 
     onSingleTextChange(thisImage, e, childId) {
 
-        console.log('onSingleTextChange ', childId)
 
         thisImage = toJS(thisImage);
 
         
         let target;
         if (childId) {
-            target = document.getElementById(this.state.idObjectSelected + childId);
+            target = document.getElementById(this.state.idObjectSelected + childId + "alo");
         } else {
             target = e.target;
         }
@@ -4183,7 +4276,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 let oldHeight = image.height;
                 let a;
                 if (thisImage.type === TemplateType.Heading) {
-                    a = document.getElementsByClassName(thisImage._id + "hihi4")[0] as HTMLElement;
+                    a = document.getElementsByClassName(thisImage._id + "hihi4alo")[0] as HTMLElement;
                 } else if (thisImage.type === TemplateType.Latex) {
                     a = document.getElementById(thisImage._id)
                         .getElementsByClassName("text2")[0] as HTMLElement;
@@ -4216,8 +4309,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 let texts = image.document_object.map(text => {
                     if (text._id === childId) {
                         text.innerHTML = target.innerHTML;
-                        text.height = document.getElementById(this.state.idObjectSelected + text._id).offsetHeight * text.scaleY;
-                        console.log('text.height ', text.height)
+                        text.height = document.getElementById(this.state.idObjectSelected + text._id + "alo").offsetHeight * text.scaleY;
                         // text.height2 = Math.min(1, text.height / image.origin_height * text.scaleY);
                     }
                     return text;
@@ -4225,13 +4317,12 @@ class CanvaEditor extends Component<IProps, IState> {
 
                 let maxHeight = 0;
                 texts.forEach(text => {
-                    const h = document.getElementById(this.state.idObjectSelected + text._id).offsetHeight * text.scaleY;
+                    const h = document.getElementById(this.state.idObjectSelected + text._id + "alo").offsetHeight * text.scaleY;
                     maxHeight = Math.max(maxHeight, h + text.top);
                 });
 
                 texts = texts.map(text => {
                     text.height2 = text.height / maxHeight;
-                    console.log('text.height2 ', childId, text.height, text.height2)
                     return text;
                 });
 
@@ -4259,11 +4350,9 @@ class CanvaEditor extends Component<IProps, IState> {
 
                 newDocumentObjects = newDocumentObjects.map(text => {
                     text.height2 = text.height / maxHeight;
-                    console.log('text.height2 ', childId, text.height, text.height2)
                     return text;
                 });
 
-                console.log('newDocumentObjects ', newDocumentObjects);
 
                 // newDocumentObjects = newDocumentObjects.map(text => {
                 //     text.height2 = text.height / maxHeight;
@@ -4476,11 +4565,9 @@ class CanvaEditor extends Component<IProps, IState> {
         width: number,
         height: number
     ): any {
-        console.log('normalize2 ', image, images);
 
         var result = [];
         var norm = (image, parent) => {
-            console.log('res ', image);
             var res = { ...image };
             if (parent != null) {
                 var img = images.filter(img => img._id === image._id)[0];
@@ -4647,8 +4734,10 @@ class CanvaEditor extends Component<IProps, IState> {
                 opacity: 100,
                 backgroundColor: null,
                 childId: null
-            }
+            }, false
         );
+
+        AllImage[newPageId] = new Images();
 
         editorStore.pages.replace(pages);
         editorStore.keys.replace(keys);
@@ -4734,7 +4823,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     staticGuides={this.state.staticGuides}
                     index={i}
                     addAPage={this.addAPage}
-                    images={Array.from(editorStore.images2.values()).filter(img => img.page === pages[i])}
+                    images={Array.from(editorStore.images2.values()).filter(img => img.page === pages[i]).map(img => toJS(img))}
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
                     rectHeight={this.state.rectHeight}
@@ -4755,8 +4844,9 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleResizeInnerImageStart={this.handleResizeInnerImageStart}
                     updateRect={this.state.updateRect}
                     doNoObjectSelected={this.doNoObjectSelected}
-                    idObjectSelected={this.state.idObjectSelected}
-                    selectedImage={this.state.selectedImage}
+                    idObjectSelected={(editorStore.imageSelected && editorStore.imageSelected.page == pages[i]) ? editorStore.idObjectSelected : null}
+                    selectedImage={(editorStore.imageSelected && editorStore.imageSelected.page == pages[i])
+                        ? toJS(editorStore.imageSelected) : null}
                     handleDeleteThisPage={this.handleDeleteThisPage.bind(this, pages[i])}
                     showPopup={this.state.showPopup}
                     preview={preview}
@@ -4914,25 +5004,24 @@ class CanvaEditor extends Component<IProps, IState> {
 
             this.onSingleTextChange(image, null, this.state.childId);
         } else {
-            let hihi4 = document.getElementById(this.state.idObjectSelected + "hihi4");
+            let hihi4 = document.getElementById(this.state.idObjectSelected + "hihi4alo");
             hihi4.style.letterSpacing = `${1.0*letterSpacing/100*4}px`;
             let height = hihi4.offsetHeight;
             let image = toJS(editorStore.imageSelected);
 
-            let a = document.getElementsByClassName(this.state.idObjectSelected + "aaaa");
+            let a = document.getElementsByClassName(this.state.idObjectSelected + "aaaaalo");
             for (let i = 0; i < a.length; ++i) {
                 let tempEl = a[i] as HTMLElement;
                 tempEl.style.height = height * image.scaleY * this.state.scale + "px";
             } 
 
-            window.imageHeight = height;
+            window.imageHeight = height * image.scaleY;
         }
 
         window.letterSpacing = letterSpacing;
     }
 
     handleLineHeightChangeEnd = (val) => {
-        console.log('handleLineHeightChangeEnd ', val);
 
         let image = toJS(editorStore.imageSelected);
         if (this.state.childId) {
@@ -4950,7 +5039,6 @@ class CanvaEditor extends Component<IProps, IState> {
             let lineHeight = 1.0 * val / 100 * 2 + 0.5;
             image.lineHeight = lineHeight;
             image.height = window.imageHeight;
-            console.log('image.height ', image.height)
             image.origin_height = window.imageHeight / image.scaleY;
             editorStore.imageSelected = image;
             editorStore.images2.set(this.state.idObjectSelected, image);
@@ -4959,7 +5047,6 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleLineHeightChange = val => {
-        console.log('handleLineHieghtChange ', val);
         let lineHeight = 1.0 * val / 100 * 2 + 0.5;
         let image = toJS(editorStore.imageSelected);
         if (this.state.childId) {
@@ -4968,16 +5055,14 @@ class CanvaEditor extends Component<IProps, IState> {
 
             this.onSingleTextChange(image, null, this.state.childId);
         } else {
-            let hihi4 = document.getElementById(this.state.idObjectSelected + "hihi4");
+            let hihi4 = document.getElementById(this.state.idObjectSelected + "hihi4alo");
             hihi4.style.lineHeight = lineHeight.toString();
             let image = toJS(editorStore.imageSelected);
             let height = hihi4.offsetHeight;
-            var a = document.getElementsByClassName(this.state.idObjectSelected + "aaaa");
+            var a = document.getElementsByClassName(this.state.idObjectSelected + "aaaaalo");
             for (let i = 0; i < a.length; ++i) {
                 var tempEl = a[i] as HTMLElement;
                 tempEl.style.height = height * image.scaleY * this.state.scale + "px";
-                console.log('height ', height * image.scaleY * this.state.scale, height);
-                console.log('alo  ', tempEl, tempEl.style.height);
             } 
             
             window.imageHeight = height * image.scaleY;
@@ -4987,7 +5072,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleOpacityChangeEnd = () => {
-        // var el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        // var el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         // if (el) {
         //     el.style.opacity = (opacity / 100).toString();
         // }
@@ -5012,7 +5097,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleOpacityChange = opacity => {
 
-        var el = document.getElementById(this.state.idObjectSelected + "hihi4");
+        var el = document.getElementById(this.state.idObjectSelected + "hihi4alo");
         if (el) {
             el.style.opacity = (opacity / 100).toString();
         }
@@ -5127,7 +5212,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         style={{
                                             fill: !this.state.isSaving ? "white" : "rgb(33, 204, 154)",
                                         }}
-                                        viewBox="0 0 16 12" width="22" height="18" color="#21CC9A"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.56302 0.0160066C9.79265 -0.179258 11.7966 1.43246 12.1825 3.73127C14.3709 3.81635 16.0788 5.73568 15.9972 8.01822C15.9156 10.3008 14.0755 12.0822 11.8871 11.9971H3.60216C1.61274 11.9971 0 10.3149 0 8.23989C0 6.16486 1.61274 4.48271 3.60216 4.48271C3.61512 2.14897 5.33338 0.211271 7.56302 0.0160066ZM7.1932 9.81819L11.4032 5.57006V5.5901C11.596 5.39463 11.6004 5.07963 11.4131 4.87874L10.8881 4.34773C10.6922 4.15558 10.3807 4.15558 10.1848 4.34773L6.85639 7.71416L5.62806 6.47179C5.4321 6.27964 5.12069 6.27964 4.92474 6.47179L4.38981 7.01282C4.20104 7.20762 4.20104 7.51937 4.38981 7.71416L6.49978 9.81819C6.58966 9.91505 6.71515 9.97 6.84649 9.97C6.97783 9.97 7.10332 9.91505 7.1932 9.81819Z"></path></svg>
+                                        viewBox="0 0 16 12" width="22" height="18" color="#21CC9A"><path fillRule="evenodd" clipRule="evenodd" d="M7.56302 0.0160066C9.79265 -0.179258 11.7966 1.43246 12.1825 3.73127C14.3709 3.81635 16.0788 5.73568 15.9972 8.01822C15.9156 10.3008 14.0755 12.0822 11.8871 11.9971H3.60216C1.61274 11.9971 0 10.3149 0 8.23989C0 6.16486 1.61274 4.48271 3.60216 4.48271C3.61512 2.14897 5.33338 0.211271 7.56302 0.0160066ZM7.1932 9.81819L11.4032 5.57006V5.5901C11.596 5.39463 11.6004 5.07963 11.4131 4.87874L10.8881 4.34773C10.6922 4.15558 10.3807 4.15558 10.1848 4.34773L6.85639 7.71416L5.62806 6.47179C5.4321 6.27964 5.12069 6.27964 4.92474 6.47179L4.38981 7.01282C4.20104 7.20762 4.20104 7.51937 4.38981 7.71416L6.49978 9.81819C6.58966 9.91505 6.71515 9.97 6.84649 9.97C6.97783 9.97 7.10332 9.91505 7.1932 9.81819Z"></path></svg>
                                 </div>
                                 {/* <span>Lưu</span> */}
                                         <span style={{color: "white", margin: "auto"}}>{!this.state.saved ? "Chưa lưu" : "Đã lưu"}</span>
@@ -5473,7 +5558,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                             }
                                         }}
                                     >
-                                        {this.state.downloading && (
+                                        {/* {this.state.downloading && ( */}
                                             <div
                                                 style={{
                                                     display: "none"
@@ -5481,7 +5566,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                             >
                                                 {this.renderCanvas(false, -1, true)}
                                             </div>
-                                        )}
+                                        {/* )} */}
                                         {this.renderCanvas(false, -1, false)}
                                     </div>
                                 )}

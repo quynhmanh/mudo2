@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import Rect from "./Rect";
 
 export interface IProps {
@@ -47,13 +47,25 @@ export interface IProps {
   srcThumnail: any;
   downloading: boolean;
   selected: boolean;
+  canvas: string;
 }
 
 export interface IState {
   editing: boolean;
 }
 
-export default class ResizableRect extends PureComponent<IProps, IState> {
+export default class ResizableRect extends Component<IProps, IState> {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.image.selected || nextProps.image.selected) {
+      return true;
+    }
+    if (this.props.scale != nextProps.scale) {
+      return true;
+    }
+    return false;
+  }
+  
   static defaultProps = {
     parentRotateAngle: 0,
     rotateAngle: 0,
@@ -104,10 +116,12 @@ export default class ResizableRect extends PureComponent<IProps, IState> {
       downloading,
       selected,
       name,
+      canvas,
     } = this.props;
 
     return (
       <Rect
+        canvas={canvas}
         name={name}
         selected={selected}
         downloading={downloading}

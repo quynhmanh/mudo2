@@ -1,4 +1,5 @@
 import React, { Component, PureComponent } from 'react'
+import { canvasToBlob } from 'htmltoimage/utils';
 
 export interface IProps {
     _id: string;
@@ -14,6 +15,7 @@ export interface IProps {
     src: any;
     srcThumnail: any;
     downloading: boolean;
+    canvas: string;
 }
 
 export interface IState {
@@ -30,7 +32,7 @@ export default class Image extends Component<IProps, IState> {
   }
 
   render () {
-      let {downloading, _id, imgWidth, imgHeight, posX, posY, selected, cropMode, outlineWidth, backgroundColor, enableCropMode, src, srcThumnail} = this.props;
+      let {downloading, _id, imgWidth, imgHeight, posX, posY, selected, cropMode, outlineWidth, backgroundColor, enableCropMode, src, srcThumnail, canvas} = this.props;
     return (
         <div>
             {!window.downloading && !this.state.loaded && <img 
@@ -46,7 +48,7 @@ export default class Image extends Component<IProps, IState> {
             />
             }
         <img
-                  id={_id + "1235"}
+                  id={_id + "1235" + canvas}
                   className={`${_id}rect-alo ${_id}imgWidth ${_id}1236`}
                   style={{
                     zIndex: 9999999,

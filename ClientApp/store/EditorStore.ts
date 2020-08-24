@@ -128,3 +128,10 @@ class Images {
   const store = new Images();
 
 export default store;
+
+let AllImage = {};
+
+export {
+  Images,
+  AllImage,
+}

@@ -418,6 +418,8 @@ class LeftSide extends Component<IProps, IState> {
 
   backgroundOnMouseDown(item, e) {
 
+    console.log('backgroundOnMouseDown ', item);
+
     var rec2 = e.target.getBoundingClientRect();
     var { rectWidth, rectHeight } = this.props;
     var imgRatio = rec2.width / rec2.height;
@@ -429,9 +431,10 @@ class LeftSide extends Component<IProps, IState> {
     }
 
     let image = Array.from(editorStore.images2.values()).find(image => 
-      image.page == editorStore.activePageId && image.type == TemplateType.BackgroundImage);
+    image.page == editorStore.activePageId && image.type == TemplateType.BackgroundImage);
     image = toJS(image);
     image.src = window.location.origin + "/" + item.representative;
+    image.srcThumnail = item.representativeThumbnail;
     image.color = "";
     image.width = rectWidth;
     image.height = rectHeight;
@@ -449,6 +452,7 @@ class LeftSide extends Component<IProps, IState> {
     editorStore.images2.set(image._id, image);
     // editorStore.imageSelected = image;
 
+    // editorStore.doNoObjectSelected();
     this.props.handleImageSelected(image);
 
     // var rec2 = e.target.getBoundingClientRect();
@@ -1457,7 +1461,7 @@ class LeftSide extends Component<IProps, IState> {
                       this.props.handleImageSelected(item);
 
                       setTimeout(() => {
-                        let el = document.getElementById(item._id + "hihi4");
+                        let el = document.getElementById(item._id + "hihi4alo");
                         console.log('el ', el);
                         let range = document.createRange();
                         range.selectNodeContents(el)
@@ -1506,9 +1510,9 @@ class LeftSide extends Component<IProps, IState> {
                         ref: this.props.idObjectSelected,
                         color: "black",
                         fontSize: 32,
+                        fontFace: "Open-Sans-Regular",
                         fontRepresentative: "images/font-Open Sans Regular.png",
                         selected: true,
-                        fontFace: "Open-Sans-Regular",
                         lineHeight: 1.4,
                       };
 
@@ -1558,7 +1562,7 @@ class LeftSide extends Component<IProps, IState> {
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="ont-size: 22px; font-family: Open-Sans-Light;">${this.props.translate(
+                        innerHTML: `<div class="font" style="ont-size: 22px;">${this.props.translate(
                           "addABodyText"
                         )}</div>`,
                         scaleX: 1,

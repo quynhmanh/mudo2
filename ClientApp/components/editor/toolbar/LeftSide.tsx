@@ -235,6 +235,7 @@ const LeftSide = (props: IProps) => {
             }
             {editorStore.imageSelected && (editorStore.imageSelected.type === TemplateType.Heading || props.childId) &&
             <Spacing 
+                title="Spacing"
                 show=
                 {
                     (editorStore.imageSelected &&

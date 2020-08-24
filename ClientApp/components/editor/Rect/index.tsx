@@ -65,6 +65,7 @@ export interface IProps {
   srcThumnail: any;
   downloading: boolean;
   name: string;
+  canvas: string;
 }
 
 export interface IState {
@@ -290,6 +291,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       hovered,
       selected,
       name,
+      canvas,
       image: {
         selected: imageSelected,
         _id,
@@ -373,10 +375,10 @@ export default class Rect extends PureComponent<IProps, IState> {
           className="hideWhenDownload"
           style={{
             position: "absolute",
-            top: "-1px",
-            left: "-1px",
-            right: "-1px",
-            bottom: "-1px",
+            top: "-2px",
+            left: "-2px",
+            right: "-2px",
+            bottom: "-2px",
             backgroundImage: 
               objectType == TemplateType.TextTemplate ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
               :'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
@@ -473,7 +475,10 @@ export default class Rect extends PureComponent<IProps, IState> {
             }}
           ></div>
         )} */}
-        {src && (objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
+        {((!imageSelected && !selected && name != "imgHovered") ||
+         (imageSelected && !selected && name == "all-images") || 
+         (name=="imgSelected" && cropMode) ||
+         name == "downloadImages") && src && (objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
           <div
             id={_id}
             className={_id + "rect-alo"}
@@ -485,7 +490,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: "100%"
             }}
           >
-            {showImage &&
+            {/* {showImage && */}
               <div
                 id={_id + "hihi4"}
                 className={_id + "rect-alo"}
@@ -498,6 +503,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 }}
               >
                 <Image 
+                  canvas={canvas}
                   _id={_id}
                   imgWidth={imgWidth}
                   imgHeight={imgHeight}
@@ -512,8 +518,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                   srcThumnail={srcThumnail}
                   downloading={downloading}
                 />
-              </div>}
-            {selected && cropMode && !showImage && (
+              </div>
+            {imageSelected && cropMode && (
               <div
                 id={_id + "123"}
                 className={_id + "rect-alo"}
@@ -636,11 +642,11 @@ export default class Rect extends PureComponent<IProps, IState> {
                 id={child._id + "b2"}
                 className={_id + child._id + "b2"}
                 style={{
-                    left: `${child.left/width * scaleX*100}%`,
-                    top: `${child.top/(child.height / child.height2)*100}%`,
+                    left: `calc(${child.left/width * scaleX*100}% - 1px)`,
+                    top: `calc(${child.top/(child.height / child.height2)*100}% - 1px)`,
                     position: "absolute",
-                    width: `${child.width2 * 100}%`,
-                    height: `${child.height2 * 100}%`,
+                    width: `calc(${child.width2 * 100}% + 2px)`,
+                    height: `calc(${child.height2 * 100}% + 2px)`,
                     backgroundImage: selected && childId === child._id && 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
                     backgroundPosition: 'top,100%,bottom,0',
                     backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
@@ -784,7 +790,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       }}
                     >
                       <div
-                      id={_id + child._id + "text-container2"}
+                      id={_id + child._id + "text-container2" + canvas}
                         key={child._id}
                         style={{
                           zIndex: selected && objectType !== TemplateType.Image ? 1 : 0,
@@ -826,7 +832,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                           rotateAngle={rotateAngle}
                           parentIndex={_id}
                           innerHTML={child.innerHTML}
-                          _id={_id + child._id}
+                          _id={_id + child._id + canvas}
                           selected={selected}
                           onInput={onTextChange}
                           onBlur={this.endEditing.bind(this)}
@@ -949,16 +955,16 @@ export default class Rect extends PureComponent<IProps, IState> {
                 )} */}
                   {
                   // ((_id == editorStore.idObjectSelected && selected) || (!selected && _id != editorStore.idObjectSelected)) && 
-                  ((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages") &&
+                  ((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages" || name == "imgHovered") &&
                   objectType === TemplateType.Heading &&
                     <div
-                      id={_id + "hihi4"}
+                      id={_id + "hihi4" + canvas}
                       spellCheck={false}
                       onInput={onTextChange}
                       contentEditable={selected}
                       ref={this.setTextElementRef2.bind(this)}
                       // onMouseDown={this.onMouseDown.bind(this)}
-                      className={"text single-text " + _id + "hihi4"}
+                      className={"text single-text " + _id + "hihi4" + canvas}
                       style={{
                         position: "absolute",
                         display: "inline-block",

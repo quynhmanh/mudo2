@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ResizableRect from "@Components/editor/ResizableRect";
 import StyledComponent from "styled-components";
 import uuidv4 from "uuid/v4";
-import editorStore from "@Store/EditorStore";
+import editorStore, { Images } from "@Store/EditorStore";
 import { toJS } from "mobx";
 import Tooltip from "@Components/shared/Tooltip";
 
@@ -81,11 +81,31 @@ export default class Canvas extends Component<IProps, IState> {
     hoveringCanvas: false,
   }
 
+  constructor(props: any) {
+    super(props);
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
+    // Object.entries(this.props).forEach(([key, val]) =>
+    //   nextProps[key] !== val && console.log(`Prop '${key}' changed`, nextProps[key], val)
+    // );
+    // if (JSON.stringify(this.props.selectedImage) === JSON.stringify(nextProps.selectedImage)) {
+    //   console.log('image same');
+    // }
+  
     if (this.props.uiKey != nextProps.uiKey) {
+      // console.log('this.props.uiKey != nextProps.uiKey');
       return true;
     }
     if (this.props.activePageId != nextProps.activePageId) {
+      // console.log('this.props.activePageId != nextProps.activePageId');
+      return true;
+    }
+    if (this.props.cropMode != nextProps.cropMode) {
+      // console.log('this.props.cropMode != nextProps.cropMode');
+      return true;
+    }
+    if (this.props.scale != nextProps.scale) {
       return true;
     }
     // if ((nextProps.dragging ||
@@ -93,12 +113,16 @@ export default class Canvas extends Component<IProps, IState> {
     //    nextProps.rotating) && this.props.idObjectSelected == nextProps.idObjectSelected) {
     //   return false;
     // }
-    if (!nextProps.images.find(img => img._id == nextProps.idObjectSelected) &&
-      !nextProps.images.find(img => img._id == this.props.idObjectSelected) &&
-      this.props.scale == nextProps.scale) {
-      return false;
+    // console.log('pageId', this.props.id);
+    if (nextProps.images.find(img => img._id == nextProps.idObjectSelected) ||
+      this.props.images.find(img => img._id == this.props.idObjectSelected)) {
+        if (nextProps.selectedImage) {
+          // console.log('123this.props.cropMode != nextProps.cropMode ', nextProps.selectedImage.page, nextProps.id);
+        }
+      return true;
     }
-    return true;
+
+    return false;
   }
 
   tranformImage = (image: any) => {
@@ -133,7 +157,6 @@ export default class Canvas extends Component<IProps, IState> {
       staticGuides,
       numberOfPages,
     } = this.props;
-
     
     var imgHovered = editorStore.imageHovered;
     var imgSelected = editorStore.imageSelected;
@@ -147,7 +170,7 @@ export default class Canvas extends Component<IProps, IState> {
           transition: "all 0.1s linear"
         }}
         key={id}
-        id={id}
+        id={!this.props.downloading ? id : ""}
       >
         <div>
 
@@ -235,8 +258,8 @@ export default class Canvas extends Component<IProps, IState> {
             transform: this.props.preview && "scale(0.5)",
             transformOrigin: this.props.preview && "0 0"
           }}
-        >
-          <div
+        > 
+          {!this.props.downloading && <div
             id="guide-container"
             className="screen-container"
             style={{
@@ -254,7 +277,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     left: `${g[0] * scale}px`,
-                    borderLeft:"0.1em solid #B14AED"
+                    borderLeft:"0.1em solid rgb(251 0 255)"
                   }}
                 ></div>
               // )
@@ -268,7 +291,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     top: `${g[0] * scale}px`,
-                    borderTop: "0.1em solid #B14AED"
+                    borderTop: "0.1em solid rgb(251 0 255)"
                   }}
                 ></div>
               // )
@@ -282,7 +305,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     left: `${transformImage.x[0] * scale}px`,
-                    borderLeft: "0.1em dashed #B14AED"
+                    borderLeft: `0.1em ${g.type == TemplateType.BackgroundImage ? "solid" : "dashed"} rgb(251 0 255)`,
                   }}
                 ></div>
               );
@@ -296,7 +319,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     left: `${transformImage.x[1] * scale}px`,
-                    borderLeft: "0.1em dashed #B14AED"
+                    borderLeft: `0.1em ${g.type == TemplateType.BackgroundImage ? "solid" : "dashed"} rgb(251 0 255)`,
                   }}
                 ></div>
               );
@@ -311,7 +334,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     left: `${transformImage.x[2] * scale}px`,
-                    borderLeft: "0.1em dashed #B14AED"
+                    borderLeft: `0.1em ${g.type == TemplateType.BackgroundImage ? "solid" : "dashed"} rgb(251 0 255)`,
                   }}
                 ></div>
               );
@@ -326,7 +349,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     top: `${transformImage.y[0] * scale}px`,
-                    borderTop: "0.1em dashed #B14AED"
+                    borderTop: `0.1em ${g.type == TemplateType.BackgroundImage ? "solid" : "dashed"} rgb(251 0 255)`,
                   }}
                 ></div>
               );
@@ -341,7 +364,7 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     top: `${transformImage.y[1] * scale}px`,
-                    borderTop: "0.1em dashed #B14AED"
+                    borderTop: `0.1em ${g.type == TemplateType.BackgroundImage ? "solid" : "dashed"} rgb(251 0 255)`,
                   }}
                 ></div>
               );
@@ -356,16 +379,17 @@ export default class Canvas extends Component<IProps, IState> {
                   style={{
                     display: 'none',
                     top: `${transformImage.y[2] * scale}px`,
-                    borderTop: "0.1em dashed #B14AED"
+                    borderTop: `0.1em ${g.type == TemplateType.BackgroundImage ? "solid" : "dashed"} rgb(251 0 255)`,
                   }}
                 ></div>
               );
             })}
-          </div>
+          </div>}
+          {!this.props.downloading &&
           <div
             id="alo"
             ref={i => this.refAlo = i}
-            className={"alo"}
+            className={!this.props.downloading ? "alo" : ""}
             style={{
               backgroundColor:
                 !this.props.showPopup &&
@@ -477,11 +501,12 @@ export default class Canvas extends Component<IProps, IState> {
                 .map(img => (
                   <div
                     key={img._id}
-                    className={img._id + "_" + " " +  img._id + "aaaa"}
-                    id={img._id + "_"}
+                    className={img._id + "_" + " " +  img._id + "aaaaalo"}
+                    id={img._id + "_alo"}
                     style={{
                       // zIndex: img.selected ? 99999999 : img.zIndex,
                       zIndex: img.zIndex,
+                      //  && cropMode ? 999999999 : img.zIndex,
                       width: img.width * scale + "px",
                       height: img.height * scale + "px",
                       // left: img.left * scale + "px",
@@ -513,11 +538,12 @@ export default class Canvas extends Component<IProps, IState> {
                       key={img._id}
                       onMouseDown={(e) => {
                         e.stopPropagation();
-                        this.props.handleImageSelected(img, e);
+                        // this.props.handleImageSelected(img, e);
                         this.props.handleDragStart(e, img._id);
                       }}
                     >
                       <ResizableRect
+                        canvas="alo"
                         name="all-images"
                         selected={false}
                         downloading={false}
@@ -595,8 +621,8 @@ export default class Canvas extends Component<IProps, IState> {
               <div>
                 {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&
                   <div
-                    className={imgHovered._id + "__"}
-                    id={imgHovered._id + "__"}
+                    className={imgHovered._id + "__alo"}
+                    id={imgHovered._id + "__alo"}
                     key={imgHovered._id}
                     style={{
                       zIndex: 99999999,
@@ -645,6 +671,7 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                     >
                       <ResizableRect
+                        canvas="alo"
                         name="imgHovered"
                         selected={false}
                         image={imgHovered}
@@ -707,8 +734,8 @@ export default class Canvas extends Component<IProps, IState> {
                 }
                 </div>
                 {imgSelected && imgSelected.page === id && <div
-                      className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaa"}
-                      id={imgSelected._id + "__"}
+                      className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaaalo"}
+                      id={imgSelected._id + "__alo"}
                       key={imgSelected._id}
                       style={{
                         zIndex: imgSelected.type == TemplateType.BackgroundImage ? 1 : 99999999,
@@ -734,6 +761,7 @@ export default class Canvas extends Component<IProps, IState> {
                         }}
                       >
                         <ResizableRect
+                          canvas="alo"
                           name="imgSelected"
                           selected={true}
                           image={imgSelected}
@@ -795,8 +823,9 @@ export default class Canvas extends Component<IProps, IState> {
                 }
             </div>
             }
-          </div>
-          {this.props.downloading && <div
+          </div>}
+          {this.props.downloading &&
+          <div
             id="alo"
             ref={i => this.refAlo = i}
             className="alo2"
@@ -813,7 +842,8 @@ export default class Canvas extends Component<IProps, IState> {
               padding: this.props.bleed ? "10px" : 0,
               // transition: 'all 2s linear',
               overflow: this.props.bleed && "hidden",
-              boxSizing: "border-box"
+              boxSizing: "border-box",
+              display: "none",
             }}
           >
             {this.props.bleed && (
@@ -888,8 +918,8 @@ export default class Canvas extends Component<IProps, IState> {
                 .map(img => (
                   <div
                     key={img._id}
-                    className={img._id + "_" + " " +  img._id + "aaaa"}
-                    id={img._id + "_"}
+                    className={img._id + "_" + " " +  img._id + "aaaaalo2"}
+                    id={img._id + "_alo2"}
                     style={{
                       // zIndex: img.selected ? 99999999 : img.zIndex,
                       zIndex: img.zIndex,
@@ -929,6 +959,7 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                     >
                       <ResizableRect
+                        canvas="alo2"
                         name="downloadImages"
                         selected={false}
                         downloading={this.props.downloading}
@@ -1007,7 +1038,7 @@ export default class Canvas extends Component<IProps, IState> {
                 {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&
                   <div
                     className={imgHovered._id + "__"}
-                    id={imgHovered._id + "__"}
+                    id={imgHovered._id + "__alo2"}
                     key={imgHovered._id}
                     style={{
                       zIndex: 99999999,
@@ -1056,6 +1087,7 @@ export default class Canvas extends Component<IProps, IState> {
                       }}
                     >
                       <ResizableRect
+                        canvas="alo2"
                         selected={false}
                         image={imgHovered}
                         hovered={true}

@@ -502,7 +502,6 @@ export const updateTransformXY = function(elId, x, y: any) {
 }
 
 export const updatePosition = function(elId, image: any) {
-  console.log('updatePosition', elId, image.left, image.top)
   let scale = this.state.scale;
   let el = document.getElementById(elId);
   if (el) {

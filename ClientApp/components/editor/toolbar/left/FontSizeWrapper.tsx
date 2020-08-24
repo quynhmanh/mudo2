@@ -68,8 +68,10 @@ const FontSizeWrapper = (props: IProps) => {
                             padding: 0
                         }}
                     >
-                        {fontSizes.map(size => 
-                        <li>
+                        {fontSizes.map((size, index) => 
+                        <li
+                            key={index}
+                        >
                             <button
                                 onClick={(e) => { handleFontSizeBtnClick(e, size) }}
                                 className="fontsize-picker"
