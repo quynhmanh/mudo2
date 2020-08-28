@@ -3,6 +3,8 @@ import styled, {createGlobalStyle} from 'styled-components';
 import { POPULAR_LIST } from "@Constants";
 import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
+import Globals from "@Globals";
+import axios from "axios";
 
 const Item = loadable(() => import("@Components/homepage/PopularTemplateItem"));
 
@@ -21,6 +23,7 @@ export interface IProps {
     yLocation: number;
     showLeft: boolean;
     mounted: boolean;
+    recentDesign: any;
   }
 
 class Popup extends PureComponent<IProps, IState> {
@@ -28,11 +31,24 @@ class Popup extends PureComponent<IProps, IState> {
         yLocation: 0,
         showLeft: true,
         mounted: false,
+        recentDesign: [],
     }
 
     componentDidMount() {
         this.setState({mounted: true,})
         this.test.addEventListener("scroll", this.handleScroll);
+
+        if (Globals.serviceUser) {
+            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}`;
+            axios
+              .get(url)
+              .then(res => {
+                this.setState({recentDesign: res.data.value.key});
+              })
+              .catch(error => {
+                  // Ui.showErrors(error.response.statusText)
+              });
+          }
     }
 
     handleScroll = () => {
@@ -50,17 +66,6 @@ class Popup extends PureComponent<IProps, IState> {
   render() {
     return (
         <div>
-            <h5 style={{
-                marginTop: '35px',
-                fontWeight: 'bold',
-                color: 'white',
-                fontFamily: 'AvenirNextRoundedPro-Medium',
-                fontSize: '17px',
-                }}
-            >
-                {/* Thông dụng */}
-                {this.props.translate("popular")}
-            </h5>
             <div style={{ position: 'relative' }}>
                 { this.state.yLocation > 0 && this.state.mounted &&
                     <button 
@@ -155,7 +160,11 @@ class Popup extends PureComponent<IProps, IState> {
                             }} 
                             className="templateList___2swQr"
                         >
-                            {popularTemplates}
+                            {this.state.recentDesign.map( (item) => 
+                                <Item 
+                                    {...item} 
+                                    key={uuidv4()}
+                                />)}
                         </ul>
                     </div>
                 </div>

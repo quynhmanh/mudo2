@@ -97,6 +97,7 @@ declare global {
         opacity: number;
         document_object: any;
         cloneImages: any;
+        tempImage: any;
     }
 }
 
@@ -452,27 +453,39 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (e: any) => {
+        let image = clone(toJS(editorStore.imageSelected));
+        window.tempImage = image;
+        this.setState({ cropMode: true }, () => {
+            console.log('handleCropBtnClick')
+            if (editorStore.imageSelected.type == TemplateType.Video) {
+                let el = document.getElementById(editorStore.idObjectSelected + "video" + "alo") as HTMLVideoElement;
+                let el2 = document.getElementById(editorStore.idObjectSelected + "video2" + "alo") as HTMLCanvasElement;
+                let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
+                let el4 = document.getElementById(editorStore.idObjectSelected + "video4" + "alo") as HTMLCanvasElement;
 
-        if (editorStore.imageSelected.type == TemplateType.Video) {
-            let el = document.getElementById(editorStore.idObjectSelected + "video" + "alo") as HTMLVideoElement;
-            let el2 = document.getElementById(editorStore.idObjectSelected + "video2" + "alo") as HTMLVideoElement;
-            if (el && el2) {
-                el2.currentTime = el.currentTime;
-                el.pause();
-                el2.pause();
-            }
+                console.log('el el2,' , el, el2)
+                if (el && el2) {
+                    // el2.currentTime = el.currentTime;
+                    el.pause();
+                    // el2.pause();
 
-            let image = toJS(editorStore.imageSelected);
-            image.paused = true;
+                    el2.getContext('2d').drawImage(el, 0, 0, el2.width, el2.height);
+                    el3.getContext('2d').drawImage(el, 0, 0, el3.width, el3.height);
+                    // el4.getContext('2d').drawImage(el, 0, 0, el4.width, el4.height);
+                }
 
-            editorStore.imageSelected = image;
-            editorStore.images2.set(image._id, image);
-        } 
+                let image = toJS(editorStore.imageSelected);
+                image.paused = true;
 
-        let pageKeys = editorStore.keys.map(key => key + 1);
-        editorStore.keys.replace(pageKeys);
-        e.preventDefault();
-        this.setState({ cropMode: true });
+                editorStore.imageSelected = image;
+                editorStore.images2.set(image._id, image);
+            } 
+
+            let pageKeys = editorStore.keys.map(key => key + 1);
+            editorStore.keys.replace(pageKeys);
+            e.preventDefault();
+            this.setState({ cropMode: true });
+        });
     }
 
     handleFlipBtnClick = (e: any) => {
@@ -642,7 +655,11 @@ class CanvaEditor extends Component<IProps, IState> {
     handleCancelBtnClick = (e: any) => {
         this.rerenderAllPages();
         e.preventDefault();
-        this.setState({ cropMode: false });
+        
+        editorStore.imageSelected = window.tempImage;
+        editorStore.images2.set(window.tempImage._id, window.tempImage);
+
+        this.disableCropMode(e);
     }
 
     handleTransparentAdjust = (e: any) => {
@@ -907,7 +924,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
 
                     let el = window.document.getElementById("designTitle") as HTMLInputElement;
-                    console.log('asd', image)
 
                     el.value = image.value.title;
 
@@ -2907,7 +2923,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         return panMove$.pipe(
             map((e: any) => {
-                // e.preventDefault();
+                e.preventDefault();
                 // e.stopPropagation();
                 var x = e.clientX;
                 var y = e.clientY;
@@ -3285,7 +3301,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleDragEnd = () => {
-        console.log('handleDragEnd')
         this.temp.unsubscribe();
 
         editorStore.images2.set(window.image._id, window.image);
@@ -3433,7 +3448,6 @@ class CanvaEditor extends Component<IProps, IState> {
             childId: null,
         });
 
-        console.log('doNoObjectSelected ', toJS(editorStore.imageSelected))
     };
 
     removeImage(e) {
@@ -3733,10 +3747,8 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleImageSelected = img => {
-        console.log('handleImageSelected ', img);
         if (this.state.cropMode && img._id != editorStore.idObjectSelected) {
             // this.setState({ cropMode: false });
-            console.log('asd');
             this.doNoObjectSelected();
             return;
         }
@@ -4971,6 +4983,11 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     enableCropMode = e => {
+        if (editorStore.imageSelected.type == TemplateType.BackgroundImage && !editorStore.imageSelected.src) {
+            return;
+        }
+        let image = clone(toJS(editorStore.imageSelected));
+        window.tempImage = image;
         this.setState({ cropMode: true });
     };
 
@@ -5093,6 +5110,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             res.push(
                 <Canvas
+                    handleCropBtnClick={this.handleCropBtnClick}
                     toggleVideo={this.toggleVideo}
                     uiKey={pages[i] + keys[i]}
                     selected={
@@ -5484,7 +5502,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 top: 0
                             }}
                         >
-                            {this.state.mounted &&
+                            {this.state.mounted && this.props.tReady &&
                             <input 
                                 id="designTitle"
                                 style={{
@@ -5569,7 +5587,9 @@ class CanvaEditor extends Component<IProps, IState> {
                                 )} */}
                             {Globals.serviceUser &&
                             Globals.serviceUser.username &&
-                            Globals.serviceUser.username === adminEmail && (
+                            Globals.serviceUser.username === adminEmail &&
+                            this.props.tReady &&
+                            (
                                 <button
                                     className="toolbar-btn dropbtn-font"
                                     onClick={this.saveImages.bind(this, null, true)}

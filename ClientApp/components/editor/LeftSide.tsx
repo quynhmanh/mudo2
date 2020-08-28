@@ -321,10 +321,6 @@ class LeftSide extends Component<IProps, IState> {
       }
       var i = new Image();
 
-      self.setState({
-        userUpload1: [{ representative: fr.result }, ...self.state.userUpload1]
-      });
-
       i.onload = function() {
         var prominentColor = getMostProminentColor(i);
         axios
@@ -340,11 +336,23 @@ class LeftSide extends Component<IProps, IState> {
             keywords: ["123", "123"],
             title: "Manh quynh"
           })
-          .then(() => {});
+          .then((res) => {
+            if (self.state.userUpload1.length <= self.state.userUpload2.length) {
+              self.setState({
+                userUpload1: [res.data, ...self.state.userUpload1]
+              });
+            } else {
+              self.setState({
+                userUpload2: [res.data, ...self.state.userUpload1]
+              });
+            }
+          });
       };
 
       i.src = fr.result.toString();
     };
+
+    this.forceUpdate();
   };
 
   loadMore = (initialLoad: Boolean) => {
@@ -980,6 +988,10 @@ class LeftSide extends Component<IProps, IState> {
     }
 
     if (this.props.fontId != nextProps.fontId) {
+      result = true;
+    }
+
+    if (this.state.userUpload1.length != nextState.userUpload1.length) {
       result = true;
     }
 

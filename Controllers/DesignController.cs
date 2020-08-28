@@ -135,10 +135,11 @@ namespace RCB.TypeScript.Controllers
 
                 }
 
-                string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
-                    .Replace("[FONT_FACE]", style)
-                    .Replace("[RECT_WIDTH]", width)
-                    .Replace("[RECT_HEIGHT]", height);
+                string template =
+                    AppSettings.templateDownload
+                        .Replace("[FONT_FACE]", style)
+                        .Replace("[RECT_WIDTH]", width)
+                        .Replace("[RECT_HEIGHT]", height);
 
                 template = template.Replace("[FONT_FACE]", style);
                 byte[] data = null;
@@ -475,6 +476,18 @@ namespace RCB.TypeScript.Controllers
                     for (var i = 0; i < canvas.Length; ++i)
                     {
                         var html = template.Replace("[CANVAS]", canvas[i]);
+                        try
+                        {
+                            byte[] bytes = Encoding.ASCII.GetBytes(html);
+                            using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
+                            {
+                                htmlFile.Write(bytes, 0, bytes.Length);
+                                htmlFile.Flush();
+                            }
+                        } catch (Exception e)
+                        {
+
+                        }
                         var path = "/Users/quynhnguyen/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
                         var executablePath = "/usr/bin/google-chrome-stable";

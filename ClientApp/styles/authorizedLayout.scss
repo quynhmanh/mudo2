@@ -244,17 +244,17 @@ html {
     transform: translateX(-50%);
     opacity: 0;
     pointer-events: none;
-    color: white;
+    // color: white;
 }
 
 .templateWrapper___3Fitk:hover .editTemplateWrapper___29oLU, .templateWrapper___3Fitk:hover .templateInfo___2YZSg {
     opacity: 1 !important;
 }
 
-.templateWrapper___3Fitk:first-child .templateInfo___2YZSg {
-    left: 0;
-    transform: translateX(0);
-}
+// .templateWrapper___3Fitk:first-child .templateInfo___2YZSg {
+//     left: 0;
+//     transform: translateX(0);
+// }
 
 .format___3qx4a, .size___1sVBg {
     text-align: center;
@@ -314,6 +314,7 @@ html {
 
 .arrowWrapper___rLMf7 {
     transition: .3s;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.16) 0px 0px 1px;
 }
 
 .arrowWrapper___rLMf7:hover {

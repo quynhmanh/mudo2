@@ -215,10 +215,11 @@ namespace RCB.TypeScript.Controllers
                 }
 
                 MediaService.Add(mediaModel);
+
+                return Ok(mediaModel);
             }
 
             return Ok();
-
         }
 
         [HttpPost("[action]")]

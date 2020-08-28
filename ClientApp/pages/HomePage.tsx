@@ -643,17 +643,28 @@ onLanguageBtnClick = () => {
           </div>
           <div
             style={{
-              padding: "0 80px",
+              padding: "20px 80px",
             }}
           >
-            <h2
+            <h3
               style={{
                 marginBottom: '20px',
                 marginTop: '20px',
                 fontFamily: "AvenirNextRoundedPro-Medium",
               }}
-            >{this.translate("recentDesign")}</h2>
-          {this.state.recentDesign.map(design =>
+            >{this.translate("recentDesign")}</h3>
+            <PopularTemplate 
+            translate={this.translate.bind(this)}
+          />
+          <div
+            style={{
+              overflowX: 'scroll',
+              overflowY: 'hidden',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            
+          {/* {this.state.recentDesign.map(design =>
           <a 
             style={{
               display: "inline-flex",
@@ -677,7 +688,8 @@ onLanguageBtnClick = () => {
               }}
             >{design.title}</span>
           </a> 
-          )}
+          )} */}
+          </div>
           </div>
           {/* {this.state.mounted && 
             <CatalogList 

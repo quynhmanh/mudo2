@@ -66,11 +66,13 @@ export interface IState {
   selectionScaleX: number;
   selectionScaleY: number;
   paused: boolean;
+  videoControllerShow: boolean;
 }
 
 export default class Rect extends PureComponent<IProps, IState> {
 
   state = {
+    videoControllerShow: false,
     paused: true,
     editing: false,
     selectionScaleX: null,
@@ -529,6 +531,17 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         )}
+        {/* {objectType === TemplateType.Video && <canvas 
+                id={_id + "video4" + canvas} 
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  transformOrigin: "0 0",
+                  outline: cropMode
+                    ? `#00d9e1 solid ${outlineWidth - 1}px`
+                    : null,
+                }}
+              />} */}
         {((showImage && !selected) || (!showImage && selected)) && 
         (objectType === TemplateType.Video || objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) &&
           <div
@@ -543,13 +556,32 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: '100%',
               backgroundColor: color,
             }}
+            onMouseEnter={e => {
+              this.setState({videoControllerShow: true,});
+            }}
+            onMouseLeave={e => {
+              this.setState({videoControllerShow: false,});
+            }}
           >
+            {/* {objectType === TemplateType.Video && <canvas 
+                id={_id + "video3" + canvas} 
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  transformOrigin: "0 0",
+                  outline: cropMode
+                    ? `#00d9e1 solid ${outlineWidth - 1}px`
+                    : null,
+                  opacity: cropMode ? 0.5 : 0,
+                }}
+              />} */}
             {/* <button
               onClick={this.handleClick.bind(this)} 
               onDoubleClick = {this.handleDoubleClick.bind(this)}
             >Hello</button> */}
-            {!cropMode && showController && objectType == TemplateType.Video &&
-            <div 
+            {!cropMode && showController && objectType == TemplateType.Video && (this.state.videoControllerShow || this.props.image.paused) &&
+            <div
+              className="videoController"
               onClick={e => {
                 this.props.toggleVideo();
               }}
@@ -570,6 +602,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                 }}
                 onClick={e => {
                   this.props.toggleVideo();
+                }}
+                onDoubleClick={e => {
+                  e.stopPropagation();
                 }}
                 style={{
                   width: "100%",
@@ -618,6 +653,18 @@ export default class Rect extends PureComponent<IProps, IState> {
                     cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
                 }}
               >
+                <canvas 
+                  id={_id + "video3" + canvas} 
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    transformOrigin: "0 0",
+                    outline: cropMode
+                      ? `#00d9e1 solid ${outlineWidth - 1}px`
+                      : null,
+                    opacity: cropMode ? 0.5 : 0,
+                  }}
+                />
                 {cropMode && selected
                   ? cropImageResizeDirection
                     .map(d => {
@@ -897,9 +944,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     </div>
                   </MathJax.Context>
                 )} */}
-                  {
-                  // ((_id == editorStore.idObjectSelected && selected) || (!selected && _id != editorStore.idObjectSelected)) && 
-                  ((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages" || name == "imgHovered") &&
+                  {((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages" || name == "imgHovered") &&
                   objectType === TemplateType.Heading &&
                     <div
                       id={_id + "hihi4" + canvas}
@@ -1110,7 +1155,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   }}
                 >
                   {(objectType === TemplateType.Video) && (
-                    <video
+                    <canvas 
                       id={_id + "video2" + canvas} 
                       style={{
                         width: "100%",
@@ -1121,11 +1166,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                           : null,
                         opacity: cropMode ? 0.5 : 0,
                       }}
-                      autoPlay={false}
-                      loop
-                    >
-                      <source src={src} type="video/webm" />
-                    </video>
+                    />
                   )}
                 </div>
               </div>

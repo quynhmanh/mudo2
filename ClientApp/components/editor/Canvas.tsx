@@ -47,6 +47,7 @@ export interface IProps {
   selected: boolean;
   activePageId: string;
   toggleVideo: any;
+  handleCropBtnClick: any;
 }
 
 export interface IState {
@@ -136,8 +137,6 @@ export default class Canvas extends Component<IProps, IState> {
       staticGuides,
       numberOfPages,
     } = this.props;
-
-    console.log('selectedImage ', this.props.selectedImage, toJS(editorStore.imageSelected));
 
     const customAttr = {myattribute: id};
     
@@ -510,8 +509,10 @@ export default class Canvas extends Component<IProps, IState> {
                     }}
 
                     onDoubleClick={(e) => {
-                      if (img.type == TemplateType.Image || img.type == TemplateType.BackgroundImage || img.type == TemplateType.Video)
+                      if (img.type == TemplateType.Image || img.type == TemplateType.BackgroundImage)
                         this.props.enableCropMode();
+                      else if (img.type == TemplateType.Video) 
+                        this.props.handleCropBtnClick(e);
                     }}
                   >
                     <div
@@ -647,10 +648,11 @@ export default class Canvas extends Component<IProps, IState> {
                         this.props.handleImageSelected(imgHovered);
                         this.props.handleDragStart(e, imgHovered._id);
                       }}
-                      // onDoubleClick={this.props.enableCropMode}
                       onDoubleClick={(e) => {
-                        if (imgHovered.type == TemplateType.Image || imgHovered.type == TemplateType.BackgroundImage || imgHovered.type == TemplateType.Video)
+                        if (imgHovered.type == TemplateType.Image || imgHovered.type == TemplateType.BackgroundImage)
                           this.props.enableCropMode();
+                        else if (imgHovered.type == TemplateType.Video) 
+                          this.props.handleCropBtnClick(e);
                       }}
                     >
                       <ResizableRect
@@ -726,10 +728,11 @@ export default class Canvas extends Component<IProps, IState> {
                       this.props.handleDragStart(e, imgSelected._id);
                     }}
                     onDoubleClick={(e) => {
-                      if (imgSelected.type == TemplateType.Image || imgSelected.type == TemplateType.BackgroundImage || imgSelected.type == TemplateType.Video)
+                      if (imgSelected.type == TemplateType.Image || imgSelected.type == TemplateType.BackgroundImage)
                         this.props.enableCropMode();
+                      else if (imgSelected.type == TemplateType.Video) 
+                        this.props.handleCropBtnClick(e);
                     }}
-                    // onDoubleClick={this.props.enableCropMode}
                   >
                     <ResizableRect
                       toggleVideo={this.props.toggleVideo}
@@ -912,7 +915,6 @@ export default class Canvas extends Component<IProps, IState> {
                         this.props.handleImageSelected(img, e);
                         this.props.handleDragStart(e, img._id);
                       }}
-                      // onDoubleClick={this.props.enableCropMode}
                     >
                       <ResizableRect
                         canvas="alo2"
@@ -1024,7 +1026,6 @@ export default class Canvas extends Component<IProps, IState> {
                         this.props.handleImageSelected(imgHovered);
                         this.props.handleDragStart(e, imgHovered._id);
                       }}
-                      // onDoubleClick={this.props.enableCropMode}
                     >
                       <ResizableRect
                         name="imgHovered"

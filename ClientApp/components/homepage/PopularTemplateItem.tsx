@@ -26,10 +26,11 @@ const playIcon = <svg
 
 const PopularTemplateItem = (props: IProps) => {
 
+    console.log('props ', props)
     let picker = null;
     let showPlayIcon = false;
-    switch (props.pickerType) {
-        case 'IMAGE':
+    // switch (props.pickerType) {
+    //     case 'IMAGE':
             picker = <ImagePicker
                         id={"1"}
                         key={"1"}
@@ -37,34 +38,36 @@ const PopularTemplateItem = (props: IProps) => {
                         delay={0}
                         height={160}
                         onPick={(e) => {}}
-                        onEdit={(e) => {}}
+                        onEdit={(e) => {
+                            window.open(`/editor/design/${props.id}`)
+                        }}
                         className={""}
                         showButton={false}
                         defaultHeight={160}
-                        src={props.pickerSrc}
-                        width={props.pickerWidth}
+                        src={props.representative}
+                        width={props.width}
                     />
-            break;
-        case 'VIDEO':
-            picker = <VideoPicker 
-                        id={"1"}
-                        key={"1"}
-                        color={""}
-                        delay={0}
-                        height={160}
-                        onPick={(e) => {}}
-                        onEdit={(e) => {}}
-                        className={""}
-                        showButton={false}
-                        defaultHeight={160}
-                        src={props.pickerSrc}
-                        width={props.pickerWidth}
-                    />
-            showPlayIcon = true
-            break;
-        default:
-            break;
-    }
+        //     break;
+        // case 'VIDEO':
+        //     picker = <VideoPicker 
+        //                 id={"1"}
+        //                 key={"1"}
+        //                 color={""}
+        //                 delay={0}
+        //                 height={160}
+        //                 onPick={(e) => {}}
+        //                 onEdit={(e) => {}}
+        //                 className={""}
+        //                 showButton={false}
+        //                 defaultHeight={160}
+        //                 src={props.pickerSrc}
+        //                 width={props.pickerWidth}
+        //             />
+        //     showPlayIcon = true
+        //     break;
+        // default:
+        //     break;
+    // }
 
     return (
         <CC 
@@ -76,7 +79,7 @@ const PopularTemplateItem = (props: IProps) => {
                 data-categ="popularTemplates"
                 data-subcateg="home"  
                 data-value={props.dataValue} 
-                href={props.href}
+                href={`/editor/design/${props.id}`}
             >
                 <div className="previewWrapper___mbAh5">
                     <div style={{ paddingTop: 0 }}>

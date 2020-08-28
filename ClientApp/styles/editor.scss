@@ -1049,3 +1049,9 @@ button {
     box-shadow: 0 0 4px 1px rgba(14, 19, 24, 0.2);
   }
 }
+
+.videoController:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: opacity .25s ease-out,background-color .2s ease-out,transform .2s ease-out,-webkit-transform .2s ease-out;
+}
