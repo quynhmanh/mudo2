@@ -28,6 +28,7 @@ export interface IProps {
   handleFontFamilyChange: any;
   handleChildIdSelected: any;
   enableCropMode: any;
+  disableCropMode: any;
   handleResizeInnerImageStart: any;
   doNoObjectSelected: any;
   index: number;
@@ -135,6 +136,8 @@ export default class Canvas extends Component<IProps, IState> {
       staticGuides,
       numberOfPages,
     } = this.props;
+
+    console.log('selectedImage ', this.props.selectedImage, toJS(editorStore.imageSelected));
 
     const customAttr = {myattribute: id};
     
@@ -585,8 +588,12 @@ export default class Canvas extends Component<IProps, IState> {
                 height: rectHeight * scale + "px",
                 display: "inline-block",
                 position: "relative",
+                zIndex: cropMode && 9999999,
               }}
               onClick={e => {
+                if ((e.target as HTMLElement).id == "canvas") {
+                  this.props.disableCropMode();
+                }
               }}
             >
               <div>

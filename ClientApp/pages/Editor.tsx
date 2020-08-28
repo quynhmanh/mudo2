@@ -3285,6 +3285,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleDragEnd = () => {
+        console.log('handleDragEnd')
         this.temp.unsubscribe();
 
         editorStore.images2.set(window.image._id, window.image);
@@ -3427,10 +3428,12 @@ class CanvaEditor extends Component<IProps, IState> {
             cropMode: false,
             selectedTab,
             idObjectSelected: null,
+            selectedImage: null,
             typeObjectSelected: null,
             childId: null,
         });
-        // }
+
+        console.log('doNoObjectSelected ', toJS(editorStore.imageSelected))
     };
 
     removeImage(e) {
@@ -3730,8 +3733,10 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleImageSelected = img => {
+        console.log('handleImageSelected ', img);
         if (this.state.cropMode && img._id != editorStore.idObjectSelected) {
-            this.setState({ cropMode: false });
+            // this.setState({ cropMode: false });
+            console.log('asd');
             this.doNoObjectSelected();
             return;
         }
@@ -4969,6 +4974,10 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ cropMode: true });
     };
 
+    disableCropMode = e => {
+        this.setState({ cropMode: false });
+    }
+
     toggleImageResizing = e => {
         // this.setState({ resizingInnerImage: !this.state.resizingInnerImage });
     };
@@ -5118,6 +5127,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleFontFamilyChange={this.handleFontFamilyChange}
                     handleChildIdSelected={this.handleChildIdSelected}
                     enableCropMode={this.enableCropMode}
+                    disableCropMode={this.disableCropMode}
                     handleResizeInnerImageStart={this.handleResizeInnerImageStart}
                     doNoObjectSelected={this.doNoObjectSelected}
                     idObjectSelected={(editorStore.imageSelected && editorStore.imageSelected.page == pages[i]) ? editorStore.idObjectSelected : null}
