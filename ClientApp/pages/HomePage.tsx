@@ -558,7 +558,7 @@ onLanguageBtnClick = () => {
             </div>
             <header 
               style={{
-                height: "300px",
+                height: "320px",
                 position: 'relative',
                 marginTop: 'auto',
                 marginBottom: 'auto',
@@ -573,7 +573,7 @@ onLanguageBtnClick = () => {
                 // opacity: .9,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-                backgroundPosition: 'center center',
+                backgroundPosition: 'bottom',
                 backgroundImage: 'url(/web_images/homeBackground.jpg)',
               }}
             className="offset-header__header u-last-child-margin-bottom-0 u-textAlign-left@medium">
@@ -605,7 +605,7 @@ onLanguageBtnClick = () => {
     </g>
 </svg>
 
-          <div
+          {/* <div
             id="search-icon"
             style={{
                 height: '43px',
@@ -627,12 +627,12 @@ onLanguageBtnClick = () => {
                 setTimeout(() => { this.setState({focusing: false,})}, 100);
               }
             }
-            contentEditable={true}></div>
-          {this.state.focusing && 
+            contentEditable={true}></div> */}
+          {/* {this.state.focusing && 
             <SuggestedList
               translate={this.translate}
             />
-          }
+          } */}
           {/* <PopularTemplate 
             translate={this.translate.bind(this)}
           /> */}
@@ -643,26 +643,39 @@ onLanguageBtnClick = () => {
           </div>
           <div
             style={{
-              padding: "0 50px 50px",
+              padding: "0 80px",
             }}
           >
             <h2
               style={{
                 marginBottom: '20px',
                 marginTop: '20px',
+                fontFamily: "AvenirNextRoundedPro-Medium",
               }}
-            >Recent designs</h2>
+            >{this.translate("recentDesign")}</h2>
           {this.state.recentDesign.map(design =>
-          <a target="_blank" rel="noopener noreferrer" href={`/editor/design/${design.id}`}>
-          <img
+          <a 
             style={{
-              height: "200px",
-              boxShadow: "0 2px 4px rgba(0,0,0,.08), 0 0 1px rgba(0,0,0,.16)",
-              marginRight: "30px",
-              borderRadius: "10px",
+              display: "inline-flex",
+              flexDirection: "column",
+              color: "black",
+              fontFamily: "AvenirNextRoundedPro-Medium",
             }}
-            src={design.representative}
-          />
+            target="_blank" rel="noopener noreferrer" href={`/editor/design/${design.id}`}>
+            <img
+              style={{
+                height: "200px",
+                boxShadow: "0 2px 4px rgba(0,0,0,.08), 0 0 1px rgba(0,0,0,.16)",
+                marginRight: "30px",
+                borderRadius: "10px",
+              }}
+              src={design.representative}
+            />
+            <span
+              style={{
+                marginTop: "10px",
+              }}
+            >{design.title}</span>
           </a> 
           )}
           </div>

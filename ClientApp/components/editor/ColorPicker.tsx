@@ -1,15 +1,13 @@
 import "@Styles/tooltip.scss";
-import React, {PureComponent, Fragment, isValidElement} from "react";
-import {isArray, isEqual, isString, isObject} from "lodash";
-import {trimList, getOtherProps} from "@Utils";
-import {TYPE_ELEMENT_MAP} from "@Constants";
-import Tip from "@Components/shared/Tip";
-import loadable from "@loadable/component";
+import React, {isValidElement} from "react";
+import {isArray, isString, isObject} from "lodash";
 import Pickr from "@Components/pickr";
 import editorStore from "@Store/EditorStore";
 
 
 import AppComponent from "@Components/shared/AppComponent";
+import TemplatesPage from "@Pages/TemplatesPage";
+import { TemplateType } from "./enums";
 
 const EVENT_NAME_LIST: string[] = ["hover", "click"];
 
@@ -25,6 +23,7 @@ export interface IProps {
   setSelectionColor: any;
   colorPickerShown: any;
   handleColorPick: any;
+  translate: any;
 }
 
 export interface IState {
@@ -42,58 +41,41 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     }
 
     componentDidMount = () => {
-        // let colorPicker = document.getElementById("color-picker");
-        // colorPicker.addEventListener("mouseup", (e) => {
-        //     e.stopImmediatePropagation();
-        // })
-
-
-        const pickr = Pickr.create({
-          default: null,
-          el: '.color-picker',
-          theme: 'nano', // or 'monolith', or 'nano'
-    
-          swatches: [
-              'rgb(244, 67, 54)',
-              'rgb(233, 30, 99)',
-              'rgb(156, 39, 176)',
-              'rgb(103, 58, 183)',
-              'rgb(63, 81, 181)',
-              'rgb(33, 150, 243)',
-              'rgb(3, 169, 244)',
-              'rgb(0, 188, 212)',
-              'rgb(0, 150, 136)',
-              'rgb(76, 175, 80)',
-              'rgb(139, 195, 74)',
-              'rgb(205, 220, 57)',
-              'rgb(255, 235, 59)',
-              'rgb(255, 193, 7)'
-          ],
-          defaultRepresentation: 'HEX',
-    
-          components: {
-    
-              // Main components
-              // preview: true,
-              // opacity: true,
-              // hue: true,
-              // palette: true,
-              palette: true,
-              preview: true, // Display comparison between previous state and new color
-        // opacity: true, // Display opacity slider
-        hue: true,     // Display hue slider
-    
-              // Input / output Options
-              interaction: {
-                  input: true,
-                  clear: true,
-                  save: true
-              }
+      console.log("colorPicker ", this.props.translate, this.props.translate('save'))
+      const pickr = Pickr.create({
+        default: null,
+        el: '.color-picker',
+        theme: 'nano', // or 'monolith', or 'nano'
+        defaultRepresentation: 'HEX',
+        components: {
+          palette: true,
+          preview: true, // Display comparison between previous state and new color
+          hue: true,     // Display hue slider
+          interaction: {
+              input: true,
+              clear: true,
+              save: true
           }
-        });
+        },
+        i18n: {
+          'ui:dialog': 'color picker dialog',
+          'btn:toggle': 'toggle color picker dialog',
+          'btn:swatch': 'color swatch',
+          'btn:last-color': 'use previous color',
+          'btn:save': this.props.translate('save'),
+          'btn:cancel': 'Cancel',
+          'btn:clear': this.props.translate('clear'),
 
-        // pickr.clear();
-
+          // Strings used for aria-labels
+          'aria:btn:save': 'save and close',
+          'aria:btn:cancel': 'cancel and close',
+          'aria:btn:clear': 'clear and close',
+          'aria:input': 'color input field',
+          'aria:palette': 'color selection area',
+          'aria:hue': 'hue selection slider',
+          'aria:opacity': 'selection slider'
+        }
+      });
 
         pickr
         .on("save", (color, instance) => {
@@ -108,7 +90,11 @@ export default class Tooltip extends AppComponent<IProps, IState> {
           editorStore.setToggleColorPickerVisibility(true);
         })
         .on("change", (color, instance) => {
-          document.getElementById(editorStore.idObjectSelected + "hihi4").style.color = color.toRGBA();
+          if (editorStore.imageSelected.type == TemplateType.Heading) {
+            document.getElementById(editorStore.idObjectSelected + "hihi4alo").style.color = color.toRGBA();
+          } else if (editorStore.imageSelected.type == TemplateType.TextTemplate) {
+            document.getElementById(editorStore.idObjectSelected + editorStore.childId + "text-container2alo").style.color = color.toRGBA();
+          } else if (editorStore.imageSelected.type == TemplateType.BackgroundImage) {}
           let colorCode = color.toRGBA();
           this.props.setSelectionColor(colorCode)
         })
@@ -163,39 +149,5 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                         </button>
                       </li>
       </a> )
-      
-
-        return <div id="color-picker" className="color-picker pcr-app visible" data-theme="nano" aria-label="color picker dialog" role="form">
-        <div className="pcr-selection">
-          <div className="pcr-color-preview">
-            <button type="button" className="pcr-last-color" aria-label="use previous color" style={{color: 'rgb(66, 68, 90)'}} />
-            <div className="pcr-current-color" style={{color: 'rgb(66, 68, 90)'}} />
-          </div>
-          <div className="pcr-color-palette">
-            <div className="pcr-picker" style={{left: 'calc(26.6667% - 9px)', top: 'calc(64.7059% - 9px)', background: 'rgb(66, 68, 90)'}} />
-            <div className="pcr-palette" tabIndex={0} aria-label="color selection area" role="listbox" style={{background: 'linear-gradient(to top, rgb(0, 0, 0), transparent), linear-gradient(to left, rgb(0, 21, 255), rgb(255, 255, 255))'}} />
-          </div>
-          <div className="pcr-color-chooser">
-            <div className="pcr-picker" style={{left: 'calc(65.2778% - 9px)', backgroundColor: 'rgb(0, 21, 255)'}} />
-            <div className="pcr-hue pcr-slider" tabIndex={0} aria-label="hue selection slider" role="slider" />
-          </div>
-          <div className="pcr-color-opacity">
-            <div className="pcr-picker" style={{left: 'calc(100% - 9px)', background: 'rgb(0, 0, 0)'}} />
-            <div className="pcr-opacity pcr-slider" tabIndex={0} aria-label="opacity selection slider" role="slider" />
-          </div>
-        </div>
-        <div className="pcr-swatches "><button type="button" style={{color: 'rgba(244, 67, 54, 1)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(233, 30, 99, 0.95)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(156, 39, 176, 0.9)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(103, 58, 183, 0.85)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(63, 81, 181, 0.8)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(33, 150, 243, 0.75)'}} aria-label="color swatch" /><button type="button" style={{color: 'rgba(3, 169, 244, 0.7)'}} aria-label="color swatch" /></div> 
-        <div className="pcr-interaction">
-          <input className="pcr-result" type="text" spellCheck={false} />
-          <input className="pcr-type active" data-type="HEXA" defaultValue="HEXA" type="button" style={{display: 'none'}} hidden />
-          <input className="pcr-type" data-type="RGBA" defaultValue="RGBA" type="button" style={{display: 'none'}} hidden />
-          <input className="pcr-type" data-type="HSLA" defaultValue="HSLA" type="button" style={{display: 'none'}} hidden />
-          <input className="pcr-type" data-type="HSVA" defaultValue="HSVA" type="button" style={{display: 'none'}} hidden />
-          <input className="pcr-type" data-type="CMYK" defaultValue="CMYK" type="button" style={{display: 'none'}} hidden />
-          <input className="pcr-save" defaultValue="Save" type="button" aria-label="save and exit" />
-          <input className="pcr-cancel" defaultValue="Cancel" type="button" style={{display: 'none'}} hidden aria-label="cancel and exit" />
-          <input className="pcr-clear" defaultValue="Clear" type="button" aria-label="clear and exit" />
-        </div>
-      </div>;
     }
 }

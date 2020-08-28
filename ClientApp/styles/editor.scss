@@ -400,6 +400,13 @@ p.single-text:focus {
 
 .font-picker {
   height: 40px;
+  padding: 7px 25px;
+  display: flex;
+  position: relative;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+
   img {
     margin: auto 0;
     height: 18px;
@@ -1011,6 +1018,7 @@ button {
 }
 
 .effect-btn {
+  margin-bottom: 5px;
   border: none;
   padding: 1px;
   border-radius: 5px;

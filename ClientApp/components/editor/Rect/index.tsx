@@ -1,11 +1,10 @@
 import React, { PureComponent } from "react";
-import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, getCursor, tLToCenter, getImageResizerVisibility, } from "@Utils";
+import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, getImageResizerVisibility, } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import Image from "@Components/editor/Rect/Image";
-import { toJS } from "mobx";
+import Video from "@Components/editor/Rect/Video";
 import { TemplateType } from "../enums";
-import editorStore from "@Store/EditorStore";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -20,6 +19,10 @@ const zoomableMap = {
   sw: "bl"
 };
 
+let timer = 0;
+let delay = 200;
+let prevent = false;
+
 declare global {
   interface Window {
     paymentScope: any;
@@ -33,19 +36,14 @@ declare global {
 
 export interface IProps {
   selected: boolean;
-  dragging: boolean;
   id: string;
   childId: string;
   scale: number;
   onRotateStart(e): void;
   onResizeStart: any;
   handleResizeInnerImageStart: any;
-  zoomable: string;
   parentRotateAngle: number;
   showController: boolean;
-  updateStartPos: boolean;
-  src: string;
-  left: number;
   onTextChange: any;
   outlineWidth: number;
   onFontSizeChange(fontSize: number): void;
@@ -54,34 +52,26 @@ export interface IProps {
   handleChildIdSelected(childId: string): void;
   cropMode: boolean;
   enableCropMode(e: any): void;
-  updateRect: boolean;
-  hidden: boolean;
   showImage: boolean;
   bleed: boolean;
-  resizing: boolean;
-  rotating: boolean;
   hovered: boolean;
   image: any;
-  srcThumnail: any;
-  downloading: boolean;
   name: string;
   canvas: string;
+  toggleVideo: any;
 }
 
 export interface IState {
   editing: boolean;
   selectionScaleX: number;
   selectionScaleY: number;
+  paused: boolean;
 }
 
 export default class Rect extends PureComponent<IProps, IState> {
-  $element = null;
-  _isMouseDown = false;
-  setElementRef = ref => {
-    this.$element = ref;
-  };
 
   state = {
+    paused: true,
     editing: false,
     selectionScaleX: null,
     selectionScaleY: null,
@@ -127,6 +117,7 @@ export default class Rect extends PureComponent<IProps, IState> {
   }
 
   startRotate = e => {
+    e.preventDefault();
     this.props.onRotateStart && this.props.onRotateStart(e);
   };
 
@@ -142,44 +133,6 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   startResize = (e, cursor) => {
     e.preventDefault();
-
-    var res;
-    var size;
-    // if (this.props.objectType !== 4 && this.props.objectType !== 9) {
-    //   var selectionScaleY = 1;
-    //   if (self.state && self.state.selectionScaleY) {
-    //     selectionScaleY = self.state.selectionScaleY;
-    //   }
-
-    //   if (this.props.childId) {
-    //     selectionScaleY = this.props.childrens.find(
-    //       child => child._id === this.props.childId
-    //     ).scaleY;
-    //   }
-
-    //   var a = document.getSelection();
-    //   if (a && a.type === "Range") {
-    //   } else {
-    //     var id = this.props.childId ? this.props.childId : this.props._id;
-    //     var el = document.getElementById(id).getElementsByClassName("font")[0];
-    //     var sel = window.getSelection();
-    //     var range = document.createRange();
-    //     range.selectNodeContents(el);
-    //     sel.removeAllRanges();
-    //     sel.addRange(range);
-    //     var a = document.getSelection();
-    //     size = window.getComputedStyle(el, null).getPropertyValue("font-size");
-    //     res =
-    //       parseInt(size.substring(0, size.length - 2)) *
-    //       selectionScaleY *
-    //       self.props.scaleY;
-    //     sel.removeAllRanges();
-    //   }
-
-    //   // document.getElementById("fontSizeButton").innerText = `${res}px`;
-    //   // self.props.onFontSizeChange(res);
-    // }
-
     this.props.onResizeStart && this.props.onResizeStart(e, cursor);
   };
 
@@ -267,13 +220,50 @@ export default class Rect extends PureComponent<IProps, IState> {
     return decodedString;
   };
 
+  pauseVideo = () => {
+    let el = document.getElementById(this.props.image._id + "video" + "alo") as HTMLVideoElement;
+    el.pause();
+    this.setState({
+      paused: true,
+    })
+  }
+
+  playVideo = () => {
+    let el = document.getElementById(this.props.image._id + "video" + "alo") as HTMLVideoElement;
+    el.play();
+    this.setState({
+      paused: false,
+    })
+  }
+
+  doClickAction() {
+    console.log(' click');
+  }
+  doDoubleClickAction() {
+    console.log('Double Click')
+  }
+
+  handleClick() {
+    console.log('123')
+    let me = this;
+    timer = setTimeout(function() {
+      if (!prevent) {
+        me.doClickAction();
+      }
+      prevent = false;
+    }, delay);
+  }
+  handleDoubleClick(){
+    clearTimeout(timer);
+    prevent = true;
+    this.doDoubleClickAction();
+  }
+
   render() {
     const {
-      zoomable,
       parentRotateAngle,
       showController,
       scale,
-      src,
       onTextChange,
       outlineWidth,
       onFontSizeChange,
@@ -285,9 +275,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       enableCropMode,
       showImage,
       id,
-      dragging,
-      resizing,
-      rotating,
       hovered,
       selected,
       name,
@@ -304,7 +291,6 @@ export default class Rect extends PureComponent<IProps, IState> {
         imgColor,
         backgroundColor,
         opacity: opacity2,
-        top,
         effectId,
         width,
         height,
@@ -314,12 +300,12 @@ export default class Rect extends PureComponent<IProps, IState> {
         bold,
         color,
         rotateAngle,
+        src,
         srcThumnail,
         posX: posX2,
         posY: posY2,
         imgWidth: imgWidth2,
         imgHeight: imgHeight2,
-        downloading, 
         textShadowTransparent,
         filter,
         intensity,
@@ -347,16 +333,18 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     let opacity = opacity2 ? opacity2 / 100 : 1;
 
-    const direction = zoomable
-      .split(",")
-      .map(d => d.trim())
-      .filter(d => d); // TODO: may be speed up
-
-    const imgResizeDirection = ["nw", "ne", "se", "sw"];
+    const imgResizeDirection = ["nw", "ne", "se", "sw", "e", "w", "s" , "n"];
+    const cropImageResizeDirection = ["nw", "ne", "se", "sw"];
+    const textResizeDirection = ["nw", "ne", "se", "sw", "e", "w"];
 
     var imgDirections = imgResizeDirection;
-    if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate || objectType === TemplateType.Latex) {
-      imgDirections = direction;
+    // if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate || objectType === TemplateType.Latex) {
+    //   imgDirections = direction;
+    //   console.log('imgDirections ', imgDirections)
+    // }
+
+    if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate) {
+      imgDirections = textResizeDirection;
     }
 
     if (height * scale <= 30) {
@@ -369,7 +357,9 @@ export default class Rect extends PureComponent<IProps, IState> {
 
 
     return (
-      <div>
+      <div
+        // onDoubleClick={this.props.enableCropMode}
+      >
         {(hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage &&
         <div 
           className="hideWhenDownload"
@@ -390,13 +380,9 @@ export default class Rect extends PureComponent<IProps, IState> {
         </div>}
       <StyledRect
         id={id + hovered ? "hovered" : ""}
-        ref={this.setElementRef}
         className={`${_id}rect-alo ${_id}-styledrect rect single-resizer ${selected &&
           "selected"}`}
         style={style}
-        dragging={dragging}
-        resizing={resizing}
-        rotating={rotating}
         cropMode={cropMode}
       >
         {!cropMode && rotatable && showController && objectType !== TemplateType.BackgroundImage && (
@@ -411,6 +397,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               cursor: getCursorStyleWithRotateAngle(rotateAngle),
             }}
             onMouseDown={this.startRotate}
+            // onDoubleClick={this.props.enableCropMode}
           >
             <div
               className="rotate"
@@ -420,15 +407,13 @@ export default class Rect extends PureComponent<IProps, IState> {
               }}
             >
               <svg
-                style={{
-                  transform: "scale(0.9)"
-                }}
                 width="14"
                 height="14"
                 xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
               >
                 <path
-                  d="M10.536 3.464A5 5 0 1 0 11 10l1.424 1.425a7 7 0 1 1-.475-9.374L13.659.34A.2.2 0 0 1 14 .483V5.5a.5.5 0 0 1-.5.5H8.483a.2.2 0 0 1-.142-.341l2.195-2.195z"
+                  d='M15.25 18.48V15a.75.75 0 1 0-1.5 0v4c0 .97.78 1.75 1.75 1.75h4a.75.75 0 1 0 0-1.5h-2.6a8.75 8.75 0 0 0-2.07-15.53.75.75 0 1 0-.49 1.42 7.25 7.25 0 0 1 .91 13.34zM8.75 5.52V9a.75.75 0 0 0 1.5 0V5c0-.97-.78-1.75-1.75-1.75h-4a.75.75 0 0 0 0 1.5h2.6a8.75 8.75 0 0 0 2.18 15.57.75.75 0 0 0 .47-1.43 7.25 7.25 0 0 1-1-13.37z'
                   fillRule="nonzero"
                 />
               </svg>
@@ -463,18 +448,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 />
               </div>
             );
-          })}
-        {/* {objectType === 3 && !selected && (
-          <div
-            className={_id + "scaleX-scaleY"}
-            style={{
-              zIndex: 9999999,
-              transformOrigin: "0 0",
-              transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
-              position: "absolute"
-            }}
-          ></div>
-        )} */}
+        })}
         {((!imageSelected && !selected && name != "imgHovered") ||
          (imageSelected && !selected && name == "all-images") || 
          (name=="imgSelected" && cropMode) ||
@@ -516,7 +490,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                   src={src}
                   enableCropMode={enableCropMode}
                   srcThumnail={srcThumnail}
-                  downloading={downloading}
                 />
               </div>
             {imageSelected && cropMode && (
@@ -557,21 +530,81 @@ export default class Rect extends PureComponent<IProps, IState> {
           </div>
         )}
         {((showImage && !selected) || (!showImage && selected)) && 
-        (objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) &&
+        (objectType === TemplateType.Video || objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) &&
           <div
-            id={_id + "654"}
+            id={_id + "6543" + canvas}
+            // onDoubleClick={this.props.enableCropMode}
             className={_id + "scaleX-scaleY"}
             style={{
               transformOrigin: "0 0",
               transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
               position: "absolute",
-              // width: `calc(100%/${scaleX})`,
-              // height: `calc(100%/${scaleY})`,
               width: '100%',
               height: '100%',
               backgroundColor: color,
             }}
           >
+            {/* <button
+              onClick={this.handleClick.bind(this)} 
+              onDoubleClick = {this.handleDoubleClick.bind(this)}
+            >Hello</button> */}
+            {!cropMode && showController && objectType == TemplateType.Video &&
+            <div 
+              onClick={e => {
+                this.props.toggleVideo();
+              }}
+              style={{
+                position: "absolute",
+                left: "calc(50% - 25px)",
+                top: "calc(50% - 25px)",
+                backgroundColor: "rgba(17,23,29,.6)",
+                borderRadius: "100%",
+                width: "50px",
+                height: "50px",
+              }}>
+                <span 
+                onMouseDown={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.props.toggleVideo();
+                }}
+                onClick={e => {
+                  this.props.toggleVideo();
+                }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "block",
+                  position: "relative",
+                }}>
+                  {this.props.image.paused ? 
+                <svg 
+                  style={{
+                    margin: "auto",
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    position: "absolute",
+                    color: "white",
+                  }}
+                  width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M8.248 4.212l11.05 6.574c.694.412.91 1.29.483 1.961-.121.19-.287.35-.483.467l-11.05 6.574c-.694.413-1.602.204-2.03-.467A1.39 1.39 0 0 1 6 18.574V5.426C6 4.638 6.66 4 7.475 4c.273 0 .54.073.773.212z" fill="currentColor"></path></svg>
+                :
+                <svg 
+                style={{
+                  margin: "auto",
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  position: "absolute",
+                  color: "white",
+                }}
+                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="7" y="5" width="3" height="14" rx="1.5" fill="currentColor"></rect><rect x="14" y="5" width="3" height="14" rx="1.5" fill="currentColor"></rect></svg>
+              }
+                </span>
+              </div>
+            }
             {!showImage && cropMode && selected && (
               <div
                 id={_id + "1237"}
@@ -586,7 +619,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 }}
               >
                 {cropMode && selected
-                  ? imgResizeDirection
+                  ? cropImageResizeDirection
                     .map(d => {
                       let cursor = getCursorStyleForResizer(rotateAngle, d);
                       let visibility = objectType === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.props.image, scale, d);
@@ -618,17 +651,13 @@ export default class Rect extends PureComponent<IProps, IState> {
         }
         {((showImage && !selected) || (!showImage && selected)) && (objectType === TemplateType.Heading || objectType == TemplateType.TextTemplate) &&
           <div
-            // className={_id + "scaleX-scaleY"}
             style={{
               transformOrigin: "0 0",
-              // transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
               position: "absolute",
               width: `calc(100% + 2px)`,
               height: `calc(100% + 2px)`,
               left: "-1px",
               top: "-1px",
-              // width: '100%',
-              // height: '100%',
             }}
           >
             <div 
@@ -660,108 +689,23 @@ export default class Rect extends PureComponent<IProps, IState> {
         }
         {((showImage && !selected) || (!showImage && selected)) && (objectType === TemplateType.Heading || objectType == TemplateType.TextTemplate) &&
           <div
-            id={_id + "654"}
-            className={_id + "scaleX-scaleY"}
+            id={_id + "654" + canvas}
+            // onDoubleClick={this.props.enableCropMode}
+            onClick={e => {
+              console.log('click');
+            }}
+            className={_id + "scaleX-scaleY 2"}
             style={{
               transformOrigin: "0 0",
               transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
               position: "absolute",
               width: `calc(100%/${scaleX})`,
               height: `calc(100%/${scaleY})`,
-              // width: '100%',
-              // height: '100%',
             }}
           >
-            {/* {childrens && childrens.length > 0 && showImage && (
-              <div
-                id="hello-3"
-                style={{
-                  width: "100%",
-                  height: "100%"
-                }}
-              >
-                {childrens.map(child => {
-                  const styles = tLToCenter({
-                    top: child.top,
-                    left: child.left,
-                    width: child.width,
-                    height: child.height,
-                    rotateAngle: child.rotateAngle
-                  });
-                  const {
-                    position: { centerX, centerY },
-                    transform: { rotateAngle }
-                  } = styles;
-                  return (
-                    <div
-                      style={{
-                        WebkitTextStroke: (child.effectId == 3 || child.effectId == 4) && (`${1.0 * child.hollowThickness / 100 * 4 + 0.1}px ${(child.effectId == 3 || child.effectId == 4) ? child.color : "black"}`),
-                      }}
-                    >
-                      <div
-                        id={child._id + "text-container"}
-                        key={child._id}
-                        style={{
-                          zIndex: selected && objectType !== TemplateType.Image ? 1 : 0,
-                          left: child.left * scale,
-                          top: child.top * scale,
-                          position: "absolute",
-                          width: (width * child.width2) / scaleX * scale,
-                          height: child.height * scale,
-                          transform: `rotate(${rotateAngle}deg)`,
-                          opacity: opacity,
-                          fontFamily: `${child.fontFace}, AvenirNextRoundedPro`,
-                          color: (child.effectId == 3 || child.effectId == 4) ? "transparent" : child.color,
-                          textShadow: child.effectId == 1 ? `rgba(25, 25, 25, ${1.0 * child.textShadowTransparent / 100}) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * child.blur / 100}px` :
-                          child.effectId == 2 ? `rgba(0, 0, 0, ${0.6 * child.intensity}) 0 8.9px ${66.75 * child.intensity / 100}px` :
-                          child.effectId == 4 ? `rgb(128, 128, 128) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` : 
-                          child.effectId == 5  ? `rgba(0, 0, 0, 0.5) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
-                          child.effectId == 6 && `rgb(0, 255, 255) ${21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * child.offSet / 100 * Math.sin(child.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * child.offSet / 100 * Math.cos(child.direction * 3.6 / 360 * 2 * Math.PI))}px 0px` ,
-                          filter: child.filter,
-                          lineHeight: `${child.lineHeight * fontSize}px`,
-                        }}
-                        className="text-container"
-                      >
-                        <SingleText
-                          selectionScaleY={this.state.selectionScaleY}
-                          zIndex={zIndex}
-                          fontFace={child.fontFace}
-                          scaleX={child.scaleX}
-                          scaleY={child.scaleY}
-                          parentScaleX={scaleX}
-                          parentScaleY={scaleY}
-                          width={(width * child.width2) / scaleX / child.scaleX}
-                          height={child.height}
-                          centerX={centerX / child.scaleX}
-                          centerY={centerY / child.scaleY}
-                          rotateAngle={rotateAngle}
-                          parentIndex={_id}
-                          innerHTML={child.innerHTML}
-                          _id={child._id}
-                          selected={selected}
-                          onInput={onTextChange}
-                          onBlur={this.endEditing.bind(this)}
-                          onMouseDown={this.startEditing.bind(this)}
-                          outlineWidth={outlineWidth}
-                          onFontSizeChange={(fontSize, scaleY) => {
-                            onFontSizeChange(fontSize * scaleY);
-                            this.startEditing(scaleY);
-                          }}
-                          handleFontColorChange={handleFontColorChange}
-                          handleFontFaceChange={handleFontFaceChange}
-                          handleChildIdSelected={handleChildIdSelected}
-                          childId={childId}
-                          scale={scale}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}{" "}
-              </div>
-            )} */}
+            
             {childrens && childrens.length > 0 &&
             ((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages") &&
-            // && !showImage && 
             (
               <div
                 id={_id}
@@ -868,7 +812,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 }}
               >
                 {cropMode && selected
-                  ? imgResizeDirection.map(d => {
+                  ? cropImageResizeDirection.map(d => {
                     let cursor = getCursorStyleForResizer(rotateAngle, d);
                     return (
                       <div
@@ -1007,7 +951,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
             }}
           >
-            {imgResizeDirection.map((d, i) => {
+            {cropImageResizeDirection.map((d, i) => {
               var cursor = getCursorStyleForResizer(rotateAngle, d);
               return (
                 <div
@@ -1113,63 +1057,79 @@ export default class Rect extends PureComponent<IProps, IState> {
               overflow: "hidden"
             }}
           >
-            <div
-              id={_id + "1238"}
-              className={_id + "rect-alo" + " " + _id + "imgWidth"}
-              style={{
-                transform: `translate(${posX}px, ${posY}px)`,
-                width: imgWidth + "px",
-                height: imgHeight + "px"
-              }}
-            >
-              {showController &&
-                cropMode &&
-                selected &&
-                imgResizeDirection.map(d => {
-                  const cursor = `${getCursor(
-                    rotateAngle + parentRotateAngle,
-                    d
-                  )}-resize`;
-                  return (
-                    <div
-                      key={d}
-                      style={{
-                        cursor
-                      }}
-                      className={`${zoomableMap[d]} resizable-handler-container hehe`}
-                      onMouseDown={e => this.startResizeImage(e, d, true)}
-                    >
-                      <div
-                        key={d}
-                        style={{ cursor }}
-                        className={`${zoomableMap[d]} resizable-handler`}
-                        onMouseDown={e =>
-                          this.startResizeImage(e, d, true)
-                        }
-                      />
-                    </div>
-                  );
-                })}
-              <video
+            <Video
+              paused={this.state.paused}
+              rotateAngle={rotateAngle}
+              parentRotateAngle={parentRotateAngle}
+              canvas={canvas}
+              _id={_id}
+              showController={showController}
+              imgWidth={imgWidth}
+              imgHeight={imgHeight}
+              posX={posX}
+              posY={posY}
+              selected={selected}
+              cropMode={cropMode}
+              outlineWidth={outlineWidth}
+              backgroundColor={backgroundColor}
+              src={src}
+              srcThumnail={srcThumnail}
+              opacity={opacity}
+              startResizeImage={this.startResizeImage}
+            />
+          </div>
+        )}
+        {src && objectType === TemplateType.Video && showImage && (
+          <div
+            id={_id}
+            style={{
+              zIndex: selected ? 1 : 0,
+              transformOrigin: "0 0",
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            {imageSelected && cropMode && (
+              <div
+                id={_id + "123"}
+                className={_id + "rect-alo"}
                 style={{
                   width: "100%",
                   height: "100%",
-                  transformOrigin: "0 0",
-                  outline: cropMode
-                    ? `#00d9e1 solid ${outlineWidth - 1}px`
-                    : null,
-                  opacity
+                  position: "absolute"
                 }}
-                muted
-                loop
-                autoPlay
-                preload="none"
-                width="560"
-                height="320"
               >
-                <source src={src} type="video/webm" />
-              </video>
-            </div>
+                <div
+                  id={_id + "1236"}
+                  className={_id + "1236" + " " + _id + "imgWidth"}
+                  style={{
+                    width: imgWidth + "px",
+                    height: imgHeight + "px",
+                    transform: `translate(${posX}px, ${posY}px)`,
+                  }}
+                >
+                  {(objectType === TemplateType.Video) && (
+                    <video
+                      id={_id + "video2" + canvas} 
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        transformOrigin: "0 0",
+                        outline: cropMode
+                          ? `#00d9e1 solid ${outlineWidth - 1}px`
+                          : null,
+                        opacity: cropMode ? 0.5 : 0,
+                      }}
+                      autoPlay={false}
+                      loop
+                    >
+                      <source src={src} type="video/webm" />
+                    </video>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </StyledRect>

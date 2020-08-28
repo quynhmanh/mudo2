@@ -1,9 +1,5 @@
 import styled from 'styled-components'
 
-// :hover {
-//     outline: ${props => props.resizing || props.dragging || props.rotating || props.cropMode ? 'none;' : '#00d9e1 solid ' + '2px;'}
-//   }
-
 export default styled.div`
   position: absolute;
   img {
@@ -73,6 +69,7 @@ export default styled.div`
     right: -10px;
     transform-origin: center;
     z-index: 12312313;
+    transition: opacity 0.1s ease-in-out 0s;
     &.tr {
       top: -10px;
       transform-origin: center;
@@ -150,7 +147,7 @@ export default styled.div`
   }
   .rotate-container {
     position: absolute;
-    left: calc(50% - 9px);
+    left: calc(50% - 10px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -185,7 +182,7 @@ export default styled.div`
   }
   .t,
   .b {
-    left: calc(50% - 9px);
+    left: calc(50% - 10px);
   }
   .l {
     left: -11px;

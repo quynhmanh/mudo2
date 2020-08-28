@@ -1,6 +1,8 @@
 {
     "ok": "Đồng ý",
+    "save": "Lưu",
     "cancel": "Huỷ",
+    "clear": "Huỷ",
     "position" :"Vị trí",
     "forward": "Lên trên",
     "backward": "Xuống dưới",
@@ -41,5 +43,11 @@
     "alignRight": "Căn phải",
     "download": "Tải xuống",
     "zoomIn": "Phóng nhỏ",
-    "zoomOut": "Phóng to"
+    "zoomOut": "Phóng to",
+    "spacing": "Khoảng cách",
+    "page": "Trang",
+    "addPage": "Thêm trang",
+    "recentDesign": "Thiết kế của bạn",
+    "unsaved": "Chưa lưu",
+    "saved": "Đã lưu"
 }

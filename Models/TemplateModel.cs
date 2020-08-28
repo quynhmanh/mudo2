@@ -8,6 +8,8 @@ namespace RCB.TypeScript.Models
 
     public interface ITemplateBaseModel
     {
+        string Title { get; set; }
+
         [Ignore]
         string[] Canvas { get; set; }
 
@@ -26,6 +28,7 @@ namespace RCB.TypeScript.Models
     [ElasticsearchType(RelationName = "template")]
     public class TemplateModel : Base, ITemplateBaseModel
     {
+        public string Title { get; set; }
         [Key]
         public string Id { get; set; }
 

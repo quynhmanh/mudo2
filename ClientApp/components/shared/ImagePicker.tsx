@@ -69,6 +69,11 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
       width: 200,
     };
 
+    static defaultProps = {
+      classNameContainer: "",
+      padding: 0,
+    }
+
     componentDidMount() {
       const img = this.image;
       if (img && img.complete) {

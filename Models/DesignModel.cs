@@ -9,6 +9,9 @@ namespace RCB.TypeScript.Models
 
     public interface IDesignBaseModel
     {
+
+        string Title { get; set; }
+
         [Ignore]
         string[] Canvas { get; set; }
 
@@ -27,6 +30,7 @@ namespace RCB.TypeScript.Models
     [ElasticsearchType(RelationName = "design")]
     public class DesignModel : Base, ITemplateBaseModel
     {
+        public string Title { get; set; }
         [Key]
         public string Id { get; set; }
 

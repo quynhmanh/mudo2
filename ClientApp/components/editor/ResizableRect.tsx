@@ -5,49 +5,30 @@ export interface IProps {
   name: string;
   id: string;
   childId: string;
-  zoomable: string;
-  rotatable: boolean;
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-  rotateAngle: number;
   onRotateStart(): void;
   onResizeStart: any;
   scale: number;
-  aspectRatio: number;
   minWidth: number;
   minHeight: number;
   parentRotateAngle: number;
   showController: boolean;
-  updateStartPos: boolean;
-  src: string;
   onTextChange: any;
   outlineWidth: number;
   onFontSizeChange(fontSize: number): void;
   handleFontColorChange(fontColor: string): void;
   handleFontFaceChange(fontFace: string): void;
   handleChildIdSelected(childId: string): void;
-  posX: number;
-  posY: number;
   enableCropMode(e: any): void;
   cropMode: boolean;
   handleResizeInnerImageStart: any;
-  updateRect: boolean;
-  hidden: boolean;
   showImage: boolean;
   bleed: boolean;
-  dragging: boolean;
-  resizing: boolean;
-  rotating: boolean;
   freeStyle: boolean;
   hovered: boolean;
   image: any;
-  fontFace: string;
-  srcThumnail: any;
-  downloading: boolean;
   selected: boolean;
   canvas: string;
+  toggleVideo: any;
 }
 
 export interface IState {
@@ -70,7 +51,6 @@ export default class ResizableRect extends Component<IProps, IState> {
     parentRotateAngle: 0,
     rotateAngle: 0,
     rotatable: true,
-    zoomable: "",
     minWidth: 2,
     minHeight: 2,
     downloading: true,
@@ -79,19 +59,10 @@ export default class ResizableRect extends Component<IProps, IState> {
   render() {
     const {
       scale,
-      top,
-      left,
-      width,
-      height,
-      rotateAngle,
       parentRotateAngle,
-      zoomable,
-      rotatable,
       onResizeStart,
       onRotateStart,
       showController,
-      updateStartPos,
-      src,
       onTextChange,
       outlineWidth,
       onFontSizeChange,
@@ -103,45 +74,30 @@ export default class ResizableRect extends Component<IProps, IState> {
       cropMode,
       showImage,
       handleResizeInnerImageStart,
-      updateRect,
-      hidden,
       bleed,
       id,
-      dragging,
-      resizing,
-      rotating,
       image,
-      fontFace,
-      srcThumnail,
-      downloading,
       selected,
       name,
       canvas,
+      toggleVideo,
     } = this.props;
 
     return (
       <Rect
+        toggleVideo={toggleVideo}
         canvas={canvas}
         name={name}
         selected={selected}
-        downloading={downloading}
         image={image}
         hovered={this.props.hovered}
-        rotating={rotating}
-        resizing={resizing}
-        dragging={dragging}
         id={id}
-        hidden={hidden}
-        updateStartPos={updateStartPos}
         scale={scale}
         showController={showController}
-        zoomable={zoomable}
         parentRotateAngle={parentRotateAngle}
         onResizeStart={onResizeStart}
         onRotateStart={onRotateStart}
-        src={src}
         onTextChange={onTextChange}
-        left={left}
         outlineWidth={outlineWidth}
         onFontSizeChange={onFontSizeChange}
         handleFontColorChange={handleFontColorChange}
@@ -151,10 +107,8 @@ export default class ResizableRect extends Component<IProps, IState> {
         enableCropMode={enableCropMode}
         cropMode={cropMode}
         handleResizeInnerImageStart={handleResizeInnerImageStart}
-        updateRect={updateRect}
         showImage={showImage}
         bleed={bleed}
-        srcThumnail={srcThumnail}
       />
     );
   }

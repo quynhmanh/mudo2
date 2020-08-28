@@ -1,5 +1,4 @@
-import React, { Component, PureComponent } from 'react'
-import { canvasToBlob } from 'htmltoimage/utils';
+import React, { Component } from 'react'
 
 export interface IProps {
     _id: string;
@@ -14,7 +13,6 @@ export interface IProps {
     enableCropMode: any;
     src: any;
     srcThumnail: any;
-    downloading: boolean;
     canvas: string;
 }
 
@@ -32,7 +30,7 @@ export default class Image extends Component<IProps, IState> {
   }
 
   render () {
-      let {downloading, _id, imgWidth, imgHeight, posX, posY, selected, cropMode, outlineWidth, backgroundColor, enableCropMode, src, srcThumnail, canvas} = this.props;
+      let {_id, imgWidth, imgHeight, posX, posY, selected, cropMode, outlineWidth, backgroundColor, enableCropMode, src, srcThumnail, canvas} = this.props;
     return (
         <div>
             {!window.downloading && !this.state.loaded && <img 

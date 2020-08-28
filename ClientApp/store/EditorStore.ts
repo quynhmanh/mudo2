@@ -1,7 +1,6 @@
-import { observable, action, IObservableArray, ObservableMap } from "mobx";
+import { observable, action, IObservableArray } from "mobx";
 import uuidv4 from "uuid/v4";
 import { toJS } from "mobx";
-import { replace } from "connected-react-router";
 
 
 const fontColors = [
@@ -23,6 +22,7 @@ class Images {
     @observable pageColor = observable(new Map());
     @observable pageBackgroundImage = observable(new Map());
     @observable fontsList = observable([]);
+    @observable childId = null;
     @observable fonts = observable([]);
     @observable upperZIndex = 1;
     @observable idObjectSelected = null;

@@ -1,21 +1,72 @@
-import * as _        from './utils/utils';
+import * as _ from './utils/utils';
 import {parseToHSVA} from './utils/color';
-import {HSVaColor}   from './utils/hsvacolor';
-import Moveable      from './libs/moveable';
-import Selectable    from './libs/selectable';
-import Nanopop       from './libs/nanopop';
-import buildPickr    from './template';
+import {HSVaColor} from './utils/hsvacolor';
+import Moveable from './libs/moveable';
+import Selectable from './libs/selectable';
+import buildPickr from './template';
+import {NanoPop} from './libs/nanopop';
 
 class Pickr {
 
+    // Expose pickr utils
+    static utils = _;
+
+    // Default strings
+    static I18N_DEFAULTS = {
+
+        // Strings visible in the UI
+        'ui:dialog': 'color picker dialog',
+        'btn:toggle': 'toggle color picker dialog',
+        'btn:swatch': 'color swatch',
+        'btn:last-color': 'use previous color',
+        'btn:save': 'Save',
+        'btn:cancel': 'Cancel',
+        'btn:clear': 'Clear',
+
+        // Strings used for aria-labels
+        'aria:btn:save': 'save and close',
+        'aria:btn:cancel': 'cancel and close',
+        'aria:btn:clear': 'clear and close',
+        'aria:input': 'color input field',
+        'aria:palette': 'color selection area',
+        'aria:hue': 'hue selection slider',
+        'aria:opacity': 'selection slider'
+    };
+
+    // Default options
+    static DEFAULT_OPTIONS = {
+        appClass: null,
+        theme: 'classic',
+        useAsButton: false,
+        padding: 8,
+        disabled: false,
+        comparison: true,
+        closeOnScroll: false,
+        outputPrecision: 0,
+        lockOpacity: false,
+        autoReposition: true,
+        container: 'body',
+
+        components: {
+            interaction: {}
+        },
+
+        i18n: {},
+        swatches: null,
+        inline: false,
+        sliders: null,
+
+        default: '#42445a',
+        defaultRepresentation: null,
+        position: 'bottom-middle',
+        adjustableNumbers: true,
+        showAlways: false,
+
+        closeWithKey: 'Escape'
+    };
+
     // Will be used to prevent specific actions during initilization
     _initializingActive = true;
-
-    _representation = null;
-
-    _eventBindings = null
-
-    _components = null;
 
     // If the current color value should be recalculated
     _recalc = true;
@@ -42,40 +93,10 @@ class Pickr {
         swatchselect: []
     };
 
-    options: any;
-
     constructor(opt) {
 
         // Assign default values
-        this.options = opt = Object.assign({
-            appClass: null,
-            theme: 'classic',
-            useAsButton: false,
-            padding: 8,
-            disabled: false,
-            comparison: true,
-            closeOnScroll: false,
-            outputPrecision: 0,
-            lockOpacity: false,
-            autoReposition: true,
-            container: 'body',
-            components: {
-                interaction: {}
-            },
-
-            strings: {},
-            swatches: null,
-            inline: false,
-            sliders: null,
-
-            default: '#42445a',
-            defaultRepresentation: null,
-            position: 'bottom-middle',
-            adjustableNumbers: true,
-            showAlways: false,
-
-            closeWithKey: 'Escape'
-        }, opt);
+        this.options = opt = Object.assign({...Pickr.DEFAULT_OPTIONS}, opt);
 
         const {swatches, components, theme, sliders, lockOpacity, padding} = opt;
 
@@ -106,21 +127,20 @@ class Pickr {
 
         // Initialize positioning engine
         const {button, app} = this._root;
-        this._nanopop = Nanopop({
-            reference: button,
-            padding,
-            el: app
+        this._nanopop = new NanoPop(button, app, {
+            margin: padding
         });
 
         // Initialize accessibility
         button.setAttribute('role', 'button');
-        button.setAttribute('aria-label', 'toggle color picker dialog');
+        button.setAttribute('aria-label', this._t('btn:toggle'));
 
         // Initilization is finish, pickr is visible and ready for usage
         const that = this;
         requestAnimationFrame((function cb() {
 
-            if (!app.offsetWidth && app.parentElement !== opt.container) {
+            // TODO: Performance issue due to high call-rate?
+            if (!app.offsetWidth) {
                 return requestAnimationFrame(cb);
             }
 
@@ -142,30 +162,31 @@ class Pickr {
             // Initialization is done - pickr is usable, fire init event
             that._initializingActive = false;
             that._emit('init');
-
-            return null;
         }));
     }
 
+    // Create instance via method
+    static create = options => new Pickr(options);
+
     // Does only the absolutly basic thing to initialize the components
     _preBuild() {
-        const opt = this.options;
+        const {options} = this;
 
         // Resolve elements
         for (const type of ['el', 'container']) {
-            opt[type] = _.resolveElement(opt[type]);
+            options[type] = _.resolveElement(options[type]);
         }
 
         // Create element and append it to body to
-        // prevent initialization errors
-        this._root = buildPickr(opt);
+        // Prevent initialization errors
+        this._root = buildPickr(this);
 
         // Check if a custom button is used
-        if (opt.useAsButton) {
-            this._root.button = opt.el; // Replace button with customized button
+        if (options.useAsButton) {
+            this._root.button = options.el; // Replace button with customized button
         }
 
-        opt.container.appendChild(this._root.root);
+        options.container.appendChild(this._root.root);
     }
 
     _finalBuild() {
@@ -219,7 +240,7 @@ class Pickr {
         const inst = this;
         const cs = this.options.components;
         const sliders = (inst.options.sliders || 'v').repeat(2);
-        const [so, sh] = sliders.match(/^[vh]+$/g) ? sliders : [null, null];
+        const [so, sh] = sliders.match(/^[vh]+$/g) ? sliders : [];
 
         // Re-assign if null
         const getColor = () =>
@@ -233,7 +254,9 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(x, y) {
-                    if (!cs.palette) return;
+                    if (!cs.palette) {
+                        return;
+                    }
 
                     const color = getColor();
                     const {_root, options} = inst;
@@ -291,7 +314,10 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
-                    if (!cs.hue || !cs.palette) return;
+                    if (!cs.hue || !cs.palette) {
+                        return;
+                    }
+
                     const color = getColor();
 
                     // Calculate hue
@@ -312,7 +338,10 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
-                    if (!cs.opacity || !cs.palette) return;
+                    if (!cs.opacity || !cs.palette) {
+                        return;
+                    }
+
                     const color = getColor();
 
                     // Calculate opacity
@@ -354,8 +383,7 @@ class Pickr {
                 _root.preview.lastColor
             ], 'click', () => {
                 this._emit('cancel', this);
-                var [h, s, v, a] = (this._lastColor || this._color).toHSVA();
-                this.setHSVA(h, s, v, a, true);
+                this.setHSVA(...(this._lastColor || this._color).toHSVA(), true);
             }),
 
             // Save color
@@ -388,7 +416,7 @@ class Pickr {
                 _root.hue.picker,
                 _root.opacity.slider,
                 _root.opacity.picker
-            ], ['mousedown', 'touchstart'], () => this._recalc = true)
+            ], ['mousedown', 'touchstart'], () => this._recalc = true, {passive: true})
         ];
 
         // Provide hiding / showing abilities only if showAlways is false
@@ -396,6 +424,7 @@ class Pickr {
             const ck = options.closeWithKey;
 
             eventBindings.push(
+
                 // Save and hide / show picker
                 _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
 
@@ -476,28 +505,17 @@ class Pickr {
 
         // No repositioning needed if inline
         if (!options.inline) {
-            const {app} = this._root;
+            const success = this._nanopop.update({
+                container: document.body.getBoundingClientRect(),
+                position: options.position,
+                forceApplyOnFailure: !this._recalc
+            });
 
-            if (matchMedia('(max-width: 576px)').matches) {
-                Object.assign(app.style, {
-                    margin: 'auto',
-                    height: `${app.getBoundingClientRect().height}px`,
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0
-                });
-            } else {
-                Object.assign(app.style, {
-                    margin: null,
-                    right: null,
-                    top: null,
-                    bottom: null,
-                    left: null,
-                    height: null
-                });
-
-                this._nanopop.update(options.position);
+            if (!success) {
+                const el = this._root.app;
+                const eb = el.getBoundingClientRect();
+                el.style.top = `${(window.innerHeight - eb.height) / 2}px`;
+                el.style.left = `${(window.innerWidth - eb.width) / 2}px`;
             }
         }
     }
@@ -530,7 +548,6 @@ class Pickr {
 
         _root.button.classList.add('clear');
 
-
         if (!options.showAlways) {
             this.hide();
         }
@@ -550,7 +567,7 @@ class Pickr {
         const alphaMakesAChange = a !== undefined && a !== 1;
 
         // If no opacity is applied, add undefined at the very end which gets
-        // set to 1 in setHSVA
+        // Set to 1 in setHSVA
         if (values && values.length === 3) {
             values[3] = undefined;
         }
@@ -561,29 +578,25 @@ class Pickr {
         };
     }
 
+    _t(key) {
+        return this.options.i18n[key] || Pickr.I18N_DEFAULTS[key];
+    }
+
     _emit(event, ...args) {
         this._eventListener[event].forEach(cb => cb(...args, this));
     }
 
     on(event, cb) {
-
-        // Validate
-        if (typeof cb === 'function' && typeof event === 'string' && event in this._eventListener) {
-            this._eventListener[event].push(cb);
-        }
-
+        this._eventListener[event].push(cb);
         return this;
     }
 
     off(event, cb) {
-        const callBacks = this._eventListener[event];
+        const callBacks = (this._eventListener[event] || []);
+        const index = callBacks.indexOf(cb);
 
-        if (callBacks) {
-            const index = callBacks.indexOf(cb);
-
-            if (~index) {
-                callBacks.splice(index, 1);
-            }
+        if (~index) {
+            callBacks.splice(index, 1);
         }
 
         return this;
@@ -603,7 +616,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const el = _.createElementFromString(
-                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="color swatch"/>`
+                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="${this._t('btn:swatch')}"/>`
             );
 
             // Append element and save swatch data
@@ -613,8 +626,7 @@ class Pickr {
             // Bind event
             this._eventBindings.push(
                 _.on(el, 'click', () => {
-                    var [h, s, v, a] = color.toHSVA();
-                    this.setHSVA(h, s, v, a, true);
+                    this.setHSVA(...color.toHSVA(), true);
                     this._emit('swatchselect', color);
                     this._emit('change', color);
                 })
@@ -696,7 +708,7 @@ class Pickr {
             root.parentElement.removeChild(root);
         }
 
-        // remove .pcr-app
+        // Remove .pcr-app
         app.parentElement.removeChild(app);
 
         // There are references to various DOM elements stored in the pickr instance
@@ -788,6 +800,7 @@ class Pickr {
      * @param silent
      */
     setColor(string, silent = false) {
+
         // Check if null
         if (string === null) {
             this._clearColor(silent);
@@ -795,7 +808,6 @@ class Pickr {
         }
 
         const {values, type} = this._parseLocalColor(string);
-        const [h, s, v, a] = values;
 
         // Check if color is ok
         if (values) {
@@ -813,7 +825,7 @@ class Pickr {
             }
 
             // Update color (fires 'save' event if silent is 'false')
-            if (!this.setHSVA(h, s, v, a, silent)) {
+            if (!this.setHSVA(...values, silent)) {
                 return false;
             }
 
@@ -888,33 +900,6 @@ class Pickr {
         this._root.button.classList.remove('disabled');
         return this;
     }
-    
-    static create(options) {
-        return new Pickr(options);
-    }
-
-    utils = _;
-
-    libs = {
-        HSVaColor,
-        Moveable,
-        Nanopop,
-        Selectable
-    }
 }
-
-// Expose pickr utils
-// Pickr.utils = _;
-
-// Expose libraries for easier integration in things build on top of it
-// Pickr.libs = {
-//     HSVaColor,
-//     Moveable,
-//     Nanopop,
-//     Selectable
-// };
-
-// Create instance via method
-// Pickr.create = options => new Pickr(options);
 
 export default Pickr;

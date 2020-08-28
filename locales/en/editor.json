@@ -1,6 +1,8 @@
 {
     "ok": "OK",
+    "save": "Save",
     "cancel": "Cancel",
+    "clear": "Clear",
     "position" :"Position",
     "forward": "Forward",
     "backward": "Backward",
@@ -41,5 +43,11 @@
     "alignRight": "Align Right",
     "download": "Download",
     "zoomIn": "Zoom In",
-    "zoomOut": "Zoom Out"
+    "zoomOut": "Zoom Out",
+    "spacing": "Spacing",
+    "page": "Page",
+    "addPage": "Add page",
+    "recentDesign": "Recent Designs",
+    "unsaved": "Unsaved",
+    "saved": "Saved"
 }

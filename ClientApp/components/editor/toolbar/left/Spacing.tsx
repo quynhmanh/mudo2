@@ -5,10 +5,7 @@ import Slider from "@Components/editor/Slider";
 interface IProps {
     show: boolean;
     translate: any;
-    handleAlignBtnClick: any;
     title: string;
-    iconPath: string;
-    checked: boolean;
     currentLineHeight: number;
     currentLetterSpacing: number;
     handleLineHeightChange: any;
@@ -45,7 +42,7 @@ export default class Spacing extends Component<IProps, IState> {
     }
 
     render() {
-        const { show, handleAlignBtnClick, translate, title, iconPath } = this.props;
+        const { show, translate, title } = this.props;
         const content = translate(title);
         return (
             <Tooltip
@@ -75,7 +72,6 @@ export default class Spacing extends Component<IProps, IState> {
                         cursor: "pointer",
                         color: "black",
                         height: "100%",
-                        backgroundColor: this.props.checked ? "#f2f5f7 " : "white",
                     }}
                 >
                     <img

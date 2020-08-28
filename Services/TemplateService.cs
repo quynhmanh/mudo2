@@ -378,6 +378,7 @@ namespace RCB.TypeScript.Services
 
             var template = getResponse.Source;
 
+            template.Title = model.Title;
             template.Document = model.Document;
             template.CreatedAt = model.CreatedAt;
             template.CreatedBy = model.CreatedBy;

@@ -110,7 +110,6 @@ interface IState {
   currentTemplatesHeight: number;
   currentTemplate2sHeight: number;
   isLoadingFont: boolean;
-  handleImageSelected: any;
 }
 
 const imgWidth = 162;
@@ -278,9 +277,9 @@ class LeftSide extends Component<IProps, IState> {
       var url = `/api/Font/Add`;
       axios.post(url, 
         { 
-          id: document.getElementById("fontId").value,
+          id: (document.getElementById("fontId") as HTMLInputElement).value,
           data: fr.result, 
-          name: document.getElementById("fontNameInp").value,
+          name: (document.getElementById("fontNameInp") as HTMLInputElement).value,
         }).then(() => {
         self.setState({ hasMoreFonts: true });
       });
@@ -418,7 +417,6 @@ class LeftSide extends Component<IProps, IState> {
 
   backgroundOnMouseDown(item, e) {
 
-    console.log('backgroundOnMouseDown ', item);
 
     var rec2 = e.target.getBoundingClientRect();
     var { rectWidth, rectHeight } = this.props;
@@ -515,7 +513,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   templateOnMouseDown(id, e) {
-    console.log('templateOnMouseDown ');
     editorStore.doNoObjectSelected();
     var ce = document.createElement.bind(document);
     var ca = document.createAttribute.bind(document);
@@ -530,7 +527,6 @@ class LeftSide extends Component<IProps, IState> {
       doc = this.state.templates2.find(doc => doc.id == id);
     }
     var template = JSON.parse(doc.document);
-    console.log('template ', template);
     var scaleX = rectWidth / template.width;
     var scaleY = rectHeight / template.height;
 
@@ -1011,7 +1007,6 @@ class LeftSide extends Component<IProps, IState> {
     let image = this.props.selectedImage || {};
     if (this.props.childId) {
       image = image.document_object.find(text => text._id == this.props.childId);
-      console.log('image asda ', image);
     }
     return (
       <div
@@ -1353,6 +1348,7 @@ class LeftSide extends Component<IProps, IState> {
               }}
             >
               <div style={{ color: "white" }}>
+                {this.props.tReady &&
                 <div style={{ marginBottom: "10px" }}>
                   <p>
                     {/* Nhấn để thêm chữ vào trang */}
@@ -1462,7 +1458,6 @@ class LeftSide extends Component<IProps, IState> {
 
                       setTimeout(() => {
                         let el = document.getElementById(item._id + "hihi4alo");
-                        console.log('el ', el);
                         let range = document.createRange();
                         range.selectNodeContents(el)
                         var sel = window.getSelection();
@@ -1522,7 +1517,6 @@ class LeftSide extends Component<IProps, IState> {
 
                       setTimeout(() => {
                         let el = document.getElementById(item._id + "hihi4");
-                        console.log('el ', el);
                         let range = document.createRange();
                         range.selectNodeContents(el)
                         var sel = window.getSelection();
@@ -1584,7 +1578,6 @@ class LeftSide extends Component<IProps, IState> {
 
                       setTimeout(() => {
                         let el = document.getElementById(item._id + "hihi4");
-                        console.log('el ', el);
                         let range = document.createRange();
                         range.selectNodeContents(el)
                         var sel = window.getSelection();
@@ -1599,6 +1592,7 @@ class LeftSide extends Component<IProps, IState> {
                     {this.props.translate("addABodyText")}
                   </div>
                 </div>
+                }
                 {
                   <div style={{ height: "calc(100% - 221px)" }}>
                     <InfiniteScroll
@@ -2297,14 +2291,6 @@ class LeftSide extends Component<IProps, IState> {
                           <button
                             key={uuidv4()}
                             className="font-picker"
-                            style={{
-                              padding: "7px",
-                              display: "flex",
-                              position: "relative",
-                              width: "100%",
-                              border: "none",
-                              backgroundColor: "transparent"
-                            }}
                             onClick={e => {
                               this.props.selectFont(font.id, e);
                             }}
@@ -2434,9 +2420,6 @@ class LeftSide extends Component<IProps, IState> {
                     <button
                       id="effect-btn-1"
                       className="effect-btn"
-                      // style={{
-                      //   border: image && image.effectId == 1 && "2px solid #2591c7",
-                      // }}
                       onClick={e => {
                         this.props.handleApplyEffect(1, 50, 12.5, 0, 40, null, null);
                         if (window.prevEffectId) {
@@ -2918,11 +2901,14 @@ class LeftSide extends Component<IProps, IState> {
                           }} width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7.25 13.25a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5z"></path></svg>
                         </div>
                       </li> */}
+                      {this.props.tReady &&
                       <ColorPicker 
                         setSelectionColor={this.props.setSelectionColor}
                         colorPickerShown={this.props.colorPickerShown}
                         handleColorPick={this.handleColorPick}
+                        translate={this.props.translate}
                       />
+                      }
                     {/* </a> */}
                   {/* <a
                       key={uuidv4()}

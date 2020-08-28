@@ -88,7 +88,7 @@ const LeftSide = (props: IProps) => {
                 {
                     (editorStore.imageSelected &&
                     editorStore.imageSelected.type === TemplateType.Heading) || 
-                    props.childId
+                    !!props.childId
                 }
                 translate={props.translate}
                 selectedImage={props.selectedImage}
@@ -235,7 +235,7 @@ const LeftSide = (props: IProps) => {
             }
             {editorStore.imageSelected && (editorStore.imageSelected.type === TemplateType.Heading || props.childId) &&
             <Spacing 
-                title="Spacing"
+                title="spacing"
                 show=
                 {
                     (editorStore.imageSelected &&
@@ -243,8 +243,8 @@ const LeftSide = (props: IProps) => {
                     !!props.childId
                 }
                 pauser={props.pauser}
-                currentLineHeight={props.currentLineHeight}
-                currentLetterSpacing={props.currentLetterSpacing}
+                currentLineHeight={props.currentLineHeight ? props.currentLineHeight : 0}
+                currentLetterSpacing={props.currentLetterSpacing ? props.currentLetterSpacing : 0}
                 translate={props.translate}
                 handleLineHeightChange={props.handleLineHeightChange}
                 handleLineHeightChangeEnd={props.handleLineHeightChangeEnd}

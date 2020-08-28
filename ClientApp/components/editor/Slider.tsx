@@ -21,6 +21,7 @@ export default class Slider extends Component<IProps, IState> {
 
     static defaultProps = {
         multiplier: 1,
+        onChangeStart: null,
     }
 
     constructor(props: any) {
