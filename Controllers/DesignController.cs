@@ -24,10 +24,12 @@ namespace RCB.TypeScript.Controllers
         
         //private readonly DbContextOptions<PersonContext> _context;
         private DesignService DesignService { get; }
+        private TemplateService TemplateService { get; }
+
         private IHostingEnvironment HostingEnvironment { get; set; }
         private IConfiguration Configuration { get; set; }
 
-        public DesignController(DesignService designService, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
+        public DesignController(DesignService designService, TemplateService templateService, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
 
             var serviceCollection = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
@@ -37,7 +39,8 @@ namespace RCB.TypeScript.Controllers
             DesignService = designService;
             HostingEnvironment = hostingEnvironment;
             Configuration = configuration;
-    }
+            TemplateService = templateService;
+        }
 
         [HttpGet("[action]")]
         public IActionResult Search([FromQuery]string type = null)
@@ -57,6 +60,25 @@ namespace RCB.TypeScript.Controllers
             // model.Representative = res;
 
             var result = DesignService.Add(model);
+            return Json(result);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddOrUpdate(DesignModel model)
+        {
+            if (model == null)
+                return BadRequest($"{nameof(model)} is null.");
+
+            TemplateService designService = new TemplateService(null, HostingEnvironment, Configuration);
+
+            await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, true, false, model.Representative);
+            // model.Representative = res;
+            var result = DesignService.Get(model.Id);
+            if (result.HasErrors) {
+                await DesignService.Add(model);
+            } else {
+                DesignService.Update(model);
+            }
             return Json(result);
         }
 
@@ -660,6 +682,19 @@ namespace RCB.TypeScript.Controllers
         public IActionResult Get([FromQuery]string id)
         {
             return Json(DesignService.Get(id));
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetDesignIfNotTemplate([FromQuery]string template_id, [FromQuery]string design_id)
+        {
+            var res = DesignService.Get(design_id);
+            if (res.HasErrors) {
+                var res2 = TemplateService.Get(template_id);
+
+                return Json(res2);
+            }
+
+            return Json(res);
         }
 
         [HttpPost("[action]")]

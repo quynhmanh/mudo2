@@ -40,7 +40,7 @@ class Popup extends PureComponent<IProps, IState> {
 
         if (Globals.serviceUser) {
             // const url = `https://localhost:64099/api/Template/SearchWithUserName?userName=${Globals.serviceUser.username}`;
-            const url = `/api/Template/Search?Type=1&page=1&perPage=10&printType=6`;
+            const url = `/api/Template/Search?Type=1&page=1&perPage=20&printType=6`;
             axios
               .get(url)
               .then(res => {

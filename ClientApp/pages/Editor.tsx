@@ -845,9 +845,10 @@ class CanvaEditor extends Component<IProps, IState> {
             scale: fitScale,
             fitScale
         });
-        var self = this;
-        var subtype;
-        var template_id = this.props.match.params.template_id;
+        let self = this;
+        let subtype;
+        let template_id = this.props.match.params.template_id;
+        let design_id = this.props.match.params.design_id;
 
 
         if (template_id) {
@@ -857,7 +858,8 @@ class CanvaEditor extends Component<IProps, IState> {
             } else if (this.props.match.path == "/editor/design/:template_id") {
                 url = `/api/Design/Get?id=${template_id}`;
             } else if (this.props.match.path == "/editor/design/:design_id/:template_id") {
-                url = `/api/Template/Get?id=${template_id}`;
+                // url = `/api/Template/Get?id=${template_id}`;
+                url = `/api/Design/GetDesignIfNotTemplate?design_id=${design_id}&template_id=${template_id}`;
                 console.log('/editor/design/:design_id/:template_id', template_id)
             }
 
@@ -868,9 +870,9 @@ class CanvaEditor extends Component<IProps, IState> {
                     if (res.data.errors.length > 0) {
                         throw new Error(res.data.errors.join("\n"));
                     }
-                    var image = res.data;
-                    var templateType = image.value.type;
-                    var mode;
+                    let image = res.data;
+                    let templateType = image.value.type;
+                    let mode;
                     if (this.props.match.path == "/editor/design/:template_id") {
                         mode = Mode.EditDesign;
 
@@ -4106,7 +4108,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             if (mode == Mode.CreateDesign) {
                 if (self.props.match.path == "/editor/design/:design_id/:template_id") {
-                    url = "/api/Design/Add";
+                    url = "/api/Design/AddOrUpdate";
                 } else {
                     if (!self.state.designId) {
                         url = "/api/Design/Add";
@@ -5555,7 +5557,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         onInput={e => {
                                             e.target.parentNode.dataset.value = e.target.value;
                                         }}
-                                        size={this.state.designTitle.length} 
+                                        size={this.state.designTitle ? this.state.designTitle.length : 0} 
                                         />
                                 </label>
                                 </div>

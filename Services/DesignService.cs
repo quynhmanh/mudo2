@@ -42,7 +42,11 @@ namespace RCB.TypeScript.Services
 
             var response = client.Get<DesignModel>(id);
 
-            return Ok(response.Source);
+            if (response.Found) {
+                return Ok(response.Source);
+            } else {
+                return Error<DesignModel>("");
+            }
         }
 
         public virtual async Task<Result<string>> Add(DesignModel model)
