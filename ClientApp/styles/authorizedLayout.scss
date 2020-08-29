@@ -239,12 +239,14 @@ html {
 .templateInfo___2YZSg {
     position: absolute;
     left: 50%;
-    min-width: 300px;
     margin-top: 8px;
     transform: translateX(-50%);
     // opacity: 0;
     pointer-events: none;
     // color: white;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .templateWrapper___3Fitk:hover .editTemplateWrapper___29oLU, .templateWrapper___3Fitk:hover .templateInfo___2YZSg {
@@ -265,6 +267,10 @@ html {
     line-height: 21px;
     font-weight: 900;
     margin-bottom: 0;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .iconPlay___RdcjT {

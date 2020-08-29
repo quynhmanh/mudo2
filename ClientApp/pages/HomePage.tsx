@@ -656,10 +656,14 @@ onLanguageBtnClick = () => {
                 fontFamily: "AvenirNextRoundedPro-Medium",
               }}
             >{this.translate("recentDesign")}</h3>
-            <PopularTemplate
-            translate={this.translate.bind(this)}
-          />
-          
+            <div 
+              style={{
+                height: "220px",
+              }}>
+                <PopularTemplate
+                  translate={this.translate.bind(this)}
+                />
+            </div>
           <div
             style={{
               overflowX: 'scroll',
@@ -706,11 +710,15 @@ onLanguageBtnClick = () => {
                 marginTop: '20px',
                 fontFamily: "AvenirNextRoundedPro-Medium",
               }}
-            >{this.translate("recentDesign")}</h3>
-            <PopularTemplate2 
-            translate={this.translate.bind(this)}
-          />
-          
+            >{this.translate("popular")}</h3>
+            <div 
+              style={{
+                height: "220px",
+              }}>
+              <PopularTemplate2 
+                translate={this.translate.bind(this)}
+              />
+            </div>
           <div
             style={{
               overflowX: 'scroll',

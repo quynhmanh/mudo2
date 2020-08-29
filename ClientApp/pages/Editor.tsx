@@ -262,6 +262,7 @@ interface IState {
     selectedCanvas: string;
     saved: boolean;
     designId: string;
+    designTitle: string;
 }
 
 const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
@@ -272,6 +273,7 @@ class CanvaEditor extends Component<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            designTitle: "",
             currentLineHeight: 0,
             currentLetterSpacing: 0,
             designId: "",
@@ -932,17 +934,12 @@ class CanvaEditor extends Component<IProps, IState> {
                         });
                     }
 
-                    let el = window.document.getElementById("designTitle") as HTMLInputElement;
-                    if (el)
-                        el.value = image.value.title;
-
                     let images = document.document_object;
                     images.forEach(image => {
                         console.log('im age ', image);
                         editorStore.images2.set(image._id, image);
                     })
 
-                    // editorStore.replace(images);
                     editorStore.fonts.replace(image.value.fontList);
 
                     console.log('images ', images)
@@ -958,7 +955,8 @@ class CanvaEditor extends Component<IProps, IState> {
                         rectHeight: document.height,
                         templateType,
                         mode,
-                        subtype: res.data.value.printType
+                        subtype: res.data.value.printType,
+                        designTitle: image.value.title,
                     });
 
                     var zIndexMax = 0;
@@ -5462,7 +5460,8 @@ class CanvaEditor extends Component<IProps, IState> {
                             backgroundColor: "#58b0d2",
                             height: "55px",
                             padding: "5px",
-                            display: "flex"
+                            display: "flex",
+                            position: "relative",
                         }}
                     >
                         <div
@@ -5520,11 +5519,13 @@ class CanvaEditor extends Component<IProps, IState> {
                                 position: "absolute",
                                 right: 0,
                                 display: "flex",
-                                top: 0
+                                top: 0,
+                                height: "100%",
                             }}
                         >
                             {this.state.mounted && this.props.tReady &&
-                            <input 
+                            <div>
+                            {/* <input 
                                 id="designTitle"
                                 style={{
                                     height: "35px",
@@ -5538,7 +5539,26 @@ class CanvaEditor extends Component<IProps, IState> {
                                     fontWeight: "bold",
                                     fontSize: "15px",
                                 }}
-                                defaultValue="Add a heading"/>
+                                // onkeypress={this.style.width = ((this.value.length + 1) * 8) + 'px';"
+                                onKeyPress={e => {
+                                    const val = (e.target.value.length) * 9 + 30;
+                                    e.target.style.width = val + 'px';
+                                }}
+                                defaultValue={this.state.designTitle}/> */}
+                                <label 
+                                    className="input-sizer">
+                                    <input 
+                                        id="designTitle"
+                                        type="text" 
+                                        defaultValue={this.state.designTitle}
+                                        // onInput="this.parentNode.dataset.value = this.value" 
+                                        onInput={e => {
+                                            e.target.parentNode.dataset.value = e.target.value;
+                                        }}
+                                        size={this.state.designTitle.length} 
+                                        />
+                                </label>
+                                </div>
                             }
                             {this.state.mounted && this.props.tReady &&
                             <div
@@ -5547,7 +5567,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                     fontSize: "13px",
                                     border: "none",
                                     marginRight: "20px",
-                                    marginTop: "8px",
                                 }}
                             >
                                 <div
