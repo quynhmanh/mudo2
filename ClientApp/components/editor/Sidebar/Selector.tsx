@@ -41,7 +41,7 @@ export default class Selector extends PureComponent<IProps, IState> {
             borderBottomRightRadius: nextSelected ? "9px" : null,
             textAlign: 'center',
             backgroundColor: !selected ? '#0e1318' : 'rgb(41, 48, 57)',
-            height: '70px',
+            // height: '70px',
             fontFamily: "AvenirNextRoundedPro",
           }}
           onClick={disabled ? null : onClick}
@@ -74,7 +74,13 @@ export default class Selector extends PureComponent<IProps, IState> {
               ></path>})
               )}
             </svg>
-            <span style={{ fontSize: "11px", position: "absolute", top: "100%", }}>{content}</span>
+            <span 
+              style={{ 
+                fontSize: "11px", 
+                // position: "absolute", 
+                top: "100%", 
+                marginBottom: "10px",
+              }}>{content}</span>
           </div>
         </div>
     );

@@ -111,7 +111,7 @@ export default class TopMenu extends PureComponent<IProps, IState> {
         }
         <div
           style={{
-            height: this.props.mounted ? 'calc(100% - 480px)' : '100%',
+            height: '100%',
             backgroundColor: 'rgb(14, 19, 24)',
           }}
         >

@@ -1055,3 +1055,9 @@ button {
   transform: scale(1.05);
   transition: opacity .25s ease-out,background-color .2s ease-out,transform .2s ease-out,-webkit-transform .2s ease-out;
 }
+
+.hideWhenDownloadContainer:hover {
+  .hideWhenDownload {
+    display: block !important;
+  }
+}

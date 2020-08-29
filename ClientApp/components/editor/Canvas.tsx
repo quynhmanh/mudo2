@@ -509,6 +509,7 @@ export default class Canvas extends Component<IProps, IState> {
                     }}
 
                     onDoubleClick={(e) => {
+                      e.preventDefault();
                       if (img.type == TemplateType.Image || img.type == TemplateType.BackgroundImage)
                         this.props.enableCropMode();
                       else if (img.type == TemplateType.Video) 
@@ -649,6 +650,7 @@ export default class Canvas extends Component<IProps, IState> {
                         this.props.handleDragStart(e, imgHovered._id);
                       }}
                       onDoubleClick={(e) => {
+                        e.preventDefault();
                         if (imgHovered.type == TemplateType.Image || imgHovered.type == TemplateType.BackgroundImage)
                           this.props.enableCropMode();
                         else if (imgHovered.type == TemplateType.Video) 
@@ -697,6 +699,7 @@ export default class Canvas extends Component<IProps, IState> {
                         handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                           this
                         )}
+                        enableCropMode={this.props.enableCropMode}
                       />
                     </div>
                   </div>
@@ -728,6 +731,7 @@ export default class Canvas extends Component<IProps, IState> {
                       this.props.handleDragStart(e, imgSelected._id);
                     }}
                     onDoubleClick={(e) => {
+                      e.preventDefault();
                       if (imgSelected.type == TemplateType.Image || imgSelected.type == TemplateType.BackgroundImage)
                         this.props.enableCropMode();
                       else if (imgSelected.type == TemplateType.Video) 
@@ -960,7 +964,7 @@ export default class Canvas extends Component<IProps, IState> {
                   </div>
                 ))}
             </div>
-            {((editorStore.idObjectSelected && editorStore.imageSelected && editorStore.imageSelected.page == id) || 
+            {/* {((editorStore.idObjectSelected && editorStore.imageSelected && editorStore.imageSelected.page == id) || 
             (editorStore.idObjectHovered && editorStore.imageHovered && editorStore.imageHovered.page == id)) &&
             <div
               {...customAttr}
@@ -1075,7 +1079,7 @@ export default class Canvas extends Component<IProps, IState> {
                 }
                 </div>
             </div>
-            }
+            } */}
           </div>}
         </div>
         {/* {!this.props.preview && (

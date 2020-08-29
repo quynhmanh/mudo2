@@ -43,7 +43,11 @@ class Popup extends PureComponent<IProps, IState> {
             axios
               .get(url)
               .then(res => {
-                this.setState({recentDesign: res.data.value.key});
+                let recentDesign = res.data.value.key.map(design => {
+                    design.width = 160;
+                    return design;
+                })
+                this.setState({recentDesign,});
               })
               .catch(error => {
                   // Ui.showErrors(error.response.statusText)

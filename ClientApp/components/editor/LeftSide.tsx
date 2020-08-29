@@ -780,6 +780,7 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   loadmoreUserUpload = initialload => {
+    console.log('loadmoreUserUpload ', initialload)
     if (!Globals.serviceUser || !Globals.serviceUser.username) {
       this.setState(state => ({
         isUserUploadLoading: false,
@@ -1608,7 +1609,7 @@ class LeftSide extends Component<IProps, IState> {
                 {
                   <div style={{ height: "calc(100% - 221px)" }}>
                     <InfiniteScroll
-                      scroll={true}
+                      scroll={false}
                       throttle={500}
                       threshold={300}
                       isLoading={this.state.isTemplateLoading}
@@ -3210,7 +3211,7 @@ class LeftSide extends Component<IProps, IState> {
                 <div
                   style={{
                     color: "white",
-                    overflow: "scroll",
+                    // overflow: "scroll",
                     width: "100%"
                   }}
                 >

@@ -361,8 +361,9 @@ export default class Rect extends PureComponent<IProps, IState> {
     return (
       <div
         // onDoubleClick={this.props.enableCropMode}
+        className="hideWhenDownloadContainer"
       >
-        {(hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage &&
+        {/* {(hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage && */}
         <div 
           className="hideWhenDownload"
           style={{
@@ -377,9 +378,12 @@ export default class Rect extends PureComponent<IProps, IState> {
             backgroundPosition: 'top,100%,bottom,0',
             backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
             backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+            display: (hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage ? 
+              "block" : "none",
           }}>
 
-        </div>}
+        </div>
+        {/* } */}
       <StyledRect
         id={id + hovered ? "hovered" : ""}
         className={`${_id}rect-alo ${_id}-styledrect rect single-resizer ${selected &&

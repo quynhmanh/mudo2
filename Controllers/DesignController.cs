@@ -137,6 +137,7 @@ namespace RCB.TypeScript.Controllers
 
                 string template =
                     AppSettings.templateDownload
+                        .Replace("[ADDITIONAL_STYLE]", ".alo2 { background-color: transparent !important; } ")
                         .Replace("[FONT_FACE]", style)
                         .Replace("[RECT_WIDTH]", width)
                         .Replace("[RECT_HEIGHT]", height);
@@ -155,7 +156,7 @@ namespace RCB.TypeScript.Controllers
                         try
                         {
                             byte[] bytes = Encoding.ASCII.GetBytes(html);
-                            using (var htmlFile = new FileStream("/Users/llaugusty/Downloads/quynh2.html", FileMode.Create))
+                            using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
                             {
                                 htmlFile.Write(bytes, 0, bytes.Length);
                                 htmlFile.Flush();

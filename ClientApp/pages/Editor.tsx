@@ -859,6 +859,7 @@ class CanvaEditor extends Component<IProps, IState> {
             await axios
                 .get(url)
                 .then(res => {
+                    console.log('res ', res)
                     if (res.data.errors.length > 0) {
                         throw new Error(res.data.errors.join("\n"));
                     }
@@ -879,10 +880,11 @@ class CanvaEditor extends Component<IProps, IState> {
                         mode = Mode.EditTextTemplate;
                     }
 
-                    var document = JSON.parse(image.value.document);
-                    var scaleX = (width - 100) / document.width;
-                    var scaleY = (height - 100) / document.height;
-                    var staticGuides = {
+                    let document = JSON.parse(image.value.document);
+                    console.log('document ', document)
+                    let scaleX = (width - 100) / document.width;
+                    let scaleY = (height - 100) / document.height;
+                    let staticGuides = {
                         x: [
                             [0, 0],
                             [document.width / 2, 0],
@@ -894,7 +896,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             [document.height, 0]
                         ]
                     };
-
+                    console.log('fontList')
                     if (image.value.fontList) {
                         var fontList = image.value.fontList.forEach(id => {
                             var style = `@font-face {
@@ -924,16 +926,19 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
 
                     let el = window.document.getElementById("designTitle") as HTMLInputElement;
-
-                    el.value = image.value.title;
+                    if (el)
+                        el.value = image.value.title;
 
                     let images = document.document_object;
                     images.forEach(image => {
+                        console.log('im age ', image);
                         editorStore.images2.set(image._id, image);
                     })
 
                     // editorStore.replace(images);
                     editorStore.fonts.replace(image.value.fontList);
+
+                    console.log('images ', images)
 
                     subtype = res.data.value.printType;
                     let scale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
@@ -1374,7 +1379,6 @@ class CanvaEditor extends Component<IProps, IState> {
         window.rect = rect;
 
         var cursorStyle = getCursorStyleForResizer(window.image.rotateAngle, d);
-
         var ell = document.getElementById("screen-container-parent2");
         ell.style.zIndex = "2";
         ell.style.cursor = cursorStyle;
@@ -1462,6 +1466,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     this.forceUpdate();
                     ell.style.zIndex = "0";
                     ell.style.cursor = "default";
+
+                    this.saving = setTimeout(() => {
+                        this.saveImages(null, false);
+                    }, 5000);
                 }
             );
     };
