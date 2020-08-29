@@ -603,7 +603,7 @@ class LeftSide extends Component<IProps, IState> {
     this.setState({ isTemplateLoading: true, error: undefined });
     var subtype = subtype ? subtype : this.props.subtype;
     const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype}`;
-
+    console.log('url ', url);
     if (!subtype) {
       return;
     }

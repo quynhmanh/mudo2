@@ -17,6 +17,7 @@ import { isClickOutside } from '@Functions/shared/common';
 import axios from "axios";
 
 const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
+const PopularTemplate2 = loadable(() => import("@Components/homepage/PopularTemplate2"));
 const CatalogList = loadable(() => import("@Components/homepage/CatalogList"));
 const SuggestedList = loadable(() => import("@Components/homepage/SuggestedList"));
 const NavBar = loadable(() => import("@Components/homepage/NavBar"));
@@ -566,8 +567,10 @@ onLanguageBtnClick = () => {
                 content: "",
                 display: 'block',
                 top: 0,
-                left: 0,
-                right: 0,
+                left: "30px",
+                right: "30px",
+                width: "calc(100% - 60px)",
+                borderRadius: "10px",
                 bottom: 0,
                 zIndex: 1,
                 // opacity: .9,
@@ -590,7 +593,7 @@ onLanguageBtnClick = () => {
           <svg style={{
             display: 'block',
             margin: '28px auto',
-            fill: 'white',
+            fill: '#555',
           }} version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="317" height="44">
     <g id="Layer1" name="Layer 1" opacity="1">
         <g id="Shape1">
@@ -653,9 +656,61 @@ onLanguageBtnClick = () => {
                 fontFamily: "AvenirNextRoundedPro-Medium",
               }}
             >{this.translate("recentDesign")}</h3>
-            <PopularTemplate 
+            <PopularTemplate
             translate={this.translate.bind(this)}
           />
+          
+          <div
+            style={{
+              overflowX: 'scroll',
+              overflowY: 'hidden',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            
+          {/* {this.state.recentDesign.map(design =>
+          <a 
+            style={{
+              display: "inline-flex",
+              flexDirection: "column",
+              color: "black",
+              fontFamily: "AvenirNextRoundedPro-Medium",
+            }}
+            target="_blank" rel="noopener noreferrer" href={`/editor/design/${design.id}`}>
+            <img
+              style={{
+                height: "200px",
+                boxShadow: "0 2px 4px rgba(0,0,0,.08), 0 0 1px rgba(0,0,0,.16)",
+                marginRight: "30px",
+                borderRadius: "10px",
+              }}
+              src={design.representative}
+            />
+            <span
+              style={{
+                marginTop: "10px",
+              }}
+            >{design.title}</span>
+          </a> 
+          )} */}
+          </div>
+          </div>
+          <div
+            style={{
+              padding: "20px 80px",
+            }}
+          >
+            <h3
+              style={{
+                marginBottom: '20px',
+                marginTop: '20px',
+                fontFamily: "AvenirNextRoundedPro-Medium",
+              }}
+            >{this.translate("recentDesign")}</h3>
+            <PopularTemplate2 
+            translate={this.translate.bind(this)}
+          />
+          
           <div
             style={{
               overflowX: 'scroll',

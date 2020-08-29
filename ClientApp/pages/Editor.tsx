@@ -854,6 +854,9 @@ class CanvaEditor extends Component<IProps, IState> {
                 url = `/api/Template/Get?id=${template_id}`;
             } else if (this.props.match.path == "/editor/design/:template_id") {
                 url = `/api/Design/Get?id=${template_id}`;
+            } else if (this.props.match.path == "/editor/design/:design_id/:template_id") {
+                url = `/api/Template/Get?id=${template_id}`;
+                console.log('/editor/design/:design_id/:template_id', template_id)
             }
 
             await axios
@@ -874,6 +877,10 @@ class CanvaEditor extends Component<IProps, IState> {
                         if (templateType == TemplateType.TextTemplate) {
                             mode = Mode.EditTextTemplate;
                         }
+                    } else if (this.props.match.path == "/editor/design/:design_id/:template_id") {
+                        mode = Mode.CreateDesign;
+
+                        self.setState({designId: this.props.match.params.design_id});
                     } else if (templateType == TemplateType.Template) {
                         mode = Mode.EditTemplate;
                     } else if (templateType == TemplateType.TextTemplate) {
@@ -4097,12 +4104,18 @@ class CanvaEditor extends Component<IProps, IState> {
             var url;
             var _id = self.state._id;
 
+            console.log('mode ', mode);
+
             if (mode == Mode.CreateDesign) {
-                if (!self.state.designId) {
+                if (self.props.match.path == "/editor/design/:design_id/:template_id") {
                     url = "/api/Design/Add";
-                    self.setState({designId: uuidv4()});
                 } else {
-                    url = "/api/Design/Update";
+                    if (!self.state.designId) {
+                        url = "/api/Design/Add";
+                        self.setState({designId: uuidv4()});
+                    } else {
+                        url = "/api/Design/Update";
+                    }
                 }
             } else if (
                 mode == Mode.CreateTemplate ||

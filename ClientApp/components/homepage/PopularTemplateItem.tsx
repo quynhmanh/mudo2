@@ -79,7 +79,7 @@ const PopularTemplateItem = (props: IProps) => {
                 data-categ="popularTemplates"
                 data-subcateg="home"  
                 data-value={props.dataValue} 
-                href={`/editor/design/${props.id}`}
+                href={props.href}
             >
                 <div className="previewWrapper___mbAh5">
                     <div style={{ paddingTop: 0 }}>
@@ -97,7 +97,7 @@ const PopularTemplateItem = (props: IProps) => {
             </a>
             <div 
                 className="templateInfo___2YZSg"
-                style={{ opacity: 0 }}
+                // style={{ opacity: 0 }}
             >
                 <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">{props.title}</p>
                 <p className="x-small___1lJKy size___1sVBg">{props.size}</p>

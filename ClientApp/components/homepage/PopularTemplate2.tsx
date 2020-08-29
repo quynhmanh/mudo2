@@ -39,13 +39,15 @@ class Popup extends PureComponent<IProps, IState> {
         this.test.addEventListener("scroll", this.handleScroll);
 
         if (Globals.serviceUser) {
-            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}`;
+            // const url = `https://localhost:64099/api/Template/SearchWithUserName?userName=${Globals.serviceUser.username}`;
+            const url = `/api/Template/Search?Type=1&page=1&perPage=10&printType=6`;
             axios
               .get(url)
               .then(res => {
+                  console.log('populartemplate2 ', res)
                 let recentDesign = res.data.value.key.map(design => {
                     design.width = 160;
-                    design.href = `/editor/design/${design.id}`;
+                    design.href = `/editor/design/${uuidv4()}/${design.id}`;
                     return design;
                 })
                 this.setState({recentDesign,});
