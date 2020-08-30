@@ -68,7 +68,7 @@ const PopularTemplateItem = (props: IProps) => {
                     }}>
                     <div style={{ paddingTop: 0,}}>
                         {picker}
-                        {showPlayIcon === true ? playIcon : null}
+                        {/* {showPlayIcon === true ? playIcon : null} */}
                     </div>
                 </div>
                 <div className="editTemplateWrapper___29oLU" style={{ opacity: 0 }}>

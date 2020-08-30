@@ -153,6 +153,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
           height: "250px",
           // marginTop: this.props.marginTop * 1 + "px", 
           overflowX: "scroll",
+          scrollBehavior: "smooth",
         }}>
             {this.state.showLeft && <button 
                         style={{

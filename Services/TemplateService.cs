@@ -64,7 +64,7 @@ namespace RCB.TypeScript.Services
             return Ok(res2);
         }
 
-        public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchWithUserName(string userName)
+        public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchWithUserName(string userName, int page, int perPage)
         {
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
@@ -73,7 +73,9 @@ namespace RCB.TypeScript.Services
             string query = $"UserName:{userName}";
 
             var res = client.Search<TemplateModel>(s => 
-            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName))).Take(15));
+            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName)))
+                .From((page - 1) * perPage)
+                .Size(perPage));
 
             var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
 
@@ -87,7 +89,9 @@ namespace RCB.TypeScript.Services
             var client = new ElasticClient(settings);
 
             var res = client.Search<TemplateModel>(s => 
-            s.Query(q => q.Match(c => c.Field(p => p.Popular).Query("true"))).Take(perPage));
+            s.Query(q => q.Match(c => c.Field(p => p.Popular).Query("true")))
+                .From((page - 1) * perPage)
+                .Size(perPage));
 
             var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
 

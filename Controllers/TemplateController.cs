@@ -51,9 +51,9 @@ namespace RCB.TypeScript.Controllers
         
 
         [HttpGet("[action]")]
-        public IActionResult SearchWithUserName([FromQuery]string userName = null)
+        public IActionResult SearchWithUserName([FromQuery]string userName = null, [FromQuery]int page = 1, [FromQuery]int perPage = 1)
         {
-            return Json(TemplateService.SearchWithUserName(userName));
+            return Json(TemplateService.SearchWithUserName(userName, page, perPage));
         }
 
         [HttpGet("[action]")]

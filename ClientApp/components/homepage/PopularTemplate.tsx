@@ -84,7 +84,7 @@ class Popup extends PureComponent<IProps, IState> {
 
     loadMore = () => {
         if (Globals.serviceUser) {
-            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / 7 + 1}&perPage=5`;
+            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / 7 + 1}&perPage=7`;
             console.log('laodmore ', url)
             axios
               .get(url)

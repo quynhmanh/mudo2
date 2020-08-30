@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ImagePicker from "@Components/shared/ImagePicker";
+import ImagePicker from "@Components/shared/ImagePicker2";
 import VideoPicker from "@Components/shared/VideoPicker";
 
 interface IProps {
@@ -12,6 +12,8 @@ interface IProps {
     title: string;
     size: string;
     id: string;
+    representative: string;
+    width: number;
 }
 
 const playIcon = <svg 
@@ -60,9 +62,13 @@ const PopularTemplateItem = (props: IProps) => {
                 href={props.href}
             >
                 <div className="previewWrapper___mbAh5">
-                    <div style={{ paddingTop: 0, boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)" }}>
+                    <div 
+                        style={{ 
+                            paddingTop: 0, 
+                            // boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)", 
+                        }}>
                         {picker}
-                        {showPlayIcon === true ? playIcon : null}
+                        {/* {showPlayIcon === true ? playIcon : null} */}
                     </div>
                 </div>
                 <div className="editTemplateWrapper___29oLU" style={{ opacity: 0 }}>
