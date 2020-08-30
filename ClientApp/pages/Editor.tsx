@@ -4055,6 +4055,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
     async saveImages(rep, isVideo) {
 
+        if (!Globals.serviceUser) {
+            return;
+        }
+
         
         var _id;
         this.setState({ isSaving: true });

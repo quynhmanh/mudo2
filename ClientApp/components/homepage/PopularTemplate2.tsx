@@ -50,7 +50,7 @@ class Popup extends PureComponent<IProps, IState> {
                     design.href = `/editor/design/${uuidv4()}/${design.id}`;
                     return design;
                 });
-                let hasMore = res.data.value.value > this.state.recentDesign + recentDesign.length;
+                let hasMore = res.data.value.value > this.state.recentDesign.length + recentDesign.length;
                 this.setState({
                     recentDesign: [...this.state.recentDesign, ...recentDesign],
                     hasMore,
@@ -147,7 +147,7 @@ class Popup extends PureComponent<IProps, IState> {
                                 />)}
                                 {
                                 this.state.hasMore && 
-                                Array(Math.min(6, this.state.total - this.state.recentDesign.length))
+                                Array(Math.min(7, this.state.total - this.state.recentDesign.length))
                                 .fill(0)
                                 .map((item, i) => (
                                 <Item

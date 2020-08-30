@@ -877,25 +877,21 @@ export default class Canvas extends Component<IProps, IState> {
               }}
             >
               {images
-                .map(img => (
+                .map(image => (
                   <div
-                    key={img._id}
-                    className={img._id + "_" + " " +  img._id + "aaaaalo2"}
-                    id={img._id + "_alo2"}
+                    key={image._id}
+                    className={image._id + "_" + " " +  image._id + "aaaaalo2"}
+                    id={image._id + "_alo2"}
                     style={{
-                      // zIndex: img.selected ? 99999999 : img.zIndex,
-                      zIndex: img.zIndex,
-                      width: img.width * scale + "px",
-                      height: img.height * scale + "px",
-                      // left: img.left * scale + "px",
-                      // top: img.top * scale + "px",
+                      zIndex: image.zIndex,
+                      width: image.width * scale + "px",
+                      height: image.height * scale + "px",
                       position: "absolute",
-                      // transform: `rotate(${img.rotateAngle ? img.rotateAngle : 0}deg)`
-                      transform: `translate(${img.left * scale}px, ${img.top * scale}px) rotate(${img.rotateAngle ? img.rotateAngle : 0}deg)`
+                      transform: `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`
                     }}
                     onMouseEnter={(e) => {
                       if (!window.dragging && !window.resizing && !window.rotating && !window.rotating && !this.props.cropMode) {
-                        this.props.handleImageHover(img, e);
+                        this.props.handleImageHover(image, e);
                         this.forceUpdate();
                       }
                     }}
@@ -905,7 +901,7 @@ export default class Canvas extends Component<IProps, IState> {
                     }}
                   >
                     <div
-                      id={img._id + "____"}
+                      id={image._id + "____"}
                       className="hover-outline"
                       style={{
                         width: "100%",
@@ -913,11 +909,11 @@ export default class Canvas extends Component<IProps, IState> {
                         // transform: `scale(${scale})`,
                         transformOrigin: "0 0"
                       }}
-                      key={img._id}
+                      key={image._id}
                       onMouseDown={(e) => {
                         // e.stopPropagation();
-                        this.props.handleImageSelected(img, e);
-                        this.props.handleDragStart(e, img._id);
+                        this.props.handleImageSelected(image, e);
+                        this.props.handleDragStart(e, image._id);
                       }}
                     >
                       <ResizableRect
@@ -925,20 +921,20 @@ export default class Canvas extends Component<IProps, IState> {
                         name="downloadImages"
                         selected={false}
                         toggleVideo={this.props.toggleVideo}
-                        image={img}
+                        image={image}
                         hovered={false}
-                        freeStyle={img.freeStyle}
-                        id={img._id + "_1"}
+                        freeStyle={image.freeStyle}
+                        id={image._id + "_1"}
                         showImage={true}
                         showController={false}
-                        key={img._id + "2"}
+                        key={image._id + "2"}
                         scale={1}
-                        rotateAngle={img.rotateAngle}
+                        rotateAngle={image.rotateAngle}
                         onRotateStart={this.props.handleRotateStart}
                         onResizeStart={this.props.handleResizeStart}
                         onTextChange={this.props.onSingleTextChange.bind(
                           this,
-                          img
+                          image
                         )}
                         outlineWidth={Math.min(
                           2,
@@ -980,7 +976,7 @@ export default class Canvas extends Component<IProps, IState> {
               }}
             >
               <div>
-                {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&
+                {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imageHovered &&
                   <div
                     className={imgHovered._id + "__"}
                     id={imgHovered._id + "__alo2"}

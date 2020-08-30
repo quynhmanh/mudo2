@@ -49,7 +49,7 @@ class Popup extends PureComponent<IProps, IState> {
             axios
               .get(url)
               .then(res => {
-                    console.log('res ', res);
+                    console.log('res total ', res.data.value.value);
                     let recentDesign = res.data.value.key.map(design => {
                         design.width = 160;
                         design.href = `/editor/design/${design.id}`;
@@ -94,7 +94,7 @@ class Popup extends PureComponent<IProps, IState> {
                     design.href = `/editor/design/${design.id}`;
                     return design;
                 })
-                let hasMore = res.data.value.value > this.state.recentDesign + newRecentDesign.length;
+                let hasMore = res.data.value.value > (this.state.recentDesign.length + newRecentDesign.length);
                 this.setState({
                     recentDesign: [...this.state.recentDesign, ...newRecentDesign],
                     hasMore,
@@ -155,7 +155,7 @@ class Popup extends PureComponent<IProps, IState> {
                                 {...item} 
                                 key={uuidv4()}
                             />)}
-                        {this.state.hasMore && Array(Math.min(6, this.state.total - this.state.recentDesign.length))
+                        {this.state.hasMore && Array(Math.min(7, this.state.total - this.state.recentDesign.length))
                         .fill(0)
                         .map((item, i) => (
                         <Item
