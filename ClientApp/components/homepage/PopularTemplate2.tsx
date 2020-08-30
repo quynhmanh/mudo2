@@ -125,7 +125,7 @@ class Popup extends PureComponent<IProps, IState> {
                   isLoading={false}
                   hasMore={this.state.hasMore}
                   onLoadMore={this.loadMore.bind(this, false)}
-                  refId="sentinel-image"
+                  refId="sentinel-image2"
                   marginTop={45}
                 >
                         <ul 
@@ -151,7 +151,7 @@ class Popup extends PureComponent<IProps, IState> {
                                 .fill(0)
                                 .map((item, i) => (
                                 <Item
-                                    id={"sentinel-image"}
+                                    id={"sentinel-image2"}
                                     width={160}
                                     key={uuidv4()}
                                 />
