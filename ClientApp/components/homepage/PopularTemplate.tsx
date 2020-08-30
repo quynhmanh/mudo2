@@ -1,34 +1,27 @@
 import React, {PureComponent} from 'react';  
-import styled, {createGlobalStyle} from 'styled-components';
-import { POPULAR_LIST } from "@Constants";
 import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
 import Globals from "@Globals";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
 
-
 const Item = loadable(() => import("@Components/homepage/PopularTemplateItem"));
 
-const popularTemplates = POPULAR_LIST.map( (item) => 
-    <Item 
-        {...item} 
-        key={uuidv4()}
-    />
-);
 
 export interface IProps {
     translate: any;
 }
   
-  interface IState {
+interface IState {
     yLocation: number;
     showLeft: boolean;
     mounted: boolean;
     recentDesign: any;
     hasMore: boolean;
     total: number;
-  }
+}
+
+const TEMPLATE_PERPAGE = 10;
 
 class Popup extends PureComponent<IProps, IState> {
     state = {
@@ -41,11 +34,8 @@ class Popup extends PureComponent<IProps, IState> {
     }
 
     componentDidMount() {
-        // this.setState({mounted: true,})
-        // this.test.addEventListener("scroll", this.handleScroll);
-
         if (Globals.serviceUser) {
-            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=7`;
+            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=${TEMPLATE_PERPAGE}`;
             axios
               .get(url)
               .then(res => {
@@ -70,21 +60,9 @@ class Popup extends PureComponent<IProps, IState> {
         }
     }
 
-    handleScroll = () => {
-        this.setState({yLocation: this.test.scrollLeft});
-
-        if (this.test.offsetWidth + this.test.scrollLeft >= this.test.scrollWidth) {
-            this.setState({showLeft: false,});
-        } else {
-            this.setState({showLeft: true,});
-        }
-    }
-
-    test = null;
-
     loadMore = () => {
         if (Globals.serviceUser) {
-            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / 7 + 1}&perPage=7`;
+            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
             console.log('laodmore ', url)
             axios
               .get(url)
@@ -110,17 +88,17 @@ class Popup extends PureComponent<IProps, IState> {
     return (
         <div
             style={{
-              padding: "20px 80px",
-              display: this.state.mounted ? "block" : "none",
+                padding: "20px 80px",
+                display: this.state.mounted ? "block" : "none",
             }}
           >
             <h3
-              style={{
-                marginBottom: '20px',
-                marginTop: '20px',
-                fontFamily: "AvenirNextRoundedPro-Bold",
-                fontSize: "30px",
-              }}
+                style={{
+                    marginBottom: '20px',
+                    marginTop: '20px',
+                    fontFamily: "AvenirNextRoundedPro-Bold",
+                    fontSize: "25px",
+                }}
             >{this.props.translate("recentDesign")}</h3>
             <div 
               style={{
@@ -129,14 +107,14 @@ class Popup extends PureComponent<IProps, IState> {
         <div>
             <div style={{ position: 'relative' }}>
                 <InfiniteXScroll
-                  scroll={true}
-                  throttle={1000}
-                  threshold={300}
-                  isLoading={false}
-                  hasMore={this.state.hasMore}
-                  onLoadMore={this.loadMore.bind(this, false)}
-                  refId="sentinel-image"
-                  marginTop={45}
+                    scroll={true}
+                    throttle={1000}
+                    threshold={300}
+                    isLoading={false}
+                    hasMore={this.state.hasMore}
+                    onLoadMore={this.loadMore.bind(this, false)}
+                    refId="sentinel-image"
+                    marginTop={45}
                 >
                     <ul 
                         style={{
@@ -155,7 +133,7 @@ class Popup extends PureComponent<IProps, IState> {
                                 {...item} 
                                 key={uuidv4()}
                             />)}
-                        {this.state.hasMore && Array(Math.min(7, this.state.total - this.state.recentDesign.length))
+                        {this.state.hasMore && Array(Math.min(TEMPLATE_PERPAGE, this.state.total - this.state.recentDesign.length))
                         .fill(0)
                         .map((item, i) => (
                         <Item
@@ -174,39 +152,4 @@ class Popup extends PureComponent<IProps, IState> {
     }  
 }  
 
-const PopupWrapper = styled.div`
-    position: fixed;  
-    top: 0;  
-    left: 0;  
-    right: 0;  
-    bottom: 0;  
-    margin: auto;  
-    background-color: rgba(15, 15, 15, 0.6);
-
-    .popup_inner {  
-        position: fixed;  
-        top: 0;  
-        left: 0;  
-        right: 0;  
-        bottom: 0;  
-        margin: auto;  
-        background-color: black;
-        width: 200px;
-        height: 200px;
-    }
-
-`;
-
-const PopupWrapperBody = createGlobalStyle`
-`;
-
-
-
 export default Popup;
-
-var CC = styled.li`
-    position: relative;
-    height: 160px;
-    margin-right: 16px;
-    transition: .3s;
-`;

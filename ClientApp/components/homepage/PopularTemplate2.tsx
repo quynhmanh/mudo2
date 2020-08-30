@@ -1,20 +1,10 @@
 import React, {PureComponent} from 'react';  
-import styled, {createGlobalStyle} from 'styled-components';
-import { POPULAR_LIST } from "@Constants";
 import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
-import Globals from "@Globals";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
 
 const Item = loadable(() => import("@Components/homepage/PopularTemplateItem2"));
-
-const popularTemplates = POPULAR_LIST.map( (item) => 
-    <Item 
-        {...item} 
-        key={uuidv4()}
-    />
-);
 
 export interface IProps {
     translate: any;
@@ -29,6 +19,8 @@ interface IState {
     total: number;
 }
 
+const TEMPLATE_PERPAGE = 10;
+
 class Popup extends PureComponent<IProps, IState> {
     state = {
         total: 0,
@@ -40,11 +32,10 @@ class Popup extends PureComponent<IProps, IState> {
     }
 
     loadMore = () => {
-        const url = `/api/Template/SearchPopularTemplates?&page=${this.state.recentDesign.length / 7 + 1}&perPage=7`;
+        const url = `/api/Template/SearchPopularTemplates?&page=${this.state.recentDesign.length / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
         axios
             .get(url)
             .then(res => {
-                console.log('populartemplate2 ', res)
                 let recentDesign = res.data.value.key.map(design => {
                     design.width = 160;
                     design.href = `/editor/design/${uuidv4()}/${design.id}`;
@@ -63,11 +54,10 @@ class Popup extends PureComponent<IProps, IState> {
 
     componentDidMount() {
 
-        const url = `/api/Template/SearchPopularTemplates?page=1&perPage=7`;
+        const url = `/api/Template/SearchPopularTemplates?page=1&perPage=${TEMPLATE_PERPAGE}`;
         axios
             .get(url)
             .then(res => {
-                console.log('populartemplate2 ', res)
             let recentDesign = res.data.value.key.map(design => {
                 design.width = 160;
                 design.href = `/editor/design/${uuidv4()}/${design.id}`;
@@ -109,7 +99,7 @@ class Popup extends PureComponent<IProps, IState> {
                 marginBottom: '20px',
                 marginTop: '20px',
                 fontFamily: "AvenirNextRoundedPro-Bold",
-                fontSize: "30px",
+                fontSize: "25px",
               }}
             >{this.props.translate("popular")}</h3>
             <div 
@@ -145,9 +135,9 @@ class Popup extends PureComponent<IProps, IState> {
                                     {...item} 
                                     key={uuidv4()}
                                 />)}
-                                {
-                                this.state.hasMore && 
-                                Array(Math.min(7, this.state.total - this.state.recentDesign.length))
+
+                            {this.state.hasMore && 
+                                Array(Math.min(TEMPLATE_PERPAGE, this.state.total - this.state.recentDesign.length))
                                 .fill(0)
                                 .map((item, i) => (
                                 <Item
@@ -166,39 +156,4 @@ class Popup extends PureComponent<IProps, IState> {
     }  
 }  
 
-const PopupWrapper = styled.div`
-    position: fixed;  
-    top: 0;  
-    left: 0;  
-    right: 0;  
-    bottom: 0;  
-    margin: auto;  
-    background-color: rgba(15, 15, 15, 0.6);
-
-    .popup_inner {  
-        position: fixed;  
-        top: 0;  
-        left: 0;  
-        right: 0;  
-        bottom: 0;  
-        margin: auto;  
-        background-color: black;
-        width: 200px;
-        height: 200px;
-    }
-
-`;
-
-const PopupWrapperBody = createGlobalStyle`
-`;
-
-
-
 export default Popup;
-
-var CC = styled.li`
-    position: relative;
-    height: 160px;
-    margin-right: 16px;
-    transition: .3s;
-`;
