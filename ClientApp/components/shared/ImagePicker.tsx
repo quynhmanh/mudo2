@@ -16,6 +16,7 @@ export interface IProps {
     delay: number;
     showButton: boolean;
     padding: number;
+    backgroundColor: string;
 }
 
 export interface IState {
@@ -72,6 +73,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
     static defaultProps = {
       classNameContainer: "",
       padding: 0,
+      backgroundColor: null,
     }
 
     componentDidMount() {
@@ -108,7 +110,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             animationName: 'XhtCamN749DcvC-ecDUzp',
             animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
             animationDelay: this.props.delay + 'ms',
-            backgroundColor: this.state.loaded ? "rgba(255, 255, 255, 0.07)" : "#fff",
+            backgroundColor: this.state.loaded ? "rgba(255, 255, 255, 0.07)" : (this.props.backgroundColor ? this.props.backgroundColor : "#fff"),
             padding: this.props.padding ? `${this.props.padding}px` : 0,
           }} 
           delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>

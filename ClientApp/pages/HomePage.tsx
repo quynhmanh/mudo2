@@ -38,6 +38,7 @@ interface IState {
   showLanguageDropdown: boolean;
   locale: ILocale;
   recentDesign: any;
+  key: number;
 }
 
 
@@ -58,6 +59,7 @@ const NAMESPACE = "homePage";
 class HomePage extends React.Component<IProps, IState> {
 
   state = {
+    key: 0,
     tab: "find",
     focusing: false,
     mounted: false,
@@ -108,6 +110,9 @@ class HomePage extends React.Component<IProps, IState> {
     window['publicSession'] = { serviceUser: user, locale: this.state.locale };
     Globals.reset(); 
     Globals.init({public: window['publicSession']}); 
+
+    this.setState({key: this.state.key + 1});
+
     this.forceUpdate();
   }
 
@@ -123,7 +128,7 @@ class HomePage extends React.Component<IProps, IState> {
         this.setState({ navTop });
     });
     this.setState({mounted: true});
-    window.addEventListener('scroll', this.handleScroll);
+    // window.addEventListener('scroll', this.handleScroll);
 
     if (Globals.serviceUser) {
       const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}`;
@@ -144,7 +149,7 @@ class HomePage extends React.Component<IProps, IState> {
 
       await AccountService.logout();
       this.forceUpdate();
-      this.setState({externalProviderCompleted: false,})
+      this.setState({externalProviderCompleted: false, key: this.state.key + 1})
   }
 
   onClickDropDownFontSizeList = () => {
@@ -644,121 +649,15 @@ onLanguageBtnClick = () => {
             </div>
           </div>
           </div>
-          <div
-            style={{
-              padding: "20px 80px",
-            }}
-          >
-            <h3
-              style={{
-                marginBottom: '20px',
-                marginTop: '20px',
-                fontFamily: "AvenirNextRoundedPro-Medium",
-              }}
-            >{this.translate("recentDesign")}</h3>
-            <div 
-              style={{
-                height: "220px",
-              }}>
-                <PopularTemplate
-                  translate={this.translate.bind(this)}
-                />
-            </div>
-          <div
-            style={{
-              overflowX: 'scroll',
-              overflowY: 'hidden',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            
-          {/* {this.state.recentDesign.map(design =>
-          <a 
-            style={{
-              display: "inline-flex",
-              flexDirection: "column",
-              color: "black",
-              fontFamily: "AvenirNextRoundedPro-Medium",
-            }}
-            target="_blank" rel="noopener noreferrer" href={`/editor/design/${design.id}`}>
-            <img
-              style={{
-                height: "200px",
-                boxShadow: "0 2px 4px rgba(0,0,0,.08), 0 0 1px rgba(0,0,0,.16)",
-                marginRight: "30px",
-                borderRadius: "10px",
-              }}
-              src={design.representative}
-            />
-            <span
-              style={{
-                marginTop: "10px",
-              }}
-            >{design.title}</span>
-          </a> 
-          )} */}
-          </div>
-          </div>
-          <div
-            style={{
-              padding: "20px 80px",
-            }}
-          >
-            <h3
-              style={{
-                marginBottom: '20px',
-                marginTop: '20px',
-                fontFamily: "AvenirNextRoundedPro-Medium",
-              }}
-            >{this.translate("popular")}</h3>
-            <div 
-              style={{
-                height: "220px",
-              }}>
-              <PopularTemplate2 
-                translate={this.translate.bind(this)}
-              />
-            </div>
-          <div
-            style={{
-              overflowX: 'scroll',
-              overflowY: 'hidden',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            
-          {/* {this.state.recentDesign.map(design =>
-          <a 
-            style={{
-              display: "inline-flex",
-              flexDirection: "column",
-              color: "black",
-              fontFamily: "AvenirNextRoundedPro-Medium",
-            }}
-            target="_blank" rel="noopener noreferrer" href={`/editor/design/${design.id}`}>
-            <img
-              style={{
-                height: "200px",
-                boxShadow: "0 2px 4px rgba(0,0,0,.08), 0 0 1px rgba(0,0,0,.16)",
-                marginRight: "30px",
-                borderRadius: "10px",
-              }}
-              src={design.representative}
-            />
-            <span
-              style={{
-                marginTop: "10px",
-              }}
-            >{design.title}</span>
-          </a> 
-          )} */}
-          </div>
-          </div>
-          {/* {this.state.mounted && 
-            <CatalogList 
-              translate={this.translate}
-            />
-          } */}
+
+          <PopularTemplate
+            key={this.state.key}
+            translate={this.translate.bind(this)}
+          />
+          <PopularTemplate2
+            translate={this.translate.bind(this)}
+          />
+          
       </div>
       <LoginPopup
         locale={this.state.locale}

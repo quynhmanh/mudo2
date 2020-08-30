@@ -84,7 +84,7 @@ namespace RCB.TypeScript.Services
             return Ok();
         }
 
-        public virtual Result<KeyValuePair<List<DesignModel>, long>> SearchWithUserName(string userName)
+        public virtual Result<KeyValuePair<List<DesignModel>, long>> SearchWithUserName(string userName, int page = 1, int perPage = 5)
         {
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
@@ -93,7 +93,8 @@ namespace RCB.TypeScript.Services
             string query = $"UserName:{userName}";
 
             var res = client.Search<DesignModel>(s => 
-            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName))).Take(15));
+            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName))).From((page - 1) * perPage)
+                .Size(perPage));
 
             var res2 = new KeyValuePair<List<DesignModel>, long>(res.Documents.ToList(), res.Total);
 

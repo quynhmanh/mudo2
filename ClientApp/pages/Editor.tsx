@@ -5756,6 +5756,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         }}
                     >
                         <LeftSide
+                            id={this.state._id}
                             effectId={this.state.effectId}
                             align={this.state.align}
                             pauser={this.pauser}

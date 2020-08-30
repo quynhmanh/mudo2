@@ -34,11 +34,21 @@ namespace RCB.TypeScript.Controllers
             Configuration = configuration;
         }
 
+        
+
         [HttpGet("[action]")]
         public IActionResult Search([FromQuery]string type = null, [FromQuery]int page = 1, [FromQuery]int perPage = 1, [FromQuery]string printType = "")
         {
             return Json(TemplateService.Search(type, page, perPage, printType: printType));
         }
+
+        [HttpGet("[action]")]
+        public IActionResult SearchPopularTemplates([FromQuery]int page = 1, [FromQuery]int perPage = 1, [FromQuery]string printType = "")
+        {
+            return Json(TemplateService.SearchPopularTemplates(page, perPage));
+        }
+
+        
 
         [HttpGet("[action]")]
         public IActionResult SearchWithUserName([FromQuery]string userName = null)
@@ -73,33 +83,6 @@ namespace RCB.TypeScript.Controllers
             bool omitBackground = model.Type == "2" ? true : false;
             await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, true, model.Type == "2", model.Representative, omitBackground);
 
-            // int width = 656;
-            // int height = 436;
-            // //if (model.PrintType > 3)
-            // //{
-            // width = (int)model.Width;
-            // height = (int)model.Height;
-            // //}
-
-            // await designService.GenerateRepresentative(model, width, height, true, model.Type == "2", model.Representative2);
-
-            // if (model.IsVideo)
-            // {
-            //     string body = null;
-            //     using (var reader = new StreamReader(Request.Body))
-            //     {
-            //         body = reader.ReadToEnd();
-            //     }
-
-            //     var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + model.VideoRepresentative);
-            //     byte[] res = await designService.DownloadVideo(width.ToString(), height.ToString(), model.Id, model);
-            //     using (var imageFile = new FileStream(filePath, FileMode.Create))
-            //     {
-            //         imageFile.Write(res, 0, res.Length);
-            //         imageFile.Flush();
-            //     }
-            // }
-
             var result = TemplateService.Add(model);
 
             return Json(Ok());
@@ -109,6 +92,12 @@ namespace RCB.TypeScript.Controllers
         public IActionResult Get([FromQuery]string id)
         {
             return Json(TemplateService.Get(id));
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult MakeAsPopulate([FromQuery]string id)
+        {
+            return Json(TemplateService.MakeAsPopulate(id));
         }
 
         [HttpPost("[action]")]

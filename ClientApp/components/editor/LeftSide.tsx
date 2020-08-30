@@ -9,13 +9,11 @@ import uuidv4 from "uuid/v4";
 import { getMostProminentColor } from "@Utils";
 import { toJS } from "mobx";
 import editorStore from "@Store/EditorStore";
-import TooltipClick from "@Components/shared/TooltipClick";
 import ColorPicker from "@Components/editor/ColorPicker";
-import Pickr from "@Components/pickr";
-import { observer } from "mobx-react";
 import Slider from "@Components/editor/Slider";
 
 export interface IProps {
+  id: string;
   effectId: number;
   align: any;
   toolbarOpened: any;
@@ -246,6 +244,15 @@ class LeftSide extends Component<IProps, IState> {
         }
       );
   };
+
+  handleMakeAsPopular = () => {
+    const url = `/api/Template/MakeAsPopulate?id=${this.props.id}`;
+    axios.post(url, {
+      id: this.props.id
+    }).then(res => {
+
+    });
+  }
 
   handleRemoveAllMedia = () => {
     var model;
@@ -1121,6 +1128,15 @@ class LeftSide extends Component<IProps, IState> {
           </button>
           <input id="fontNameInp" type="text"/>
           <input id="fontId" type="text"/>
+          <button
+            style={{
+              bottom: 0,
+              right: 0
+            }}
+            onClick={this.handleMakeAsPopular.bind(this)}
+          >
+            MakeAsPopular
+          </button>
         </div>
         {this.props.mounted && this.props.toolbarOpened && (
           <div

@@ -34,7 +34,7 @@ const PopularTemplateItem = (props: IProps) => {
         key={"1"}
         color={""}
         delay={0}
-        // height={160}
+        height={160}
         onPick={(e) => {}}
         onEdit={(e) => {
             window.open(`/editor/design/${props.id}`)
@@ -59,8 +59,14 @@ const PopularTemplateItem = (props: IProps) => {
                 data-value={props.dataValue} 
                 href={props.href}
             >
-                <div className="previewWrapper___mbAh5">
-                    <div style={{ paddingTop: 0, boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)" }}>
+                <div 
+                    className="" 
+                    style={{
+                        position: 'relative',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                    }}>
+                    <div style={{ paddingTop: 0,}}>
                         {picker}
                         {showPlayIcon === true ? playIcon : null}
                     </div>

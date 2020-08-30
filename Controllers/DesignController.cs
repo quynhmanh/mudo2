@@ -111,9 +111,9 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult SearchWithUserName([FromQuery]string userName = null)
+        public IActionResult SearchWithUserName([FromQuery]string userName = null, [FromQuery]int page = 1, [FromQuery]int perPage = 5)
         {
-            return Json(DesignService.SearchWithUserName(userName));
+            return Json(DesignService.SearchWithUserName(userName, page, perPage));
         }
 
         private class DownloadBody

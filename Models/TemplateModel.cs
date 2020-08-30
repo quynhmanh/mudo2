@@ -73,6 +73,8 @@ namespace RCB.TypeScript.Models
 
         public string UserName { get; set; } 
 
+        public Boolean Popular { get; set; }
+
         public TemplateModel()
         {
 

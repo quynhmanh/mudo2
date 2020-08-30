@@ -5,6 +5,8 @@ import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
 import Globals from "@Globals";
 import axios from "axios";
+import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
+
 
 const Item = loadable(() => import("@Components/homepage/PopularTemplateItem"));
 
@@ -24,36 +26,48 @@ export interface IProps {
     showLeft: boolean;
     mounted: boolean;
     recentDesign: any;
+    hasMore: boolean;
+    total: number;
   }
 
 class Popup extends PureComponent<IProps, IState> {
     state = {
+        total: 0,
         yLocation: 0,
         showLeft: true,
         mounted: false,
         recentDesign: [],
+        hasMore: true,
     }
 
     componentDidMount() {
-        this.setState({mounted: true,})
-        this.test.addEventListener("scroll", this.handleScroll);
+        // this.setState({mounted: true,})
+        // this.test.addEventListener("scroll", this.handleScroll);
 
         if (Globals.serviceUser) {
-            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}`;
+            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=7`;
             axios
               .get(url)
               .then(res => {
-                let recentDesign = res.data.value.key.map(design => {
-                    design.width = 160;
-                    design.href = `/editor/design/${design.id}`;
-                    return design;
+                    console.log('res ', res);
+                    let recentDesign = res.data.value.key.map(design => {
+                        design.width = 160;
+                        design.href = `/editor/design/${design.id}`;
+                        return design;
+                    });
+
+                    let hasMore = res.data.value.value > recentDesign.length;
+                    this.setState({
+                        recentDesign, 
+                        hasMore,
+                        total: res.data.value.value,
+                        mounted: recentDesign.length > 0,
+                    });
                 })
-                this.setState({recentDesign,});
-              })
-              .catch(error => {
-                  // Ui.showErrors(error.response.statusText)
-              });
-          }
+                .catch(error => {
+                    // Ui.showErrors(error.response.statusText)
+                });
+        }
     }
 
     handleScroll = () => {
@@ -68,112 +82,93 @@ class Popup extends PureComponent<IProps, IState> {
 
     test = null;
 
+    loadMore = () => {
+        if (Globals.serviceUser) {
+            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / 7 + 1}&perPage=5`;
+            console.log('laodmore ', url)
+            axios
+              .get(url)
+              .then(res => {
+                let newRecentDesign = res.data.value.key.map(design => {
+                    design.width = 160;
+                    design.href = `/editor/design/${design.id}`;
+                    return design;
+                })
+                let hasMore = res.data.value.value > this.state.recentDesign + newRecentDesign.length;
+                this.setState({
+                    recentDesign: [...this.state.recentDesign, ...newRecentDesign],
+                    hasMore,
+                });
+              })
+              .catch(error => {
+                  // Ui.showErrors(error.response.statusText)
+              });
+        }
+    }
+
   render() {
     return (
+        <div
+            style={{
+              padding: "20px 80px",
+              display: this.state.mounted ? "block" : "none",
+            }}
+          >
+            <h3
+              style={{
+                marginBottom: '20px',
+                marginTop: '20px',
+                fontFamily: "AvenirNextRoundedPro-Bold",
+                fontSize: "30px",
+              }}
+            >{this.props.translate("recentDesign")}</h3>
+            <div 
+              style={{
+                height: "220px",
+              }}>
         <div>
             <div style={{ position: 'relative' }}>
-                { this.state.yLocation > 0 && this.state.mounted &&
-                    <button 
-                        style={{
-                            position: 'absolute',
-                            top: '60px',
-                            zIndex: 100,
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            left: '-21px',
-                            border: 'none',
-                            background: 'white',
-                        }} 
-                        onClick={(e) => {
-                            this.test.scrollLeft = this.state.yLocation - 700;
-                            this.setState({yLocation: this.state.yLocation - 700});
-                        }}
-                        className="arrowWrapper___rLMf7 arrowLeft___2lAV4" 
-                        data-categ="popularTemplates" 
-                        data-value="btn_sliderLeft"
-                    >
-                        <svg 
-                            style={{ transform: 'rotate(180deg)' }} 
-                            viewBox="0 0 16 16" 
-                            width="16" 
-                            height="16" 
-                            className="arrow___2yMKk"
-                        >
-                            <path d="M12.2339 8.7917L5.35411 15.6711C4.91648 16.109 4.20692 16.109 3.7695 15.6711C3.33204 15.2337 3.33204 14.5242 3.7695 14.0868L9.85703 7.99952L3.76968 1.91249C3.33222 1.47486 3.33222 0.765428 3.76968 0.327977C4.20714 -0.109651 4.91665 -0.109651 5.35429 0.327977L12.234 7.20751C12.4528 7.42634 12.562 7.71284 12.562 7.99948C12.562 8.28627 12.4526 8.57298 12.2339 8.7917Z"></path>
-                        </svg>
-                    </button>
-                }   
-                {this.state.showLeft && this.state.mounted &&
-                    <button 
-                        style={{
-                            position: 'absolute',
-                            top: '60px',
-                            zIndex: 100,
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            right: '-21px',
-                            border: 'none',
-                            background: 'white',
-                        }} 
-                        onClick={(e) => {
-                            this.test.scrollLeft = this.state.yLocation + 700;
-                            this.setState({yLocation: this.state.yLocation + 700});
-                        }}
-                        className="arrowWrapper___rLMf7 arrowLeft___2lAV4" 
-                        data-categ="popularTemplates" 
-                        data-value="btn_sliderLeft"
-                    >
-                        <svg 
-                            style={{
-                                // transform: 'rotate(180deg)',
-                            }} 
-                            viewBox="0 0 16 16" 
-                            width="16" 
-                            height="16" 
-                            className="arrow___2yMKk"
-                        >
-                            <path d="M12.2339 8.7917L5.35411 15.6711C4.91648 16.109 4.20692 16.109 3.7695 15.6711C3.33204 15.2337 3.33204 14.5242 3.7695 14.0868L9.85703 7.99952L3.76968 1.91249C3.33222 1.47486 3.33222 0.765428 3.76968 0.327977C4.20714 -0.109651 4.91665 -0.109651 5.35429 0.327977L12.234 7.20751C12.4528 7.42634 12.562 7.71284 12.562 7.99948C12.562 8.28627 12.4526 8.57298 12.2339 8.7917Z"></path>
-                        </svg>
-                    </button>
-                }
-                <div
-                    style={{
-                        height: '220px',
-                        position: 'relative',
-                    }}
+                <InfiniteXScroll
+                  scroll={true}
+                  throttle={1000}
+                  threshold={300}
+                  isLoading={false}
+                  hasMore={this.state.hasMore}
+                  onLoadMore={this.loadMore.bind(this, false)}
+                  refId="sentinel-image"
+                  marginTop={45}
                 >
-                    {/* {this.state.mounted &&  */}
-                    <div 
-                        className="renderView___1QdJs"
-                        ref={i => this.test = i}
+                    <ul 
                         style={{
-                        overflow: 'scroll',
-                        scrollBehavior: 'smooth',
-                        }}
+                            listStyle: 'none',
+                            padding: 0,
+                            position: 'relative',
+                            zIndex: 1,
+                            display: 'inline-flex',
+                            marginTop: '1px',
+                            transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
+                        }} 
+                        className="templateList___2swQr"
                     >
-                        <ul 
-                            style={{
-                                listStyle: 'none',
-                                padding: 0,
-                                position: 'relative',
-                                zIndex: 1,
-                                display: 'inline-flex',
-                                marginTop: '1px',
-                                transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
-                            }} 
-                            className="templateList___2swQr"
-                        >
-                            {this.state.recentDesign.map( (item) => 
-                                <Item 
-                                    {...item} 
-                                    key={uuidv4()}
-                                />)}
-                        </ul>
-                    </div>
-                </div>
+                        {this.state.recentDesign.map( (item) => 
+                            <Item 
+                                {...item} 
+                                key={uuidv4()}
+                            />)}
+                        {this.state.hasMore && Array(Math.min(6, this.state.total - this.state.recentDesign.length))
+                        .fill(0)
+                        .map((item, i) => (
+                        <Item
+                            id={"sentinel-image"}
+                            width={160}
+                            key={uuidv4()}
+                        />
+                        ))}
+                    </ul>
+                </InfiniteXScroll>
             </div>
+        </div>
+        </div>
         </div>
     );  
     }  

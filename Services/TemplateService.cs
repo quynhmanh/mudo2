@@ -31,6 +31,16 @@ namespace RCB.TypeScript.Services
             Configuration = configuration;
         }
 
+        public Result<int> MakeAsPopulate(string id) {
+            Result<TemplateModel> templateResult = this.Get(id);
+            var model = templateResult.Value;
+            model.Popular = true;
+
+            this.Update(model);
+
+            return Ok(1);
+        }
+
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "", string printType = "")
         {
             var node = new Uri("http://host_container_address:9200");
@@ -64,6 +74,20 @@ namespace RCB.TypeScript.Services
 
             var res = client.Search<TemplateModel>(s => 
             s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName))).Take(15));
+
+            var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
+
+            return Ok(res2);
+        }
+
+        public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchPopularTemplates(int page = 1, int perPage = 5) {
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
+            .DisableDirectStreaming();
+            var client = new ElasticClient(settings);
+
+            var res = client.Search<TemplateModel>(s => 
+            s.Query(q => q.Match(c => c.Field(p => p.Popular).Query("true"))).Take(perPage));
 
             var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
 
@@ -335,12 +359,6 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<TemplateModel> Get(string id)
         {
-            //var exist = _templateContext.Templates.Any(template => template.Id == id);
-            //if (!exist)
-            //{
-            //    return Error<TemplateModel>($"Template with {id} not found.");
-            //}
-            //return Ok(_templateContext.Templates.Where(template => template.Id == id).First());
 
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
@@ -395,6 +413,7 @@ namespace RCB.TypeScript.Services
             template.IsVideo = model.IsVideo;
             template.VideoRepresentative = model.VideoRepresentative;
             template.Pages = model.Pages;
+            template.Popular = model.Popular;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
