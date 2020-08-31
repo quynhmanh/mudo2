@@ -49,5 +49,8 @@
     "addPage": "Thêm trang",
     "recentDesign": "Thiết kế của bạn",
     "unsaved": "Chưa lưu",
-    "saved": "Đã lưu"
+    "saved": "Đã lưu",
+    "allChangesSaved": "Thay đổi đã được lưu",
+    "savingChanges": "Đang lưu những thay đổi...",
+    "unsavedChanges": "Thay đổi chưa được lưu"
 }

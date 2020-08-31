@@ -9,7 +9,7 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
-import { SubType, SidebarTab, Mode, TemplateType } from "@Components/editor/enums";
+import { SubType, SidebarTab, Mode, TemplateType, SavingState, } from "@Components/editor/enums";
 import loadable from "@loadable/component";
 import { clone } from "lodash";
 import editorStore, {Images,AllImage} from "@Store/EditorStore";
@@ -27,8 +27,8 @@ import {
     takeUntil,
 } from "rxjs/operators";
 
-const DownloadList = loadable(() => import("@Components/editor/DownloadList"));
 const Home = loadable(() => import("@Components/shared/svgs/HomeIcon"));
+const DownloadList = loadable(() => import("@Components/editor/DownloadList"));
 const PosterReview = loadable(() => import("@Components/editor/PosterReview"));
 const TrifoldReview = loadable(() =>import("@Components/editor/TrifoldReview"));
 const FlyerReview = loadable(() => import("@Components/editor/FlyerReview"));
@@ -43,6 +43,7 @@ const Popup = loadable(() => import("@Components/shared/Popup"));
 const Tooltip = loadable(() => import("@Components/shared/Tooltip"));
 const Toolbar =  loadable(() => import("@Components/editor/toolbar/Toolbar"));
 const LeftSide = loadable(() => import("@Components/editor/LeftSide"));
+const HomeButton = loadable(() => import("@Components/editor/HomeButton"));
 // import LeftSide from "@Components/editor/LeftSide";
 
 import {
@@ -114,6 +115,8 @@ declare global {
         cloneImages: any;
         tempImage: any;
         template: any;
+        rotated: boolean;
+        resized: boolean;
     }
 }
 
@@ -251,7 +254,6 @@ interface IState {
     fontColor: string;
     showPopup: boolean;
     showMediaEditingPopup: boolean;
-    isSaving: boolean;
     fontName: string;
     fontId: string;
     childId: string;
@@ -307,7 +309,6 @@ class CanvaEditor extends Component<IProps, IState> {
             childId: null,
             fontName: "images/font-AvenirNextRoundedPro.png",
             fontId: "",
-            isSaving: false,
             showPopup: false,
             showMediaEditingPopup: false,
             fontColor: "black",
@@ -377,6 +378,8 @@ class CanvaEditor extends Component<IProps, IState> {
         this.handleApplyEffect = this.handleApplyEffect.bind(this);
         this.handleChangeOffset = this.handleChangeOffset.bind(this);
         this.backgroundOnMouseDown = this.backgroundOnMouseDown.bind(this);
+        this.cancelSaving = this.cancelSaving.bind(this);
+        this.setSavingState = this.setSavingState.bind(this);
     }
 
     $app = null;
@@ -1034,6 +1037,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 ]
             };
 
+            
             editorStore.addItem2(
                 {
                     _id: uuidv4(),
@@ -1174,6 +1178,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
 
                     // editorStore.addItem(document2, false);
+                    this.setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(document2, false);
 
                     this.handleImageSelected(document2);
@@ -1346,16 +1351,13 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleResizeStart = (e: any, d: any) => {
 
-        // this.setState({saved: false});
-
-        if (this.saving) {
-            clearTimeout(this.saving);
-            this.saving = null;
-        }
+        this.cancelSaving();
 
         this.popuplateImageProperties();
 
         e.stopPropagation();
+
+        window.resized = false;
 
         window.startX = e.clientX;
         window.startY = e.clientY;
@@ -1412,7 +1414,9 @@ class CanvaEditor extends Component<IProps, IState> {
             )
             .subscribe(
                 ({ moveElLocation }) => {
+                    window.resized = true;
                     this.displayResizers(false);
+                    this.setSavingState(SavingState.UnsavedChanges, false);
                     var deltaX = moveElLocation[0] - window.startX;
                     var deltaY = moveElLocation[1] - window.startY;
                     const deltaL = getLength(deltaX, deltaY);
@@ -1478,9 +1482,11 @@ class CanvaEditor extends Component<IProps, IState> {
                     ell.style.zIndex = "0";
                     ell.style.cursor = "default";
 
-                    this.saving = setTimeout(() => {
-                        this.saveImages(null, false);
-                    }, 5000);
+                    if (window.resized) {
+                        this.saving = setTimeout(() => {
+                            this.saveImages(null, false);
+                        }, 5000);
+                    }
                 }
             );
     };
@@ -2272,6 +2278,9 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleResizeInnerImageStart = (e, d) => {
 
+        window.resized = false;
+        this.cancelSaving();
+
         this.popuplateImageProperties();
 
         window.resizingInnerImage = true;
@@ -2343,7 +2352,9 @@ class CanvaEditor extends Component<IProps, IState> {
             )
             .subscribe(
                 ({ moveElLocation }) => {
+                    window.resized = true;
                     this.displayResizers(false);
+                    this.setSavingState(SavingState.UnsavedChanges, false);
 
                     var deltaX = moveElLocation[0] - window.startX;
                     var deltaY = moveElLocation[1] - window.startY;
@@ -2407,6 +2418,12 @@ class CanvaEditor extends Component<IProps, IState> {
                     this.displayResizers(true);
                     this.forceUpdate();
                     ell.style.zIndex = "0";
+
+                    if (window.resized) {
+                        this.saving = setTimeout(() => {
+                            this.saveImages(null, false);
+                        }, 5000);
+                    }
                 }
             );
     };
@@ -2651,6 +2668,10 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleRotateStart = (e: any) => {
+
+        window.rotated = false;
+        this.cancelSaving();
+
         let scale = this.state.scale;
         e.stopPropagation();
 
@@ -2708,7 +2729,9 @@ class CanvaEditor extends Component<IProps, IState> {
             )
             .subscribe(
                 ({ moveElLocation }) => {
+                    window.rotated = true;
                     this.displayResizers(false);
+                    this.setSavingState(SavingState.UnsavedChanges, false);
                     const rotateVector = {
                         x: moveElLocation[0] - center.x,
                         y: moveElLocation[1] - center.y
@@ -2761,6 +2784,12 @@ class CanvaEditor extends Component<IProps, IState> {
                     this.handleRotateEnd(this.state.idObjectSelected);
                     this.pauser.next(false);
                     ell.style.zIndex = "0";
+
+                    if (window.rotated) {
+                        this.saving = setTimeout(() => {
+                            this.saveImages(null, false);
+                        }, 5000);
+                    }
                 }
             );
     };
@@ -2781,16 +2810,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleDragStart = (e, _id) => {
 
-        
-
-        // e.preventDefault();
-
-        // this.setState({saved: false});
-
-        if (this.saving) {
-            clearTimeout(this.saving);
-            this.saving = null;
-        }
+        this.cancelSaving();
 
         window.startX = e.clientX;
         window.startY = e.clientY;
@@ -2838,6 +2858,7 @@ class CanvaEditor extends Component<IProps, IState> {
             .subscribe(
                 ({ moveElLocation }) => {
                     this.displayResizers(false);
+                    this.setSavingState(SavingState.UnsavedChanges, false);
                     window.dragged = true;
                     // ell.style.cursor = "move";
                     if (this.state.cropMode) {
@@ -4057,7 +4078,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
         
         var _id;
-        this.setState({ isSaving: true });
+        // this.setState({ isSaving: true });
+        this.setSavingState(SavingState.SavingChanges, false);
         const { mode } = this.state;
         var self = this;
         const { rectWidth, rectHeight } = this.state;
@@ -4205,10 +4227,11 @@ class CanvaEditor extends Component<IProps, IState> {
                 })
                 .then(res => {
                     self.setState({ 
-                        isSaving: false,
                         downloading: false,
                         saved: true,
-                        });
+                    });
+
+                    self.setSavingState(SavingState.ChangesSaved, false);
                     // Ui.showInfo("Success");
                 })
                 .catch(error => {
@@ -4387,6 +4410,8 @@ class CanvaEditor extends Component<IProps, IState> {
                         zIndex: editorStore.upperZIndex + 1,
                         paused: true,
                     };
+
+                    this.setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newItem, false);
                     this.handleImageSelected(newItem);
                     editorStore.increaseUpperzIndex();
@@ -4502,6 +4527,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     };
 
                     // editorStore.addItem(newImg, false);
+                    this.setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     this.handleImageSelected(newImg);
 
@@ -5028,12 +5054,13 @@ class CanvaEditor extends Component<IProps, IState> {
         let pages = toJS(editorStore.pages);
         let keys = toJS(editorStore.keys);
         const index = pages.findIndex(img => img === id) + 1;
-        var newPageId = uuidv4();
+        let newPageId = uuidv4();
         pages.splice(index, 0, newPageId);
         keys.splice(index, 0, 0);
 
         const {rectWidth, rectHeight} = this.state;
 
+        this.setSavingState(SavingState.UnsavedChanges, true);
         editorStore.addItem2(
             {
                 _id: uuidv4(),
@@ -5144,7 +5171,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     id={pages[i]}
                     translate={this.translate}
                     numberOfPages={pages.length}
-                    isSaving={this.state.isSaving}
                     downloading={downloading}
                     bleed={this.state.bleed}
                     key={i}
@@ -5445,6 +5471,33 @@ class CanvaEditor extends Component<IProps, IState> {
     refCity = null;
     refPhoneNumber = null;
 
+    cancelSaving() {
+        if (this.saving) {
+            clearTimeout(this.saving);
+            this.saving = null;
+        }
+    }
+
+    setSavingState(state, callSave) {
+        let term;
+        if (state == SavingState.UnsavedChanges) {
+            term = this.translate("unsavedChanges");
+        } else if (state == SavingState.SavingChanges) {
+            term = this.translate("savingChanges");
+        } else if (state == SavingState.ChangesSaved) {
+            term = this.translate("allChangesSaved");
+        }
+
+        let el = document.getElementById("savingState") as HTMLSpanElement;
+        el.innerHTML = term;
+
+        if (callSave) {
+            this.saving = setTimeout(() => {
+                this.saveImages(null, false);
+            }, 5000);
+        }
+    }
+
     render() {
         const { scale, rectWidth, rectHeight } = this.state;
 
@@ -5489,39 +5542,21 @@ class CanvaEditor extends Component<IProps, IState> {
                                     }}
                                     href="/"
                                 >
-                                    {/* <span
-                                        style={{
-                                            alignItems: "center",
-                                            display: "flex"
-                                        }}
-                                    > */}
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                fontSize: "14px",
-                                                fontWeight: 600,
-                                                height: "100%",
-                                                position: "relative",
-                                                width: "90px",
-                                            }}
-                                        >
-                                            <span>
-                                                <Home width="24px" height="24px" />
-                                            </span>
-                                            <span
-                                                style={{
-                                                    position: "absolute",
-                                                    display: "block",
-                                                    right: 0,
-                                                }}
-                                            >{this.props.tReady ? this.translate("home") : ""}</span>
-                                            
-                                        </div>
-                                    {/* </span> */}
+                                    <HomeButton
+                                        tRead={this.props.tReady}
+                                        translate={this.translate}
+                                    />
                                 </a>
-                                
                             )}
+                            {this.state.mounted && this.props.tReady && <span
+                                id="savingState"
+                                style={{
+                                    color: "hsla(0,0%,100%,.4)",
+                                    fontStyle: "italic",
+                                    marginLeft: "20px",
+                                    fontSize: "15px",
+                                }}
+                            >{this.translate("allChangesSaved")}</span>}
                         </div>
                         <div
                             style={{
@@ -5569,32 +5604,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                 </label>
                                 </div>
                             }
-                            {this.state.mounted && this.props.tReady &&
-                            <div
-                                style={{
-                                    display: "flex",
-                                    fontSize: "13px",
-                                    border: "none",
-                                    marginRight: "20px",
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        width: "25px",
-                                        margin: "auto",
-                                        marginRight: "5px"
-                                    }}
-                                >
-                                    <svg 
-                                        style={{
-                                            fill: !this.state.isSaving ? "white" : "rgb(33, 204, 154)",
-                                        }}
-                                        viewBox="0 0 16 12" width="22" height="18" color="#21CC9A"><path fillRule="evenodd" clipRule="evenodd" d="M7.56302 0.0160066C9.79265 -0.179258 11.7966 1.43246 12.1825 3.73127C14.3709 3.81635 16.0788 5.73568 15.9972 8.01822C15.9156 10.3008 14.0755 12.0822 11.8871 11.9971H3.60216C1.61274 11.9971 0 10.3149 0 8.23989C0 6.16486 1.61274 4.48271 3.60216 4.48271C3.61512 2.14897 5.33338 0.211271 7.56302 0.0160066ZM7.1932 9.81819L11.4032 5.57006V5.5901C11.596 5.39463 11.6004 5.07963 11.4131 4.87874L10.8881 4.34773C10.6922 4.15558 10.3807 4.15558 10.1848 4.34773L6.85639 7.71416L5.62806 6.47179C5.4321 6.27964 5.12069 6.27964 4.92474 6.47179L4.38981 7.01282C4.20104 7.20762 4.20104 7.51937 4.38981 7.71416L6.49978 9.81819C6.58966 9.91505 6.71515 9.97 6.84649 9.97C6.97783 9.97 7.10332 9.91505 7.1932 9.81819Z"></path></svg>
-                                </div>
-                                {/* <span>Lưu</span> */}
-                                        <span style={{color: "white", margin: "auto"}}>{!this.state.saved ? this.translate("unsaved") : this.translate("saved")}</span>
-                            </div>
-                        }
                             {/* {Globals.serviceUser &&
                                 Globals.serviceUser.username &&
                                 (Globals.serviceUser.username === adminEmail || 
@@ -5634,7 +5643,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         <span>Lưu</span>
                                     </button>
                                 )} */}
-                            {Globals.serviceUser &&
+                            {/* {Globals.serviceUser &&
                             Globals.serviceUser.username &&
                             Globals.serviceUser.username === adminEmail &&
                             this.props.tReady &&
@@ -5673,7 +5682,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                     </div>
                                     <span>Lưu video</span>
                                 </button>
-                            )}
+                            )} */}
                             {this.props.tReady && (
                                 // <Tooltip
                                 //     offsetLeft={0}

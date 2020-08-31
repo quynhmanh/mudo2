@@ -40,7 +40,6 @@ export interface IProps {
   showPopup: boolean;
   preview: boolean;
   downloading: boolean;
-  isSaving: boolean;
   translate: any;
   selectedImage: any;
   numberOfPages: number;

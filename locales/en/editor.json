@@ -49,5 +49,8 @@
     "addPage": "Add page",
     "recentDesign": "Recent Designs",
     "unsaved": "Unsaved",
-    "saved": "Saved"
+    "saved": "Saved",
+    "allChangesSaved": "All changes saved",
+    "savingChanges": "Saving changes...",
+    "unsavedChanges": "Unsaved changes"
 }

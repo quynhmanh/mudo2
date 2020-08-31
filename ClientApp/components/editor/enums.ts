@@ -42,3 +42,9 @@ export enum TemplateType {
     UserUpload = 8,
     Video = 9
 }
+
+export enum SavingState {
+    UnsavedChanges = 0,
+    SavingChanges = 1,
+    ChangesSaved = 2,
+}
