@@ -5527,36 +5527,12 @@ class CanvaEditor extends Component<IProps, IState> {
                             style={{
                                 display: "flex",
                                 alignItems: "center"
-                            }}
-                        >
-                            {this.state.mounted && (
-                                <a
-                                    id="logo-editor"
-                                    style={{
-                                        color: "white",
-                                        display: "flex",
-                                        padding: "5px 14px",
-                                        borderRadius: "3px",
-                                        marginLeft: "5px",
-                                        height: "90%",
-                                    }}
-                                    href="/"
-                                >
-                                    <HomeButton
-                                        tRead={this.props.tReady}
-                                        translate={this.translate}
-                                    />
-                                </a>
-                            )}
-                            {this.state.mounted && this.props.tReady && <span
-                                id="savingState"
-                                style={{
-                                    color: "hsla(0,0%,100%,.4)",
-                                    fontStyle: "italic",
-                                    marginLeft: "20px",
-                                    fontSize: "15px",
-                                }}
-                            >{this.translate("allChangesSaved")}</span>}
+                            }}>
+                            {this.state.mounted && this.props.tReady && 
+                            <HomeButton
+                                translate={this.translate}
+                            />
+                            }
                         </div>
                         <div
                             style={{
