@@ -5688,8 +5688,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                             display: "flex",
                                             float: "right",
                                             color: "white",
-                                            marginTop: "8px",
-                                            marginRight: "10px",
                                             padding: "8px",
                                             borderRadius: "4px",
                                             textDecoration: "none",

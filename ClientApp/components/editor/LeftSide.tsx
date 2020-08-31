@@ -933,6 +933,11 @@ class LeftSide extends Component<IProps, IState> {
       );
   };
 
+  handleDeleteTemplate = () => {
+    var url = `/api/Font/Delete?id=${this.props.id}`;
+    axios.delete(url);
+  };
+
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.selectedImage && nextProps.selectedImage && nextProps.effectId != this.props.effectId) {
       if (window.prevEffectId) {
@@ -1132,6 +1137,15 @@ class LeftSide extends Component<IProps, IState> {
               right: 0
             }}
             onClick={this.handleMakeAsPopular.bind(this)}
+          >
+            MakeAsPopular
+          </button>
+          <button
+            style={{
+              bottom: 0,
+              right: 0
+            }}
+            onClick={this.handleDeleteTemplate.bind(this)}
           >
             MakeAsPopular
           </button>
@@ -1443,7 +1457,7 @@ class LeftSide extends Component<IProps, IState> {
                       fontSize: "28px",
                       cursor: "pointer",
                       background: "hsla(0,0%,100%,.07)",
-                      borderRadius: "7px",
+                      borderRadius: "4px",
                       padding: "10px",
                       width: "95%",
                       fontFamily: "Open-Sans-Extra-Bold",
@@ -1505,7 +1519,7 @@ class LeftSide extends Component<IProps, IState> {
                       cursor: "pointer",
                       marginTop: "10px",
                       background: "hsla(0,0%,100%,.07)",
-                      borderRadius: "7px",
+                      borderRadius: "4px",
                       padding: "10px",
                       width: "95%",
                       fontFamily: "Open-Sans-Regular",
@@ -1565,7 +1579,7 @@ class LeftSide extends Component<IProps, IState> {
                       marginTop: "10px",
                       marginBottom: "18px",
                       background: "hsla(0,0%,100%,.07)",
-                      borderRadius: "7px",
+                      borderRadius: "4px",
                       padding: "10px",
                       width: "95%",
                       fontFamily: "Open-Sans-Light",

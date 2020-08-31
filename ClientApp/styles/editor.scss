@@ -127,7 +127,7 @@ body {
 }
 
 .text-picker-container {
-  border-radius: 5px;
+  border-radius: 4px;
 }
 .text-picker-container:hover {
   background: rgba(255, 255, 255, 0.17) !important;
@@ -898,6 +898,8 @@ button:focus {
 // }
 
 #download-btn {
+  margin: auto;
+  margin-right: 10px;
   background: rgba(255, 255, 255, .15) !important;
 }
 
