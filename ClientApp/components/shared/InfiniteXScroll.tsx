@@ -150,7 +150,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
         id="object-container" 
         ref={i => this.containerSroll = i} 
         style={{
-          height: "250px",
+          height: "calc(100% + 50px)",
           // marginTop: this.props.marginTop * 1 + "px", 
           overflowX: "scroll",
           scrollBehavior: "smooth",

@@ -1,38 +1,18 @@
 ﻿import React, { Component } from "react";
 import uuidv4 from "uuid/v4";
-import {
-    getBoundingClientRect,
-    getCursorStyleWithRotateAngle,
-    getCursorStyleForResizer
-} from "@Utils";
 import "@Styles/editor.scss";
 import "@Styles/colorPicker.scss";
 import axios from "axios";
-import Popup from "@Components/shared/Popup";
-import MediaEditPopup from "@Components/editor/MediaEditor";
-import TemplateEditor from "@Components/editor/TemplateEditor";
-import FontEditPopup from "@Components/editor/FontEditor";
 import Globals from "@Globals";
 import { Helmet } from "react-helmet";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import LeftSide from "@Components/editor/LeftSide";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
-import Tooltip from "@Components/shared/Tooltip";
 import { SubType, SidebarTab, Mode, TemplateType } from "@Components/editor/enums";
-import Toolbar from "@Components/editor/toolbar/Toolbar";
 import loadable from "@loadable/component";
 import { clone } from "lodash";
 import editorStore, {Images,AllImage} from "@Store/EditorStore";
-import { getLength, getAngle } from "@Utils";
-import {
-    centerToTL,
-    tLToCenter,
-    getNewStyle,
-    degToRadian,
-    updatePosition,
-} from "@Utils";
 import {
     fromEvent,
     merge,
@@ -56,8 +36,43 @@ const BusinessCardReview = loadable(() => import("@Components/editor/BusinessCar
 const CanvasReview = loadable(() => import("@Components/editor/CanvasReview"));
 const Canvas = loadable(() => import("@Components/editor/Canvas"));
 const DownloadIcon = loadable(() => import("@Components/shared/svgs/DownloadIcon"));
+const MediaEditPopup = loadable(() => import("@Components/editor/MediaEditor"));
+const TemplateEditor = loadable(() => import("@Components/editor/TemplateEditor"));
+const FontEditPopup = loadable(() => import("@Components/editor/FontEditor"));
+const Popup = loadable(() => import("@Components/shared/Popup"));
+const Tooltip = loadable(() => import("@Components/shared/Tooltip"));
+const Toolbar =  loadable(() => import("@Components/editor/toolbar/Toolbar"));
+const LeftSide = loadable(() => import("@Components/editor/LeftSide"));
+// import LeftSide from "@Components/editor/LeftSide";
+
+import {
+    // getBoundingClientRect,
+    getCursorStyleWithRotateAngle,
+    getCursorStyleForResizer,
+    centerToTL,
+    tLToCenter,
+    getNewStyle,
+    degToRadian,
+    updatePosition,
+    getLength, 
+    getAngle,
+}  from "@Utils";
+
+// const {
+//     merge,
+//     NEVER,
+//     BehaviorSubject,
+//     Observable,
+// }  = loadable(() => import("rxjs"));
 
 const RESIZE_OFFSET = 10;
+
+function getBoundingClientRect(id: string) {
+    if (!document.getElementById(id)) {
+        return null;
+    }
+    return document.getElementById(id).getBoundingClientRect();
+}
 
 declare global {
     interface Window {
@@ -98,6 +113,7 @@ declare global {
         document_object: any;
         cloneImages: any;
         tempImage: any;
+        template: any;
     }
 }
 
@@ -719,14 +735,12 @@ class CanvaEditor extends Component<IProps, IState> {
         // return confirmationMessage;              // Gecko, WebKit, Chrome <34
     }
 
-    async componentDidMount() {
-
+    async setRef() {
+        let screenContainerParent = document.getElementById("screen-container-parent");
+        // if (!screenContainerParent) return;
         window.addEventListener('beforeunload', this.handleLeavePage.bind(this));
-
         // Creating a pauser subject to subscribe to
-        var screenContainerParent = document.getElementById(
-            "screen-container-parent"
-        );
+        let screenContainerParentRect = screenContainerParent.getBoundingClientRect();
         let doNoObjectSelected$ = fromEvent(screenContainerParent, "mouseup");
 
         this.pauser = new BehaviorSubject(false);
@@ -747,31 +761,24 @@ class CanvaEditor extends Component<IProps, IState> {
 
         this.pauserTransparentPopup = new BehaviorSubject(false);
 
-        let clickOnTransparentPopup$ = fromEvent(document, "mouseup");
-
-        var ce = document.createElement.bind(document);
-        var ca = document.createAttribute.bind(document);
-        var ge = document.getElementsByTagName.bind(document);
+        let ce = document.createElement.bind(document);
+        let ca = document.createAttribute.bind(document);
+        let ge = document.getElementsByTagName.bind(document);
 
         this.setState({
             canRenderClientSide: true,
             selectedTab: SidebarTab.Template
         });
-        var self = this;
+        let self = this;
         setTimeout(() => {
             self.setState({ mounted: true });
         }, 1000);
 
-        var screenContainerParentRect = getBoundingClientRect(
-            "screen-container-parent"
-        );
-        var screenContainerRect = getBoundingClientRect("screen-container");
-
         const { width, height } = screenContainerParentRect;
-        var scaleX = (width - 100) / this.state.rectWidth;
-        var scaleY = (height - 100) / this.state.rectHeight;
+        let scaleX = (width - 100) / this.state.rectWidth;
+        let scaleY = (height - 100) / this.state.rectHeight;
 
-        var staticGuides = {
+        let staticGuides = {
             x: [
                 [0, uuidv4()],
                 [this.state.rectWidth / 2, uuidv4()],
@@ -785,23 +792,23 @@ class CanvaEditor extends Component<IProps, IState> {
         };
 
 
-        var fitScale =
+        let fitScale =
             Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
 
         editorStore.fontsList.forEach(id => {
-            var style = `@font-face {
+            let style = `@font-face {
         font-family: '${id}';
         src: url('/fonts/${id}.ttf');
       }`;
-            var styleEle = ce("style");
-            var type = ca("type");
+            let styleEle = ce("style");
+            let type = ca("type");
             type.value = "text/css";
             styleEle.attributes.setNamedItem(type);
             styleEle.innerHTML = style;
-            var head = document.head || ge("head")[0];
+            let head = document.head || ge("head")[0];
             head.appendChild(styleEle);
 
-            var link = ce("link");
+            let link = ce("link");
             link.id = id;
             link.rel = "preload";
             link.href = `/fonts/${id}.ttf`;
@@ -815,19 +822,19 @@ class CanvaEditor extends Component<IProps, IState> {
         });
 
         editorStore.fontsList.forEach(id => {
-            var style = `@font-face {
+            let style = `@font-face {
       font-family: '${id}';
       src: url('/fonts/${id}.ttf');
     }`;
-            var styleEle = ce("style");
-            var type = ca("type");
+            let styleEle = ce("style");
+            let type = ca("type");
             type.value = "text/css";
             styleEle.attributes.setNamedItem(type);
             styleEle.innerHTML = style;
-            var head = document.head || ge("head")[0];
+            let head = document.head || ge("head")[0];
             head.appendChild(styleEle);
 
-            var link = ce("link");
+            let link = ce("link");
             link.id = id;
             link.rel = "preload";
             link.href = `/fonts/${id}.ttf`;
@@ -845,11 +852,9 @@ class CanvaEditor extends Component<IProps, IState> {
             scale: fitScale,
             fitScale
         });
-        let self = this;
         let subtype;
         let template_id = this.props.match.params.template_id;
         let design_id = this.props.match.params.design_id;
-
 
         if (template_id) {
             let url;
@@ -858,7 +863,6 @@ class CanvaEditor extends Component<IProps, IState> {
             } else if (this.props.match.path == "/editor/design/:template_id") {
                 url = `/api/Design/Get?id=${template_id}`;
             } else if (this.props.match.path == "/editor/design/:design_id/:template_id") {
-                // url = `/api/Template/Get?id=${template_id}`;
                 url = `/api/Design/GetDesignIfNotTemplate?design_id=${design_id}&template_id=${template_id}`;
                 console.log('/editor/design/:design_id/:template_id', template_id)
             }
@@ -866,7 +870,7 @@ class CanvaEditor extends Component<IProps, IState> {
             await axios
                 .get(url)
                 .then(res => {
-                    console.log('res ', res)
+                    window.template = res.data.value;
                     if (res.data.errors.length > 0) {
                         throw new Error(res.data.errors.join("\n"));
                     }
@@ -892,9 +896,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
 
                     let document = JSON.parse(image.value.document);
-                    console.log('document ', document)
-                    let scaleX = (width - 100) / document.width;
-                    let scaleY = (height - 100) / document.height;
+                    scaleX = (width - 100) / document.width;
+                    scaleY = (height - 100) / document.height;
                     let staticGuides = {
                         x: [
                             [0, 0],
@@ -907,22 +910,21 @@ class CanvaEditor extends Component<IProps, IState> {
                             [document.height, 0]
                         ]
                     };
-                    console.log('fontList')
                     if (image.value.fontList) {
-                        var fontList = image.value.fontList.forEach(id => {
-                            var style = `@font-face {
-                font-family: '${id}';
-                src: url('/fonts/${id}.ttf');
-              }`;
-                            var styleEle = ce("style");
-                            var type = ca("type");
+                        image.value.fontList.forEach(id => {
+                            let style = `@font-face {
+                                font-family: '${id}';
+                                src: url('/fonts/${id}.ttf');
+                            }`;
+                            let styleEle = ce("style");
+                            let type = ca("type");
                             type.value = "text/css";
                             styleEle.attributes.setNamedItem(type);
                             styleEle.innerHTML = style;
-                            var head = document.head || ge("head")[0];
+                            let head = document.head || ge("head")[0];
                             head.appendChild(styleEle);
 
-                            var link = ce("link");
+                            let link = ce("link");
                             link.id = id;
                             link.rel = "preload";
                             link.href = `/fonts/${id}.ttf`;
@@ -938,13 +940,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
                     let images = document.document_object;
                     images.forEach(image => {
-                        console.log('im age ', image);
                         editorStore.images2.set(image._id, image);
                     })
 
                     editorStore.fonts.replace(image.value.fontList);
-
-                    console.log('images ', images)
 
                     subtype = res.data.value.printType;
                     let scale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
@@ -1075,13 +1074,18 @@ class CanvaEditor extends Component<IProps, IState> {
                 scale: fitScale,
                 fitScale,
             });
-
-            
         }
 
         document.addEventListener("keydown", this.removeImage.bind(this));
         this.$app.addEventListener("scroll", this.handleScroll.bind(this), { passive: true });
         document.addEventListener("wheel", this.handleWheel.bind(this), {passive: false});
+   
+    }
+
+    async componentDidMount() {
+        this.setState({ mounted: true });
+
+        this.setRef();
     }
 
     textOnMouseDown(e, doc) {
@@ -2807,17 +2811,11 @@ class CanvaEditor extends Component<IProps, IState> {
             this.handleImageSelected(window.image);
         }
 
-        // this.displayResizers(false);
-
         window.dragging = true;
 
         this.pauser.next(true);
 
         const location$ = this.handleDragRx(e.target);
-
-        // let ell = document.getElementById("screen-container-parent2");
-        // ell.style.zIndex = "2";
-        // ell.style.cursor = "move";
 
         let images = [];
         Array.from(editorStore.images2.values()).forEach(image => {
@@ -3386,8 +3384,6 @@ class CanvaEditor extends Component<IProps, IState> {
         if (screensRect && canvasRect) {
             const canvasRect = getBoundingClientRect("canvas");
             const { scale } = this.state;
-            const startX = (screensRect.left + thick - canvasRect.left) / scale;
-            const startY = (screensRect.top + thick - canvasRect.top) / scale;
 
             var pages = toJS(editorStore.pages);
             var activePageId = pages[0];
@@ -4159,6 +4155,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 _id = self.state.designId;
             }
 
+            console.log('window.template', window.template)
+
             var res = JSON.stringify({
                 Title: (document.getElementById("designTitle") as HTMLInputElement).value,
                 CreatedAt: "2014-09-27T18:30:49-0300",
@@ -4196,6 +4194,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 VideoRepresentative: `videos/${_id}.mp4`,
                 IsVideo: isVideo,
                 UserName: Globals.serviceUser.username,
+                Popular: window.template ? window.template.popular : false,
             });
 
             axios
@@ -5758,54 +5757,61 @@ class CanvaEditor extends Component<IProps, IState> {
                             overflow: "hidden"
                         }}
                     >
-                        <LeftSide
-                            id={this.state._id}
-                            effectId={this.state.effectId}
-                            align={this.state.align}
-                            pauser={this.pauser}
-                            selectedImage={toJS(editorStore.imageSelected)}
-                            colorPickerShown={this.colorPickerShown}
-                            handleEditFont={this.handleEditFont}
-                            scale={this.state.scale}
-                            fontId={this.state.fontId}
-                            tReady={this.props.tReady}
-                            translate={this.translate.bind(this)}
-                            textOnMouseDown={this.textOnMouseDown.bind(this)}
-                            videoOnMouseDown={this.videoOnMouseDown.bind(this)}
-                            imgOnMouseDown={this.imgOnMouseDown.bind(this)}
-                            setSelectionColor={this.setSelectionColor.bind(this)}
-                            mounted={this.state.mounted}
-                            subtype={this.state.subtype}
-                            selectFont={this.selectFont.bind(this)}
-                            handleFontColorChange={this.handleFontColorChange.bind(this)}
-                            typeObjectSelected={this.state.typeObjectSelected}
-                            idObjectSelected={this.state.idObjectSelected}
-                            childId={this.state.childId}
-                            rectWidth={this.state.rectWidth}
-                            rectHeight={this.state.rectHeight}
-                            toolbarOpened={this.state.toolbarOpened}
-                            toolbarSize={this.state.toolbarSize}
-                            mode={this.state.mode}
-                            selectedTab={this.state.selectedTab}
-                            handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
-                            handleApplyEffect={this.handleApplyEffect}
-                            handleChangeOffset={this.handleChangeOffset}
-                            handleChangeOffsetEnd={this.handleChangeOffsetEnd}
-                            handleChangeBlur={this.handleChangeBlur}
-                            handleChangeBlurEnd={this.handleChangeBlurEnd}
-                            handleChangeTextShadowTransparent={this.handleChangeTextShadowTransparent}
-                            handleChangeTextShadowTransparentEnd={this.handleChangeTextShadowTransparentEnd}
-                            handleChangeIntensity={this.handleChangeIntensity}
-                            handleChangeIntensityEnd={this.handleChangeIntensityEnd}
-                            handleChangeDirection={this.handleChangeDirection}
-                            handleChangeDirectionEnd={this.handleChangeDirectionEnd}
-                            handleChangeHollowThickness={this.handleChangeHollowThickness}
-                            handleChangeHollowThicknessEnd={this.handleChangeHollowThicknessEnd}
-                            handleLineHeightChange={this.handleLineHeightChange}
-                            handleLineHieghtChangeEnd={this.handleLineHeightChangeEnd}
-                            backgroundOnMouseDown={this.backgroundOnMouseDown}
-                            handleImageSelected={this.handleImageSelected}
-                        />
+                        <div
+                            style={{
+                                width: "450px",
+                                backgroundColor: "#293039",
+                            }}
+                        >
+                            <LeftSide
+                                id={this.state._id}
+                                effectId={this.state.effectId}
+                                align={this.state.align}
+                                pauser={this.pauser}
+                                selectedImage={toJS(editorStore.imageSelected)}
+                                colorPickerShown={this.colorPickerShown}
+                                handleEditFont={this.handleEditFont}
+                                scale={this.state.scale}
+                                fontId={this.state.fontId}
+                                tReady={this.props.tReady}
+                                translate={this.translate.bind(this)}
+                                textOnMouseDown={this.textOnMouseDown.bind(this)}
+                                videoOnMouseDown={this.videoOnMouseDown.bind(this)}
+                                imgOnMouseDown={this.imgOnMouseDown.bind(this)}
+                                setSelectionColor={this.setSelectionColor.bind(this)}
+                                mounted={this.state.mounted}
+                                subtype={this.state.subtype}
+                                selectFont={this.selectFont.bind(this)}
+                                handleFontColorChange={this.handleFontColorChange.bind(this)}
+                                typeObjectSelected={this.state.typeObjectSelected}
+                                idObjectSelected={this.state.idObjectSelected}
+                                childId={this.state.childId}
+                                rectWidth={this.state.rectWidth}
+                                rectHeight={this.state.rectHeight}
+                                toolbarOpened={this.state.toolbarOpened}
+                                toolbarSize={this.state.toolbarSize}
+                                mode={this.state.mode}
+                                selectedTab={this.state.selectedTab}
+                                handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
+                                handleApplyEffect={this.handleApplyEffect}
+                                handleChangeOffset={this.handleChangeOffset}
+                                handleChangeOffsetEnd={this.handleChangeOffsetEnd}
+                                handleChangeBlur={this.handleChangeBlur}
+                                handleChangeBlurEnd={this.handleChangeBlurEnd}
+                                handleChangeTextShadowTransparent={this.handleChangeTextShadowTransparent}
+                                handleChangeTextShadowTransparentEnd={this.handleChangeTextShadowTransparentEnd}
+                                handleChangeIntensity={this.handleChangeIntensity}
+                                handleChangeIntensityEnd={this.handleChangeIntensityEnd}
+                                handleChangeDirection={this.handleChangeDirection}
+                                handleChangeDirectionEnd={this.handleChangeDirectionEnd}
+                                handleChangeHollowThickness={this.handleChangeHollowThickness}
+                                handleChangeHollowThicknessEnd={this.handleChangeHollowThicknessEnd}
+                                handleLineHeightChange={this.handleLineHeightChange}
+                                handleLineHieghtChangeEnd={this.handleLineHeightChangeEnd}
+                                backgroundOnMouseDown={this.backgroundOnMouseDown}
+                                handleImageSelected={this.handleImageSelected}
+                            />
+                        </div>
                         <div
                             style={{
                                 boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 2px 0px",
@@ -5825,14 +5831,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             onScroll={this.handleScroll}
                             onWheel={this.handleWheel}
                         >
-                            {this.state.toolbarOpened && (
-                                <button
-                                    onClick={e => {
-                                        this.setState({ toolbarOpened: false });
-                                    }}
-                                ></button>
-                            )}
-
+                            <div>
                             <Toolbar
                                 selectedCanvas={this.state.selectedCanvas}
                                 pauser={this.pauser}
@@ -5881,8 +5880,8 @@ class CanvaEditor extends Component<IProps, IState> {
                                 handleLetterSpacing={this.handleLetterSpacingChange}
                                 handleLetterSpacingEnd={this.handleLetterSpacingChangeEnd}
                             />
-
-                            <div
+                            </div>
+                            {/* <div
                                 id="screen-container-parent2"
                                 style={{
                                     top: "46px",
@@ -5893,8 +5892,11 @@ class CanvaEditor extends Component<IProps, IState> {
                                     width: "100%",
                                     height: "calc(100% - 46px)"
                                 }}
-                            ></div>
+                            ></div> */}
                             <div
+                                key={1}
+                                // ref={this.setRef.bind(this)}
+                                // onLoad={this.setRef.bind(this)}
                                 id="screen-container-parent"
                                 style={{
                                     top: "46px",
@@ -6327,6 +6329,18 @@ class CanvaEditor extends Component<IProps, IState> {
                                     )}
                                 </div>
                             </div>
+                            <div
+                                id="screen-container-parent2"
+                                style={{
+                                    top: "46px",
+                                    overflow: "scroll",
+                                    alignItems: "center",
+                                    display: "flex",
+                                    position: "absolute",
+                                    width: "100%",
+                                    height: "calc(100% - 46px)"
+                                }}
+                            ></div>
                         </div>
                         {this.state.showPrintingSidebar && (
                             <div

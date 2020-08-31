@@ -138,6 +138,15 @@ namespace RCB.TypeScript.Controllers
             return Json(result);
         }
 
+        [HttpDelete("[action]")]
+        public IActionResult UnDelete([FromQuery]string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest($"{nameof(id)} is not filled.");
+            var result = TemplateService.Undelete(id);
+            return Json(result);
+        }
+
         [HttpPost("[action]")]
         public IActionResult Upload([FromQuery]string id)
         {

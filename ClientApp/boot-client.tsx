@@ -20,8 +20,15 @@ import { IPublicSession } from "@Models/IPublicSession";
 import { IPrivateSession } from "@Models/IPrivateSession";
 import { NSerializeJson } from "nserializejson";
 import './i18n';
+import { Helmet } from "react-helmet";
 
-const Loader = () => <div style={{ position: "fixed", top: "50%", left: "50%" }}>Loading...</div>;
+const Loader = () => 
+<div style={{ position: "fixed", top: "50%", left: "50%" }}>
+    <Helmet>
+        <title>Draft</title>
+    </Helmet>
+    Loading...
+</div>;
 
 function setupSession() {
     if (!isNode()) {

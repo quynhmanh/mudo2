@@ -608,7 +608,6 @@ class LeftSide extends Component<IProps, IState> {
     this.setState({ isTemplateLoading: true, error: undefined });
     var subtype = subtype ? subtype : this.props.subtype;
     const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype}`;
-    console.log('url ', url);
     if (!subtype) {
       return;
     }
@@ -934,9 +933,14 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   handleDeleteTemplate = () => {
-    var url = `/api/Font/Delete?id=${this.props.id}`;
+    var url = `/api/Template/Delete?id=${this.props.id}`;
     axios.delete(url);
   };
+
+  handleUndeleteTemplate = () => {
+    var url = `/api/Template/Undelete?id=${this.props.id}`;
+    axios.delete(url);
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.selectedImage && nextProps.selectedImage && nextProps.effectId != this.props.effectId) {
@@ -1147,7 +1151,16 @@ class LeftSide extends Component<IProps, IState> {
             }}
             onClick={this.handleDeleteTemplate.bind(this)}
           >
-            MakeAsPopular
+            Delete
+          </button>
+          <button
+            style={{
+              bottom: 0,
+              right: 0
+            }}
+            onClick={this.handleUndeleteTemplate.bind(this)}
+          >
+            Undelete
           </button>
         </div>
         {this.props.mounted && this.props.toolbarOpened && (

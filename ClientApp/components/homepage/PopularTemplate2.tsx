@@ -20,6 +20,7 @@ interface IState {
 }
 
 const TEMPLATE_PERPAGE = 10;
+const WIDTH = 250;
 
 class Popup extends PureComponent<IProps, IState> {
     state = {
@@ -37,7 +38,7 @@ class Popup extends PureComponent<IProps, IState> {
             .get(url)
             .then(res => {
                 let recentDesign = res.data.value.key.map(design => {
-                    design.width = 160;
+                    design.width = WIDTH;
                     design.href = `/editor/design/${uuidv4()}/${design.id}`;
                     return design;
                 });
@@ -59,7 +60,7 @@ class Popup extends PureComponent<IProps, IState> {
             .get(url)
             .then(res => {
             let recentDesign = res.data.value.key.map(design => {
-                design.width = 160;
+                design.width = WIDTH;
                 design.href = `/editor/design/${uuidv4()}/${design.id}`;
                 return design;
             })
@@ -104,7 +105,7 @@ class Popup extends PureComponent<IProps, IState> {
             >{this.props.translate("popular")}</h3>
             <div 
               style={{
-                height: "220px",
+                height: "300px",
               }}>
         <div>
             <div style={{ position: 'relative' }}>
@@ -142,7 +143,7 @@ class Popup extends PureComponent<IProps, IState> {
                                 .map((item, i) => (
                                 <Item
                                     id={"sentinel-image2"}
-                                    width={160}
+                                    width={WIDTH}
                                     key={uuidv4()}
                                 />
                           ))}

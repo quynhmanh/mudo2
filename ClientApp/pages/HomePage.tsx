@@ -1,11 +1,9 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
 import { Route, Link } from "react-router-dom";
 import Globals from "@Globals";
 import AccountService from "@Services/AccountService";
 import { Helmet } from "react-helmet";
 import bind from 'bind-decorator';
-import LoginPopup from "@Components/shared/LoginPopup";
 import styled from 'styled-components';
 import { withTranslation } from "react-i18next";
 import languages from "@Locales/languages";
@@ -18,14 +16,12 @@ import axios from "axios";
 
 const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
 const PopularTemplate2 = loadable(() => import("@Components/homepage/PopularTemplate2"));
-const CatalogList = loadable(() => import("@Components/homepage/CatalogList"));
-const SuggestedList = loadable(() => import("@Components/homepage/SuggestedList"));
 const NavBar = loadable(() => import("@Components/homepage/NavBar"));
-
-type Props = RouteComponentProps<{}>;
+const LoginPopup = loadable(()=> import("@Components/shared/LoginPopup"));
 
 export interface IProps {
   t: any;
+  tReady: boolean;
   i18n: any;
 }
 
@@ -287,7 +283,7 @@ onLanguageBtnClick = () => {
     return (
       <div>
         <Helmet>
-          <title>{this.translate("title-website")}</title>
+          <title>{this.props.tReady ? this.translate("title-website") : "Draft"}</title>
         </Helmet>
         <div
         style={{
