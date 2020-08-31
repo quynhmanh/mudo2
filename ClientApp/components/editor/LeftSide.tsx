@@ -364,16 +364,14 @@ class LeftSide extends Component<IProps, IState> {
 
   loadMore = (initialLoad: Boolean) => {
     let pageId;
-    let count;
+    const PER_PAGE = 16;
     if (initialLoad) {
       pageId = 1;
-      count = 15;
     } else {
-      pageId = (this.state.items.length + this.state.items2.length) / 15 + 1;
-      count = 15;
+      pageId = (this.state.items.length + this.state.items2.length) / 16 + 1;
     }
     this.setState({ isLoading: true, error: undefined });
-    const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
+    const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${PER_PAGE}&terms=${this.state.query}`;
     fetch(url)
       .then(res => res.json())
       .then(

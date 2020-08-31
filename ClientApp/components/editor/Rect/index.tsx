@@ -891,7 +891,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             {innerHTML && (
               <div style={{}}>
                 <div
-                  id={_id}
+                  id={_id + "hihi5" + canvas}
                   className={_id + "hihi5"}
                   style={{
                     position: "absolute",

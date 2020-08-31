@@ -90,11 +90,17 @@ export default class Tooltip extends AppComponent<IProps, IState> {
           editorStore.setToggleColorPickerVisibility(true);
         })
         .on("change", (color, instance) => {
-          if (editorStore.imageSelected.type == TemplateType.Heading) {
-            document.getElementById(editorStore.idObjectSelected + "hihi4alo").style.color = color.toRGBA();
-          } else if (editorStore.imageSelected.type == TemplateType.TextTemplate) {
+          let image = editorStore.imageSelected;
+          if (image.type == TemplateType.Heading) {
+            if (image.effectId == 3 || image.effectId == 4) {
+              document.getElementById(editorStore.idObjectSelected + "hihi5alo")
+                .style.webkitTextStroke = `${1.0 * image.hollowThickness / 100 * 4 + 0.1}px ${color}`;
+            } else {
+              document.getElementById(editorStore.idObjectSelected + "hihi4alo").style.color = color.toRGBA();
+            }
+          } else if (image.type == TemplateType.TextTemplate) {
             document.getElementById(editorStore.idObjectSelected + editorStore.childId + "text-container2alo").style.color = color.toRGBA();
-          } else if (editorStore.imageSelected.type == TemplateType.BackgroundImage) {}
+          } else if (image.type == TemplateType.BackgroundImage) {}
           let colorCode = color.toRGBA();
           this.props.setSelectionColor(colorCode)
         })

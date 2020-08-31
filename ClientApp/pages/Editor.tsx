@@ -5464,7 +5464,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     <div
                         id="editor-navbar"
                         style={{
-                            backgroundColor: "#58b0d2",
+                            background: "linear-gradient(90deg,#00c4cc,#7d2ae8)",
                             height: "55px",
                             padding: "5px",
                             display: "flex",
