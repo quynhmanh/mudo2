@@ -472,7 +472,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           >
             {/* {showImage && */}
               <div
-                id={_id + "hihi4"}
+                id={_id + "hihi4" + canvas}
                 className={_id + "rect-alo"}
                 style={{
                   width: "100%",
