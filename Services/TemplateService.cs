@@ -53,8 +53,12 @@ namespace RCB.TypeScript.Services
                 query = query + $" AND printType:{printType}";
             }
 
-            var res = client.Search<TemplateModel>(s => s.
-                Query(q => q.QueryString(d => d.Query(query)))
+            var res = client.Search<TemplateModel>(s =>
+                // Query(q => q.QueryString(d => d.Query(query)))
+                s.Query(t => t.Bool(b => b.Must(
+                    q => q.Match(c => c.Field(p => p.Type).Query(type)),
+                    q => q.Match(c => c.Field(p => p.PrintType).Query(printType)),
+                    q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
                 .From((page - 1) * perPage)
                 .Size(perPage)
                 .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
@@ -73,7 +77,9 @@ namespace RCB.TypeScript.Services
             string query = $"UserName:{userName}";
 
             var res = client.Search<TemplateModel>(s => 
-            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName)))
+            s.Query(t => t.Bool(b => b.Must(
+                q => q.Match(c => c.Field(p => p.UserName).Query(userName)),
+                q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
                 .From((page - 1) * perPage)
                 .Size(perPage));
 
@@ -89,7 +95,9 @@ namespace RCB.TypeScript.Services
             var client = new ElasticClient(settings);
 
             var res = client.Search<TemplateModel>(s => 
-            s.Query(q => q.Match(c => c.Field(p => p.Popular).Query("true")))
+            s.Query(t => t.Bool(b => b.Must(
+                q => q.Match(c => c.Field(p => p.Popular).Query("true")), 
+                q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
                 .From((page - 1) * perPage)
                 .Size(perPage));
 
@@ -400,6 +408,8 @@ namespace RCB.TypeScript.Services
 
             var template = getResponse.Source;
 
+            template = model;
+
             template.Title = model.Title;
             template.Document = model.Document;
             template.CreatedAt = model.CreatedAt;
@@ -418,6 +428,7 @@ namespace RCB.TypeScript.Services
             template.VideoRepresentative = model.VideoRepresentative;
             template.Pages = model.Pages;
             template.Popular = model.Popular;
+            template.Delete = model.Delete;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
@@ -430,9 +441,28 @@ namespace RCB.TypeScript.Services
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
-            var getResponse = client.Delete<TemplateModel>(id);
+            Result<TemplateModel> templateResult = this.Get(id);
+            var model = templateResult.Value;
+            model.Delete = true;
 
-            return Ok(getResponse);
+            var res = this.Update(model);
+
+            return Ok(res);
+        }
+
+        public virtual Infrastructure.Result Undelete(string id)
+        {
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
+            var client = new ElasticClient(settings);
+
+            Result<TemplateModel> templateResult = this.Get(id);
+            var model = templateResult.Value;
+            model.Delete = false;
+
+            var res = this.Update(model);
+
+            return Ok(res);
         }
 
         public virtual Infrastructure.Result UpdateRepresentative(string id, string filePath)

@@ -30,19 +30,10 @@ export default class Selector extends PureComponent<IProps, IState> {
         <div
           className="tab-menu"
           style={{
-            cursor: "pointer",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: "8px",
             color: disabled ? '#a9acae' : selected ? "white" : "#a9acae",
-            boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 2px 0px",
             borderTopRightRadius: prevSelected ? "9px" : null,
             borderBottomRightRadius: nextSelected ? "9px" : null,
-            textAlign: 'center',
             backgroundColor: !selected ? '#0e1318' : 'rgb(41, 48, 57)',
-            // height: '70px',
-            fontFamily: "AvenirNextRoundedPro",
           }}
           onClick={disabled ? null : onClick}
         >

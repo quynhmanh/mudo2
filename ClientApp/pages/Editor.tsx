@@ -5500,9 +5500,10 @@ class CanvaEditor extends Component<IProps, IState> {
                                                 display: "flex",
                                                 alignItems: "center",
                                                 fontSize: "14px",
-                                                fontFamily: "AvenirNextRoundedPro",
                                                 fontWeight: 600,
                                                 height: "100%",
+                                                position: "relative",
+                                                width: "90px",
                                             }}
                                         >
                                             <span>
@@ -5510,7 +5511,9 @@ class CanvaEditor extends Component<IProps, IState> {
                                             </span>
                                             <span
                                                 style={{
-                                                    marginLeft: "5px",
+                                                    position: "absolute",
+                                                    display: "block",
+                                                    right: 0,
                                                 }}
                                             >{this.props.tReady ? this.translate("home") : ""}</span>
                                             
