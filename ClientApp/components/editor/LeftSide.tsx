@@ -1499,6 +1499,7 @@ class LeftSide extends Component<IProps, IState> {
                         color: "black",
                         fontSize: 56,
                         fontRepresentative: "images/font-Open Sans Extra Bold.png",
+                        hovered: true,
                         selected: true,
                         fontFace: "Open-Sans-Extra-Bold",
                         effectId: 8,
@@ -1549,7 +1550,7 @@ class LeftSide extends Component<IProps, IState> {
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="ont-size: 32px;">${this.props.translate(
+                        innerHTML: `<div class="font" style="font-size: 32px;">${this.props.translate(
                           "addASubHeading"
                         )}</div>`,
                         scaleX: 1,
@@ -1610,7 +1611,7 @@ class LeftSide extends Component<IProps, IState> {
                         left: 0,
                         top: 0,
                         rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="ont-size: 22px;">${this.props.translate(
+                        innerHTML: `<div class="font" style="font-size: 22px;">${this.props.translate(
                           "addABodyText"
                         )}</div>`,
                         scaleX: 1,

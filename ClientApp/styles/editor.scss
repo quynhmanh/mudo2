@@ -1071,7 +1071,7 @@ button {
 
 .hideWhenDownloadContainer:hover {
   .hideWhenDownload {
-    display: block !important;
+    opacity: 1 !important;
   }
 }
 
@@ -1151,3 +1151,9 @@ button {
 //     text-shadow: 2px 2px 0 rgba(0,0,0,.15);
 //   }
 // }
+
+.selection-area {
+  background: rgba(0, 217, 225, 0.11);
+  border-radius: 0.1em;
+  border: 1px solid rgb(0, 217, 225);
+}

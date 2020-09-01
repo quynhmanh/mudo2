@@ -119,10 +119,10 @@ class HomePage extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    NavBar.load().then(() => {
-        const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
-        this.setState({ navTop });
-    });
+    // NavBar.load().then(() => {
+    //     const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
+    //     this.setState({ navTop });
+    // });
     this.setState({mounted: true});
     // window.addEventListener('scroll', this.handleScroll);
 

@@ -54,7 +54,6 @@ export interface IProps {
   enableCropMode(e: any): void;
   showImage: boolean;
   bleed: boolean;
-  hovered: boolean;
   image: any;
   name: string;
   canvas: string;
@@ -99,10 +98,10 @@ export default class Rect extends PureComponent<IProps, IState> {
 
   componentDidUpdate(prevProps) {
     const {
-      selected,
+      // selected,
       image: {
         type,
-        // selected,
+        selected,
         innerHTML,
       }
     } = this.props;
@@ -239,14 +238,11 @@ export default class Rect extends PureComponent<IProps, IState> {
   }
 
   doClickAction() {
-    console.log(' click');
   }
   doDoubleClickAction() {
-    console.log('Double Click')
   }
 
   handleClick() {
-    console.log('123')
     let me = this;
     timer = setTimeout(function() {
       if (!prevent) {
@@ -277,11 +273,11 @@ export default class Rect extends PureComponent<IProps, IState> {
       enableCropMode,
       showImage,
       id,
-      hovered,
       selected,
       name,
       canvas,
       image: {
+        hovered,
         selected: imageSelected,
         _id,
         scaleX,
@@ -357,6 +353,14 @@ export default class Rect extends PureComponent<IProps, IState> {
       imgDirections = imgDirections.filter(d => d != "n" && d != "s")
     }
 
+    let customAttr = {
+      width: width * scale,
+      height: height * scale,
+      angle: rotateAngle,
+      iden: objectType != TemplateType.BackgroundImage ? _id : "",
+    };
+
+    // console.log('hovered ', name, hovered, selected,);
 
     return (
       <div
@@ -364,7 +368,8 @@ export default class Rect extends PureComponent<IProps, IState> {
         className="hideWhenDownloadContainer"
       >
         {/* {(hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage && */}
-        <div 
+        {(name == "imgHovered" || name == "imgSelected") && <div 
+          {...customAttr}
           className="hideWhenDownload"
           style={{
             position: "absolute",
@@ -378,11 +383,10 @@ export default class Rect extends PureComponent<IProps, IState> {
             backgroundPosition: 'top,100%,bottom,0',
             backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
             backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-            display: (hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage ? 
-              "block" : "none",
+            opacity: ((hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage) ? 1 : 0,
           }}>
 
-        </div>
+        </div>}
         {/* } */}
       <StyledRect
         id={id + hovered ? "hovered" : ""}
@@ -756,7 +760,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           >
             
             {childrens && childrens.length > 0 &&
-            ((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages") &&
+            ((imageSelected && name == "imgSelected") || (!imageSelected && name == "all-images") || name == "downloadImages") &&
             (
               <div
                 id={_id}
@@ -785,7 +789,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                       }}
                     >
                       <div
-                      id={_id + child._id + "text-container2" + canvas}
+                        id={_id + child._id + "text-container2" + canvas}
+                        className={`text-container ${_id + child._id + "text-container2" + canvas}`}
                         key={child._id}
                         style={{
                           zIndex: selected && objectType !== TemplateType.Image ? 1 : 0,
@@ -809,7 +814,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                           fontWeight: child.bold ? "bold" : "normal",
                           letterSpacing: `${1.0*child.letterSpacing/100*4}px`,
                         }}
-                        className="text-container"
                       >
                         <SingleText
                           textAlign={child.align}
@@ -948,7 +952,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     </div>
                   </MathJax.Context>
                 )} */}
-                  {((imageSelected && selected) || (!imageSelected && !selected) || name == "downloadImages" || name == "imgHovered") &&
+                  {((imageSelected && name == "imgSelected") || (!imageSelected && name == "all-images") || name == "downloadImages") &&
                   objectType === TemplateType.Heading &&
                     <div
                       id={_id + "hihi4" + canvas}

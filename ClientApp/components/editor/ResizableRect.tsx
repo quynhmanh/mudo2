@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Rect from "./Rect";
+import { TemplateType } from "./enums";
 
 export interface IProps {
   name: string;
@@ -24,11 +25,11 @@ export interface IProps {
   showImage: boolean;
   bleed: boolean;
   freeStyle: boolean;
-  hovered: boolean;
   image: any;
   selected: boolean;
   canvas: string;
   toggleVideo: any;
+  hovered: boolean;
 }
 
 export interface IState {
@@ -38,10 +39,21 @@ export interface IState {
 export default class ResizableRect extends Component<IProps, IState> {
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.image.selected || nextProps.image.selected) {
+    if (this.props.selected || nextProps.selected) {
       return true;
     }
     if (this.props.scale != nextProps.scale) {
+      return true;
+    }
+
+    if (this.props.name == "downloadImages") {
+      return true;
+    }
+
+    if (this.props.image.type != TemplateType.BackgroundImage) {
+      // console.log('this.props.image.hovered ', this.props.name, this.props.image, this.props.hovered, nextProps.hovered)
+    }
+    if (this.props.hovered || nextProps.hovered) {
       return true;
     }
     return false;
@@ -90,7 +102,6 @@ export default class ResizableRect extends Component<IProps, IState> {
         name={name}
         selected={selected}
         image={image}
-        hovered={this.props.hovered}
         id={id}
         scale={scale}
         showController={showController}

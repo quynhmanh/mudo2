@@ -139,7 +139,6 @@ export default class Canvas extends Component<IProps, IState> {
 
     const customAttr = {myattribute: id};
     
-    var imgHovered = editorStore.imageHovered;
     var imgSelected = editorStore.imageSelected;
 
     const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));
@@ -498,12 +497,13 @@ export default class Canvas extends Component<IProps, IState> {
                     }}
                     onMouseEnter={(e) => {
                       if (!window.dragging && !window.resizing && !window.rotating && !window.rotating && !this.props.cropMode) {
-                        this.props.handleImageHover(img, e);
+                        this.props.handleImageHover(img, e, true);
                         this.forceUpdate();
                       }
                     }}
                     onMouseLeave={(e) => {
                       editorStore.imageHovered = null;
+                      this.props.handleImageHover(img, e, false);
                       this.forceUpdate();
                     }}
 
@@ -539,7 +539,7 @@ export default class Canvas extends Component<IProps, IState> {
                         name="all-images"
                         selected={false}
                         image={img}
-                        hovered={false}
+                        hovered={img.hovered}
                         freeStyle={img.freeStyle}
                         toggleVideo={this.props.toggleVideo}
                         id={img._id + "_1"}
@@ -578,12 +578,10 @@ export default class Canvas extends Component<IProps, IState> {
                   </div>
                 ))}
             </div>
-            {((editorStore.idObjectSelected && editorStore.imageSelected && editorStore.imageSelected.page == id) || 
-            (editorStore.idObjectHovered && editorStore.imageHovered && editorStore.imageHovered.page == id)) &&
             <div
               {...customAttr}
               id="canvas"
-              className="canvas unblurred"
+              className="canvas unblurred hoveredcanvas"
               style={{
                 width: rectWidth * scale + "px",
                 height: rectHeight * scale + "px",
@@ -598,20 +596,18 @@ export default class Canvas extends Component<IProps, IState> {
               }}
             >
               <div>
-                {(editorStore.idObjectSelected != editorStore.idObjectHovered) && imgHovered &&
+                {images
+                .map(imgHovered => 
                   <div
-                    className={imgHovered._id + "__alo"}
+                    className={imgHovered._id + "__alo" + " " + imgHovered._id + "aaaaalo"}
                     id={imgHovered._id + "__alo"}
                     key={imgHovered._id}
                     style={{
                       zIndex: 99999999,
                       width: imgHovered.width * scale + "px",
                       height: imgHovered.height * scale + "px",
-                      // left: imgHovered.left * scale + "px",
-                      // top: imgHovered.top * scale + "px",
                       position: "absolute",
                       transform: `translate(${imgHovered.left * scale}px, ${imgHovered.top * scale}px) rotate(${imgHovered.rotateAngle ? imgHovered.rotateAngle : 0}deg)`,
-
                       pointerEvents: "none",
                     }}
                     onMouseLeave={(e) => {
@@ -659,9 +655,9 @@ export default class Canvas extends Component<IProps, IState> {
                       <ResizableRect
                         canvas="alo"
                         name="imgHovered"
-                        selected={false}
+                        selected={imgHovered.selected}
+                        hovered={imgHovered.hovered}
                         image={imgHovered}
-                        hovered={true}
                         toggleVideo={this.props.toggleVideo}
                         freeStyle={imgHovered.freeStyle}
                         id={imgHovered._id + "_2"}
@@ -701,12 +697,12 @@ export default class Canvas extends Component<IProps, IState> {
                         enableCropMode={this.props.enableCropMode}
                       />
                     </div>
-                  </div>
+                  </div>)
                 }
                 </div>
                 {imgSelected && imgSelected.page === id && 
                 <div
-                  className={imgSelected._id + "__" + " " +  imgSelected._id + "aaaaalo"}
+                  className={imgSelected._id + "__" + " " + imgSelected._id + "__alo" + " " +  imgSelected._id + "aaaaalo"}
                   id={imgSelected._id + "__alo"}
                   key={imgSelected._id}
                   style={{
@@ -783,7 +779,6 @@ export default class Canvas extends Component<IProps, IState> {
                 </div>
                 }
             </div>
-            }
           </div>}
           {this.props.downloading &&
           <div
@@ -883,10 +878,10 @@ export default class Canvas extends Component<IProps, IState> {
                     id={image._id + "_alo2"}
                     style={{
                       zIndex: image.zIndex,
-                      width: image.width * scale + "px",
-                      height: image.height * scale + "px",
+                      width: image.width + "px",
+                      height: image.height + "px",
                       position: "absolute",
-                      transform: `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`
+                      transform: `translate(${image.left}px, ${image.top}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`
                     }}
                     onMouseEnter={(e) => {
                       if (!window.dragging && !window.resizing && !window.rotating && !window.rotating && !this.props.cropMode) {

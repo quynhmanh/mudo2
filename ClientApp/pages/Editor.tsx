@@ -13,6 +13,15 @@ import { SubType, SidebarTab, Mode, TemplateType, SavingState, } from "@Componen
 import loadable from "@loadable/component";
 import { clone } from "lodash";
 import editorStore, {Images,AllImage} from "@Store/EditorStore";
+// import Selection from "@simonwep/selection-js";
+
+import {isNode} from "@Utils";
+
+// if (!isNode()) {
+//     import Selection from "@simonwep/selection-js";
+// }
+// const Selection = loadable(() => import("@simonwep/selection-js"));
+
 import {
     fromEvent,
     merge,
@@ -477,14 +486,12 @@ class CanvaEditor extends Component<IProps, IState> {
         let image = clone(toJS(editorStore.imageSelected));
         window.tempImage = image;
         this.setState({ cropMode: true }, () => {
-            console.log('handleCropBtnClick')
             if (editorStore.imageSelected.type == TemplateType.Video) {
                 let el = document.getElementById(editorStore.idObjectSelected + "video" + "alo") as HTMLVideoElement;
                 let el2 = document.getElementById(editorStore.idObjectSelected + "video2" + "alo") as HTMLCanvasElement;
                 let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
                 let el4 = document.getElementById(editorStore.idObjectSelected + "video4" + "alo") as HTMLCanvasElement;
 
-                console.log('el el2,' , el, el2)
                 if (el && el2) {
                     // el2.currentTime = el.currentTime;
                     el.pause();
@@ -867,7 +874,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 url = `/api/Design/Get?id=${template_id}`;
             } else if (this.props.match.path == "/editor/design/:design_id/:template_id") {
                 url = `/api/Design/GetDesignIfNotTemplate?design_id=${design_id}&template_id=${template_id}`;
-                console.log('/editor/design/:design_id/:template_id', template_id)
             }
 
             await axios
@@ -1037,7 +1043,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 ]
             };
 
-            
             editorStore.addItem2(
                 {
                     _id: uuidv4(),
@@ -1090,6 +1095,107 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ mounted: true });
 
         this.setRef();
+
+        let Selection = require("@Components/selection/selection").default;
+        const selection = new Selection({
+
+            // Class for the selection-area-element
+            class: 'selection-area',
+        
+            // document object - if you want to use it within an embed document (or iframe)
+            frame: document,
+        
+            // px, how many pixels the point should move before starting the selection (combined distance).
+            // Or specifiy the threshold for each axis by passing an object like {x: <number>, y: <number>}.
+            startThreshold: 10,
+        
+            // Disable the selection functionality for touch devices
+            disableTouch: false,
+        
+            // On which point an element should be selected.
+            // Available modes are cover (cover the entire element), center (touch the center) or
+            // the default mode is touch (just touching it).
+            mode: 'touch',
+        
+            // Behaviour on single-click
+            // Available modes are 'native' (element was mouse-event target) or 
+            // 'touch' (element got touched)
+            tapMode: 'native',
+        
+            // Enable single-click selection (Also disables range-selection via shift + ctrl)
+            singleClick: true,
+        
+            // Query selectors from elements which can be selected
+            selectables: ['.hideWhenDownload'],
+        
+            // Query selectors for elements from where a selection can be start
+            startareas: ['html'],
+        
+            // Query selectors for elements which will be used as boundaries for the selection
+            boundaries: ['#screen-container-parent'],
+        
+            // Query selector or dom node to set up container for selection-area-element
+            selectionAreaContainer: 'body',
+        
+            // On scrollable areas the number on px per frame is devided by this amount.
+            // Default is 10 to provide a enjoyable scroll experience.
+            scrollSpeedDivider: 10,
+        
+            // Browsers handle mouse-wheel events differently, this number will be used as 
+            // numerator to calculate the mount of px while scrolling manually: manualScrollSpeed / scrollSpeedDivider
+            manualScrollSpeed: 750
+        });
+
+        selection.on('beforestart', evt => {
+            // evt.preventDefault();
+            // Use this event to decide whether a selection should take place or not.
+            // For example if the user should be able to normally interact with input-elements you 
+            // may want to prevent a selection if the user clicks such a element:
+            // selection.on('beforestart', ({oe}) => {
+            //   return oe.target.tagName !== 'INPUT'; // Returning false prevents a selection
+            // });
+            
+            if (evt.oe.target.id != "screen-container-parent") {
+                return false;
+            }
+
+            if (window.selections) {
+                window.selections.forEach(el => {
+                    el.style.opacity = 0;
+                    
+                    // let id = el.attributes.iden.value;
+                    // if (id) {
+                    //     let image = editorStore.images2.get(id);
+                    //     if (image) {
+                    //         image.hovered = false;
+                    //         editorStore.images2.set(id, image);
+                    //     }
+                    // } 
+                });
+
+                let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+                editorStore.keys[index] = editorStore.keys[index] + 1;
+            }
+
+        }).on('start', evt => {
+            // evt.preventDefault();
+            // A selection got initiated, you could now clear the previous selection or
+            // keep it if in case of multi-selection.
+            window.selectionStart = true;
+        }).on('move', evt => {
+            // evt.preventDefault();
+            // Here you can update elements based on their state.
+
+            // let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+            // editorStore.keys[index] = editorStore.keys[index] + 1;
+        }).on('stop', evt => {
+            // evt.preventDefault();
+            // The last event can be used to call functions like keepSelection() in case the user wants
+            // to select multiple elements.
+
+            window.selections = evt.selected;
+            window.selectionStart = false;
+        });
     }
 
     textOnMouseDown(e, doc) {
@@ -3455,6 +3561,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (editorStore.imageSelected) {
             var imageSelected = toJS(editorStore.imageSelected);
             imageSelected.selected = false;
+            imageSelected.hovered = false;
 
             editorStore.images2.set(this.state.idObjectSelected, imageSelected);
         }
@@ -3468,6 +3575,24 @@ class CanvaEditor extends Component<IProps, IState> {
 
         if (this.state.cropMode) {
             this.rerenderAllPages();
+        }
+
+        if (window.selections) {
+            window.selections.forEach(el => {
+                el.style.opacity = 0;
+
+                // let id = el.attributes.iden.value;
+                // if (id) {
+                //     let image = editorStore.images2.get(id);
+                //     if (image) {
+                //         image.hovered = false;
+                //         editorStore.images2.set(id, image);
+                //     }
+                // }
+            });
+
+            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+            editorStore.keys[index] = editorStore.keys[index] + 1;
         }
 
         this.setState({
@@ -3485,6 +3610,7 @@ class CanvaEditor extends Component<IProps, IState> {
     removeImage(e) {
         var OSNAME = this.getPlatformName();
         if (
+            editorStore.imageSelected &&
             editorStore.idObjectSelected != "undefined" &&
             !e.target.classList.contains("text") &&
             ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
@@ -3508,16 +3634,34 @@ class CanvaEditor extends Component<IProps, IState> {
                 editorStore.keys[index] = editorStore.keys[index] + 1;
             }
         }
+        
+        if (window.selections && 
+            ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
+                (e.keyCode === 8 && OSNAME == "Windows"))) {
+            window.selections.forEach(sel => {
+                let id = sel.attributes.iden.value;
+                if (id) editorStore.images2.delete(id);
+            });
+            
+            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+            editorStore.keys[index] = editorStore.keys[index] + 1;
+        }
     }
 
-    handleImageHover = (img, event) => {
+    handleImageHover = (img, event, value) => {
+        if (window.selectionStart) {
+            return;
+        }
         if (img.type != TemplateType.BackgroundImage) {
-            editorStore.idObjectHovered = img._id;
-            editorStore.imageHovered = img;
-            let el = document.getElementById(img._id + "___");
-            if (el) {
-                // el.style.outline = 'rgb(0, 217, 225) solid 2px';
-            }
+            // editorStore.idObjectHovered = img._id;
+            // editorStore.imageHovered = img;
+            // let image = toJS(editorStore.images2.get(img._id));
+            img.hovered = value;
+            editorStore.images2.set(img._id, img);
+
+
+            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+            editorStore.keys[index] = editorStore.keys[index] + 1;
         }
     };
 
@@ -3810,14 +3954,17 @@ class CanvaEditor extends Component<IProps, IState> {
         if (editorStore.idObjectSelected) {
             var imgSelected = editorStore.images2.get(this.state.idObjectSelected);
             imgSelected.selected = false;
+            imgSelected.hovered = false;
             editorStore.images2.set(this.state.idObjectSelected, imgSelected);
         }
         img.selected = true;
+        img.hovered = true;
         editorStore.idObjectHovered = null;
         editorStore.imageHovered = null;
 
         var imgSelected2 = editorStore.images2.get(img._id);
         imgSelected2.selected = true;
+        imgSelected2.hovered = true;
         editorStore.images2.set(img._id, imgSelected2);
 
         editorStore.idObjectSelected = img._id;
@@ -4090,6 +4237,7 @@ class CanvaEditor extends Component<IProps, IState> {
             image.width2 = image.width / rectWidth;
             image.height2 = image.height / rectHeight;
             image.selected = false;
+            image.hovered = false;
             return image;
         });
 
@@ -4126,7 +4274,6 @@ class CanvaEditor extends Component<IProps, IState> {
             var url;
             var _id = self.state._id;
 
-            console.log('mode ', mode);
 
             if (mode == Mode.CreateDesign) {
                 if (self.props.match.path == "/editor/design/:design_id/:template_id") {
@@ -4177,7 +4324,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 _id = self.state.designId;
             }
 
-            console.log('window.template', window.template)
 
             var res = JSON.stringify({
                 Title: (document.getElementById("designTitle") as HTMLInputElement).value,
@@ -5042,6 +5188,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     disableCropMode = e => {
+        console.log('disableCropMode')
         this.setState({ cropMode: false });
     }
 
