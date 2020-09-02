@@ -15,7 +15,10 @@ import { clone } from "lodash";
 import editorStore, {Images,AllImage} from "@Store/EditorStore";
 // import Selection from "@simonwep/selection-js";
 
-import {isNode} from "@Utils";
+import {
+    rotateRect,
+    rotatePoint,
+} from "@Components/selection/utils";
 
 // if (!isNode()) {
 //     import Selection from "@simonwep/selection-js";
@@ -53,10 +56,8 @@ const Tooltip = loadable(() => import("@Components/shared/Tooltip"));
 const Toolbar =  loadable(() => import("@Components/editor/toolbar/Toolbar"));
 const LeftSide = loadable(() => import("@Components/editor/LeftSide"));
 const HomeButton = loadable(() => import("@Components/editor/HomeButton"));
-// import LeftSide from "@Components/editor/LeftSide";
 
 import {
-    // getBoundingClientRect,
     getCursorStyleWithRotateAngle,
     getCursorStyleForResizer,
     centerToTL,
@@ -67,13 +68,6 @@ import {
     getLength, 
     getAngle,
 }  from "@Utils";
-
-// const {
-//     merge,
-//     NEVER,
-//     BehaviorSubject,
-//     Observable,
-// }  = loadable(() => import("rxjs"));
 
 const RESIZE_OFFSET = 10;
 
@@ -1096,6 +1090,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
         this.setRef();
 
+        let self = this;
+
         let Selection = require("@Components/selection/selection").default;
         const selection = new Selection({
 
@@ -1160,21 +1156,13 @@ class CanvaEditor extends Component<IProps, IState> {
             }
 
             if (window.selections) {
-                window.selections.forEach(el => {
-                    el.style.opacity = 0;
-                    
-                    // let id = el.attributes.iden.value;
-                    // if (id) {
-                    //     let image = editorStore.images2.get(id);
-                    //     if (image) {
-                    //         image.hovered = false;
-                    //         editorStore.images2.set(id, image);
-                    //     }
-                    // } 
-                });
+                if (editorStore.imageSelected && editorStore.imageSelected.type == TemplateType.GroupedItem) {
 
-                let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-                editorStore.keys[index] = editorStore.keys[index] + 1;
+                } else {
+                    window.selections.forEach(el => {
+                        el.style.opacity = 0;
+                    });
+                }
             }
 
         }).on('start', evt => {
@@ -1194,7 +1182,106 @@ class CanvaEditor extends Component<IProps, IState> {
             // to select multiple elements.
 
             window.selections = evt.selected;
+            window.selections.forEach(el => {
+                let id = el.attributes.iden.value;
+                if (id)
+                el.style.opacity = 1;
+            });
             window.selectionStart = false;
+
+            let top = 999999, right = 0, bottom = 0, left = 999999;
+
+            evt.selected.forEach(node => {
+                let id = node.attributes.iden.value;
+                if (!id) return;
+                let b = node.getBoundingClientRect();
+
+                let w = b.right - b.left - 4;
+                let h = b.bottom - b.top - 4;
+                let centerX = b.left + w / 2 + 2;
+                let centerY = b.top + h / 2 + 2;
+                let rotateAngle = node.attributes.angle.value / 180 * Math.PI;
+                let newL = centerX - node.attributes.width.value / 2;
+                let newR = centerX + node.attributes.width.value / 2;
+                let newT = centerY - node.attributes.height.value / 2;
+                let newB = centerY + node.attributes.height.value / 2;
+
+                let bb = [
+                    {
+                        x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                        y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+                    },
+                    {
+                        x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                        y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+                    },
+                    {
+                        x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                        y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+                    },
+                    {
+                        x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                        y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+                    }
+                ]
+
+                left = Math.min(left, bb[0].x);
+                left = Math.min(left, bb[1].x);
+                left = Math.min(left, bb[2].x);
+                left = Math.min(left, bb[3].x);
+                right = Math.max(right, bb[0].x)
+                right = Math.max(right, bb[1].x)
+                right = Math.max(right, bb[2].x)
+                right = Math.max(right, bb[3].x)
+                top = Math.min(top, bb[0].y)
+                top = Math.min(top, bb[1].y)
+                top = Math.min(top, bb[2].y)
+                top = Math.min(top, bb[3].y)
+                bottom = Math.max(bottom, bb[0].y)
+                bottom = Math.max(bottom, bb[1].y)
+                bottom = Math.max(bottom, bb[2].y)
+                bottom = Math.max(bottom, bb[3].y)
+            });
+
+            let rect = document.getElementsByClassName("alo")[0].getBoundingClientRect();
+            let newTop = top - rect.top;
+            let newLeft = left - rect.left;
+            let width = right - left;
+            let height = bottom - top;
+            let scale = self.state.scale;
+
+            let item = {
+                _id: uuidv4(),
+                type: TemplateType.GroupedItem,
+                src: "",
+                width: width / scale,
+                height: height / scale,
+                origin_width: width / scale,
+                origin_height: height / scale,
+                left: newLeft / scale,
+                top: newTop / scale,
+                rotateAngle: 0.0,
+                selected: false,
+                scaleX: 1,
+                scaleY: 1,
+                posX: 0, 
+                posY: 0, 
+                imgWidth: width / scale,
+                imgHeight: height / scale,
+                page: editorStore.activePageId,
+                zIndex: 1,
+                width2: 1,
+                height2: 1,
+                document_object: [],
+                ref: null,
+                innerHTML: null,
+                color: 'transparent',
+                opacity: 100,
+                backgroundColor: 'transparent',
+                childId: null
+            };
+            editorStore.addItem2(item, false);
+            self.handleImageSelected(item);
         });
     }
 
@@ -2827,6 +2914,8 @@ class CanvaEditor extends Component<IProps, IState> {
         var ell = document.getElementById("screen-container-parent2");
         ell.style.zIndex = "2";
 
+        window.selectionsAngle = {};
+
         this.temp = location$
             .pipe(
                 map(([x, y]) => ({
@@ -2861,13 +2950,52 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     window.rotateAngle = rotateAngle;
 
+                    let centerX = image.left + image.width / 2;
+                    let centerY = image.top + image.height / 2;
+
+                    if (image.type == TemplateType.GroupedItem) {
+                        window.selections.forEach(sel => {
+                            const id = sel.attributes.iden.value;
+                            if (!id) return;
+                            let image2 = clone(editorStore.images2.get(id));
+                            if (!image2) return;
+                            let angle = rotateAngle - image.rotateAngle;
+                            let a = rotateRect(image2);
+                            a = a.map(p => rotatePoint(p, angle, centerX, centerY));
+                            let cX = (a[0].x + a[2].x) / 2;
+                            let cY = (a[0].y + a[2].y) / 2;
+
+
+                            let newLeft = cX - image2.width / 2;
+                            let newTop = cY - image2.height / 2;
+
+                            let newAngle = 180 + Math.atan2(a[0].y - a[1].y, a[0].x - a[1].x) * 180 / Math.PI;
+
+
+                            // if (image2) {
+                            //     let rotateAngle = Math.round(image2.rotateAngle + angle);
+
+                            var aa = document.getElementsByClassName(image2._id + "aaaaalo");
+                            for (let i = 0; i < aa.length; ++i) {
+                                var cur = aa[i] as HTMLElement;
+                                cur.style.transform = `translate(${newLeft * scale}px, ${newTop* scale}px) rotate(${newAngle}deg)`;
+                            }
+
+                                window.selectionsAngle[image2._id] = {
+                                    rotateAngle: newAngle,
+                                    left: newLeft,
+                                    top: newTop,
+                                };
+                            // }
+                        })
+                    }
+
                     var cursorStyle = getCursorStyleWithRotateAngle(rotateAngle);
                     ell.style.cursor = cursorStyle;
 
                     var a = document.getElementsByClassName(image._id + "aaaaalo");
                     for (let i = 0; i < a.length; ++i) {
                         var cur = a[i] as HTMLElement;
-                        // cur.style.transform = `rotate(${rotateAngle}deg)`;
                         cur.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${rotateAngle}deg)`;
                     }
 
@@ -2909,7 +3037,26 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image.rotateAngle = window.rotateAngle;
         editorStore.imageSelected = window.image;
         editorStore.images2.set(this.state.idObjectSelected, window.image);
+        
+        if (editorStore.imageSelected.type == TemplateType.GroupedItem) {
+            window.selections.forEach(sel => {
+                const id = sel.attributes.iden.value;
+                if (!id) return;
+                let image = editorStore.images2.get(id);
+                image.rotateAngle = window.selectionsAngle[id].rotateAngle;
+                image.left = window.selectionsAngle[id].left;
+                image.top = window.selectionsAngle[id].top;
+                editorStore.images2.set(id, image);
+            });
+        }
+
+        this.refreshActivePage();
     };
+
+    refreshActivePage() {
+        let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+        editorStore.keys[index] = editorStore.keys[index] + 1;
+    }
 
     canvasRect = null;
     temp = null;
@@ -3119,7 +3266,7 @@ class CanvaEditor extends Component<IProps, IState> {
             newTop2 = centerY;
             newTop3 = centerY + image.width / 2;
         }
-        if (img.type === TemplateType.BackgroundImage) {
+        if (img.type === TemplateType.BackgroundImage || img.type == TemplateType.GroupedItem) {
             return;
         }
         window.cloneImages.forEach(imageTransformed => {
@@ -3559,14 +3706,18 @@ class CanvaEditor extends Component<IProps, IState> {
             return;
         }
         if (editorStore.imageSelected) {
-            var imageSelected = toJS(editorStore.imageSelected);
-            imageSelected.selected = false;
-            imageSelected.hovered = false;
+            if (editorStore.imageSelected.type == TemplateType.GroupedItem) {
+                editorStore.images2.delete(this.state.idObjectSelected);
+            } else {
+                let imageSelected = toJS(editorStore.imageSelected);
+                imageSelected.selected = false;
+                imageSelected.hovered = false;
 
-            editorStore.images2.set(this.state.idObjectSelected, imageSelected);
+                editorStore.images2.set(this.state.idObjectSelected, imageSelected);
+            }
         }
 
-        var selectedTab = this.state.selectedTab;
+        let selectedTab = this.state.selectedTab;
         if (this.state.selectedTab === SidebarTab.Font || this.state.selectedTab === SidebarTab.Color || this.state.selectedTab === SidebarTab.Effect) {
             selectedTab = SidebarTab.Image;
         }
@@ -3952,10 +4103,14 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (editorStore.idObjectSelected) {
-            var imgSelected = editorStore.images2.get(this.state.idObjectSelected);
-            imgSelected.selected = false;
-            imgSelected.hovered = false;
-            editorStore.images2.set(this.state.idObjectSelected, imgSelected);
+            if (editorStore.imageSelected.type == TemplateType.GroupedItem) {
+                editorStore.images2.delete(this.state.idObjectSelected);
+            } else {
+                var imgSelected = editorStore.images2.get(this.state.idObjectSelected);
+                imgSelected.selected = false;
+                imgSelected.hovered = false;
+                editorStore.images2.set(this.state.idObjectSelected, imgSelected);
+            }
         }
         img.selected = true;
         img.hovered = true;
@@ -5188,7 +5343,6 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     disableCropMode = e => {
-        console.log('disableCropMode')
         this.setState({ cropMode: false });
     }
 
@@ -5665,7 +5819,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         style={{
                             background: "linear-gradient(90deg,#00c4cc,#7d2ae8)",
                             height: "55px",
-                            padding: "5px",
+                            padding: "7px",
                             display: "flex",
                             position: "relative",
                         }}

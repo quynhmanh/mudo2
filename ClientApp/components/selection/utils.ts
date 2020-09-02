@@ -136,6 +136,45 @@ function doPolygonsIntersect (a, b) {
     return true;
 };
 
+export function rotatePoint(point, rotateAngle, centerX, centerY) {
+    rotateAngle = rotateAngle / 180 * Math.PI;
+    return {
+        x: (point.x - centerX) * Math.cos(rotateAngle) - (point.y - centerY) * Math.sin(rotateAngle) + centerX,
+        y: (point.x - centerX) * Math.sin(rotateAngle) + (point.y - centerY) * Math.cos(rotateAngle) + centerY,
+    }
+}
+
+export function rotateRect(image) {
+    let top = image.top;
+    let left = image.left;
+    let bottom = image.top + image.height;
+    let right = image.left + image.width;
+    let centerX = left + image.width / 2;
+    let centerY = top + image.height / 2;
+    let rotateAngle = image.rotateAngle / 180 * Math.PI;
+
+    let bb = [
+        {
+            x: (left - centerX) * Math.cos(rotateAngle) - (top - centerY) * Math.sin(rotateAngle) + centerX,
+            y: (left - centerX) * Math.sin(rotateAngle) + (top - centerY) * Math.cos(rotateAngle) + centerY,
+        },
+        {
+            x: (right - centerX) * Math.cos(rotateAngle) - (top - centerY) * Math.sin(rotateAngle) + centerX,
+            y: (right - centerX) * Math.sin(rotateAngle) + (top - centerY) * Math.cos(rotateAngle) + centerY,
+        },
+        {
+            x: (right - centerX) * Math.cos(rotateAngle) - (bottom - centerY) * Math.sin(rotateAngle) + centerX,
+            y: (right - centerX) * Math.sin(rotateAngle) + (bottom - centerY) * Math.cos(rotateAngle) + centerY,
+        },
+        {
+            x: (left - centerX) * Math.cos(rotateAngle) - (bottom - centerY) * Math.sin(rotateAngle) + centerX,
+            y: (left - centerX) * Math.sin(rotateAngle) + (bottom - centerY) * Math.cos(rotateAngle) + centerY,
+        }
+    ];
+
+    return bb;
+}
+
 /**
  * Check if two DOM-Elements intersects each other.
  * @param a BoundingClientRect of the first element.

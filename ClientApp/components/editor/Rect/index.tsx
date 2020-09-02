@@ -334,6 +334,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     const imgResizeDirection = ["nw", "ne", "se", "sw", "e", "w", "s" , "n"];
     const cropImageResizeDirection = ["nw", "ne", "se", "sw"];
     const textResizeDirection = ["nw", "ne", "se", "sw", "e", "w"];
+    const groupedItemResizeDirection = []; //["nw", "ne", "se", "sw"];
 
     var imgDirections = imgResizeDirection;
     // if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate || objectType === TemplateType.Latex) {
@@ -343,6 +344,10 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate) {
       imgDirections = textResizeDirection;
+    }
+
+    if (objectType == TemplateType.GroupedItem) {
+      imgDirections = groupedItemResizeDirection;
     }
 
     if (height * scale <= 30) {
@@ -378,7 +383,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             right: "-2px",
             bottom: "-2px",
             backgroundImage: 
-              objectType == TemplateType.TextTemplate ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+              (objectType == TemplateType.TextTemplate || objectType == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
               :'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
             backgroundPosition: 'top,100%,bottom,0',
             backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',

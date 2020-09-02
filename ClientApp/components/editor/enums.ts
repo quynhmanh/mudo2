@@ -40,7 +40,8 @@ export enum TemplateType {
     BackgroundImage = 6,
     RemovedBackgroundImage = 7,
     UserUpload = 8,
-    Video = 9
+    Video = 9,
+    GroupedItem = 10,
 }
 
 export enum SavingState {

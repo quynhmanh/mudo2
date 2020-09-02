@@ -485,15 +485,10 @@ function Selection(options = {}) {
                     // Check if the element wasn't present in the last selection.
                     if (!_selected.includes(node)) {
                         added.push(node);
-
-                        node.style.opacity = 1;
-
-                        // let id = node.attributes.iden.value;
-                        // if (id) {
-                        //     let image = editorStore.images2.get(id);
-                        //     image.hovered = true;
-                        //     editorStore.images2.set(id, image);
-                        // }
+                        
+                        let id = node.attributes.iden.value;
+                        if (id) 
+                            node.style.opacity = 1;
                     }
 
                     touched.push(node);

@@ -25,6 +25,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
         <div
             style={{
                 display: "flex",
+                height: "100%",
             }}>
             <a
                 id="logo-editor"
@@ -34,7 +35,6 @@ export default class HomeButton extends React.Component<IProps, IState> {
                     padding: "5px 14px",
                     borderRadius: "3px",
                     marginLeft: "5px",
-                    height: "90%",
                 }}
                 href="/"
             >
