@@ -479,19 +479,41 @@ function Selection(options = {}) {
             for (let i = 0; i < _selectables.length; i++) {
                 const node = _selectables[i];
 
-                // Check if area intersects element
-                if (intersects(_areaDomRect, node.getBoundingClientRect(), mode, node)) {
+                let page = node.attributes.page.value;
+                let id = node.attributes.iden.value;
+                // console.log(' page ', _selected.length, _selected.length > 0 && page == editorStore.activePageId, editorStore.activePageId, page == editorStore.activePageId);
 
-                    // Check if the element wasn't present in the last selection.
-                    if (!_selected.includes(node)) {
-                        added.push(node);
-                        
-                        let id = node.attributes.iden.value;
-                        if (id) 
+                // Check if area intersects element
+                if (id && (touched.length == 0 || page == editorStore.activePageId) && intersects(_areaDomRect, node.getBoundingClientRect(), mode, node)) {
+                    
+                    // if (page == editorStore.activePageId) {
+                        // console.log('ok')
+                        // Check if the element wasn't present in the last selection.
+                        if (!_selected.includes(node)) {
+                            added.push(node);
+                            
+                            // let id = node.attributes.iden.value;
+                            // if (id) {
+                            node.classList.toggle("selected");
                             node.style.opacity = 1;
-                    }
+
+                            if (_selected.length == 1) {
+                                let page = node.attributes.page.value;
+                                console.log('setPage')
+                                // editorStore.activePageId = page;
+                            }
+                            // }
+                        }
+                    // }
 
                     touched.push(node);
+
+                    let index = editorStore.pages.find(k => page == editorStore.activePageId);
+                    editorStore[index] = editorStore[index] + 1;
+
+                    if (touched.length == 1) {
+                        editorStore.activePageId = page;
+                    }
                 }
             }
 
@@ -502,6 +524,7 @@ function Selection(options = {}) {
                     removed.push(el);
 
                     el.style.opacity = 0;
+                    el.classList.toggle("selected");
 
                     // let id = el.attributes.iden.value;
                     // if (id) {

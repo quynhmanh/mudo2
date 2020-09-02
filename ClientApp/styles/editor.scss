@@ -1069,6 +1069,16 @@ button {
   transition: opacity .25s ease-out,background-color .2s ease-out,transform .2s ease-out,-webkit-transform .2s ease-out;
 }
 
+.hideWhenDownload {
+  &.selected {
+    top: -1px !important;
+    left: -1px !important;
+    right: -1px !important;
+    bottom: -1px !important;
+    background-size: 12px 1px, 1px 12px, 12px 1px, 1px 12px !important;
+  }
+}
+
 .hideWhenDownloadContainer:hover {
   .hideWhenDownload {
     opacity: 1 !important;

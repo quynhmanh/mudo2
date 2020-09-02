@@ -442,6 +442,13 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.keys[index] = editorStore.keys[index] + 1;
     }
 
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     if (this.state.scale != nextState.scale) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
     handleBoldBtnClick = (e: any) => {
         e.preventDefault();
         
@@ -1160,7 +1167,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             if (window.selections) {
                 if (editorStore.imageSelected && editorStore.imageSelected.type == TemplateType.GroupedItem) {
-
+                    self.doNoObjectSelected();
                 } else {
                     window.selections.forEach(el => {
                         el.style.opacity = 0;
@@ -1185,18 +1192,24 @@ class CanvaEditor extends Component<IProps, IState> {
             // to select multiple elements.
 
             window.selections = evt.selected;
-            window.selections.forEach(el => {
-                let id = el.attributes.iden.value;
-                if (id)
-                el.style.opacity = 1;
-            });
+            // window.selections.forEach(el => {
+            //     let id = el.attributes.iden.value;
+            //     if (id)
+            //     el.style.opacity = 1;
+            //     el.classList.toggle('selected');
+            // });
             window.selectionStart = false;
 
             let top = 999999, right = 0, bottom = 0, left = 999999;
 
             evt.selected.forEach(node => {
+
                 let id = node.attributes.iden.value;
                 if (!id) return;
+
+                node.style.opacity = 1;
+                node.classList.toggle('selected');
+
                 let b = node.getBoundingClientRect();
 
                 let w = b.right - b.left - 4;
@@ -3728,12 +3741,10 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleScroll = () => {
+        console.log('handleScroll')
         const screensRect = getBoundingClientRect("screens");
         const canvasRect = getBoundingClientRect("canvas");
         if (screensRect && canvasRect) {
-            const canvasRect = getBoundingClientRect("canvas");
-            const { scale } = this.state;
-
             var pages = toJS(editorStore.pages);
             var activePageId = pages[0];
             if (pages.length > 1) {
@@ -3742,7 +3753,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     var pageId = pages[i];
                     var canvas = document.getElementById(pageId);
                     if (canvas) {
-                        if (this.elementIsVisible(canvas, container, true)) {
+                        if (this.elementIsVisible(canvas, container, false)) {
                             activePageId = pageId;
                         }
                     }
@@ -4199,6 +4210,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         editorStore.idObjectSelected = img._id;
         editorStore.imageSelected = img;
+        editorStore.activePageId = img.page;
 
         this.setState({
             selectedCanvas: null,
@@ -4448,7 +4460,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     async saveImages(rep, isVideo) {
-
+        // return;
         if (!Globals.serviceUser) {
             return;
         }
@@ -4461,7 +4473,7 @@ class CanvaEditor extends Component<IProps, IState> {
         var self = this;
         const { rectWidth, rectHeight } = this.state;
 
-        let images = toJS(Array.from(editorStore.images2.values()));
+        let images = toJS(Array.from(editorStore.images2.values()).filter(image => image.type != TemplateType.GroupedItem));
         var clonedArray = JSON.parse(JSON.stringify(images))
         let tempImages = clonedArray.map(image => {
             image.width2 = image.width / rectWidth;
@@ -4602,10 +4614,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                 })
                 .then(res => {
-                    self.setState({ 
-                        downloading: false,
-                        saved: true,
-                    });
+                    // self.setState({ 
+                    //     downloading: false,
+                    //     saved: true,
+                    // });
 
                     self.setSavingState(SavingState.ChangesSaved, false);
                     // Ui.showInfo("Success");
@@ -5436,7 +5448,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         const {rectWidth, rectHeight} = this.state;
 
-        this.setSavingState(SavingState.UnsavedChanges, true);
+        // this.setSavingState(SavingState.UnsavedChanges, false);
         editorStore.addItem2(
             {
                 _id: uuidv4(),
@@ -5545,6 +5557,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         editorStore.imageSelected.page == pages[i] &&
                         editorStore.imageSelected.type == TemplateType.BackgroundImage}
                     id={pages[i]}
+                    active={pages[i] == editorStore.activePageId}
                     translate={this.translate}
                     numberOfPages={pages.length}
                     downloading={downloading}
@@ -5580,7 +5593,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleDeleteThisPage={this.handleDeleteThisPage.bind(this, pages[i])}
                     showPopup={this.state.showPopup}
                     preview={preview}
-                    activePageId={editorStore.activePageId}
+                    activePageId={toJS(editorStore.activePageId)}
                 />
             );
         }

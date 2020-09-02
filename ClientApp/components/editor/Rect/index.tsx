@@ -277,6 +277,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       name,
       canvas,
       image: {
+        page,
         hovered,
         selected: imageSelected,
         _id,
@@ -363,6 +364,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       height: height * scale,
       angle: rotateAngle,
       iden: objectType != TemplateType.BackgroundImage ? _id : "",
+      page: page,
     };
 
     // console.log('hovered ', name, hovered, selected,);

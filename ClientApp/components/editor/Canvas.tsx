@@ -5,6 +5,7 @@ import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import { toJS } from "mobx";
 import Tooltip from "@Components/shared/Tooltip";
+import { TemplateType } from "./enums";
 
 
 export interface IProps {
@@ -45,6 +46,7 @@ export interface IProps {
   numberOfPages: number;
   selected: boolean;
   activePageId: string;
+  active: boolean;
   toggleVideo: any;
   handleCropBtnClick: any;
 }
@@ -61,17 +63,6 @@ enum Mode {
   EditTextTemplate = 4
 }
 
-enum TemplateType {
-  Template = 1,
-  TextTemplate = 2,
-  Heading = 3,
-  Image = 4,
-  Latex = 5,
-  BackgroundImage = 6,
-  RemovedBackgroundImage = 7,
-  UserUpload = 8,
-  Video = 9
-}
 
 export default class Canvas extends Component<IProps, IState> {
 
@@ -84,10 +75,18 @@ export default class Canvas extends Component<IProps, IState> {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+
+    // console.log('this.props.uiKey ', this.props.uiKey, nextProps.uiKey, this.props.activePageId, nextPro)
     if (this.props.uiKey != nextProps.uiKey) {
       return true;
     }
-    if (this.props.activePageId != nextProps.activePageId) {
+    if (!this.props.downloading) {
+      // console.log('this.props.activePageId ', this.props.activePageId, nextProps.activePageId)
+    }
+    if (this.props.activePageId == this.props.id || nextProps.activePageId == this.props.id) {
+      return true;
+    }
+    if (this.props.active || nextProps.active) {
       return true;
     }
     if (this.props.cropMode != nextProps.cropMode) {
@@ -96,10 +95,14 @@ export default class Canvas extends Component<IProps, IState> {
     if (this.props.scale != nextProps.scale) {
       return true;
     }
-    if (nextProps.images.find(img => img._id == nextProps.idObjectSelected) ||
-      this.props.images.find(img => img._id == this.props.idObjectSelected)) {
-      return true;
+
+    if (window.selectionStart) {
+      return false;
     }
+    // if (nextProps.images.find(img => img._id == nextProps.idObjectSelected) ||
+    //   this.props.images.find(img => img._id == this.props.idObjectSelected)) {
+    //   return true;
+    // }
 
     return false;
   }
@@ -136,6 +139,10 @@ export default class Canvas extends Component<IProps, IState> {
       staticGuides,
       numberOfPages,
     } = this.props;
+
+    if (!this.props.downloading) {
+      console.log('canvas render', id);
+    }
 
     const customAttr = {myattribute: id};
     
@@ -608,7 +615,7 @@ export default class Canvas extends Component<IProps, IState> {
                       height: imgHovered.height * scale + "px",
                       position: "absolute",
                       transform: `translate(${imgHovered.left * scale}px, ${imgHovered.top * scale}px) rotate(${imgHovered.rotateAngle ? imgHovered.rotateAngle : 0}deg)`,
-                      pointerEvents: "none",
+                      pointerEvents: imgHovered.type == TemplateType.BackgroundImage ? "none" : "auto",
                     }}
                     onMouseLeave={(e) => {
                       editorStore.idObjectHovered = null;
@@ -871,6 +878,7 @@ export default class Canvas extends Component<IProps, IState> {
               }}
             >
               {images
+                .filter(image => image.type != TemplateType.GroupedItem)
                 .map(image => (
                   <div
                     key={image._id}
