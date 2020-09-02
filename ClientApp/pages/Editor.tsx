@@ -120,6 +120,9 @@ declare global {
         template: any;
         rotated: boolean;
         resized: boolean;
+        selections: any;
+        selectionsAngle: any;
+        selectionStart: boolean;
     }
 }
 
@@ -1020,8 +1023,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 rectHeight = 3300;
             }
 
-            var scaleX = (width - 100) / rectWidth;
-            var scaleY = (height - 100) / rectHeight;
+            scaleX = (width - 100) / rectWidth;
+            scaleY = (height - 100) / rectHeight;
             let fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY)
 
             staticGuides = {
@@ -1243,7 +1246,9 @@ class CanvaEditor extends Component<IProps, IState> {
                 bottom = Math.max(bottom, bb[3].y)
             });
 
-            let rect = document.getElementsByClassName("alo")[0].getBoundingClientRect();
+            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+
+            let rect = document.getElementsByClassName("alo")[index].getBoundingClientRect();
             let newTop = top - rect.top;
             let newLeft = left - rect.left;
             let width = right - left;
@@ -3041,7 +3046,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (editorStore.imageSelected.type == TemplateType.GroupedItem) {
             window.selections.forEach(sel => {
                 const id = sel.attributes.iden.value;
-                if (!id) return;
+                if (!id || !window.selectionsAngle[id]) return;
                 let image = editorStore.images2.get(id);
                 image.rotateAngle = window.selectionsAngle[id].rotateAngle;
                 image.left = window.selectionsAngle[id].left;
@@ -3079,6 +3084,8 @@ class CanvaEditor extends Component<IProps, IState> {
         window.posY = window.image.posY;
         window.imgWidth = window.image.imgWidth;
         window.imgHeight = window.image.imgHeight;
+
+        window.selectionsAngle = {};
 
         if (_id != this.state.idObjectSelected) {
             this.handleImageSelected(window.image);
@@ -3266,7 +3273,9 @@ class CanvaEditor extends Component<IProps, IState> {
             newTop2 = centerY;
             newTop3 = centerY + image.width / 2;
         }
-        if (img.type === TemplateType.BackgroundImage || img.type == TemplateType.GroupedItem) {
+        if (img.type === TemplateType.BackgroundImage
+            // || img.type == TemplateType.GroupedItem
+        ) {
             return;
         }
         window.cloneImages.forEach(imageTransformed => {
@@ -3580,6 +3589,59 @@ class CanvaEditor extends Component<IProps, IState> {
         //     return v;
         // });
 
+        let deltaLeft = left - window.startLeft / scale;
+        let deltaTop = top - window.startTop / scale;
+
+        if (image.type == TemplateType.GroupedItem) {
+            window.selections.forEach(sel => {
+                let id = sel.attributes.iden.value;
+                if (!id) return;
+
+                let image2 = editorStore.images2.get(id);
+
+                window.selectionsAngle[image2._id] = {
+                    left: image2.left + deltaLeft,
+                    top: image2.top + deltaTop,
+                };
+
+                let elId = id + "_alo";
+
+                let el = document.getElementById(elId);
+                if (el) {
+                    el.style.width = image2.width * scale + "px";
+                    el.style.height = image2.height * scale + "px";
+                    el.style.transform = `translate(${(image2.left + deltaLeft) * scale}px, ${(image2.top + deltaTop) * scale}px) rotate(${image2.rotateAngle ? image2.rotateAngle : 0}deg)`;
+                }
+
+                var temp = document.getElementsByClassName(elId) as HTMLCollectionOf<HTMLElement>;
+                for (var i = 0; i < temp.length; ++i) {
+                    let el2 = temp[i];
+                    el2.style.width = image2.width * scale + "px";
+                    el2.style.height = image2.height * scale + "px";
+                    el2.style.transform = `translate(${(image2.left + deltaLeft) * scale}px, ${(image2.top + deltaTop) * scale}px) rotate(${image2.rotateAngle ? image2.rotateAngle : 0}deg)`;
+
+                }
+
+                elId = id + "__alo";
+
+                el = document.getElementById(elId);
+                if (el) {
+                    el.style.width = image2.width * scale + "px";
+                    el.style.height = image2.height * scale + "px";
+                    el.style.transform = `translate(${(image2.left + deltaLeft) * scale}px, ${(image2.top + deltaTop) * scale}px) rotate(${image2.rotateAngle ? image2.rotateAngle : 0}deg)`;
+                }
+
+                temp = document.getElementsByClassName(elId) as HTMLCollectionOf<HTMLElement>;
+                for (var i = 0; i < temp.length; ++i) {
+                    let el2 = temp[i];
+                    el2.style.width = image2.width * scale + "px";
+                    el2.style.height = image2.height * scale + "px";
+                    el2.style.transform = `translate(${(image2.left + deltaLeft) * scale}px, ${(image2.top + deltaTop) * scale}px) rotate(${image2.rotateAngle ? image2.rotateAngle : 0}deg)`;
+
+                }
+            })
+        }
+
         image.left = left;
         image.top = top;
 
@@ -3608,6 +3670,19 @@ class CanvaEditor extends Component<IProps, IState> {
             el4.style.display = "none";
             el5.style.display = "none";
         });
+
+        if (window.image.type == TemplateType.GroupedItem && window.selections) {
+            window.selections.forEach(sel => {
+                let id = sel.attributes.iden.value;
+                if (!id || !window.selectionsAngle[id]) return;
+                let image2 = editorStore.images2.get(id);
+
+                image2.left = window.selectionsAngle[id].left;
+                image2.top = window.selectionsAngle[id].top;
+
+                editorStore.images2.set(id, image2);
+            })
+        }
     };
 
     saving = null;
