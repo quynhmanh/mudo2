@@ -1,6 +1,7 @@
 import { observable, action, IObservableArray } from "mobx";
 import uuidv4 from "uuid/v4";
 import { toJS } from "mobx";
+import { SidebarTab } from "@Components/editor/enums";
 
 
 const fontColors = [
@@ -28,6 +29,7 @@ class Images {
     @observable idObjectSelected = null;
     @observable imageSelected = null;
     @observable idObjectHovered = null;
+    @observable pageId = null;
     @observable imageHovered = null;
     @observable activePageId = uuidv4();
     @observable pages = observable([this.activePageId]);
@@ -35,6 +37,10 @@ class Images {
     @observable scale = 1;
     @observable fontColors = observable(fontColors)
     @observable colorPickerVisibility = observable.box(false);
+    @observable cropMode = null;
+    @observable selectedTab = SidebarTab.Template;
+    @observable tReady = false;
+    @observable fontId = null;
   
     @action addItem = (item, isChild) => {
       if (isChild) {

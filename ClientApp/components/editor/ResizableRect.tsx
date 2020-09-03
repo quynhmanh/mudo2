@@ -3,7 +3,7 @@ import Rect from "./Rect";
 import { TemplateType } from "./enums";
 
 export interface IProps {
-  name: string;
+  name: any;
   id: string;
   childId: string;
   onRotateStart(): void;
@@ -30,6 +30,11 @@ export interface IProps {
   canvas: string;
   toggleVideo: any;
   hovered: boolean;
+  handleImageSelected: any;
+  handleImageHovered: any;
+  handleImageUnhovered: any;
+  handleDragStart: any;
+  doNoObjectSelected: any;
 }
 
 export interface IState {
@@ -73,6 +78,8 @@ export default class ResizableRect extends Component<IProps, IState> {
     downloading: true,
   };
 
+  child = null;
+
   render() {
     const {
       scale,
@@ -98,10 +105,21 @@ export default class ResizableRect extends Component<IProps, IState> {
       name,
       canvas,
       toggleVideo,
+      handleImageSelected,
+      handleImageHovered,
+      handleImageUnhovered,
+      handleDragStart,
+      doNoObjectSelected,
     } = this.props;
 
     return (
       <Rect
+        doNoObjectSelected={doNoObjectSelected}
+        handleDragStart={handleDragStart}
+        ref={i => this.child = i}
+        handleImageSelected={handleImageSelected}
+        handleImageHovered={handleImageHovered}
+        handleImageUnhovered={handleImageUnhovered}
         toggleVideo={toggleVideo}
         canvas={canvas}
         name={name}

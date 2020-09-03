@@ -11,6 +11,7 @@ import { toJS } from "mobx";
 import editorStore from "@Store/EditorStore";
 import ColorPicker from "@Components/editor/ColorPicker";
 import Slider from "@Components/editor/Slider";
+import { observer } from "mobx-react";
 
 export interface IProps {
   id: string;
@@ -59,6 +60,7 @@ export interface IProps {
   handleLineHeightChange: any
   handleLineHieghtChangeEnd: any;
   backgroundOnMouseDown: any;
+  templateOnMouseDown: any;
 }
 
 interface IState {
@@ -142,6 +144,7 @@ enum SidebarTab {
 
 const adminEmail = "llaugusty@gmail.com";
 
+@observer
 class LeftSide extends Component<IProps, IState> {
   state = {
     query: "",
@@ -257,13 +260,13 @@ class LeftSide extends Component<IProps, IState> {
   handleRemoveAllMedia = () => {
     var model;
     if (
-      this.props.selectedTab === SidebarTab.Image ||
-      this.props.selectedTab === SidebarTab.Background
+      editorStore.selectedTab === SidebarTab.Image ||
+      editorStore.selectedTab === SidebarTab.Background
     ) {
       model = "Media";
     } else if (
-      this.props.selectedTab === SidebarTab.Template ||
-      this.props.selectedTab === SidebarTab.Text
+      editorStore.selectedTab === SidebarTab.Template ||
+      editorStore.selectedTab === SidebarTab.Text
     ) {
       model = "Template";
     }
@@ -429,8 +432,6 @@ class LeftSide extends Component<IProps, IState> {
 
 
   backgroundOnMouseDown(item, e) {
-
-
     var rec2 = e.target.getBoundingClientRect();
     var { rectWidth, rectHeight } = this.props;
     var imgRatio = rec2.width / rec2.height;
@@ -458,57 +459,8 @@ class LeftSide extends Component<IProps, IState> {
     image.selected = true;
     image.zIndex = 1;
 
-    
-
     editorStore.images2.set(image._id, image);
-    // editorStore.imageSelected = image;
-
-    // editorStore.doNoObjectSelected();
-    this.props.handleImageSelected(image);
-
-    // var rec2 = e.target.getBoundingClientRect();
-    // var { rectWidth, rectHeight } = this.props;
-    // var imgRatio = rec2.width / rec2.height;
-    // var width = rectWidth;
-    // var height = rectWidth / imgRatio;
-    // if (height < rectHeight) {
-    //   height = rectHeight;
-    //   width = imgRatio * height;
-    // }
-
-    // editorStore.addItem2(
-    //   {
-    //     _id: uuidv4(),
-    //     type: TemplateType.BackgroundImage,
-    //     width: rectWidth,
-    //     height: rectHeight,
-    //     origin_width: width,
-    //     origin_height: height,
-    //     left: 0,
-    //     top: 0,
-    //     rotateAngle: 0.0,
-    //     src: window.location.origin + "/" + item.representative,
-    //     selected: false,
-    //     scaleX: 1,
-    //     scaleY: 1,
-    //     posX: -(width - rectWidth) / 2,
-    //     posY: -(height - rectHeight) / 2,
-    //     imgWidth: width,
-    //     imgHeight: height,
-    //     page: editorStore.activePageId,
-    //     zIndex: 1,
-    //     width2: 1,
-    //     height2: 1,
-    //     document_object: [],
-    //     ref: null,
-    //     innerHTML: null,
-    //     color: null,
-    //     opacity: 100,
-    //     backgroundColor: null,
-    //     childId: null
-    //   },
-    //   false
-    // );
+    this.props.handleImageSelected(image._id, editorStore.activePageId, false, true, true);
   }
 
   handleEditFont = item => {
@@ -526,70 +478,14 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   templateOnMouseDown(id, e) {
-    editorStore.doNoObjectSelected();
-    var ce = document.createElement.bind(document);
-    var ca = document.createAttribute.bind(document);
-    var ge = document.getElementsByTagName.bind(document);
     e.preventDefault();
 
-    var self = this;
-    const url = `/api/Template/Get?id=${id}`;
-    const { rectWidth, rectHeight } = this.props;
     var doc = this.state.templates.find(doc => doc.id == id);
     if (!doc) {
       doc = this.state.templates2.find(doc => doc.id == id);
     }
-    var template = JSON.parse(doc.document);
-    var scaleX = rectWidth / template.width;
-    var scaleY = rectHeight / template.height;
 
-    template.document_object = template.document_object.map(doc => {
-      doc.width = doc.width * scaleX;
-      doc.height = doc.height * scaleY;
-      doc.top = doc.top * scaleY;
-      doc.left = doc.left * scaleX;
-      doc.scaleX = doc.scaleX * scaleX;
-      doc.scaleY = doc.scaleY * scaleY;
-      doc.page = editorStore.activePageId;
-      doc.imgWidth = doc.imgWidth * scaleX;
-      doc.imgHeight = doc.imgHeight * scaleY;
-
-      return doc;
-    });
-
-    if (doc.fontList) {
-      doc.fontList.forEach(id => {
-        var style = `@font-face {
-                font-family: '${id}';
-                src: url('/fonts/${id}.ttf');
-              }`;
-        var styleEle = ce("style");
-        var type = ca("type");
-        type.value = "text/css";
-        styleEle.attributes.setNamedItem(type);
-        styleEle.innerHTML = style;
-        var head = document.head || ge("head")[0];
-        head.appendChild(styleEle);
-
-        var link = ce("link");
-        link.id = id;
-        link.rel = "preload";
-        link.href = `/fonts/${id}.ttf`;
-        link.media = "all";
-        link.as = "font";
-        link.crossOrigin = "anonymous";
-        head.appendChild(link);
-        return {
-          id: id
-        };
-      });
-    }
-
-    editorStore.applyTemplate(template.document_object);
-
-    var fonts = toJS(editorStore.fonts);
-    let tempFonts = [...fonts, ...doc.fontList];
-    editorStore.fonts.replace(tempFonts);
+    this.props.templateOnMouseDown(doc);
   }
 
   loadMoreTemplate = (initalLoad, subtype) => {
@@ -942,88 +838,89 @@ class LeftSide extends Component<IProps, IState> {
     axios.delete(url);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.selectedImage && nextProps.selectedImage && nextProps.effectId != this.props.effectId) {
-      if (window.prevEffectId) {
-        var el = document.getElementById("effect-btn-" + window.prevEffectId);
-        if (el) {
-          el.style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-        }
-      }
-      var el = document.getElementById("effect-btn-" + nextProps.effectId);
-      if (el) {
-        el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-      }
-      window.prevEffectId = nextProps.effectId;
-    }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.props.selectedImage && nextProps.selectedImage && nextProps.effectId != this.props.effectId) {
+  //     if (window.prevEffectId) {
+  //       var el = document.getElementById("effect-btn-" + window.prevEffectId);
+  //       if (el) {
+  //         el.style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
+  //       }
+  //     }
+  //     var el = document.getElementById("effect-btn-" + nextProps.effectId);
+  //     if (el) {
+  //       el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
+  //     }
+  //     window.prevEffectId = nextProps.effectId;
+  //   }
 
-    if (!window.prevEffectId && nextProps.selectedImage && nextProps.selectedImage.effectId) {
-      var el = document.getElementById("effect-btn-" + nextProps.selectedImage.effectId);
-      if (el) {
-        el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-      }
-      window.prevEffectId = nextProps.selectedImage.effectId;
-    }
+  //   if (!window.prevEffectId && nextProps.selectedImage && nextProps.selectedImage.effectId) {
+  //     var el = document.getElementById("effect-btn-" + nextProps.selectedImage.effectId);
+  //     if (el) {
+  //       el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
+  //     }
+  //     window.prevEffectId = nextProps.selectedImage.effectId;
+  //   }
 
-    let result = false;
+  //   let result = false;
 
-    if (nextProps.selectedTab != this.props.selectedTab) {
-      result = true;
-    }
+  //   if (nextProps.selectedTab != editorStore.selectedTab) {
+  //     result = true;
+  //   }
 
-    if (nextProps.mounted && !this.props.mounted) {
-      result = true;
-    }
+  //   if (nextProps.mounted && !this.props.mounted) {
+  //     result = true;
+  //   }
 
-    if (nextProps.toolbarOpened != this.props.toolbarOpened) {
-      result = true;
-    }
-    if (this.props.subtype !== nextProps.subtype) {
-      result = true;
-    }
-    if (this.props.tReady !== nextProps.tReady) {
-      result = true;
-    }
+  //   if (nextProps.toolbarOpened != this.props.toolbarOpened) {
+  //     result = true;
+  //   }
+  //   if (this.props.subtype !== nextProps.subtype) {
+  //     result = true;
+  //   }
+  //   if (this.props.tReady !== nextProps.tReady) {
+  //     result = true;
+  //   }
 
-    if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
-      result = true;
-    }
+  //   if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
+  //     result = true;
+  //   }
 
-    if (nextProps.selectedTab === SidebarTab.Effect && 
-      this.props.effectId != nextProps.effectId) {
-      result = true;
-    }
+  //   if (nextProps.selectedTab === SidebarTab.Effect && 
+  //     this.props.effectId != nextProps.effectId) {
+  //     result = true;
+  //   }
 
-    if (nextProps.selectedTab === SidebarTab.Effect && (!this.props.selectedImage) && nextProps.selectedImage) {
-      result = true;
-    }
+  //   if (nextProps.selectedTab === SidebarTab.Effect && (!this.props.selectedImage) && nextProps.selectedImage) {
+  //     result = true;
+  //   }
 
-    if (nextProps.childId != this.props.childId) {
-      result = true;
-    }
+  //   if (nextProps.childId != this.props.childId) {
+  //     result = true;
+  //   }
 
-    if (this.props.fontId != nextProps.fontId) {
-      result = true;
-    }
+  //   if (this.props.fontId != nextProps.fontId) {
+  //     result = true;
+  //   }
 
-    if (this.state.userUpload1.length != nextState.userUpload1.length) {
-      result = true;
-    }
+  //   if (this.state.userUpload1.length != nextState.userUpload1.length) {
+  //     result = true;
+  //   }
 
-    // if (this.props.scale != nextProps.scale) {
-    //   return false;
-    // }
+  //   // if (this.props.scale != nextProps.scale) {
+  //   //   return false;
+  //   // }
 
-    // if (nextProps.dragging || nextProps.resizing || nextProps.rotating) {
-    //   return false;
-    // }
+  //   // if (nextProps.dragging || nextProps.resizing || nextProps.rotating) {
+  //   //   return false;
+  //   // }
 
-    return result;
-  }
+  //   return result;
+  // }
 
   handleSidebarSelectorClicked = (tab, e) => {
-    this.props.handleSidebarSelectorClicked(tab, e);
-    this.forceUpdate();
+    // this.props.handleSidebarSelectorClicked(tab, e);
+    // this.forceUpdate();
+    editorStore.selectedTab = tab;
   };
 
   handleColorPick = (e) => {
@@ -1031,9 +928,9 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   render() {
-    let image = this.props.selectedImage || {};
-    if (this.props.childId) {
-      image = image.document_object.find(text => text._id == this.props.childId);
+    let image = editorStore.images2.get(editorStore.idObjectSelected) || {};
+    if (editorStore.childId && image.document_object) {
+      image = image.document_object.find(text => text._id == editorStore.childId) || {};
     }
     return (
       <div
@@ -1050,13 +947,13 @@ class LeftSide extends Component<IProps, IState> {
           outline: "1px solid rgba(14,19,24,.15)",
         }}
       >
-        {this.props.mounted && (
+        {editorStore.tReady && (
           <TopMenu
             translate={this.props.translate}
             mounted={this.props.mounted}
             mode={this.props.mode}
             toolbarSize={this.props.toolbarSize}
-            selectedTab={this.props.selectedTab}
+            selectedTab={editorStore.selectedTab}
             onClick={this.handleSidebarSelectorClicked}
             tReady={this.props.tReady}
           />
@@ -1082,18 +979,18 @@ class LeftSide extends Component<IProps, IState> {
             onLoad={data => {}}
             onLoadedData={data => {}}
             onChange={e => {
-              this.props.selectedTab === SidebarTab.Video
+              editorStore.selectedTab === SidebarTab.Video
                 ? this.uploadVideo()
-                : this.props.selectedTab === SidebarTab.Font
+                : editorStore.selectedTab === SidebarTab.Font
                 ? this.uploadFont(e)
                 : this.uploadImage(
-                    this.props.selectedTab === SidebarTab.Image
+                    editorStore.selectedTab === SidebarTab.Image
                       ? TemplateType.Image
-                      : this.props.selectedTab === SidebarTab.Upload
+                      : editorStore.selectedTab === SidebarTab.Upload
                       ? TemplateType.UserUpload
-                      : this.props.selectedTab === SidebarTab.Background
+                      : editorStore.selectedTab === SidebarTab.Background
                       ? TemplateType.BackgroundImage
-                      : this.props.selectedTab ===
+                      : editorStore.selectedTab ===
                         SidebarTab.RemovedBackgroundImage
                       ? TemplateType.RemovedBackgroundImage
                       : TemplateType.RemovedBackgroundImage,
@@ -1111,11 +1008,11 @@ class LeftSide extends Component<IProps, IState> {
             }}
             type="submit"
             onClick={
-              this.props.selectedTab === SidebarTab.Font
+              editorStore.selectedTab === SidebarTab.Font
                 ? this.uploadFont.bind(this)
                 : this.uploadImage.bind(
                     this,
-                    this.props.selectedTab === SidebarTab.Image
+                    editorStore.selectedTab === SidebarTab.Image
                       ? TemplateType.Image
                       : TemplateType.BackgroundImage,
                     false
@@ -1177,22 +1074,22 @@ class LeftSide extends Component<IProps, IState> {
               }px)`,
               width: "370px",
               transitionDuration: "10s, 10s",
-              // backgroundColor: this.props.selectedTab === SidebarTab.Effect ? "white" : "#293039",
+              // backgroundColor: editorStore.selectedTab === SidebarTab.Effect ? "white" : "#293039",
             }}
           >
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Image ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Image ? 1 : 0,
                 position: "absolute",
                 width: "347px",
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !== SidebarTab.Image &&
+                  editorStore.selectedTab !== SidebarTab.Image &&
                   `translate3d(0px, calc(-${
-                    this.props.selectedTab > SidebarTab.Image ? 40 : -40
+                    editorStore.selectedTab > SidebarTab.Image ? 40 : -40
                   }px), 0px)`,
-                zIndex: this.props.selectedTab !== SidebarTab.Image && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Image && -1,
                 top: "10px",
                 height: "100%",
                 left: '19px',
@@ -1384,25 +1281,25 @@ class LeftSide extends Component<IProps, IState> {
             </div>
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Text ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Text ? 1 : 0,
                 position: "absolute",
                 width: "347px",
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !== SidebarTab.Text &&
+                  editorStore.selectedTab !== SidebarTab.Text &&
                   `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Text ? 40 : -40
+                    editorStore.selectedTab < SidebarTab.Text ? 40 : -40
                   }px), 0px)`,
                 top: "20px",
-                zIndex: this.props.selectedTab !== SidebarTab.Text && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Text && -1,
                 height: "100%",
                 left: '19px',
                 overflow: "scroll",
               }}
             >
               <div style={{ color: "white" }}>
-                {this.props.tReady &&
+                {editorStore.tReady &&
                 <div style={{ marginBottom: "10px" }}>
                   <p>
                     {/* Nhấn để thêm chữ vào trang */}
@@ -1507,9 +1404,11 @@ class LeftSide extends Component<IProps, IState> {
                         letterSpacing: 30,
                       };
 
-                      // editorStore.addItem(item, true);
                       editorStore.addItem2(item, true);
-                      this.props.handleImageSelected(item);
+                      this.props.handleImageSelected(item._id, editorStore.activePageId, null, true);
+
+                      let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+                      editorStore.keys[index] = editorStore.keys[index] + 1;
 
                       setTimeout(() => {
                         let el = document.getElementById(item._id + "hihi4alo");
@@ -1566,9 +1465,11 @@ class LeftSide extends Component<IProps, IState> {
                         lineHeight: 1.4,
                       };
 
-                      // editorStore.addItem(item, true);
                       editorStore.addItem2(item, true);
-                      this.props.handleImageSelected(item);
+                      this.props.handleImageSelected(item._id, editorStore.activePageId, null, true);
+
+                      let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+                      editorStore.keys[index] = editorStore.keys[index] + 1;
 
                       setTimeout(() => {
                         let el = document.getElementById(item._id + "hihi4");
@@ -1627,9 +1528,11 @@ class LeftSide extends Component<IProps, IState> {
                         lineHeight: 1.4,
                       };
 
-                      // editorStore.addItem(item, true);
                       editorStore.addItem2(item, true);
-                      this.props.handleImageSelected(item);
+                      this.props.handleImageSelected(item._id, editorStore.activePageId, null, true);
+
+                      let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+                      editorStore.keys[index] = editorStore.keys[index] + 1;
 
                       setTimeout(() => {
                         let el = document.getElementById(item._id + "hihi4");
@@ -1817,18 +1720,18 @@ class LeftSide extends Component<IProps, IState> {
             </div>
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Template ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Template ? 1 : 0,
                 position: "absolute",
                 width: "347px",
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !== SidebarTab.Template &&
+                  editorStore.selectedTab !== SidebarTab.Template &&
                   `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Template ? 40 : -40
+                    editorStore.selectedTab < SidebarTab.Template ? 40 : -40
                   }px), 0px)`,
                 top: "10px",
-                zIndex: this.props.selectedTab !== SidebarTab.Template && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Template && -1,
                 height: "100%",
                 left: '19px',
               }}
@@ -2038,7 +1941,7 @@ class LeftSide extends Component<IProps, IState> {
             <div
               style={{
                 opacity:
-                  this.props.selectedTab === SidebarTab.Background ? 1 : 0,
+                  editorStore.selectedTab === SidebarTab.Background ? 1 : 0,
                 position: "absolute",
                 width: "347px",
                 color: "white",
@@ -2046,12 +1949,12 @@ class LeftSide extends Component<IProps, IState> {
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !== SidebarTab.Background &&
+                  editorStore.selectedTab !== SidebarTab.Background &&
                   `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Background ? 40 : -40
+                    editorStore.selectedTab < SidebarTab.Background ? 40 : -40
                   }px), 0px)`,
                 top: "10px",
-                zIndex: this.props.selectedTab !== SidebarTab.Background && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Background && -1,
                 height: "100%",
                 left: '19px',
               }}
@@ -2260,7 +2163,7 @@ class LeftSide extends Component<IProps, IState> {
             </div>
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Font ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Font ? 1 : 0,
                 position: "absolute",
                 width: "370px",
                 color: "white",
@@ -2268,11 +2171,11 @@ class LeftSide extends Component<IProps, IState> {
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !== SidebarTab.Font &&
+                  editorStore.selectedTab !== SidebarTab.Font &&
                   `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Font ? 40 : -40
+                    editorStore.selectedTab < SidebarTab.Font ? 40 : -40
                   }px), 0px)`,
-                zIndex: this.props.selectedTab !== SidebarTab.Font && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Font && -1,
                 height: "100%",
                 left: "0px",
                 backgroundColor: "white",
@@ -2356,7 +2259,7 @@ class LeftSide extends Component<IProps, IState> {
                               }}
                               src={font.representative}
                             />
-                            {this.props.fontId === font.id ? (
+                            {editorStore.fontId === font.id ? (
                               <span
                                 style={{
                                   position: "absolute",
@@ -2409,18 +2312,18 @@ class LeftSide extends Component<IProps, IState> {
             </div>
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Effect ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Effect ? 1 : 0,
                 position: "absolute",
                 width: "370px",
                 overflow: "scroll",
                 // transition:
                 //   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 // transform:
-                //   this.props.selectedTab !== SidebarTab.Effect &&
+                //   editorStore.selectedTab !== SidebarTab.Effect &&
                 //   `translate3d(0px, calc(${
-                //     this.props.selectedTab < SidebarTab.Effect ? 40 : -40
+                //     editorStore.selectedTab < SidebarTab.Effect ? 40 : -40
                 //   }px), 0px)`,
-                zIndex: this.props.selectedTab !== SidebarTab.Effect && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Effect && -1,
                 height: "100%",
                 left: "0px",
                 backgroundColor: "white",
@@ -2833,12 +2736,12 @@ class LeftSide extends Component<IProps, IState> {
             </div>
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Color ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Color ? 1 : 0,
                 position: "absolute",
                 width: "100%",
                 color: "white",
                 overflow: "scroll",
-                zIndex: this.props.selectedTab !== SidebarTab.Color && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Color && -1,
                 height: "100%",
                 backgroundColor: "white",
               }}
@@ -2994,7 +2897,7 @@ class LeftSide extends Component<IProps, IState> {
             {/* <div
               style={{
                 opacity:
-                  this.props.selectedTab === SidebarTab.RemovedBackgroundImage
+                  editorStore.selectedTab === SidebarTab.RemovedBackgroundImage
                     ? 1
                     : 0,
                 position: "absolute",
@@ -3004,16 +2907,16 @@ class LeftSide extends Component<IProps, IState> {
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !==
+                  editorStore.selectedTab !==
                     SidebarTab.RemovedBackgroundImage &&
                   `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.RemovedBackgroundImage
+                    editorStore.selectedTab < SidebarTab.RemovedBackgroundImage
                       ? 40
                       : -40
                   }px), 0px)`,
                 top: "10px",
                 zIndex:
-                  this.props.selectedTab !==
+                  editorStore.selectedTab !==
                     SidebarTab.RemovedBackgroundImage && -1,
                 height: "100%"
               }}
@@ -3097,7 +3000,7 @@ class LeftSide extends Component<IProps, IState> {
             </div> */}
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Element ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Element ? 1 : 0,
                 position: "absolute",
                 width: "347px",
                 color: "white",
@@ -3105,12 +3008,12 @@ class LeftSide extends Component<IProps, IState> {
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !== SidebarTab.Element &&
+                  editorStore.selectedTab !== SidebarTab.Element &&
                   `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Element ? 40 : -40
+                    editorStore.selectedTab < SidebarTab.Element ? 40 : -40
                   }px), 0px)`,
                 top: "10px",
-                zIndex: this.props.selectedTab !== SidebarTab.Element && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Element && -1,
                 height: "100%",
                 left: '19px',
               }}
@@ -3155,19 +3058,19 @@ class LeftSide extends Component<IProps, IState> {
             </div>
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Video ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Video ? 1 : 0,
                 position: "absolute",
                 width: "347px",
                 color: "white",
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !== SidebarTab.Video &&
+                  editorStore.selectedTab !== SidebarTab.Video &&
                   `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Video ? 40 : -40
+                    editorStore.selectedTab < SidebarTab.Video ? 40 : -40
                   }px), 0px)`,
                 top: "10px",
-                zIndex: this.props.selectedTab !== SidebarTab.Video && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Video && -1,
                 height: "100%",
                 left: '19px',
               }}
@@ -3222,7 +3125,7 @@ class LeftSide extends Component<IProps, IState> {
             </div>
             <div
               style={{
-                opacity: this.props.selectedTab === SidebarTab.Upload ? 1 : 0,
+                opacity: editorStore.selectedTab === SidebarTab.Upload ? 1 : 0,
                 position: "absolute",
                 width: "347px",
                 color: "white",
@@ -3230,12 +3133,12 @@ class LeftSide extends Component<IProps, IState> {
                 transition:
                   "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                 transform:
-                  this.props.selectedTab !== SidebarTab.Upload &&
+                  editorStore.selectedTab !== SidebarTab.Upload &&
                   `translate3d(0px, calc(${
-                    this.props.selectedTab < SidebarTab.Upload ? 40 : -40
+                    editorStore.selectedTab < SidebarTab.Upload ? 40 : -40
                   }px), 0px)`,
                 top: "10px",
-                zIndex: this.props.selectedTab !== SidebarTab.Upload && -1,
+                zIndex: editorStore.selectedTab !== SidebarTab.Upload && -1,
                 height: "100%",
                 left: '19px',
               }}

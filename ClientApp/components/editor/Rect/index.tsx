@@ -4,7 +4,9 @@ import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import Image from "@Components/editor/Rect/Image";
 import Video from "@Components/editor/Rect/Video";
-import { TemplateType } from "../enums";
+import { TemplateType, CanvasType, } from "../enums";
+import editorStore from "@Store/EditorStore";
+import { clone } from "lodash";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -51,13 +53,18 @@ export interface IProps {
   handleFontFaceChange(fontFace: string): void;
   handleChildIdSelected(childId: string): void;
   cropMode: boolean;
-  enableCropMode(e: any): void;
+  enableCropMode: any;
   showImage: boolean;
   bleed: boolean;
   image: any;
-  name: string;
+  name: any;
   canvas: string;
   toggleVideo: any;
+  handleImageSelected: any;
+  handleImageHovered: any;
+  handleImageUnhovered: any;
+  handleDragStart: any;
+  doNoObjectSelected: any;
 }
 
 export interface IState {
@@ -66,19 +73,30 @@ export interface IState {
   selectionScaleY: number;
   paused: boolean;
   videoControllerShow: boolean;
+  image: any;
+  cropMode: boolean;
 }
 
 export default class Rect extends PureComponent<IProps, IState> {
 
-  state = {
-    videoControllerShow: false,
-    paused: true,
-    editing: false,
-    selectionScaleX: null,
-    selectionScaleY: null,
-    posX: 0,
-    posY: 0
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      videoControllerShow: false,
+      paused: true,
+      editing: false,
+      selectionScaleX: null,
+      selectionScaleY: null,
+      image: clone(props.image),
+      cropMode: false,
+    }
+
+    this.handleImageSelected = this.handleImageSelected.bind(this);
+    this.handleImageUnselected = this.handleImageUnselected.bind(this);
+    this.updateImage = this.updateImage.bind(this);
+    this.enableCropMode = this.enableCropMode.bind(this);
+  }
 
   componentDidMount() {
     const {
@@ -96,7 +114,7 @@ export default class Rect extends PureComponent<IProps, IState> {
     this.startEditing = this.startEditing.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const {
       // selected,
       image: {
@@ -104,13 +122,14 @@ export default class Rect extends PureComponent<IProps, IState> {
         selected,
         innerHTML,
       }
-    } = this.props;
+    } = this.state;
+
 
     if (
       type === TemplateType.Heading &&
       // selected && 
       // !prevProps.image.selected &&
-      selected != prevProps.image.selected &&
+      selected != prevState.image.selected &&
       this.$textEle2
     ) {
       this.$textEle2.innerHTML = innerHTML;
@@ -251,10 +270,109 @@ export default class Rect extends PureComponent<IProps, IState> {
       prevent = false;
     }, delay);
   }
+
   handleDoubleClick(){
     clearTimeout(timer);
     prevent = true;
     this.doDoubleClickAction();
+  }
+
+  handleImageSelected() {
+    let image = clone(this.state.image);
+    image.selected = true;
+    image.hovered = true;
+
+    this.setState({
+      image,
+    });
+
+    this.forceUpdate();
+  }
+
+  handleImageHovered() {
+    let image = this.state.image;
+    image.hovered = true;
+
+    this.setState({
+      image,
+    });
+
+    this.forceUpdate();
+  }
+
+  handleImageUnhovered() {
+    let image = clone(this.state.image);
+    image.hovered = false;
+
+    this.setState({
+      image,
+    });
+
+    this.forceUpdate();
+  }
+
+  handleImageUnselected() {
+    let image = clone(this.state.image);
+    image.selected = false;
+    image.hovered = false;
+
+    this.setState({
+      image,
+    });
+
+    this.forceUpdate();
+  }
+
+  updateImage(image) {
+
+
+    // image.selected = true;
+
+    this.setState({
+      image,
+    });
+
+    this.forceUpdate();
+  }
+
+  handleTextChildSelected(id) {
+    let image = clone(this.state.image);
+
+    image.document_object = image.document_object.map(doc => {
+      if (doc._id == id) {
+        doc.selected = true;
+      } else {
+        doc.selected = false;
+      }
+      return doc;
+    });
+
+    this.setState({
+      image,
+    });
+
+    this.forceUpdate();
+  }
+
+  enableCropMode() {
+    const {
+      image: {
+        page,
+        _id,
+      }
+    } = this.state;
+    this.setState({cropMode: true});
+
+    if (this.props.name == CanvasType.All)
+      this.props.enableCropMode(_id, page);
+
+    this.forceUpdate();
+  }
+
+  disableCropMode() {
+    this.setState({cropMode: false});
+
+    this.forceUpdate();
   }
 
   render() {
@@ -269,21 +387,26 @@ export default class Rect extends PureComponent<IProps, IState> {
       handleFontFaceChange,
       handleChildIdSelected,
       childId,
-      cropMode,
-      enableCropMode,
+      // enableCropMode,
       showImage,
       id,
-      selected,
+      // selected,
       name,
       canvas,
+      image,
+    } = this.props;
+
+
+    const {
+      cropMode,
       image: {
         page,
         hovered,
         selected: imageSelected,
+        selected,
         _id,
         scaleX,
         scaleY,
-        zIndex,
         innerHTML,
         document_object: childrens,
         type: objectType,
@@ -314,8 +437,12 @@ export default class Rect extends PureComponent<IProps, IState> {
         lineHeight,
         letterSpacing,
         fontSize,
+        type,
+        left,
+        top,
+        zIndex,
       }
-    } = this.props;
+    } = this.state;
 
     let rotatable = true;
 
@@ -328,6 +455,7 @@ export default class Rect extends PureComponent<IProps, IState> {
       width: "100%",
       height: "100%",
       // outline: hovered && "#00d9e1 solid 2px"
+      
     };
 
     let opacity = opacity2 ? opacity2 / 100 : 1;
@@ -340,7 +468,6 @@ export default class Rect extends PureComponent<IProps, IState> {
     var imgDirections = imgResizeDirection;
     // if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate || objectType === TemplateType.Latex) {
     //   imgDirections = direction;
-    //   console.log('imgDirections ', imgDirections)
     // }
 
     if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate) {
@@ -367,15 +494,78 @@ export default class Rect extends PureComponent<IProps, IState> {
       page: page,
     };
 
-    // console.log('hovered ', name, hovered, selected,);
 
     return (
       <div
+                    className={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : "_") + " " + _id + `aaaa${canvas}`}
+                    id={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : `_${canvas}`)}
+                    key={_id}
+                    style={{
+                      zIndex: ((name == CanvasType.HoverLayer && (selected || hovered)) || (name == CanvasType.All && cropMode)) ? 999999 : zIndex,
+                      width: width * scale + "px",
+                      height: height * scale + "px",
+                      position: "absolute",
+                      transform: `translate(${left * scale}px, ${top * scale}px) rotate(${rotateAngle ? rotateAngle : 0}deg)`,
+                      pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
+                    }}
+                  >
+                    <div
+                      id={_id + (name == CanvasType.HoverLayer ? "___" : "____")}
+                      style={{
+                        width: width * scale + "px",
+                        height: height * scale + "px",
+                        transformOrigin: "0 0",
+                        pointerEvents: (name == CanvasType.HoverLayer && !cropMode) ? "none" : "all",
+                      }}
+                      key={_id}
+                      onMouseDown={(e) => {
+                        // e.preventDefault();
+                        if (!editorStore.cropMode) {
+                          if (!selected) {
+                            this.handleImageSelected();
+                            this.props.handleImageSelected(_id, page, CanvasType.HoverLayer);
+                          }
+                          this.props.handleDragStart(e, _id);
+                        } else if (this.state.cropMode) {
+                          this.props.handleDragStart(e, _id);
+                        } else {
+                          this.props.doNoObjectSelected();
+                        }
+                      }}
+
+                      onMouseEnter={(e) => {
+                        if (!hovered && !selected && type != TemplateType.BackgroundImage) {
+                          if (this.props.handleImageHovered(_id, page)) {
+                            this.handleImageHovered();
+                          }
+                        }
+                      }}
+
+                      onMouseLeave={(e) => {
+                        if (hovered && !selected && type != TemplateType.BackgroundImage) {
+                          this.handleImageUnhovered();
+                          this.props.handleImageUnhovered(_id, page);
+                        }
+                      }}
+                      // onDoubleClick={(e) => {
+                      //   e.preventDefault();
+                      //   if (type == TemplateType.Image || type == TemplateType.BackgroundImage)
+                      //     this.props.enableCropMode();
+                      //   else if (type == TemplateType.Video) 
+                      //     this.props.handleCropBtnClick(e);
+                      // }}
+                    >
+      <div
         // onDoubleClick={this.props.enableCropMode}
+        {...customAttr}
         className="hideWhenDownloadContainer"
+        onClick={ e => {
+          // this.handleImageSelected();
+          // this.props.handleImageSelected(_id, page);
+        }}
       >
         {/* {(hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage && */}
-        {(name == "imgHovered" || name == "imgSelected") && <div 
+        {<div 
           {...customAttr}
           className="hideWhenDownload"
           style={{
@@ -390,7 +580,8 @@ export default class Rect extends PureComponent<IProps, IState> {
             backgroundPosition: 'top,100%,bottom,0',
             backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
             backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-            opacity: ((hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage) ? 1 : 0,
+            opacity: (name == CanvasType.HoverLayer && (hovered || selected)) ? 1 : 0,
+            pointerEvents: "none",
           }}>
 
         </div>}
@@ -399,10 +590,19 @@ export default class Rect extends PureComponent<IProps, IState> {
         id={id + hovered ? "hovered" : ""}
         className={`${_id}rect-alo ${_id}-styledrect rect single-resizer ${selected &&
           "selected"}`}
-        style={style}
+        style={{
+          width: "100%",
+          height: "100%",
+          pointerEvents: (name == CanvasType.HoverLayer && !cropMode) ? "none" : "all",
+          backgroundColor: type == TemplateType.BackgroundImage && name != CanvasType.HoverLayer && color,
+        }}
         cropMode={cropMode}
+        
       >
-        {!cropMode && rotatable && showController && objectType !== TemplateType.BackgroundImage && (
+         {!cropMode &&
+          name == CanvasType.HoverLayer &&
+          selected &&
+          objectType !== TemplateType.BackgroundImage && (
           <div
             id={_id + "rotate-container"}
             className="rotate-container"
@@ -412,6 +612,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               left: `calc(50% - 6}px)`,
               bottom: "-35px",
               cursor: getCursorStyleWithRotateAngle(rotateAngle),
+              pointerEvents: "all",
             }}
             onMouseDown={this.startRotate}
             // onDoubleClick={this.props.enableCropMode}
@@ -439,7 +640,8 @@ export default class Rect extends PureComponent<IProps, IState> {
         )}
 
         {!cropMode &&
-          showController &&
+          name == CanvasType.HoverLayer &&
+          selected &&
           objectType !== TemplateType.BackgroundImage &&
           imgDirections.map(d => {
             var cursor = getCursorStyleForResizer(rotateAngle, d);
@@ -449,7 +651,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                 id={d}
                 key={d}
                 style={{
-                  cursor
+                  cursor,
+                  pointerEvents: "all",
                 }}
                 className={`${zoomableMap[d]} resizable-handler-container`}
                 onMouseDown={e => this.startResize(e, d)}
@@ -466,10 +669,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               </div>
             );
         })}
-        {((!imageSelected && !selected && name != "imgHovered") ||
-         (imageSelected && !selected && name == "all-images") || 
-         (name=="imgSelected" && cropMode) ||
-         name == "downloadImages") && src && (objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
+        {(name == CanvasType.All || (cropMode && name == CanvasType.HoverLayer) || name == CanvasType.Download) && src && (objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
           <div
             id={_id}
             className={_id + "rect-alo"}
@@ -505,11 +705,11 @@ export default class Rect extends PureComponent<IProps, IState> {
                   outlineWidth={outlineWidth}
                   backgroundColor={backgroundColor}
                   src={src}
-                  enableCropMode={enableCropMode}
+                  enableCropMode={this.enableCropMode}
                   srcThumnail={srcThumnail}
                 />
               </div>
-            {imageSelected && cropMode && (
+            {selected && cropMode && (
               <div
                 id={_id + "123"}
                 className={_id + "rect-alo"}
@@ -537,7 +737,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                         opacity: 0.5,
                         transformOrigin: "0 0"
                       }}
-                      onDoubleClick={enableCropMode}
+                      onDoubleClick={this.enableCropMode}
                       src={src}
                     />
                   )}
@@ -557,7 +757,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                     : null,
                 }}
               />} */}
-        {((showImage && !selected) || (!showImage && selected)) && 
+        {
+        // ((showImage && !selected) || (!showImage && selected)) && 
+        ((selected && name == CanvasType.HoverLayer) || (!selected && name == CanvasType.All)) &&
         (objectType === TemplateType.Video || objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) &&
           <div
             id={_id + "6543" + canvas}
@@ -569,15 +771,28 @@ export default class Rect extends PureComponent<IProps, IState> {
               position: "absolute",
               width: '100%',
               height: '100%',
-              backgroundColor: color,
+              // backgroundColor: color,
             }}
-            onMouseEnter={e => {
-              this.setState({videoControllerShow: true,});
-            }}
-            onMouseLeave={e => {
-              this.setState({videoControllerShow: false,});
-            }}
+            // onMouseEnter={e => {
+            //   this.setState({videoControllerShow: true,});
+            // }}
+            // onMouseLeave={e => {
+            //   this.setState({videoControllerShow: false,});
+            // }}
           >
+            {/* { cropMode &&
+            <div
+              style={{
+                top: '-356px',
+                left: '-354.203px',
+                width: '2900px',
+                height: '16117px',
+                backgroundColor: 'rgba(53,71,90,.2)',
+                position: "absolute",
+              }}
+            >
+
+            </div>} */}
             {/* {objectType === TemplateType.Video && <canvas 
                 id={_id + "video3" + canvas} 
                 style={{
@@ -655,7 +870,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 </span>
               </div>
             }
-            {!showImage && cropMode && selected && (
+            {cropMode && selected && (
               <div
                 id={_id + "1237"}
                 className={`${_id}imgWidth ${_id}1236`}
@@ -684,7 +899,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                   ? cropImageResizeDirection
                     .map(d => {
                       let cursor = getCursorStyleForResizer(rotateAngle, d);
-                      let visibility = objectType === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.props.image, scale, d);
+                      let visibility = objectType === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
                       return (
                         <div
                           key={d}
@@ -692,6 +907,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                             cursor,
                             zIndex: 999999,
                             visibility,
+                            pointerEvents: "all",
                           }}
                           id={_id + zoomableMap[d] + "_"}
                           className={`${zoomableMap[d]} resizable-handler-container hehe`}
@@ -711,7 +927,7 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         }
-        {((showImage && !selected) || (!showImage && selected)) && (objectType === TemplateType.Heading || objectType == TemplateType.TextTemplate) &&
+        {((selected && name == CanvasType.HoverLayer) || (!selected && name == CanvasType.All) || name == CanvasType.Download) && (objectType == TemplateType.TextTemplate) &&
           <div
             style={{
               transformOrigin: "0 0",
@@ -738,7 +954,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     position: "absolute",
                     width: `calc(${child.width2 * 100}% + 2px)`,
                     height: `calc(${child.height2 * 100}% + 2px)`,
-                    backgroundImage: selected && childId === child._id && 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+                    backgroundImage: selected && child.selected && 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
                     backgroundPosition: 'top,100%,bottom,0',
                     backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
                     backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
@@ -749,12 +965,11 @@ export default class Rect extends PureComponent<IProps, IState> {
             </div>
           </div>
         }
-        {((showImage && !selected) || (!showImage && selected)) && (objectType === TemplateType.Heading || objectType == TemplateType.TextTemplate) &&
+        {(objectType === TemplateType.Heading || objectType == TemplateType.TextTemplate) &&
           <div
             id={_id + "654" + canvas}
             // onDoubleClick={this.props.enableCropMode}
             onClick={e => {
-              console.log('click');
             }}
             className={_id + "scaleX-scaleY 2"}
             style={{
@@ -767,7 +982,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           >
             
             {childrens && childrens.length > 0 &&
-            ((imageSelected && name == "imgSelected") || (!imageSelected && name == "all-images") || name == "downloadImages") &&
+            ((selected && name == CanvasType.HoverLayer) || (!selected && name == CanvasType.All) || name == CanvasType.Download) &&
             (
               <div
                 id={_id}
@@ -860,7 +1075,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                 })}{" "}
               </div>
             )}
-            {!showImage && cropMode && selected && (
+            {cropMode && selected && (
               <div
                 id={_id + "1237"}
                 className={`${_id}imgWidth ${_id}1236 7`}
@@ -959,9 +1174,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                     </div>
                   </MathJax.Context>
                 )} */}
-                  {((imageSelected && name == "imgSelected") || (!imageSelected && name == "all-images") || name == "downloadImages") &&
+                  {((selected && name == CanvasType.HoverLayer) || (!selected && name == CanvasType.All) || name == CanvasType.Download) &&
                   objectType === TemplateType.Heading &&
-                    <div
+                    <span
                       id={_id + "hihi4" + canvas}
                       spellCheck={false}
                       onInput={onTextChange}
@@ -970,8 +1185,9 @@ export default class Rect extends PureComponent<IProps, IState> {
                       // onMouseDown={this.onMouseDown.bind(this)}
                       className={"text single-text " + _id + "hihi4" + canvas}
                       style={{
+                        pointerEvents: "all",
                         position: "absolute",
-                        display: "inline-block",
+                        display: "block",
                         width: width / scaleX + "px",
                         margin: "0px",
                         wordBreak: "break-word",
@@ -992,7 +1208,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                         lineHeight: `${lineHeight * fontSize}px`,
                         letterSpacing: `${1.0*letterSpacing/100*4}px`,
                       }}
-                    ></div>
+                    ></span>
                   }
                 </div>
               </div>
@@ -1000,7 +1216,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
           </div>
         }
-        {cropMode && selected && showController && objectType !== TemplateType.BackgroundImage && (
+        {cropMode && selected && objectType !== TemplateType.BackgroundImage && (
           <div
             id="halo1"
             style={{
@@ -1021,7 +1237,8 @@ export default class Rect extends PureComponent<IProps, IState> {
                     cursor,
                     // transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
                     transform: `rotate(${i * 90}deg)`,
-                    zIndex: 2
+                    zIndex: 2,
+                    pointerEvents: "all",
                   }}
                   className={`${zoomableMap[d]} resizable-handler-container cropMode`}
                   onMouseDown={e => {
@@ -1189,7 +1406,7 @@ export default class Rect extends PureComponent<IProps, IState> {
           </div>
         )}
       </StyledRect>
-      </div>
+      </div> </div> </div>
     );
   }
 }

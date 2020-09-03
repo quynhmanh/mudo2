@@ -132,6 +132,7 @@ endEditing() {
       wordBreak: 'break-word' as 'break-word',
       display: 'inline-block',
       textAlign,
+      pointerEvents: 'auto',
     }
 
     return (

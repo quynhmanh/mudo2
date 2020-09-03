@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import Selector from './Selector';
 import SIDE_BAR_ICONS from "@Components/editor/Sidebar/SidebarIcons";
 
@@ -71,7 +71,8 @@ export interface IProps {
 export interface IState {
 }
 
-export default class TopMenu extends PureComponent<IProps, IState> {
+// @observable
+export default class TopMenu extends Component<IProps, IState> {
 
   render() {
     const {
@@ -96,7 +97,7 @@ export default class TopMenu extends PureComponent<IProps, IState> {
             mapEnum(SidebarTab, (i, sidebarName, sideBarIcon, prevTab, currentTab, nextTab) => {
                 return <Selector 
                     key={i}
-                    content={this.props.tReady ? this.props.translate(sidebarName) : ""}
+                    content={this.props.translate(sidebarName)}
                     // content={sidebarName}
                     sideBarIcon={sideBarIcon}
                     prevSelected={selectedTab === prevTab}

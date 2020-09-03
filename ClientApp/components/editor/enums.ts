@@ -49,3 +49,9 @@ export enum SavingState {
     SavingChanges = 1,
     ChangesSaved = 2,
 }
+
+export enum CanvasType {
+    All = 0,
+    HoverLayer = 1,
+    Download = 2,
+}
