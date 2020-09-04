@@ -287,7 +287,9 @@ class LeftSide extends Component<IProps, IState> {
                     }
                     translate={props.translate}
                     cropMode={editorStore.cropMode}
-                    handleAdjustBtnClick={props.onClickEffectList}
+                    handleAdjustBtnClick={e => {
+                        editorStore.selectedTab = SidebarTab.Effect;
+                    }}
                     selectedTab={props.selectedTab}
                 />
                 <OK

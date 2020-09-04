@@ -47,9 +47,9 @@ export default class ResizableRect extends Component<IProps, IState> {
     // if (this.props.selected || nextProps.selected) {
     //   return true;
     // }
-    // if (this.props.scale != nextProps.scale) {
-    //   return true;
-    // }
+    if (this.props.scale != nextProps.scale) {
+      return true;
+    }
 
     // if (this.props.name == "downloadImages") {
     //   return true;
@@ -66,7 +66,7 @@ export default class ResizableRect extends Component<IProps, IState> {
     // }
     // return false;
 
-    return true;
+    return false;
   }
   
   static defaultProps = {

@@ -484,7 +484,10 @@ function Selection(options = {}) {
                 // console.log(' page ', _selected.length, _selected.length > 0 && page == editorStore.activePageId, editorStore.activePageId, page == editorStore.activePageId);
 
                 // Check if area intersects element
-                if (id && (touched.length == 0 || page == editorStore.activePageId) && intersects(_areaDomRect, node.getBoundingClientRect(), mode, node)) {
+                let rect = node.getBoundingClientRect();
+                if (!window.rs) window.rs = {};
+                window.rs[id] = {left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom};
+                if (id && (touched.length == 0 || page == editorStore.activePageId) && intersects(_areaDomRect, rect, mode, node)) {
                     
                     // if (page == editorStore.activePageId) {
                         // console.log('ok')

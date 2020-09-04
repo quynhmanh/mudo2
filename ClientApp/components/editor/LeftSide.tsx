@@ -839,7 +839,7 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.props.selectedImage && nextProps.selectedImage && nextProps.effectId != this.props.effectId) {
+  //   if (this.props.selectedImage && nextProps.selectedImage && nextProps.effectId != editorStore.effectId) {
   //     if (window.prevEffectId) {
   //       var el = document.getElementById("effect-btn-" + window.prevEffectId);
   //       if (el) {
@@ -886,7 +886,7 @@ class LeftSide extends Component<IProps, IState> {
   //   }
 
   //   if (nextProps.selectedTab === SidebarTab.Effect && 
-  //     this.props.effectId != nextProps.effectId) {
+  //     editorStore.effectId != nextProps.effectId) {
   //     result = true;
   //   }
 
@@ -2346,13 +2346,11 @@ class LeftSide extends Component<IProps, IState> {
                       <button
                         className="effect-btn"
                         id="effect-btn-8"
+                        style={{
+                          boxShadow: editorStore.effectId == 8 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                        }}
                         onClick={e => {
                           this.props.handleApplyEffect(8, null, null, null, null, null, "black");
-                          if (window.prevEffectId) {
-                            document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-                          }
-                          document.getElementById("effect-btn-8").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-                          window.prevEffectId = 8;
                         }}
                         >
                     <img 
@@ -2378,13 +2376,11 @@ class LeftSide extends Component<IProps, IState> {
                     <button
                       id="effect-btn-1"
                       className="effect-btn"
+                      style={{
+                        boxShadow: editorStore.effectId == 1 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                      }}
                       onClick={e => {
                         this.props.handleApplyEffect(1, 50, 12.5, 0, 40, null, null);
-                        if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-                        }
-                        document.getElementById("effect-btn-1").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-                        window.prevEffectId = 1;
                       }}
                       >
                     <img 
@@ -2408,17 +2404,14 @@ class LeftSide extends Component<IProps, IState> {
                     >
                     <button
                       id="effect-btn-2"
+                      style={{
+                        boxShadow: editorStore.effectId == 2 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                      }}
                       onClick={e => {
                         this.props.handleApplyEffect(2, null, null, null, null, 50, "black");
-                        if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-                        }
-                        document.getElementById("effect-btn-2").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-                        window.prevEffectId = 2;
                       }}
                       className="effect-btn"
-                      style={{
-                      }}>
+                      >
                     <img 
                       style={{
                         width: "100%",
@@ -2432,7 +2425,7 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                         >Lift</p>
                   </div>
-                  { this.props.effectId == 1 && 
+                  { editorStore.effectId == 1 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2466,7 +2459,7 @@ class LeftSide extends Component<IProps, IState> {
                       onChangeEnd={this.props.handleChangeTextShadowTransparentEnd}
                     />
             </div>}
-            { this.props.effectId == 2 && 
+            { editorStore.effectId == 2 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2486,18 +2479,20 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                     >
                       <button
+                        style={{
+                          boxShadow: editorStore.effectId == 3 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                        }}
                         onClick={e => {
                           this.props.handleApplyEffect(3, null, null, null, null, null, 30, "black");
-                          if (window.prevEffectId) {
-                            document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-                          }
-                          document.getElementById("effect-btn-3").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-                          window.prevEffectId = 3;
+                          // if (window.prevEffectId) {
+                          //   document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
+                          // }
+                          // document.getElementById("effect-btn-3").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
+                          // window.prevEffectId = 3;
                         }}
                         id="effect-btn-3"
                         className="effect-btn"
-                        style={{
-                        }}>
+                        >
                     <img 
                       style={{
                         width: "100%",
@@ -2518,18 +2513,14 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                     >
                     <button
+                      style={{
+                        boxShadow: editorStore.effectId == 4 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                      }}
                       onClick={e => {
                         this.props.handleApplyEffect(4, 50, 12.5, 0, 40, null, 30, "black");
-                        if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-                        }
-                        document.getElementById("effect-btn-4").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-                        window.prevEffectId = 4;
                       }}
                       id="effect-btn-4"
                       className="effect-btn"
-                      style={{
-                      }}
                     >
                     <img 
                       style={{
@@ -2550,18 +2541,14 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                     >
                     <button
+                      style={{
+                        boxShadow: editorStore.effectId == 5 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                      }}
                       onClick={e => {
                         this.props.handleApplyEffect(5, 50, 12.5, 0, 40, null, "", "black");
-                        if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-                        }
-                        document.getElementById("effect-btn-5").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-                        window.prevEffectId = 5;
                       }}
                       className="effect-btn"
                       id="effect-btn-5"
-                      style={{
-                      }}
                     >
                     <img 
                       style={{
@@ -2575,7 +2562,7 @@ class LeftSide extends Component<IProps, IState> {
                           textAlign: "center",
                         }}>Echo</p>
                   </div>
-                  { this.props.effectId == 3 && 
+                  { editorStore.effectId == 3 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2587,7 +2574,7 @@ class LeftSide extends Component<IProps, IState> {
                       onChangeEnd={this.props.handleChangeHollowThicknessEnd}
                     />
             </div>}
-            { this.props.effectId == 4 && 
+            { editorStore.effectId == 4 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2614,7 +2601,7 @@ class LeftSide extends Component<IProps, IState> {
                       onChangeEnd={this.props.handleChangeDirectionEnd}
                     />
             </div>}
-            { this.props.effectId == 5 && 
+            { editorStore.effectId == 5 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2642,18 +2629,14 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                     >
                     <button
+                      style={{
+                        boxShadow: editorStore.effectId == 6 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                      }}
                       onClick={e => {
                         this.props.handleApplyEffect(6, 10, 83, 0, 40, null, "", "black");
-                        if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-                        }
-                        document.getElementById("effect-btn-6").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-                        window.prevEffectId = 6;
                       }}
                       className="effect-btn"
                       id="effect-btn-6"
-                      style={{
-                      }}
                     >
                     <img 
                       style={{
@@ -2674,18 +2657,14 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                     >
                     <button
+                      style={{
+                        boxShadow: editorStore.effectId == 7 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                      }}
                       onClick={e => {
                         this.props.handleApplyEffect(7, null, null, null, null, null, null, "white", "drop-shadow(rgb(255, 82, 188) 0px 0px 5.93333px) drop-shadow(rgba(255, 82, 188, 0.95) 0px 0px 35.6px) drop-shadow(rgba(255, 82, 188, 0.54) 0px 0px 118.667px)");
-                        if (window.prevEffectId) {
-                          document.getElementById("effect-btn-" + window.prevEffectId).style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-                        }
-                        document.getElementById("effect-btn-7").style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-                        window.prevEffectId = 7;
                       }}
                       className="effect-btn"
                       id="effect-btn-7"
-                      style={{
-                      }}
                     >
                     <img 
                       style={{
@@ -2699,7 +2678,7 @@ class LeftSide extends Component<IProps, IState> {
                           textAlign: "center",
                         }}>Neon</p>
                   </div>
-                  { this.props.effectId == 6 && 
+                  { editorStore.effectId == 6 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>
@@ -2719,7 +2698,7 @@ class LeftSide extends Component<IProps, IState> {
                       onChangeEnd={this.props.handleChangeDirectionEnd}
                     />
             </div>}
-            { this.props.effectId == 7 && 
+            { editorStore.effectId == 7 && 
                   <div style={{
                     marginBottom: "15px",
                   }}>

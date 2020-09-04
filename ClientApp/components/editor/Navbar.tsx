@@ -67,7 +67,6 @@ class LeftSide extends Component<IProps, IState> {
         return (<div>
                         <div
                             style={{
-                                display: "flex",
                                 alignItems: "center"
                             }}>
                             {editorStore.tReady &&

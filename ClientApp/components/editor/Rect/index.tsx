@@ -114,6 +114,16 @@ export default class Rect extends PureComponent<IProps, IState> {
     this.startEditing = this.startEditing.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.scale != nextProps.scale) {
+      return true;
+    }
+    if (this.state.image.selected || nextState.image.selected) {
+      return true;
+    }
+    return false;
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const {
       // selected,
@@ -534,7 +544,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       }}
 
                       onMouseEnter={(e) => {
-                        if (!hovered && !selected && type != TemplateType.BackgroundImage) {
+                        if (!hovered && !selected && type != TemplateType.BackgroundImage && !window.selectionStart) {
                           if (this.props.handleImageHovered(_id, page)) {
                             this.handleImageHovered();
                           }
@@ -542,7 +552,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       }}
 
                       onMouseLeave={(e) => {
-                        if (hovered && !selected && type != TemplateType.BackgroundImage) {
+                        if (hovered && !selected && type != TemplateType.BackgroundImage && !window.selectionStart) {
                           this.handleImageUnhovered();
                           this.props.handleImageUnhovered(_id, page);
                         }
@@ -1216,7 +1226,7 @@ export default class Rect extends PureComponent<IProps, IState> {
 
           </div>
         }
-        {cropMode && selected && objectType !== TemplateType.BackgroundImage && (
+        {cropMode && (selected && name == CanvasType.HoverLayer) && objectType !== TemplateType.BackgroundImage && (
           <div
             id="halo1"
             style={{

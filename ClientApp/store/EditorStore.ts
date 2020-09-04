@@ -41,6 +41,7 @@ class Images {
     @observable selectedTab = SidebarTab.Template;
     @observable tReady = false;
     @observable fontId = null;
+    @observable effectId = null;
   
     @action addItem = (item, isChild) => {
       if (isChild) {
