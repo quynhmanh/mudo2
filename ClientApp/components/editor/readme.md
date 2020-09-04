@@ -46,6 +46,7 @@ http://localhost:9200/template
                 "type": "keyword"
             },
             "userName": {
+              "type": "text",
               "analyzer": "keyword"
             }
         }
