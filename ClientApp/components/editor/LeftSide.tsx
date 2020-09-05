@@ -948,6 +948,14 @@ class LeftSide extends Component<IProps, IState> {
         }}
       >
         {editorStore.tReady && (
+          <div
+          style={{
+            width: `80px`,
+            zIndex: 1111111111,
+            overflow: 'scroll',
+            flexDirection: 'column',
+          }}
+        >
           <TopMenu
             translate={this.props.translate}
             mounted={this.props.mounted}
@@ -957,6 +965,7 @@ class LeftSide extends Component<IProps, IState> {
             onClick={this.handleSidebarSelectorClicked}
             tReady={this.props.tReady}
           />
+          </div>
         )}
         <div
           style={{
@@ -1402,6 +1411,7 @@ class LeftSide extends Component<IProps, IState> {
                         effectId: 8,
                         lineHeight: 1.4,
                         letterSpacing: 30,
+                        opacity: 100,
                       };
 
                       editorStore.addItem2(item, true);
@@ -1463,6 +1473,7 @@ class LeftSide extends Component<IProps, IState> {
                         fontRepresentative: "images/font-Open Sans Regular.png",
                         selected: true,
                         lineHeight: 1.4,
+                        opacity: 100,
                       };
 
                       editorStore.addItem2(item, true);
@@ -1472,7 +1483,7 @@ class LeftSide extends Component<IProps, IState> {
                       editorStore.keys[index] = editorStore.keys[index] + 1;
 
                       setTimeout(() => {
-                        let el = document.getElementById(item._id + "hihi4");
+                        let el = document.getElementById(item._id + "hihi4alo");
                         let range = document.createRange();
                         range.selectNodeContents(el)
                         var sel = window.getSelection();
@@ -1526,6 +1537,7 @@ class LeftSide extends Component<IProps, IState> {
                         selected: true,
                         fontFace: "Open-Sans-Light",
                         lineHeight: 1.4,
+                        opacity: 100,
                       };
 
                       editorStore.addItem2(item, true);
@@ -1535,7 +1547,7 @@ class LeftSide extends Component<IProps, IState> {
                       editorStore.keys[index] = editorStore.keys[index] + 1;
 
                       setTimeout(() => {
-                        let el = document.getElementById(item._id + "hihi4");
+                        let el = document.getElementById(item._id + "hihi4alo");
                         let range = document.createRange();
                         range.selectNodeContents(el)
                         var sel = window.getSelection();

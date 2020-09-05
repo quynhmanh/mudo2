@@ -120,7 +120,8 @@ export default class Video extends Component<IProps, IState> {
                   outline: cropMode
                     ? `#00d9e1 solid ${outlineWidth - 1}px`
                     : null,
-                  opacity
+                  opacity,
+                  pointerEvents: "none",
                 }}
                 autoPlay={canvas == "alo" ? false : true}
                 muted

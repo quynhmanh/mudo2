@@ -56,7 +56,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             display: "block",
                             right: 0,
                             fontSize: "15px",
-                            marginLeft: "10px",
+                            marginLeft: "5px",
                         }}
                     >{this.props.translate("home")}</span>
                     
@@ -65,7 +65,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
             <p
                 id="savingState"
                 style={{
-                    color: "hsla(0,0%,100%,.4)",
+                    color: "hsla(0,0%,100%,.5)",
                     fontStyle: "italic",
                     margin: "auto",
                     marginLeft: "20px",

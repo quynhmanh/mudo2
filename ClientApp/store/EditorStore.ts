@@ -42,6 +42,7 @@ class Images {
     @observable tReady = false;
     @observable fontId = null;
     @observable effectId = null;
+    @observable currentOpacity = 0;
   
     @action addItem = (item, isChild) => {
       if (isChild) {

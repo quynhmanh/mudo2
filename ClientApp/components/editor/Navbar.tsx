@@ -14,10 +14,10 @@ interface IProps {
     downloadPNG: any;
     downloadPDF: any;
     downloadVideo: any;
+    designTitle: any;
 }
 
 interface IState {
-
 }
 
 const alignList = [
@@ -61,9 +61,7 @@ class LeftSide extends Component<IProps, IState> {
     };
 
     render() {
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
         const props = this.props;
-        // const { editorStore } = props;
         return (<div>
                         <div
                             style={{
@@ -86,129 +84,22 @@ class LeftSide extends Component<IProps, IState> {
                         >
                             {
                             <div>
-                            {/* <input 
-                                id="designTitle"
-                                style={{
-                                    height: "35px",
-                                    marginRight: "20px",
-                                    marginTop: "9px",
-                                    backgroundColor: "transparent",
-                                    color: "white",
-                                    border: "1px solid white",
-                                    borderRadius: "5px",
-                                    padding: "7px 15px",
-                                    fontWeight: "bold",
-                                    fontSize: "15px",
-                                }}
-                                // onkeypress={this.style.width = ((this.value.length + 1) * 8) + 'px';"
-                                onKeyPress={e => {
-                                    const val = (e.target.value.length) * 9 + 30;
-                                    e.target.style.width = val + 'px';
-                                }}
-                                defaultValue={this.state.designTitle}/> */}
-                                {/* <label 
+                                {editorStore.tReady &&
+                                <label 
                                     className="input-sizer">
                                     <input 
                                         id="designTitle"
                                         type="text" 
-                                        defaultValue={this.state.designTitle}
-                                        // onInput="this.parentNode.dataset.value = this.value" 
+                                        defaultValue={this.props.designTitle}
                                         onInput={e => {
                                             e.target.parentNode.dataset.value = e.target.value;
                                         }}
-                                        size={this.state.designTitle ? this.state.designTitle.length : 0} 
+                                        size={this.props.designTitle ? this.props.designTitle.length : 0} 
                                         />
-                                </label> */}
+                                </label>}
                                 </div>
                             }
-                            {/* {Globals.serviceUser &&
-                                Globals.serviceUser.username &&
-                                (Globals.serviceUser.username === adminEmail || 
-                                    Globals.serviceUser.username == "manhquynhpro123@gmail.com") && (
-                                    <button
-                                        className="toolbar-btn dropbtn-font"
-                                        onClick={this.saveImages.bind(this, null, false)}
-                                        style={{
-                                            display: "flex",
-                                            marginTop: "4px",
-                                            fontSize: "13px"
-                                        }}
-                                    >
-                                        <div
-                                            style={{
-                                                width: "14px",
-                                                margin: "auto",
-                                                marginRight: "5px"
-                                            }}
-                                        >
-                                            <svg
-                                                version="1.1"
-                                                id="Layer_1"
-                                                x="0px"
-                                                y="0px"
-                                                viewBox="0 0 512 512"
-                                            >
-                                                <path
-                                                    style={{
-                                                        fill: this.state.isSaving ? "red" : "black"
-                                                    }}
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256s256-114.837,256-256S397.163,0,256,0z"
-                                                />
-                                            </svg>
-                                        </div>
-                                        <span>Lưu</span>
-                                    </button>
-                                )} */}
-                            {/* {Globals.serviceUser &&
-                            Globals.serviceUser.username &&
-                            Globals.serviceUser.username === adminEmail &&
-                            this.props.tReady &&
-                            (
-                                <button
-                                    className="toolbar-btn dropbtn-font"
-                                    onClick={this.saveImages.bind(this, null, true)}
-                                    style={{
-                                        display: "flex",
-                                        marginTop: "4px",
-                                        fontSize: "13px"
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            width: "14px",
-                                            margin: "auto",
-                                            marginRight: "5px"
-                                        }}
-                                    >
-                                        <svg
-                                            version="1.1"
-                                            id="Layer_1"
-                                            x="0px"
-                                            y="0px"
-                                            viewBox="0 0 512 512"
-                                        >
-                                            <path
-                                                style={{
-                                                    fill: this.state.isSaving ? "red" : "black"
-                                                }}
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256s256-114.837,256-256S397.163,0,256,0z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <span>Lưu video</span>
-                                </button>
-                            )} */}
                             {(
-                                // <Tooltip
-                                //     offsetLeft={0}
-                                //     offsetTop={5}
-                                //     content={this.translate("download")}
-                                //     delay={10}
-                                //     style={{}}
-                                //     position="bottom"
-                                // >
                                 editorStore.tReady &&
                                     <button
                                         id="download-btn"
@@ -224,7 +115,6 @@ class LeftSide extends Component<IProps, IState> {
                                             background: "#ebebeb0f",
                                             border: "none",
                                             height: "35px",
-                                            // width: "36px"
                                         }}
                                     >
                                         {/* {" "} */}
@@ -240,7 +130,6 @@ class LeftSide extends Component<IProps, IState> {
                                                 <DownloadIcon fill="white" width="18px" height="18px" />
                                             </div>
                                     </button>
-                                // </Tooltip>
                             )}
                             {(
                                 <DownloadList

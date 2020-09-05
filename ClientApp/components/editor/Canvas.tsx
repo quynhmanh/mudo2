@@ -212,7 +212,7 @@ export default class Canvas extends Component<IProps, IState> {
               }}
             >
               <svg
-                width="20"
+                width="20"s
                 height="20"
                 viewBox="0 0 20 20"
                 fill="none"
@@ -495,6 +495,7 @@ export default class Canvas extends Component<IProps, IState> {
                 // .filter(img => img._id != this.props.idObjectSelected)
                 .map(img => (
                       <ResizableRect
+                        handleCropBtnClick={this.props.handleCropBtnClick}
                         doNoObjectSelected={this.props.doNoObjectSelected}
                         handleDragStart={this.props.handleDragStart}
                         handleImageHovered={this.props.handleImageHovered}

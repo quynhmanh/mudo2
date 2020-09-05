@@ -21,7 +21,7 @@ namespace RCB.TypeScript.Services
 {
     public class TemplateService : ServiceBase
     {
-        const string DefaultIndex = "template-01";
+        const string DefaultIndex = "template-02";
         private IHostingEnvironment HostingEnvironment { get; set; }
         private IConfiguration Configuration { get; set; }
 
@@ -101,7 +101,7 @@ namespace RCB.TypeScript.Services
                 .From((page - 1) * perPage)
                 .Size(perPage));
 
-            var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
+            var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), Math.Max(0, res.Total));
 
             return Ok(res2);
         }

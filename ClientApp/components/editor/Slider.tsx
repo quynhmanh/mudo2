@@ -51,7 +51,7 @@ export default class Slider extends Component<IProps, IState> {
         if (this.props.onChangeStart) {
             this.props.onChangeStart();
         }
-        this.props.pauser.next(true);
+        if (this.props.pauser) this.props.pauser.next(true);
         document.addEventListener("mousemove", this.onMove);
         document.addEventListener("mouseup", this.onUp);
 
@@ -64,7 +64,7 @@ export default class Slider extends Component<IProps, IState> {
         e.stopPropagation();
         document.removeEventListener("mousemove", this.onMove);
         document.removeEventListener("mouseup", this.onUp);
-        this.props.pauser.next(false);
+        if (this.props.pauser) this.props.pauser.next(false);
         this.$grabSlider.style.boxShadow = '';
         this.$grabSlider.style.border = '1px solid rgba(14, 19, 24, 0.2)';
 

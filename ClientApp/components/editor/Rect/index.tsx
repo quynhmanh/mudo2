@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, getImageResizerVisibility, } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
@@ -65,6 +65,7 @@ export interface IProps {
   handleImageUnhovered: any;
   handleDragStart: any;
   doNoObjectSelected: any;
+  handleCropBtnClick: any;
 }
 
 export interface IState {
@@ -77,24 +78,25 @@ export interface IState {
   cropMode: boolean;
 }
 
-export default class Rect extends PureComponent<IProps, IState> {
+export default class Rect extends Component<IProps, IState> {
 
   constructor(props) {
     super(props);
 
     this.state = {
       videoControllerShow: false,
-      paused: true,
       editing: false,
       selectionScaleX: null,
       selectionScaleY: null,
       image: clone(props.image),
       cropMode: false,
+      paused: props.image.paused,
     }
 
     this.handleImageSelected = this.handleImageSelected.bind(this);
     this.handleImageUnselected = this.handleImageUnselected.bind(this);
     this.updateImage = this.updateImage.bind(this);
+    this.startEditing = this.startEditing.bind(this);
     this.enableCropMode = this.enableCropMode.bind(this);
   }
 
@@ -110,8 +112,6 @@ export default class Rect extends PureComponent<IProps, IState> {
     if (innerHTML && this.$textEle2) {
       this.$textEle2.innerHTML = innerHTML;
     }
-
-    this.startEditing = this.startEditing.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -121,10 +121,14 @@ export default class Rect extends PureComponent<IProps, IState> {
     if (this.state.image.selected || nextState.image.selected) {
       return true;
     }
+    if (this.state.image.hovered || nextState.image.hovered) {
+      return true;
+    }
     return false;
   }
 
   componentDidUpdate(prevProps, prevState) {
+
     const {
       // selected,
       image: {
@@ -144,6 +148,11 @@ export default class Rect extends PureComponent<IProps, IState> {
     ) {
       this.$textEle2.innerHTML = innerHTML;
     }
+  }
+
+  toggleVideo = () => {
+    this.setState({paused: !this.state.paused});
+    this.forceUpdate();
   }
 
   startRotate = e => {
@@ -288,6 +297,8 @@ export default class Rect extends PureComponent<IProps, IState> {
   }
 
   handleImageSelected() {
+    if (this.hideWhenDownload)
+      this.hideWhenDownload.style.opacity = 1;
     let image = clone(this.state.image);
     image.selected = true;
     image.hovered = true;
@@ -300,7 +311,10 @@ export default class Rect extends PureComponent<IProps, IState> {
   }
 
   handleImageHovered() {
-    let image = this.state.image;
+      if (this.hideWhenDownload)
+        this.hideWhenDownload.style.opacity = 1;
+
+    let image = clone(this.state.image);
     image.hovered = true;
 
     this.setState({
@@ -334,12 +348,8 @@ export default class Rect extends PureComponent<IProps, IState> {
   }
 
   updateImage(image) {
-
-
-    // image.selected = true;
-
     this.setState({
-      image,
+      image: clone(image),
     });
 
     this.forceUpdate();
@@ -385,6 +395,8 @@ export default class Rect extends PureComponent<IProps, IState> {
     this.forceUpdate();
   }
 
+  hideWhenDownload = null;
+
   render() {
     const {
       parentRotateAngle,
@@ -405,7 +417,6 @@ export default class Rect extends PureComponent<IProps, IState> {
       canvas,
       image,
     } = this.props;
-
 
     const {
       cropMode,
@@ -453,6 +464,7 @@ export default class Rect extends PureComponent<IProps, IState> {
         zIndex,
       }
     } = this.state;
+
 
     let rotatable = true;
 
@@ -507,77 +519,78 @@ export default class Rect extends PureComponent<IProps, IState> {
 
     return (
       <div
-                    className={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : "_") + " " + _id + `aaaa${canvas}`}
-                    id={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : `_${canvas}`)}
-                    key={_id}
-                    style={{
-                      zIndex: ((name == CanvasType.HoverLayer && (selected || hovered)) || (name == CanvasType.All && cropMode)) ? 999999 : zIndex,
-                      width: width * scale + "px",
-                      height: height * scale + "px",
-                      position: "absolute",
-                      transform: `translate(${left * scale}px, ${top * scale}px) rotate(${rotateAngle ? rotateAngle : 0}deg)`,
-                      pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
-                    }}
-                  >
-                    <div
-                      id={_id + (name == CanvasType.HoverLayer ? "___" : "____")}
-                      style={{
-                        width: width * scale + "px",
-                        height: height * scale + "px",
-                        transformOrigin: "0 0",
-                        pointerEvents: (name == CanvasType.HoverLayer && !cropMode) ? "none" : "all",
-                      }}
-                      key={_id}
-                      onMouseDown={(e) => {
-                        // e.preventDefault();
-                        if (!editorStore.cropMode) {
-                          if (!selected) {
-                            this.handleImageSelected();
-                            this.props.handleImageSelected(_id, page, CanvasType.HoverLayer);
-                          }
-                          this.props.handleDragStart(e, _id);
-                        } else if (this.state.cropMode) {
-                          this.props.handleDragStart(e, _id);
-                        } else {
-                          this.props.doNoObjectSelected();
-                        }
-                      }}
-
-                      onMouseEnter={(e) => {
-                        if (!hovered && !selected && type != TemplateType.BackgroundImage && !window.selectionStart) {
-                          if (this.props.handleImageHovered(_id, page)) {
-                            this.handleImageHovered();
-                          }
-                        }
-                      }}
-
-                      onMouseLeave={(e) => {
-                        if (hovered && !selected && type != TemplateType.BackgroundImage && !window.selectionStart) {
-                          this.handleImageUnhovered();
-                          this.props.handleImageUnhovered(_id, page);
-                        }
-                      }}
-                      // onDoubleClick={(e) => {
-                      //   e.preventDefault();
-                      //   if (type == TemplateType.Image || type == TemplateType.BackgroundImage)
-                      //     this.props.enableCropMode();
-                      //   else if (type == TemplateType.Video) 
-                      //     this.props.handleCropBtnClick(e);
-                      // }}
-                    >
-      <div
-        // onDoubleClick={this.props.enableCropMode}
-        {...customAttr}
-        className="hideWhenDownloadContainer"
-        onClick={ e => {
-          // this.handleImageSelected();
-          // this.props.handleImageSelected(_id, page);
+        className={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : "_") + " " + _id + `aaaa${canvas}`}
+        id={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : `_${canvas}`)}
+        key={_id}
+        style={{
+          zIndex: ((name == CanvasType.HoverLayer && (selected || hovered)) || (name == CanvasType.All && cropMode)) ? 999999 : zIndex,
+          width: width * scale + "px",
+          height: height * scale + "px",
+          position: "absolute",
+          transform: `translate(${left * scale}px, ${top * scale}px) rotate(${rotateAngle ? rotateAngle : 0}deg)`,
+          pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
         }}
       >
-        {/* {(hovered || selected) && !cropMode && objectType != TemplateType.BackgroundImage && */}
-        {<div 
+        <div
+          id={_id + (name == CanvasType.HoverLayer ? "___" : "____")}
+          style={{
+            width: width * scale + "px",
+            height: height * scale + "px",
+            transformOrigin: "0 0",
+            pointerEvents: (name == CanvasType.HoverLayer && !cropMode) ? "none" : "all",
+          }}
+          key={_id}
+          onMouseDown={(e) => {
+            if (type != TemplateType.BackgroundImage) {
+              if (!editorStore.cropMode) {
+                if (!selected) {
+                  this.handleImageSelected();
+                  this.props.handleImageSelected(_id, page, name == CanvasType.HoverLayer ? CanvasType.All : CanvasType.HoverLayer);
+                }
+                this.props.handleDragStart(e, _id);
+              } else if (this.state.cropMode) {
+                this.props.handleDragStart(e, _id);
+              } else {
+                this.props.doNoObjectSelected();
+              }
+            }
+          }}
+          onMouseUp={e => {
+            if (type == TemplateType.BackgroundImage && !window.selectionStart) {
+              if (!editorStore.cropMode) {
+                if (!selected) {
+                  this.handleImageSelected();
+                  this.props.handleImageSelected(_id, page, CanvasType.HoverLayer);
+                }
+              } else if (this.state.cropMode) {
+                this.props.handleDragStart(e, _id);
+              } else {
+                this.props.doNoObjectSelected();
+              }
+            }
+          }}
+
+          onMouseEnter={(e) => {
+            if (!selected && type != TemplateType.BackgroundImage && !editorStore.cropMode && !window.selectionStart) {
+              this.handleImageHovered();
+              this.props.handleImageHovered(_id, page);
+            }
+          }}
+
+          onMouseLeave={(e) => {
+            if (hovered && !selected && type != TemplateType.BackgroundImage && !editorStore.cropMode) {
+              this.handleImageUnhovered();
+              this.props.handleImageUnhovered(_id, page);
+            }
+          }}
+        >
+      <div
+        className={`hideWhenDownloadContainer ${name} ${hovered} ${selected}`}
+      >
+        {name == CanvasType.HoverLayer && <div 
           {...customAttr}
           className="hideWhenDownload"
+          ref={i => this.hideWhenDownload = i}
           style={{
             position: "absolute",
             top: "-2px",
@@ -590,15 +603,14 @@ export default class Rect extends PureComponent<IProps, IState> {
             backgroundPosition: 'top,100%,bottom,0',
             backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
             backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-            opacity: (name == CanvasType.HoverLayer && (hovered || selected)) ? 1 : 0,
+            opacity: (hovered || selected) ? 1 : 0,
             pointerEvents: "none",
           }}>
 
         </div>}
-        {/* } */}
       <StyledRect
         id={id + hovered ? "hovered" : ""}
-        className={`${_id}rect-alo ${_id}-styledrect rect single-resizer ${selected &&
+        className={`${_id}rect-alo ${_id}-styledrect ${type == TemplateType.BackgroundImage && 'selectable'} rect single-resizer ${selected &&
           "selected"}`}
         style={{
           width: "100%",
@@ -625,12 +637,10 @@ export default class Rect extends PureComponent<IProps, IState> {
               pointerEvents: "all",
             }}
             onMouseDown={this.startRotate}
-            // onDoubleClick={this.props.enableCropMode}
           >
             <div
               className="rotate"
               style={{
-                // transform: `scale(${1 / scale + 0.15})`,
                 padding: "3px"
               }}
             >
@@ -691,7 +701,6 @@ export default class Rect extends PureComponent<IProps, IState> {
               height: "100%"
             }}
           >
-            {/* {showImage && */}
               <div
                 id={_id + "hihi4" + canvas}
                 className={_id + "rect-alo"}
@@ -747,7 +756,6 @@ export default class Rect extends PureComponent<IProps, IState> {
                         opacity: 0.5,
                         transformOrigin: "0 0"
                       }}
-                      onDoubleClick={this.enableCropMode}
                       src={src}
                     />
                   )}
@@ -756,24 +764,12 @@ export default class Rect extends PureComponent<IProps, IState> {
             )}
           </div>
         )}
-        {/* {objectType === TemplateType.Video && <canvas 
-                id={_id + "video4" + canvas} 
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  transformOrigin: "0 0",
-                  outline: cropMode
-                    ? `#00d9e1 solid ${outlineWidth - 1}px`
-                    : null,
-                }}
-              />} */}
+        
         {
-        // ((showImage && !selected) || (!showImage && selected)) && 
         ((selected && name == CanvasType.HoverLayer) || (!selected && name == CanvasType.All)) &&
-        (objectType === TemplateType.Video || objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) &&
+        (objectType === TemplateType.Video || objectType === TemplateType.Image) &&
           <div
             id={_id + "6543" + canvas}
-            // onDoubleClick={this.props.enableCropMode}
             className={_id + "scaleX-scaleY"}
             style={{
               transformOrigin: "0 0",
@@ -781,45 +777,9 @@ export default class Rect extends PureComponent<IProps, IState> {
               position: "absolute",
               width: '100%',
               height: '100%',
-              // backgroundColor: color,
             }}
-            // onMouseEnter={e => {
-            //   this.setState({videoControllerShow: true,});
-            // }}
-            // onMouseLeave={e => {
-            //   this.setState({videoControllerShow: false,});
-            // }}
           >
-            {/* { cropMode &&
-            <div
-              style={{
-                top: '-356px',
-                left: '-354.203px',
-                width: '2900px',
-                height: '16117px',
-                backgroundColor: 'rgba(53,71,90,.2)',
-                position: "absolute",
-              }}
-            >
-
-            </div>} */}
-            {/* {objectType === TemplateType.Video && <canvas 
-                id={_id + "video3" + canvas} 
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  transformOrigin: "0 0",
-                  outline: cropMode
-                    ? `#00d9e1 solid ${outlineWidth - 1}px`
-                    : null,
-                  opacity: cropMode ? 0.5 : 0,
-                }}
-              />} */}
-            {/* <button
-              onClick={this.handleClick.bind(this)} 
-              onDoubleClick = {this.handleDoubleClick.bind(this)}
-            >Hello</button> */}
-            {!cropMode && showController && objectType == TemplateType.Video && (this.state.videoControllerShow || this.props.image.paused) &&
+            {!cropMode && objectType == TemplateType.Video && name == CanvasType.HoverLayer && 
             <div
               className="videoController"
               onClick={e => {
@@ -833,26 +793,16 @@ export default class Rect extends PureComponent<IProps, IState> {
                 borderRadius: "100%",
                 width: "50px",
                 height: "50px",
+                pointerEvents: "auto",
               }}>
                 <span 
-                onMouseDown={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  this.props.toggleVideo();
-                }}
-                onClick={e => {
-                  this.props.toggleVideo();
-                }}
-                onDoubleClick={e => {
-                  e.stopPropagation();
-                }}
                 style={{
                   width: "100%",
                   height: "100%",
                   display: "block",
                   position: "relative",
                 }}>
-                  {this.props.image.paused ? 
+                  {this.state.paused ? 
                 <svg 
                   style={{
                     margin: "auto",
@@ -893,7 +843,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
                 }}
               >
-                <canvas 
+                {type == TemplateType.Video && <canvas 
                   id={_id + "video3" + canvas} 
                   style={{
                     width: "100%",
@@ -904,7 +854,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                       : null,
                     opacity: cropMode ? 0.5 : 0,
                   }}
-                />
+                />}
                 {cropMode && selected
                   ? cropImageResizeDirection
                     .map(d => {
@@ -978,7 +928,6 @@ export default class Rect extends PureComponent<IProps, IState> {
         {(objectType === TemplateType.Heading || objectType == TemplateType.TextTemplate) &&
           <div
             id={_id + "654" + canvas}
-            // onDoubleClick={this.props.enableCropMode}
             onClick={e => {
             }}
             className={_id + "scaleX-scaleY 2"}
@@ -988,6 +937,7 @@ export default class Rect extends PureComponent<IProps, IState> {
               position: "absolute",
               width: `calc(100%/${scaleX})`,
               height: `calc(100%/${scaleY})`,
+              pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
             }}
           >
             
@@ -1125,7 +1075,9 @@ export default class Rect extends PureComponent<IProps, IState> {
               </div>
             )}
             {innerHTML && (
-              <div style={{}}>
+              <div style={{
+                pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
+              }}>
                 <div
                   id={_id + "hihi5" + canvas}
                   className={_id + "hihi5"}
@@ -1136,7 +1088,7 @@ export default class Rect extends PureComponent<IProps, IState> {
                     transformOrigin: "0 0",
                     zIndex: selected ? 1 : 0,
                     WebkitTextStroke: (effectId == 3 || effectId == 4) && (`${1.0 * this.props.image.hollowThickness / 100 * 4 + 0.1}px ${(effectId == 3 || effectId == 4) ? color : "black"}`),
-                    // textStroke,
+                    pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
                   }}
                 >
                   {/* {selected && objectType === 5 && (
@@ -1332,9 +1284,10 @@ export default class Rect extends PureComponent<IProps, IState> {
             })}
           </div>
         )}
-        {src && objectType === TemplateType.Video && showImage && (
+        {src && objectType === TemplateType.Video && name == CanvasType.All && (
           <div
             id={_id}
+            onDoubleClick={this.props.handleCropBtnClick}
             style={{
               zIndex: selected ? 1 : 0,
               transformOrigin: "0 0",
@@ -1364,55 +1317,6 @@ export default class Rect extends PureComponent<IProps, IState> {
               opacity={opacity}
               startResizeImage={this.startResizeImage}
             />
-          </div>
-        )}
-        {src && objectType === TemplateType.Video && showImage && (
-          <div
-            id={_id}
-            style={{
-              zIndex: selected ? 1 : 0,
-              transformOrigin: "0 0",
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            {imageSelected && cropMode && (
-              <div
-                id={_id + "123"}
-                className={_id + "rect-alo"}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  position: "absolute"
-                }}
-              >
-                <div
-                  id={_id + "1236"}
-                  className={_id + "1236" + " " + _id + "imgWidth"}
-                  style={{
-                    width: imgWidth + "px",
-                    height: imgHeight + "px",
-                    transform: `translate(${posX}px, ${posY}px)`,
-                  }}
-                >
-                  {(objectType === TemplateType.Video) && (
-                    <canvas 
-                      id={_id + "video2" + canvas} 
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        transformOrigin: "0 0",
-                        outline: cropMode
-                          ? `#00d9e1 solid ${outlineWidth - 1}px`
-                          : null,
-                        opacity: cropMode ? 0.5 : 0,
-                      }}
-                    />
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         )}
       </StyledRect>

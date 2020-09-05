@@ -35,6 +35,7 @@ export interface IProps {
   handleImageUnhovered: any;
   handleDragStart: any;
   doNoObjectSelected: any;
+  handleCropBtnClick: any;
 }
 
 export interface IState {
@@ -110,10 +111,12 @@ export default class ResizableRect extends Component<IProps, IState> {
       handleImageUnhovered,
       handleDragStart,
       doNoObjectSelected,
+      handleCropBtnClick,
     } = this.props;
 
     return (
       <Rect
+        handleCropBtnClick={handleCropBtnClick}
         doNoObjectSelected={doNoObjectSelected}
         handleDragStart={handleDragStart}
         ref={i => this.child = i}

@@ -84,14 +84,7 @@ export default class TopMenu extends Component<IProps, IState> {
 
     return (
         <div
-        style={{
-          // display: "inline-flex",
-          width: `80px`,
-          zIndex: 1111111111,
-          color: "black",
-          overflow: 'scroll',
-          flexDirection: 'column',
-        }}
+        
       >
         { 
             mapEnum(SidebarTab, (i, sidebarName, sideBarIcon, prevTab, currentTab, nextTab) => {
