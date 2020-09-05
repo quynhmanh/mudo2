@@ -695,3 +695,56 @@ export const getImageResizerVisibility = (img,  scale, d): VisibilityProperty =>
   }
   return result;
 }
+
+export const transformImage = image => {
+  let newL = image.left;
+  let newR = image.left + image.width;
+  let newT = image.top;
+  let newB = image.top + image.height;
+  let centerX = image.left + image.width / 2;
+  let centerY = image.top + image.height / 2;
+  let rotateAngle = image.rotateAngle / 180 * Math.PI;
+
+  let bb = [
+      {
+          x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+          y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+      },
+      {
+          x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+          y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+      },
+      {
+          x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+          y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+      },
+      {
+          x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+          y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+      }
+  ]
+  let top = 999999, right = 0, bottom = 0, left = 999999;
+
+  left = Math.min(left, bb[0].x);
+  left = Math.min(left, bb[1].x);
+  left = Math.min(left, bb[2].x);
+  left = Math.min(left, bb[3].x);
+  right = Math.max(right, bb[0].x)
+  right = Math.max(right, bb[1].x)
+  right = Math.max(right, bb[2].x)
+  right = Math.max(right, bb[3].x)
+  top = Math.min(top, bb[0].y)
+  top = Math.min(top, bb[1].y)
+  top = Math.min(top, bb[2].y)
+  top = Math.min(top, bb[3].y)
+  bottom = Math.max(bottom, bb[0].y)
+  bottom = Math.max(bottom, bb[1].y)
+  bottom = Math.max(bottom, bb[2].y)
+  bottom = Math.max(bottom, bb[3].y)
+
+  return {
+      _id: image._id,
+      x: [left, left + (right - left) / 2, right],
+      y: [top, top + (bottom - top) / 2, bottom]
+  };
+}

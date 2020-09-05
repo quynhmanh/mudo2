@@ -7,6 +7,10 @@ import { toJS } from "mobx";
 import Tooltip from "@Components/shared/Tooltip";
 import { TemplateType, CanvasType, } from "./enums";
 
+import {
+  transformImage as getTransformedImage,
+}  from "@Utils";
+
 
 export interface IProps {
   uiKey: string;
@@ -84,49 +88,7 @@ export default class Canvas extends Component<IProps, IState> {
       return true;
     }
     return false;
-    // console.log('this.props.uiKey ', this.props.uiKey, nextProps.uiKey, this.props.activePageId, nextPro)
-    if (this.props.uiKey != nextProps.uiKey) {
-      return true;
-    }
-    if (!this.props.downloading) {
-      // console.log('this.props.activePageId ', this.props.activePageId, nextProps.activePageId)
-    }
-    if (this.props.activePageId == this.props.id || nextProps.activePageId == this.props.id) {
-      return true;
-    }
-    if (this.props.active || nextProps.active) {
-      return true;
-    }
-    if (this.props.cropMode != nextProps.cropMode) {
-      return true;
-    }
-    if (this.props.scale != nextProps.scale) {
-      return true;
-    }
-
-    if (window.selectionStart) {
-      return false;
-    }
-
-    return false;
   }
-
-  tranformImage = (image: any) => {
-    var centerX = image.left + image.width / 2;
-    var centerY = image.top + image.height / 2;
-
-    if (!image.rotateAngle || image.rotateAngle === 0) {
-      return {
-        x: [centerX - image.width / 2, centerX, centerX + image.width / 2],
-        y: [centerY - image.height / 2, centerY, centerY + image.height / 2]
-      };
-    } else {
-      return {
-        x: [centerX - image.height / 2, centerX, centerX + image.height / 2],
-        y: [centerY - image.width / 2, centerY, centerY + image.width / 2]
-      };
-    }
-  };
 
   refAlo = null;
   canvas = {
@@ -151,6 +113,8 @@ export default class Canvas extends Component<IProps, IState> {
 
     if (!this.props.downloading) {
     }
+
+    console.log('canvas render')
 
     const customAttr = {myattribute: id};
     
@@ -292,7 +256,7 @@ export default class Canvas extends Component<IProps, IState> {
               // )
             )}
             {images.map(g => {
-              var transformImage = this.tranformImage(g);
+              var transformImage = getTransformedImage(g);
               return (<div
                   key={g._id + "guide_0"}
                   id={g._id + "guide_0"}
@@ -306,7 +270,7 @@ export default class Canvas extends Component<IProps, IState> {
               );
             })}
             {images.map(g => {
-              var transformImage = this.tranformImage(g);
+              var transformImage = getTransformedImage(g);
               return (<div
                   key={g._id + "guide_1"}
                   id={g._id + "guide_1"}
@@ -320,7 +284,7 @@ export default class Canvas extends Component<IProps, IState> {
               );
             })}
             {images.map(g => {
-              var transformImage = this.tranformImage(g);
+              var transformImage = getTransformedImage(g);
               return (
                 <div
                 key={g._id + "guide_2"}
@@ -335,7 +299,7 @@ export default class Canvas extends Component<IProps, IState> {
               );
             })}
             {images.map(g => {
-              var transformImage = this.tranformImage(g);
+              var transformImage = getTransformedImage(g);
               return (
                 <div
                 key={g._id + "guide_3"}
@@ -350,7 +314,7 @@ export default class Canvas extends Component<IProps, IState> {
               );
             })}
             {images.map(g => {
-              var transformImage = this.tranformImage(g);
+              var transformImage = getTransformedImage(g);
               return (
                 <div
                 key={g._id + "guide_4"}
@@ -365,7 +329,7 @@ export default class Canvas extends Component<IProps, IState> {
               );
             })}
             {images.map(g => {
-              var transformImage = this.tranformImage(g);
+              var transformImage = getTransformedImage(g);
               return (
                 <div
                 key={g._id + "guide_5"}

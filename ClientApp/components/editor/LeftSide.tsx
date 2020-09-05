@@ -947,15 +947,14 @@ class LeftSide extends Component<IProps, IState> {
           outline: "1px solid rgba(14,19,24,.15)",
         }}
       >
-        {editorStore.tReady && (
           <div
           style={{
             width: `80px`,
             zIndex: 1111111111,
-            overflow: 'scroll',
             flexDirection: 'column',
           }}
         >
+          {editorStore.tReady && 
           <TopMenu
             translate={this.props.translate}
             mounted={this.props.mounted}
@@ -964,9 +963,8 @@ class LeftSide extends Component<IProps, IState> {
             selectedTab={editorStore.selectedTab}
             onClick={this.handleSidebarSelectorClicked}
             tReady={this.props.tReady}
-          />
+          />}
           </div>
-        )}
         <div
           style={{
             position: "absolute",

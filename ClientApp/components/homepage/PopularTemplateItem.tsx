@@ -48,6 +48,9 @@ const PopularTemplateItem = (props: IProps) => {
                 data-subcateg="home"  
                 data-value={props.dataValue} 
                 href={props.href}
+                onClick={e => {
+                    if (window.dragging) e.preventDefault();
+                }}
             >
                 <div className="previewWrapper___mbAh5">
                     <div 

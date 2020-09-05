@@ -530,6 +530,7 @@ input:focus {
 
 #screen-container-parent {
   scroll-behavior: smooth;
+  user-select: none;
 }
 
 button:focus {
@@ -1163,7 +1164,7 @@ button {
 // }
 
 .selection-area {
-  background: rgba(0, 217, 225, 0.11);
+  background: rgba(0, 217, 225, 0.2);
   border-radius: 0.1em;
   border: 1px solid rgb(0, 217, 225);
 }

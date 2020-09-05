@@ -6,7 +6,6 @@ import axios from "axios";
 import Globals from "@Globals";
 import { Helmet } from "react-helmet";
 import { toJS } from "mobx";
-import { observer } from "mobx-react";
 import { withTranslation } from "react-i18next";
 import editorTranslation from "@Locales/default/editor";
 import { SubType, SidebarTab, Mode, TemplateType, SavingState, CanvasType, } from "@Components/editor/enums";
@@ -69,6 +68,7 @@ import {
     updatePosition,
     getLength, 
     getAngle,
+    transformImage,
 }  from "@Utils";
 
 const RESIZE_OFFSET = 10;
@@ -1129,8 +1129,6 @@ class CanvaEditor extends Component<IProps, IState> {
             // }, 300);
 
             let top = 999999, right = 0, bottom = 0, left = 999999;
-
-
             evt.selected.forEach(node => {
                 let id = node.attributes.iden.value;
                 if (!id) return;
@@ -1506,7 +1504,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let images = [];
         Array.from(editorStore.images2.values()).forEach(image => {
             if (image.page === window.image.page && image._id != editorStore.idObjectSelected) {
-                let clonedImage = this.tranformImage(clone(image));
+                let clonedImage = transformImage(clone(image));
                 images.push(clonedImage);
             }
         });
@@ -2947,8 +2945,64 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image.rotateAngle = window.rotateAngle;
         editorStore.images2.set(editorStore.idObjectSelected, window.image);
         this.updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
-
         
+        let image = window.image;
+        let newL = image.left;
+        let newR = image.left + image.width;
+        let newT = image.top;
+        let newB = image.top + image.height;
+        let centerX = image.left + image.width / 2;
+        let centerY = image.top + image.height / 2;
+        let rotateAngle = image.rotateAngle / 180 * Math.PI;
+
+        let bb = [
+            {
+                x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+            }
+        ]
+
+        let top = 999999, right = 0, bottom = 0, left = 999999;
+
+        left = Math.min(left, bb[0].x);
+        left = Math.min(left, bb[1].x);
+        left = Math.min(left, bb[2].x);
+        left = Math.min(left, bb[3].x);
+        right = Math.max(right, bb[0].x)
+        right = Math.max(right, bb[1].x)
+        right = Math.max(right, bb[2].x)
+        right = Math.max(right, bb[3].x)
+        top = Math.min(top, bb[0].y)
+        top = Math.min(top, bb[1].y)
+        top = Math.min(top, bb[2].y)
+        top = Math.min(top, bb[3].y)
+        bottom = Math.max(bottom, bb[0].y)
+        bottom = Math.max(bottom, bb[1].y)
+        bottom = Math.max(bottom, bb[2].y)
+        bottom = Math.max(bottom, bb[3].y)
+
+        const {scale} = this.state;
+        document.getElementById(image._id + "guide_0").style.left = `${left * scale}px`;
+        document.getElementById(image._id + "guide_1").style.left = `${(left + (right - left) / 2) * scale}px`;
+        document.getElementById(image._id + "guide_2").style.left = `${right * scale}px`;
+        document.getElementById(image._id + "guide_3").style.top = `${top * scale}px`;
+        document.getElementById(image._id + "guide_4").style.top = `${(top + (bottom - top) / 2) * scale}px`;
+        document.getElementById(image._id + "guide_5").style.top = `${bottom * scale}px`;
+        
+        console.log('handleRotateEnd', left, right, top, bottom)
+
         if (window.image.type == TemplateType.GroupedItem) {
             window.selections.forEach(sel => {
                 const id = sel.attributes.iden.value;
@@ -2959,11 +3013,12 @@ class CanvaEditor extends Component<IProps, IState> {
                 image.top = window.selectionsAngle[id].top;
                 image.selected = false;
                 editorStore.images2.set(id, image);
+                this.updateGuide(image);
                 this.updateImages(id, image.page, image, true);
             });
         }
 
-        this.refreshActivePage();
+        // this.refreshActivePage();
     };
 
     refreshActivePage() {
@@ -3004,10 +3059,10 @@ class CanvaEditor extends Component<IProps, IState> {
             if (image.page === window.image.page) {
 
                 if (window.image.type != TemplateType.GroupedItem) {
-                    let clonedImage = this.tranformImage(clone(image));
+                    let clonedImage = transformImage(clone(image));
                     images.push(clonedImage);
                 } else if (!window.selectionIDs[image._id]) {
-                    let clonedImage = this.tranformImage(clone(image));
+                    let clonedImage = transformImage(clone(image));
                     images.push(clonedImage);
                 }
             }
@@ -3059,22 +3114,56 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     tranformImage = (image: any) => {
-        var centerX = image.left + image.width / 2;
-        var centerY = image.top + image.height / 2;
+        let newL = image.left;
+        let newR = image.left + image.width;
+        let newT = image.top;
+        let newB = image.top + image.height;
+        let centerX = image.left + image.width / 2;
+        let centerY = image.top + image.height / 2;
+        let rotateAngle = image.rotateAngle / 180 * Math.PI;
 
-        if (!image.rotateAngle || image.rotateAngle === 0) {
-            return {
-                _id: image._id,
-                x: [centerX - image.width / 2, centerX, centerX + image.width / 2],
-                y: [centerY - image.height / 2, centerY, centerY + image.height / 2]
-            };
-        } else {
-            return {
-                _id: image._id,
-                x: [centerX - image.height / 2, centerX, centerX + image.height / 2],
-                y: [centerY - image.width / 2, centerY, centerY + image.width / 2]
-            };
-        }
+        let bb = [
+            {
+                x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+            }
+        ]
+        let top = 999999, right = 0, bottom = 0, left = 999999;
+
+        left = Math.min(left, bb[0].x);
+        left = Math.min(left, bb[1].x);
+        left = Math.min(left, bb[2].x);
+        left = Math.min(left, bb[3].x);
+        right = Math.max(right, bb[0].x)
+        right = Math.max(right, bb[1].x)
+        right = Math.max(right, bb[2].x)
+        right = Math.max(right, bb[3].x)
+        top = Math.min(top, bb[0].y)
+        top = Math.min(top, bb[1].y)
+        top = Math.min(top, bb[2].y)
+        top = Math.min(top, bb[3].y)
+        bottom = Math.max(bottom, bb[0].y)
+        bottom = Math.max(bottom, bb[1].y)
+        bottom = Math.max(bottom, bb[2].y)
+        bottom = Math.max(bottom, bb[3].y)
+
+        return {
+            _id: image._id,
+            x: [left, left + (right - left) / 2, right],
+            y: [top, top + (bottom - top) / 2, bottom]
+        };
     };
 
     handleImageDrag = (_id, clientX, clientY) => {
@@ -3159,6 +3248,57 @@ class CanvaEditor extends Component<IProps, IState> {
         let image = window.image;
         newLeft = (clientX - window.startX + window.startLeft) / scale;
         newTop = (clientY - window.startY + window.startTop) / scale;
+        console.log('newLeft ', newLeft)
+
+        let newL = newLeft;
+        let newR = newL + image.width;
+        let newT = newTop;
+        let newB = newT + image.height;
+        let centerXX = newLeft + image.width / 2;
+        let centerYY = newTop + image.height / 2;
+        let rotateAngle = image.rotateAngle / 180 * Math.PI;
+
+        let bb = [
+            {
+                x: (newL - centerXX) * Math.cos(rotateAngle) - (newT - centerYY) * Math.sin(rotateAngle) + centerXX,
+                y: (newL - centerXX) * Math.sin(rotateAngle) + (newT - centerYY) * Math.cos(rotateAngle) + centerYY,
+            },
+            {
+                x: (newR - centerXX) * Math.cos(rotateAngle) - (newT - centerYY) * Math.sin(rotateAngle) + centerXX,
+                y: (newR - centerXX) * Math.sin(rotateAngle) + (newT - centerYY) * Math.cos(rotateAngle) + centerYY,
+            },
+            {
+                x: (newR - centerXX) * Math.cos(rotateAngle) - (newB - centerYY) * Math.sin(rotateAngle) + centerXX,
+                y: (newR - centerXX) * Math.sin(rotateAngle) + (newB - centerYY) * Math.cos(rotateAngle) + centerYY,
+            },
+            {
+                x: (newL - centerXX) * Math.cos(rotateAngle) - (newB - centerYY) * Math.sin(rotateAngle) + centerXX,
+                y: (newL - centerXX) * Math.sin(rotateAngle) + (newB - centerYY) * Math.cos(rotateAngle) + centerYY,
+            }
+        ]
+
+        let top1 = 999999, right1 = 0, bottom1 = 0, left1 = 999999;
+
+        left1 = Math.min(left1, bb[0].x);
+        left1 = Math.min(left1, bb[1].x);
+        left1 = Math.min(left1, bb[2].x);
+        left1 = Math.min(left1, bb[3].x);
+        right1 = Math.max(right1, bb[0].x)
+        right1 = Math.max(right1, bb[1].x)
+        right1 = Math.max(right1, bb[2].x)
+        right1 = Math.max(right1, bb[3].x)
+        top1 = Math.min(top1, bb[0].y)
+        top1 = Math.min(top1, bb[1].y)
+        top1 = Math.min(top1, bb[2].y)
+        top1 = Math.min(top1, bb[3].y)
+        bottom1 = Math.max(bottom1, bb[0].y)
+        bottom1 = Math.max(bottom1, bb[1].y)
+        bottom1 = Math.max(bottom1, bb[2].y)
+        bottom1 = Math.max(bottom1, bb[3].y)
+
+        console.log('right1 ', right1)
+
+
         newLeft2 = newLeft + image.width / 2;
         newLeft3 = newLeft + image.width;
         newTop2 = newTop + image.height / 2;
@@ -3169,14 +3309,14 @@ class CanvaEditor extends Component<IProps, IState> {
         centerY = newTop + image.height / 2;
         left = newLeft;
         top = newTop;
-        if (image.rotateAngle === 90 || image.rotateAngle === 270) {
-            newLeft = centerX - image.height / 2;
-            newTop = centerY - image.width / 2;
-            newLeft2 = centerX;
-            newLeft3 = centerX + image.height / 2;
-            newTop2 = centerY;
-            newTop3 = centerY + image.width / 2;
-        }
+        // if (image.rotateAngle === 90 || image.rotateAngle === 270) {
+        //     newLeft = centerX - image.height / 2;
+        //     newTop = centerY - image.width / 2;
+        //     newLeft2 = centerX;
+        //     newLeft3 = centerX + image.height / 2;
+        //     newTop2 = centerY;
+        //     newTop3 = centerY + image.width / 2;
+        // }
         if (img.type === TemplateType.BackgroundImage
             // || img.type == TemplateType.GroupedItem
         ) {
@@ -3192,30 +3332,32 @@ class CanvaEditor extends Component<IProps, IState> {
                 let el5 = document.getElementById(imageTransformed._id + "guide_5");
 
                 if (
-                    Math.abs(newLeft - imageTransformed.x[0]) < RESIZE_OFFSET
+                    Math.abs(left1 - imageTransformed.x[0]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= newLeft - imageTransformed.x[0];
+                        left -= left1 - imageTransformed.x[0];
                     }
                     if (el0) {
                         el0.style.display = "block";
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs(newLeft2 - imageTransformed.x[0]) < RESIZE_OFFSET
+                    Math.abs((left1 + right1)/2 - imageTransformed.x[0]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= newLeft2 - imageTransformed.x[0];
+                        left -= (left1 + right1)/2 - imageTransformed.x[0];
                     }
                     if (el0) {
                         el0.style.display = "block";
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs(newLeft3 - imageTransformed.x[0]) < RESIZE_OFFSET
+                    Math.abs(right1 - imageTransformed.x[0]) < RESIZE_OFFSET
                 ) {
+                    console.log('updateStartPosX', updateStartPosX)
                     if (!updateStartPosX) {
-                        left -= newLeft3 - imageTransformed.x[0];
+                        left -= right1 - imageTransformed.x[0];
+                        // left = imageTransformed.x[0] - image.width;
                     }
                     if (el0) {
                         el0.style.display = "block";
@@ -3228,30 +3370,30 @@ class CanvaEditor extends Component<IProps, IState> {
                 }
 
                 if (
-                    Math.abs(newLeft - imageTransformed.x[1]) < RESIZE_OFFSET
+                    Math.abs(left1 - imageTransformed.x[1]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= newLeft - imageTransformed.x[1];
+                        left -= left1 - imageTransformed.x[1];
                     }
                     if (el1) {
                         el1.style.display = "block";
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs(newLeft2 - imageTransformed.x[1]) < RESIZE_OFFSET
+                    Math.abs((left1 + right1)/2 - imageTransformed.x[1]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= newLeft2 - imageTransformed.x[1];
+                        left -= (left1 + right1)/2 - imageTransformed.x[1];
                     }
                     if (el1) {
                         el1.style.display = "block";
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs(newLeft3 - imageTransformed.x[1]) < RESIZE_OFFSET
+                    Math.abs(right1 - imageTransformed.x[1]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= newLeft3 - imageTransformed.x[1];
+                        left -= right1 - imageTransformed.x[1];
                     }
                     if (el1) {
                         el1.style.display = "block";
@@ -3264,30 +3406,30 @@ class CanvaEditor extends Component<IProps, IState> {
                 }
 
                 if (
-                    Math.abs(newLeft - imageTransformed.x[2]) < RESIZE_OFFSET
+                    Math.abs(left1 - imageTransformed.x[2]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= newLeft - imageTransformed.x[2];
+                        left -= left1 - imageTransformed.x[2];
                     }
                     if (el2) {
                         el2.style.display = "block";
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs(newLeft2 - imageTransformed.x[2]) < RESIZE_OFFSET
+                    Math.abs((left1 + right1)/2 - imageTransformed.x[2]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= newLeft2 - imageTransformed.x[2];
+                        left -= (left1 + right1)/2 - imageTransformed.x[2];
                     }
                     if (el2) {
                         el2.style.display = "block";
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs(newLeft3 - imageTransformed.x[2]) < RESIZE_OFFSET
+                    Math.abs(right1 - imageTransformed.x[2]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= newLeft3 - imageTransformed.x[2];
+                        left -= right1 - imageTransformed.x[2];
                     }
                     if (el2) {
                         el2.style.display = "block";
@@ -3300,30 +3442,30 @@ class CanvaEditor extends Component<IProps, IState> {
                 }
 
                 if (
-                    Math.abs(newTop - imageTransformed.y[0]) < RESIZE_OFFSET
+                    Math.abs(top1 - imageTransformed.y[0]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
-                        top -= newTop - imageTransformed.y[0];
+                        top -= top1 - imageTransformed.y[0];
                     }
                     if (el3) {
                         el3.style.display = "block";
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs(newTop2 - imageTransformed.y[0]) < RESIZE_OFFSET
+                    Math.abs((top1 + bottom1)/2 - imageTransformed.y[0]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
-                        top -= newTop2 - imageTransformed.y[0];
+                        top -= (top1 + bottom1)/2 - imageTransformed.y[0];
                     }
                     if (el3) {
                         el3.style.display = "block";
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs(newTop3 - imageTransformed.y[0]) < RESIZE_OFFSET
+                    Math.abs(bottom1 - imageTransformed.y[0]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
-                        top -= newTop3 - imageTransformed.y[0];
+                        top -= bottom1 - imageTransformed.y[0];
                     }
                     if (el3) {
                         el3.style.display = "block";
@@ -3336,17 +3478,17 @@ class CanvaEditor extends Component<IProps, IState> {
                 }
 
                 if (
-                    Math.abs(newTop - imageTransformed.y[1]) < RESIZE_OFFSET
+                    Math.abs(top1 - imageTransformed.y[1]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
-                        top -= newTop - imageTransformed.y[1];
+                        top -= top1 - imageTransformed.y[1];
                     }
                     if (el4) {
                         el4.style.display = "block";
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs(newTop2 - imageTransformed.y[1]) < RESIZE_OFFSET
+                    Math.abs((top1 + bottom1)/2 - imageTransformed.y[1]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
                         top -= newTop2 - imageTransformed.y[1];
@@ -3356,10 +3498,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs(newTop3 - imageTransformed.y[1]) < RESIZE_OFFSET
+                    Math.abs(bottom1 - imageTransformed.y[1]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
-                        top -= newTop3 - imageTransformed.y[1];
+                        top -= bottom1 - imageTransformed.y[1];
                     }
                     if (el4) {
                         el4.style.display = "block";
@@ -3372,30 +3514,30 @@ class CanvaEditor extends Component<IProps, IState> {
                 }
 
                 if (
-                    Math.abs(newTop - imageTransformed.y[2]) < RESIZE_OFFSET
+                    Math.abs(top1 - imageTransformed.y[2]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
-                        top -= newTop - imageTransformed.y[2];
+                        top -= top1 - imageTransformed.y[2];
                     }
                     if (el5) {
                         el5.style.display = "block";
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs(newTop2 - imageTransformed.y[2]) < RESIZE_OFFSET
+                    Math.abs((top1 + bottom1)/2 - imageTransformed.y[2]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) { 
-                        top -= newTop2 - imageTransformed.y[2];
+                        top -= (top1 + bottom1)/2 - imageTransformed.y[2];
                     }
                     if (el5) {
                         el5.style.display = "block";
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs(newTop3 - imageTransformed.y[2]) < RESIZE_OFFSET
+                    Math.abs(bottom1 - imageTransformed.y[2]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
-                        top -= newTop3 - imageTransformed.y[2];
+                        top -= bottom1 - imageTransformed.y[2];
                     }
                     if (el5) {
                         el5.style.display = "block";
@@ -3563,16 +3705,27 @@ class CanvaEditor extends Component<IProps, IState> {
         if (includeDownloadCanvas) this.canvas2[pageId].canvas[CanvasType.Download][id].child.updateImage(image);
     }
 
+    getGuider(id, num) {
+        return document.getElementById(id + `guide_${num}`);
+    }
+
     updateGuide(image) {
         const {scale} = this.state;
-        var transformImage = this.tranformImage(image);
-        document.getElementById(image._id + "guide_0").style.left = `${transformImage.x[0] * scale}px`;
-        document.getElementById(image._id + "guide_1").style.left = `${transformImage.x[1] * scale}px`;
-        document.getElementById(image._id + "guide_2").style.left = `${transformImage.x[2] * scale}px`;
-        document.getElementById(image._id + "guide_3").style.top = `${transformImage.y[0] * scale}px`;
-        document.getElementById(image._id + "guide_4").style.top = `${transformImage.y[1] * scale}px`;
-        document.getElementById(image._id + "guide_5").style.top = `${transformImage.y[2] * scale}px`;
+        const transformedimage = transformImage(image);
 
+        let gui0 = this.getGuider(image._id, 0);
+        let gui1 = this.getGuider(image._id, 1);
+        let gui2 = this.getGuider(image._id, 2);
+        let gui3 = this.getGuider(image._id, 3);
+        let gui4 = this.getGuider(image._id, 4);
+        let gui5 = this.getGuider(image._id, 5);
+
+        if (gui0) gui0.style.left = `${transformedimage.x[0] * scale}px`;
+        if (gui1) gui1.style.left = `${transformedimage.x[1] * scale}px`;
+        if (gui2) gui2.style.left = `${transformedimage.x[2] * scale}px`;
+        if (gui3) gui2.style.top = `${transformedimage.y[0] * scale}px`;
+        if (gui4) gui2.style.top = `${transformedimage.y[1] * scale}px`;
+        if (gui5) gui2.style.top = `${transformedimage.y[2] * scale}px`;
     }
 
     handleDragEnd = () => {
@@ -3591,12 +3744,12 @@ class CanvaEditor extends Component<IProps, IState> {
             let el4 = document.getElementById(imageTransformed._id + "guide_4");
             let el5 = document.getElementById(imageTransformed._id + "guide_5");
 
-            el0.style.display = "none";
-            el1.style.display = "none";
-            el2.style.display = "none";
-            el3.style.display = "none";
-            el4.style.display = "none";
-            el5.style.display = "none";
+            if (el0) el0.style.display = "none";
+            if (el1) el1.style.display = "none";
+            if (el2) el2.style.display = "none";
+            if (el3) el3.style.display = "none";
+            if (el4) el4.style.display = "none";
+            if (el5) el5.style.display = "none";
         });
 
         if (window.image.type == TemplateType.GroupedItem && window.selections) {
@@ -3694,15 +3847,6 @@ class CanvaEditor extends Component<IProps, IState> {
         }
     };
 
-    selectBackground = (e) => {
-        const canvasId = e.target.getAttribute("myattribute");
-        this.setState({
-            selectedCanvas: canvasId,
-            fontColor: editorStore.pageColor.get(canvasId),
-        });
-        // e.target.style.border = "1px solid black";
-    }
-
     templateOnMouseDown(doc) {
         editorStore.doNoObjectSelected();
         var ce = document.createElement.bind(document);
@@ -3799,66 +3943,10 @@ class CanvaEditor extends Component<IProps, IState> {
         if (editorStore.selectedTab === SidebarTab.Font || editorStore.selectedTab === SidebarTab.Color || editorStore.selectedTab === SidebarTab.Effect) {
             editorStore.selectedTab = SidebarTab.Image;
         }
-
-        return;
-
-        if (editorStore.colorPickerVisibility.get()) {
-            return;
-        }
-        if (editorStore.imageSelected) {
-            if (editorStore.imageSelected.type == TemplateType.GroupedItem) {
-                editorStore.images2.delete(editorStore.idObjectSelected);
-            } else {
-                let imageSelected = this.getImageSelected();
-                imageSelected.selected = false;
-                imageSelected.hovered = false;
-
-                editorStore.images2.set(editorStore.idObjectSelected, imageSelected);
-            }
-        }
-
-        let selectedTab = this.state.selectedTab;
-        if (this.state.selectedTab === SidebarTab.Font || this.state.selectedTab === SidebarTab.Color || this.state.selectedTab === SidebarTab.Effect) {
-            selectedTab = SidebarTab.Image;
-        }
-
-        editorStore.doNoObjectSelected();
-
-        if (this.state.cropMode) {
-            this.rerenderAllPages();
-        }
-
-        if (window.selections) {
-            window.selections.forEach(el => {
-                el.style.opacity = 0;
-
-                // let id = el.attributes.iden.value;
-                // if (id) {
-                //     let image = editorStore.images2.get(id);
-                //     if (image) {
-                //         image.hovered = false;
-                //         editorStore.images2.set(id, image);
-                //     }
-                // }
-            });
-
-            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-            editorStore.keys[index] = editorStore.keys[index] + 1;
-        }
-
-        this.setState({
-            selectedCanvas: null,
-            cropMode: false,
-            selectedTab,
-            idObjectSelected: null,
-            selectedImage: null,
-            typeObjectSelected: null,
-            childId: null,
-        });
-
     };
 
     removeImage(e) {
+        let image = this.getImageSelected();
         var OSNAME = this.getPlatformName();
         if (
             editorStore.idObjectSelected != "undefined" &&
@@ -3888,7 +3976,7 @@ class CanvaEditor extends Component<IProps, IState> {
             }
         }
         
-        if (window.selections && 
+        if (image.type == TemplateType.GroupedItem && window.selections && 
             ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
                 (e.keyCode === 8 && OSNAME == "Windows"))) {
             window.selections.forEach(sel => {
@@ -3908,9 +3996,6 @@ class CanvaEditor extends Component<IProps, IState> {
             return;
         }
         if (img.type != TemplateType.BackgroundImage) {
-            // editorStore.idObjectHovered = img._id;
-            // editorStore.imageHovered = img;
-            // let image = toJS(editorStore.images2.get(img._id));
             img.hovered = value;
             editorStore.images2.set(img._id, img);
 
