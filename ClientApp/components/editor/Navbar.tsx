@@ -4,10 +4,11 @@ import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
 import Globals from "@Globals";
 import loadable from "@loadable/component";
-const DownloadIcon = loadable(() => import("@Components/shared/svgs/DownloadIcon"));
 const DownloadList = loadable(() => import("@Components/editor/DownloadList"));
 const Home = loadable(() => import("@Components/shared/svgs/HomeIcon"));
 const HomeButton = loadable(() => import("@Components/editor/HomeButton"));
+
+import DownloadIcon from "@Components/shared/svgs/DownloadIcon";
 
 interface IProps {
     translate: any;
