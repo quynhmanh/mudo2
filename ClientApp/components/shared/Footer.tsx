@@ -9,9 +9,6 @@ export default class Footer extends React.Component<{}, {}> {
         <div style={{
             color: 'white',
             padding: '30px 0',
-            // backgroundImage: 'url(images/Kwb3ggnPi0Wzp6nRw3ov7Q.png)',
-            // backgroundSize: '100% 100%',
-            // backgroundRepeat: 'no-repeat',
         }} className="jsx-104637934 footer-section">
           <div className="jsx-104637934 container">
             <div className="jsx-104637934 upper">

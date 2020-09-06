@@ -90,14 +90,13 @@ class LeftSide extends Component<IProps, IState> {
             image = found;
         }
         const props = this.props;
-        // const { editorStore } = props;
         return (
             <React.Fragment>
                 <FontFamily
                     show=
                     {
                         (
-                            props.childId !== null ||
+                            editorStore.childId !== null ||
                             (
                                 image &&
                                 image.type === TemplateType.Heading
@@ -114,7 +113,7 @@ class LeftSide extends Component<IProps, IState> {
                     {
                         (image &&
                         image.type === TemplateType.Heading) || 
-                        !!props.childId
+                        !! editorStore.childId
                     }
                     translate={props.translate}
                     selectedImage={props.selectedImage}

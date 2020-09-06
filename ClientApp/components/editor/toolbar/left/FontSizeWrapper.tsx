@@ -21,6 +21,8 @@ const fontSizes = [
 
 const FontSizeWrapper = (props: IProps) => {
     const { show, childId, selectedImage, handleFontSizeBtnClick, translate, fontSize } = props;
+
+    console.log('FontSizeWrapper ', show)
     const content = translate("fontSize");
     return (
         <Tooltip
@@ -36,14 +38,14 @@ const FontSizeWrapper = (props: IProps) => {
             <div
                 style={{
                     position: "relative",
-                    display:
-                        childId ||
-                            (
-                                selectedImage &&
-                                selectedImage.type === TemplateType.Heading
-                            )
-                            ? "block"
-                            : "none",
+                    // display:
+                    //     childId ||
+                    //         (
+                    //             selectedImage &&
+                    //             selectedImage.type === TemplateType.Heading
+                    //         )
+                    //         ? "block"
+                    //         : "none",
                     width: "80px",
                 }}
                 className="toolbar-btn"

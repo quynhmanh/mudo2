@@ -86,8 +86,8 @@ export default styled.div`
     background-color: white;
     border-radius: 50%;
     position: absolute;
-    width: 11px;
-    height: 11px;
+    width: 12px;
+    height: 12px;
     cursor: pointer;
     z-index: 1000;
     &.tl,

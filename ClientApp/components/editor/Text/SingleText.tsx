@@ -70,6 +70,15 @@ export default class SingleText extends PureComponent<IProps, IState> {
     this.$textEle.innerHTML = this.props.innerHTML;
   }
 
+  
+	updateInnerHTML(innerHTML) {
+    console.log('updateInnerHTML', innerHTML, this.$textEle)
+		if (innerHTML && this.$textEle) {
+      console.log('updateInnerHTML2')
+			this.$textEle.innerHTML = innerHTML;
+		}
+	}
+
 
   startEditing = (e) => {
     if (!this.props.selected) {e.preventDefault();}

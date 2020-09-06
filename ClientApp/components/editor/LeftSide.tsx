@@ -464,7 +464,6 @@ class LeftSide extends Component<IProps, IState> {
   }
 
   handleEditFont = item => {
-    // this.setState({showFontEditPopup: true, editingFont: item});
     this.props.handleEditFont(item);
   };
 
@@ -680,7 +679,6 @@ class LeftSide extends Component<IProps, IState> {
   };
 
   loadmoreUserUpload = initialload => {
-    console.log('loadmoreUserUpload ', initialload)
     if (!Globals.serviceUser || !Globals.serviceUser.username) {
       this.setState(state => ({
         isUserUploadLoading: false,
@@ -755,7 +753,6 @@ class LeftSide extends Component<IProps, IState> {
       count = 15;
     }
     this.setState({ isRemovedBackgroundImageLoading: true, error: undefined });
-    // const url = `https://api.unsplash.com/photos?page=1&&client_id=500eac178a285523539cc1ec965f8ee6da7870f7b8678ad613b4fba59d620c29&&query=${this.state.query}&&per_page=${count}&&page=${pageId}`;
     const url = `/api/Media/Search?type=${TemplateType.RemovedBackgroundImage}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
     fetch(url)
       .then(res => res.json())
@@ -838,93 +835,60 @@ class LeftSide extends Component<IProps, IState> {
     axios.delete(url);
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.props.selectedImage && nextProps.selectedImage && nextProps.effectId != editorStore.effectId) {
-  //     if (window.prevEffectId) {
-  //       var el = document.getElementById("effect-btn-" + window.prevEffectId);
-  //       if (el) {
-  //         el.style.boxShadow = "0 0 0 1px rgba(14,19,24,.15)";
-  //       }
-  //     }
-  //     var el = document.getElementById("effect-btn-" + nextProps.effectId);
-  //     if (el) {
-  //       el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-  //     }
-  //     window.prevEffectId = nextProps.effectId;
-  //   }
-
-  //   if (!window.prevEffectId && nextProps.selectedImage && nextProps.selectedImage.effectId) {
-  //     var el = document.getElementById("effect-btn-" + nextProps.selectedImage.effectId);
-  //     if (el) {
-  //       el.style.boxShadow = "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff";
-  //     }
-  //     window.prevEffectId = nextProps.selectedImage.effectId;
-  //   }
-
-  //   let result = false;
-
-  //   if (nextProps.selectedTab != editorStore.selectedTab) {
-  //     result = true;
-  //   }
-
-  //   if (nextProps.mounted && !this.props.mounted) {
-  //     result = true;
-  //   }
-
-  //   if (nextProps.toolbarOpened != this.props.toolbarOpened) {
-  //     result = true;
-  //   }
-  //   if (this.props.subtype !== nextProps.subtype) {
-  //     result = true;
-  //   }
-  //   if (this.props.tReady !== nextProps.tReady) {
-  //     result = true;
-  //   }
-
-  //   if (this.state.hasMoreFonts != nextState.hasMoreFonts) {
-  //     result = true;
-  //   }
-
-  //   if (nextProps.selectedTab === SidebarTab.Effect && 
-  //     editorStore.effectId != nextProps.effectId) {
-  //     result = true;
-  //   }
-
-  //   if (nextProps.selectedTab === SidebarTab.Effect && (!this.props.selectedImage) && nextProps.selectedImage) {
-  //     result = true;
-  //   }
-
-  //   if (nextProps.childId != this.props.childId) {
-  //     result = true;
-  //   }
-
-  //   if (this.props.fontId != nextProps.fontId) {
-  //     result = true;
-  //   }
-
-  //   if (this.state.userUpload1.length != nextState.userUpload1.length) {
-  //     result = true;
-  //   }
-
-  //   // if (this.props.scale != nextProps.scale) {
-  //   //   return false;
-  //   // }
-
-  //   // if (nextProps.dragging || nextProps.resizing || nextProps.rotating) {
-  //   //   return false;
-  //   // }
-
-  //   return result;
-  // }
-
   handleSidebarSelectorClicked = (tab, e) => {
-    // this.props.handleSidebarSelectorClicked(tab, e);
-    // this.forceUpdate();
     editorStore.selectedTab = tab;
   };
 
   handleColorPick = (e) => {
     this.forceUpdate();
+  }
+
+  addText = (text, fontSize, fontFace, fontRepresentative, width, height) => {
+    var item = {
+      _id: uuidv4(),
+      type: TemplateType.Heading,
+      align: "alignLeft",
+      width: width,
+      origin_width: width,
+      height: height * 1,
+      origin_height: height,
+      left: 0,
+      top: 0,
+      rotateAngle: 0.0,
+      innerHTML: `<div class="font" style="font-size: ${fontSize}px;">${text}</div>`,
+      scaleX: 1,
+      scaleY: 1,
+      ref: editorStore.idObjectSelected,
+      page: editorStore.activePageId,
+      zIndex: editorStore.upperZIndex + 1,
+      color: "black",
+      fontSize: fontSize,
+      fontRepresentative: fontRepresentative,
+      hovered: true,
+      selected: true,
+      fontFace: fontFace,
+      effectId: 8,
+      lineHeight: 1.4,
+      letterSpacing: 30,
+      opacity: 100,
+    };
+
+    editorStore.addItem2(item, true);
+    this.props.handleImageSelected(item._id, editorStore.activePageId, null, true);
+
+    let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+    editorStore.keys[index] = editorStore.keys[index] + 1;
+
+    setTimeout(() => {
+      let el = document.getElementById(item._id + "hihi4alo");
+      let range = document.createRange();
+      range.selectNodeContents(el)
+      var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }, 100);
+    
+    editorStore.increaseUpperzIndex();
   }
 
   render() {
@@ -1144,6 +1108,7 @@ class LeftSide extends Component<IProps, IState> {
                           onEdit={this.handleEditmedia.bind(this, item)}
                           delay={0}
                           showButton={false}
+                          backgroundColorLoaded="transparent"
                         />
                       ))}
                       {this.state.mounted &&
@@ -1166,6 +1131,7 @@ class LeftSide extends Component<IProps, IState> {
                               }}
                               onEdit={this.handleEditmedia.bind(this, null)}
                               delay={0}
+                              backgroundColorLoaded="transparent"
                             />
                           ))}
                       {this.state.mounted &&
@@ -1211,6 +1177,7 @@ class LeftSide extends Component<IProps, IState> {
                           onPick={this.props.imgOnMouseDown.bind(this, item)}
                           onEdit={this.handleEditmedia.bind(this, item)}
                           delay={-1}
+                          backgroundColorLoaded="transparent"
                         />
                       ))}
                       {this.state.mounted &&
@@ -1309,65 +1276,8 @@ class LeftSide extends Component<IProps, IState> {
                 {editorStore.tReady &&
                 <div style={{ marginBottom: "10px" }}>
                   <p>
-                    {/* Nhấn để thêm chữ vào trang */}
                     {this.props.translate("clickTextToAddToPage")}
                   </p>
-                  {/* <div
-              style={{
-                fontSize: '28px',
-                width: '100%',
-                cursor: 'pointer',
-              }}
-              onMouseDown={(e) => {
-                e.preventDefault();
-
-                var _id = uuidv4();
-
-                let images = this.state.images.map(img => {
-                  if (img._id === this.props.idObjectSelected) {
-                    img.childId = _id;
-                  }
-                  return img;
-                });
-
-                var scale = this.props.rectWidth / e.target.getBoundingClientRect().width;
-
-                this.props.addItem({
-                    _id,
-                    type: TemplateType.Latex,
-                    width: 200 * scale,
-                    origin_width: 200,
-                    height: 40 * scale,
-                    origin_height: 40,
-                    left: 0,
-                    top: 0,
-                    rotateAngle: 0.0,
-                    innerHTML: "Phương trình: $$ f(x) = x^2 $$",
-                    scaleX: scale,
-                    scaleY: scale,
-                    selected: false,
-                    ref: this.props.idObjectSelected,
-                    page: this.props.activePageId,
-                    zIndex: this.state.upperZIndex + 1,
-                    width2: 1,
-                    height2: 1,
-                    document_object: [],
-                    color: null,
-                    opacity: 100,
-                    backgroundColor: null,
-                    posX: 0,
-                    posY: 0,
-                    imgHeight: 0,
-                    imgWidth: 0,
-                    src: null,
-                    childId: null,
-                });
-
-                this.setState({ upperZIndex: this.state.upperZIndex + 1 });
-              }}
-            >
-                Thêm LaTeX
-            </div> */}
                   <div
                     className="add-heading-btn"
                     style={{
@@ -1381,53 +1291,8 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
-                      var item = {
-                        _id: uuidv4(),
-                        type: TemplateType.Heading,
-                        align: "alignLeft",
-                        width: 500 * 1,
-                        origin_width: 500,
-                        height: 78 * 1,
-                        origin_height: 78,
-                        left: 0,
-                        top: 0,
-                        rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="font-size: 56px;">${this.props.translate(
-                          "addAHeading"
-                        )}</div>`,
-                        scaleX: 1,
-                        scaleY: 1,
-                        ref: editorStore.idObjectSelected,
-                        page: editorStore.activePageId,
-                        zIndex: editorStore.upperZIndex + 1,
-                        color: "black",
-                        fontSize: 56,
-                        fontRepresentative: "images/font-Open Sans Extra Bold.png",
-                        hovered: true,
-                        selected: true,
-                        fontFace: "Open-Sans-Extra-Bold",
-                        effectId: 8,
-                        lineHeight: 1.4,
-                        letterSpacing: 30,
-                        opacity: 100,
-                      };
-
-                      editorStore.addItem2(item, true);
-                      this.props.handleImageSelected(item._id, editorStore.activePageId, null, true);
-
-                      let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-                      editorStore.keys[index] = editorStore.keys[index] + 1;
-
-                      setTimeout(() => {
-                        let el = document.getElementById(item._id + "hihi4alo");
-                        let range = document.createRange();
-                        range.selectNodeContents(el)
-                        var sel = window.getSelection();
-                          sel.removeAllRanges();
-                          sel.addRange(range);
-                      }, 100);
-                      
-                      editorStore.increaseUpperzIndex();
+                      const text = this.props.translate("addAHeading");
+                      this.addText(text, 56, "Open-Sans-Extra-Bold", "images/font-Open Sans Extra Bold.png", 500, 78);
                     }}
                   >
                     {/* Thêm tiêu đề */}
@@ -1447,52 +1312,10 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
-                      var item = {
-                        _id: uuidv4(),
-                        type: TemplateType.Heading,
-                        width: 300 * 1,
-                        origin_width: 300,
-                        height: 44 * 1,
-                        origin_height: 44,
-                        left: 0,
-                        top: 0,
-                        rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="font-size: 32px;">${this.props.translate(
-                          "addASubHeading"
-                        )}</div>`,
-                        scaleX: 1,
-                        scaleY: 1,
-                        page: editorStore.activePageId,
-                        zIndex: 1,
-                        ref: this.props.idObjectSelected,
-                        color: "black",
-                        fontSize: 32,
-                        fontFace: "Open-Sans-Regular",
-                        fontRepresentative: "images/font-Open Sans Regular.png",
-                        selected: true,
-                        lineHeight: 1.4,
-                        opacity: 100,
-                      };
-
-                      editorStore.addItem2(item, true);
-                      this.props.handleImageSelected(item._id, editorStore.activePageId, null, true);
-
-                      let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-                      editorStore.keys[index] = editorStore.keys[index] + 1;
-
-                      setTimeout(() => {
-                        let el = document.getElementById(item._id + "hihi4alo");
-                        let range = document.createRange();
-                        range.selectNodeContents(el)
-                        var sel = window.getSelection();
-                          sel.removeAllRanges();
-                          sel.addRange(range);
-                      }, 100);
-
-                      editorStore.increaseUpperzIndex();
+                      const text = this.props.translate("addASubHeading");
+                      this.addText(text, 32, "Open-Sans-Regular", "images/font-Open Sans Regular.png", 300, 44);
                     }}
                   >
-                    {/* Thêm tiêu đề con */}
                     {this.props.translate("addASubHeading")}
                   </div>
                   <div
@@ -1510,53 +1333,10 @@ class LeftSide extends Component<IProps, IState> {
                     }}
                     onMouseDown={e => {
                       e.preventDefault();
-                      e.preventDefault();
-                      var item = {
-                        _id: uuidv4(),
-                        type: TemplateType.Heading,
-                        width: 300 * 1,
-                        origin_width: 300,
-                        height: 30 * 1,
-                        origin_height: 30,
-                        left: 0,
-                        top: 0,
-                        rotateAngle: 0.0,
-                        innerHTML: `<div class="font" style="font-size: 22px;">${this.props.translate(
-                          "addABodyText"
-                        )}</div>`,
-                        scaleX: 1,
-                        scaleY: 1,
-                        page: editorStore.activePageId,
-                        zIndex: editorStore.upperZIndex + 1,
-                        ref: editorStore.idObjectSelected,
-                        color: "black",
-                        fontSize: 22,
-                        fontRepresentative: "images/font-Open Sans Light.png",
-                        selected: true,
-                        fontFace: "Open-Sans-Light",
-                        lineHeight: 1.4,
-                        opacity: 100,
-                      };
-
-                      editorStore.addItem2(item, true);
-                      this.props.handleImageSelected(item._id, editorStore.activePageId, null, true);
-
-                      let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-                      editorStore.keys[index] = editorStore.keys[index] + 1;
-
-                      setTimeout(() => {
-                        let el = document.getElementById(item._id + "hihi4alo");
-                        let range = document.createRange();
-                        range.selectNodeContents(el)
-                        var sel = window.getSelection();
-                          sel.removeAllRanges();
-                          sel.addRange(range);
-                      }, 100);
-
-                      editorStore.increaseUpperzIndex();
+                      const text = this.props.translate("addABodyText");
+                      this.addText(text, 22, "Open-Sans-Light", "images/font-Open Sans Light.png", 300, 30);
                     }}
                   >
-                    {/* Thêm đoạn văn */}
                     {this.props.translate("addABodyText")}
                   </div>
                 </div>
