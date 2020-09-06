@@ -2518,7 +2518,6 @@ class LeftSide extends Component<IProps, IState> {
               }}
             >
               <div style={{ display: "inline-block" }}>
-                {/* <p style={{ margin: "5px" }}>Chọn nhanh</p> */}
                 <ul
                   style={{
                     listStyle: "none",
@@ -2630,14 +2629,14 @@ class LeftSide extends Component<IProps, IState> {
                           }} width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7.25 13.25a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5z"></path></svg>
                         </div>
                       </li> */}
-                      {this.props.tReady &&
+                      {/* {this.props.tReady && */}
                       <ColorPicker 
                         setSelectionColor={this.props.setSelectionColor}
                         colorPickerShown={this.props.colorPickerShown}
                         handleColorPick={this.handleColorPick}
                         translate={this.props.translate}
                       />
-                      }
+                      {/* } */}
                     {/* </a> */}
                   {/* <a
                       key={uuidv4()}

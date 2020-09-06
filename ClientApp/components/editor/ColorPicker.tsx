@@ -90,7 +90,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
           editorStore.setToggleColorPickerVisibility(true);
         })
         .on("change", (color, instance) => {
-          let image = editorStore.imageSelected;
+          let image = editorStore.images2.get(editorStore.idObjectSelected);
           if (image.type == TemplateType.Heading) {
             if (image.effectId == 3 || image.effectId == 4) {
               document.getElementById(editorStore.idObjectSelected + "hihi5alo")

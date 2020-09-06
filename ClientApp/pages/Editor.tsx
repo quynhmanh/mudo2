@@ -508,19 +508,21 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleFontSizeBtnClick = (e: any, fontSize: number) => {
+        console.log('fontsize ', fontSize)
 
         let image = this.getImageSelected();
         
         if (editorStore.childId) {
             let text = image.document_object.find(text => text._id == editorStore.childId);
             fontSize = fontSize / image.scaleY / text.scaleY;
+            console.log('image.scaleY text.scaleY', fontSize, image.scaleY, text.scaleY)
         }
 
         let fonts;
 
         if (editorStore.childId) {
             fonts = document
-                .getElementById(editorStore.idObjectSelected + editorStore.childId)
+                .getElementById(editorStore.idObjectSelected + editorStore.childId + "alo")
                 .getElementsByClassName("font");
         } else {
             fonts = document
@@ -555,11 +557,13 @@ class CanvaEditor extends Component<IProps, IState> {
                 image.innerHTML = hihi4.innerHTML;
             } 
         } else {
-            let el = document.getElementById(editorStore.idObjectSelected + editorStore.childId);
+            let el = document.getElementById(editorStore.idObjectSelected + editorStore.childId + "alo");
             if (el) {
                 let texts = image.document_object.map(text => {
                     if (text._id == editorStore.childId) {
                         text.innerHTML = el.innerHTML;
+
+                        console.log('font size ', fontSize)
                         text.fontSize = fontSize;
 
                         fontSize = fontSize * image.scaleY * text.scaleY;
@@ -574,6 +578,8 @@ class CanvaEditor extends Component<IProps, IState> {
         this.updateImages2(image, true);
             
         this.setState({ fontSize: fontSize });
+        
+        console.log('fontsize ', fontSize)
 
         editorStore.currentFontSize = fontSize;
 
