@@ -458,12 +458,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     el3.getContext('2d').drawImage(el, 0, 0, el3.width, el3.height);
                 }
 
-                image.paused = true;
-                editorStore.images2.set(image._id, image);
-                
                 if (!image.paused) this.canvas1[image.page].canvas[CanvasType.HoverLayer][image._id].child.toggleVideo();
 
                 image.paused = true;
+                editorStore.images2.set(image._id, image);
             } 
         }, 100);
     }
