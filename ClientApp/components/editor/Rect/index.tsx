@@ -902,7 +902,7 @@ export default class Rect extends Component<IProps, IState> {
 										{childrens && childrens.length > 0 && (childrens.map(child => (
 											<div
 												id={child._id + "b2"}
-												className={_id + child._id + "b2 hideWhenDownload"}
+												className={_id + child._id + "b2 hideWhenDownload2"}
 												style={{
 													left: `calc(${child.left / width * scaleX * 100}% - 1px)`,
 													top: `calc(${child.top / (child.height / child.height2) * 100}% - 1px)`,

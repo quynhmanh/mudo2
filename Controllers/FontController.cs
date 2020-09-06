@@ -81,11 +81,15 @@ namespace RCB.TypeScript.Controllers
 
                 template = template.Replace("[FONT_FACE]", style);
 
-                byte[] bytes = Encoding.ASCII.GetBytes(template);
-                using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh.html", FileMode.Create))
-                {
-                   htmlFile.Write(bytes, 0, bytes.Length);
-                   htmlFile.Flush();
+                try {
+                    byte[] bytes = Encoding.ASCII.GetBytes(template);
+                    using (var htmlFile = new FileStream("C:\\Users\\llaug\\Downloads\\quynh.html", FileMode.Create))
+                    {
+                    htmlFile.Write(bytes, 0, bytes.Length);
+                    htmlFile.Flush();
+                    }
+
+                } catch (Exception e) {
                 }
 
                 await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
@@ -143,8 +147,8 @@ namespace RCB.TypeScript.Controllers
         [HttpDelete("[action]")]
         public IActionResult Delete([FromQuery]string id)
         {
-            if (string.IsNullOrEmpty(id))
-                return BadRequest($"{nameof(id)} is not filled.");
+            // if (string.IsNullOrEmpty(id))
+            //     return BadRequest($"{nameof(id)} is not filled.");
             var result = FontService.Delete(id);
             return Json(result);
         }

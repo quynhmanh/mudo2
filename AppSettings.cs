@@ -241,7 +241,7 @@ padding: 1px 0 0 0!important;
 * {
     outline: none !important;
 }
-.hideWhenDownload {
+.hideWhenDownload, .hideWhenDownload2 {
     display: none;
 }
 html {

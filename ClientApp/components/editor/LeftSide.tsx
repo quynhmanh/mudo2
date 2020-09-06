@@ -810,8 +810,10 @@ class LeftSide extends Component<IProps, IState> {
       .then(res => res.json())
       .then(
         res => {
+          console.log('loadmoreFOnt', res);
           for (var i = 0; i < res.value.key.length; ++i) {
-            editorStore.addFontItem(res.value.key[i]);
+            if (res.value.key[i].id)
+              editorStore.addFontItem(res.value.key[i]);
           }
 
           this.setState(state => ({

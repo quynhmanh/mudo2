@@ -479,6 +479,7 @@ function Selection(options = {}) {
             for (let i = 0; i < _selectables.length; i++) {
                 const node = _selectables[i];
 
+                console.log('node ', node)
                 let page = node.attributes.page.value;
                 let id = node.attributes.iden.value;
                 // console.log(' page ', _selected.length, _selected.length > 0 && page == editorStore.activePageId, editorStore.activePageId, page == editorStore.activePageId);

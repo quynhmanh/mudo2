@@ -118,7 +118,7 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     selectedImage={props.selectedImage}
                     childId={props.childId}
-                    fontSize={props.fontSize}
+                    fontSize={editorStore.currentFontSize}
                     handleFontSizeBtnClick={props.handleFontSizeBtnClick}
                     selectedTab={props.selectedTab}
                 />
@@ -268,8 +268,8 @@ class LeftSide extends Component<IProps, IState> {
                         !!props.childId
                     }
                     pauser={props.pauser}
-                    currentLineHeight={props.currentLineHeight ? props.currentLineHeight : 0}
-                    currentLetterSpacing={props.currentLetterSpacing ? props.currentLetterSpacing : 0}
+                    currentLineHeight={editorStore.currentLineHeight}
+                    currentLetterSpacing={editorStore.currentLetterSpacing}
                     translate={props.translate}
                     handleLineHeightChange={props.handleLineHeightChange}
                     handleLineHeightChangeEnd={props.handleLineHeightChangeEnd}

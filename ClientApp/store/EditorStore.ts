@@ -43,6 +43,9 @@ class Images {
     @observable fontId = null;
     @observable effectId = null;
     @observable currentOpacity = 0;
+    @observable currentFontSize = 0;
+    @observable currentLetterSpacing = 0;
+    @observable currentLineHeight = 0;
   
     @action addItem = (item, isChild) => {
       if (isChild) {

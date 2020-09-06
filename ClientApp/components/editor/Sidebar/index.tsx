@@ -105,7 +105,7 @@ export default class TopMenu extends Component<IProps, IState> {
         }
         <div
           style={{
-            height: '100%',
+            height: 'calc(100% - 560px)',
             backgroundColor: 'rgb(14, 19, 24)',
           }}
         >
