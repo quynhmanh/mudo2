@@ -748,3 +748,9 @@ export const transformImage = image => {
       y: [top, top + (bottom - top) / 2, bottom]
   };
 }
+
+export const secondToMinutes = sec => {
+  const min = Math.round(sec / 60);
+  const s = Math.round(sec % 60);
+  return `${min}:${s}`;
+}

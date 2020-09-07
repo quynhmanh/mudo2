@@ -19,6 +19,8 @@ export interface IProps {
     parentRotateAngle: any;
     startResizeImage: any;
     paused: boolean;
+    setMax: any;
+    setCurrentTime: any;
 }
 
 export interface IState {
@@ -77,6 +79,20 @@ export default class Video extends Component<IProps, IState> {
                     autoPlay={canvas == "alo" ? false : true}
                     muted
                     loop
+                    onLoadedMetadata={e => {
+                        let el = document.getElementById(_id + "progress");
+                        el.setAttribute('max', e.target.duration);
+                    }}
+                    onTimeUpdate={e => {
+                        
+                        let progress = document.getElementById(_id + "progress");
+                        let progressBar = document.getElementById(_id + "progress-bar");
+                        let video = e.target;
+                        if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration);
+                        progress.style.display = "block";
+                        progress.value = video.currentTime;
+                        progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';
+                    }}
                 >
                     <source src={src} type="video/webm" />
                 </video>

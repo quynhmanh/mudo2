@@ -7,7 +7,7 @@ import Video from "@Components/editor/Rect/Video";
 import { TemplateType, CanvasType, } from "../enums";
 import editorStore from "@Store/EditorStore";
 import { clone } from "lodash";
-import Canvas from "../PosterReview";
+import { secondToMinutes } from "@Utils";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -77,6 +77,8 @@ export interface IState {
 	videoControllerShow: boolean;
 	image: any;
 	cropMode: boolean;
+	max: any;
+	currentTime: any;
 }
 
 export default class Rect extends Component<IProps, IState> {
@@ -94,6 +96,8 @@ export default class Rect extends Component<IProps, IState> {
 			image: clone(props.image),
 			cropMode: false,
 			paused: props.image.paused,
+			max: 0,
+			currentTime:0, 
 		}
 
 		this.handleImageSelected = this.handleImageSelected.bind(this);
@@ -101,6 +105,8 @@ export default class Rect extends Component<IProps, IState> {
 		this.updateImage = this.updateImage.bind(this);
 		this.startEditing = this.startEditing.bind(this);
 		this.enableCropMode = this.enableCropMode.bind(this);
+		this.setMax = this.setMax.bind(this);
+		this.setCurrentTime = this.setCurrentTime.bind(this);
 	}
 
 	componentDidMount() {
@@ -261,8 +267,10 @@ export default class Rect extends Component<IProps, IState> {
 	pauseVideo = () => {
 		let el = document.getElementById(this.props.image._id + "video" + "alo") as HTMLVideoElement;
 		el.pause();
+		console.log(' Math.floor((el.currentTime / el.duration) * 100)',  Math.floor((el.currentTime / el.duration) * 100))
 		this.setState({
 			paused: true,
+			currentTime: Math.floor((el.currentTime / el.duration) * 100),
 		})
 	}
 
@@ -398,6 +406,14 @@ export default class Rect extends Component<IProps, IState> {
 		this.forceUpdate();
 	}
 
+	setMax(max) {
+		this.setState({max})
+	}
+
+	setCurrentTime(currentTime) {
+		this.setState({currentTime})
+	}
+
 	hideWhenDownload = null;
 
 	render() {
@@ -505,6 +521,19 @@ export default class Rect extends Component<IProps, IState> {
 			page: page,
 		};
 
+		let progressBarStyle = {
+			height: "100%",
+			display: "block",
+			backgroundColor: "#f5f5f5",
+			pointerEvents: "none",
+		};
+
+		if (this.state.paused) {
+			progressBarStyle.width = this.state.currentTime + "%";
+		}
+
+		console.log('progressBarStyle ', progressBarStyle)
+
 
 		return (
 			<div
@@ -530,7 +559,7 @@ export default class Rect extends Component<IProps, IState> {
 					}}
 					key={_id}
 					onMouseDown={(e) => {
-						if (type != TemplateType.BackgroundImage && name == CanvasType.All) {
+						if (type != TemplateType.BackgroundImage && (name == CanvasType.All || name == CanvasType.HoverLayer)) {
 							if (!editorStore.cropMode) {
 								if (!selected) {
 									this.handleImageSelected();
@@ -766,14 +795,115 @@ export default class Rect extends Component<IProps, IState> {
 										position: "absolute",
 										width: '100%',
 										height: '100%',
+										boxShadow: 'inset -22px -110px 112px -117px rgba(0,0,0,0.75)',
 									}}
 								>
+									{!cropMode &&
+									<div
+										id={_id + "progress"}
+										style={{
+											display: this.state.paused ? "block" : "none",
+											position: 'absolute',
+											bottom: '20px',
+											height: '7px',
+											backgroundColor: '#9e9fa3',
+											width: '90%',
+											margin: 'auto',
+											left: '0',
+											right: '0',
+											borderRadius: "5px",
+											overflow: "hidden",
+											pointerEvents: 'auto',
+										}}
+										onMouseEnter={e => {
+											console.log('mouseenter', e.target)
+											let tip = document.getElementById("helloTip");
+											if (!tip) {
+												tip = document.createElement("div");
+											}
+											tip.id = "helloTip";
+											tip.style.position = "absolute";
+											tip.style.height = "26px";
+											tip.style.backgroundColor = "black";
+											tip.style.top = e.clientY + 20 + "px";
+											tip.style.left = e.clientX + 20 + "px";
+											tip.style.zIndex = "2147483647";
+											tip.style.color = "white";
+											tip.style.textAlign = "center";
+											tip.style.lineHeight = "26px";
+											tip.style.borderRadius = "3px";
+											tip.style.padding = "0 5px";
+											tip.style.fontSize = "12px";
+											tip.innerText = "123";
+
+											let rec = e.target.getBoundingClientRect();
+											let left = rec.left;
+											let width  = rec.width;
+											let video = document.getElementById(_id + "videoalo");
+											let max = video.duration;
+
+											console.log('max ', max)
+
+											document.body.append(tip);
+
+											tip.style.position = "absolute";
+											tip.style.backgroundColor = "black";
+											tip.style.top = rec.top - 40 + "px";
+											tip.innerText = rotateAngle + "°";
+
+											let value;
+
+											const onMove = e => {
+												tip.style.left = e.clientX - 10 + "px";
+												let percent = (e.clientX - left) / width;
+												value = percent * max;
+												tip.innerText = secondToMinutes(percent * max);
+											}
+
+											const onLeave = e => {
+												e.target.removeEventListener("mousemove", onMove);
+												e.target.removeEventListener("mousemove", onLeave);
+												e.target.removeEventListener("click", onClick);
+
+												let tip = document.getElementById("helloTip");
+												document.body.removeChild(tip);
+											}
+
+											const onClick = e => {
+												let video = document.getElementById(_id + "videoalo");
+												video.currentTime = value;
+											}
+
+											e.target.addEventListener("click", onClick);
+											e.target.addEventListener("mousemove", onMove);
+											e.target.addEventListener("mouseleave", onLeave)
+										}}
+									>
+										<span 
+											id={_id + "progress-bar"}
+											style={{
+												height: "100%",
+												display: "block",
+												backgroundColor: "#f5f5f5",
+												pointerEvents: "none",
+												width: this.state.currentTime + "%",
+											}}
+										></span>
+										</div>}
 									{!cropMode &&
 										objectType == TemplateType.Video &&
 										name == CanvasType.HoverLayer &&
 										<div
 											className="videoController"
 											onClick={e => {
+
+												if (!this.state.paused) {
+													let el = document.getElementById(this.props.image._id + "video" + "alo") as HTMLVideoElement;
+													this.setState({
+														currentTime: Math.floor((el.currentTime / el.duration) * 100),
+													})
+												}
+
 												this.props.toggleVideo();
 											}}
 											style={{
@@ -1103,7 +1233,7 @@ export default class Rect extends Component<IProps, IState> {
 														id={_id + "hihi4" + canvas}
 														spellCheck={false}
 														onInput={onTextChange}
-														contentEditable={selected}
+														contentEditable={selected && name != CanvasType.Preview}
 														ref={this.setTextElementRef2.bind(this)}
 														className={"text single-text " + _id + "hihi4" + canvas}
 														style={{
@@ -1216,6 +1346,8 @@ export default class Rect extends Component<IProps, IState> {
 											srcThumnail={srcThumnail}
 											opacity={opacity}
 											startResizeImage={this.startResizeImage}
+											setMax={this.setMax}
+											setCurrentTime={this.setCurrentTime}
 										/>
 									</div>
 								)}
