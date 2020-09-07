@@ -6035,7 +6035,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let res = [];
         let pages = toJS(editorStore.pages);
         let keys = toJS(editorStore.keys);
-        for (let i = 0; i < pages.length; ++i) {
+        for (let i = 0; i < 1; ++i) {
             if (index >= 0 && i != index) {
                 continue;
             }

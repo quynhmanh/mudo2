@@ -530,7 +530,7 @@ export default class Rect extends Component<IProps, IState> {
 					}}
 					key={_id}
 					onMouseDown={(e) => {
-						if (type != TemplateType.BackgroundImage) {
+						if (type != TemplateType.BackgroundImage && name == CanvasType.All) {
 							if (!editorStore.cropMode) {
 								if (!selected) {
 									this.handleImageSelected();
@@ -545,7 +545,7 @@ export default class Rect extends Component<IProps, IState> {
 						}
 					}}
 					onMouseUp={e => {
-						if (type == TemplateType.BackgroundImage && !window.selectionStart) {
+						if (type == TemplateType.BackgroundImage && !window.selectionStart && name == CanvasType.All) {
 							if (!editorStore.cropMode) {
 								if (!selected) {
 									this.handleImageSelected();
@@ -567,7 +567,7 @@ export default class Rect extends Component<IProps, IState> {
 					}}
 
 					onMouseLeave={(e) => {
-						if (hovered && !selected && type != TemplateType.BackgroundImage && !editorStore.cropMode) {
+						if (hovered && !selected && type != TemplateType.BackgroundImage && !editorStore.cropMode && name == CanvasType.All) {
 							this.handleImageUnhovered();
 							this.props.handleImageUnhovered(_id, page);
 						}
@@ -939,6 +939,7 @@ export default class Rect extends Component<IProps, IState> {
 
 									{childrens && childrens.length > 0 &&
 										((selected && name == CanvasType.HoverLayer) ||
+											name == CanvasType.Preview ||
 											(!selected && name == CanvasType.All) ||
 											name == CanvasType.Download) &&
 										(
@@ -1094,8 +1095,8 @@ export default class Rect extends Component<IProps, IState> {
 												}}
 											>
 
-												{((selected && name == CanvasType.HoverLayer) ||
-													(!selected && (name == CanvasType.All || name == CanvasType.Preview)) ||
+												{((selected && name == CanvasType.HoverLayer) || name == CanvasType.Preview ||
+													(!selected && (name == CanvasType.All)) ||
 													name == CanvasType.Download) &&
 													objectType === TemplateType.Heading &&
 													<span
