@@ -7651,6 +7651,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     id="screen-container-parent"
                     style={{
                         top: "0px",
+                        paddingTop: "48px",
                         overflow: "scroll",
                         alignItems: "center",
                         display: "flex",
@@ -7662,21 +7663,25 @@ class CanvaEditor extends Component<IProps, IState> {
                     }}
                 >
                     <button 
+                        id="closePreviewBtn"
                         style={{
                             position: 'absolute',
-                            right: '0',
-                            top: '0',
+                            right: '130px',
+                            top: '10px',
                             color: 'white',
-                            backgroundColor: 'hsla(0,0%,100%,.1)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.15)',
                             padding: '10px 30px',
                             border: 'none',
+                            borderRadius: "4px",
+                            fontSize: '15px',
+                            lineHeight: '15px',
                         }}
                         onClick={e => {
                             this.setState({showPopupPreview: false});
                             this.forceUpdate();
                         }}
                     >
-                        Close
+                        {this.translate("close")}
                     </button>
                         {this.renderCanvasPreview()}
                 </div>}

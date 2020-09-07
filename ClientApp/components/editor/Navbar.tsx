@@ -82,6 +82,7 @@ class LeftSide extends Component<IProps, IState> {
                                 display: "flex",
                                 top: 0,
                                 height: "100%",
+                                paddingRight: '122px',
                             }}
                         >
                             {
@@ -145,6 +146,12 @@ class LeftSide extends Component<IProps, IState> {
                                             background: "#ebebeb0f",
                                             border: "none",
                                             height: "35px",
+                                            position: 'absolute',
+                                            zIndex: 9999999999,
+                                            right: '10px',
+                                            margin: 'auto',
+                                            top: 0,
+                                            bottom: 0,
                                         }}
                                     >
                                         {/* {" "} */}
