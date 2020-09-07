@@ -16,6 +16,7 @@ interface IProps {
     downloadPDF: any;
     downloadVideo: any;
     designTitle: any;
+    playVideos: any;
 }
 
 interface IState {
@@ -100,6 +101,34 @@ class LeftSide extends Component<IProps, IState> {
                                 </label>}
                                 </div>
                             }
+                            {(
+                                editorStore.tReady &&
+                                    <button
+                                        id="download-btn"
+                                        onClick={this.props.playVideos}
+                                        style={{
+                                            display: "flex",
+                                            float: "right",
+                                            color: "white",
+                                            padding: "8px",
+                                            borderRadius: "4px",
+                                            textDecoration: "none",
+                                            fontSize: "13px",
+                                            background: "#ebebeb0f",
+                                            border: "none",
+                                            height: "35px",
+                                        }}
+                                    >
+                                       <svg 
+                                        style={{
+                                            fill: 'white',
+                                            height: '18px',
+                                            width: '27px',
+                                            marginLeft: '6px',
+                                        }}
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M2 24v-24l20 12-20 12z"/></svg>
+                                    </button>
+                            )}
                             {(
                                 editorStore.tReady &&
                                     <button

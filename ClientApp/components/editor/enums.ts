@@ -54,4 +54,5 @@ export enum CanvasType {
     All = 0,
     HoverLayer = 1,
     Download = 2,
+    Preview = 3,
 }

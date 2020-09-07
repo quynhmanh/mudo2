@@ -159,7 +159,7 @@ export default styled.div`
   .t,
   .tl,
   .tr {
-    top: -9px;
+    top: -10px;
   }
   .b,
   .bl,

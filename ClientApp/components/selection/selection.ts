@@ -479,10 +479,8 @@ function Selection(options = {}) {
             for (let i = 0; i < _selectables.length; i++) {
                 const node = _selectables[i];
 
-                console.log('node ', node)
                 let page = node.attributes.page.value;
                 let id = node.attributes.iden.value;
-                // console.log(' page ', _selected.length, _selected.length > 0 && page == editorStore.activePageId, editorStore.activePageId, page == editorStore.activePageId);
 
                 // Check if area intersects element
                 let rect = node.getBoundingClientRect();
@@ -491,7 +489,6 @@ function Selection(options = {}) {
                 if (id && (touched.length == 0 || page == editorStore.activePageId) && intersects(_areaDomRect, rect, mode, node)) {
                     
                     // if (page == editorStore.activePageId) {
-                        // console.log('ok')
                         // Check if the element wasn't present in the last selection.
                         if (!_selected.includes(node)) {
                             added.push(node);
@@ -503,7 +500,6 @@ function Selection(options = {}) {
 
                             if (_selected.length == 1) {
                                 let page = node.attributes.page.value;
-                                console.log('setPage')
                                 // editorStore.activePageId = page;
                             }
                             // }

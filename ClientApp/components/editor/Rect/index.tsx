@@ -7,6 +7,7 @@ import Video from "@Components/editor/Rect/Video";
 import { TemplateType, CanvasType, } from "../enums";
 import editorStore from "@Store/EditorStore";
 import { clone } from "lodash";
+import Canvas from "../PosterReview";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -266,11 +267,9 @@ export default class Rect extends Component<IProps, IState> {
 	}
 
 	playVideo = () => {
-		let el = document.getElementById(this.props.image._id + "video" + "alo") as HTMLVideoElement;
+		let el = document.getElementById(this.state.image._id + "video" + "alo") as HTMLVideoElement;
+		el.currentTime = 0;
 		el.play();
-		this.setState({
-			paused: false,
-		})
 	}
 
 	doClickAction() {
@@ -464,6 +463,7 @@ export default class Rect extends Component<IProps, IState> {
 				left,
 				top,
 				zIndex,
+				hollowThickness,
 			}
 		} = this.state;
 
@@ -560,7 +560,7 @@ export default class Rect extends Component<IProps, IState> {
 					}}
 
 					onMouseEnter={(e) => {
-						if (!selected && type != TemplateType.BackgroundImage && !editorStore.cropMode && !window.selectionStart) {
+						if (!selected && type != TemplateType.BackgroundImage && !editorStore.cropMode && !window.selectionStart && name == CanvasType.All) {
 							this.handleImageHovered();
 							this.props.handleImageHovered(_id, page);
 						}
@@ -678,7 +678,7 @@ export default class Rect extends Component<IProps, IState> {
 										</div>
 									);
 								})}
-							{(name == CanvasType.All ||
+							{(name == CanvasType.All || name == CanvasType.Preview || 
 								(cropMode && name == CanvasType.HoverLayer) ||
 								name == CanvasType.Download) &&
 								src &&
@@ -754,7 +754,7 @@ export default class Rect extends Component<IProps, IState> {
 
 							{
 								((selected && name == CanvasType.HoverLayer) ||
-									(!selected && name == CanvasType.All)) &&
+									(!selected && (name == CanvasType.All || name == CanvasType.Preview))) &&
 								(objectType === TemplateType.Video ||
 									objectType === TemplateType.Image) &&
 								<div
@@ -1089,13 +1089,13 @@ export default class Rect extends Component<IProps, IState> {
 													height: height * scale / scaleY + "px",
 													transformOrigin: "0 0",
 													zIndex: selected ? 1 : 0,
-													WebkitTextStroke: (effectId == 3 || effectId == 4) && (`${1.0 * this.props.image.hollowThickness / 100 * 4 + 0.1}px ${(effectId == 3 || effectId == 4) ? color : "black"}`),
+													WebkitTextStroke: (effectId == 3 || effectId == 4) && (`${1.0 * hollowThickness / 100 * 4 + 0.1}px ${(effectId == 3 || effectId == 4) ? color : "black"}`),
 													pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
 												}}
 											>
 
 												{((selected && name == CanvasType.HoverLayer) ||
-													(!selected && name == CanvasType.All) ||
+													(!selected && (name == CanvasType.All || name == CanvasType.Preview)) ||
 													name == CanvasType.Download) &&
 													objectType === TemplateType.Heading &&
 													<span
@@ -1104,7 +1104,6 @@ export default class Rect extends Component<IProps, IState> {
 														onInput={onTextChange}
 														contentEditable={selected}
 														ref={this.setTextElementRef2.bind(this)}
-														// onMouseDown={this.onMouseDown.bind(this)}
 														className={"text single-text " + _id + "hihi4" + canvas}
 														style={{
 															pointerEvents: "all",
@@ -1184,7 +1183,7 @@ export default class Rect extends Component<IProps, IState> {
 								)}
 							{src &&
 								objectType === TemplateType.Video &&
-								name == CanvasType.All && (
+								(name == CanvasType.All || name == CanvasType.Preview) && (
 									<div
 										id={_id}
 										onDoubleClick={this.props.handleCropBtnClick}

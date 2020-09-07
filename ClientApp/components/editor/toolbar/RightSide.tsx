@@ -5,6 +5,7 @@ import PositionDropdown from "@Components/editor/toolbar/right/PositionDropdown"
 import TransparentDropdown from "@Components/editor/toolbar/right/TransparentDropdown";
 import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
+import { TemplateType } from "../enums";
 
 interface IProps {
     show: boolean;
@@ -27,7 +28,7 @@ interface IState {
 @observer
 class RightSide extends Component<IProps, IState> {
     render() {
-        console.log('render')
+        let image = editorStore.images2.get(editorStore.idObjectSelected)
         const props = this.props;
         return (
             <div
@@ -38,12 +39,14 @@ class RightSide extends Component<IProps, IState> {
                     height: "30px",
                 }}
             >   
-            {!editorStore.cropMode && (editorStore.idObjectSelected || editorStore.childId) &&
+            {!editorStore.cropMode && ((editorStore.idObjectSelected && image && image.type != TemplateType.GroupedItem) 
+                || editorStore.childId) &&
                 <Position 
                     translate={props.translate}
                     onClickpositionList={props.onClickpositionList}
                 />}
-            {!editorStore.cropMode && (editorStore.idObjectSelected || editorStore.childId) && 
+            {!editorStore.cropMode && ((editorStore.idObjectSelected && image && image.type != TemplateType.GroupedItem)
+                || editorStore.childId) && 
                 <Transparent
                     show={true}
                     translate={props.translate}
