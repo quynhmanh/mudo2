@@ -111,7 +111,7 @@ class LeftSide extends Component<IProps, IState> {
                                             display: "flex",
                                             float: "right",
                                             color: "white",
-                                            padding: "8px",
+                                            padding: "10px",
                                             borderRadius: "4px",
                                             textDecoration: "none",
                                             fontSize: "13px",
@@ -123,9 +123,9 @@ class LeftSide extends Component<IProps, IState> {
                                        <svg 
                                         style={{
                                             fill: 'white',
-                                            height: '18px',
+                                            height: '15px',
                                             width: '27px',
-                                            marginLeft: '6px',
+                                            marginLeft: '3px',
                                         }}
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M2 24v-24l20 12-20 12z"/></svg>
                                     </button>
