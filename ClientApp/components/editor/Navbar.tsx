@@ -82,7 +82,7 @@ class LeftSide extends Component<IProps, IState> {
                                 display: "flex",
                                 top: 0,
                                 height: "100%",
-                                paddingRight: '122px',
+                                paddingRight: '120px',
                             }}
                         >
                             {
