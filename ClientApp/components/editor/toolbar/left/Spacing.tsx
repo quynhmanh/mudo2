@@ -22,9 +22,11 @@ interface IState {
 export default class Spacing extends Component<IProps, IState> {
 
     onDown(e) {
+        console.log('onDown')
         e.preventDefault();
+        let el = document.getElementById("mySpacingList");
         console.log('e.target ', document.getElementById("mySpacingList"), e.target)
-        if (!document.getElementById("mySpacingList").contains(e.target)) {
+        if (!el || !document.getElementById("mySpacingList").contains(e.target)) {
             console.log('ok');
             var dropdowns = document.getElementsByClassName(
                 "dropdown-content-font-size"
@@ -36,6 +38,8 @@ export default class Spacing extends Component<IProps, IState> {
                     openDropdown.classList.remove("show");
                 }
             }
+
+            console.log('asd')
 
             document.removeEventListener("mouseup", this.onDown);
         }
@@ -99,11 +103,13 @@ export default class Spacing extends Component<IProps, IState> {
                         currentValue={this.props.currentLetterSpacing ? this.props.currentLetterSpacing : 30 }
                         onChangeStart={e => {
                             document.removeEventListener("mouseup", this.onDown);
+                            window.selectionStart = true;
                         }}
                         onChange={this.props.handleLetterSpacing}
                         onChangeEnd={val => {
                             document.addEventListener("mouseup", this.onDown);
                             this.props.handleLetterSpacingEnd(val);
+                            window.selectionStart = false;
                         }}
                         />
                     <Slider 
@@ -112,11 +118,13 @@ export default class Spacing extends Component<IProps, IState> {
                         currentValue={(100*(this.props.currentLineHeight ? this.props.currentLineHeight : 30) - 50)/2}
                         onChangeStart={e => {
                             document.removeEventListener("mouseup", this.onDown);
+                            window.selectionStart = true;
                         }}
                         onChange={this.props.handleLineHeightChange}
                         onChangeEnd={val => {
                             document.addEventListener("mouseup", this.onDown);
                             this.props.handleLineHeightChangeEnd(val);
+                            window.selectionStart = false;
                         }}
                         />
                 </div>

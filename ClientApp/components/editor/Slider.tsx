@@ -111,7 +111,6 @@ export default class Slider extends Component<IProps, IState> {
             display: "inline-block",
             margin: 0,
             lineHeight: "30px",
-            width: "65px",
             fontSize: "12px"
         }}
     >

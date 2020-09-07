@@ -1109,6 +1109,7 @@ class CanvaEditor extends Component<IProps, IState> {
         });
 
         selection.on('beforestart', evt => {
+            console.log('beforeStart')
             // evt.preventDefault();
             // Use this event to decide whether a selection should take place or not.
             // For example if the user should be able to normally interact with input-elements you 
@@ -1140,6 +1141,7 @@ class CanvaEditor extends Component<IProps, IState> {
             // let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
             // editorStore.keys[index] = editorStore.keys[index] + 1;
         }).on('stop', evt => {
+            console.log('stop')
             // evt.preventDefault();
             // The last event can be used to call functions like keepSelection() in case the user wants
             // to select multiple elements.
@@ -4173,7 +4175,7 @@ class CanvaEditor extends Component<IProps, IState> {
             }
         }
         
-        if (image.type == TemplateType.GroupedItem && window.selections && 
+        if (image && image.type == TemplateType.GroupedItem && window.selections && 
             ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
                 (e.keyCode === 8 && OSNAME == "Windows"))) {
             window.selections.forEach(sel => {

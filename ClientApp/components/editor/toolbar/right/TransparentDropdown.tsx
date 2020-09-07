@@ -42,7 +42,7 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                 className="dropdown-content-font-size"
             >
                 <Slider 
-                      title="Offset" 
+                      title={this.props.translate("transparent")} 
                       currentValue={editorStore.currentOpacity}
                       pauser={null}
                       onChange={this.props.handleOpacityChange}
