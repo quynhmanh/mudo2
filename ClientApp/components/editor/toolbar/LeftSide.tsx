@@ -83,7 +83,6 @@ class LeftSide extends Component<IProps, IState> {
     }
 
     render() {
-        console.log('render ', editorStore.idObjectSelected );
         let image = editorStore.images2.get(editorStore.idObjectSelected);
         if (image && editorStore.childId && image.document_object) {
             let found = image.document_object.find(doc => doc._id == editorStore.childId);

@@ -26,7 +26,6 @@ export default class TransparentDropdown extends Component<IProps, IState> {
     }
 
     render () {
-        console.log('render TransparentDropdown')
         return (
             <div
                 style={{

@@ -267,7 +267,6 @@ export default class Rect extends Component<IProps, IState> {
 	pauseVideo = () => {
 		let el = document.getElementById(this.props.image._id + "video" + "alo") as HTMLVideoElement;
 		el.pause();
-		console.log(' Math.floor((el.currentTime / el.duration) * 100)',  Math.floor((el.currentTime / el.duration) * 100))
 		this.setState({
 			paused: true,
 			currentTime: Math.floor((el.currentTime / el.duration) * 100),
@@ -386,17 +385,7 @@ export default class Rect extends Component<IProps, IState> {
 	}
 
 	enableCropMode() {
-		const {
-			image: {
-				page,
-				_id,
-			}
-		} = this.state;
 		this.setState({ cropMode: true });
-
-		if (this.props.name == CanvasType.All)
-			this.props.enableCropMode(_id, page);
-
 		this.forceUpdate();
 	}
 
@@ -532,7 +521,6 @@ export default class Rect extends Component<IProps, IState> {
 			progressBarStyle.width = this.state.currentTime + "%";
 		}
 
-		console.log('progressBarStyle ', progressBarStyle)
 
 
 		return (
@@ -744,7 +732,7 @@ export default class Rect extends Component<IProps, IState> {
 												outlineWidth={outlineWidth}
 												backgroundColor={backgroundColor}
 												src={src}
-												enableCropMode={this.enableCropMode}
+												enableCropMode={this.props.handleCropBtnClick}
 												srcThumnail={srcThumnail}
 											/>
 										</div>
@@ -782,10 +770,8 @@ export default class Rect extends Component<IProps, IState> {
 								)}
 
 							{
-								((selected && name == CanvasType.HoverLayer) ||
-									(!selected && (name == CanvasType.All || name == CanvasType.Preview))) &&
 								(objectType === TemplateType.Video ||
-									objectType === TemplateType.Image) &&
+									(cropMode && objectType === TemplateType.Image)) &&
 								<div
 									id={_id + "6543" + canvas}
 									className={_id + "scaleX-scaleY"}
@@ -795,18 +781,21 @@ export default class Rect extends Component<IProps, IState> {
 										position: "absolute",
 										width: '100%',
 										height: '100%',
-										boxShadow: 'inset -22px -110px 112px -117px rgba(0,0,0,0.75)',
+										background: objectType == TemplateType.Video && selected && name != CanvasType.Download && !cropMode &&
+											'linear-gradient(0deg, rgba(0,0,0,0.7147233893557423) 0%, rgba(13,1,1,0) 34%)',
 									}}
 								>
-									{!cropMode &&
+									{!cropMode && objectType === TemplateType.Video &&
 									<div
-										id={_id + "progress"}
+										className={name}
+										id={_id + "progress" + name}
 										style={{
-											display: this.state.paused ? "block" : "none",
+											// display: this.state.paused ? "block" : "none",
+											display: selected ? "block" : "none",
 											position: 'absolute',
 											bottom: '20px',
-											height: '7px',
-											backgroundColor: '#9e9fa3',
+											height: '5px',
+											backgroundColor: 'rgb(255 255 255 / 36%)',
 											width: '90%',
 											margin: 'auto',
 											left: '0',
@@ -814,9 +803,9 @@ export default class Rect extends Component<IProps, IState> {
 											borderRadius: "5px",
 											overflow: "hidden",
 											pointerEvents: 'auto',
+											cursor: 'pointer',
 										}}
 										onMouseEnter={e => {
-											console.log('mouseenter', e.target)
 											let tip = document.getElementById("helloTip");
 											if (!tip) {
 												tip = document.createElement("div");
@@ -842,7 +831,6 @@ export default class Rect extends Component<IProps, IState> {
 											let video = document.getElementById(_id + "videoalo");
 											let max = video.duration;
 
-											console.log('max ', max)
 
 											document.body.append(tip);
 
@@ -866,6 +854,7 @@ export default class Rect extends Component<IProps, IState> {
 												e.target.removeEventListener("click", onClick);
 
 												let tip = document.getElementById("helloTip");
+												if (tip)
 												document.body.removeChild(tip);
 											}
 
@@ -880,7 +869,7 @@ export default class Rect extends Component<IProps, IState> {
 										}}
 									>
 										<span 
-											id={_id + "progress-bar"}
+											id={_id + "progress-bar" + name}
 											style={{
 												height: "100%",
 												display: "block",
@@ -890,7 +879,7 @@ export default class Rect extends Component<IProps, IState> {
 											}}
 										></span>
 										</div>}
-									{!cropMode &&
+									{!cropMode && selected && 
 										objectType == TemplateType.Video &&
 										name == CanvasType.HoverLayer &&
 										<div
@@ -952,7 +941,7 @@ export default class Rect extends Component<IProps, IState> {
 										</div>
 									}
 									{cropMode &&
-										selected && (
+										selected && name == CanvasType.HoverLayer && (
 											<div
 												id={_id + "1237"}
 												className={`${_id}1236`}
@@ -961,11 +950,10 @@ export default class Rect extends Component<IProps, IState> {
 													width: imgWidth + "px",
 													height: imgHeight + "px",
 													zIndex: 999999,
-													outline:
-														cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
+													outline: cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none",
 												}}
 											>
-												{type == TemplateType.Video && <canvas
+												{/* {type == TemplateType.Video && <canvas
 													id={_id + "video3" + canvas}
 													style={{
 														width: "100%",
@@ -976,7 +964,7 @@ export default class Rect extends Component<IProps, IState> {
 															: null,
 														opacity: cropMode ? 0.5 : 0,
 													}}
-												/>}
+												/>} */}
 												{cropMode && selected
 													? cropImageResizeDirection
 														.map(d => {
@@ -1097,6 +1085,7 @@ export default class Rect extends Component<IProps, IState> {
 															id={_id + child._id + "text-container3"}
 															style={{
 																WebkitTextStroke: (child.effectId == 3 || child.effectId == 4) && (`${1.0 * child.hollowThickness / 100 * 4 + 0.1}px ${(child.effectId == 3 || child.effectId == 4) ? child.color : "black"}`),
+																transform: "translateZ(0)",
 															}}
 														>
 															<div
@@ -1167,8 +1156,8 @@ export default class Rect extends Component<IProps, IState> {
 												})}{" "}
 											</div>
 										)}
-									{cropMode &&
-										selected && (
+									{/* {cropMode &&
+										selected && name == CanvasType.HoverLayer && (
 											<div
 												id={_id + "1237"}
 												className={`${_id}1236`}
@@ -1206,7 +1195,7 @@ export default class Rect extends Component<IProps, IState> {
 													})
 													: null}
 											</div>
-										)}
+										)} */}
 									{innerHTML && (
 										<div style={{
 											pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
@@ -1244,7 +1233,7 @@ export default class Rect extends Component<IProps, IState> {
 															margin: "0px",
 															wordBreak: "break-word",
 															opacity,
-															transform: `scale(${scale})`,
+															transform: `scale(${scale}) translateZ(0)`,
 															transformOrigin: "0 0",
 															fontFamily: `${fontFace}, AvenirNextRoundedPro`,
 															fontStyle: italic ? "italic" : "",
@@ -1312,6 +1301,34 @@ export default class Rect extends Component<IProps, IState> {
 										})}
 									</div>
 								)}
+							{objectType === TemplateType.Video && cropMode && name == CanvasType.All && 
+								<div
+									id={_id + "1237"}
+									className={`${_id}1236`}
+									style={{
+										transform: `translate(${posX}px, ${posY}px)`,
+										width: imgWidth + "px",
+										height: imgHeight + "px",
+										zIndex: 0,
+										position: "absolute",
+										outline:
+											cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
+									}}
+								>
+									{type == TemplateType.Video && <canvas
+										id={_id + "video3" + canvas}
+										style={{
+											width: "100%",
+											height: "100%",
+											transformOrigin: "0 0",
+											outline: cropMode
+												? `#00d9e1 solid ${outlineWidth - 1}px`
+												: null,
+											opacity: cropMode ? 0.5 : 0,
+										}}
+									/>}
+								</div>
+							}
 							{src &&
 								objectType === TemplateType.Video &&
 								(name == CanvasType.All || name == CanvasType.Preview) && (

@@ -22,7 +22,6 @@ const fontSizes = [
 const FontSizeWrapper = (props: IProps) => {
     const { show, childId, selectedImage, handleFontSizeBtnClick, translate, fontSize } = props;
 
-    console.log('FontSizeWrapper ', fontSize)
     const content = translate("fontSize");
     return (
         <Tooltip

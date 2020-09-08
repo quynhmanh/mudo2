@@ -80,16 +80,15 @@ export default class Video extends Component<IProps, IState> {
                     muted
                     loop
                     onLoadedMetadata={e => {
-                        let el = document.getElementById(_id + "progress");
+                        let el = document.getElementById(_id + "progress1");
                         el.setAttribute('max', e.target.duration);
                     }}
                     onTimeUpdate={e => {
                         
-                        let progress = document.getElementById(_id + "progress");
-                        let progressBar = document.getElementById(_id + "progress-bar");
+                        let progress = document.getElementById(_id + "progress1");
+                        let progressBar = document.getElementById(_id + "progress-bar1");
                         let video = e.target;
                         if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration);
-                        progress.style.display = "block";
                         progress.value = video.currentTime;
                         progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';
                     }}

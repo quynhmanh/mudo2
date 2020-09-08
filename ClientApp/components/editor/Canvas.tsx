@@ -114,16 +114,10 @@ export default class Canvas extends Component<IProps, IState> {
     if (!this.props.downloading) {
     }
 
-    console.log('canvas render')
-
     const customAttr = {myattribute: id};
-    
-    var imgSelected = editorStore.images2.get(editorStore.idObjectSelected);
-
     const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));
     return (
       <ResizableRectContainer
-        // onTransitionEnd={this.props.handleDeleteThisPage}
         style={{
           position: "relative",
           transition: "all 0.1s linear"
