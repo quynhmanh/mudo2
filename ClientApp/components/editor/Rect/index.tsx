@@ -531,7 +531,8 @@ export default class Rect extends Component<IProps, IState> {
 					}}
 					key={_id}
 					onMouseDown={(e) => {
-						if (type != TemplateType.BackgroundImage && (name == CanvasType.All || name == CanvasType.HoverLayer)) {
+						if ((type != TemplateType.BackgroundImage || (type == TemplateType.BackgroundImage && cropMode))&& 
+							(name == CanvasType.All || name == CanvasType.HoverLayer)) {
 							if (!editorStore.cropMode) {
 								if (!selected) {
 									this.handleImageSelected();
@@ -677,6 +678,7 @@ export default class Rect extends Component<IProps, IState> {
 							{(name == CanvasType.All || name == CanvasType.Preview || 
 								(cropMode && name == CanvasType.HoverLayer) ||
 								name == CanvasType.Download) &&
+								src &&
 								(objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
 									<div
 										id={_id}
@@ -763,11 +765,9 @@ export default class Rect extends Component<IProps, IState> {
 										)}
 									</div>
 								)}
-
-							{
-								(objectType === TemplateType.Video ||
-									(cropMode && objectType === TemplateType.Image)) &&
-									(name != CanvasType.Preview) &&
+								{
+								(objectType === TemplateType.Video &&
+									name != CanvasType.Preview) &&
 								<div
 									id={_id + "6543" + canvas}
 									className={_id + "scaleX-scaleY"}
@@ -978,6 +978,66 @@ export default class Rect extends Component<IProps, IState> {
 										)}
 								</div>
 							}
+							{/* {
+								(cropMode &&
+									(objectType === TemplateType.Image || objectType == TemplateType.BackgroundImage || objectType === TemplateType.Video)) &&
+									(name != CanvasType.Preview) &&
+								<div
+									id={_id + "6543" + canvas}
+									className={_id + "scaleX-scaleY"}
+									style={{
+										transformOrigin: "0 0",
+										transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
+										position: "absolute",
+										width: '100%',
+										height: '100%',
+										background: objectType == TemplateType.Video && selected && name != CanvasType.Download && !cropMode &&
+											'linear-gradient(0deg, rgba(0,0,0,0.7147233893557423) 0%, rgba(13,1,1,0) 34%)',
+									}}
+								>
+									{cropMode &&
+										selected && name == CanvasType.HoverLayer && (
+											<div
+												className={`${_id}1236`}
+												style={{
+													transform: `translate(${posX}px, ${posY}px)`,
+													width: imgWidth + "px",
+													height: imgHeight + "px",
+													zIndex: 999999,
+												}}
+											>
+												{cropMode && selected
+													? cropImageResizeDirection
+														.map(d => {
+															let cursor = getCursorStyleForResizer(rotateAngle, d);
+															let visibility = objectType === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
+															return (
+																<div
+																	key={d}
+																	style={{
+																		cursor,
+																		zIndex: 999999,
+																		visibility,
+																		pointerEvents: "all",
+																	}}
+																	id={_id + zoomableMap[d] + "_"}
+																	className={`${zoomableMap[d]} resizable-handler-container hehe`}
+																	onMouseDown={e => this.startResizeImage(e, d, true)}
+																>
+																	<div
+																		key={d}
+																		style={{ cursor, zIndex: 999999 }}
+																		className={`${zoomableMap[d]} resizable-handler`}
+																		onMouseDown={e => this.startResizeImage(e, d, true)}
+																	/>
+																</div>
+															);
+														})
+													: null}
+											</div>
+										)}
+								</div>
+							} */}
 							{((selected && name == CanvasType.HoverLayer) ||
 								(!selected && name == CanvasType.All) ||
 								name == CanvasType.Download) &&
@@ -1197,6 +1257,106 @@ export default class Rect extends Component<IProps, IState> {
 
 								</div>
 							}
+							{objectType === TemplateType.Video && cropMode && name == CanvasType.HoverLayer && 
+								<div
+									className={`${_id}1236`}
+									style={{
+										transform: `translate(${posX}px, ${posY}px)`,
+										width: imgWidth + "px",
+										height: imgHeight + "px",
+										zIndex: 0,
+										position: "absolute",
+									}}
+								>
+									{<div
+										style={{
+											position: "absolute",
+											top: "-2px",
+											left: "-2px",
+											right: "-2px",
+											bottom: "-2px",
+											backgroundImage:
+												(objectType == TemplateType.TextTemplate || objectType == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+													: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+											backgroundPosition: 'top,100%,bottom,0',
+											backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
+											backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+											opacity: (hovered || selected) ? 1 : 0,
+											pointerEvents: "none",
+										}}>
+
+									</div>}
+									{type == TemplateType.Video && <canvas
+										id={_id + "video3" + canvas}
+										style={{
+											width: "100%",
+											height: "100%",
+											transformOrigin: "0 0",
+											opacity: cropMode ? 0.5 : 0,
+										}}
+									/>}
+								</div>
+							}
+							{
+								(cropMode &&
+									(objectType === TemplateType.Image || objectType == TemplateType.BackgroundImage || objectType === TemplateType.Video)) &&
+									(name != CanvasType.Preview) &&
+								<div
+									id={_id + "6543" + canvas}
+									className={_id + "scaleX-scaleY"}
+									style={{
+										transformOrigin: "0 0",
+										transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
+										position: "absolute",
+										width: '100%',
+										height: '100%',
+										background: objectType == TemplateType.Video && selected && name != CanvasType.Download && !cropMode &&
+											'linear-gradient(0deg, rgba(0,0,0,0.7147233893557423) 0%, rgba(13,1,1,0) 34%)',
+									}}
+								>
+									{cropMode &&
+										selected && name == CanvasType.HoverLayer && (
+											<div
+												className={`${_id}1236`}
+												style={{
+													transform: `translate(${posX}px, ${posY}px)`,
+													width: imgWidth + "px",
+													height: imgHeight + "px",
+													zIndex: 999999,
+												}}
+											>
+												{cropMode && selected
+													? cropImageResizeDirection
+														.map(d => {
+															let cursor = getCursorStyleForResizer(rotateAngle, d);
+															let visibility = objectType === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
+															return (
+																<div
+																	key={d}
+																	style={{
+																		cursor,
+																		zIndex: 999999,
+																		visibility,
+																		pointerEvents: "all",
+																	}}
+																	id={_id + zoomableMap[d] + "_"}
+																	className={`${zoomableMap[d]} resizable-handler-container hehe`}
+																	onMouseDown={e => this.startResizeImage(e, d, true)}
+																>
+																	<div
+																		key={d}
+																		style={{ cursor, zIndex: 999999 }}
+																		className={`${zoomableMap[d]} resizable-handler`}
+																		onMouseDown={e => this.startResizeImage(e, d, true)}
+																	/>
+																</div>
+															);
+														})
+													: null}
+											</div>
+										)}
+								</div>
+							}
 							{cropMode &&
 								(selected && name == CanvasType.HoverLayer) &&
 								objectType !== TemplateType.BackgroundImage && (
@@ -1238,46 +1398,6 @@ export default class Rect extends Component<IProps, IState> {
 									})}
 								</div>
 							)}
-							{objectType === TemplateType.Video && cropMode && name == CanvasType.All && 
-								<div
-									className={`${_id}1236`}
-									style={{
-										transform: `translate(${posX}px, ${posY}px)`,
-										width: imgWidth + "px",
-										height: imgHeight + "px",
-										zIndex: 0,
-										position: "absolute",
-									}}
-								>
-									{<div
-										style={{
-											position: "absolute",
-											top: "-2px",
-											left: "-2px",
-											right: "-2px",
-											bottom: "-2px",
-											backgroundImage:
-												(objectType == TemplateType.TextTemplate || objectType == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
-													: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
-											backgroundPosition: 'top,100%,bottom,0',
-											backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
-											backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-											opacity: (hovered || selected) ? 1 : 0,
-											pointerEvents: "none",
-										}}>
-
-									</div>}
-									{type == TemplateType.Video && <canvas
-										id={_id + "video3" + canvas}
-										style={{
-											width: "100%",
-											height: "100%",
-											transformOrigin: "0 0",
-											opacity: cropMode ? 0.5 : 0,
-										}}
-									/>}
-								</div>
-							}
 							{objectType === TemplateType.Video &&
 								(name == CanvasType.All || name == CanvasType.Preview) && (
 									<div
