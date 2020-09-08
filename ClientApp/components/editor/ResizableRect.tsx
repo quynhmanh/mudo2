@@ -14,7 +14,6 @@ export interface IProps {
   parentRotateAngle: number;
   showController: boolean;
   onTextChange: any;
-  outlineWidth: number;
   onFontSizeChange(fontSize: number): void;
   handleFontColorChange(fontColor: string): void;
   handleFontFaceChange(fontFace: string): void;
@@ -89,7 +88,6 @@ export default class ResizableRect extends Component<IProps, IState> {
       onRotateStart,
       showController,
       onTextChange,
-      outlineWidth,
       onFontSizeChange,
       handleFontColorChange,
       handleFontFaceChange,
@@ -135,7 +133,6 @@ export default class ResizableRect extends Component<IProps, IState> {
         onResizeStart={onResizeStart}
         onRotateStart={onRotateStart}
         onTextChange={onTextChange}
-        outlineWidth={outlineWidth}
         onFontSizeChange={onFontSizeChange}
         handleFontColorChange={handleFontColorChange}
         handleFontFaceChange={handleFontFaceChange}

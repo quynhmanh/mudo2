@@ -8,7 +8,6 @@ export interface IProps {
     posY: any;
     selected: any;
     cropMode: any;
-    outlineWidth: any;
     backgroundColor: any;
     src: any;
     srcThumnail: any;
@@ -52,7 +51,16 @@ export default class Video extends Component<IProps, IState> {
     ref = null;
 
     render() {
-        let { showController, opacity, _id, imgWidth, imgHeight, posX, posY, selected, cropMode, outlineWidth, rotateAngle, parentRotateAngle, src, srcThumnail, canvas } = this.props;
+        let { 
+            opacity,
+            _id,
+            imgWidth,
+            imgHeight,
+            posX,
+            posY,
+            src,
+            canvas 
+        } = this.props;
         return (
             <div
                 id={_id + "1238" + canvas}
@@ -70,9 +78,6 @@ export default class Video extends Component<IProps, IState> {
                         width: "100%",
                         height: "100%",
                         transformOrigin: "0 0",
-                        outline: cropMode
-                            ? `#00d9e1 solid ${outlineWidth - 1}px`
-                            : null,
                         opacity,
                         pointerEvents: "none",
                     }}
@@ -81,15 +86,16 @@ export default class Video extends Component<IProps, IState> {
                     loop
                     onLoadedMetadata={e => {
                         let el = document.getElementById(_id + "progress1");
-                        el.setAttribute('max', e.target.duration);
+                        let video = e.target as HTMLVideoElement;
+                        el.setAttribute('max', video.duration.toString());
                     }}
                     onTimeUpdate={e => {
                         
                         let progress = document.getElementById(_id + "progress1");
                         let progressBar = document.getElementById(_id + "progress-bar1");
-                        let video = e.target;
-                        if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration);
-                        progress.value = video.currentTime;
+                        let video = e.target as HTMLVideoElement;
+                        if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration.toString());
+                        // progress.value = video.currentTime;
                         progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';
                     }}
                 >

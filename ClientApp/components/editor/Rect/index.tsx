@@ -48,7 +48,6 @@ export interface IProps {
 	parentRotateAngle: number;
 	showController: boolean;
 	onTextChange: any;
-	outlineWidth: number;
 	onFontSizeChange(fontSize: number): void;
 	handleFontColorChange(fontColor: string): void;
 	handleFontFaceChange(fontFace: string): void;
@@ -411,7 +410,6 @@ export default class Rect extends Component<IProps, IState> {
 			showController,
 			scale,
 			onTextChange,
-			outlineWidth,
 			onFontSizeChange,
 			handleFontColorChange,
 			handleFontFaceChange,
@@ -510,22 +508,9 @@ export default class Rect extends Component<IProps, IState> {
 			page: page,
 		};
 
-		let progressBarStyle = {
-			height: "100%",
-			display: "block",
-			backgroundColor: "#f5f5f5",
-			pointerEvents: "none",
-		};
-
-		if (this.state.paused) {
-			progressBarStyle.width = this.state.currentTime + "%";
-		}
-
-
-
 		return (
 			<div
-				className={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : "_") + " " + _id + `aaaa${canvas}`}
+				className={_id + `aaaa${canvas}`}
 				id={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : `_${canvas}`)}
 				key={_id}
 				style={{
@@ -538,7 +523,6 @@ export default class Rect extends Component<IProps, IState> {
 				}}
 			>
 				<div
-					id={_id + (name == CanvasType.HoverLayer ? "___" : "____")}
 					style={{
 						width: width * scale + "px",
 						height: height * scale + "px",
@@ -591,7 +575,6 @@ export default class Rect extends Component<IProps, IState> {
 					}}
 				>
 					<div
-						className={`hideWhenDownloadContainer ${name} ${hovered} ${selected}`}
 					>
 						{name == CanvasType.HoverLayer && <div
 							{...customAttr}
@@ -615,16 +598,12 @@ export default class Rect extends Component<IProps, IState> {
 
 						</div>}
 						<StyledRect
-							id={id + hovered ? "hovered" : ""}
-							className={`${_id}-styledrect ${type == TemplateType.BackgroundImage && 'selectable'} rect single-resizer ${selected &&
-								"selected"}`}
 							style={{
 								width: "100%",
 								height: "100%",
 								pointerEvents: (name == CanvasType.HoverLayer && !cropMode) ? "none" : "all",
 								backgroundColor: type == TemplateType.BackgroundImage && name != CanvasType.HoverLayer && color,
 							}}
-							cropMode={cropMode}
 
 						>
 							{!cropMode &&
@@ -698,7 +677,6 @@ export default class Rect extends Component<IProps, IState> {
 							{(name == CanvasType.All || name == CanvasType.Preview || 
 								(cropMode && name == CanvasType.HoverLayer) ||
 								name == CanvasType.Download) &&
-								src &&
 								(objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
 									<div
 										id={_id}
@@ -729,7 +707,6 @@ export default class Rect extends Component<IProps, IState> {
 												posY={posY}
 												selected={selected}
 												cropMode={cropMode}
-												outlineWidth={outlineWidth}
 												backgroundColor={backgroundColor}
 												src={src}
 												enableCropMode={this.props.handleCropBtnClick}
@@ -752,6 +729,24 @@ export default class Rect extends Component<IProps, IState> {
 														transform: `translate(${posX}px, ${posY}px)`
 													}}
 												>
+													{<div
+														style={{
+															position: "absolute",
+															top: "-2px",
+															left: "-2px",
+															right: "-2px",
+															bottom: "-2px",
+															backgroundImage:
+																(objectType == TemplateType.TextTemplate || objectType == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+																	: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+															backgroundPosition: 'top,100%,bottom,0',
+															backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
+															backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+															opacity: (hovered || selected) ? 1 : 0,
+															pointerEvents: "none",
+														}}>
+
+													</div>}
 													{(objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
 														<img
 															style={{
@@ -772,6 +767,7 @@ export default class Rect extends Component<IProps, IState> {
 							{
 								(objectType === TemplateType.Video ||
 									(cropMode && objectType === TemplateType.Image)) &&
+									(name != CanvasType.Preview) &&
 								<div
 									id={_id + "6543" + canvas}
 									className={_id + "scaleX-scaleY"}
@@ -790,7 +786,6 @@ export default class Rect extends Component<IProps, IState> {
 										className={name}
 										id={_id + "progress" + name}
 										style={{
-											// display: this.state.paused ? "block" : "none",
 											display: selected ? "block" : "none",
 											position: 'absolute',
 											bottom: '20px',
@@ -825,10 +820,10 @@ export default class Rect extends Component<IProps, IState> {
 											tip.style.fontSize = "12px";
 											tip.innerText = "123";
 
-											let rec = e.target.getBoundingClientRect();
+											let rec = (e.target as HTMLElement).getBoundingClientRect();
 											let left = rec.left;
 											let width  = rec.width;
-											let video = document.getElementById(_id + "videoalo");
+											let video = document.getElementById(_id + "videoalo") as HTMLVideoElement;
 											let max = video.duration;
 
 
@@ -859,7 +854,7 @@ export default class Rect extends Component<IProps, IState> {
 											}
 
 											const onClick = e => {
-												let video = document.getElementById(_id + "videoalo");
+												let video = document.getElementById(_id + "videoalo") as HTMLVideoElement;
 												video.currentTime = value;
 											}
 
@@ -943,28 +938,14 @@ export default class Rect extends Component<IProps, IState> {
 									{cropMode &&
 										selected && name == CanvasType.HoverLayer && (
 											<div
-												id={_id + "1237"}
 												className={`${_id}1236`}
 												style={{
 													transform: `translate(${posX}px, ${posY}px)`,
 													width: imgWidth + "px",
 													height: imgHeight + "px",
 													zIndex: 999999,
-													outline: cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none",
 												}}
 											>
-												{/* {type == TemplateType.Video && <canvas
-													id={_id + "video3" + canvas}
-													style={{
-														width: "100%",
-														height: "100%",
-														transformOrigin: "0 0",
-														outline: cropMode
-															? `#00d9e1 solid ${outlineWidth - 1}px`
-															: null,
-														opacity: cropMode ? 0.5 : 0,
-													}}
-												/>} */}
 												{cropMode && selected
 													? cropImageResizeDirection
 														.map(d => {
@@ -1139,7 +1120,6 @@ export default class Rect extends Component<IProps, IState> {
 																	onInput={onTextChange}
 																	onBlur={this.endEditing.bind(this)}
 																	onMouseDown={this.startEditing.bind(this)}
-																	outlineWidth={outlineWidth}
 																	onFontSizeChange={(fontSize, scaleY) => {
 																		onFontSizeChange(fontSize * scaleY);
 																		this.startEditing(scaleY);
@@ -1156,47 +1136,7 @@ export default class Rect extends Component<IProps, IState> {
 												})}{" "}
 											</div>
 										)}
-									{/* {cropMode &&
-										selected && name == CanvasType.HoverLayer && (
-											<div
-												id={_id + "1237"}
-												className={`${_id}1236`}
-												style={{
-													transform: `translate(${posX}px, ${posY}px)`,
-													width: imgWidth + "px",
-													height: imgHeight + "px",
-													zIndex: 999999,
-													outline:
-														cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
-												}}
-											>
-												{cropMode && selected
-													? cropImageResizeDirection.map(d => {
-														let cursor = getCursorStyleForResizer(rotateAngle, d);
-														return (
-															<div
-																key={d}
-																style={{
-																	cursor,
-																	zIndex: 999999
-																}}
-																id={_id + zoomableMap[d] + "_"}
-																className={`${zoomableMap[d]} resizable-handler-container hehe`}
-																onMouseDown={e => this.startResizeImage(e, d, true)}
-															>
-																<div
-																	key={d}
-																	style={{ cursor, zIndex: 999999 }}
-																	className={`${zoomableMap[d]} resizable-handler`}
-																	onMouseDown={e => this.startResizeImage(e, d, true)}
-																/>
-															</div>
-														);
-													})
-													: null}
-											</div>
-										)} */}
-									{innerHTML && (
+									{objectType == TemplateType.Heading && (
 										<div style={{
 											pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
 										}}>
@@ -1260,50 +1200,46 @@ export default class Rect extends Component<IProps, IState> {
 							{cropMode &&
 								(selected && name == CanvasType.HoverLayer) &&
 								objectType !== TemplateType.BackgroundImage && (
-									<div
-										id="halo1"
-										style={{
-											width: "100%",
-											height: "100%",
-											position: "absolute",
-											outline:
-												cropMode && selected ? "rgb(0, 217, 225) solid 2px" : "none"
-										}}
-									>
-										{cropImageResizeDirection.map((d, i) => {
-											let cursor = getCursorStyleForResizer(rotateAngle, d);
-											return (
-												<div
-													id={_id + zoomableMap[d]}
-													key={d}
-													style={{
-														cursor,
-														// transform: `rotate(${i * 90}deg) scale(${1 / scale})`,
-														transform: `rotate(${i * 90}deg)`,
-														zIndex: 2,
-														pointerEvents: "all",
-													}}
-													className={`${zoomableMap[d]} resizable-handler-container cropMode`}
-													onMouseDown={e => {
-														this.startResizeImage(e, d, false);
-													}}
-												>
-													<svg
-														className={`${zoomableMap[d]}`}
-														width={24}
-														height={24}
-														style={{ zIndex: -1 }}
-														viewBox="0 0 24 24"
-														xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24"><defs><path id="_619015639__b" d="M10 18.95a2.51 2.51 0 0 1-3-2.45v-7a2.5 2.5 0 0 1 2.74-2.49L10 7h6a3 3 0 0 1 3 3h-9v8.95z"></path><filter id="_619015639__a" width="250%" height="250%" x="-75%" y="-66.7%" filterUnits="objectBoundingBox"><feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"></feMorphology><feOffset in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset><feColorMatrix in="shadowOffsetOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"></feColorMatrix><feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset><feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="2.5"></feGaussianBlur><feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="shadowMatrixOuter2"></feMergeNode></feMerge></filter></defs><g fill="none" fill-rule="evenodd"><use fill="#000" filter="url(#_619015639__a)" xlinkHref="#_619015639__b"></use><use className={`${zoomableMap[d]}`} fill="#FFF" xlinkHref="#_619015639__b"></use></g></svg>
-
-												</div>
-											);
-										})}
-									</div>
-								)}
+								<div
+									style={{
+										width: "100%",
+										height: "100%",
+										position: "absolute",
+									}}
+								>
+									{cropImageResizeDirection.map((d, i) => {
+										let cursor = getCursorStyleForResizer(rotateAngle, d);
+										return (
+											<div
+												id={_id + zoomableMap[d]}
+												key={d}
+												style={{
+													cursor,
+													transform: `rotate(${i * 90}deg)`,
+													zIndex: 2,
+													pointerEvents: "all",
+												}}
+												className={`${zoomableMap[d]} resizable-handler-container cropMode`}
+												onMouseDown={e => {
+													this.startResizeImage(e, d, false);
+												}}
+											>
+												<svg
+													className={`${zoomableMap[d]}`}
+													width={24}
+													height={24}
+													style={{ zIndex: -1 }}
+													viewBox="0 0 24 24"
+													xmlns="http://www.w3.org/2000/svg" 
+													xmlnsXlink="http://www.w3.org/1999/xlink" >
+														<defs><path id="_619015639__b" d="M10 18.95a2.51 2.51 0 0 1-3-2.45v-7a2.5 2.5 0 0 1 2.74-2.49L10 7h6a3 3 0 0 1 3 3h-9v8.95z"></path><filter id="_619015639__a" width="250%" height="250%" x="-75%" y="-66.7%" filterUnits="objectBoundingBox"><feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"></feMorphology><feOffset in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset><feColorMatrix in="shadowOffsetOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"></feColorMatrix><feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset><feGaussianBlur in="shadowOffsetOuter2" result="shadowBlurOuter2" stdDeviation="2.5"></feGaussianBlur><feColorMatrix in="shadowBlurOuter2" result="shadowMatrixOuter2" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="shadowMatrixOuter2"></feMergeNode></feMerge></filter></defs><g fill="none" fill-rule="evenodd"><use fill="#000" filter="url(#_619015639__a)" xlinkHref="#_619015639__b"></use><use className={`${zoomableMap[d]}`} fill="#FFF" xlinkHref="#_619015639__b"></use></g></svg>
+											</div>
+										);
+									})}
+								</div>
+							)}
 							{objectType === TemplateType.Video && cropMode && name == CanvasType.All && 
 								<div
-									id={_id + "1237"}
 									className={`${_id}1236`}
 									style={{
 										transform: `translate(${posX}px, ${posY}px)`,
@@ -1311,26 +1247,38 @@ export default class Rect extends Component<IProps, IState> {
 										height: imgHeight + "px",
 										zIndex: 0,
 										position: "absolute",
-										outline:
-											cropMode && selected ? "rgba(0, 217, 225, 0.75) solid 2px" : "none"
 									}}
 								>
+									{<div
+										style={{
+											position: "absolute",
+											top: "-2px",
+											left: "-2px",
+											right: "-2px",
+											bottom: "-2px",
+											backgroundImage:
+												(objectType == TemplateType.TextTemplate || objectType == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+													: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+											backgroundPosition: 'top,100%,bottom,0',
+											backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
+											backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+											opacity: (hovered || selected) ? 1 : 0,
+											pointerEvents: "none",
+										}}>
+
+									</div>}
 									{type == TemplateType.Video && <canvas
 										id={_id + "video3" + canvas}
 										style={{
 											width: "100%",
 											height: "100%",
 											transformOrigin: "0 0",
-											outline: cropMode
-												? `#00d9e1 solid ${outlineWidth - 1}px`
-												: null,
 											opacity: cropMode ? 0.5 : 0,
 										}}
 									/>}
 								</div>
 							}
-							{src &&
-								objectType === TemplateType.Video &&
+							{objectType === TemplateType.Video &&
 								(name == CanvasType.All || name == CanvasType.Preview) && (
 									<div
 										id={_id}
@@ -1357,7 +1305,6 @@ export default class Rect extends Component<IProps, IState> {
 											posY={posY}
 											selected={selected}
 											cropMode={cropMode}
-											outlineWidth={outlineWidth}
 											backgroundColor={backgroundColor}
 											src={src}
 											srcThumnail={srcThumnail}

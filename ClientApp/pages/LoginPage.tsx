@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import { Redirect, RouteComponentProps, withRouter } from "react-router";
 import bind from "bind-decorator";
 import { Form } from "@Components/shared/Form";
-import GoogleLogin from "react-google-login";
 import uuidv4 from "uuid/v4";
 import Globals from "@Globals";
 

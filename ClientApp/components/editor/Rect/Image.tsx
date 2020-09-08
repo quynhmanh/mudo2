@@ -8,7 +8,6 @@ export interface IProps {
     posY: any;
     selected: any;
     cropMode: any;
-    outlineWidth: any;
     backgroundColor: any;
     enableCropMode: any;
     src: any;
@@ -30,7 +29,18 @@ export default class Image extends Component<IProps, IState> {
     }
 
     render() {
-        let { _id, imgWidth, imgHeight, posX, posY, selected, cropMode, outlineWidth, backgroundColor, enableCropMode, src, srcThumnail, canvas } = this.props;
+        let { 
+            _id,
+            imgWidth,
+            imgHeight,
+            posX,
+            posY,
+            backgroundColor,
+            enableCropMode,
+            src,
+            srcThumnail,
+            canvas 
+        } = this.props;
         return (
             <div>
                 {!window.downloading && !this.state.loaded && <img
@@ -54,10 +64,6 @@ export default class Image extends Component<IProps, IState> {
                         height: imgHeight + "px",
                         transform: `translate(${posX}px, ${posY}px)`,
                         opacity: 1,
-                        outline:
-                            cropMode && selected
-                                ? `#00d9e1 solid ${outlineWidth - 1}px`
-                                : null,
                         transformOrigin: "0 0",
                         backgroundColor: backgroundColor
                     }}

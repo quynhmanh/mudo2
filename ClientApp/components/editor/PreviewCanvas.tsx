@@ -29,7 +29,7 @@ export interface IProps {
   handleRotateStart: any;
   handleResizeStart: any;
   handleDragStart: any;
-  onSingleTextChange: any;
+  onTextChange: any;
   handleFontSizeChange: any;
   handleFontColorChange: any;
   handleFontFamilyChange: any;
@@ -123,7 +123,6 @@ export default class Canvas extends Component<IProps, IState> {
     const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));
     return (
       <ResizableRectContainer
-        // onTransitionEnd={this.props.handleDeleteThisPage}
         style={{
           position: "relative",
           transition: "all 0.1s linear",
@@ -277,13 +276,9 @@ export default class Canvas extends Component<IProps, IState> {
                         rotateAngle={img.rotateAngle}
                         onRotateStart={this.props.handleRotateStart}
                         onResizeStart={this.props.handleResizeStart}
-                        onTextChange={this.props.onSingleTextChange.bind(
+                        onTextChange={this.props.onTextChange.bind(
                           this,
                           img
-                        )}
-                        outlineWidth={Math.min(
-                          2,
-                          Math.min(rectHeight * scale, rectWidth * scale) / 100
                         )}
                         handleFontColorChange={this.props.handleFontColorChange}
                         onFontSizeChange={this.props.handleFontSizeChange}

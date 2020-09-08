@@ -28,6 +28,10 @@ import {
     isNode,
 }  from "@Utils";
 
+import {
+    Observable
+} from "rxjs";
+
 let rotateRect, 
     rotatePoint, 
     getCursorStyleWithRotateAngle,
@@ -588,7 +592,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         (document.getElementById("fontSizeButton") as HTMLInputElement).value = fontSize.toString();
         if (editorStore.childId) {
-            this.onSingleTextChange(image, e, editorStore.childId);
+            this.onTextChange(image, e, editorStore.childId);
         }
     }
 
@@ -1541,7 +1545,7 @@ class CanvaEditor extends Component<IProps, IState> {
         ell.style.cursor = cursorStyle;
 
         let images = [];
-        Array.from(editorStore.images2.values()).forEach(image => {
+        Array.from(editorStore.images2.values()).forEach((image:any) => {
             if (image.page === window.image.page && image._id != editorStore.idObjectSelected) {
                 if (window.image.type != TemplateType.GroupedItem) {
                     let clonedImage = transformImage(clone(image));
@@ -3192,7 +3196,7 @@ class CanvaEditor extends Component<IProps, IState> {
         const location$ = this.handleDragRx(e.target);
 
         let images = [];
-        Array.from(editorStore.images2.values()).forEach(image => {
+        Array.from(editorStore.images2.values()).forEach((image:any) => {
             if (image.page === window.image.page) {
 
                 if (window.image.type != TemplateType.GroupedItem) {
@@ -4804,7 +4808,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let self = this;
         const { rectWidth, rectHeight } = this.state;
 
-        let images = toJS(Array.from(editorStore.images2.values()).filter(image => image.type != TemplateType.GroupedItem));
+        let images = toJS(Array.from(editorStore.images2.values()).filter((image:any) => image.type != TemplateType.GroupedItem));
         let clonedArray = JSON.parse(JSON.stringify(images))
         let tempImages = clonedArray.map(image => {
             image.width2 = image.width / rectWidth;
@@ -4965,68 +4969,6 @@ class CanvaEditor extends Component<IProps, IState> {
         return _id;
     }
 
-    onTextChange(parentIndex, e, key) {
-        const { scale } = this.state;
-        let images = toJS(editorStore.images);
-        let tempImages = images.map(image => {
-            if (image._id === parentIndex) {
-                let newHeight = 0;
-                let changedText;
-                let deltaY = 0;
-                let scaleY = image.height / image.origin_height;
-
-                let texts = image.document_object.map(text => {
-                    if (text._id === key) {
-                        changedText = { ...text };
-                        text.innerHTML = e.target.innerHTML;
-                        let rec = e.target.getBoundingClientRect();
-                        deltaY = rec.height / this.state.scale / scaleY - text.height;
-                        text.height = rec.height / this.state.scale / scaleY;
-                    }
-                    return text;
-                });
-
-                let text2 = [];
-                for (let i = 0; i < texts.length; ++i) {
-                    let d = texts[i];
-                    if (d.ref === null) {
-                        text2.push(
-                            ...this.normalize2(
-                                d,
-                                texts,
-                                image.scaleX,
-                                image.scaleY,
-                                scale,
-                                image.width,
-                                image.height
-                            )
-                        );
-                    }
-                }
-
-                text2 = text2.map(text => {
-                    if (text._id !== key) {
-                        if (text.top > changedText.top) {
-                            text.top += deltaY;
-                        }
-                    }
-                    return text;
-                });
-
-                text2.forEach(text => {
-                    newHeight = Math.max(newHeight, (text.top + text.height) * scaleY);
-                });
-
-                image.height = newHeight;
-                image.origin_height = image.height / scaleY;
-                image.document_object = text2;
-            }
-            return image;
-        });
-
-        // this.setState({ images });
-    }
-
     videoOnMouseDown(e) {
         e.preventDefault();
 
@@ -5058,11 +5000,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     recScreenContainer.bottom > rec2.bottom
                 ) {
                     beingInScreenContainer = true;
-
-                    // target.style.width = (rec2.width * self.state.scale) + 'px';
-                    // target.style.height = (rec2.height * self.state.scale) + 'px';
-                    // target.style.transitionDuration = '0.05s';
-
                     setTimeout(() => {
                         target.style.transitionDuration = "";
                     }, 50);
@@ -5312,7 +5249,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({colorPickerShown: true})
     }
 
-    onSingleTextChange(thisImage, e, childId) {
+    onTextChange(thisImage, e, childId) {
         thisImage = toJS(thisImage);
         let target;
         if (childId) {
@@ -5897,6 +5834,7 @@ class CanvaEditor extends Component<IProps, IState> {
             }
 
             let pageId = pages[i];
+            let images = Array.from(editorStore.images2.values()).filter((img:any) => img.page === pages[i]).map(img => toJS(img));
 
             res.push(
                 <Canvas
@@ -5924,7 +5862,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     staticGuides={this.state.staticGuides}
                     index={i}
                     addAPage={this.addAPage}
-                    images={Array.from(editorStore.images2.values()).filter(img => img.page === pages[i]).map(img => toJS(img))}
+                    images={images}
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
                     rectHeight={this.state.rectHeight}
@@ -5938,7 +5876,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleRotateStart={this.handleRotateStart}
                     handleResizeStart={this.handleResizeStart}
                     handleDragStart={this.handleDragStart}
-                    onSingleTextChange={this.onSingleTextChange.bind(this)}
+                    onTextChange={this.onTextChange.bind(this)}
                     handleFontSizeChange={this.handleFontSizeChange}
                     handleFontColorChange={this.handleFontColorChange}
                     handleFontFamilyChange={this.handleFontFamilyChange}
@@ -5958,26 +5896,14 @@ class CanvaEditor extends Component<IProps, IState> {
         return res;
     }
 
-    renderCanvasPreview(preview, index, downloading) {
+    renderCanvasPreview() {
         let res = [];
         let pages = toJS(editorStore.pages);
         let keys = toJS(editorStore.keys);
         for (let i = 0; i < 1; ++i) {
-            if (index >= 0 && i != index) {
-                continue;
-            }
-
-            let pageId = pages[i];
 
             res.push(
                 <PreviewCanvas
-                    ref={ref => {
-                        if (!downloading) {
-                            this.canvas1[pageId] = ref;
-                        } else {
-                            this.canvas2[pageId] = ref;
-                        }
-                    }}
                     handleCropBtnClick={this.handleCropBtnClick}
                     toggleVideo={this.toggleVideo}
                     uiKey={pages[i] + keys[i]}
@@ -5989,13 +5915,13 @@ class CanvaEditor extends Component<IProps, IState> {
                     active={pages[i] == editorStore.activePageId}
                     translate={this.translate}
                     numberOfPages={pages.length}
-                    downloading={downloading}
+                    downloading={false}
                     bleed={this.state.bleed}
                     key={i}
                     staticGuides={this.state.staticGuides}
                     index={i}
                     addAPage={this.addAPage}
-                    images={Array.from(editorStore.images2.values()).filter(img => img.page === pages[i]).map(img => toJS(img))}
+                    images={Array.from(editorStore.images2.values()).filter((img:any) => img.page === pages[i]).map(img => toJS(img))}
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
                     rectHeight={this.state.rectHeight}
@@ -6009,7 +5935,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleRotateStart={this.handleRotateStart}
                     handleResizeStart={this.handleResizeStart}
                     handleDragStart={this.handleDragStart}
-                    onSingleTextChange={this.onSingleTextChange.bind(this)}
+                    onTextChange={this.onTextChange.bind(this)}
                     handleFontSizeChange={this.handleFontSizeChange}
                     handleFontColorChange={this.handleFontColorChange}
                     handleFontFamilyChange={this.handleFontFamilyChange}
@@ -6020,7 +5946,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     doNoObjectSelected={this.doNoObjectSelected}
                     handleDeleteThisPage={this.handleDeleteThisPage.bind(this, pages[i])}
                     showPopup={this.state.showPopup}
-                    preview={preview}
+                    preview={false}
                     activePageId={toJS(editorStore.activePageId)}
                 />
             );
@@ -6171,7 +6097,7 @@ class CanvaEditor extends Component<IProps, IState> {
             let el = this.getSingleTextHTMLElement();
             el.style.letterSpacing = `${1.0*letterSpacing/100*4}px`;
 
-            this.onSingleTextChange(image, null, editorStore.childId);
+            this.onTextChange(image, null, editorStore.childId);
         } else {
             let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
             hihi4.style.letterSpacing = `${1.0*letterSpacing/100*4}px`;
@@ -6220,7 +6146,7 @@ class CanvaEditor extends Component<IProps, IState> {
             let el = this.getSingleTextHTMLElement();
             el.style.lineHeight = lineHeight.toString();
 
-            this.onSingleTextChange(image, null, editorStore.childId);
+            this.onTextChange(image, null, editorStore.childId);
         } else {
             let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
             hihi4.style.lineHeight = lineHeight.toString();
