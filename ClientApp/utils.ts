@@ -750,8 +750,8 @@ export const transformImage = image => {
 }
 
 export const secondToMinutes = sec => {
-    const min = Math.round(sec / 60);
-    const s = Math.round(sec % 60);
+    const min = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
     return `${min}:${s}`;
 }
 

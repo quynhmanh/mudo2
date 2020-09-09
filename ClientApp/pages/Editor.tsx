@@ -353,6 +353,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.updateGuide = this.updateGuide.bind(this);
         this.updateImages = this.updateImages.bind(this);
         this.forceEditorUpdate = this.forceEditorUpdate.bind(this);
+        this.onTextChange = this.onTextChange.bind(this);
     }
 
     $app = null;
@@ -472,11 +473,13 @@ class CanvaEditor extends Component<IProps, IState> {
         setTimeout(() => {
             if (image.type == TemplateType.Video) {
                 let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
+                let video2 = document.getElementById(id + "video" + CanvasType.HoverLayer + "alo");
                 let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
                 var ctx = el3.getContext('2d')
                 let el4 = document.getElementById(editorStore.idObjectSelected + "video4" + "alo") as HTMLCanvasElement;
                 if (el && el3) {
                     el.pause();
+                    video2.currentTime = el.currentTime;
                     ctx.imageSmoothingEnabled = false;
                     ctx.drawImage(el, 0, 0, el3.width, el3.height);
                 }
@@ -518,16 +521,6 @@ class CanvaEditor extends Component<IProps, IState> {
         return metrics.width;
     }
 
-    getTextHeight = (text, font) => {
-        // re-use canvas object for better performance
-        let canvas = this.canvas || (this.canvas = document.createElement("canvas"));
-        let context = canvas.getContext("2d");
-        context.font = font;
-        let metrics = context.measureText(text);
-
-        return parseInt(context.font.match(/\d+/), 10);
-    }
-
     handleFontSizeBtnClick = (e: any, fontSize: number) => {
 
         let image = this.getImageSelected();
@@ -559,8 +552,10 @@ class CanvaEditor extends Component<IProps, IState> {
             let font = fonts[i];
             (font as HTMLElement).style.fontSize = fontSizePx;
 
+            console.log('font ', font.offsetHeight);
+
             width2 = Math.max(width2, this.getTextWidth(font.innerHTML, fontSizePt + " " + image.fontFace));
-            height2 += this.getTextHeight(font.innerHTML, fontSizePt + " " + image.fontFace);
+            height2 += fontSize * image.lineHeight;
         }
 
         if (!editorStore.childId) {
@@ -4566,6 +4561,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     onTextChange(thisImage, e, childId) {
+        let self = this;
         thisImage = toJS(thisImage);
         let target;
         if (childId) {
@@ -4577,7 +4573,7 @@ class CanvaEditor extends Component<IProps, IState> {
             e.persist();
         }
         setTimeout(() => {
-            const { scale } = this.state;
+            const { scale } = self.state;
             if (!childId) {
                 let image = editorStore.images2.get(editorStore.idObjectSelected);
                 let centerX = image.left + image.width / 2;

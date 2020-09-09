@@ -96,10 +96,7 @@ export default class Video extends Component<IProps, IState> {
                         let progress = document.getElementById(_id + "progress1");
                         let progressBar = document.getElementById(_id + "progress-bar1");
                         let video = e.target as HTMLVideoElement;
-                        let video2 = document.getElementById(_id + "video" + CanvasType.HoverLayer + "alo");
-                        video2.currentTime = video.currentTime;
                         if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration.toString());
-                        // progress.value = video.currentTime;
                         progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';
                     }}
                 >

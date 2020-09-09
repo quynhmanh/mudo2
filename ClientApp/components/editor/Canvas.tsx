@@ -519,6 +519,7 @@ export default class Canvas extends Component<IProps, IState> {
                                     {images
                                         .map(imgHovered =>
                                             <ResizableRect
+                                                handleCropBtnClick={this.props.handleCropBtnClick}
                                                 handleDragStart={this.props.handleDragStart}
                                                 ref={i => this.canvas[CanvasType.HoverLayer][imgHovered._id] = i}
                                                 handleImageSelected={this.props.handleImageSelected}
