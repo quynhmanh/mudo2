@@ -507,6 +507,7 @@ export default class Canvas extends Component<IProps, IState> {
                                     display: "inline-block",
                                     position: "relative",
                                     zIndex: cropMode && 9999999,
+                                    pointerEvents: "none",
                                 }}
                                 onClick={e => {
                                     if ((e.target as HTMLElement).id == "canvas") {
@@ -539,6 +540,7 @@ export default class Canvas extends Component<IProps, IState> {
                                                 rotateAngle={imgHovered.rotateAngle}
                                                 onRotateStart={this.props.handleRotateStart}
                                                 onResizeStart={this.props.handleResizeStart}
+                                                disableCropMode={this.props.disableCropMode}
                                                 onTextChange={this.props.onTextChange.bind(
                                                     this,
                                                     imgHovered
@@ -562,6 +564,10 @@ export default class Canvas extends Component<IProps, IState> {
                                                 enableCropMode={this.props.enableCropMode}
                                             />
                                         )
+                                    }
+                                    {editorStore.cropMode && 
+                                        <div>
+                                        </div>
                                     }
                                 </div>
                             </div>
@@ -685,6 +691,7 @@ export default class Canvas extends Component<IProps, IState> {
                                                 this,
                                                 imgHovered
                                             )}
+                                            disableCropMode={this.props.disableCropMode}
                                             handleFontColorChange={
                                                 this.props.handleFontColorChange
                                             }

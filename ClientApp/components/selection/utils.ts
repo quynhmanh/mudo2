@@ -250,12 +250,6 @@ export function intersects(a, b, mode, node) {
                 ]
 
                 return doPolygonsIntersect (aa, bb);
-
-
-                console.log('newL newR', b.left, b.right, b.top, b.bottom, newL, newR);
-                console.log('w w', w, node.attributes.width.value);
-                console.log('h h', h, node.attributes.height.value);
-                
             }
 
             return a.right >= b.left &&

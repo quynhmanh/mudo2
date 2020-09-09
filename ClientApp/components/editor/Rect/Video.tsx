@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { CanvasType } from '../enums';
 
 export interface IProps {
     _id: string;
@@ -20,6 +21,7 @@ export interface IProps {
     paused: boolean;
     setMax: any;
     setCurrentTime: any;
+    name: any;
 }
 
 export interface IState {
@@ -72,7 +74,7 @@ export default class Video extends Component<IProps, IState> {
                 }}
             >
                 <video
-                    id={_id + "video" + canvas}
+                    id={_id + "video" + this.props.name + canvas}
                     ref={i => this.ref = i}
                     style={{
                         width: "100%",
@@ -94,6 +96,8 @@ export default class Video extends Component<IProps, IState> {
                         let progress = document.getElementById(_id + "progress1");
                         let progressBar = document.getElementById(_id + "progress-bar1");
                         let video = e.target as HTMLVideoElement;
+                        let video2 = document.getElementById(_id + "video" + CanvasType.HoverLayer + "alo");
+                        video2.currentTime = video.currentTime;
                         if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration.toString());
                         // progress.value = video.currentTime;
                         progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';

@@ -71,6 +71,10 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "ext")]
             public string ext;
+
+            [JsonProperty(PropertyName = "duration")]
+            public float duration;
+            
         }
 
         [HttpPost("[action]")]
@@ -111,6 +115,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Color = oDownloadBody.color;
                 mediaModel.UserEmail = oDownloadBody.userEmail;
                 mediaModel.Ext = oDownloadBody.ext;
+                mediaModel.Duration = oDownloadBody.duration;
 
                 try
                 {

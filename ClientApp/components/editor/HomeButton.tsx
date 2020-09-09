@@ -57,6 +57,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             right: 0,
                             fontSize: "15px",
                             marginLeft: "5px",
+                            fontWeight: 500,
                         }}
                     >{this.props.translate("home")}</span>
                     

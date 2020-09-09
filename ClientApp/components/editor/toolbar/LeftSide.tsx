@@ -57,6 +57,9 @@ interface IProps {
     currentLetterSpacing: number;
     pauser: any;
     selectedCanvas: any;
+    updateImages: any;
+    onTextChange: any;
+    scale: any;
 }
 
 interface IState {
@@ -258,7 +261,8 @@ class LeftSide extends Component<IProps, IState> {
                         )
                 }
                 {image && (image.type === TemplateType.Heading || props.childId) &&
-                <Spacing 
+                <Spacing
+                    onTextChange={this.props.onTextChange}
                     title="spacing"
                     show=
                     {
@@ -274,6 +278,8 @@ class LeftSide extends Component<IProps, IState> {
                     handleLineHeightChangeEnd={props.handleLineHeightChangeEnd}
                     handleLetterSpacing={props.handleLetterSpacing}
                     handleLetterSpacingEnd={props.handleLetterSpacingEnd}
+                    updateImages={this.props.updateImages}
+                    scale={props.scale}
                 />}
                 <Effect
                     show=

@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment, isValidElement } from "react";
 import styled from "styled-components";
 import Globals from "@Globals";
+import {secondToMinutes} from "@Utils";
 
 export interface IProps {
   src: string;
@@ -14,6 +15,7 @@ export interface IProps {
   id: string;
   delay: number;
   showButton: boolean;
+  duration: number;
 }
 
 export interface IState {
@@ -134,7 +136,8 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 border: "none",
                 padding: "0 4px",
                 boxShadow:
-                  "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
+                  "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+                  zIndex: 123,
               }}
               onClick={this.props.onEdit}
             >
@@ -149,7 +152,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                   <use
                     fill="black"
                     xlinkHref="#_2658783389__a"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                   ></use>
                 </svg>
               </span>
@@ -199,6 +202,17 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
           src={this.props.src}
           onMouseDown={this.props.onPick}
         />
+        <span
+          style={{
+            position: "absolute",
+            left: "3px",
+            bottom: "3px",
+            background: "#0000007d",
+            padding: "2px 5px",
+            fontSize: "12px",
+            borderRadius: "6px",
+          }}
+        >{secondToMinutes(this.props.duration)}</span>
       </Container>
     );
   }

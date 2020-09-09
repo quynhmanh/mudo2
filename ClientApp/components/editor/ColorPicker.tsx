@@ -21,8 +21,6 @@ function parseContent(content : any, eventName : string = "hover") {
 
 export interface IProps {
   setSelectionColor: any;
-  colorPickerShown: any;
-  handleColorPick: any;
   translate: any;
 }
 
@@ -41,7 +39,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     }
 
     componentDidMount = () => {
-      console.log("colorPicker ", this.props.translate, this.props.translate('save'))
       const pickr = Pickr.create({
         default: null,
         el: '.color-picker',
@@ -111,7 +108,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
 
           // instance._clearColor();
           // instance.setColor('transparent');
-          this.props.handleColorPick();
+          // this.props.handleColorPick();
         })
     }
 

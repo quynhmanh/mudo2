@@ -71,9 +71,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
 
 
     updateInnerHTML(innerHTML) {
-        console.log('updateInnerHTML', innerHTML, this.$textEle)
         if (innerHTML && this.$textEle) {
-            console.log('updateInnerHTML2')
             this.$textEle.innerHTML = innerHTML;
         }
     }

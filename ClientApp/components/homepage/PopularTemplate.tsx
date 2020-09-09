@@ -96,7 +96,8 @@ class Popup extends PureComponent<IProps, IState> {
                 style={{
                     marginBottom: '20px',
                     marginTop: '20px',
-                    fontFamily: "AvenirNextRoundedPro-Bold",
+                    fontFamily: "AvenirNextRoundedPro-Medium",
+                    fontWeight: 600,
                     fontSize: "25px",
                 }}
             >{this.props.translate("recentDesign")}</h3>

@@ -46,6 +46,10 @@ class Images {
     @observable currentFontSize = 0;
     @observable currentLetterSpacing = 0;
     @observable currentLineHeight = 0;
+
+    @action getImageSelected = () => {
+      return this.images2.get(this.idObjectSelected);
+  }
   
     @action addItem = (item, isChild) => {
       if (isChild) {

@@ -17,6 +17,7 @@
         public string UserEmail { get; set; }
         public string Ext { get; set; }
         public string RepresentativeRemoveBackgroundSVG { get; set; }
+        public float Duration { get; set; }
 
         public MediaModel(string id, string firstName, string lastName, string representative)
         {

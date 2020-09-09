@@ -1,18 +1,17 @@
 import React, {Component} from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import Slider from "@Components/editor/Slider";
+import editorStore from "@Store/EditorStore";
 
 interface IProps {
     show: boolean;
     translate: any;
     title: string;
     currentLineHeight: number;
-    currentLetterSpacing: number;
-    handleLineHeightChange: any;
-    handleLineHeightChangeEnd: any;
-    handleLetterSpacing: any;
-    handleLetterSpacingEnd: any;
     pauser: any;
+    updateImages: any;
+    onTextChange: any;
+    scale: number;
 }
 
 interface IState {
@@ -21,13 +20,110 @@ interface IState {
 
 export default class Spacing extends Component<IProps, IState> {
 
+    getSingleTextHTMLElement() {
+        return document.getElementById(editorStore.idObjectSelected + editorStore.childId + "text-container2alo");
+    }
+
+    handleLineHeightChangeEnd = (val) => {
+        let image = editorStore.getImageSelected();
+        if (editorStore.childId) {
+            let texts = image.document_object.map(text => {
+                if (text._id == editorStore.childId) {
+                    text.lineHeight = window.lineHeight;
+                }
+                return text;
+            });
+            image.document_object = texts;
+            editorStore.images2.set(editorStore.idObjectSelected, image);
+            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+        } else {
+            let lineHeight = 1.0 * val / 100 * 2 + 0.5;
+            image.lineHeight = lineHeight;
+            image.height = window.imageHeight;
+            image.origin_height = window.imageHeight / image.scaleY;
+            editorStore.images2.set(editorStore.idObjectSelected, image);
+            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+        }
+    }
+
+    handleLineHeightChange = val => {
+        let lineHeight = 1.0 * val / 100 * 2 + 0.5;
+        let image = editorStore.getImageSelected();
+        if (editorStore.childId) {
+            let el = this.getSingleTextHTMLElement();
+            el.style.lineHeight = lineHeight.toString();
+
+            this.props.onTextChange(image, null, editorStore.childId);
+        } else {
+            let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+            hihi4.style.lineHeight = lineHeight.toString();
+            let image = editorStore.getImageSelected();
+            let height = hihi4.offsetHeight;
+            let a = document.getElementsByClassName(editorStore.idObjectSelected + "aaaaalo");
+            for (let i = 0; i < a.length; ++i) {
+                let tempEl = a[i] as HTMLElement;
+                tempEl.style.height = height * image.scaleY * this.props.scale + "px";
+            } 
+            
+            window.imageHeight = height * image.scaleY;
+        }
+
+        window.lineHeight = lineHeight;
+    };
+
+    handleLetterSpacingChangeEnd = (letterSpacing) => {
+        let image = editorStore.getImageSelected();
+        if (editorStore.childId) {
+            let texts = image.document_object.map(text => {
+                if (text._id == editorStore.childId) {
+                    text.letterSpacing = window.letterSpacing;
+                }
+                return text;
+            });
+            image.document_object = texts;
+            editorStore.images2.set(editorStore.idObjectSelected, image);
+            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+        } else {
+            let image = editorStore.getImageSelected();
+            image.height = window.imageHeight;
+            image.letterSpacing = window.letterSpacing;
+            image.origin_height = window.imageHeight / image.scaleY;
+
+            editorStore.images2.set(editorStore.idObjectSelected, image);
+            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+        }
+    }
+
+    handleLetterSpacingChange = letterSpacing => {
+        let image = editorStore.getImageSelected();
+        if (editorStore.childId) {
+            let el = this.getSingleTextHTMLElement();
+            el.style.letterSpacing = `${1.0*letterSpacing/100*4}px`;
+
+            this.props.onTextChange(image, null, editorStore.childId);
+        } else {
+            let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+            hihi4.style.letterSpacing = `${1.0*letterSpacing/100*4}px`;
+            let height = hihi4.offsetHeight;
+
+            let image = editorStore.getImageSelected();
+
+            let a = document.getElementsByClassName(editorStore.idObjectSelected + "aaaaalo");
+            for (let i = 0; i < a.length; ++i) {
+                let tempEl = a[i] as HTMLElement;
+                tempEl.style.height = height * image.scaleY * this.props.scale + "px";
+            } 
+
+            window.imageHeight = height * image.scaleY;
+        }
+
+        window.letterSpacing = letterSpacing;
+    }
+
     onDown(e) {
-        console.log('onDown')
         e.preventDefault();
         let el = document.getElementById("mySpacingList");
-        console.log('e.target ', document.getElementById("mySpacingList"), e.target)
         if (!el || !document.getElementById("mySpacingList").contains(e.target)) {
-            console.log('ok');
             var dropdowns = document.getElementsByClassName(
                 "dropdown-content-font-size"
             );
@@ -39,7 +135,6 @@ export default class Spacing extends Component<IProps, IState> {
                 }
             }
 
-            console.log('asd')
 
             document.removeEventListener("mouseup", this.onDown);
         }
@@ -100,31 +195,29 @@ export default class Spacing extends Component<IProps, IState> {
                     <Slider
                         pauser={this.props.pauser}
                         title="Letter" 
-                        currentValue={this.props.currentLetterSpacing ? this.props.currentLetterSpacing : 30 }
+                        currentValue={editorStore.currentLetterSpacing ? editorStore.currentLetterSpacing : 30 }
                         onChangeStart={e => {
                             document.removeEventListener("mouseup", this.onDown);
                             window.selectionStart = true;
                         }}
-                        onChange={this.props.handleLetterSpacing}
+                        onChange={this.handleLetterSpacingChange}
                         onChangeEnd={val => {
                             document.addEventListener("mouseup", this.onDown);
-                            this.props.handleLetterSpacingEnd(val);
-                            window.selectionStart = false;
+                            this.handleLetterSpacingChangeEnd(val);
                         }}
                         />
                     <Slider 
                         pauser={this.props.pauser}
                         title="Line letter" 
-                        currentValue={(100*(this.props.currentLineHeight ? this.props.currentLineHeight : 30) - 50)/2}
+                        currentValue={(100*(editorStore.currentLineHeight ? editorStore.currentLineHeight : 30) - 50)/2}
                         onChangeStart={e => {
                             document.removeEventListener("mouseup", this.onDown);
                             window.selectionStart = true;
                         }}
-                        onChange={this.props.handleLineHeightChange}
+                        onChange={this.handleLineHeightChange}
                         onChangeEnd={val => {
                             document.addEventListener("mouseup", this.onDown);
-                            this.props.handleLineHeightChangeEnd(val);
-                            window.selectionStart = false;
+                            this.handleLineHeightChangeEnd(val);
                         }}
                         />
                 </div>

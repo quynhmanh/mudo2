@@ -51,6 +51,9 @@ interface IProps {
     bold: boolean;
     italic: boolean;
     pauser: any;
+    updateImages: any;
+    onTextChange: any;
+    scale: any;
 }
 
 interface IState {
@@ -82,6 +85,9 @@ class Toolbar extends Component<IProps, IState> {
                 }}
             >
                 <LeftSide
+                    scale={props.scale}
+                    onTextChange={props.onTextChange}
+                    updateImages={props.updateImages}
                     selectedCanvas={props.selectedCanvas}
                     italic={props.italic}
                     bold={props.bold}

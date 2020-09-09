@@ -126,7 +126,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
                     onLoadedData={(e) => {
                         this.handleImageLoaded();
-                        console.log('onLoadEnd');
                     }
                     }
 

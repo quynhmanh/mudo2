@@ -64,7 +64,8 @@ h4 {
 }
 
 body {
-  font-family: AvenirNextRoundedPro;
+  font-family: AvenirNextRoundedPro-Medium;
+  font-weight: 500;
   overscroll-behavior: none;
 }
 
@@ -352,7 +353,6 @@ p.single-text:focus {
     margin-right: 10px;
     font-size: 15px;
     height: 100%;
-    font-weight: 600;
 }
 
 .toolbar-btn:focus {
