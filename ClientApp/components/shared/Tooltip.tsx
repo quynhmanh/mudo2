@@ -1,8 +1,7 @@
 ﻿import "@Styles/tooltip.scss";
-import React, {PureComponent, Fragment, isValidElement} from "react";
-import {isArray, isEqual, isString, isObject} from "lodash";
-import {trimList, getOtherProps} from "@Utils";
-import {TYPE_ELEMENT_MAP} from "@Constants";
+import React, {Fragment, isValidElement} from "react";
+import {isArray, isString, isObject} from "lodash";
+import {trimList} from "@Utils";
 import Tip from "@Components/shared/Tip";
 
 import AppComponent from "@Components/shared/AppComponent";

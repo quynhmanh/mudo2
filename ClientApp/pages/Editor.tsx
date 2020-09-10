@@ -457,7 +457,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (id: string) => {
-
+        console.log('handleCropbtnCLick');
         let image = editorStore.images2.get(editorStore.idObjectSelected);
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
@@ -476,7 +476,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 let video2 = document.getElementById(id + "video" + CanvasType.HoverLayer + "alo") as HTMLVideoElement;
                 let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
                 var ctx = el3.getContext('2d')
-                let el4 = document.getElementById(editorStore.idObjectSelected + "video4" + "alo") as HTMLCanvasElement;
                 if (el && el3) {
                     el.pause();
                     video2.currentTime = el.currentTime;
@@ -2984,7 +2983,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     const angle = getAngle(startVector, rotateVector);
 
                     let rotateAngle = Math.round(image.rotateAngle + angle) % 360;
-                    window.rotateAngle = Math.round(image.rotateAngle + angle);
+                    window.rotateAngle = Math.round(image.rotateAngle + angle)  % 360;
 
                     let centerX = image.left + image.width / 2;
                     let centerY = image.top + image.height / 2;

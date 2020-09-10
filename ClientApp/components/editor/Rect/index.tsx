@@ -7,7 +7,7 @@ import Video from "@Components/editor/Rect/Video";
 import { TemplateType, CanvasType, } from "../enums";
 import editorStore from "@Store/EditorStore";
 import { clone } from "lodash";
-import { secondToMinutes } from "@Utils";
+import { secondToMinutes, degToRadian, } from "@Utils";
 
 // const tex = `f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi`;
 
@@ -774,15 +774,16 @@ export default class Rect extends Component<IProps, IState> {
 							(objectType === TemplateType.Video &&
 								name != CanvasType.Preview) &&
 							<div
-								id={_id + "6543" + canvas}
+								id={_id + "video-controller" + name}
 								className={_id + "scaleX-scaleY" + (name == CanvasType.HoverLayer ? " video-controller" : "")}
 								style={{
 									transformOrigin: "0 0",
-									transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
+									// transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY}) translateZ(0px)`,
 									position: "absolute",
 									width: '100%',
 									height: '100%',
 									pointerEvents: selected ? "all" : "none",
+									transform: `translateZ(0px)`,
 								}}
 								onMouseEnter={(e) => {
 									if (!selected && type != TemplateType.BackgroundImage && !editorStore.cropMode && !window.selectionStart && name == CanvasType.All) {
@@ -813,11 +814,11 @@ export default class Rect extends Component<IProps, IState> {
 										left: '0',
 										right: '0',
 										borderRadius: "5px",
-										overflow: "hidden",
 										pointerEvents: 'auto',
 										cursor: 'pointer',
 									}}
 									onMouseEnter={e => {
+										if (window.dragging) return;
 										let tip = document.getElementById("helloTip");
 										if (!tip) {
 											tip = document.createElement("div");
@@ -835,14 +836,38 @@ export default class Rect extends Component<IProps, IState> {
 										tip.style.borderRadius = "3px";
 										tip.style.padding = "0 5px";
 										tip.style.fontSize = "12px";
+										tip.style.pointerEvents = "none";
 										tip.innerText = "123";
 
 										let rec = (e.target as HTMLElement).getBoundingClientRect();
-										let left = rec.left;
-										let width  = rec.width;
+
+										console.log('rotateAngle ', rotateAngle);
+
+										let left1, top1, left2, top2;
+										if (rotateAngle <= 90) {
+											left1 = rec.left;
+											top1 = rec.top;
+											left2 = rec.right;
+											top2 = rec.bottom;
+										} else if (rotateAngle <= 180) {
+											left1 = rec.right;
+											top1 = rec.top;
+											left2 = rec.left;
+											top2 = rec.bottom;
+										} else if (rotateAngle <= 270) {
+											left1 = rec.right;
+											top1 = rec.bottom;
+											left2 = rec.left;
+											top2 = rec.top;
+										} else {
+											left1 = rec.left;
+											top1 = rec.bottom;
+											left2 = rec.right;
+											top2 = rec.top;
+										}
+
 										let video = document.getElementById(_id + "video0alo") as HTMLVideoElement;
 										let max = video.duration;
-
 
 										document.body.append(tip);
 
@@ -854,8 +879,24 @@ export default class Rect extends Component<IProps, IState> {
 										let value;
 
 										const onMove = e => {
-											tip.style.left = e.clientX - 10 + "px";
-											let percent = (e.clientX - left) / width;
+
+											let centerX = e.clientX;
+											let centerY = e.clientY;
+
+											let x1 =  (left1 - centerX) * Math.cos(-degToRadian(rotateAngle)) - (top1 - centerY) * Math.sin(-degToRadian(rotateAngle)) + centerX;
+											let x2 =  (left2 - centerX) * Math.cos(degToRadian(-rotateAngle)) - (top2 - centerY) * Math.sin(degToRadian(-rotateAngle)) + centerX;
+											
+											let width2 = x2 - x1;
+
+											let tipLeft = e.clientX - 10;
+											let tipTop = e.clientY - 40;
+
+											let x3 = (tipLeft - centerX) * Math.cos(-degToRadian(rotateAngle)) - (tipTop - centerY) * Math.sin(-degToRadian(rotateAngle)) + centerX;
+											let y3 = (tipLeft - centerX) * Math.sin(-degToRadian(rotateAngle)) + (tipTop - centerY) * Math.cos(-degToRadian(rotateAngle)) + centerY;
+
+											tip.style.left = x3 + "px";
+											tip.style.top = y3 + "px";
+											let percent = (centerX - x1) / width2;
 											value = percent * max;
 											tip.innerText = secondToMinutes(percent * max);
 										}
@@ -871,6 +912,7 @@ export default class Rect extends Component<IProps, IState> {
 										}
 
 										const onClick = e => {
+											console.log('onClick');
 											let video = document.getElementById(_id + "video0alo") as HTMLVideoElement;
 											let video1 = document.getElementById(_id + "video1alo") as HTMLVideoElement;
 											
@@ -890,9 +932,118 @@ export default class Rect extends Component<IProps, IState> {
 											display: "block",
 											backgroundColor: "#f5f5f5",
 											pointerEvents: "none",
-											width: this.state.currentTime + "%",
+											borderRadius: "5px",
+											width: 0,
 										}}
 									></span>
+									<div
+										id={_id + "progress-bar-pointer" + name}
+										style={{
+											width: "15px",
+											height: "15px",
+											margin: 'auto',
+											top: 0,
+											left: 0,
+											bottom: 0,
+											position: 'absolute',
+											background: 'white',
+											borderRadius: '50%',
+											boxShadow: '0 0 5px 1px rgba(14,19,24,.15), 0 0 0 1px rgba(14,19,24,.2)',
+										}}
+										onMouseDown={e => {
+											e.stopPropagation();
+											const startX = e.clientX;
+											const startY = e.clientY;
+											let progressBar = document.getElementById(_id + "progress1").getBoundingClientRect();
+											let progressBar2 = document.getElementById(_id + "progress-bar1");
+											let progressBarPointer = document.getElementById(_id + "progress-bar-pointer1");
+											let width = progressBar.right - progressBar.left;
+											let height = progressBar.bottom - progressBar.top;
+											let video = document.getElementById(_id + "video0alo") as HTMLVideoElement;
+											// let video1 = document.getElementById(_id + "video1alo") as HTMLVideoElement;
+											let duration = video.duration;
+											let paused = video.paused;
+											let value, percent;
+
+											let controller = document.getElementById(_id + "video-controller1");
+											controller.classList.toggle("hovered");
+											const onMove = e => {
+												progressBarPointer.style.transform = `scale(1.1)`;
+												window.dragging = true;
+												e.stopPropagation();
+												if (!paused) {
+													video.pause();
+												}
+												// const deltaX = e.clientX - progressBar.left;
+												// const deltaY = e.clientY - progressBar.top;
+												
+												// if (rotateAngle < 45 || rotateAngle > 315) {
+												// 	percent = deltaX / width * 100;
+												// } else {
+												// 	percent = deltaY / height * 100;
+												// }
+
+												if (rotateAngle < 45) {
+													const deltaX = e.clientX - progressBar.left;
+													percent = deltaX / width * 100;
+												} else if (rotateAngle < 90) {
+													const deltaY = e.clientY - progressBar.top;
+													percent = deltaY / height * 100;
+												} else if (rotateAngle < 135) {
+													const deltaY = e.clientY - progressBar.top;
+													percent = deltaY / height * 100;
+												} else if (rotateAngle < 180) {
+													const deltaX = e.clientX - progressBar.right;
+													percent = deltaX / width * 100;
+												} else if (rotateAngle < 225) {
+													const deltaX = e.clientX - progressBar.right;
+													percent = deltaX / width * 100;
+												} else if (rotateAngle < 270) {
+													const deltaY = e.clientY - progressBar.bottom;
+													percent = deltaY / height * 100;
+												} else if (rotateAngle < 315) {
+													const deltaY = e.clientY - progressBar.bottom;
+													percent = deltaY / height * 100;
+												} else {
+													const deltaX = e.clientX - progressBar.left;
+													percent = deltaX / width * 100;
+												}
+
+												percent = Math.abs(percent);
+
+												console.log('rotateAngle ', rotateAngle, percent)
+
+												percent = Math.max(0, percent);
+												percent = Math.min(99, percent);
+												progressBarPointer.style.left = `calc(${percent}% - 7.5px)`;
+												progressBar2.style.width = percent + "%";
+												value = percent / 100 * duration;
+												console.log('value', percent, value)
+												if (video) video.currentTime = value;
+											}
+
+											const onUp = e => {
+
+												controller.classList.toggle("hovered");
+
+												progressBarPointer.style.transform = `scale(1)`;
+												window.dragging = false;
+												e.stopPropagation();
+												console.log('value', value, video.duration);
+												video.currentTime = value;
+												if (!paused) {
+													video.play();
+													// video.currentTime = value;
+												}
+												// this.setState({currentTime: percent,})
+												document.removeEventListener("mouseup", onUp);
+												document.removeEventListener("mousemove", onMove);
+											}
+
+											document.addEventListener("mouseup", onUp);
+											document.addEventListener("mousemove", onMove);
+										}}
+									></div>
 									</div>}
 								{!cropMode && selected && 
 									objectType == TemplateType.Video &&
@@ -900,7 +1051,7 @@ export default class Rect extends Component<IProps, IState> {
 									<div
 										className="videoController"
 										onClick={e => {
-
+											console.log('alo')
 											if (!this.state.paused) {
 												let el = document.getElementById(this.props.image._id + "video" + CanvasType.All + "alo") as HTMLVideoElement;
 												this.setState({
@@ -1280,7 +1431,7 @@ export default class Rect extends Component<IProps, IState> {
 
 							</div>
 						}
-						{objectType === TemplateType.Video && cropMode && name == CanvasType.HoverLayer && 
+						{objectType === TemplateType.Video && name == CanvasType.HoverLayer && 
 							<div
 								className={`${_id}1236`}
 								style={{
@@ -1291,7 +1442,7 @@ export default class Rect extends Component<IProps, IState> {
 									position: "absolute",
 								}}
 							>
-								{<div
+								{cropMode && <div
 									style={{
 										position: "absolute",
 										top: "-2px",
