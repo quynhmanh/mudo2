@@ -31,9 +31,9 @@ export default class Selector extends PureComponent<IProps, IState> {
           className="tab-menu"
           style={{
             color: disabled ? '#a9acae' : selected ? "white" : "#a9acae",
-            borderTopRightRadius: prevSelected ? "9px" : null,
-            borderBottomRightRadius: nextSelected ? "9px" : null,
-            backgroundColor: !selected ? '#0e1318' : 'rgb(41, 48, 57)',
+            // borderTopRightRadius: prevSelected ? "9px" : null,
+            // borderBottomRightRadius: nextSelected ? "9px" : null,
+            // backgroundColor: !selected ? '#0e1318' : 'rgb(41, 48, 57)',
           }}
           onClick={disabled ? null : onClick}
         >
@@ -41,7 +41,7 @@ export default class Selector extends PureComponent<IProps, IState> {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            marginTop: '7px',
+            marginTop: '10px',
             position: "relative",
             width: "100%",
           }}>

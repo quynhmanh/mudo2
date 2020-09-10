@@ -462,7 +462,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
         }
-        if (image.type == TemplateType.GroupedItem) {
+        if (image.type == TemplateType.GroupedItem || image.type == TemplateType.TextTemplate || image.type == TemplateType.Heading) {
             return;
         }
 
@@ -473,7 +473,7 @@ class CanvaEditor extends Component<IProps, IState> {
         setTimeout(() => {
             if (image.type == TemplateType.Video) {
                 let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
-                let video2 = document.getElementById(id + "video" + CanvasType.HoverLayer + "alo");
+                let video2 = document.getElementById(id + "video" + CanvasType.HoverLayer + "alo") as HTMLVideoElement;
                 let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
                 var ctx = el3.getContext('2d')
                 let el4 = document.getElementById(editorStore.idObjectSelected + "video4" + "alo") as HTMLCanvasElement;
@@ -552,7 +552,6 @@ class CanvaEditor extends Component<IProps, IState> {
             let font = fonts[i];
             (font as HTMLElement).style.fontSize = fontSizePx;
 
-            console.log('font ', font.offsetHeight);
 
             width2 = Math.max(width2, this.getTextWidth(font.innerHTML, fontSizePt + " " + image.fontFace));
             height2 += fontSize * image.lineHeight;
@@ -660,6 +659,33 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.set(window.tempImage._id, window.tempImage);
 
         this.disableCropMode();
+    }
+
+    handleOpacityChange = opacity => {
+        let image = this.getImageSelected();
+        if (image.type == TemplateType.Video) {
+            let el = document.getElementById(editorStore.idObjectSelected + "video0alo");
+            if (el) {
+                el.style.opacity = (opacity / 100).toString();
+            }
+        } else {
+
+            let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+            if (el) {
+                el.style.opacity = (opacity / 100).toString();
+            }
+        }
+
+        window.opacity = opacity;
+    };
+    
+    handleOpacityChangeEnd = () => {
+        let opacity = window.opacity;
+        let image = this.getImageSelected();
+        image.opacity = opacity;
+        editorStore.images2.set(editorStore.idObjectSelected, image);
+
+        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
     }
 
     handleTransparentAdjust = (e: any) => {
@@ -4031,7 +4057,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let image = this.getImageSelected();
         let OSNAME = this.getPlatformName();
         if (
-            editorStore.idObjectSelected != "undefined" &&
+            editorStore.idObjectSelected &&
             !e.target.classList.contains("text") &&
             ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
                 (e.keyCode === 8 && OSNAME == "Windows"))
@@ -4121,6 +4147,8 @@ class CanvaEditor extends Component<IProps, IState> {
         if (!editorStore.childId) {
             editorStore.currentFontSize = image.fontSize * image.scaleY;
             editorStore.fontId = image.fontId;
+            editorStore.fontFace = image.fontId;
+
             editorStore.currentLetterSpacing = image.letterSpacing;
             editorStore.currentLineHeight = image.lineHeight;
         }
@@ -4132,10 +4160,6 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         editorStore.selectedTab = tab;
-
-        // if (editorStore.imageSelected && editorStore.imageSelected.type == TemplateType.Heading && this.state.selectedTab === SidebarTab.Color) {
-        //     this.setState({selectedTab: SidebarTab.Image})
-        // } 
 
         if (updateCanvas) {
             this.canvas1[pageId].canvas[updateCanvas][id].child.handleImageSelected();
@@ -4382,14 +4406,11 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     async saveImages(rep, isVideo) {
-        // return;
+
         if (!Globals.serviceUser) {
             return;
         }
 
-        
-        let _id;
-        // this.setState({ isSaving: true });
         this.setSavingState(SavingState.SavingChanges, false);
         const { mode } = this.state;
         let self = this;
@@ -4416,7 +4437,6 @@ class CanvaEditor extends Component<IProps, IState> {
             tempImages = newImages;
         }
 
-
         if (
             this.state.mode === Mode.CreateTextTemplate ||
             this.state.mode == Mode.EditTextTemplate
@@ -4433,127 +4453,112 @@ class CanvaEditor extends Component<IProps, IState> {
             });
         }
 
+        let url;
+        let _id = self.state._id;
 
-        await setTimeout(async function () {
-            let url;
-            let _id = self.state._id;
-
-
-            if (mode == Mode.CreateDesign) {
-                if (self.props.match.path == "/editor/design/:design_id/:template_id") {
-                    url = "/api/Design/AddOrUpdate";
+        if (mode == Mode.CreateDesign) {
+            if (self.props.match.path == "/editor/design/:design_id/:template_id") {
+                url = "/api/Design/AddOrUpdate";
+            } else {
+                if (!self.state.designId) {
+                    url = "/api/Design/Add";
+                    self.setState({designId: uuidv4()});
                 } else {
-                    if (!self.state.designId) {
-                        url = "/api/Design/Add";
-                        self.setState({designId: uuidv4()});
-                    } else {
-                        url = "/api/Design/Update";
-                    }
+                    url = "/api/Design/Update";
                 }
-            } else if (
-                mode == Mode.CreateTemplate ||
-                mode == Mode.CreateTextTemplate
-            ) {
-                url = "/api/Template/Add";
-            } else if (mode == Mode.EditTemplate || mode == Mode.EditTextTemplate) {
-                url = "/api/Template/Update";
-            } else if (mode == Mode.EditDesign) {
-                url = "/api/Design/Update";
             }
+        } else if (
+            mode == Mode.CreateTemplate ||
+            mode == Mode.CreateTextTemplate
+        ) {
+            url = "/api/Template/Add";
+        } else if (mode == Mode.EditTemplate || mode == Mode.EditTextTemplate) {
+            url = "/api/Template/Update";
+        } else if (mode == Mode.EditDesign) {
+            url = "/api/Design/Update";
+        }
 
-            let type;
-            if (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) {
-                type = TemplateType.TextTemplate;
-            } else if (mode == Mode.CreateTemplate || mode == Mode.EditTemplate) {
-                type = TemplateType.Template;
-            }
+        let type;
+        if (mode == Mode.CreateTextTemplate || mode == Mode.EditTextTemplate) {
+            type = TemplateType.TextTemplate;
+        } else if (mode == Mode.CreateTemplate || mode == Mode.EditTemplate) {
+            type = TemplateType.Template;
+        }
 
-            window.downloading = true;
+        window.downloading = true;
 
-            let aloCloned = document.getElementsByClassName("alo2");
-            let canvas2 = [];
-            for (let i = 0; i < aloCloned.length; ++i) {
-                canvas2.push((aloCloned[i] as HTMLElement).outerHTML);
-            }
+        let aloCloned = document.getElementsByClassName("alo2");
+        let canvas2 = [];
+        for (let i = 0; i < aloCloned.length; ++i) {
+            canvas2.push((aloCloned[i] as HTMLElement).outerHTML);
+        }
 
-            let styles = document.getElementsByTagName("style");
-            let a = Array.from(styles).filter(style => {
-                return style.attributes.getNamedItem("data-styled") !== null;
-            });
+        let styles = document.getElementsByTagName("style");
+        let a = Array.from(styles).filter(style => {
+            return style.attributes.getNamedItem("data-styled") !== null;
+        });
 
-            _id = self.state._id ? self.state._id : uuidv4();
-
-
-            if (mode == Mode.CreateDesign) {
-                _id = self.state.designId;
-            }
-
-            let elTitle = (document.getElementById("designTitle") as HTMLInputElement);
-            const title = elTitle ? elTitle.value : "";
+        _id = self.state._id ? self.state._id : uuidv4();
 
 
-            let res = JSON.stringify({
-                Title: title,
-                CreatedAt: "2014-09-27T18:30:49-0300",
-                CreatedBy: 2,
-                UpdatedAt: "2014-09-27T18:30:49-0300",
-                UpdatedBy: 3,
-                Type: type,
-                Document: JSON.stringify({
-                    _id,
-                    width: self.state.rectWidth,
-                    origin_width: self.state.rectWidth,
-                    height: self.state.rectHeight,
-                    origin_height: self.state.rectHeight,
-                    left: 0,
-                    top: 0,
-                    type: type,
-                    scaleX: 1,
-                    scaleY: 1,
-                    document_object: tempImages
-                }),
-                FontList: toJS(editorStore.fonts),
-                Width: self.state.rectWidth,
-                Height: self.state.rectHeight,
-                Id: _id,
-                Keywords: [],
-                Canvas: [],
-                Canvas2: canvas2,
-                AdditionalStyle: a[0].outerHTML,
-                FilePath: "/templates",
-                FirstName: "Untilted",
-                Pages: toJS(editorStore.pages),
-                PrintType: self.state.subtype,
-                Representative: `images/${uuidv4()}.png`,
-                Representative2: `images/${_id}_2.jpeg`,
-                VideoRepresentative: `videos/${_id}.mp4`,
-                IsVideo: isVideo,
-                UserName: Globals.serviceUser.username,
-                Popular: window.template ? window.template.popular : false,
-            });
+        if (mode == Mode.CreateDesign) {
+            _id = self.state.designId;
+        }
 
-            axios
-                .post(url, res, {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(res => {
-                    // self.setState({ 
-                    //     downloading: false,
-                    //     saved: true,
-                    // });
+        let elTitle = (document.getElementById("designTitle") as HTMLInputElement);
+        const title = elTitle ? elTitle.value : "";
 
-                    self.setSavingState(SavingState.ChangesSaved, false);
-                    // Ui.showInfo("Success");
-                })
-                .catch(error => {
-                    // Ui.showErrors(error.response.statusText)
-                });
-            // });
-        }, 300);
+        let res = JSON.stringify({
+            Title: title,
+            CreatedAt: "2014-09-27T18:30:49-0300",
+            CreatedBy: 2,
+            UpdatedAt: "2014-09-27T18:30:49-0300",
+            UpdatedBy: 3,
+            Type: type,
+            Document: JSON.stringify({
+                _id,
+                width: self.state.rectWidth,
+                origin_width: self.state.rectWidth,
+                height: self.state.rectHeight,
+                origin_height: self.state.rectHeight,
+                left: 0,
+                top: 0,
+                type: type,
+                scaleX: 1,
+                scaleY: 1,
+                document_object: tempImages
+            }),
+            FontList: toJS(editorStore.fonts),
+            Width: self.state.rectWidth,
+            Height: self.state.rectHeight,
+            Id: _id,
+            Keywords: [],
+            Canvas: [],
+            Canvas2: canvas2,
+            AdditionalStyle: a[0].outerHTML,
+            FilePath: "/templates",
+            FirstName: "Untilted",
+            Pages: toJS(editorStore.pages),
+            PrintType: self.state.subtype,
+            Representative: `images/${uuidv4()}.png`,
+            Representative2: `images/${_id}_2.jpeg`,
+            VideoRepresentative: `videos/${_id}.mp4`,
+            IsVideo: isVideo,
+            UserName: Globals.serviceUser.username,
+            Popular: window.template ? window.template.popular : false,
+        });
 
-        return _id;
+        axios
+            .post(url, res, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(res => {
+                self.setSavingState(SavingState.ChangesSaved, false);
+            })
+            .catch(error => {
+        });
     }
     
     colorPickerShown = () => {
@@ -5547,24 +5552,12 @@ class CanvaEditor extends Component<IProps, IState> {
                                 currentOpacity={this.state.currentOpacity}
                                 currentLineHeight={this.state.currentLineHeight}
                                 currentLetterSpacing={this.state.currentLetterSpacing}
+                                handleOpacityChange={this.handleOpacityChange}
+                                handleOpacityChangeEnd={this.handleOpacityChangeEnd}
                             />
                             </div>
-                            {/* <div
-                                id="screen-container-parent2"
-                                style={{
-                                    top: "46px",
-                                    overflow: "scroll",
-                                    alignItems: "center",
-                                    display: "flex",
-                                    position: "absolute",
-                                    width: "100%",
-                                    height: "calc(100% - 46px)"
-                                }}
-                            ></div> */}
                             <div
                                 key={1}
-                                // ref={this.setRef.bind(this)}
-                                // onLoad={this.setRef.bind(this)}
                                 id="screen-container-parent"
                                 style={{
                                     top: "46px",
@@ -5594,17 +5587,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                             padding: "0 20px"
                                         }}
                                         ref={this.setContainerRef}
-                                        onClick={e => {
-                                            if (
-                                                (e.target as Element).id === "screen-container"
-                                                // !this.state.dragging &&
-                                                // !this.state.resizing
-                                            ) {
-                                                // this.doNoObjectSelected();
-                                            }
-                                        }}
                                     >
-                                        {/* {this.state.downloading && ( */}
                                             <div
                                                 style={{
                                                     display: "none"
@@ -5612,7 +5595,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                             >
                                                 {this.renderCanvas(false, -1, true)}
                                             </div>
-                                        {/* )} */}
                                         {this.renderCanvas(false, -1, false)}
                                     </div>
                                 )}

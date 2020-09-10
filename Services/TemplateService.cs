@@ -619,7 +619,7 @@ namespace RCB.TypeScript.Services
                         await page.SetContentAsync(html,
                             new NavigationOptions()
                             {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load, },
                                 Timeout = 0,
                             });
 

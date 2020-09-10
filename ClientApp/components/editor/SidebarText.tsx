@@ -62,7 +62,7 @@ export default class SidebarText extends Component<IProps, IState> {
 
 
 
-    addText = (text, fontSize, fontFace, fontRepresentative, width, height) => {
+    addText = (text, fontSize, fontId, fontFace, fontRepresentative, width, height) => {
         var item = {
             _id: uuidv4(),
             type: TemplateType.Heading,
@@ -86,6 +86,7 @@ export default class SidebarText extends Component<IProps, IState> {
             hovered: true,
             selected: true,
             fontFace: fontFace,
+            fontId: fontFace,
             effectId: 8,
             lineHeight: 1.4,
             letterSpacing: 30,
@@ -191,8 +192,11 @@ export default class SidebarText extends Component<IProps, IState> {
         let posX = e.pageX - e.target.getBoundingClientRect().left;
         let dragging = true;
         let posY = e.pageY - e.target.getBoundingClientRect().top;
+        let image = e.target;
 
         const onMove = e => {
+            image.style.opacity = 0;
+            image.parentNode.style.opacity = 0;
             if (dragging) {
                 target.style.left = e.pageX - posX + "px";
                 target.style.top = e.pageY - posY + "px";
@@ -275,7 +279,13 @@ export default class SidebarText extends Component<IProps, IState> {
                     editorStore.increaseUpperzIndex();
 
                     this.forceUpdate();
+
                 }
+
+                imgDragging.remove();
+
+                image.style.opacity = 1;
+                image.parentNode.style.opacity = 1;
             }
 
             target.remove();
@@ -339,13 +349,13 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 background: "hsla(0,0%,100%,.07)",
                                                 borderRadius: "4px",
                                                 padding: "10px",
-                                                width: "95%",
+                                                width: "334px",
                                                 fontFamily: "Open-Sans-Extra-Bold",
                                             }}
                                             onMouseDown={e => {
                                                 e.preventDefault();
                                                 const text = this.props.translate("addAHeading");
-                                                this.addText(text, 56, "Open-Sans-Extra-Bold", "images/font-Open Sans Extra Bold.png", 500, 78);
+                                                this.addText(text, 56, 'Open-Sans-Extra-Bold', 'Open-Sans-Extra-Bold', "images/font-Open Sans Extra Bold.png", 500, 78);
                                             }}
                                         >
                                             {/* Thêm tiêu đề */}
@@ -360,13 +370,13 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 background: "hsla(0,0%,100%,.07)",
                                                 borderRadius: "4px",
                                                 padding: "10px",
-                                                width: "95%",
+                                                width: "334px",
                                                 fontFamily: "Open-Sans-Regular",
                                             }}
                                             onMouseDown={e => {
                                                 e.preventDefault();
                                                 const text = this.props.translate("addASubHeading");
-                                                this.addText(text, 32, "Open-Sans-Regular", "images/font-Open Sans Regular.png", 300, 44);
+                                                this.addText(text, 32, "Open-Sans-Regular", "Open-Sans-Regular", "images/font-Open Sans Regular.png", 300, 44);
                                             }}
                                         >
                                             {this.props.translate("addASubHeading")}
@@ -381,13 +391,13 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 background: "hsla(0,0%,100%,.07)",
                                                 borderRadius: "4px",
                                                 padding: "10px",
-                                                width: "95%",
+                                                width: "334px",
                                                 fontFamily: "Open-Sans-Light",
                                             }}
                                             onMouseDown={e => {
                                                 e.preventDefault();
                                                 const text = this.props.translate("addABodyText");
-                                                this.addText(text, 22, "Open-Sans-Light", "images/font-Open Sans Light.png", 300, 30);
+                                                this.addText(text, 22, "Open-Sans-Light", "Open-Sans-Light", "images/font-Open Sans Light.png", 300, 30);
                                             }}
                                         >
                                             {this.props.translate("addABodyText")}

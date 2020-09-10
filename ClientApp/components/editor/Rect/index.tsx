@@ -582,7 +582,6 @@ export default class Rect extends Component<IProps, IState> {
 					}}
 
 					onMouseEnter={(e) => {
-						console.log('onMouseEnter', selected)
 						if (!selected && type != TemplateType.BackgroundImage && !editorStore.cropMode && !window.selectionStart && name == CanvasType.All) {
 							this.handleImageHovered();
 							this.props.handleImageHovered(_id, page);
@@ -776,15 +775,27 @@ export default class Rect extends Component<IProps, IState> {
 								name != CanvasType.Preview) &&
 							<div
 								id={_id + "6543" + canvas}
-								className={_id + "scaleX-scaleY"}
+								className={_id + "scaleX-scaleY" + (name == CanvasType.HoverLayer ? " video-controller" : "")}
 								style={{
 									transformOrigin: "0 0",
 									transform: src ? null : `scaleX(${scaleX}) scaleY(${scaleY})`,
 									position: "absolute",
 									width: '100%',
 									height: '100%',
-									background: objectType == TemplateType.Video && selected && name != CanvasType.Download && !cropMode &&
-										'linear-gradient(0deg, rgba(0,0,0,0.7147233893557423) 0%, rgba(13,1,1,0) 34%)',
+									pointerEvents: selected ? "all" : "none",
+								}}
+								onMouseEnter={(e) => {
+									if (!selected && type != TemplateType.BackgroundImage && !editorStore.cropMode && !window.selectionStart && name == CanvasType.All) {
+										this.handleImageHovered();
+										this.props.handleImageHovered(_id, page);
+									}
+								}}
+			
+								onMouseLeave={(e) => {
+									if (hovered && !selected && type != TemplateType.BackgroundImage && !editorStore.cropMode && name == CanvasType.All) {
+										this.handleImageUnhovered();
+										this.props.handleImageUnhovered(_id, page);
+									}
 								}}
 							>
 								{objectType === TemplateType.Video &&
@@ -901,13 +912,14 @@ export default class Rect extends Component<IProps, IState> {
 										}}
 										style={{
 											position: "absolute",
-											left: "calc(50% - 25px)",
-											top: "calc(50% - 25px)",
+											left: "calc(50% - 22px)",
+											top: "calc(50% - 22px)",
 											backgroundColor: "rgba(17,23,29,.6)",
 											borderRadius: "100%",
-											width: "50px",
-											height: "50px",
+											width: "44px",
+											height: "44px",
 											pointerEvents: "auto",
+											opacity: this.state.paused && 1,
 										}}>
 										<span
 											style={{

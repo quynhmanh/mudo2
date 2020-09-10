@@ -92,7 +92,6 @@ export default class Video extends Component<IProps, IState> {
                         el.setAttribute('max', video.duration.toString());
                     }}
                     onTimeUpdate={e => {
-                        
                         let progress = document.getElementById(_id + "progress1");
                         let progressBar = document.getElementById(_id + "progress-bar1");
                         let video = e.target as HTMLVideoElement;

@@ -1174,3 +1174,44 @@ button {
 #closePreviewBtn:hover {
   background: rgba(255, 255, 255, 0.25) !important;
 }
+
+.video-controller {
+  background: none;
+  transition: opacity .25s ease-in-out;
+  transition: background-color 5s ease;
+
+  div {
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+  };
+}
+
+.video-controller:hover {
+  background: linear-gradient(0deg, rgba(0,0,0,0.7147233893557423) 0%, rgba(13,1,1,0) 34%);
+  // background: red;
+  div {
+    opacity: 1;
+  }
+}
+
+.a12345123{
+  background: #292f38;
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    overflow: hidden;
+    background: radial-gradient(circle closest-side,transparent 0,transparent 50%,#293039 0) 200% 200%/400% 400%;
+    right: 0;
+    width: 8px;
+    height: 8px;
+  }
+
+  &:before {
+    top: -8px;
+  }
+
+  &:after {
+    bottom: -8px;
+    transform: scaleY(-1);
+  }
+}

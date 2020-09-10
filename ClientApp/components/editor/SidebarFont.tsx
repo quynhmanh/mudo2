@@ -9,6 +9,7 @@ import Globals from "@Globals";
 
 export interface IProps {
     scale: number;
+    fontId: any;
     translate: any;
     selectedTab: any;
     handleEditmedia: any;
@@ -63,6 +64,11 @@ export default class SidebarFont extends Component<IProps, IState> {
         ) {
             return true;
         }
+
+        if (this.props.fontId != nextProps.fontId) {
+            return true;
+        }
+        
         return false;
     }
     
@@ -166,6 +172,8 @@ export default class SidebarFont extends Component<IProps, IState> {
     };
 
     render() {
+        console.log('fontId ', editorStore.fontId)
+        console.log('editorStore.fontsList', toJS(editorStore.fontsList))
         return (
             <div
             style={{

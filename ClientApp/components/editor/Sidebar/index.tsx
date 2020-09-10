@@ -73,32 +73,44 @@ export default class TopMenu extends Component<IProps, IState> {
 
         return (
             <div
-
-            >
-                {
-                    mapEnum(SidebarTab, (i, sidebarName, sideBarIcon, prevTab, currentTab, nextTab) => {
-                        if (i > 6) return null;
-                        return <Selector
-                            key={i}
-                            content={this.props.translate(sidebarName)}
-                            // content={sidebarName}
-                            sideBarIcon={sideBarIcon}
-                            prevSelected={selectedTab === prevTab}
-                            selected={selectedTab === currentTab}
-                            disabled={(allowedSelector[mode] & currentTab) === 0}
-                            nextSelected={selectedTab === nextTab}
-                            onClick={(e) => {
-                                onClick(currentTab, e);
-                            }}
-                        />
-                    })
-                }
+                style={{
+                    height: "100%",
+                    backgroundColor: "black",
+                }}
+            >   
+                {selectedTab != SidebarTab.Font && 
+                selectedTab != SidebarTab.Color &&
+                selectedTab != SidebarTab.Effect &&
                 <div
+                    className="a12345123"
                     style={{
-                        height: 'calc(100% - 560px)',
-                        backgroundColor: 'rgb(14, 19, 24)',
+                        position: "absolute",
+                        transform: `translate3d(0px, ${(Math.log2(selectedTab)) * 80}px, 0px)`,
+                        transition: 'transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out',
+                        width: "80px",
+                        height: "80px",
                     }}
                 >
+                </div>}
+                <div>
+                    {
+                        mapEnum(SidebarTab, (i, sidebarName, sideBarIcon, prevTab, currentTab, nextTab) => {
+                            if (i > 6) return null;
+                            return <Selector
+                                key={i}
+                                content={this.props.translate(sidebarName)}
+                                // content={sidebarName}
+                                sideBarIcon={sideBarIcon}
+                                prevSelected={selectedTab === prevTab}
+                                selected={selectedTab === currentTab}
+                                disabled={(allowedSelector[mode] & currentTab) === 0}
+                                nextSelected={selectedTab === nextTab}
+                                onClick={(e) => {
+                                    onClick(currentTab, e);
+                                }}
+                            />
+                        })
+                    }
                 </div>
             </div>
         );

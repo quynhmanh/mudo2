@@ -221,7 +221,7 @@ export default class SidebarBackground extends Component<IProps, IState> {
                             {this.state.items.map((item, key) => (
                                 <ImagePicker
                                     showButton={true}
-                                    className=""
+                                    className="image-picker"
                                     id=""
                                     delay={0}
                                     width={backgroundWidth}
@@ -263,7 +263,7 @@ export default class SidebarBackground extends Component<IProps, IState> {
                             {this.state.items2.map((item, key) => (
                                 <ImagePicker
                                     showButton={true}
-                                    className=""
+                                    className="image-picker"
                                     width={backgroundWidth}
                                     id=""
                                     key={key}

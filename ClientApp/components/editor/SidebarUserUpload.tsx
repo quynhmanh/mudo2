@@ -88,6 +88,8 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
         const onMove = e => {
             image.style.opacity = 0;
+            image.parentNode.style.opacity = 0;
+
             if (dragging) {
                 let rec2 = imgDragging.getBoundingClientRect();
                 if (
@@ -180,6 +182,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             imgDragging.remove();
 
             image.style.opacity = 1;
+            image.parentNode.style.opacity = 1;
         };
         document.addEventListener("mousemove", onMove);
         document.addEventListener("mouseup", onUp);
@@ -294,7 +297,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                             {this.state.items.map((item, key) => (
                                 <ImagePicker
                                     id=""
-                                    className=""
+                                    className="image-picker"
                                     height={imgWidth / (item.width / item.height)}
                                     defaultHeight={imgWidth}
                                     color=""
