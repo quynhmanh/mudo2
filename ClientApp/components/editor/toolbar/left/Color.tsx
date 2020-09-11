@@ -17,7 +17,7 @@ const Color = (props: IProps) => {
     return (
         <Tooltip
             offsetLeft={0}
-            offsetTop={-5}
+            offsetTop={-10}
             content={content}
             delay={10}
             style={{ display: show ? "block" : "none" }}

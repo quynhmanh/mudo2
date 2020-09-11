@@ -971,67 +971,61 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (this.props.match.params.subtype) {
-            editorStore.subtype = this.props.match.params.subtype;
+            editorStore.subtype = parseInt(this.props.match.params.subtype);
             let rectWidth;
             let rectHeight;
 
+            console.log('editorStore.subtype ', editorStore.subtype)
+
             switch (editorStore.subtype) {
-                case 0: {
+                case 0:
                     rectWidth = 642;
                     rectHeight = 378;
                     break;
-                }
-                case 1: {
+                case 1:
                     rectWidth = 1587.402;
                     rectHeight = 2245.04;
                     break;
-                }
-                case 2: {
+                case 2:
                     rectWidth = 2245.04;
                     rectHeight = 1587.402;
                     break;
-                }
-                case 3: {
+                case 3:
                     rectWidth = 3174.8;
                     rectHeight = 4490.08;
                     break;
-                }
-                case 4: {
+                case 4:
                     rectWidth = 500;
                     rectHeight = 500;
                     break;
-                }
-                case 5: {
+                case 5:
                     rectWidth = 794;
                     rectHeight = 1134;
                     break;
-                }
-                case 6: {
+                case 6:
+                    console.log('asd')
                     rectWidth = 1024;
                     rectHeight = 1024;
                     break;
-                }
-                case 7: {
+                case 7:
                     rectWidth = 1920;
                     rectHeight = 1080;
                     break;
-                }
-                case 8: {
+                case 8:
                     rectWidth = 940;
                     rectHeight = 788;
                     break;
-                }
-                case 9: {
+                case 9:
                     rectWidth = 1080;
                     rectHeight = 1080;
                     break;
-                }
-                case 10: {
+                case 10:
                     rectWidth = 2550;
                     rectHeight = 3300;
                     break;
-                }
             }
+
+            console.log('editorStore.subtype ', rectWidth, rectHeight);
 
             scaleX = (width - 100) / rectWidth;
             scaleY = (height - 100) / rectHeight;
@@ -4217,8 +4211,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             axios
                 .post(
-                    `/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${
-                    this.state.rectHeight
+                    `/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight
                     }&videoId=${uuidv4()}`,
                     {
                         fonts: toJS(editorStore.fonts),
@@ -5515,71 +5508,70 @@ class CanvaEditor extends Component<IProps, IState> {
                             onWheel={this.handleWheel}
                         >
                             <div>
-                            <div
-                style=
-                {{
-                    width: "100%",
-                    backgroundColor: "#dae0e7",
-                    // boxShadow: "0 1px 0 rgba(14,19,24,.15)",
-                    display: "inline-flex",
-                    position: "absolute",
-                    right: 0,
-                    left: "0px",
-                    height: "46px",
-                    padding: "8px",
-                    marginBottom: "10px",
-                    zIndex: 2,
-                    background: '#fff',
-                    boxShadow: '0 1px 0 rgba(14,19,24,.15)',
-                    // padding: '8px',
-                }}
-            >
-                                <Toolbar
-                                    scale={this.state.scale}
-                                    onTextChange={this.onTextChange}
-                                    updateImages={this.updateImages}
-                                    selectedCanvas={this.state.selectedCanvas}
-                                    pauser={this.pauser}
-                                    effectId={this.state.effectId}
-                                    bold={this.state.bold}
-                                    italic={this.state.italic}
-                                    align={this.state.align}
-                                    selectedTab={this.state.selectedTab}
-                                    translate={this.translate}
-                                    editorStore={editorStore}
-                                    childId={editorStore.childId}
-                                    fontColor={this.state.fontColor}
-                                    handleColorBtnClick={this.handleColorBtnClick}
-                                    handleItalicBtnClick={this.handleItalicBtnClick}
-                                    handleBoldBtnClick={this.handleBoldBtnClick}
-                                    onClickDropDownFontList={this.onClickDropDownFontList}
-                                    onClickEffectList={this.onClickEffectList}
-                                    fontName={this.state.fontName}
-                                    fontId={this.state.fontId}
-                                    cropMode={this.state.cropMode}
-                                    handleFilterBtnClick={this.handleFilterBtnClick}
-                                    handleAdjustBtnClick={this.handleAdjustBtnClick}
-                                    handleCropBtnClick={this.handleCropBtnClick}
-                                    handleFlipBtnClick={this.handleFlipBtnClick}
-                                    imgBackgroundColor={this.state.imgBackgroundColor}
-                                    handleImageBackgroundColorBtnClick={this.handleImageBackgroundColorBtnClick}
-                                    fontSize={this.state.fontSize}
-                                    handleFontSizeBtnClick={this.handleFontSizeBtnClick}
-                                    handleAlignBtnClick={this.handleAlignBtnClick}
-                                    handleOkBtnClick={this.handleOkBtnClick}
-                                    handleCancelBtnClick={this.handleCancelBtnClick}
-                                    idObjectSelected={editorStore.idObjectSelected}
-                                    onClickpositionList={this.onClickpositionList}
-                                    onClickTransparent={this.onClickTransparent}
-                                    forwardSelectedObject={this.forwardSelectedObject}
-                                    backwardSelectedObject={this.backwardSelectedObject}
-                                    handleTransparentAdjust={this.handleTransparentAdjust}
-                                    currentOpacity={this.state.currentOpacity}
-                                    currentLineHeight={this.state.currentLineHeight}
-                                    currentLetterSpacing={this.state.currentLetterSpacing}
-                                    handleOpacityChange={this.handleOpacityChange}
-                                    handleOpacityChangeEnd={this.handleOpacityChangeEnd}
-                                />
+                                <div
+                                    style=
+                                    {{
+                                        width: "100%",
+                                        backgroundColor: "#dae0e7",
+                                        // boxShadow: "0 1px 0 rgba(14,19,24,.15)",
+                                        display: "inline-flex",
+                                        position: "absolute",
+                                        right: 0,
+                                        left: "0px",
+                                        height: "46px",
+                                        padding: "8px",
+                                        marginBottom: "10px",
+                                        zIndex: 2,
+                                        background: '#fff',
+                                        boxShadow: '0 1px 0 rgba(14,19,24,.15)',
+                                        // padding: '8px',
+                                    }}
+                                >
+                                    <Toolbar
+                                        scale={this.state.scale}
+                                        onTextChange={this.onTextChange}
+                                        updateImages={this.updateImages}
+                                        selectedCanvas={this.state.selectedCanvas}
+                                        pauser={this.pauser}
+                                        effectId={this.state.effectId}
+                                        bold={this.state.bold}
+                                        italic={this.state.italic}
+                                        align={this.state.align}
+                                        selectedTab={this.state.selectedTab}
+                                        translate={this.translate}
+                                        childId={editorStore.childId}
+                                        fontColor={this.state.fontColor}
+                                        handleColorBtnClick={this.handleColorBtnClick}
+                                        handleItalicBtnClick={this.handleItalicBtnClick}
+                                        handleBoldBtnClick={this.handleBoldBtnClick}
+                                        onClickDropDownFontList={this.onClickDropDownFontList}
+                                        onClickEffectList={this.onClickEffectList}
+                                        fontName={this.state.fontName}
+                                        fontId={this.state.fontId}
+                                        cropMode={this.state.cropMode}
+                                        handleFilterBtnClick={this.handleFilterBtnClick}
+                                        handleAdjustBtnClick={this.handleAdjustBtnClick}
+                                        handleCropBtnClick={this.handleCropBtnClick}
+                                        handleFlipBtnClick={this.handleFlipBtnClick}
+                                        imgBackgroundColor={this.state.imgBackgroundColor}
+                                        handleImageBackgroundColorBtnClick={this.handleImageBackgroundColorBtnClick}
+                                        fontSize={this.state.fontSize}
+                                        handleFontSizeBtnClick={this.handleFontSizeBtnClick}
+                                        handleAlignBtnClick={this.handleAlignBtnClick}
+                                        handleOkBtnClick={this.handleOkBtnClick}
+                                        handleCancelBtnClick={this.handleCancelBtnClick}
+                                        idObjectSelected={editorStore.idObjectSelected}
+                                        onClickpositionList={this.onClickpositionList}
+                                        onClickTransparent={this.onClickTransparent}
+                                        forwardSelectedObject={this.forwardSelectedObject}
+                                        backwardSelectedObject={this.backwardSelectedObject}
+                                        handleTransparentAdjust={this.handleTransparentAdjust}
+                                        currentOpacity={this.state.currentOpacity}
+                                        currentLineHeight={this.state.currentLineHeight}
+                                        currentLetterSpacing={this.state.currentLetterSpacing}
+                                        handleOpacityChange={this.handleOpacityChange}
+                                        handleOpacityChangeEnd={this.handleOpacityChangeEnd}
+                                    />
                                 </div>
                             </div>
                             <div

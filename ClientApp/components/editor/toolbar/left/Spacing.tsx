@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import Slider from "@Components/editor/Slider";
 import editorStore from "@Store/EditorStore";
@@ -8,10 +8,15 @@ interface IProps {
     translate: any;
     title: string;
     currentLineHeight: number;
+    currentLetterSpacing: number
     pauser: any;
     updateImages: any;
     onTextChange: any;
     scale: number;
+    handleLineHeightChange: any;
+    handleLineHeightChangeEnd: any;
+    handleLetterSpacing: any;
+    handleLetterSpacingEnd: any;
 }
 
 interface IState {
@@ -63,8 +68,8 @@ export default class Spacing extends Component<IProps, IState> {
             for (let i = 0; i < a.length; ++i) {
                 let tempEl = a[i] as HTMLElement;
                 tempEl.style.height = height * image.scaleY * this.props.scale + "px";
-            } 
-            
+            }
+
             window.imageHeight = height * image.scaleY;
         }
 
@@ -98,12 +103,12 @@ export default class Spacing extends Component<IProps, IState> {
         let image = editorStore.getImageSelected();
         if (editorStore.childId) {
             let el = this.getSingleTextHTMLElement();
-            el.style.letterSpacing = `${1.0*letterSpacing/100*4}px`;
+            el.style.letterSpacing = `${1.0 * letterSpacing / 100 * 4}px`;
 
             this.props.onTextChange(image, null, editorStore.childId);
         } else {
             let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-            hihi4.style.letterSpacing = `${1.0*letterSpacing/100*4}px`;
+            hihi4.style.letterSpacing = `${1.0 * letterSpacing / 100 * 4}px`;
             let height = hihi4.offsetHeight;
 
             let image = editorStore.getImageSelected();
@@ -112,7 +117,7 @@ export default class Spacing extends Component<IProps, IState> {
             for (let i = 0; i < a.length; ++i) {
                 let tempEl = a[i] as HTMLElement;
                 tempEl.style.height = height * image.scaleY * this.props.scale + "px";
-            } 
+            }
 
             window.imageHeight = height * image.scaleY;
         }
@@ -146,7 +151,7 @@ export default class Spacing extends Component<IProps, IState> {
         return (
             <Tooltip
                 offsetLeft={0}
-                offsetTop={-5}
+                offsetTop={-10}
                 content={content}
                 delay={10}
                 style={{ display: show ? "block" : "none" }}
@@ -155,72 +160,72 @@ export default class Spacing extends Component<IProps, IState> {
                 <div style={{
                     position: "relative",
                 }}>
-                <a
-                    href="#"
-                    className="toolbar-btn"
-                    onClick={e => {
-                        e.preventDefault();
-                        document.getElementById("mySpacingList").classList.toggle("show");
+                    <a
+                        href="#"
+                        className="toolbar-btn"
+                        onClick={e => {
+                            e.preventDefault();
+                            document.getElementById("mySpacingList").classList.toggle("show");
 
-                        document.addEventListener("mouseup", this.onDown);
-                    }}
-                    style={{
-                        borderRadius: "4px",
-                        padding: "3px",
-                        display: "inline-block",
-                        cursor: "pointer",
-                        color: "black",
-                        height: "100%",
-                    }}
-                >
-                    <img
+                            document.addEventListener("mouseup", this.onDown);
+                        }}
                         style={{
+                            borderRadius: "4px",
+                            padding: "3px",
+                            display: "inline-block",
+                            cursor: "pointer",
+                            color: "black",
                             height: "100%",
-                        }} 
-                        src={require("@Components/shared/svgs/editor/toolbar/spacing.svg")} 
-                        alt={content} />
-                </a>
-                <div
-                    style={{
-                        left: "0px",
-                        top: "39px",
-                        padding: "0 20px",
-                        background: "white",
-                        animation: "bounce 0.8s ease-out",
-                        flexDirection: "column",
-                    }}
-                    id="mySpacingList"
-                    className="dropdown-content-font-size"
-                >
-                    <Slider
-                        pauser={this.props.pauser}
-                        title="Letter" 
-                        currentValue={editorStore.currentLetterSpacing ? editorStore.currentLetterSpacing : 30 }
-                        onChangeStart={e => {
-                            document.removeEventListener("mouseup", this.onDown);
-                            window.selectionStart = true;
                         }}
-                        onChange={this.handleLetterSpacingChange}
-                        onChangeEnd={val => {
-                            document.addEventListener("mouseup", this.onDown);
-                            this.handleLetterSpacingChangeEnd(val);
+                    >
+                        <img
+                            style={{
+                                height: "100%",
+                            }}
+                            src={require("@Components/shared/svgs/editor/toolbar/spacing.svg")}
+                            alt={content} />
+                    </a>
+                    <div
+                        style={{
+                            left: "0px",
+                            top: "39px",
+                            padding: "0 20px",
+                            background: "white",
+                            animation: "bounce 0.8s ease-out",
+                            flexDirection: "column",
                         }}
+                        id="mySpacingList"
+                        className="dropdown-content-font-size"
+                    >
+                        <Slider
+                            pauser={this.props.pauser}
+                            title="Letter"
+                            currentValue={editorStore.currentLetterSpacing ? editorStore.currentLetterSpacing : 30}
+                            onChangeStart={e => {
+                                document.removeEventListener("mouseup", this.onDown);
+                                window.selectionStart = true;
+                            }}
+                            onChange={this.handleLetterSpacingChange}
+                            onChangeEnd={val => {
+                                document.addEventListener("mouseup", this.onDown);
+                                this.handleLetterSpacingChangeEnd(val);
+                            }}
                         />
-                    <Slider 
-                        pauser={this.props.pauser}
-                        title="Line letter" 
-                        currentValue={(100*(editorStore.currentLineHeight ? editorStore.currentLineHeight : 30) - 50)/2}
-                        onChangeStart={e => {
-                            document.removeEventListener("mouseup", this.onDown);
-                            window.selectionStart = true;
-                        }}
-                        onChange={this.handleLineHeightChange}
-                        onChangeEnd={val => {
-                            document.addEventListener("mouseup", this.onDown);
-                            this.handleLineHeightChangeEnd(val);
-                        }}
+                        <Slider
+                            pauser={this.props.pauser}
+                            title="Line letter"
+                            currentValue={(100 * (editorStore.currentLineHeight ? editorStore.currentLineHeight : 30) - 50) / 2}
+                            onChangeStart={e => {
+                                document.removeEventListener("mouseup", this.onDown);
+                                window.selectionStart = true;
+                            }}
+                            onChange={this.handleLineHeightChange}
+                            onChangeEnd={val => {
+                                document.addEventListener("mouseup", this.onDown);
+                                this.handleLineHeightChangeEnd(val);
+                            }}
                         />
-                </div>
+                    </div>
                 </div>
             </Tooltip>
         );

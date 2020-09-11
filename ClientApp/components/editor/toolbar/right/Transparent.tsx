@@ -9,15 +9,16 @@ interface IProps {
 
 const Transparent = (props: IProps) => {
     const { onClickTransparent, translate, show } = props;
-    const { content } = translate("transparent");
+    const content =  translate("transparent");
+    
     return (
         <Tooltip
             offsetLeft={0}
-            offsetTop={5}
+            offsetTop={-10}
             content={content}
             delay={10}
             style={{ display: show ? "block" : "none" }}
-            position="bottom"
+            position="top"
         >
             <button
                 style={{

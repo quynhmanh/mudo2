@@ -50,7 +50,7 @@ export default class ZoomController extends Component<IProps, IState> {
                     >
                         <Tooltip
                             offsetLeft={0}
-                            offsetTop={-5}
+                            offsetTop={-10}
                             content={this.props.translate("zoomIn")}
                             delay={10}
                             style={{}}
@@ -121,7 +121,7 @@ export default class ZoomController extends Component<IProps, IState> {
                         </div>
                         <Tooltip
                             offsetLeft={0}
-                            offsetTop={-5}
+                            offsetTop={-10}
                             content={this.props.translate("zoomOut")}
                             delay={10}
                             style={{}}

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { TemplateType, SidebarTab } from "@Components/editor/enums";
 import Color from "@Components/editor/toolbar/left/Color";
 import Italic from "@Components/editor/toolbar/left/Italic";
@@ -19,7 +19,6 @@ import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
 
 interface IProps {
-    editorStore: any;
     childId: string;
     translate: any;
     handleColorBtnClick: any;
@@ -68,8 +67,8 @@ interface IState {
 
 const alignList = [
     { title: "alignLeft", align: "left", iconPath: require("@Components/shared/svgs/editor/toolbar/alignLeft.svg") },
-    { title: "alignCenter", align: "center",iconPath: require("@Components/shared/svgs/editor/toolbar/alignCenter.svg") },
-    { title: "alignRight", align: "right",iconPath: require("@Components/shared/svgs/editor/toolbar/alignRight.svg") }
+    { title: "alignCenter", align: "center", iconPath: require("@Components/shared/svgs/editor/toolbar/alignCenter.svg") },
+    { title: "alignRight", align: "right", iconPath: require("@Components/shared/svgs/editor/toolbar/alignRight.svg") }
 ];
 
 @observer
@@ -108,21 +107,21 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     onClickDropDownFontList={this.onClickDropDownFontList}
                     fontName={image && image.fontRepresentative}
-                    selectedTab={props.selectedTab}
+                    selectedTab={editorStore.selectedTab}
                 />
                 <FontSizeWrapper
                     show=
                     {
                         (image &&
-                        image.type === TemplateType.Heading) || 
-                        !! editorStore.childId
+                            image.type === TemplateType.Heading) ||
+                        !!editorStore.childId
                     }
                     translate={props.translate}
                     selectedImage={props.selectedImage}
                     childId={props.childId}
                     fontSize={editorStore.currentFontSize}
                     handleFontSizeBtnClick={props.handleFontSizeBtnClick}
-                    selectedTab={props.selectedTab}
+                    selectedTab={editorStore.selectedTab}
                 />
                 <Color
                     show=
@@ -139,7 +138,7 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     handleColorBtnClick={this.handleColorBtnClick}
                     fontColor={image && image.color}
-                    selectedTab={props.selectedTab}
+                    selectedTab={editorStore.selectedTab}
                 />
                 <Italic
                     show=
@@ -204,7 +203,7 @@ class LeftSide extends Component<IProps, IState> {
                         (
                             image.type === TemplateType.Image ||
                             image.type === TemplateType.Video ||
-                            (image.type === TemplateType.BackgroundImage && 
+                            (image.type === TemplateType.BackgroundImage &&
                                 image.src)
                         )
                     }
@@ -261,40 +260,40 @@ class LeftSide extends Component<IProps, IState> {
                         )
                 }
                 {image && (image.type === TemplateType.Heading || props.childId) &&
-                <Spacing
-                    onTextChange={this.props.onTextChange}
-                    title="spacing"
-                    show=
-                    {
-                        (image &&
-                        image.type === TemplateType.Heading) || 
-                        !!editorStore.childId
-                    }
-                    pauser={props.pauser}
-                    currentLineHeight={editorStore.currentLineHeight}
-                    currentLetterSpacing={editorStore.currentLetterSpacing}
-                    translate={props.translate}
-                    handleLineHeightChange={props.handleLineHeightChange}
-                    handleLineHeightChangeEnd={props.handleLineHeightChangeEnd}
-                    handleLetterSpacing={props.handleLetterSpacing}
-                    handleLetterSpacingEnd={props.handleLetterSpacingEnd}
-                    updateImages={this.props.updateImages}
-                    scale={props.scale}
-                />}
+                    <Spacing
+                        onTextChange={this.props.onTextChange}
+                        title="spacing"
+                        show=
+                        {
+                            (image &&
+                                image.type === TemplateType.Heading) ||
+                            !!editorStore.childId
+                        }
+                        pauser={props.pauser}
+                        currentLineHeight={editorStore.currentLineHeight}
+                        currentLetterSpacing={editorStore.currentLetterSpacing}
+                        translate={props.translate}
+                        handleLineHeightChange={props.handleLineHeightChange}
+                        handleLineHeightChangeEnd={props.handleLineHeightChangeEnd}
+                        handleLetterSpacing={props.handleLetterSpacing}
+                        handleLetterSpacingEnd={props.handleLetterSpacingEnd}
+                        updateImages={this.props.updateImages}
+                        scale={props.scale}
+                    />}
                 <Effect
                     show=
                     {
                         (image &&
-                        (
-                            image.type === TemplateType.Heading
-                        )) || (!!editorStore.childId)
+                            (
+                                image.type === TemplateType.Heading
+                            )) || (!!editorStore.childId)
                     }
                     translate={props.translate}
                     cropMode={editorStore.cropMode}
                     handleAdjustBtnClick={e => {
                         editorStore.selectedTab = SidebarTab.Effect;
                     }}
-                    selectedTab={props.selectedTab}
+                    selectedTab={editorStore.selectedTab}
                 />
                 <OK
                     show=

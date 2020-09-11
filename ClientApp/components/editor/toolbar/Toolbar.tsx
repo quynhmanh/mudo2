@@ -79,8 +79,7 @@ class Toolbar extends Component<IProps, IState> {
                     bold={props.bold}
                     effectId={props.effectId}
                     align={props.align}
-                    selectedTab={props.selectedTab}
-                    editorStore={props.editorStore}
+                    selectedTab={editorStore.selectedTab}
                     childId={props.childId}
                     translate={props.translate}
                     handleColorBtnClick={props.handleColorBtnClick}

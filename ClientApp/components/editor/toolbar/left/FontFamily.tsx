@@ -1,6 +1,6 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
-import {SidebarTab} from "@Components/editor/enums";
+import { SidebarTab } from "@Components/editor/enums";
 
 interface IProps {
     translate: any;
@@ -16,7 +16,7 @@ const FontFamily = (props: IProps) => {
     return (
         <Tooltip
             offsetLeft={0}
-            offsetTop={-5}
+            offsetTop={-10}
             content={content}
             delay={10}
             style={{ display: show ? "block" : "none" }}
@@ -39,19 +39,19 @@ const FontFamily = (props: IProps) => {
                 }}
             >
                 <img
-                    style={{ 
-                        height: "18px", 
+                    style={{
+                        height: "18px",
                         margin: "auto",
                     }}
                     src={fontName ? fontName : "images/font-AvenirNextRoundedPro.png"}
                 />
-                <img 
-                    src={require("@Components/shared/svgs/editor/toolbar/fontFamily.svg")} 
-                    alt={content} 
-                    style={{ 
-                        pointerEvents: "none", 
+                <img
+                    src={require("@Components/shared/svgs/editor/toolbar/fontFamily.svg")}
+                    alt={content}
+                    style={{
+                        pointerEvents: "none",
                         margin: "auto",
-                    }}/>
+                    }} />
             </a>
         </Tooltip>
     );
