@@ -15,7 +15,6 @@ const Crop = (props: IProps) => {
             style={{
                 position: "relative",
                 display: show ? "block" : "none",
-                fontFamily: "AvenirNextRoundedPro",
             }}
         >
             {!cropMode && (

@@ -66,22 +66,8 @@ class Toolbar extends Component<IProps, IState> {
         const props = this.props;
         return (
             <div
-                style=
-                {{
-                    width: "100%",
-                    backgroundColor: "#dae0e7",
-                    // boxShadow: "0 1px 0 rgba(14,19,24,.15)",
+                style={{
                     display: "inline-flex",
-                    position: "absolute",
-                    right: 0,
-                    left: "0px",
-                    height: "46px",
-                    padding: "8px",
-                    marginBottom: "10px",
-                    zIndex: 2,
-                    background: '#fff',
-                    boxShadow: '0 1px 0 rgba(14,19,24,.15)',
-                    // padding: '8px',
                 }}
             >
                 <LeftSide

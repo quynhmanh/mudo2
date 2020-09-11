@@ -15,7 +15,7 @@ const Cancel = (props: IProps) => {
             onClick={handleCancelBtnClick}
             style={{
                 display: show ? "flex" : "none",
-                fontFamily: "AvenirNextRoundedPro",
+                width: "100px",
             }}
         >
             <img 

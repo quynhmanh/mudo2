@@ -5517,6 +5517,25 @@ class CanvaEditor extends Component<IProps, IState> {
                             onWheel={this.handleWheel}
                         >
                             <div>
+                            <div
+                style=
+                {{
+                    width: "100%",
+                    backgroundColor: "#dae0e7",
+                    // boxShadow: "0 1px 0 rgba(14,19,24,.15)",
+                    display: "inline-flex",
+                    position: "absolute",
+                    right: 0,
+                    left: "0px",
+                    height: "46px",
+                    padding: "8px",
+                    marginBottom: "10px",
+                    zIndex: 2,
+                    background: '#fff',
+                    boxShadow: '0 1px 0 rgba(14,19,24,.15)',
+                    // padding: '8px',
+                }}
+            >
                                 <Toolbar
                                     scale={this.state.scale}
                                     onTextChange={this.onTextChange}
@@ -5563,6 +5582,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                     handleOpacityChange={this.handleOpacityChange}
                                     handleOpacityChangeEnd={this.handleOpacityChangeEnd}
                                 />
+                                </div>
                             </div>
                             <div
                                 key={1}
