@@ -6,6 +6,7 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import {toJS} from "mobx";
 import Globals from "@Globals";
+import Tooltip from "@Components/shared/Tooltip";
 
 export interface IProps {
     scale: number;
@@ -273,6 +274,66 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                 }}
                                                 src={font.representative}
                                             />
+                                            {font.vietnameseSupport && 
+                                            <div
+                                                style={{
+                                                    marginLeft: '50px',
+                                                }}
+                                            >
+                                            <Tooltip
+                                offsetLeft={80}
+                                offsetTop={-15}
+                                content={this.props.translate("vietnameseSupport")}
+                                delay={10}
+                                // style={{ display: show ? "block" : "none" }}
+                                position="top"
+                            >
+                                            <svg 
+                                                style={{
+                                                    height: "26px",
+                                                    top: 0,
+                                                    bottom: 0,
+                                                    right: "40px",
+                                                }}
+                                            xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512" xmlSpace="preserve">
+<path style={{
+    fill: "#FF4B55"
+}} d="M400,0H112C50.144,0,0,50.144,0,112v288c0,61.856,50.144,112,112,112h288  c61.856,0,112-50.144,112-112V112C512,50.144,461.856,0,400,0z"/>
+<path style={{
+    fill: "#FFE15A",
+}} d="M260.565,146.63l26.164,78.449l82.695,0.641c4.624,0.036,6.541,5.937,2.822,8.684l-66.525,49.125  l24.944,78.845c1.395,4.409-3.625,8.056-7.387,5.367L256,319.654l-67.278,48.088c-3.762,2.689-8.782-0.958-7.387-5.367  l24.944-78.845l-66.525-49.125c-3.72-2.747-1.802-8.648,2.822-8.684l82.695-0.641l26.164-78.449  C252.898,142.243,259.102,142.243,260.565,146.63z"/>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg></Tooltip>  
+</div>}
                                             {editorStore.fontId === font.id ? (
                                                 <span
                                                     style={{
@@ -334,8 +395,8 @@ export default class SidebarFont extends Component<IProps, IState> {
 <g>
 </g>
 </svg>
-                                                    
                                                 </span>
+                                                
                                             ) : null}
                                         </button>
                                     </div>

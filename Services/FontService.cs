@@ -54,5 +54,31 @@ namespace RCB.TypeScript.Services
             return Ok();
         }
 
+        public virtual Result<FontModel> Get(string id)
+        {
+
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("font");
+            var client = new ElasticClient(settings);
+
+            var response = client.Get<FontModel>(id);
+
+            return Ok(response.Source);
+        }
+
+
+        public virtual Infrastructure.Result Update(FontModel model)
+        {
+            if (model == null)
+                return Error();
+
+            var node = new Uri("http://host_container_address:9200");
+            var settings = new ConnectionSettings(node).DefaultIndex("font");
+            var client = new ElasticClient(settings);
+
+            var updateResponse = client.Update<FontModel>(model, u => u.Doc(model));
+
+            return Ok();
+        }
     }
 }

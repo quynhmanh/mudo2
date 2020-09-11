@@ -152,5 +152,16 @@ namespace RCB.TypeScript.Controllers
             var result = FontService.Delete(id);
             return Json(result);
         }
+
+        [HttpPost("[action]")]
+        public IActionResult ToggleVietSupport([FromQuery]string id)
+        {
+            var result = FontService.Get(id);
+            var model = result.Value;
+            model.VietnameseSupport = !model.VietnameseSupport;
+            FontService.Update(model);
+            
+            return Ok();
+        }
     }
 }

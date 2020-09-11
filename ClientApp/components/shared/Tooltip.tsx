@@ -108,7 +108,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         <Fragment>
             {children}
 
-            <Tip tipbaseClass={this.props.tipbaseClass} backgroundColor="black" offsetLeft={offsetLeft} offsetTop={offsetTop} content={children} $text={this.ref.current} isOpen={isOpen} position={position ? position : "top"} inflexible={true}>
+            <Tip tipbaseClass={this.props.tipbaseClass} backgroundColor="#283139" offsetLeft={offsetLeft} offsetTop={offsetTop} content={children} $text={this.ref.current} isOpen={isOpen} position={position ? position : "top"} inflexible={true}>
                 {parseContent(content, eventName)}
             </Tip>
         </Fragment>);

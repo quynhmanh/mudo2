@@ -44,6 +44,11 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
       });
   };
 
+  handleToggleVietnameseSupport = () => {
+    var url = `/api/Font/ToggleVietSupport?id=${this.props.item.id}`;
+    axios.post(url);
+  }
+
   handleDeleteTemplate = () => {
     var url = `/api/Font/Delete?id=${this.props.item.id}`;
     axios.delete(url);
@@ -156,6 +161,15 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
               onClick={this.handleSubmit}
             >
               OK
+            </button>
+            <button
+              style={{
+                marginRight: "15px"
+              }}
+              className="unblurred"
+              onClick={this.handleToggleVietnameseSupport}
+            >
+              Toggle Vietnamese Support
             </button>
             <button className="unblurred" onClick={this.handleAddNewKeyword}>
               Add new keyword
