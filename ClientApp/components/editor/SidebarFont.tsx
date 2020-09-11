@@ -215,7 +215,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                         <div id="image-container-picker">
                             <div
                                 style={{
-                                    // marginRight: "10px"
+                                    marginTop: "10px",
                                 }}
                             >
                                 {editorStore.fontsList.map((font, key) => (
@@ -278,19 +278,63 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                     style={{
                                                         position: "absolute",
                                                         float: "right",
-                                                        width: "25px",
-                                                        height: "25px",
-                                                        right: "10px"
+                                                        width: "20px",
+                                                        height: "20px",
+                                                        right: "10px",
+                                                        marginRight: '20px',
+                                                        margin: 'auto',
+                                                        top: '0',
+                                                        bottom: '0',
                                                     }}
                                                 >
-                                                    <svg
-                                                        style={{ fill: "black" }}
-                                                        version="1.1"
-                                                        viewBox="0 0 44 44"
-                                                        enableBackground="new 0 0 44 44"
-                                                    >
-                                                        <path d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z" />
-                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 288.941 288.941" xmlSpace="preserve">
+<g>
+	<path id="Check" d="M285.377,46.368c-4.74-4.704-12.439-4.704-17.179,0L96.309,217.114L20.734,142.61   c-4.74-4.704-12.439-4.704-17.179,0s-4.74,12.319,0,17.011l84.2,82.997c4.692,4.644,12.499,4.644,17.191,0l180.43-179.239   C290.129,58.687,290.129,51.06,285.377,46.368C280.637,41.664,290.129,51.06,285.377,46.368z"/>
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+                                                    
                                                 </span>
                                             ) : null}
                                         </button>

@@ -554,8 +554,8 @@ class HomePage extends React.Component<IProps, IState> {
                                     <div className="h__hero u-color-inherit@medium ">
                                         <svg style={{
                                             display: 'block',
-                                            margin: '28px auto',
-                                            fill: '#555',
+                                            margin: '88px auto',
+                                            fill: 'rgb(45 44 44)',
                                         }} version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="317" height="44">
                                             <g id="Layer1" name="Layer 1" opacity="1">
                                                 <g id="Shape1">
