@@ -432,7 +432,7 @@ class HomePage extends React.Component<IProps, IState> {
                                                     height: '30px',
                                                     lineHeight: '30px',
                                                     border: 'none',
-                                                    fontSize: '14px',
+                                                    fontSize: '13px',
                                                     color: 'black',
                                                     display: 'block',
                                                     padding: '0 12px',
