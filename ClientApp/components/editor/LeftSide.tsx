@@ -410,7 +410,7 @@ class LeftSide extends Component<IProps, IState> {
                     height: "100%",
                     position: "relative",
                     display: "flex",
-                    outline: "1px solid rgba(14,19,24,.15)",
+                    outline: "1px solid rgba(14,19,24,.03)",
                 }}
             >
                 <div
