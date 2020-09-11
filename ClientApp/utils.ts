@@ -528,6 +528,7 @@ export const updateRotate = function (elId, rotateAngle: any) {
 }
 
 export const getCursorStyleWithRotateAngle = (rotateAngle): string => {
+    console.log('getCursorStyleWithRotateAngle rotateAngle ', rotateAngle)
     let rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/4d0e991d3ba4f5fc763640a966b6171a.png") 1x, url("https://static.canva.com/web/images/c0013ec5969d2610c26794064d159d8c.png") 2x) 12 12, auto';
     if (rotateAngle >= 8) {
         rotateCursor = '-webkit-image-set(url("https://static.canva.com/web/images/226ff3adc87fd7093018e0c8a3cc931c.png") 1x, url("https://static.canva.com/web/images/aeab367bea5bbe7496f72eea9d6edae0.png") 2x) 12 12, auto';
@@ -665,6 +666,10 @@ export const getCursorStyleForResizer = (rotateAngle, d): string => {
         cursor =
             "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
     }
+    if (normalizedRotateAngle >= 173) {
+        cursor =
+            "-webkit-image-set(url(https://static.canva.com/web/images/7ea01757f820a9fb828312dcf38cb746.png) 1x,url(https://static.canva.com/web/images/2c4ec45151de402865dffaaa087ded3c.png) 2x) 12 12,auto";
+    }
 
     return cursor;
 }
@@ -752,7 +757,7 @@ export const transformImage = image => {
 export const secondToMinutes = sec => {
     const min = Math.floor(sec / 60);
     const s = Math.floor(sec % 60);
-    return `${min}:${s}`;
+    return `${min}:${s < 10 ? '0' : ''}${s}`;
 }
 
 export const updateXGuide = (top2, bot2, guideEl, scale) => {

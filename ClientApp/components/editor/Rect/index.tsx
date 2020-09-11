@@ -566,7 +566,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 						}
 					}}
-					onMouseUp={e => {
+					onClick={e => {
 						if (type == TemplateType.BackgroundImage && !window.selectionStart && name == CanvasType.All && !editorStore.cropMode) {
 							if (!editorStore.cropMode) {
 								if (!selected) {
@@ -799,7 +799,7 @@ export default class Rect extends Component<IProps, IState> {
 									}
 								}}
 							>
-								{objectType === TemplateType.Video &&
+								{objectType === TemplateType.Video && name == CanvasType.HoverLayer &&
 								<div
 									className={name}
 									id={_id + "progress" + name}
@@ -965,23 +965,17 @@ export default class Rect extends Component<IProps, IState> {
 											let paused = video.paused;
 											let value, percent;
 
+											progressBarPointer.style.boxShadow = '0 0 0 8px rgba(0,196,204,.5)';
+                    						// progressBarPointer.style.border = '1px solid #00afb5';
+
 											let controller = document.getElementById(_id + "video-controller1");
 											controller.classList.toggle("hovered");
 											const onMove = e => {
-												progressBarPointer.style.transform = `scale(1.1)`;
 												window.dragging = true;
 												e.stopPropagation();
 												if (!paused) {
 													video.pause();
 												}
-												// const deltaX = e.clientX - progressBar.left;
-												// const deltaY = e.clientY - progressBar.top;
-												
-												// if (rotateAngle < 45 || rotateAngle > 315) {
-												// 	percent = deltaX / width * 100;
-												// } else {
-												// 	percent = deltaY / height * 100;
-												// }
 
 												if (rotateAngle < 45) {
 													const deltaX = e.clientX - progressBar.left;
@@ -1023,6 +1017,9 @@ export default class Rect extends Component<IProps, IState> {
 											}
 
 											const onUp = e => {
+
+												progressBarPointer.style.boxShadow = '0 0 5px 1px rgba(14,19,24,.15), 0 0 0 1px rgba(14,19,24,.2)';
+            									progressBarPointer.style.border = '';
 
 												controller.classList.toggle("hovered");
 

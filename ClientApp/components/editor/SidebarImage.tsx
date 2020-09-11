@@ -341,7 +341,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                                         height={imgWidth / (item.width / item.height)}
                                         defaultHeight={imgWidth}
                                         width={imgWidth}
-                                        className=""
+                                        className="image-picker"
                                         onPick={this.imgOnMouseDown.bind(this, item)}
                                         onEdit={this.props.handleEditmedia.bind(this, item)}
                                         delay={-1}

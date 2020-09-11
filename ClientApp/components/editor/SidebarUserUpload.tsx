@@ -340,7 +340,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                             {this.state.items2.map((item, key) => (
                                 <ImagePicker
                                     id=""
-                                    className=""
+                                    className="image-picker"
                                     height={imgWidth / (item.width / item.height)}
                                     defaultHeight={imgWidth}
                                     color=""

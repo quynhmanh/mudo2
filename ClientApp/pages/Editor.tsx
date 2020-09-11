@@ -26,6 +26,7 @@ const Tooltip = loadable(() => import("@Components/shared/Tooltip"));
 const Toolbar =  loadable(() => import("@Components/editor/toolbar/Toolbar"));
 const LeftSide = loadable(() => import("@Components/editor/LeftSide"));
 const Narbar = loadable(() => import("@Components/editor/Navbar"));
+const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
 
 import {
     isNode,
@@ -354,6 +355,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.updateImages = this.updateImages.bind(this);
         this.forceEditorUpdate = this.forceEditorUpdate.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
+        this.setScale = this.setScale.bind(this);
     }
 
     $app = null;
@@ -4980,6 +4982,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let text = image.document_object.find(text => text._id == childId);
 
         editorStore.fontId = fontId;
+        editorStore.fontFace = fontId;
         editorStore.currentFontSize = fontSize;
         editorStore.currentLetterSpacing = currentLetterSpacing;
         editorStore.childId = childId;
@@ -5404,6 +5407,10 @@ class CanvaEditor extends Component<IProps, IState> {
                 this.saveImages(null, false);
             }, 5000);
         }
+    }
+
+    setScale = (scale) => {
+        this.setState({scale});
     }
 
     canvas1 = {};
@@ -5843,140 +5850,14 @@ class CanvaEditor extends Component<IProps, IState> {
                                             </ul>
                                         </div>
                                     )}
-                                    {this.state.mounted && (
-                                        <div
-                                            className="workSpaceBottomPanel___73_jE"
-                                            data-bubble="false"
-                                        >
-                                            <div className="workSpaceButtons___f6jkZ">
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        flexDirection: "row",
-                                                        boxShadow:
-                                                            "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                                                        background: "#293039",
-                                                        borderRadius: "5px",
-                                                        height: "34px",
-                                                    }}
-                                                    className="zoom___21DG8"
-                                                >
-                                                    <Tooltip
-                                                        offsetLeft={0}
-                                                        offsetTop={-5}
-                                                        content={this.translate("zoomIn")}
-                                                        delay={10}
-                                                        style={{}}
-                                                        position="top"
-                                                    >
-                                                        <button
-                                                            onClick={e => {
-                                                                this.setState({
-                                                                    scale: Math.max(0.1, this.state.scale - 0.15)
-                                                                });
-                                                            }}
-                                                            style={{
-                                                                border: "none",
-                                                                background: "transparent",
-                                                                height: "100%",
-                                                            }}
-                                                            className="zoomMinus___1Ooi5"
-                                                            data-test="zoomMinus"
-                                                            data-categ="tools"
-                                                            data-value="zoomOut"
-                                                            data-subcateg="bottomPanel"
-                                                        >
-                                                            <svg
-                                                                style={{
-                                                                    width: "20px",
-                                                                    height: "20px"
-                                                                }}
-                                                                viewBox="0 0 18 18"
-                                                                width="18"
-                                                                height="18"
-                                                                className="zoomSvg___1IAZj"
-                                                            >
-                                                                <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM1,8a7,7,0,1,1,12,5h0A7,7,0,0,1,1,8Z"></path>
-                                                                <path d="M11.61,7.44H4.7a.5.5,0,1,0,0,1h6.91a.5.5,0,0,0,0-1Z"></path>
-                                                            </svg>
-                                                        </button>
-                                                    </Tooltip>
-                                                    <div className="zoomPercent___3286Z">
-                                                        <button
-                                                            onClick={e => {
-                                                                let self = this;
-                                                                this.setState({ showZoomPopup: true });
-                                                                this.forceUpdate();
-                                                                const onDownload = () => {
-                                                                    self.setState({ showZoomPopup: false });
-                                                                    document.removeEventListener(
-                                                                        "click",
-                                                                        onDownload
-                                                                    );
-                                                                };
-                                                                document.addEventListener("click", onDownload);
-                                                            }}
-                                                            style={{
-                                                                height: "100%",
-                                                                color: "white",
-                                                                border: "none",
-                                                                background: "transparent",
-                                                                width: "55px",
-                                                                fontSize: "15px"
-                                                            }}
-                                                            className="scaleListButton___GEm7w zoomMain___1z1vk"
-                                                            data-zoom="true"
-                                                            data-categ="tools"
-                                                            data-value="zoomPanelOpen"
-                                                            data-subcateg="bottomPanel"
-                                                        >
-                                                            {Math.round(this.state.scale * 100)}%
-                            </button>
-                                                    </div>
-                                                    <Tooltip
-                                                        offsetLeft={0}
-                                                        offsetTop={-5}
-                                                        content={this.translate("zoomOut")}
-                                                        delay={10}
-                                                        style={{}}
-                                                        position="top"
-                                                    >
-                                                        <button
-                                                            onClick={e => {
-                                                                this.setState({
-                                                                    scale: this.state.scale + 0.15
-                                                                });
-                                                            }}
-                                                            style={{
-                                                                border: "none",
-                                                                background: "transparent",
-                                                                height: "100%",
-                                                            }}
-                                                            className="zoomPlus___1TbHD"
-                                                            data-test="zoomPlus"
-                                                            data-categ="tools"
-                                                            data-value="zoomIn"
-                                                            data-subcateg="bottomPanel"
-                                                        >
-                                                            <svg
-                                                                style={{
-                                                                    width: "20px",
-                                                                    height: "20px"
-                                                                }}
-                                                                viewBox="0 0 18 18"
-                                                                width="18"
-                                                                height="18"
-                                                                className="zoomSvg___1IAZj"
-                                                            >
-                                                                <path d="M17.6,16.92,14,13.37a8.05,8.05,0,1,0-.72.72l3.56,3.56a.51.51,0,1,0,.72-.72ZM13,13h0a7,7,0,1,1,2.09-5A7,7,0,0,1,13,13Z"></path>
-                                                                <path d="M11.61,7.44h-3v-3a.5.5,0,1,0-1,0v3h-3a.5.5,0,1,0,0,1h3v3a.5.5,0,0,0,1,0v-3h3a.5.5,0,0,0,0-1Z"></path>
-                                                            </svg>
-                                                        </button>
-                                                    </Tooltip>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
+
+                                    <ZoomController 
+                                        translate={this.translate}
+                                        scale={this.state.scale}
+                                        setScale={this.setScale}
+                                        fitScale={this.state.fitScale}
+                                    />
+                                    
                                 </div>
                             </div>
                             <div

@@ -4,7 +4,7 @@ import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
-import {toJS} from "mobx";
+import { toJS } from "mobx";
 
 export interface IProps {
     scale: number;
@@ -64,9 +64,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
         }
         return false;
     }
-    
+
     imgOnMouseDown(img, e) {
-        
+
         e.preventDefault();
 
         let scale = this.props.scale;
@@ -131,7 +131,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         };
 
         const onUp = evt => {
-            
+
             dragging = false;
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
@@ -264,63 +264,63 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
         return (
             <div
+                style={{
+                    opacity: editorStore.selectedTab === SidebarTab.Element ? 1 : 0,
+                    position: "absolute",
+                    width: "347px",
+                    color: "white",
+                    overflow: "scroll",
+                    transition:
+                        "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
+                    transform:
+                        editorStore.selectedTab !== SidebarTab.Element &&
+                        `translate3d(0px, calc(${
+                        editorStore.selectedTab < SidebarTab.Element ? 40 : -40
+                        }px), 0px)`,
+                    top: "10px",
+                    zIndex: editorStore.selectedTab !== SidebarTab.Element && -1,
+                    height: "100%",
+                    left: '19px',
+                }}
+            >
+                <div style={{ display: "inline-block", width: "100%" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            marginTop: "10px",
+                            height: "calc(100% - 35px)",
+                            overflow: "scroll"
+                        }}
+                    >
+                        <div
                             style={{
-                                opacity: editorStore.selectedTab === SidebarTab.Element ? 1 : 0,
-                                position: "absolute",
-                                width: "347px",
-                                color: "white",
-                                overflow: "scroll",
-                                transition:
-                                    "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                                transform:
-                                    editorStore.selectedTab !== SidebarTab.Element &&
-                                    `translate3d(0px, calc(${
-                                    editorStore.selectedTab < SidebarTab.Element ? 40 : -40
-                                    }px), 0px)`,
-                                top: "10px",
-                                zIndex: editorStore.selectedTab !== SidebarTab.Element && -1,
-                                height: "100%",
-                                left: '19px',
+                                width: "350px",
+                                marginRight: "10px"
                             }}
                         >
-                            <div style={{ display: "inline-block", width: "100%" }}>
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        marginTop: "10px",
-                                        height: "calc(100% - 35px)",
-                                        overflow: "scroll"
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            width: "350px",
-                                            marginRight: "10px"
-                                        }}
-                                    >
-                                        <img
-                                            onMouseDown={this.imgOnMouseDown.bind(this, {
-                                                representative:
-                                                    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
-                                                freeStyle: true
-                                            })}
-                                            style={{
-                                                width: "160px",
-                                                height: imgWidth + "px",
-                                                backgroundColor: "#019fb6"
-                                            }}
-                                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                        />
-                                    </div>
-                                    <div
-                                        style={{
-                                            width: "350px",
-                                            marginRight: "10px"
-                                        }}
-                                    ></div>
-                                </div>
-                            </div>
+                            <img
+                                onMouseDown={this.imgOnMouseDown.bind(this, {
+                                    representative:
+                                        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+                                    freeStyle: true
+                                })}
+                                style={{
+                                    width: "160px",
+                                    height: imgWidth + "px",
+                                    backgroundColor: "#019fb6"
+                                }}
+                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                            />
                         </div>
+                        <div
+                            style={{
+                                width: "350px",
+                                marginRight: "10px"
+                            }}
+                        ></div>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

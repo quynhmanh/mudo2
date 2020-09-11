@@ -268,7 +268,7 @@ class LeftSide extends Component<IProps, IState> {
                     {
                         (image &&
                         image.type === TemplateType.Heading) || 
-                        !!props.childId
+                        !!editorStore.childId
                     }
                     pauser={props.pauser}
                     currentLineHeight={editorStore.currentLineHeight}
@@ -287,7 +287,7 @@ class LeftSide extends Component<IProps, IState> {
                         (image &&
                         (
                             image.type === TemplateType.Heading
-                        )) || (!!props.childId)
+                        )) || (!!editorStore.childId)
                     }
                     translate={props.translate}
                     cropMode={editorStore.cropMode}
