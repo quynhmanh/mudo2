@@ -75,7 +75,7 @@ export default class TopMenu extends Component<IProps, IState> {
             <div
                 style={{
                     height: "100%",
-                    backgroundColor: "black",
+                    backgroundColor: "#0e1318",
                 }}
             >   
                 {selectedTab != SidebarTab.Font && 
