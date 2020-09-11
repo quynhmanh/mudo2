@@ -13,6 +13,7 @@ import homePageTranslation from "@Locales/default/homePage";
 import loadable from '@loadable/component';
 import { isClickOutside } from '@Functions/shared/common';
 import axios from "axios";
+import "@Styles/homePage.scss";
 
 const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
 const PopularTemplate2 = loadable(() => import("@Components/homepage/PopularTemplate2"));
@@ -373,9 +374,7 @@ class HomePage extends React.Component<IProps, IState> {
                                             lineHeight: '30px',
                                             border: 'none',
                                             fontSize: '13px',
-                                            fontWeight: 500,
                                             borderRadius: '4px',
-                                            fontFamily: 'AvenirNextRoundedPro',
                                             color: '#555',
                                             display: 'block',
                                             padding: '0 10px',
@@ -400,8 +399,6 @@ class HomePage extends React.Component<IProps, IState> {
                                                 border: 'none',
                                                 fontSize: '13px',
                                                 borderRadius: '4px',
-                                                fontWeight: 500,
-                                                fontFamily: 'AvenirNextRoundedPro',
                                                 color: '#555',
                                             }}
                                             className="button-list"
@@ -436,7 +433,6 @@ class HomePage extends React.Component<IProps, IState> {
                                                     lineHeight: '30px',
                                                     border: 'none',
                                                     fontSize: '14px',
-                                                    fontFamily: 'AvenirNextRoundedPro',
                                                     color: 'black',
                                                     display: 'block',
                                                     padding: '0 12px',
