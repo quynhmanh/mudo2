@@ -567,6 +567,7 @@ export default class Rect extends Component<IProps, IState> {
 						}
 					}}
 					onClick={e => {
+						// console.log('onClick')
 						if (type == TemplateType.BackgroundImage && !window.selectionStart && name == CanvasType.All && !editorStore.cropMode) {
 							if (!editorStore.cropMode) {
 								if (!selected) {
@@ -1238,7 +1239,7 @@ export default class Rect extends Component<IProps, IState> {
 												position: "absolute",
 												width: `calc(${child.width2 * 100}% + 2px)`,
 												height: `calc(${child.height2 * 100}% + 2px)`,
-												backgroundImage: selected && child.selected && 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+												backgroundImage: selected && child._id == editorStore.childId && 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
 												backgroundPosition: 'top,100%,bottom,0',
 												backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
 												backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
@@ -1347,7 +1348,7 @@ export default class Rect extends Component<IProps, IState> {
 																parentIndex={_id}
 																innerHTML={child.innerHTML}
 																_id={_id + child._id + canvas}
-																selected={child.selected}
+																selected={child._id == editorStore.childId}
 																onInput={onTextChange}
 																onBlur={this.endEditing.bind(this)}
 																onMouseDown={this.startEditing.bind(this)}
@@ -1419,6 +1420,7 @@ export default class Rect extends Component<IProps, IState> {
 														filter: filter,
 														lineHeight: `${lineHeight * fontSize}px`,
 														letterSpacing: `${1.0 * letterSpacing / 100 * 4}px`,
+														fontSize: fontSize + "px",
 													}}
 												></span>
 											}

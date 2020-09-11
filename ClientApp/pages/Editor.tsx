@@ -1197,9 +1197,9 @@ class CanvaEditor extends Component<IProps, IState> {
             //     el.style.opacity = 1;
             //     el.classList.toggle('selected');
             // });
-            // setTimeout(() => {
+            setTimeout(() => {
                 window.selectionStart = false;
-            // }, 300);
+            }, 300);
 
             let top = 999999, right = 0, bottom = 0, left = 999999;
             evt.selected.forEach(node => {
@@ -2578,7 +2578,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         location$.pipe(
             first(),
-            catchError(_ => 'no more resizing!!!')
+            // catchError(_ => 'no more resizing!!!')
         ).subscribe(v => {
             window.resized = true;
             this.displayResizers(false);
@@ -2962,7 +2962,7 @@ class CanvaEditor extends Component<IProps, IState> {
        
         location$.pipe(
             first(),
-            catchError(_ => 'no more rotation!!!')
+            // catchError(_ => 'no more rotation!!!')
         ).subscribe(v => {
             window.rotated = true;
             this.displayResizers(false);
@@ -3146,8 +3146,9 @@ class CanvaEditor extends Component<IProps, IState> {
 
         location$.pipe(
             first(),
-            catchError(_ => 'no more drag!!!')
+            // catchError(_ => 'no more drag!!!')
         ).subscribe(v => {
+            console.log('asd', v)
             this.displayResizers(false);
             this.setSavingState(SavingState.UnsavedChanges, false);
             window.dragged = true;
@@ -4951,6 +4952,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     handleChildIdSelected = childId => {
+        editorStore.childId = childId;
         this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
         this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
 
