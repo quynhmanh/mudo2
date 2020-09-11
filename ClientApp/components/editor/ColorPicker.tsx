@@ -3,7 +3,7 @@ import React, {isValidElement} from "react";
 import {isArray, isString, isObject} from "lodash";
 import Pickr from "@Components/pickr";
 import editorStore from "@Store/EditorStore";
-
+import "@Styles/colorPicker.scss";
 
 import AppComponent from "@Components/shared/AppComponent";
 import TemplatesPage from "@Pages/TemplatesPage";
@@ -22,6 +22,7 @@ function parseContent(content : any, eventName : string = "hover") {
 export interface IProps {
   setSelectionColor: any;
   translate: any;
+  forceUpdate: any;
 }
 
 export interface IState {
@@ -76,10 +77,14 @@ export default class Tooltip extends AppComponent<IProps, IState> {
 
         pickr
         .on("save", (color, instance) => {
+          if (color) {
+          console.log('color ', color);
           let colorCode = color.toRGBA();
           this.props.setSelectionColor(colorCode)
           editorStore.addFontColor(colorCode.toString())
           instance.setColor(null);
+          this.props.forceUpdate();
+          }
         })
         .on("show", instance => {
           // this.props.colorPickerShown()

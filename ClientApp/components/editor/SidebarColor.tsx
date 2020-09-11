@@ -355,7 +355,6 @@ export default class SidebarColor extends Component<IProps, IState> {
         }
     };
 
-
     render() {
         let image = editorStore.getImageSelected() || {};
 
@@ -427,6 +426,9 @@ export default class SidebarColor extends Component<IProps, IState> {
                         <ColorPicker
                             setSelectionColor={this.setSelectionColor}
                             translate={this.props.translate}
+                            forceUpdate={() => {
+                                this.forceUpdate();
+                            }}
                         />
 
                     </ul>

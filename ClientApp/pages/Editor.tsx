@@ -1,7 +1,6 @@
 ﻿import React, { Component } from "react";
 import uuidv4 from "uuid/v4";
 import "@Styles/editor.scss";
-import "@Styles/colorPicker.scss";
 import { Helmet } from "react-helmet";
 import { withTranslation } from "react-i18next";
 import { SubType, SidebarTab, Mode, TemplateType, SavingState, CanvasType, } from "@Components/editor/enums";
