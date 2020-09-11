@@ -4071,10 +4071,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 image.src = null;
                 image.backgroundColor = "";
                 image.color = "";
-                editorStore.imageSelected = image;
                 editorStore.images2.set(image._id, image);
-
-                this.setState({ fontColor: "" })
+                this.updateImages2(image, true);
             } else {
                 // let id = editorStore.idObjectSelected;
                 // let page = editorStore.imageSelected.page;

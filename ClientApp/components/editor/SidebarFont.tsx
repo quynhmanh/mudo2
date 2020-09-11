@@ -283,57 +283,21 @@ export default class SidebarFont extends Component<IProps, IState> {
                                             >
                                             <Tooltip
                                 offsetLeft={80}
-                                offsetTop={-15}
+                                offsetTop={-20}
                                 content={this.props.translate("vietnameseSupport")}
                                 delay={10}
-                                // style={{ display: show ? "block" : "none" }}
                                 position="top"
                             >
-                                            <svg 
-                                                style={{
-                                                    height: "26px",
-                                                    top: 0,
-                                                    bottom: 0,
-                                                    right: "40px",
-                                                }}
-                                            xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512" xmlSpace="preserve">
-<path style={{
-    fill: "#FF4B55"
-}} d="M400,0H112C50.144,0,0,50.144,0,112v288c0,61.856,50.144,112,112,112h288  c61.856,0,112-50.144,112-112V112C512,50.144,461.856,0,400,0z"/>
-<path style={{
-    fill: "#FFE15A",
-}} d="M260.565,146.63l26.164,78.449l82.695,0.641c4.624,0.036,6.541,5.937,2.822,8.684l-66.525,49.125  l24.944,78.845c1.395,4.409-3.625,8.056-7.387,5.367L256,319.654l-67.278,48.088c-3.762,2.689-8.782-0.958-7.387-5.367  l24.944-78.845l-66.525-49.125c-3.72-2.747-1.802-8.648,2.822-8.684l82.695-0.641l26.164-78.449  C252.898,142.243,259.102,142.243,260.565,146.63z"/>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg></Tooltip>  
+<svg 
+style={{
+    height: "30px",
+    width: "30px",
+    top: 0,
+    bottom: 0,
+    right: "40px",
+}}
+xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512"><g><path d="m495.484 90.839h-478.968l-8.699 10.161v294.151c0 9.122 7.395 16.516 16.516 16.516h477.667l10-7.021v-297.29c0-9.123-7.395-16.517-16.516-16.517z" fill="#e5646e"/><path d="m16.516 355.097v-264.258c-9.121 0-16.516 7.394-16.516 16.516v297.29c0 9.122 7.395 16.516 16.516 16.516h478.968c9.121 0 16.516-7.395 16.516-16.516h-445.935c-27.365 0-49.549-22.183-49.549-49.548z" fill="#db4655"/><path d="m352.726 229.999h-70.292l-21.722-66.851c-1.483-4.565-7.942-4.565-9.424 0l-21.722 66.851h-70.292c-4.8 0-6.795 6.142-2.912 8.964l56.867 41.317-21.721 66.852c-1.483 4.565 3.741 8.361 7.624 5.539l56.868-41.317 56.867 41.317c3.883 2.822 9.108-.975 7.625-5.539l-21.721-66.852 56.867-41.317c3.883-2.821 1.888-8.964-2.912-8.964z" fill="#ffe07d"/></g></svg>
+</Tooltip>  
 </div>}
                                             {editorStore.fontId === font.id ? (
                                                 <span
@@ -349,7 +313,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                         bottom: '0',
                                                     }}
                                                 >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 288.941 288.941" xmlSpace="preserve">
+                                                    <svg fill="#2c8dd6" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 288.941 288.941" xmlSpace="preserve">
 <g>
 	<path id="Check" d="M285.377,46.368c-4.74-4.704-12.439-4.704-17.179,0L96.309,217.114L20.734,142.61   c-4.74-4.704-12.439-4.704-17.179,0s-4.74,12.319,0,17.011l84.2,82.997c4.692,4.644,12.499,4.644,17.191,0l180.43-179.239   C290.129,58.687,290.129,51.06,285.377,46.368C280.637,41.664,290.129,51.06,285.377,46.368z"/>
 	<g>
