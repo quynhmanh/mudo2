@@ -36,7 +36,6 @@ export interface IProps {
     typeObjectSelected: any;
     handleFontColorChange: any;
     selectFont: any;
-    subtype: any;
     mounted: boolean;
     setSelectionColor: any;
     imgOnMouseDown: any;
@@ -171,13 +170,6 @@ class LeftSide extends Component<IProps, IState> {
         super(props);
     }
 
-    componentDidMount() {
-        this.forceUpdate();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-    }
-
     handleMakeAsPopular = () => {
         const url = `/api/Template/MakeAsPopulate?id=${this.props.id}`;
         axios.post(url, {
@@ -307,28 +299,10 @@ class LeftSide extends Component<IProps, IState> {
         this.forceUpdate();
     };
 
-
-    handleQuery = e => {
-        if (e.key === "Enter") {
-            this.setState({ items: [], items2: [] }, () => {
-                this.loadMore(true);
-            });
-        }
-    };
-
     imgDragging = null;
 
     handleEditFont = item => {
         this.props.handleEditFont(item);
-    };
-
-    textOnMouseDown = (id, e) => {
-        var doc = this.state.groupedTexts.find(doc => doc.id == id);
-        if (!doc) {
-            doc = this.state.groupedTexts2.find(doc => doc.id == id);
-        }
-
-        this.props.textOnMouseDown(e, doc);
     };
 
     handleDeleteTemplate = () => {
@@ -344,54 +318,6 @@ class LeftSide extends Component<IProps, IState> {
     handleSidebarSelectorClicked = (tab, e) => {
         editorStore.selectedTab = tab;
     };
-
-    addText = (text, fontSize, fontFace, fontRepresentative, width, height) => {
-        var item = {
-            _id: uuidv4(),
-            type: TemplateType.Heading,
-            align: "alignLeft",
-            width: width,
-            origin_width: width,
-            height: height * 1,
-            origin_height: height,
-            left: 0,
-            top: 0,
-            rotateAngle: 0.0,
-            innerHTML: `<div class="font" style="font-size: ${fontSize}px;">${text}</div>`,
-            scaleX: 1,
-            scaleY: 1,
-            ref: editorStore.idObjectSelected,
-            page: editorStore.activePageId,
-            zIndex: editorStore.upperZIndex + 1,
-            color: "black",
-            fontSize: fontSize,
-            fontRepresentative: fontRepresentative,
-            hovered: true,
-            selected: true,
-            fontFace: fontFace,
-            effectId: 8,
-            lineHeight: 1.4,
-            letterSpacing: 30,
-            opacity: 100,
-        };
-
-        editorStore.addItem2(item, true);
-        this.props.handleImageSelected(item._id, editorStore.activePageId, null, true);
-
-        let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-        editorStore.keys[index] = editorStore.keys[index] + 1;
-
-        setTimeout(() => {
-            let el = document.getElementById(item._id + "hihi4alo");
-            let range = document.createRange();
-            range.selectNodeContents(el)
-            var sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }, 100);
-
-        editorStore.increaseUpperzIndex();
-    }
 
     render() {
         let image = editorStore.images2.get(editorStore.idObjectSelected) || {};
@@ -573,7 +499,7 @@ class LeftSide extends Component<IProps, IState> {
                             scale={this.props.scale}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
-                            subtype={this.props.subtype}
+                            subtype={editorStore.subtype}
                             rectWidth={this.props.rectWidth}
                             rectHeight={this.props.rectHeight}
                             forceEditorUpdate={this.props.forceEditorUpdate}

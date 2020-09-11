@@ -277,7 +277,8 @@ export default class SidebarFont extends Component<IProps, IState> {
                                             {font.vietnameseSupport && 
                                             <div
                                                 style={{
-                                                    marginLeft: '50px',
+                                                    position: "absolute",
+                                                    right: '40px',
                                                 }}
                                             >
                                             <Tooltip

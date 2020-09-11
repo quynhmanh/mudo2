@@ -3,17 +3,12 @@ import uuidv4 from "uuid/v4";
 import "@Styles/editor.scss";
 import { Helmet } from "react-helmet";
 import { withTranslation } from "react-i18next";
-import { SubType, SidebarTab, Mode, TemplateType, SavingState, CanvasType, } from "@Components/editor/enums";
+import { SidebarTab, Mode, TemplateType, SavingState, CanvasType, } from "@Components/editor/enums";
 import loadable from "@loadable/component";
 import {
     catchError,
-  } from 'rxjs/operators';
+} from 'rxjs/operators';
 
-const PosterReview = loadable(() => import("@Components/editor/PosterReview"));
-const TrifoldReview = loadable(() =>import("@Components/editor/TrifoldReview"));
-const FlyerReview = loadable(() => import("@Components/editor/FlyerReview"));
-const BusinessCardReview = loadable(() => import("@Components/editor/BusinessCardReview"));
-const CanvasReview = loadable(() => import("@Components/editor/CanvasReview"));
 const Canvas = loadable(() => import("@Components/editor/Canvas"));
 const PreviewCanvas = loadable(() => import("@Components/editor/PreviewCanvas"));
 
@@ -21,22 +16,21 @@ const MediaEditPopup = loadable(() => import("@Components/editor/MediaEditor"));
 const TemplateEditor = loadable(() => import("@Components/editor/TemplateEditor"));
 const FontEditPopup = loadable(() => import("@Components/editor/FontEditor"));
 const Popup = loadable(() => import("@Components/shared/Popup"));
-const Tooltip = loadable(() => import("@Components/shared/Tooltip"));
-const Toolbar =  loadable(() => import("@Components/editor/toolbar/Toolbar"));
+const Toolbar = loadable(() => import("@Components/editor/toolbar/Toolbar"));
 const LeftSide = loadable(() => import("@Components/editor/LeftSide"));
 const Narbar = loadable(() => import("@Components/editor/Navbar"));
 const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
 
 import {
     isNode,
-}  from "@Utils";
+} from "@Utils";
 
 import {
     Observable
 } from "rxjs";
 
-let rotateRect, 
-    rotatePoint, 
+let rotateRect,
+    rotatePoint,
     getCursorStyleWithRotateAngle,
     getCursorStyleForResizer,
     centerToTL,
@@ -44,7 +38,7 @@ let rotateRect,
     getNewStyle,
     degToRadian,
     updatePosition,
-    getLength, 
+    getLength,
     getAngle,
     transformImage,
     fromEvent,
@@ -61,7 +55,7 @@ let rotateRect,
     hideGuide,
     first;
 
-let editorStore : any = {};
+let editorStore: any = {};
 let axios;
 let Globals;
 let toJS;
@@ -73,8 +67,8 @@ if (!isNode()) {
     Globals = require("@Globals").default;
     editorStore = require("@Store/EditorStore").default;
     editorTranslation = require("@Locales/default/editor").default;
-    ({clone} = require("lodash"));
-    ({toJS} = require("mobx"));
+    ({ clone } = require("lodash"));
+    ({ toJS } = require("mobx"));
 
     ({
         rotateRect,
@@ -198,7 +192,6 @@ interface IState {
     italic: boolean;
     bold: boolean;
     align: any;
-    subtype: SubType;
     idObjectSelected: string;
     scale: number;
     fitScale: number;
@@ -273,7 +266,6 @@ class CanvaEditor extends Component<IProps, IState> {
             selectedImage: null,
             showFontEditPopup: false,
             currentPrintStep: 1,
-            subtype: null,
             bleed: false,
             showMediaEditPopup: false,
             childId: null,
@@ -377,7 +369,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     playVideos = () => {
-        this.setState({showPopupPreview: true});
+        this.setState({ showPopupPreview: true });
         this.forceUpdate();
     }
 
@@ -388,7 +380,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleItalicBtnClick = (e: any) => {
         e.preventDefault();
-        
+
         let italic;
         let image = this.getImageSelected();
         if (editorStore.childId) {
@@ -417,16 +409,19 @@ class CanvaEditor extends Component<IProps, IState> {
         if (!this.props.tReady && nextProps.tReady) {
             editorStore.tReady = true;
         }
+        if (this.props.tReady != nextProps.tReady) {
+            return true;
+        }
         return false;
     }
-    
+
     getImageSelected() {
         return editorStore.images2.get(editorStore.idObjectSelected);
     }
 
     handleBoldBtnClick = (e: any) => {
         e.preventDefault();
-        
+
         let bold;
         let image = this.getImageSelected();
         if (editorStore.childId) {
@@ -458,7 +453,6 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (id: string) => {
-        console.log('handleCropbtnCLick');
         let image = editorStore.images2.get(editorStore.idObjectSelected);
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
@@ -488,7 +482,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
                 image.paused = true;
                 editorStore.images2.set(image._id, image);
-            } 
+            }
         }, 100);
     }
 
@@ -524,7 +518,7 @@ class CanvaEditor extends Component<IProps, IState> {
     handleFontSizeBtnClick = (e: any, fontSize: number) => {
 
         let image = this.getImageSelected();
-        
+
         if (editorStore.childId) {
             let text = image.document_object.find(text => text._id == editorStore.childId);
             fontSize = fontSize / image.scaleY / text.scaleY;
@@ -568,7 +562,7 @@ class CanvaEditor extends Component<IProps, IState> {
             let hihi4 = document.getElementById(image._id + "hihi4alo");
             if (hihi4) {
                 image.innerHTML = hihi4.innerHTML;
-            } 
+            }
         } else {
             let el = document.getElementById(editorStore.idObjectSelected + editorStore.childId + "alo");
             if (el) {
@@ -583,14 +577,14 @@ class CanvaEditor extends Component<IProps, IState> {
                     return text;
                 });
                 image.document_object = texts;
-            } 
-        }  
+            }
+        }
 
         editorStore.images2.set(editorStore.idObjectSelected, image);
         this.updateImages2(image, true);
-            
+
         this.setState({ fontSize: fontSize });
-        
+
 
         editorStore.currentFontSize = fontSize;
 
@@ -621,7 +615,7 @@ class CanvaEditor extends Component<IProps, IState> {
             default:
                 return;
         }
-        
+
         let image = this.getImageSelected();
         if (!editorStore.childId) {
             image.align = align;
@@ -636,7 +630,7 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.set(editorStore.idObjectSelected, image);
 
         this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-        this.setState({align: type});
+        this.setState({ align: type });
     }
 
     handleOkBtnClick = (e: any) => {
@@ -654,7 +648,7 @@ class CanvaEditor extends Component<IProps, IState> {
     handleCancelBtnClick = (e: any) => {
         this.rerenderAllPages();
         e.preventDefault();
-        
+
         editorStore.imageSelected = window.tempImage;
         editorStore.images2.set(window.tempImage._id, window.tempImage);
 
@@ -678,7 +672,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         window.opacity = opacity;
     };
-    
+
     handleOpacityChangeEnd = () => {
         let opacity = window.opacity;
         let image = this.getImageSelected();
@@ -732,25 +726,14 @@ class CanvaEditor extends Component<IProps, IState> {
     pauser = null;
     pauserTransparentPopup = null;
 
-    componentWillUnmount() {
-        window.removeEventListener('beforeunload', this.handleLeavePage.bind(this));
-    }
-
     forceEditorUpdate = () => {
         this.forceUpdate();
-    }
-
-    async handleLeavePage(e) {
-        // await this.saveImages(null, false);
-        // const confirmationMessage = 'Some message';
-        // e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
-        // return confirmationMessage;              // Gecko, WebKit, Chrome <34
     }
 
     async setRef() {
         let screenContainerParent = document.getElementById("screen-container-parent");
         // if (!screenContainerParent) return;
-        window.addEventListener('beforeunload', this.handleLeavePage.bind(this));
+        // window.addEventListener('beforeunload', this.handleLeavePage.bind(this));
         // Creating a pauser subject to subscribe to
         let screenContainerParentRect = screenContainerParent.getBoundingClientRect();
         let doNoObjectSelected$ = fromEvent(screenContainerParent, "mouseup");
@@ -766,7 +749,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         pausable.subscribe(e => {
             if ((e.target.id == "screen-container-parent" || e.target.id == "screen-container")
-            && editorStore.idObjectSelected) {
+                && editorStore.idObjectSelected) {
                 this.doNoObjectSelected();
             }
         });
@@ -864,7 +847,6 @@ class CanvaEditor extends Component<IProps, IState> {
             scale: fitScale,
             fitScale
         });
-        let subtype;
         let template_id = this.props.match.params.template_id;
         let design_id = this.props.match.params.design_id;
 
@@ -891,7 +873,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     if (this.props.match.path == "/editor/design/:template_id") {
                         mode = Mode.EditDesign;
 
-                        self.setState({designId: uuidv4()});
+                        self.setState({ designId: uuidv4() });
 
                         if (templateType == TemplateType.TextTemplate) {
                             mode = Mode.EditTextTemplate;
@@ -899,7 +881,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     } else if (this.props.match.path == "/editor/design/:design_id/:template_id") {
                         mode = Mode.CreateDesign;
 
-                        self.setState({designId: this.props.match.params.design_id});
+                        self.setState({ designId: this.props.match.params.design_id });
                     } else if (templateType == TemplateType.Template) {
                         mode = Mode.EditTemplate;
                     } else if (templateType == TemplateType.TextTemplate) {
@@ -955,8 +937,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     })
 
                     editorStore.fonts.replace(image.value.fontList);
-
-                    subtype = res.data.value.printType;
+                    editorStore.subtype = res.data.value.printType;
                     let scale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
                     self.setState({
                         scale,
@@ -967,7 +948,6 @@ class CanvaEditor extends Component<IProps, IState> {
                         rectHeight: document.height,
                         templateType,
                         mode,
-                        subtype: res.data.value.printType,
                         designTitle: image.value.title,
                     });
 
@@ -991,43 +971,66 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (this.props.match.params.subtype) {
-            subtype = this.props.match.params.subtype;
+            editorStore.subtype = this.props.match.params.subtype;
             let rectWidth;
             let rectHeight;
-            if (subtype == 0) {
-                rectWidth = 642;
-                rectHeight = 378;
-            } else if (subtype == 1) {
-                rectWidth = 1587.402;
-                rectHeight = 2245.04;
-            } else if (subtype == 2) {
-                rectWidth = 2245.04;
-                rectHeight = 1587.402;
-            } else if (subtype == 3) {
-                // Poster
-                rectWidth = 3174.8;
-                rectHeight = 4490.08;
-            } else if (subtype == 4) {
-                rectWidth = 500;
-                rectHeight = 500;
-            } else if (subtype == 5) {
-                rectWidth = 794;
-                rectHeight = 1134;
-            } else if (subtype == 6) {
-                rectWidth = 1024;
-                rectHeight = 1024;
-            } else if (subtype == 7) {
-                rectWidth = 1920;
-                rectHeight = 1080;
-            } else if (subtype == 8) {
-                rectWidth = 940;
-                rectHeight = 788;
-            } else if (subtype == 9) {
-                rectWidth = 1080;
-                rectHeight = 1080;
-            } else if (subtype == 10) {
-                rectWidth = 2550;
-                rectHeight = 3300;
+
+            switch (editorStore.subtype) {
+                case 0: {
+                    rectWidth = 642;
+                    rectHeight = 378;
+                    break;
+                }
+                case 1: {
+                    rectWidth = 1587.402;
+                    rectHeight = 2245.04;
+                    break;
+                }
+                case 2: {
+                    rectWidth = 2245.04;
+                    rectHeight = 1587.402;
+                    break;
+                }
+                case 3: {
+                    rectWidth = 3174.8;
+                    rectHeight = 4490.08;
+                    break;
+                }
+                case 4: {
+                    rectWidth = 500;
+                    rectHeight = 500;
+                    break;
+                }
+                case 5: {
+                    rectWidth = 794;
+                    rectHeight = 1134;
+                    break;
+                }
+                case 6: {
+                    rectWidth = 1024;
+                    rectHeight = 1024;
+                    break;
+                }
+                case 7: {
+                    rectWidth = 1920;
+                    rectHeight = 1080;
+                    break;
+                }
+                case 8: {
+                    rectWidth = 940;
+                    rectHeight = 788;
+                    break;
+                }
+                case 9: {
+                    rectWidth = 1080;
+                    rectHeight = 1080;
+                    break;
+                }
+                case 10: {
+                    rectWidth = 2550;
+                    rectHeight = 3300;
+                    break;
+                }
             }
 
             scaleX = (width - 100) / rectWidth;
@@ -1061,8 +1064,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     selected: false,
                     scaleX: 1,
                     scaleY: 1,
-                    posX: 0, 
-                    posY: 0, 
+                    posX: 0,
+                    posY: 0,
                     imgWidth: rectWidth,
                     imgHeight: rectWidth,
                     page: editorStore.activePageId,
@@ -1078,12 +1081,11 @@ class CanvaEditor extends Component<IProps, IState> {
                     childId: null
                 }, false
             );
-    
+
             self.setState({
                 staticGuides,
                 rectWidth,
                 rectHeight,
-                subtype,
                 scale: fitScale,
                 fitScale,
             });
@@ -1091,8 +1093,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
         document.addEventListener("keydown", this.removeImage.bind(this));
         this.$app.addEventListener("scroll", this.handleScroll.bind(this), { passive: true });
-        document.addEventListener("wheel", this.handleWheel.bind(this), {passive: false});
-   
+        document.addEventListener("wheel", this.handleWheel.bind(this), { passive: false });
+
     }
 
     async componentDidMount() {
@@ -1107,46 +1109,46 @@ class CanvaEditor extends Component<IProps, IState> {
 
             // Class for the selection-area-element
             class: 'selection-area',
-        
+
             // document object - if you want to use it within an embed document (or iframe)
             frame: document,
-        
+
             // px, how many pixels the point should move before starting the selection (combined distance).
             // Or specifiy the threshold for each axis by passing an object like {x: <number>, y: <number>}.
             startThreshold: 10,
-        
+
             // Disable the selection functionality for touch devices
             disableTouch: false,
-        
+
             // On which point an element should be selected.
             // Available modes are cover (cover the entire element), center (touch the center) or
             // the default mode is touch (just touching it).
             mode: 'touch',
-        
+
             // Behaviour on single-click
             // Available modes are 'native' (element was mouse-event target) or 
             // 'touch' (element got touched)
             tapMode: 'native',
-        
+
             // Enable single-click selection (Also disables range-selection via shift + ctrl)
             singleClick: true,
-        
+
             // Query selectors from elements which can be selected
             selectables: ['.hideWhenDownload'],
-        
+
             // Query selectors for elements from where a selection can be start
             startareas: ['html'],
-        
+
             // Query selectors for elements which will be used as boundaries for the selection
             boundaries: ['#screen-container-parent'],
-        
+
             // Query selector or dom node to set up container for selection-area-element
             selectionAreaContainer: 'body',
-        
+
             // On scrollable areas the number on px per frame is devided by this amount.
             // Default is 10 to provide a enjoyable scroll experience.
             scrollSpeedDivider: 10,
-        
+
             // Browsers handle mouse-wheel events differently, this number will be used as 
             // numerator to calculate the mount of px while scrolling manually: manualScrollSpeed / scrollSpeedDivider
             manualScrollSpeed: 750
@@ -1282,8 +1284,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 rotateAngle: 0.0,
                 scaleX: 1,
                 scaleY: 1,
-                posX: 0, 
-                posY: 0, 
+                posX: 0,
+                posY: 0,
                 imgWidth: width / scale,
                 imgHeight: height / scale,
                 page: editorStore.activePageId,
@@ -1316,7 +1318,7 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         el = document.getElementById(editorStore.childId + "text-container2alo");
-        if( el) {
+        if (el) {
             el.style.fontFamily = id;
         }
 
@@ -1339,7 +1341,7 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.set(editorStore.idObjectSelected, image);
         this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
 
-        this.setState({ 
+        this.setState({
             fontName: font.representative,
             fontId: font.id,
         });
@@ -1469,7 +1471,7 @@ class CanvaEditor extends Component<IProps, IState> {
         ell.style.cursor = cursorStyle;
 
         let images = [];
-        Array.from(editorStore.images2.values()).forEach((image:any) => {
+        Array.from(editorStore.images2.values()).forEach((image: any) => {
             if (image.page === window.image.page && image._id != editorStore.idObjectSelected) {
                 if (window.image.type != TemplateType.GroupedItem) {
                     let clonedImage = transformImage(clone(image));
@@ -1486,14 +1488,14 @@ class CanvaEditor extends Component<IProps, IState> {
         let image = editorStore.images2.get(editorStore.idObjectSelected);
 
         let ratio = null;
-        if (type == "t" && 
+        if (type == "t" &&
             image.type != TemplateType.Image &&
             image.type != TemplateType.Video
         ) {
             ratio = image.width / image.height;
         }
-        if (type == "b" && 
-            image.type != TemplateType.Image && 
+        if (type == "b" &&
+            image.type != TemplateType.Image &&
             image.type != TemplateType.Video
         ) {
             ratio = image.width / image.height;
@@ -1660,9 +1662,9 @@ class CanvaEditor extends Component<IProps, IState> {
         objectType,
         ratio,
     ) => {
-        const { 
-            scale, 
-            cropMode, 
+        const {
+            scale,
+            cropMode,
             childId,
         } = this.state;
         let { top, left, width, height } = style;
@@ -1672,7 +1674,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let deltaTop = top - image.top;
         let deltaWidth = image.width - width;
         let deltaHeight = image.height - height;
-        let {imgWidth, imgHeight, posX, posY} = image;
+        let { imgWidth, imgHeight, posX, posY } = image;
         if (ratio) {
             imgWidth -= image.imgWidth / image.width * deltaWidth;
             imgHeight -= image.imgHeight / image.height * deltaHeight;
@@ -1704,7 +1706,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 );
 
                 let style = centerToTL({ centerX, centerY, width: width2, height: height2, rotateAngle: 0, });
-                    
+
                 top = style.top;
                 left = style.left;
             }
@@ -1718,7 +1720,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 t6 = true;
                 height = image.imgHeight + image.posY;
                 deltaHeight = image.height - height;
-                
+
                 const mark = type == "bl" ? 1 : -1;
 
                 let {
@@ -1735,7 +1737,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 );
 
                 let style = centerToTL({ centerX, centerY, width: width2, height: height2, rotateAngle: 0, });
-                    
+
                 top = style.top;
                 left = style.left;
             }
@@ -1763,7 +1765,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 );
 
                 let style = centerToTL({ centerX, centerY, width: width2, height: height2, rotateAngle: 0, });
-                    
+
                 top = style.top;
                 left = style.left;
             }
@@ -1791,7 +1793,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 );
 
                 let style = centerToTL({ centerX, centerY, width: width2, height: height2, rotateAngle: 0, });
-                    
+
                 top = style.top;
                 left = style.left;
 
@@ -1799,7 +1801,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             if (t5 && t8 && type == "tl") {
                 window.resizingInnerImage = true;
-                
+
                 let element = document.getElementById(_id + "tl_");
                 if (element) {
                     let bcr = element.getBoundingClientRect();
@@ -1852,7 +1854,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 let right2 = Math.max(transformed.x[2], imageTransformed.x[2]);
 
                 if (
-                    (type == "tl" || type == "bl" || type == "l") && 
+                    (type == "tl" || type == "bl" || type == "l") &&
                     Math.abs(left - imageTransformed.x[0]) < RESIZE_OFFSET
                 ) {
                     left = imageTransformed.x[0];
@@ -1870,9 +1872,9 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
 
                     updateXGuide(top2, bot2, guides[0], scale);
-                } 
+                }
                 else if (
-                    (type == "br" || type == "tr" || type == "r") && 
+                    (type == "br" || type == "tr" || type == "r") &&
                     Math.abs(left + width - imageTransformed.x[0]) < RESIZE_OFFSET
                 ) {
                     width = imageTransformed.x[0] - image.left;
@@ -1893,14 +1895,14 @@ class CanvaEditor extends Component<IProps, IState> {
                 }
 
                 if (
-                    (type == "tl" || type == "bl" || type == "l") && 
+                    (type == "tl" || type == "bl" || type == "l") &&
                     Math.abs(left - imageTransformed.x[1]) < RESIZE_OFFSET
                 ) {
                     left = imageTransformed.x[1];
                     let deltaLeft = image.left - imageTransformed.x[1];
                     width = image.width + deltaLeft;
                     deltaWidth = image.width - width;
-                    
+
                     if (type != "l")
                         imgWidth = image.imgWidth + deltaLeft / (image.width / image.imgWidth);
 
@@ -1909,10 +1911,10 @@ class CanvaEditor extends Component<IProps, IState> {
                         if (type == "tl") top = image.top - deltaLeft / ratio;
                         imgHeight = imgWidth / (image.imgWidth / image.imgHeight);
                     }
-                    
+
                     updateXGuide(top2, bot2, guides[1], scale);
                 } else if (
-                    (type == "br" || type == "tr" || type == "r") && 
+                    (type == "br" || type == "tr" || type == "r") &&
                     Math.abs(left + width - imageTransformed.x[1]) < RESIZE_OFFSET
                 ) {
                     width = imageTransformed.x[1] - image.left;
@@ -1926,7 +1928,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         imgHeight = imgWidth / (image.imgWidth / image.imgHeight);
                         if (type == "tr") top = image.top + deltaWidth / ratio;
                     }
-                    
+
                     updateXGuide(top2, bot2, guides[1], scale);
                 } else if (guides[1]) {
                     hideGuide(guides[1]);
@@ -1940,7 +1942,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     let deltaLeft = image.left - imageTransformed.x[2];
                     width = image.width + deltaLeft;
                     deltaWidth = image.width - width;
-                    
+
                     if (type != "l")
                         imgWidth = image.imgWidth + deltaLeft / (image.width / image.imgWidth);
 
@@ -1949,7 +1951,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         if (type == "tl") top = image.top - deltaLeft / ratio;
                         imgHeight = imgWidth / (image.imgWidth / image.imgHeight);
                     }
-                    
+
                     updateXGuide(top2, bot2, guides[2], scale);
                 } else if (
                     (type == "tr" || type == "br" || type == "r") &&
@@ -1966,7 +1968,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         imgHeight = imgWidth / (image.imgWidth / image.imgHeight);
                         if (type == "tr") top = image.top + deltaWidth / ratio;
                     }
-                    
+
                     updateXGuide(top2, bot2, guides[2], scale);
                 } else if (guides[2]) {
                     hideGuide(guides[2]);
@@ -1989,7 +1991,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         if (type == "tl") left = image.left - deltaTop * ratio;
                         imgWidth = imgHeight / (image.imgHeight / image.imgWidth);
                     }
-                    
+
                     updateYGuide(left2, right2, guides[3], scale);
                 } else if (
                     (type == "bl" || type == "br" || type == "b") &&
@@ -2029,12 +2031,12 @@ class CanvaEditor extends Component<IProps, IState> {
                         if (type == "tl") left = image.left - deltaTop * ratio;
                         imgWidth = imgHeight / (image.imgHeight / image.imgWidth);
                     }
-                    
+
                     updateYGuide(left2, right2, guides[4], scale);
                 } else if (
                     (type == "bl" || type == "br" || type == "b") &&
                     Math.abs(top + height - imageTransformed.y[1]) < RESIZE_OFFSET
-                ) { 
+                ) {
                     height = imageTransformed.y[1] - image.top;
                     deltaHeight = image.height - height;
 
@@ -2069,12 +2071,12 @@ class CanvaEditor extends Component<IProps, IState> {
                         if (type == "tl") left = image.left - deltaTop * ratio;
                         imgWidth = imgHeight / (image.imgHeight / image.imgWidth);
                     }
-                    
+
                     updateYGuide(left2, right2, guides[5], scale);
                 } else if (
                     (type == "bl" || type == "br" || type == "b") &&
                     Math.abs(top + height - imageTransformed.y[2]) < RESIZE_OFFSET
-                ) {  
+                ) {
                     height = imageTransformed.y[2] - image.top;
                     deltaHeight = image.height - height;
 
@@ -2121,7 +2123,7 @@ class CanvaEditor extends Component<IProps, IState> {
             } else if (type == "t") {
                 posY = image.posY - deltaHeight;
                 if (posY > 0) {
-                    imgHeight = image.imgHeight  + posY;
+                    imgHeight = image.imgHeight + posY;
                     imgWidth = imgHeight * ratio;
                     let scaleWidth = imgWidth / image.imgWidth;
                     let newWidth = image.width * scaleWidth;
@@ -2213,7 +2215,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 } = getNewStyle(
                     cursor == "e" ? "br" : "bl",
                     { ...window.rect, rotateAngle: image.rotateAngle },
-                    (cursor == "e" ? -1 : 1 ) * deltaWidth,
+                    (cursor == "e" ? -1 : 1) * deltaWidth,
                     -deltaHeight,
                     null,
                     10,
@@ -2228,7 +2230,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             } else if (objectType == TemplateType.TextTemplate) {
                 let maxHeight = 0;
-                
+
                 image.document_object.map(text => {
                     let textContainer2 = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
                     let textEl = textContainer2.getElementsByClassName("text")[0] as HTMLElement;
@@ -2271,8 +2273,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     for (let i = 0; i < els.length; ++i) {
                         let el = els[i] as HTMLElement;
                         el.style.height = `calc(${text.height2 * 100}% + 2px)`
-                        el.style.left = `calc(${text.left/width * image.scaleX *100}% - 1px)`;
-                        el.style.top = `calc(${text.top/(text.height / text.height2)*100}% - 1px)`;
+                        el.style.left = `calc(${text.left / width * image.scaleX * 100}% - 1px)`;
+                        el.style.top = `calc(${text.top / (text.height / text.height2) * 100}% - 1px)`;
                     }
 
                     let childEl = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
@@ -2294,7 +2296,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 } = getNewStyle(
                     cursor == "e" ? "br" : "bl",
                     { ...window.rect, rotateAngle: image.rotateAngle },
-                    (cursor == "e" ? -1 : 1 ) * deltaWidth,
+                    (cursor == "e" ? -1 : 1) * deltaWidth,
                     -deltaHeight,
                     null,
                     10,
@@ -2317,8 +2319,8 @@ class CanvaEditor extends Component<IProps, IState> {
             tempEl.style.width = width * scale + "px";
             tempEl.style.height = height * scale + "px";
             tempEl.style.transform = `translate(${left * scale}px, ${top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
-        } 
-        
+        }
+
         let b = document.getElementsByClassName(_id + "1236");
         for (let i = 0; i < b.length; ++i) {
             let tempEl = b[i] as HTMLElement;
@@ -2344,7 +2346,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 let centerY = image2.top + image2.height / 2;
                 let rotateAngle = image2.rotateAngle / 180 * Math.PI;
 
-                let p = 
+                let p =
                 {
                     x: (image2.left - centerX) * Math.cos(rotateAngle) - (image2.top - centerY) * Math.sin(rotateAngle) + centerX,
                     y: (image2.left - centerX) * Math.sin(rotateAngle) + (image2.top - centerY) * Math.cos(rotateAngle) + centerY,
@@ -2357,7 +2359,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 let left1 = left + ratioWidth * width;
                 let top1 = top + ratioHeight * height;
 
-                p = 
+                p =
                 {
                     x: (image2.left + image2.width - centerX) * Math.cos(rotateAngle) - (image2.top - centerY) * Math.sin(rotateAngle) + centerX,
                     y: (image2.left + image2.width - centerX) * Math.sin(rotateAngle) + (image2.top - centerY) * Math.cos(rotateAngle) + centerY,
@@ -2370,7 +2372,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 let left2 = left + ratioWidth * width;
                 let top2 = top + ratioHeight * height;
 
-                p = 
+                p =
                 {
                     x: (image2.left + image2.width - centerX) * Math.cos(rotateAngle) - (image2.top + image2.height - centerY) * Math.sin(rotateAngle) + centerX,
                     y: (image2.left + image2.width - centerX) * Math.sin(rotateAngle) + (image2.top + image2.height - centerY) * Math.cos(rotateAngle) + centerY,
@@ -2383,10 +2385,10 @@ class CanvaEditor extends Component<IProps, IState> {
                 let left3 = left + ratioWidth * width;
                 let top3 = top + ratioHeight * height;
 
-                p = 
+                p =
                 {
                     x: (image2.left - centerX) * Math.cos(rotateAngle) - (image2.top + image2.height - centerY) * Math.sin(rotateAngle) + centerX,
-                    y: (image2.left - centerX) * Math.sin(rotateAngle) + (image2.top + image2.height- centerY) * Math.cos(rotateAngle) + centerY,
+                    y: (image2.left - centerX) * Math.sin(rotateAngle) + (image2.top + image2.height - centerY) * Math.cos(rotateAngle) + centerY,
                 }
 
                 deltaLeft = p.x - image.left;
@@ -2635,7 +2637,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             size: { width, height }
                         } = getNewStyle(
                             type,
-                            { ...window.rect2},
+                            { ...window.rect2 },
                             deltaW,
                             deltaH,
                             ratio,
@@ -2959,7 +2961,7 @@ class CanvaEditor extends Component<IProps, IState> {
         ell.style.zIndex = "2";
 
         window.selectionsAngle = {};
-       
+
         location$.pipe(
             first(),
             // catchError(_ => 'no more rotation!!!')
@@ -2984,7 +2986,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     const angle = getAngle(startVector, rotateVector);
 
                     let rotateAngle = Math.round(image.rotateAngle + angle) % 360;
-                    window.rotateAngle = Math.round(image.rotateAngle + angle)  % 360;
+                    window.rotateAngle = Math.round(image.rotateAngle + angle) % 360;
 
                     let centerX = image.left + image.width / 2;
                     let centerY = image.top + image.height / 2;
@@ -3007,7 +3009,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             let aa = document.getElementsByClassName(image2._id + "aaaaalo");
                             for (let i = 0; i < aa.length; ++i) {
                                 let cur = aa[i] as HTMLElement;
-                                cur.style.transform = `translate(${newLeft * scale}px, ${newTop* scale}px) rotate(${newAngle}deg)`;
+                                cur.style.transform = `translate(${newLeft * scale}px, ${newTop * scale}px) rotate(${newAngle}deg)`;
                             }
 
                             window.selectionsAngle[image2._id] = {
@@ -3129,7 +3131,7 @@ class CanvaEditor extends Component<IProps, IState> {
         const location$ = this.handleDragRx(e.target);
 
         let images = [];
-        Array.from(editorStore.images2.values()).forEach((image:any) => {
+        Array.from(editorStore.images2.values()).forEach((image: any) => {
             if (image.page === window.image.page) {
 
                 if (window.image.type != TemplateType.GroupedItem) {
@@ -3413,10 +3415,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs((left1 + right1)/2 - imageTransformed.x[0]) < RESIZE_OFFSET
+                    Math.abs((left1 + right1) / 2 - imageTransformed.x[0]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= (left1 + right1)/2 - imageTransformed.x[0];
+                        left -= (left1 + right1) / 2 - imageTransformed.x[0];
                     }
                     if (el0) {
                         let top2 = Math.min(top1, imageTransformed.y[0]);
@@ -3462,10 +3464,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs((left1 + right1)/2 - imageTransformed.x[1]) < RESIZE_OFFSET
+                    Math.abs((left1 + right1) / 2 - imageTransformed.x[1]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= (left1 + right1)/2 - imageTransformed.x[1];
+                        left -= (left1 + right1) / 2 - imageTransformed.x[1];
                     }
                     if (el1) {
                         let top2 = Math.min(top1, imageTransformed.y[0]);
@@ -3510,10 +3512,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     updateStartPosX = true;
                 } else if (
-                    Math.abs((left1 + right1)/2 - imageTransformed.x[2]) < RESIZE_OFFSET
+                    Math.abs((left1 + right1) / 2 - imageTransformed.x[2]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosX) {
-                        left -= (left1 + right1)/2 - imageTransformed.x[2];
+                        left -= (left1 + right1) / 2 - imageTransformed.x[2];
                     }
                     if (el2) {
                         let top2 = Math.min(top1, imageTransformed.y[0]);
@@ -3558,10 +3560,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs((top1 + bottom1)/2 - imageTransformed.y[0]) < RESIZE_OFFSET
+                    Math.abs((top1 + bottom1) / 2 - imageTransformed.y[0]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
-                        top -= (top1 + bottom1)/2 - imageTransformed.y[0];
+                        top -= (top1 + bottom1) / 2 - imageTransformed.y[0];
                     }
                     if (el3) {
                         let left2 = Math.min(left1, imageTransformed.x[0]);
@@ -3606,7 +3608,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs((top1 + bottom1)/2 - imageTransformed.y[1]) < RESIZE_OFFSET
+                    Math.abs((top1 + bottom1) / 2 - imageTransformed.y[1]) < RESIZE_OFFSET
                 ) {
                     if (!updateStartPosY) {
                         top -= newTop2 - imageTransformed.y[1];
@@ -3654,10 +3656,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     updateStartPosY = true;
                 } else if (
-                    Math.abs((top1 + bottom1)/2 - imageTransformed.y[2]) < RESIZE_OFFSET
+                    Math.abs((top1 + bottom1) / 2 - imageTransformed.y[2]) < RESIZE_OFFSET
                 ) {
-                    if (!updateStartPosY) { 
-                        top -= (top1 + bottom1)/2 - imageTransformed.y[2];
+                    if (!updateStartPosY) {
+                        top -= (top1 + bottom1) / 2 - imageTransformed.y[2];
                     }
                     if (el5) {
                         let left2 = Math.min(left1, imageTransformed.x[0]);
@@ -3848,7 +3850,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     updateGuide(image) {
-        const {scale} = this.state;
+        const { scale } = this.state;
         const transformedimage = transformImage(image);
 
         let gui0 = this.getGuider(image._id, 0);
@@ -3869,7 +3871,7 @@ class CanvaEditor extends Component<IProps, IState> {
             gui1.style.top = `${transformedimage.y[0] * scale}px`;
             gui1.style.height = `${(transformedimage.y[2] - transformedimage.y[0]) * scale}px`;
         }
-        
+
         if (gui2) {
             gui2.style.left = `${transformedimage.x[2] * scale}px`;
             gui2.style.top = `${transformedimage.y[0] * scale}px`;
@@ -4072,7 +4074,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 editorStore.imageSelected = image;
                 editorStore.images2.set(image._id, image);
 
-                this.setState({fontColor: ""})
+                this.setState({ fontColor: "" })
             } else {
                 // let id = editorStore.idObjectSelected;
                 // let page = editorStore.imageSelected.page;
@@ -4084,15 +4086,15 @@ class CanvaEditor extends Component<IProps, IState> {
                 this.forceUpdate();
             }
         }
-        
-        if (image && image.type == TemplateType.GroupedItem && window.selections && 
+
+        if (image && image.type == TemplateType.GroupedItem && window.selections &&
             ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
                 (e.keyCode === 8 && OSNAME == "Windows"))) {
             window.selections.forEach(sel => {
                 let id = sel.attributes.iden.value;
                 if (id) editorStore.images2.delete(id);
             });
-            
+
             let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
             editorStore.keys[index] = editorStore.keys[index] + 1;
 
@@ -4245,7 +4247,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 });
         });
     };
-    
+
     toggleVideo() {
         this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.toggleVideo();
         this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.toggleVideo();
@@ -4417,7 +4419,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let self = this;
         const { rectWidth, rectHeight } = this.state;
 
-        let images = toJS(Array.from(editorStore.images2.values()).filter((image:any) => image.type != TemplateType.GroupedItem));
+        let images = toJS(Array.from(editorStore.images2.values()).filter((image: any) => image.type != TemplateType.GroupedItem));
         let clonedArray = JSON.parse(JSON.stringify(images))
         let tempImages = clonedArray.map(image => {
             image.width2 = image.width / rectWidth;
@@ -4463,7 +4465,7 @@ class CanvaEditor extends Component<IProps, IState> {
             } else {
                 if (!self.state.designId) {
                     url = "/api/Design/Add";
-                    self.setState({designId: uuidv4()});
+                    self.setState({ designId: uuidv4() });
                 } else {
                     url = "/api/Design/Update";
                 }
@@ -4540,7 +4542,7 @@ class CanvaEditor extends Component<IProps, IState> {
             FilePath: "/templates",
             FirstName: "Untilted",
             Pages: toJS(editorStore.pages),
-            PrintType: self.state.subtype,
+            PrintType: editorStore.subtype,
             Representative: `images/${uuidv4()}.png`,
             Representative2: `images/${_id}_2.jpeg`,
             VideoRepresentative: `videos/${_id}.mp4`,
@@ -4559,11 +4561,11 @@ class CanvaEditor extends Component<IProps, IState> {
                 self.setSavingState(SavingState.ChangesSaved, false);
             })
             .catch(error => {
-        });
+            });
     }
-    
+
     colorPickerShown = () => {
-        this.setState({colorPickerShown: true})
+        this.setState({ colorPickerShown: true })
     }
 
     onTextChange(thisImage, e, childId) {
@@ -4714,7 +4716,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     onClickEffectList = e => {
         e.preventDefault();
-        this.setState({selectedTab: SidebarTab.Effect, toolbarOpened: true});
+        this.setState({ selectedTab: SidebarTab.Effect, toolbarOpened: true });
     }
 
     onClickDropDownFontSizeList = () => {
@@ -4784,7 +4786,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         const onDown = e => {
             if (!document.getElementById("myTransparent").contains(e.target)) {
-            // if (!e.target.matches(".dropbtn-font-size")) {
+                // if (!e.target.matches(".dropbtn-font-size")) {
                 let dropdowns = document.getElementsByClassName(
                     "dropdown-content-font-size"
                 );
@@ -4808,7 +4810,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         const onDown = e => {
             if (!document.getElementById("myPositionList").contains(e.target)) {
-            // if (!e.target.matches(".dropbtn-font-size")) {
+                // if (!e.target.matches(".dropbtn-font-size")) {
                 let dropdowns = document.getElementsByClassName(
                     "dropdown-content-font-size"
                 );
@@ -4963,7 +4965,7 @@ class CanvaEditor extends Component<IProps, IState> {
         image.selected = true;
         image.document_object.forEach(doc => {
             if (doc._id == childId) {
-                doc.selected= true;
+                doc.selected = true;
                 align = doc.align;
                 effectId = doc.effectId;
                 bold = doc.bold;
@@ -4991,10 +4993,10 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.effectId = effectId;
         editorStore.images2.set(editorStore.idObjectSelected, image);
 
-        this.setState({ 
+        this.setState({
             fontColor,
-            childId, 
-            align, 
+            childId,
+            align,
             effectId,
             bold,
             italic,
@@ -5019,7 +5021,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (fontId) {
             let font = toJS(editorStore.fontsList).find(font => font.id === fontId);
             if (font) {
-                this.setState({ 
+                this.setState({
                     fontName: font.representative,
                     fontId: fontId,
                 });
@@ -5036,7 +5038,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         // let el = document.getElementById("screen-container-parent");
         // el.style.backgroundColor = "rgba(14, 19, 24, 0.15)";
-        
+
         // let els = document.getElementsByClassName("alo");
         // for (let i = 0; i < els.length; ++i) {
         //     let el = els[i] as HTMLElement;
@@ -5066,7 +5068,7 @@ class CanvaEditor extends Component<IProps, IState> {
         pages.splice(index, 0, newPageId);
         keys.splice(index, 0, 0);
 
-        const {rectWidth, rectHeight} = this.state;
+        const { rectWidth, rectHeight } = this.state;
 
         let item = {
             _id: uuidv4(),
@@ -5081,8 +5083,8 @@ class CanvaEditor extends Component<IProps, IState> {
             selected: false,
             scaleX: 1,
             scaleY: 1,
-            posX: 0, 
-            posY: 0, 
+            posX: 0,
+            posY: 0,
             imgWidth: rectWidth,
             imgHeight: rectWidth,
             page: newPageId,
@@ -5144,7 +5146,7 @@ class CanvaEditor extends Component<IProps, IState> {
             }
 
             let pageId = pages[i];
-            let images = Array.from(editorStore.images2.values()).filter((img:any) => img.page === pages[i]).map(img => toJS(img));
+            let images = Array.from(editorStore.images2.values()).filter((img: any) => img.page === pages[i]).map(img => toJS(img));
 
             res.push(
                 <Canvas
@@ -5159,7 +5161,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     toggleVideo={this.toggleVideo}
                     uiKey={pages[i] + keys[i]}
                     selected={
-                        editorStore.imageSelected && 
+                        editorStore.imageSelected &&
                         editorStore.imageSelected.page == pages[i] &&
                         editorStore.imageSelected.type == TemplateType.BackgroundImage}
                     id={pages[i]}
@@ -5218,7 +5220,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     toggleVideo={this.toggleVideo}
                     uiKey={pages[i] + keys[i]}
                     selected={
-                        editorStore.imageSelected && 
+                        editorStore.imageSelected &&
                         editorStore.imageSelected.page == pages[i] &&
                         editorStore.imageSelected.type == TemplateType.BackgroundImage}
                     id={pages[i]}
@@ -5231,7 +5233,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     staticGuides={this.state.staticGuides}
                     index={i}
                     addAPage={this.addAPage}
-                    images={Array.from(editorStore.images2.values()).filter((img:any) => img.page === pages[i]).map(img => toJS(img))}
+                    images={Array.from(editorStore.images2.values()).filter((img: any) => img.page === pages[i]).map(img => toJS(img))}
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
                     rectHeight={this.state.rectHeight}
@@ -5411,7 +5413,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     setScale = (scale) => {
-        this.setState({scale});
+        this.setState({ scale });
     }
 
     canvas1 = {};
@@ -5440,14 +5442,14 @@ class CanvaEditor extends Component<IProps, IState> {
                             position: "relative",
                         }}
                     >
-                    <Narbar
-                        playVideos={this.playVideos}
-                        translate={this.translate}
-                        downloadPNG={this.downloadPNG.bind(this)}
-                        downloadPDF={this.downloadPDF.bind(this)}
-                        downloadVideo={this.downloadVideo.bind(this)}
-                        designTitle={this.state.designTitle}
-                    />
+                        <Narbar
+                            playVideos={this.playVideos}
+                            translate={this.translate}
+                            downloadPNG={this.downloadPNG.bind(this)}
+                            downloadPDF={this.downloadPDF.bind(this)}
+                            downloadVideo={this.downloadVideo.bind(this)}
+                            designTitle={this.state.designTitle}
+                        />
                     </div>
                     <div
                         className="wrapper"
@@ -5476,7 +5478,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                 fontId={this.state.fontId}
                                 translate={this.translate.bind(this)}
                                 mounted={this.state.mounted}
-                                subtype={this.state.subtype}
                                 selectFont={this.selectFont.bind(this)}
                                 handleFontColorChange={this.handleFontColorChange.bind(this)}
                                 typeObjectSelected={this.state.typeObjectSelected}
@@ -5516,52 +5517,52 @@ class CanvaEditor extends Component<IProps, IState> {
                             onWheel={this.handleWheel}
                         >
                             <div>
-                            <Toolbar
-                                scale={this.state.scale}
-                                onTextChange={this.onTextChange}
-                                updateImages={this.updateImages}
-                                selectedCanvas={this.state.selectedCanvas}
-                                pauser={this.pauser}
-                                effectId={this.state.effectId}
-                                bold={this.state.bold}
-                                italic={this.state.italic}
-                                align={this.state.align}
-                                selectedTab={this.state.selectedTab}
-                                translate={this.translate}
-                                editorStore={editorStore}
-                                childId={editorStore.childId}
-                                fontColor={this.state.fontColor}
-                                handleColorBtnClick={this.handleColorBtnClick}
-                                handleItalicBtnClick={this.handleItalicBtnClick}
-                                handleBoldBtnClick={this.handleBoldBtnClick}
-                                onClickDropDownFontList={this.onClickDropDownFontList}
-                                onClickEffectList={this.onClickEffectList}
-                                fontName={this.state.fontName}
-                                fontId={this.state.fontId}
-                                cropMode={this.state.cropMode}
-                                handleFilterBtnClick={this.handleFilterBtnClick}
-                                handleAdjustBtnClick={this.handleAdjustBtnClick}
-                                handleCropBtnClick={this.handleCropBtnClick}
-                                handleFlipBtnClick={this.handleFlipBtnClick}
-                                imgBackgroundColor={this.state.imgBackgroundColor}
-                                handleImageBackgroundColorBtnClick={this.handleImageBackgroundColorBtnClick}
-                                fontSize={this.state.fontSize}
-                                handleFontSizeBtnClick={this.handleFontSizeBtnClick}
-                                handleAlignBtnClick={this.handleAlignBtnClick}
-                                handleOkBtnClick={this.handleOkBtnClick}
-                                handleCancelBtnClick={this.handleCancelBtnClick}
-                                idObjectSelected={editorStore.idObjectSelected}
-                                onClickpositionList={this.onClickpositionList}
-                                onClickTransparent={this.onClickTransparent}
-                                forwardSelectedObject={this.forwardSelectedObject}
-                                backwardSelectedObject={this.backwardSelectedObject}
-                                handleTransparentAdjust={this.handleTransparentAdjust}
-                                currentOpacity={this.state.currentOpacity}
-                                currentLineHeight={this.state.currentLineHeight}
-                                currentLetterSpacing={this.state.currentLetterSpacing}
-                                handleOpacityChange={this.handleOpacityChange}
-                                handleOpacityChangeEnd={this.handleOpacityChangeEnd}
-                            />
+                                <Toolbar
+                                    scale={this.state.scale}
+                                    onTextChange={this.onTextChange}
+                                    updateImages={this.updateImages}
+                                    selectedCanvas={this.state.selectedCanvas}
+                                    pauser={this.pauser}
+                                    effectId={this.state.effectId}
+                                    bold={this.state.bold}
+                                    italic={this.state.italic}
+                                    align={this.state.align}
+                                    selectedTab={this.state.selectedTab}
+                                    translate={this.translate}
+                                    editorStore={editorStore}
+                                    childId={editorStore.childId}
+                                    fontColor={this.state.fontColor}
+                                    handleColorBtnClick={this.handleColorBtnClick}
+                                    handleItalicBtnClick={this.handleItalicBtnClick}
+                                    handleBoldBtnClick={this.handleBoldBtnClick}
+                                    onClickDropDownFontList={this.onClickDropDownFontList}
+                                    onClickEffectList={this.onClickEffectList}
+                                    fontName={this.state.fontName}
+                                    fontId={this.state.fontId}
+                                    cropMode={this.state.cropMode}
+                                    handleFilterBtnClick={this.handleFilterBtnClick}
+                                    handleAdjustBtnClick={this.handleAdjustBtnClick}
+                                    handleCropBtnClick={this.handleCropBtnClick}
+                                    handleFlipBtnClick={this.handleFlipBtnClick}
+                                    imgBackgroundColor={this.state.imgBackgroundColor}
+                                    handleImageBackgroundColorBtnClick={this.handleImageBackgroundColorBtnClick}
+                                    fontSize={this.state.fontSize}
+                                    handleFontSizeBtnClick={this.handleFontSizeBtnClick}
+                                    handleAlignBtnClick={this.handleAlignBtnClick}
+                                    handleOkBtnClick={this.handleOkBtnClick}
+                                    handleCancelBtnClick={this.handleCancelBtnClick}
+                                    idObjectSelected={editorStore.idObjectSelected}
+                                    onClickpositionList={this.onClickpositionList}
+                                    onClickTransparent={this.onClickTransparent}
+                                    forwardSelectedObject={this.forwardSelectedObject}
+                                    backwardSelectedObject={this.backwardSelectedObject}
+                                    handleTransparentAdjust={this.handleTransparentAdjust}
+                                    currentOpacity={this.state.currentOpacity}
+                                    currentLineHeight={this.state.currentLineHeight}
+                                    currentLetterSpacing={this.state.currentLetterSpacing}
+                                    handleOpacityChange={this.handleOpacityChange}
+                                    handleOpacityChangeEnd={this.handleOpacityChangeEnd}
+                                />
                             </div>
                             <div
                                 key={1}
@@ -5595,13 +5596,13 @@ class CanvaEditor extends Component<IProps, IState> {
                                         }}
                                         ref={this.setContainerRef}
                                     >
-                                            <div
-                                                style={{
-                                                    display: "none"
-                                                }}
-                                            >
-                                                {this.renderCanvas(false, -1, true)}
-                                            </div>
+                                        <div
+                                            style={{
+                                                display: "none"
+                                            }}
+                                        >
+                                            {this.renderCanvas(false, -1, true)}
+                                        </div>
                                         {this.renderCanvas(false, -1, false)}
                                     </div>
                                 )}
@@ -5614,251 +5615,13 @@ class CanvaEditor extends Component<IProps, IState> {
                                         zIndex: 99999999
                                     }}
                                 >
-                                    {this.state.showZoomPopup && (
-                                        <div style={{}}>
-                                            <ul
-                                                style={{
-                                                    borderRadius: "5px",
-                                                    padding: "5px",
-                                                    listStyle: "none",
-                                                    marginBottom: "5px",
-                                                    background: "#293039"
-                                                }}
-                                                className="zoomPercentPanel___2ZfEJ"
-                                            >
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({ scale: 3, showZoomPopup: false });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_300"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        300%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({ scale: 2, showZoomPopup: false });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_200"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        200%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({
-                                                                scale: 1.75,
-                                                                showZoomPopup: false
-                                                            });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_175"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        175%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({
-                                                                scale: 1.5,
-                                                                showZoomPopup: false
-                                                            });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_150"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        150%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({
-                                                                scale: 1.25,
-                                                                showZoomPopup: false
-                                                            });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_125"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        125%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({ scale: 1, showZoomPopup: false });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_100"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        100%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({
-                                                                scale: 0.75,
-                                                                showZoomPopup: false
-                                                            });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_75"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        75%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({
-                                                                scale: 0.5,
-                                                                showZoomPopup: false
-                                                            });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_50"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        50%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({
-                                                                scale: 0.25,
-                                                                showZoomPopup: false
-                                                            });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_25"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        25%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({
-                                                                scale: 0.1,
-                                                                showZoomPopup: false
-                                                            });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w"
-                                                        data-categ="tools"
-                                                        data-value="scalePercent_10"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        10%
-                          </button>
-                                                </li>
-                                                <li className="zoomPercentPanelItem___29ZfQ">
-                                                    <button
-                                                        onClick={e => {
-                                                            this.setState({
-                                                                scale: this.state.fitScale,
-                                                                showZoomPopup: false
-                                                            });
-                                                        }}
-                                                        style={{
-                                                            width: "100%",
-                                                            color: "white",
-                                                            border: "none"
-                                                        }}
-                                                        className="scaleListButton___GEm7w scaleListButtonActive___2GxqI"
-                                                        data-categ="tools"
-                                                        data-value="scaleToFit"
-                                                        data-subcateg="bottomPanel"
-                                                    >
-                                                        {this.translate("fit")}
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    <ZoomController 
+                                    {this.props.tReady && <ZoomController
                                         translate={this.translate}
                                         scale={this.state.scale}
                                         setScale={this.setScale}
                                         fitScale={this.state.fitScale}
-                                    />
-                                    
+                                    />}
+
                                 </div>
                             </div>
                             <div
@@ -5874,600 +5637,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                 }}
                             ></div>
                         </div>
-                        {this.state.showPrintingSidebar && (
-                            <div
-                                style={{
-                                    width: "400px",
-                                    height: "100%",
-                                    right: 0,
-                                    position: "absolute"
-                                }}
-                            >
-                                <div>
-                                    <div
-                                        style={{
-                                            height: "46px"
-                                        }}
-                                    >
-                                        <div
-                                            className="pStkS_qIKsPoym6eCGnye"
-                                            style={{
-                                                padding: "10px",
-                                                display: "flex",
-                                                height: "46px",
-                                                borderBottom: "1px solid rgba(14,19,24,.15)",
-                                                justifyContent: "center"
-                                            }}
-                                        >
-                                            <div
-                                                className="_3I6bflXEnh4GRlVDlnzEap"
-                                                style={{ display: "flex", alignItems: "center" }}
-                                            >
-                                                <span
-                                                    style={{ marginRight: "5px" }}
-                                                    className="_2JPeE-06cfszm35uzXEvgC _1tNfXgCCl_5Qt5kGxyM8c4"
-                                                >
-                                                    <span
-                                                        className="_2EacSGMxQyBD7pSwvfkZz3 _3l4uYr79jSRjggcw5QCp88"
-                                                        style={{
-                                                            justifyContent: "center",
-                                                            alignItems: "center",
-                                                            display: "flex",
-                                                            width: "20px",
-                                                            height: "20px",
-                                                            borderRadius: "50%",
-                                                            border: "12px solid transparent",
-                                                            backgroundColor:
-                                                                this.state.currentPrintStep >= 1
-                                                                    ? "#6bca2c"
-                                                                    : "#e7e7e7"
-                                                        }}
-                                                    >
-                                                        <span>1</span>
-                                                    </span>
-                                                </span>
-                                                <span
-                                                    style={{ marginRight: "5px" }}
-                                                    className="_2JPeE-06cfszm35uzXEvgC _2JAh8PyNfcg1Kun3J3uV1C"
-                                                >
-                                                    <span
-                                                        className="_2EacSGMxQyBD7pSwvfkZz3 _3l4uYr79jSRjggcw5QCp88"
-                                                        style={{
-                                                            justifyContent: "center",
-                                                            alignItems: "center",
-                                                            display: "flex",
-                                                            width: "20px",
-                                                            height: "20px",
-                                                            borderRadius: "50%",
-                                                            border: "12px solid transparent",
-                                                            backgroundColor:
-                                                                this.state.currentPrintStep >= 2
-                                                                    ? "#6bca2c"
-                                                                    : "#e7e7e7"
-                                                        }}
-                                                    >
-                                                        <span>2</span>
-                                                    </span>
-                                                </span>
-                                                <span
-                                                    style={{ marginRight: "5px" }}
-                                                    className="_2JPeE-06cfszm35uzXEvgC _2JAh8PyNfcg1Kun3J3uV1C"
-                                                >
-                                                    <span
-                                                        className="_2EacSGMxQyBD7pSwvfkZz3 _3l4uYr79jSRjggcw5QCp88"
-                                                        style={{
-                                                            justifyContent: "center",
-                                                            alignItems: "center",
-                                                            display: "flex",
-                                                            width: "20px",
-                                                            height: "20px",
-                                                            borderRadius: "50%",
-                                                            border: "12px solid transparent",
-                                                            backgroundColor:
-                                                                this.state.currentPrintStep >= 3
-                                                                    ? "#6bca2c"
-                                                                    : "#e7e7e7"
-                                                        }}
-                                                    >
-                                                        <span>3</span>
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <button
-                                                style={{
-                                                    position: "absolute",
-                                                    right: 0,
-                                                    border: "none",
-                                                    background: "transparent"
-                                                }}
-                                                onClick={() => {
-                                                    this.setState({ showPrintingSidebar: false });
-                                                }}
-                                                className="_2Rww-JOL60obmcYkaUOyg_ Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _3cIMyP4YPUpE0H8WXQ_r-B Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _3QJ_C8Lg1l0m5aoIK5piST _2kK9hFUTyqtMKr5EG4GuY4 _3SyHP4HOoHraV3-PJsORT7"
-                                                type="button"
-                                            >
-                                                <span className="_3WuwevpUMOqhISoQUjDiY3">
-                                                    <span className="_3K8w6l0jetB1VHftQo2qK6 _3riOXmq8mfDI5UGnLrweQh">
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            width={24}
-                                                            height={24}
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <path
-                                                                fill="currentColor"
-                                                                d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"
-                                                            />
-                                                        </svg>
-                                                    </span>
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {this.state.currentPrintStep == 1 && (
-                                        <div
-                                            style={{
-                                                padding: "16px 16px 0",
-                                                position: "relative",
-                                                height: "calc(100% - 46px)"
-                                            }}
-                                        >
-                                            {this.state.subtype == SubType.BusinessCardReview && (
-                                                <BusinessCardReview
-                                                    firstPage={this.renderCanvas(true, 0, false)}
-                                                    secondPage={this.renderCanvas(true, 1, false)}
-                                                ></BusinessCardReview>
-                                            )}
-                                            {this.state.subtype == SubType.FlyerReview && (
-                                                <FlyerReview>
-                                                    {this.renderCanvas(true, 0, false)}
-                                                </FlyerReview>
-                                            )}
-                                            {this.state.subtype == SubType.PosterReview && (
-                                                <TrifoldReview>
-                                                    {this.renderCanvas(true, 0, false)}
-                                                </TrifoldReview>
-                                            )}
-
-                                            {this.state.subtype == SubType.TrifoldReview && (
-                                                <PosterReview>
-                                                    {this.renderCanvas(true, 0, false)}
-                                                </PosterReview>
-                                            )}
-                                            {this.state.subtype > SubType.TrifoldReview && (
-                                                <CanvasReview width={500} height={500}>
-                                                    {this.renderCanvas(true, 0, false)}
-                                                </CanvasReview>
-                                            )}
-
-                                            <div
-                                                className="_3w96fDCkiF-cx4xtdHq8Eb"
-                                                style={{ display: "flex", flexDirection: "column" }}
-                                            >
-                                                <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">
-                                                    Kích thước
-                        </label>
-                                                <div style={{ zIndex: 123123 }}>
-                                                    <button
-                                                        style={{
-                                                            width: "100%",
-                                                            backgroundColor: "white",
-                                                            border: "none"
-                                                        }}
-                                                        type="button"
-                                                        className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf _3VMFhjcT1YTNCBfgY43AoL"
-                                                    >
-                                                        <span className="_11gYYV-YiJb7npRdslKTJX">
-                                                            {" "}
-                                                            <div className="_16jC4NpI5ci7-HVASqeSUU">A3</div>
-                                                            <span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={16}
-                                                                    height={16}
-                                                                    viewBox="0 0 16 16"
-                                                                >
-                                                                    <path
-                                                                        fill="currentColor"
-                                                                        d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"
-                                                                    />
-                                                                </svg>
-                                                            </span>
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                className="_3w96fDCkiF-cx4xtdHq8Eb"
-                                                style={{ display: "flex", flexDirection: "column" }}
-                                            >
-                                                <label className="_1YMus4Eu0cHYhxD8BF9bKk jL5Wj998paufBlWBixiUA _3l4uYr79jSRjggcw5QCp88">
-                                                    Thông tin khác:
-                        </label>
-                                                <div style={{ zIndex: 123123 }}>
-                                                    <button
-                                                        style={{
-                                                            width: "100%",
-                                                            backgroundColor: "white",
-                                                            border: "none"
-                                                        }}
-                                                        type="button"
-                                                        className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf _3VMFhjcT1YTNCBfgY43AoL"
-                                                    >
-                                                        <span className="_11gYYV-YiJb7npRdslKTJX">
-                                                            {" "}
-                                                            <div className="_16jC4NpI5ci7-HVASqeSUU">A3</div>
-                                                            <span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={16}
-                                                                    height={16}
-                                                                    viewBox="0 0 16 16"
-                                                                >
-                                                                    <path
-                                                                        fill="currentColor"
-                                                                        d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"
-                                                                    />
-                                                                </svg>
-                                                            </span>
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                style={{
-                                                    position: "relative",
-                                                    display: "flex",
-                                                    flexDirection: "column"
-                                                }}
-                                                className="_3YDCW8EBZnxTRa5xT7gtHk _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88"
-                                            >
-                                                <span
-                                                    style={{
-                                                        margin: "auto",
-                                                        display: "inline-block",
-                                                        padding: "14px",
-                                                        backgroundColor: "rgb(107, 202, 44)",
-                                                        borderRadius: "50%",
-                                                        marginTop: "20px",
-                                                        marginBottom: "20px"
-                                                    }}
-                                                    className="_17Olod74EUtMOOpeHSF9RO _3K8w6l0jetB1VHftQo2qK6 _3riOXmq8mfDI5UGnLrweQh"
-                                                >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width={24}
-                                                        height={24}
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            fill="currentColor"
-                                                            d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z"
-                                                        />
-                                                    </svg>
-                                                </span>
-                                                <div className="fe5UvoRC9ZkGGo1SwMSHH">
-                                                    <div className="YOoVgTXLDk_wFPeE7Lehj">
-                                                        100% Đảm bảo hài lòng
-                          </div>
-                                                    <span className="_19yfLwKwDEYdDKh0ixOgNB _1YRea3--8x2Rm7RqKumWGQ">
-                                                        Nếu bạn không hài lòng với món hàng bạn nhận được.
-                            Chúng tôi sẽ làm nó hài lòng với bạn.{" "}
-                                                        <a
-                                                            href="https://support.canva.com/canva-print/print-customer-service-policy/print-customer-happiness-policy/"
-                                                            target="_blank"
-                                                            rel="noopener"
-                                                        >
-                                                            More
-                            </a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {this.state.currentPrintStep == 2 && (
-                                        <div
-                                            style={{
-                                                padding: "16px 16px 0",
-                                                position: "relative"
-                                            }}
-                                        >
-                                            <div
-                                                className="_3w96fDCkiF-cx4xtdHq8Eb"
-                                                style={{ display: "flex", flexDirection: "column" }}
-                                            >
-                                                <form autoComplete="on">
-                                                    <div className="_2WG0n1tF-Rc7mYLaZoDpdC">
-                                                        <p className="_3H42by719pMs1V0_zCiGTG ">
-                                                            Địa chỉ giao hàng
-                            </p>
-                                                    </div>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>Họ và tên:</p>
-                                                        <input
-                                                            className=""
-                                                            type="text"
-                                                            autoComplete="name"
-                                                            placeholder="E.g. David Bowie"
-                                                            name="name"
-                                                            defaultValue="Manh Quynh Nguyen"
-                                                            style={{
-                                                                backgroundImage: 'url("data:image/png',
-                                                                backgroundRepeat: "no-repeat",
-                                                                backgroundAttachment: "scroll",
-                                                                backgroundSize: "16px 18px",
-                                                                backgroundPosition: "98% 50%"
-                                                            }}
-                                                        />
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>Địa chỉ</p>
-                                                        <input
-                                                            className=""
-                                                            type="tel"
-                                                            autoComplete="tel"
-                                                            name="tel"
-                                                        />
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>Tỉnh thành phố</p>
-                                                        <input
-                                                            className=""
-                                                            type="text"
-                                                            autoComplete="address-level2"
-                                                            placeholder="E.g. Brooklyn"
-                                                            name="address-level2"
-                                                            defaultValue="Singapore"
-                                                        />
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>Quận / Huyện</p>
-                                                        <div className="_3Tk7vFk3XB74DSjc-X114e fs-hide">
-                                                            <div>
-                                                                <button
-                                                                    type="button"
-                                                                    className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf"
-                                                                >
-                                                                    <span className="_11gYYV-YiJb7npRdslKTJX">
-                                                                        {" "}
-                                                                        <div className="_16jC4NpI5ci7-HVASqeSUU">
-                                                                            Singapore
-                                    </div>
-                                                                        <span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh">
-                                                                            <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width={16}
-                                                                                height={16}
-                                                                                viewBox="0 0 16 16"
-                                                                            >
-                                                                                <path
-                                                                                    fill="currentColor"
-                                                                                    d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"
-                                                                                />
-                                                                            </svg>
-                                                                        </span>
-                                                                    </span>
-                                                                </button>
-                                                            </div>
-                                                            <div className="_1sk78p8Erqs7Wd-2IGk6E9">
-                                                                <input
-                                                                    className=""
-                                                                    type="text"
-                                                                    autoComplete="country"
-                                                                    name="country"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p className="">Số điện thoại</p>
-                                                        <input
-                                                            className=""
-                                                            type="text"
-                                                            autoComplete="postal-code"
-                                                            placeholder="E.g. 11217"
-                                                            name="postal-code"
-                                                        />
-                                                    </label>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {this.state.currentPrintStep == 3 && (
-                                        <div
-                                            style={{
-                                                padding: "16px 16px 0",
-                                                position: "relative",
-                                                height: "calc(100% - 46px)"
-                                            }}
-                                        >
-                                            <div
-                                                className="_3w96fDCkiF-cx4xtdHq8Eb"
-                                                style={{ display: "flex", flexDirection: "column" }}
-                                            >
-                                                <form autoComplete="on">
-                                                    <div className="_2WG0n1tF-Rc7mYLaZoDpdC">
-                                                        <p className="_3H42by719pMs1V0_zCiGTG ">
-                                                            Xác nhận và thanh toán
-                            </p>
-                                                    </div>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>Full name</p>
-                                                        <input
-                                                            className=""
-                                                            ref={i => (this.refFullName = i)}
-                                                            type="text"
-                                                            autoComplete="name"
-                                                            placeholder="E.g. David Bowie"
-                                                            name="name"
-                                                            defaultValue="Manh Quynh Nguyen"
-                                                            style={{
-                                                                backgroundImage: 'url("data:image/png',
-                                                                backgroundRepeat: "no-repeat",
-                                                                backgroundAttachment: "scroll",
-                                                                backgroundSize: "16px 18px",
-                                                                backgroundPosition: "98% 50%"
-                                                            }}
-                                                        />
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>Địa chỉ</p>
-                                                        <input
-                                                            ref={i => (this.refAddress = i)}
-                                                            className=""
-                                                            type="text"
-                                                            autoComplete="text"
-                                                            name="address"
-                                                        />
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>Contact number</p>
-                                                        <input
-                                                            className=""
-                                                            ref={i => (this.refPhoneNumber = i)}
-                                                            type="tel"
-                                                            autoComplete="tel"
-                                                            name="tel"
-                                                        />
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>City</p>
-                                                        <input
-                                                            className=""
-                                                            ref={i => (this.refCity = i)}
-                                                            type="text"
-                                                            autoComplete="address-level2"
-                                                            placeholder="E.g. Brooklyn"
-                                                            name="address-level2"
-                                                            defaultValue="Singapore"
-                                                        />
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p>Country</p>
-                                                        <div className="_3Tk7vFk3XB74DSjc-X114e fs-hide">
-                                                            <div>
-                                                                <button
-                                                                    type="button"
-                                                                    className="_2rbIxUjieDPNxaKim1eUOh _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2Nsx_KfExUOh-XOcjJewEf"
-                                                                >
-                                                                    <span className="_11gYYV-YiJb7npRdslKTJX">
-                                                                        {" "}
-                                                                        <div className="_16jC4NpI5ci7-HVASqeSUU">
-                                                                            Singapore
-                                    </div>
-                                                                        <span className="_1Lb2Q2YFMHEYBIzodSJlY8 _1JXn9nbOAelpkRcPCUu4Aq _3riOXmq8mfDI5UGnLrweQh">
-                                                                            <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width={16}
-                                                                                height={16}
-                                                                                viewBox="0 0 16 16"
-                                                                            >
-                                                                                <path
-                                                                                    fill="currentColor"
-                                                                                    d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"
-                                                                                />
-                                                                            </svg>
-                                                                        </span>
-                                                                    </span>
-                                                                </button>
-                                                            </div>
-                                                            <div className="_1sk78p8Erqs7Wd-2IGk6E9">
-                                                                <input
-                                                                    className=""
-                                                                    type="text"
-                                                                    autoComplete="country"
-                                                                    name="country"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </label>
-                                                    <label className="_1lAKgn_4JnKMAytI-mxfqp">
-                                                        <p className="">Postal code</p>
-                                                        <input
-                                                            className=""
-                                                            type="text"
-                                                            autoComplete="postal-code"
-                                                            placeholder="E.g. 11217"
-                                                            name="postal-code"
-                                                        />
-                                                    </label>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div
-                                        className="_2UsfVIk8gJrdw8z8BGlvm1"
-                                        style={{
-                                            padding: "16px",
-                                            position: "absolute",
-                                            bottom: "0",
-                                            flexDirection: "column",
-                                            width: "100%"
-                                        }}
-                                    >
-                                        <div
-                                            className="_2RWrXWDlIFqxW5c9NTv-se _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88"
-                                            style={{
-                                                margin: "8px 0",
-                                                justifyContent: "space-between",
-                                                display: "flex"
-                                            }}
-                                        >
-                                            <span>Tổng cộng</span>
-                                            <span className="_1Pu2ailzs8h4eqVc792xOn">$10.00</span>
-                                        </div>
-                                        <div className="lLA-xJuEE5FVKeD8ezek3">
-                                            <div>
-                                                <div
-                                                    className="_3X7RzVL6jzVBkctplBQ8Z"
-                                                    style={{ display: "flex" }}
-                                                >
-                                                    {this.state.currentPrintStep > 1 && (
-                                                        <button
-                                                            style={{
-                                                                marginRight: "5px"
-                                                            }}
-                                                            onClick={() => {
-                                                                this.setState({
-                                                                    currentPrintStep:
-                                                                        this.state.currentPrintStep - 1
-                                                                });
-                                                            }}
-                                                        >
-                                                            Back
-                            </button>
-                                                    )}
-                                                    <button
-                                                        className="_2Rww-JOL60obmcYkaUOyg_ Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _28oyZ-_qfE-ERg1G1Nc2zV Wqfq1nAfa6if4eEOr6Mza _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _3QJ_C8Lg1l0m5aoIK5piST _2kK9hFUTyqtMKr5EG4GuY4 _2HxAYUsq5GZ4sKqpZqoKLF"
-                                                        title="Continue"
-                                                        type="button"
-                                                        onClick={() => this.handleContinueOrder()}
-                                                        style={{
-                                                            color: "white",
-                                                            height: "40px",
-                                                            borderRadius: "4px",
-                                                            width: "100%",
-                                                            border: "none",
-                                                            backgroundColor: "rgb(1, 159, 182)"
-                                                        }}
-                                                    >
-                                                        <span className="wDZfRbnecQOufIqcN2_A5">
-                                                            Tiếp tục
-                            </span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                     </div>
                     {this.state.showMediaEditPopup ? (
                         <MediaEditPopup
@@ -6513,48 +5682,46 @@ class CanvaEditor extends Component<IProps, IState> {
                         this.setState({ showPopup: false });
                     }}
                 />
-                {this.state.showPopupPreview && 
-                <div
-                    key={1}
-                    // ref={this.setRef.bind(this)}
-                    // onLoad={this.setRef.bind(this)}
-                    id="screen-container-parent"
-                    style={{
-                        top: "0px",
-                        paddingTop: "48px",
-                        overflow: "scroll",
-                        alignItems: "center",
-                        display: "flex",
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        zIndex: 123123131,
-                        backgroundColor: "rgba(14,19,24,.95)",
-                    }}
-                >
-                    <button 
-                        id="closePreviewBtn"
+                {this.state.showPopupPreview &&
+                    <div
+                        key={1}
+                        id="screen-container-parent"
                         style={{
-                            position: 'absolute',
-                            right: '130px',
-                            top: '10px',
-                            color: 'white',
-                            backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                            padding: '10px 30px',
-                            border: 'none',
-                            borderRadius: "4px",
-                            fontSize: '15px',
-                            lineHeight: '15px',
-                        }}
-                        onClick={e => {
-                            this.setState({showPopupPreview: false});
-                            this.forceUpdate();
+                            top: "0px",
+                            paddingTop: "48px",
+                            overflow: "scroll",
+                            alignItems: "center",
+                            display: "flex",
+                            position: "absolute",
+                            width: "100%",
+                            height: "100%",
+                            zIndex: 123123131,
+                            backgroundColor: "rgba(14,19,24,.95)",
                         }}
                     >
-                        {this.translate("close")}
-                    </button>
+                        <button
+                            id="closePreviewBtn"
+                            style={{
+                                position: 'absolute',
+                                right: '130px',
+                                top: '10px',
+                                color: 'white',
+                                backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                                padding: '10px 30px',
+                                border: 'none',
+                                borderRadius: "4px",
+                                fontSize: '15px',
+                                lineHeight: '15px',
+                            }}
+                            onClick={e => {
+                                this.setState({ showPopupPreview: false });
+                                this.forceUpdate();
+                            }}
+                        >
+                            {this.translate("close")}
+                        </button>
                         {this.renderCanvasPreview()}
-                </div>}
+                    </div>}
             </div>
         );
     }

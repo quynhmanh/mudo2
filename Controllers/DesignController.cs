@@ -371,7 +371,7 @@ namespace RCB.TypeScript.Controllers
                         {
                             var page = await browser.NewPageAsync();
                             await page.SetContentAsync(html, new NavigationOptions() {
-                                WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Networkidle0}
+                                WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Load}
                             });
                             Stream a = await page.PdfStreamAsync(new PdfOptions()
                             {

@@ -58,7 +58,16 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         ) {
             return true;
         }
+        if (this.props.subtype != nextProps.subtype) {
+            return true;
+        }
         return false;
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.subtype != this.props.subtype) {
+            this.loadMore.bind(this)(true);
+        }
     }
 
     
