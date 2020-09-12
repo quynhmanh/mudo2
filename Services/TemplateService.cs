@@ -44,7 +44,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "", string printType = "")
         {
             var node = new Uri("http://host_container_address:9200");
-            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming();
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
             string query = $"type:{type}";
 
@@ -72,7 +72,7 @@ namespace RCB.TypeScript.Services
         {
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
-            .DisableDirectStreaming();
+            .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
             string query = $"UserName:{userName}";
 
@@ -91,7 +91,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchPopularTemplates(int page = 1, int perPage = 5) {
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
-            .DisableDirectStreaming();
+            .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
 
             var res = client.Search<TemplateModel>(s => 

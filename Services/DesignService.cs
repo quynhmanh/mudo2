@@ -88,7 +88,7 @@ namespace RCB.TypeScript.Services
         {
             var node = new Uri("http://host_container_address:9200");
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
-                .DisableDirectStreaming();
+                .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
             string query = $"UserName:{userName}";
 
