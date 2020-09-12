@@ -4028,7 +4028,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     doNoObjectSelected = () => {
 
-        if (this.state.cropMode) {
+        if (editorStore.cropMode) {
             this.disableCropMode();
         }
 
