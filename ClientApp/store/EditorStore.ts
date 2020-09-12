@@ -50,7 +50,7 @@ class Images {
 
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));
-  }
+    }
   
     @action addItem = (item, isChild) => {
       if (isChild) {

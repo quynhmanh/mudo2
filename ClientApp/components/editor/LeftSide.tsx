@@ -320,7 +320,8 @@ class LeftSide extends Component<IProps, IState> {
     };
 
     render() {
-        let image = editorStore.getImageSelected() || {};
+        let image = toJS(editorStore.images2.get(editorStore.idObjectSelected)) || {};
+
         if (editorStore.childId && image.document_object) {
             image = image.document_object.find(text => text._id == editorStore.childId) || {};
         }

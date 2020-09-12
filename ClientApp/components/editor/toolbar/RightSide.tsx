@@ -6,6 +6,7 @@ import TransparentDropdown from "@Components/editor/toolbar/right/TransparentDro
 import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
 import { TemplateType } from "../enums";
+import { toJS } from "mobx";
 
 interface IProps {
     show: boolean;
@@ -28,7 +29,7 @@ interface IState {
 @observer
 class RightSide extends Component<IProps, IState> {
     render() {
-        let image = editorStore.getImageSelected();
+        let image = toJS(editorStore.images2.get(editorStore.idObjectSelected));
         const props = this.props;
         return (
             <div

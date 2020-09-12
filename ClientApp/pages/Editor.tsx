@@ -4032,6 +4032,7 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (editorStore.idObjectSelected) {
+            console.log('doNoObjectSelected')
             this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
             this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
 

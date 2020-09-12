@@ -17,6 +17,7 @@ import Effect from "@Components/editor/toolbar/left/Effect";
 import Spacing from "@Components/editor/toolbar/left/Spacing";
 import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
+import { toJS } from "mobx";
 
 interface IProps {
     childId: string;
@@ -85,7 +86,8 @@ class LeftSide extends Component<IProps, IState> {
     }
 
     render() {
-        let image = editorStore.getImageSelected();
+        let image = toJS(editorStore.images2.get(editorStore.idObjectSelected))
+        console.log('image ', image)
         if (image && editorStore.childId && image.document_object) {
             let found = image.document_object.find(doc => doc._id == editorStore.childId);
             image = found;
