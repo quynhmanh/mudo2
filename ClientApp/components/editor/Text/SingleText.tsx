@@ -90,7 +90,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
                 zIndex,
                 scaleX,
                 scaleY,
-                textAlign,
+                align,
                 _id,
                 effectId,
                 hollowThickness,
@@ -166,7 +166,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
                                 position: 'absolute' as 'absolute',
                                 wordBreak: 'break-word' as 'break-word',
                                 display: 'inline-block',
-                                textAlign,
+                                textAlign: align,
                                 pointerEvents: 'auto'
                             }}
                             ref={this.setTextElementRef.bind(this)}

@@ -416,7 +416,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     getImageSelected() {
-        return editorStore.images2.get(editorStore.idObjectSelected);
+        return toJS(editorStore.images2.get(editorStore.idObjectSelected));
     }
 
     handleBoldBtnClick = (e: any) => {

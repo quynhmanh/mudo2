@@ -231,9 +231,13 @@ export default class SidebarText extends Component<IProps, IState> {
                     document2.top = (rec2.top - rectTop) / scale;
                     document2.selected = true;
                     document2.rotateAngle = 0;
-                    document2.fontFace = "O5mEMMs7UejmI1WeSKWQ";
+                    // document2.fontFace = "O5mEMMs7UejmI1WeSKWQ";
 
-                    // document2.document_object = document2.document_object;
+                    document2.document_object = document2.document_object.map(doc => {
+                        doc.width = (document2.width * doc.width2) / document2.scaleX / doc.scaleX;
+                        console.log('doc.width', document2.width, doc.width2, document2.scaleX, doc.scaleX);
+                        return doc;
+                    })
 
                     if (doc.fontList) {
                         let fontList = doc.fontList.forEach(id => {

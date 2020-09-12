@@ -358,8 +358,7 @@ export default class Rect extends Component<IProps, IState> {
 				_id,
 				scaleX,
 				scaleY,
-				document_object: childrens,
-				type: objectType,
+				document_object,
 				backgroundColor,
 				opacity: opacity2,
 				effectId,
@@ -393,13 +392,16 @@ export default class Rect extends Component<IProps, IState> {
 				hollowThickness,
 			}
 		} = this.state;
+		
+
+		console.log('render ', document_object)
 
 		const imgWidth = imgWidth2 * scale;
 		const imgHeight = imgHeight2 * scale;
 		const posX = posX2 * scale;
 		const posY = posY2 * scale;
 
-		let opacity = opacity2 ? opacity2 / 100 : 1;
+		const opacity = opacity2 ? opacity2 / 100 : 1;
 
 		const imgResizeDirection = ["nw", "ne", "se", "sw", "e", "w", "s", "n"];
 		const cropImageResizeDirection = ["nw", "ne", "se", "sw"];
@@ -408,11 +410,11 @@ export default class Rect extends Component<IProps, IState> {
 
 		let imgDirections = imgResizeDirection;
 
-		if (objectType === TemplateType.Heading || objectType === TemplateType.TextTemplate) {
+		if (type === TemplateType.Heading || type === TemplateType.TextTemplate) {
 			imgDirections = textResizeDirection;
 		}
 
-		if (objectType == TemplateType.GroupedItem) {
+		if (type == TemplateType.GroupedItem) {
 			imgDirections = groupedItemResizeDirection;
 		}
 
@@ -428,7 +430,7 @@ export default class Rect extends Component<IProps, IState> {
 			width: width * scale,
 			height: height * scale,
 			angle: rotateAngle,
-			iden: objectType != TemplateType.BackgroundImage ? _id : "",
+			iden: type != TemplateType.BackgroundImage ? _id : "",
 			page: page,
 		};
 
@@ -520,7 +522,7 @@ export default class Rect extends Component<IProps, IState> {
 								e.preventDefault();
 								this.props.handleCropBtnClick(_id);
 							}}
-							className={objectType == TemplateType.BackgroundImage && "selectable"}
+							className={type == TemplateType.BackgroundImage && "selectable"}
 							style={{
 								width: "100%",
 								height: "100%",
@@ -530,7 +532,7 @@ export default class Rect extends Component<IProps, IState> {
 							{!cropMode &&
 								name == CanvasType.HoverLayer &&
 								selected &&
-								objectType !== TemplateType.BackgroundImage && (
+								type !== TemplateType.BackgroundImage && (
 									<div
 										id={_id + "rotate-container"}
 										className="rotate-container"
@@ -558,7 +560,7 @@ export default class Rect extends Component<IProps, IState> {
 							{!cropMode &&
 								name == CanvasType.HoverLayer &&
 								selected &&
-								objectType !== TemplateType.BackgroundImage &&
+								type !== TemplateType.BackgroundImage &&
 								imgDirections.map(d => {
 									let cursor = getCursorStyleForResizer(rotateAngle, d);
 
@@ -589,11 +591,11 @@ export default class Rect extends Component<IProps, IState> {
 								(cropMode && name == CanvasType.HoverLayer) ||
 								name == CanvasType.Download) &&
 								src &&
-								(objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
+								(type === TemplateType.Image || type === TemplateType.BackgroundImage) && (
 									<div
 										id={_id}
 										style={{
-											zIndex: selected && objectType !== TemplateType.Image && objectType !== TemplateType.BackgroundImage ? 1 : 0,
+											zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage ? 1 : 0,
 											transformOrigin: "0 0",
 											position: "absolute",
 											width: "100%",
@@ -654,7 +656,7 @@ export default class Rect extends Component<IProps, IState> {
 															right: "-2px",
 															bottom: "-2px",
 															backgroundImage:
-																(objectType == TemplateType.TextTemplate || objectType == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+																(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 																	: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
 															backgroundPosition: 'top,100%,bottom,0',
 															backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
@@ -664,7 +666,7 @@ export default class Rect extends Component<IProps, IState> {
 														}}>
 
 													</div>}
-													{(objectType === TemplateType.Image || objectType === TemplateType.BackgroundImage) && (
+													{(type === TemplateType.Image || type === TemplateType.BackgroundImage) && (
 														<img
 															style={{
 																width: "100%",
@@ -681,7 +683,7 @@ export default class Rect extends Component<IProps, IState> {
 									</div>
 								)}
 							{
-								(objectType === TemplateType.Video &&
+								(type === TemplateType.Video &&
 									name != CanvasType.Preview) &&
 								<div
 									id={_id + "video-controller" + name}
@@ -709,7 +711,7 @@ export default class Rect extends Component<IProps, IState> {
 										}
 									}}
 								>
-									{objectType === TemplateType.Video && name == CanvasType.HoverLayer &&
+									{type === TemplateType.Video && name == CanvasType.HoverLayer &&
 										<div
 											className={name}
 											id={_id + "progress" + name}
@@ -948,7 +950,7 @@ export default class Rect extends Component<IProps, IState> {
 											></div>
 										</div>}
 									{!cropMode && selected &&
-										objectType == TemplateType.Video &&
+										type == TemplateType.Video &&
 										name == CanvasType.HoverLayer &&
 										<div
 											className="videoController"
@@ -1021,7 +1023,7 @@ export default class Rect extends Component<IProps, IState> {
 													? cropImageResizeDirection
 														.map(d => {
 															let cursor = getCursorStyleForResizer(rotateAngle, d);
-															let visibility = objectType === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
+															let visibility = type === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
 															return (
 																<div
 																	key={d}
@@ -1052,7 +1054,7 @@ export default class Rect extends Component<IProps, IState> {
 							{((selected && name == CanvasType.HoverLayer) ||
 								(!selected && name == CanvasType.All) ||
 								name == CanvasType.Download) &&
-								(objectType == TemplateType.TextTemplate) &&
+								(type == TemplateType.TextTemplate) &&
 								<div
 									style={{
 										transformOrigin: "0 0",
@@ -1069,7 +1071,7 @@ export default class Rect extends Component<IProps, IState> {
 											width: "100%",
 											height: "100%",
 										}}>
-										{childrens && (childrens.map(child => (
+										{document_object && (document_object.map(child => (
 											<div
 												key={child._id}
 												id={child._id + "b2"}
@@ -1092,8 +1094,8 @@ export default class Rect extends Component<IProps, IState> {
 									</div>
 								</div>
 							}
-							{(objectType === TemplateType.Heading ||
-								objectType == TemplateType.TextTemplate) &&
+							{(type === TemplateType.Heading ||
+								type == TemplateType.TextTemplate) &&
 								<div
 									id={_id + "654" + canvas}
 									onClick={e => {
@@ -1109,14 +1111,14 @@ export default class Rect extends Component<IProps, IState> {
 									}}
 								>
 
-									{childrens &&
+									{document_object &&
 										((selected && name == CanvasType.HoverLayer) ||
 											name == CanvasType.Preview ||
 											(!selected && name == CanvasType.All) ||
 											name == CanvasType.Download) &&
 										(
 											<div>
-												{childrens.map(child => {
+												{document_object.map(child => {
 													const styles = tLToCenter({
 														top: child.top,
 														left: child.left,
@@ -1143,7 +1145,7 @@ export default class Rect extends Component<IProps, IState> {
 												})}
 											</div>
 										)}
-									{objectType == TemplateType.Heading && (
+									{type == TemplateType.Heading && (
 										<div style={{
 											pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
 										}}>
@@ -1164,7 +1166,7 @@ export default class Rect extends Component<IProps, IState> {
 												{((selected && name == CanvasType.HoverLayer) || name == CanvasType.Preview ||
 													(!selected && (name == CanvasType.All)) ||
 													name == CanvasType.Download) &&
-													objectType === TemplateType.Heading &&
+													type === TemplateType.Heading &&
 													<span
 														id={_id + "hihi4" + canvas}
 														spellCheck={false}
@@ -1205,7 +1207,7 @@ export default class Rect extends Component<IProps, IState> {
 
 								</div>
 							}
-							{objectType === TemplateType.Video && name == CanvasType.HoverLayer &&
+							{type === TemplateType.Video && name == CanvasType.HoverLayer &&
 								<div
 									className={`${_id}1236`}
 									style={{
@@ -1224,7 +1226,7 @@ export default class Rect extends Component<IProps, IState> {
 											right: "-2px",
 											bottom: "-2px",
 											backgroundImage:
-												(objectType == TemplateType.TextTemplate || objectType == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+												(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 													: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
 											backgroundPosition: 'top,100%,bottom,0',
 											backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
@@ -1247,7 +1249,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{
 								(cropMode &&
-									(objectType === TemplateType.Image || objectType == TemplateType.BackgroundImage || objectType === TemplateType.Video)) &&
+									(type === TemplateType.Image || type == TemplateType.BackgroundImage || type === TemplateType.Video)) &&
 								(name != CanvasType.Preview) &&
 								<div
 									id={_id + "6543" + canvas}
@@ -1258,7 +1260,7 @@ export default class Rect extends Component<IProps, IState> {
 										position: "absolute",
 										width: '100%',
 										height: '100%',
-										background: objectType == TemplateType.Video && selected && name != CanvasType.Download && !cropMode &&
+										background: type == TemplateType.Video && selected && name != CanvasType.Download && !cropMode &&
 											'linear-gradient(0deg, rgba(0,0,0,0.7147233893557423) 0%, rgba(13,1,1,0) 34%)',
 									}}
 								>
@@ -1277,7 +1279,7 @@ export default class Rect extends Component<IProps, IState> {
 													? cropImageResizeDirection
 														.map(d => {
 															let cursor = getCursorStyleForResizer(rotateAngle, d);
-															let visibility = objectType === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
+															let visibility = type === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
 															return (
 																<div
 																	key={d}
@@ -1307,7 +1309,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{cropMode &&
 								(selected && name == CanvasType.HoverLayer) &&
-								objectType !== TemplateType.BackgroundImage && (
+								type !== TemplateType.BackgroundImage && (
 									<div
 										style={{
 											width: "100%",
@@ -1346,7 +1348,7 @@ export default class Rect extends Component<IProps, IState> {
 										})}
 									</div>
 								)}
-							{objectType === TemplateType.Video &&
+							{type === TemplateType.Video &&
 								// (name == CanvasType.All || (name == CanvasType.HoverLayer && cropMode) || name == CanvasType.Preview) && 
 								(
 									<div
@@ -1400,12 +1402,12 @@ export default class Rect extends Component<IProps, IState> {
 									right: "-2px",
 									bottom: "-2px",
 									backgroundImage:
-										(objectType == TemplateType.TextTemplate || objectType == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+										(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 											: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
 									backgroundPosition: 'top,100%,bottom,0',
 									backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
 									backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-									opacity: ((hovered || selected) && !cropMode) || (cropMode && objectType != TemplateType.BackgroundImage) ? 1 : 0,
+									opacity: ((hovered || selected) && !cropMode) || (cropMode && type != TemplateType.BackgroundImage) ? 1 : 0,
 									pointerEvents: "none",
 								}}>
 
