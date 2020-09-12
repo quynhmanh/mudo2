@@ -453,8 +453,8 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (id: string) => {
-        console.log('handleCropBtnClick')
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
+        
+        let image = editorStore.getImageSelected();
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
         }
@@ -1323,7 +1323,7 @@ class CanvaEditor extends Component<IProps, IState> {
             el.style.fontFamily = id;
         }
 
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
+        let image = editorStore.getImageSelected();
         if (editorStore.childId) {
             let newTexts = image.document_object.map(d => {
                 if (d._id == editorStore.childId) {
@@ -1486,8 +1486,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         window.cloneImages = images;
 
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
-
+        let image = editorStore.getImageSelected();
         let ratio = null;
         if (type == "t" &&
             image.type != TemplateType.Image &&
@@ -2530,7 +2529,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let { scale } = this.state;
         const location$ = this.handleDragRx(e.target);
 
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
+        let image = editorStore.getImageSelected();
         window.image = clone(image);
         let {
             top: top2,
@@ -2918,7 +2917,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let scale = this.state.scale;
         e.stopPropagation();
 
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
+        let image = editorStore.getImageSelected();
         window.image = image;
         window.rotateAngle = image.rotateAngle;
 
@@ -4036,7 +4035,7 @@ class CanvaEditor extends Component<IProps, IState> {
             this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
             this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
 
-            let image = editorStore.images2.get(editorStore.idObjectSelected);
+            let image = editorStore.getImageSelected();
 
             if (image && image.type == TemplateType.GroupedItem) {
                 editorStore.images2.delete(editorStore.idObjectSelected);
@@ -4067,7 +4066,7 @@ class CanvaEditor extends Component<IProps, IState> {
             ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
                 (e.keyCode === 8 && OSNAME == "Windows"))
         ) {
-            let image = editorStore.images2.get(editorStore.idObjectSelected);
+            let image = editorStore.getImageSelected();
             if (image.type == TemplateType.BackgroundImage) {
                 let image = this.getImageSelected();
                 image.src = null;
@@ -4130,7 +4129,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (this.state.cropMode) {
             this.disableCropMode();
         }
-        let oldImage = editorStore.images2.get(editorStore.idObjectSelected);
+        let oldImage = editorStore.getImageSelected();
         let tab = editorStore.selectedTab;
 
         if (editorStore.idObjectSelected) {
@@ -4582,7 +4581,7 @@ class CanvaEditor extends Component<IProps, IState> {
         setTimeout(() => {
             const { scale } = self.state;
             if (!childId) {
-                let image = editorStore.images2.get(editorStore.idObjectSelected);
+                let image = editorStore.getImageSelected();
                 let centerX = image.left + image.width / 2;
                 let centerY = image.top + image.height / 2;
                 image.width = target.offsetWidth * image.scaleX;
@@ -4617,7 +4616,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
                 this.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.updateInnerHTML(image.innerHTML);
             } else {
-                let image = editorStore.images2.get(editorStore.idObjectSelected);
+                let image = editorStore.getImageSelected();
                 let centerX = image.left + image.width / 2;
                 let centerY = image.top + image.height / 2;
                 let texts = image.document_object.map(text => {
@@ -4917,8 +4916,8 @@ class CanvaEditor extends Component<IProps, IState> {
         let norm = (image, parent) => {
             let res = { ...image };
             if (parent != null) {
-                let rec = getBoundingClientRect(parent._id);
-                let rec3 = getBoundingClientRect(image._id);
+                let rec = getBoundingClientRect(parent._id + "hihi4alo");
+                let rec3 = getBoundingClientRect(image._id + "hihi4alo");
                 res.margin_top = (rec3.top - rec.bottom) / this.state.scale;
                 res.margin_left = (rec3.left - rec.right) / this.state.scale;
             }
@@ -4960,7 +4959,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let align, effectId, bold, italic, fontId, fontColor;
         let currentOpacity, currentLineHeight, currentLetterSpacing;
         let fontSize;
-        const image = editorStore.images2.get(editorStore.idObjectSelected);
+        let image = editorStore.getImageSelected();
         image.selected = true;
         image.document_object.forEach(doc => {
             if (doc._id == childId) {

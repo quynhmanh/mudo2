@@ -86,7 +86,7 @@ export default class SidebarFont extends Component<IProps, IState> {
             el.style.fontFamily = id;
         }
 
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
+        let image = editorStore.getImageSelected();
         if (editorStore.childId) {
             let newTexts = image.document_object.map(d => {
                 if (d._id == editorStore.childId) {

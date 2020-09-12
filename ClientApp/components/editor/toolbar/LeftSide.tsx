@@ -85,7 +85,7 @@ class LeftSide extends Component<IProps, IState> {
     }
 
     render() {
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
+        let image = editorStore.getImageSelected();
         if (image && editorStore.childId && image.document_object) {
             let found = image.document_object.find(doc => doc._id == editorStore.childId);
             image = found;
@@ -245,9 +245,8 @@ class LeftSide extends Component<IProps, IState> {
                                         (
                                             editorStore.childId !== null ||
                                             (
-                                                editorStore.idObjectSelected &&
-                                                editorStore.images2.get(editorStore.idObjectSelected) &&
-                                                editorStore.images2.get(editorStore.idObjectSelected).type === TemplateType.Heading
+                                                image &&
+                                                image.type === TemplateType.Heading
                                             )
                                         )
                                     }

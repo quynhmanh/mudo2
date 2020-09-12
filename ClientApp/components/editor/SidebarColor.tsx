@@ -330,7 +330,7 @@ export default class SidebarColor extends Component<IProps, IState> {
         if (e) {
             e.preventDefault();
         }
-        let image = editorStore.images2.get(editorStore.idObjectSelected);
+        let image = editorStore.getImageSelected();
         if (image.type == TemplateType.BackgroundImage) {
             image.color = color;
             image.src = null;

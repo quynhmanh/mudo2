@@ -118,8 +118,6 @@ export default class Canvas extends Component<IProps, IState> {
 
     const customAttr = {myattribute: id};
     
-    var imgSelected = editorStore.images2.get(editorStore.idObjectSelected);
-
     const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));
     return (
       <ResizableRectContainer

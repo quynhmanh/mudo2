@@ -28,7 +28,7 @@ interface IState {
 @observer
 class RightSide extends Component<IProps, IState> {
     render() {
-        let image = editorStore.images2.get(editorStore.idObjectSelected)
+        let image = editorStore.getImageSelected();
         const props = this.props;
         return (
             <div
