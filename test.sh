@@ -1,2 +1,2 @@
-docker run --name draft-app -p 64099:5003 -v /root/test-extension:/app/test-extension -v /root/images:/app/wwwroot/images -v /root/fonts:/app/wwwroot/fonts -v /root/videos:/app/wwwroot/videos --add-host=host_container_address:192.168.0.1 kjackal/hello-dotnet:v1
+docker run --name draft-app -p 64099:5003 -v /root/test-extension:/app/test-extension -v /root/images:/app/wwwroot/images -v /root/web_images:/app/wwwroot/web_images -v /root/fonts:/app/wwwroot/fonts -v /root/videos:/app/wwwroot/videos --add-host=host_container_address:192.168.0.1 kjackal/hello-dotnet:v1
 Xvfb -ac :99 -screen 0 1280x1024x16 &

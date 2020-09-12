@@ -43,7 +43,7 @@ const FontFamily = (props: IProps) => {
                         height: "18px",
                         margin: "auto",
                     }}
-                    src={fontName ? fontName : "images/font-AvenirNextRoundedPro.png"}
+                    src={fontName ? fontName : "web_images/font-AvenirNextRoundedPro.png"}
                 />
                 <img
                     src={require("@Components/shared/svgs/editor/toolbar/fontFamily.svg")}

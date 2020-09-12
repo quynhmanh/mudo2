@@ -152,10 +152,15 @@ namespace RCB.TypeScript.Services
                     }
                 }
 
-                string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", model.AdditionalStyle)
+                string template = AppSettings
+                    .templateDownload.Replace("[ADDITIONAL_STYLE]", model.AdditionalStyle)
                     .Replace("[FONT_FACE]", style)
                     .Replace("[RECT_WIDTH]", width)
                     .Replace("[RECT_HEIGHT]", height);
+
+                if (HostingEnvironment.IsProduction()) {
+                    template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
+                }
 
                 byte[] data = null;
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
@@ -553,6 +558,10 @@ namespace RCB.TypeScript.Services
             }
 
             var template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", additionalStyle);
+
+            if (HostingEnvironment.IsProduction()) {
+                template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
+            }
 
             template = template.Replace("[FONT_FACE]", style);
             byte[] data = null;

@@ -59,7 +59,7 @@ const Color = (props: IProps) => {
                         height: "24px",
                         borderRadius: "2px",
                     }}
-                    src="images/test.png"
+                    src="web_images/test.png"
                     />)
                 }
                 {isText && 
