@@ -977,6 +977,11 @@ class CanvaEditor extends Component<IProps, IState> {
             });
         }
 
+        if (this.props.match.path == "/editor/admin/:subtype/:mode") {
+            console.log('ok')
+            editorStore.isAdmin = true;
+        }
+
         if (this.props.match.params.subtype) {
             editorStore.subtype = parseInt(this.props.match.params.subtype);
             let rectWidth;

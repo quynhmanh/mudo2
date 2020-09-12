@@ -224,9 +224,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                             style={{
                                                 display: 'flex',
                                             }}>
-                                            {Globals.serviceUser &&
-                                                Globals.serviceUser.username &&
-                                                Globals.serviceUser.username == adminEmail && (
+                                            {editorStore.isAdmin && (
                                                     <button
                                                         style={{
                                                             top: "5px",

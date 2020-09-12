@@ -366,9 +366,7 @@ class LeftSide extends Component<IProps, IState> {
                         backgroundColor: "white",
                         width: "100%",
                         display:
-                            Globals.serviceUser &&
-                                Globals.serviceUser.username &&
-                                Globals.serviceUser.username === adminEmail
+                            editorStore.isAdmin
                                 ? "block"
                                 : "none"
                     }}
@@ -468,9 +466,7 @@ class LeftSide extends Component<IProps, IState> {
                         style={{
                             position: "relative",
                             height: `calc(100% - ${
-                                Globals.serviceUser &&
-                                    Globals.serviceUser.username &&
-                                    Globals.serviceUser.username == adminEmail
+                                editorStore.isAdmin
                                     ? 78
                                     : 0
                                 }px)`,
