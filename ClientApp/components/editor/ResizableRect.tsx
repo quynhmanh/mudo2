@@ -18,7 +18,6 @@ export interface IProps {
   handleFontColorChange(fontColor: string): void;
   handleFontFaceChange(fontFace: string): void;
   handleChildIdSelected(childId: string): void;
-  enableCropMode(e: any): void;
   disableCropMode: any
   cropMode: boolean;
   handleResizeInnerImageStart: any;
@@ -94,7 +93,6 @@ export default class ResizableRect extends Component<IProps, IState> {
       handleFontFaceChange,
       handleChildIdSelected,
       childId,
-      enableCropMode,
       cropMode,
       showImage,
       handleResizeInnerImageStart,
@@ -141,7 +139,6 @@ export default class ResizableRect extends Component<IProps, IState> {
         handleChildIdSelected={handleChildIdSelected}
         disableCropMode={disableCropMode}
         childId={childId}
-        enableCropMode={enableCropMode}
         cropMode={cropMode}
         handleResizeInnerImageStart={handleResizeInnerImageStart}
         showImage={showImage}

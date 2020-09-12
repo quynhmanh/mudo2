@@ -330,7 +330,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
             image = image.document_object.find(doc => doc._id == editorStore.childId);
         }
 
-        // console.log('image ', image.offset);
 
         return (
             <div

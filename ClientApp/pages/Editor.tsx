@@ -453,6 +453,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (id: string) => {
+        console.log('handleCropBtnClick')
         let image = editorStore.images2.get(editorStore.idObjectSelected);
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
@@ -461,29 +462,35 @@ class CanvaEditor extends Component<IProps, IState> {
             return;
         }
 
-        this.enableCropMode(editorStore.idObjectSelected, editorStore.pageId);
-
         window.tempImage = image;
 
-        setTimeout(() => {
-            if (image.type == TemplateType.Video) {
-                let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
-                let video2 = document.getElementById(id + "video" + CanvasType.HoverLayer + "alo") as HTMLVideoElement;
-                let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
-                var ctx = el3.getContext('2d')
-                if (el && el3) {
-                    el.pause();
-                    video2.currentTime = el.currentTime;
-                    ctx.imageSmoothingEnabled = false;
-                    ctx.drawImage(el, 0, 0, el3.width, el3.height);
-                }
-
-                if (!image.paused) this.canvas1[image.page].canvas[CanvasType.HoverLayer][image._id].child.toggleVideo();
-
-                image.paused = true;
-                editorStore.images2.set(image._id, image);
+        if (image.type == TemplateType.Video) {
+            let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
+            let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
+            let el4 = document.getElementById(editorStore.idObjectSelected + "video4" + "alo1") as HTMLCanvasElement;
+            let ctx = el3.getContext('2d')
+            let ctx2 = el4.getContext('2d');
+            var w = el.videoWidth * 1;
+            var h = el.videoHeight * 1;
+            el3.width = w;
+            el3.height = h;
+            el4.width = w;
+            el4.height = h;
+            if (el && el3) {
+                el.pause();
+                ctx.imageSmoothingEnabled = false;
+                ctx2.imageSmoothingEnabled = false;
+                ctx.drawImage(el, 0, 0, w, h);
+                ctx2.drawImage(el, 0, 0, w, h);
             }
-        }, 100);
+
+            if (!image.paused) this.canvas1[image.page].canvas[CanvasType.HoverLayer][image._id].child.toggleVideo();
+
+            image.paused = true;
+            editorStore.images2.set(image._id, image);
+        }
+
+        this.enableCropMode(editorStore.idObjectSelected, editorStore.pageId);
     }
 
     handleFlipBtnClick = (e: any) => {
@@ -2236,6 +2243,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
                     maxHeight = Math.max(maxHeight, h + text.top);
                     text.height = h;
+                    text.width = (width * text.width2) / image.scaleX / text.scaleX;
                     return text;
                 });
 
@@ -5184,7 +5192,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleFontColorChange={this.handleFontColorChange}
                     handleFontFamilyChange={this.handleFontFamilyChange}
                     handleChildIdSelected={this.handleChildIdSelected}
-                    enableCropMode={this.enableCropMode}
                     disableCropMode={this.disableCropMode}
                     handleResizeInnerImageStart={this.handleResizeInnerImageStart}
                     doNoObjectSelected={this.doNoObjectSelected}
@@ -5243,7 +5250,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleFontColorChange={this.handleFontColorChange}
                     handleFontFamilyChange={this.handleFontFamilyChange}
                     handleChildIdSelected={this.handleChildIdSelected}
-                    enableCropMode={this.enableCropMode}
                     disableCropMode={this.disableCropMode}
                     handleResizeInnerImageStart={this.handleResizeInnerImageStart}
                     doNoObjectSelected={this.doNoObjectSelected}

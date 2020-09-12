@@ -305,7 +305,7 @@ export default class SidebarBackground extends Component<IProps, IState> {
                                 <ImagePicker
                                     showButton={true}
                                     id=""
-                                    className=""
+                                    className="image-picker"
                                     key={key}
                                     color={item.color}
                                     src={item.representativeThumbnail}

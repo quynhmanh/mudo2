@@ -2,9 +2,6 @@ import styled from 'styled-components'
 
 export default styled.div`
   position: absolute;
-  img {
-    position: absolute;
-  }
   .square {
     position: absolute;
     border-radius: 1px;

@@ -34,7 +34,6 @@ export interface IProps {
     handleFontColorChange: any;
     handleFontFamilyChange: any;
     handleChildIdSelected: any;
-    enableCropMode: any;
     disableCropMode: any;
     handleResizeInnerImageStart: any;
     doNoObjectSelected: any;
@@ -488,7 +487,6 @@ export default class Canvas extends Component<IProps, IState> {
                                                 this
                                             )}
                                             childId={this.props.childId}
-                                            enableCropMode={this.props.enableCropMode}
                                             cropMode={cropMode}
                                             handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                                                 this
@@ -499,7 +497,7 @@ export default class Canvas extends Component<IProps, IState> {
                             </div>
                             <div
                                 {...customAttr}
-                                id="canvas"
+                                id="canvas2"
                                 className="canvas unblurred hoveredcanvas"
                                 style={{
                                     width: rectWidth * scale + "px",
@@ -557,12 +555,10 @@ export default class Canvas extends Component<IProps, IState> {
                                                     this
                                                 )}
                                                 childId={this.props.childId}
-                                                // enableCropMode={this.props.enableCropMode}
                                                 cropMode={cropMode}
                                                 handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                                                     this
                                                 )}
-                                                enableCropMode={this.props.enableCropMode}
                                             />
                                         )
                                     }
@@ -649,7 +645,7 @@ export default class Canvas extends Component<IProps, IState> {
                             )}
                             <div
                                 {...customAttr}
-                                id="canvas"
+                                id="canvas3"
                                 className="canvas unblurred"
                                 style={{
                                     width: rectWidth * scale + "px",
@@ -708,7 +704,6 @@ export default class Canvas extends Component<IProps, IState> {
                                             handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                                                 this
                                             )}
-                                            enableCropMode={this.props.enableCropMode}
                                         />
                                     )
                                 }

@@ -49,7 +49,7 @@ class Images {
     @observable subtype = null;
 
     @action getImageSelected = () => {
-      return this.images2.get(this.idObjectSelected);
+      return toJS(this.images2.get(this.idObjectSelected));
   }
   
     @action addItem = (item, isChild) => {

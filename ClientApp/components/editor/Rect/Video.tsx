@@ -73,6 +73,17 @@ export default class Video extends Component<IProps, IState> {
                     height: imgHeight + "px"
                 }}
             >
+                <canvas
+                    id={_id + "video4" + canvas + this.props.name}
+                    style={{
+                        width: "200%",
+                        height: "200%",
+                        transformOrigin: "0 0",
+                        opacity: 1,
+                        position: "absolute",
+                        transform: 'scale(0.5)',
+                    }}
+                />
                 <video
                     id={_id + "video" + this.props.name + canvas}
                     ref={i => this.ref = i}
@@ -80,7 +91,7 @@ export default class Video extends Component<IProps, IState> {
                         width: "100%",
                         height: "100%",
                         transformOrigin: "0 0",
-                        opacity,
+                        opacity: this.props.name == CanvasType.HoverLayer ? 0 : opacity,
                         pointerEvents: "none",
                     }}
                     autoPlay={canvas == "alo" ? false : true}
@@ -93,15 +104,15 @@ export default class Video extends Component<IProps, IState> {
                     }}
                     onTimeUpdate={e => {
                         if (this.props.name == CanvasType.All) {
-                            console.log('onTimeUpdate');
                             let progress = document.getElementById(_id + "progress1");
                             let progressBar = document.getElementById(_id + "progress-bar1");
                             let progressBarPointer = document.getElementById(_id + "progress-bar-pointer1");
                             let video = e.target as HTMLVideoElement;
                             if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration.toString());
                             progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';
-                            console.log('video.currentTime ', e.target.id, video.currentTime)
                             progressBarPointer.style.left = `calc(${video.currentTime / video.duration * 100}% - 7.5px)`;
+                        } else {
+                            e.target.style.opacity = 1;
                         }
                     }}
                 >
