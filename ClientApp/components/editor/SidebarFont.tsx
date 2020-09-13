@@ -274,6 +274,10 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                         style={{
                                                             position: "absolute",
                                                             right: '40px',
+                                                            top: '0',
+                                                            bottom: '0',
+                                                            margin: 'auto',
+                                                            height: '30px',
                                                         }}
                                                     >
                                                         <Tooltip
