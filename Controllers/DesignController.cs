@@ -524,7 +524,7 @@ namespace RCB.TypeScript.Controllers
                         {
 
                         }
-                        var path = "/Users/quynhnguyen/test-extension";
+                        var path = "/app/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
@@ -564,11 +564,30 @@ namespace RCB.TypeScript.Controllers
                             IgnoreHTTPSErrors = true,
                         });
 
-                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
-
                         Target backgroundPageTarget = null;
                         var targets = browser.Targets();
                         var len = targets.Length;
+                        var text = "";
+                        if (targets != null)
+                        {
+                            for (int t = 0; t < len; ++t)
+                            {
+                                if (targets[t] != null)
+                                {
+                                    text = text + targets[t].Url;
+                                }
+                            }
+                        }
+
+                        byte[] bytes = Encoding.ASCII.GetBytes(text);
+                        using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
+                        {
+                            htmlFile.Write(bytes, 0, bytes.Length);
+                            htmlFile.Flush();
+                        }
+
+                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+
                         if (targets != null)
                         {
                             for (int t = 0; t < len; ++t)
