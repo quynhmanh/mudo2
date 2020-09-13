@@ -44,7 +44,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "", string printType = "")
         {
             var node = new Uri(elasticsearchAddress);
-            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 10));
             var client = new ElasticClient(settings);
             string query = $"type:{type}";
 
