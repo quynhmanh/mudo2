@@ -271,7 +271,7 @@ class LeftSide extends Component<IProps, IState> {
                     .post(url, {
                         id: uuidv4(),
                         ext: file.name.split(".")[1],
-                        userEmail: Globals.serviceUser.username,
+                        userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
                         color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
                         data: fr.result,
                         width: i.width,
