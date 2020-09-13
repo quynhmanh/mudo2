@@ -14,6 +14,7 @@ RUN apt update
 # RUN pip3 install image
 RUN chmod a+x setup.sh 
  
+WORKDIR /app
 ADD setup.sh /
 
 
@@ -35,6 +36,5 @@ ENV DISPLAY :99
 
 ADD ./bin/Release/netcoreapp2.2/publish/ /app
 ENV ASPNETCORE_URLS=http://*:${PORT}
-WORKDIR /app
 
 ENTRYPOINT ["/bin/bash", "/app/setup.sh"]
