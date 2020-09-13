@@ -4414,10 +4414,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
     async saveImages(rep, isVideo) {
 
-        if (!Globals.serviceUser) {
-            return;
-        }
-
         this.setSavingState(SavingState.SavingChanges, false);
         const { mode } = this.state;
         let self = this;
@@ -4551,7 +4547,7 @@ class CanvaEditor extends Component<IProps, IState> {
             Representative2: `images/${_id}_2.jpeg`,
             VideoRepresentative: `videos/${_id}.mp4`,
             IsVideo: isVideo,
-            UserName: Globals.serviceUser.username,
+            UserName: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
             Popular: window.template ? window.template.popular : false,
         });
 
