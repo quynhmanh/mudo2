@@ -13,8 +13,9 @@ RUN apt update
 # RUN pip3 install tensorflow
 # RUN pip3 install image
 WORKDIR /app
-RUN chmod a+x setup.sh 
-ADD setup.sh /
+
+# ADD setup.sh /
+# RUN chmod a+x setup.sh 
 
 
 
