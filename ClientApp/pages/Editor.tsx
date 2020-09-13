@@ -269,7 +269,7 @@ class CanvaEditor extends Component<IProps, IState> {
             bleed: false,
             showMediaEditPopup: false,
             childId: null,
-            fontName: "web_images/font-AvenirNextRoundedPro.png",
+            fontName: "",
             fontId: "",
             showPopup: false,
             showMediaEditingPopup: false,
