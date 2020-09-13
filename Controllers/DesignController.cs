@@ -525,7 +525,7 @@ namespace RCB.TypeScript.Controllers
 
                         }
                         var path = "/app/test-extension";
-                        var extensionId = "nkeimhogjdpnpccoofpliimaahmaaome";
+                        var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
@@ -541,7 +541,6 @@ namespace RCB.TypeScript.Controllers
                             "--disable-setuid-sandbox",
                             "--disable-dev-shm-usage",
                             $"--load-extension={path}",
-                            //@"--load-extension=/Users/llaugusty/Documents/quynh-ext",
                         };
 
                         if (HostingEnvironment.IsDevelopment())
@@ -564,6 +563,15 @@ namespace RCB.TypeScript.Controllers
                             IgnoreHTTPSErrors = true,
                         });
 
+                        byte[] bytes2 = Encoding.ASCII.GetBytes(text);
+                        using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
+                        {
+                            htmlFile.Write(bytes2, 0, bytes2.Length);
+                            htmlFile.Flush();
+                        }
+
+                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+
                         Target backgroundPageTarget = null;
                         var targets = browser.Targets();
                         var len = targets.Length;
@@ -574,19 +582,10 @@ namespace RCB.TypeScript.Controllers
                             {
                                 if (targets[t] != null)
                                 {
-                                    text = text + targets[t].Url;
+                                    text = text + "\n" + targets[t].Url;
                                 }
                             }
                         }
-
-                        byte[] bytes2 = Encoding.ASCII.GetBytes(text);
-                        using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
-                        {
-                            htmlFile.Write(bytes2, 0, bytes2.Length);
-                            htmlFile.Flush();
-                        }
-
-                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
 
                         if (targets != null)
                         {
