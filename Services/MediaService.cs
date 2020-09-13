@@ -25,7 +25,7 @@ namespace RCB.TypeScript.Services
             //_mediaContext.Medias.Add(model);
             //_mediaContext.SaveChanges();
 
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
@@ -43,7 +43,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> RemoveAll()
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex("media");
             var client = new ElasticClient(settings);
 
@@ -61,7 +61,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> Edit(MediaModel model)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex("media");
             var client = new ElasticClient(settings);
 
@@ -80,7 +80,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> Delete(string id)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex("media");
             var client = new ElasticClient(settings);
 
@@ -91,7 +91,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<MediaModel>, long>> Search(int type, int page, int perPage, string terms = "", string userEmail = "")
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex("media").DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
 

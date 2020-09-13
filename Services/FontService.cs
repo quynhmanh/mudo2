@@ -20,7 +20,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> Add(FontModel model)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
@@ -31,7 +31,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<FontModel>, long>> Search(string term = null, int page = 1, int perPage = 20)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex("font").DisableDirectStreaming();
             var client = new ElasticClient(settings);
             string query = $"*:*";
@@ -45,7 +45,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Infrastructure.Result Delete(string id)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex("font");
             var client = new ElasticClient(settings);
 
@@ -57,7 +57,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<FontModel> Get(string id)
         {
 
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex("font");
             var client = new ElasticClient(settings);
 
@@ -72,7 +72,7 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error();
 
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex("font");
             var client = new ElasticClient(settings);
 

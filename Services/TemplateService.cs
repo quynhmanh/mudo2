@@ -43,7 +43,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> Search(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "", string printType = "")
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
             string query = $"type:{type}";
@@ -70,7 +70,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchWithUserName(string userName, int page, int perPage)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
             .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
@@ -89,7 +89,7 @@ namespace RCB.TypeScript.Services
         }
 
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchPopularTemplates(int page = 1, int perPage = 5) {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
             .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
@@ -331,7 +331,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<ResultSearchAngAggregate> SearchAngAggregate(string type = null, int page = 1, int perPage = 5, string filePath = "", string subType = "")
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming();
             var client = new ElasticClient(settings);
 
@@ -377,7 +377,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<TemplateModel> Get(string id)
         {
 
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
@@ -391,7 +391,7 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error<string>();
 
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
@@ -405,7 +405,7 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error();
 
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
@@ -442,7 +442,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Infrastructure.Result Delete(string id)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
@@ -457,7 +457,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Infrastructure.Result Undelete(string id)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
@@ -472,7 +472,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Infrastructure.Result UpdateRepresentative(string id, string filePath)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
@@ -494,7 +494,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> RemoveAll()
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
@@ -504,7 +504,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<int> Edit(TemplateModel model)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 

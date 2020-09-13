@@ -36,7 +36,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<DesignModel> Get(string id)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
@@ -54,7 +54,7 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error<string>();
 
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
@@ -86,7 +86,7 @@ namespace RCB.TypeScript.Services
 
         public virtual Result<KeyValuePair<List<DesignModel>, long>> SearchWithUserName(string userName, int page = 1, int perPage = 5)
         {
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
                 .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
@@ -106,7 +106,7 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error();
 
-            var node = new Uri("http://host_container_address:9200");
+            var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
