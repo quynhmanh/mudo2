@@ -173,8 +173,6 @@ export default class SidebarFont extends Component<IProps, IState> {
     };
 
     render() {
-        console.log('fontId ', editorStore.fontId)
-        console.log('editorStore.fontsList', toJS(editorStore.fontsList))
         return (
             <div
                 style={{

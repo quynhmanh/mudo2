@@ -235,7 +235,6 @@ export default class SidebarText extends Component<IProps, IState> {
 
                     document2.document_object = document2.document_object.map(doc => {
                         doc.width = (document2.width * doc.width2) / document2.scaleX / doc.scaleX;
-                        console.log('doc.width', document2.width, doc.width2, document2.scaleX, doc.scaleX);
                         return doc;
                     })
 

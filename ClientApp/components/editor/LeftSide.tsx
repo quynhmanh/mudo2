@@ -198,7 +198,6 @@ class LeftSide extends Component<IProps, IState> {
     };
 
     uploadFont = e => {
-        console.log('updateloaf')
         var self = this;
         var fileUploader = document.getElementById(
             "image-file"
@@ -406,7 +405,6 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                         type="submit"
                         onClick={ e => {
-                            console.log('upload', editorStore.selectedTab, editorStore.selectedTab == SidebarTab.Font)
                             if (editorStore.selectedTab == SidebarTab.Font)
                                 this.uploadFont(e);
                             else this.uploadImage.bind(

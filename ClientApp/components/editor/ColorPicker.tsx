@@ -78,7 +78,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
         pickr
         .on("save", (color, instance) => {
           if (color) {
-          console.log('color ', color);
           let colorCode = color.toRGBA();
           this.props.setSelectionColor(colorCode)
           editorStore.addFontColor(colorCode.toString())

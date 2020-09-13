@@ -114,8 +114,6 @@ export default class Canvas extends Component<IProps, IState> {
     if (!this.props.downloading) {
     }
 
-    console.log('canvas render')
-
     const customAttr = {myattribute: id};
     
     const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));
@@ -287,7 +285,6 @@ export default class Canvas extends Component<IProps, IState> {
                           this
                         )}
                         childId={this.props.childId}
-                        enableCropMode={this.props.enableCropMode}
                         cropMode={cropMode}
                         handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                           this
