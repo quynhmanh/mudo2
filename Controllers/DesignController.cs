@@ -525,7 +525,7 @@ namespace RCB.TypeScript.Controllers
 
                         }
                         var path = "/app/test-extension";
-                        var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
+                        var extensionId = "nkeimhogjdpnpccoofpliimaahmaaome";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
