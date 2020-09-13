@@ -563,13 +563,6 @@ namespace RCB.TypeScript.Controllers
                             IgnoreHTTPSErrors = true,
                         });
 
-                        byte[] bytes2 = Encoding.ASCII.GetBytes(text);
-                        using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
-                        {
-                            htmlFile.Write(bytes2, 0, bytes2.Length);
-                            htmlFile.Flush();
-                        }
-
                         await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
 
                         Target backgroundPageTarget = null;
@@ -585,6 +578,13 @@ namespace RCB.TypeScript.Controllers
                                     text = text + "\n" + targets[t].Url;
                                 }
                             }
+                        }
+
+                        byte[] bytes2 = Encoding.ASCII.GetBytes(text);
+                        using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
+                        {
+                            htmlFile.Write(bytes2, 0, bytes2.Length);
+                            htmlFile.Flush();
                         }
 
                         if (targets != null)
