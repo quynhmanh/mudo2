@@ -579,10 +579,10 @@ namespace RCB.TypeScript.Controllers
                             }
                         }
 
-                        byte[] bytes = Encoding.ASCII.GetBytes(text);
+                        byte[] bytes2 = Encoding.ASCII.GetBytes(text);
                         using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
                         {
-                            htmlFile.Write(bytes, 0, bytes.Length);
+                            htmlFile.Write(bytes2, 0, bytes2.Length);
                             htmlFile.Flush();
                         }
 
