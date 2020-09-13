@@ -39,7 +39,6 @@ class Popup extends PureComponent<IProps, IState> {
             axios
               .get(url)
               .then(res => {
-                    console.log('res total ', res.data.value.value);
                     let recentDesign = res.data.value.key.map(design => {
                         design.width = 160;
                         design.href = `/editor/design/${design.id}`;
@@ -63,7 +62,6 @@ class Popup extends PureComponent<IProps, IState> {
     loadMore = () => {
         if (Globals.serviceUser) {
             const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
-            console.log('laodmore ', url)
             axios
               .get(url)
               .then(res => {

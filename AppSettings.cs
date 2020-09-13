@@ -248,10 +248,6 @@ html {
           -webkit-print-color-adjust: exact;
         }
         @font-face {
-          font-family: 'Amatic SC';
-          src: url('localhost:64099/fonts/broadb.ttf')
-        }
-        @font-face {
             font-family: 'Open-Sans-Extra-Bold';
             src: url('https://localhost:64099/fonts/OpenSans-ExtraBold.ttf');
         }

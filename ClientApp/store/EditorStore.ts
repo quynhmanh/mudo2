@@ -47,10 +47,11 @@ class Images {
     @observable currentLetterSpacing = 0;
     @observable currentLineHeight = 0;
     @observable subtype = null;
-
+    @observable isAdmin = false;
+    
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));
-  }
+    }
   
     @action addItem = (item, isChild) => {
       if (isChild) {

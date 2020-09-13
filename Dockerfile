@@ -1,9 +1,6 @@
 FROM gcr.io/google-appengine/aspnetcore:2.2
-ADD ./bin/Release/netcoreapp2.2/publish/ /app
-ENV ASPNETCORE_URLS=http://*:${PORT}
-WORKDIR /app
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirror.0x.sg/ubuntu/|g' /etc/apt/sources.list
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt update
 RUN apt-get install -y software-properties-common
 RUN apt-get install --yes nodejs
@@ -15,9 +12,10 @@ RUN apt update
 # RUN apt install -y python3-pip
 # RUN pip3 install tensorflow
 # RUN pip3 install image
-RUN chmod a+x setup.sh 
- 
-ADD setup.sh /
+WORKDIR /app
+
+# ADD setup.sh /
+# RUN chmod a+x setup.sh 
 
 
 
@@ -35,5 +33,8 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 RUN dpkg -i google-chrome-stable_current_amd64.deb
 
 ENV DISPLAY :99
+
+ADD ./bin/Release/netcoreapp2.2/publish/ /app
+ENV ASPNETCORE_URLS=http://*:${PORT}
 
 ENTRYPOINT ["/bin/bash", "/app/setup.sh"]

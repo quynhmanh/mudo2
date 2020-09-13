@@ -393,9 +393,6 @@ export default class Rect extends Component<IProps, IState> {
 			}
 		} = this.state;
 		
-
-		console.log('render ', document_object)
-
 		const imgWidth = imgWidth2 * scale;
 		const imgHeight = imgHeight2 * scale;
 		const posX = posX2 * scale;

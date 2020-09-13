@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment, isValidElement } from "react";
 import styled from "styled-components";
 import Globals from "@Globals";
 import {secondToMinutes} from "@Utils";
+import editorStore from "@Store/EditorStore";
 
 export interface IProps {
   src: string;
@@ -123,10 +124,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
         defaultHeight={this.props.defaultHeight}
       >
         {this.props.showButton &&
-          Globals.serviceUser &&
-          Globals.serviceUser.username &&
-          (Globals.serviceUser.username === "llaugusty@gmail.com" ||
-            Globals.serviceUser.username === "hoangson1024@gmail.com") && (
+          editorStore.isAdmin && (
             <button
               style={{
                 position: "absolute",

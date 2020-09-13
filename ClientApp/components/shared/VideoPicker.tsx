@@ -1,6 +1,6 @@
 import React, {PureComponent, Fragment, isValidElement} from "react";
 import styled from 'styled-components';
-import Globals from '@Globals';
+import editorStore from "@Store/EditorStore";
 
 export interface IProps {
     src: string;
@@ -108,7 +108,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             backgroundColor: '#00000030',
             background: '#fff',
           }} delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
-            {this.props.showButton && Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com")  &&
+            {this.props.showButton && editorStore.isAdmin  &&
             <button
               style={{
                 position: 'absolute',

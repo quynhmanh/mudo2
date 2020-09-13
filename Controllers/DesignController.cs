@@ -164,6 +164,10 @@ namespace RCB.TypeScript.Controllers
                         .Replace("[RECT_WIDTH]", width)
                         .Replace("[RECT_HEIGHT]", height);
 
+                if (HostingEnvironment.IsProduction()) {
+                    template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
+                }
+
                 template = template.Replace("[FONT_FACE]", style);
                 byte[] data = null;
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
@@ -326,6 +330,10 @@ namespace RCB.TypeScript.Controllers
                         .Replace("[RECT_WIDTH]", width)
                         .Replace("[RECT_HEIGHT]", height);
 
+                if (HostingEnvironment.IsProduction()) {
+                    template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
+                }
+
                 byte[] data = null;
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
                 {
@@ -484,10 +492,15 @@ namespace RCB.TypeScript.Controllers
 
                 style += AppSettings.style;
 
-                string template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
+                string template = AppSettings.templateDownload
+                    .Replace("[ADDITIONAL_STYLE]", oDownloadBody.AdditionalStyle)
                     .Replace("[FONT_FACE]", style)
                     .Replace("[RECT_WIDTH]", width)
                     .Replace("[RECT_HEIGHT]", height);
+
+                if (HostingEnvironment.IsProduction()) {
+                    template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
+                }
 
                 byte[] data = null;
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
@@ -511,7 +524,7 @@ namespace RCB.TypeScript.Controllers
                         {
 
                         }
-                        var path = "/Users/quynhnguyen/test-extension";
+                        var path = "/app/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
@@ -528,7 +541,6 @@ namespace RCB.TypeScript.Controllers
                             "--disable-setuid-sandbox",
                             "--disable-dev-shm-usage",
                             $"--load-extension={path}",
-                            //@"--load-extension=/Users/llaugusty/Documents/quynh-ext",
                         };
 
                         if (HostingEnvironment.IsDevelopment())
@@ -556,6 +568,25 @@ namespace RCB.TypeScript.Controllers
                         Target backgroundPageTarget = null;
                         var targets = browser.Targets();
                         var len = targets.Length;
+                        var text = "";
+                        if (targets != null)
+                        {
+                            for (int t = 0; t < len; ++t)
+                            {
+                                if (targets[t] != null)
+                                {
+                                    text = text + "\n" + targets[t].Url;
+                                }
+                            }
+                        }
+
+                        byte[] bytes2 = Encoding.ASCII.GetBytes(text);
+                        using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
+                        {
+                            htmlFile.Write(bytes2, 0, bytes2.Length);
+                            htmlFile.Flush();
+                        }
+
                         if (targets != null)
                         {
                             for (int t = 0; t < len; ++t)
@@ -587,7 +618,7 @@ namespace RCB.TypeScript.Controllers
                         await page.SetContentAsync(html,
                                 new NavigationOptions()
                                 {
-                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, },
                                     Timeout = 0,
                                 }
                             );

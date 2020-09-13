@@ -269,7 +269,7 @@ class CanvaEditor extends Component<IProps, IState> {
             bleed: false,
             showMediaEditPopup: false,
             childId: null,
-            fontName: "images/font-AvenirNextRoundedPro.png",
+            fontName: "",
             fontId: "",
             showPopup: false,
             showMediaEditingPopup: false,
@@ -859,8 +859,11 @@ class CanvaEditor extends Component<IProps, IState> {
 
         if (template_id) {
             let url;
-            if (this.props.match.path == "/editor/template/:template_id") {
+            if (this.props.match.path == "/editor/template/:template_id" ||
+                this.props.match.path == "/editor/admin/template/:template_id"
+            ) {
                 url = `/api/Template/Get?id=${template_id}`;
+                editorStore.isAdmin = true;
             } else if (this.props.match.path == "/editor/design/:template_id") {
                 url = `/api/Design/Get?id=${template_id}`;
             } else if (this.props.match.path == "/editor/design/:design_id/:template_id") {
@@ -977,12 +980,14 @@ class CanvaEditor extends Component<IProps, IState> {
             });
         }
 
+        if (this.props.match.path == "/editor/admin/:subtype/:mode") {
+            editorStore.isAdmin = true;
+        }
+
         if (this.props.match.params.subtype) {
             editorStore.subtype = parseInt(this.props.match.params.subtype);
             let rectWidth;
             let rectHeight;
-
-            console.log('editorStore.subtype ', editorStore.subtype)
 
             switch (editorStore.subtype) {
                 case 0:
@@ -1010,7 +1015,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectHeight = 1134;
                     break;
                 case 6:
-                    console.log('asd')
                     rectWidth = 1024;
                     rectHeight = 1024;
                     break;
@@ -1031,8 +1035,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectHeight = 3300;
                     break;
             }
-
-            console.log('editorStore.subtype ', rectWidth, rectHeight);
 
             scaleX = (width - 100) / rectWidth;
             scaleY = (height - 100) / rectHeight;
@@ -3149,9 +3151,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         location$.pipe(
             first(),
-            // catchError(_ => 'no more drag!!!')
         ).subscribe(v => {
-            console.log('asd', v)
             this.displayResizers(false);
             this.setSavingState(SavingState.UnsavedChanges, false);
             window.dragged = true;
@@ -4408,10 +4408,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
     async saveImages(rep, isVideo) {
 
-        if (!Globals.serviceUser) {
-            return;
-        }
-
         this.setSavingState(SavingState.SavingChanges, false);
         const { mode } = this.state;
         let self = this;
@@ -4545,7 +4541,7 @@ class CanvaEditor extends Component<IProps, IState> {
             Representative2: `images/${_id}_2.jpeg`,
             VideoRepresentative: `videos/${_id}.mp4`,
             IsVideo: isVideo,
-            UserName: Globals.serviceUser.username,
+            UserName: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
             Popular: window.template ? window.template.popular : false,
         });
 

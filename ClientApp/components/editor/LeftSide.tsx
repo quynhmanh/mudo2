@@ -198,7 +198,6 @@ class LeftSide extends Component<IProps, IState> {
     };
 
     uploadFont = e => {
-        console.log('updateloaf')
         var self = this;
         var fileUploader = document.getElementById(
             "image-file"
@@ -271,7 +270,7 @@ class LeftSide extends Component<IProps, IState> {
                     .post(url, {
                         id: uuidv4(),
                         ext: file.name.split(".")[1],
-                        userEmail: Globals.serviceUser.username,
+                        userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
                         color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
                         data: fr.result,
                         width: i.width,
@@ -320,7 +319,8 @@ class LeftSide extends Component<IProps, IState> {
     };
 
     render() {
-        let image = editorStore.getImageSelected() || {};
+        let image = toJS(editorStore.images2.get(editorStore.idObjectSelected)) || {};
+
         if (editorStore.childId && image.document_object) {
             image = image.document_object.find(text => text._id == editorStore.childId) || {};
         }
@@ -365,9 +365,7 @@ class LeftSide extends Component<IProps, IState> {
                         backgroundColor: "white",
                         width: "100%",
                         display:
-                            Globals.serviceUser &&
-                                Globals.serviceUser.username &&
-                                Globals.serviceUser.username === adminEmail
+                            editorStore.isAdmin
                                 ? "block"
                                 : "none"
                     }}
@@ -407,7 +405,6 @@ class LeftSide extends Component<IProps, IState> {
                         }}
                         type="submit"
                         onClick={ e => {
-                            console.log('upload', editorStore.selectedTab, editorStore.selectedTab == SidebarTab.Font)
                             if (editorStore.selectedTab == SidebarTab.Font)
                                 this.uploadFont(e);
                             else this.uploadImage.bind(
@@ -467,9 +464,7 @@ class LeftSide extends Component<IProps, IState> {
                         style={{
                             position: "relative",
                             height: `calc(100% - ${
-                                Globals.serviceUser &&
-                                    Globals.serviceUser.username &&
-                                    Globals.serviceUser.username == adminEmail
+                                editorStore.isAdmin
                                     ? 78
                                     : 0
                                 }px)`,

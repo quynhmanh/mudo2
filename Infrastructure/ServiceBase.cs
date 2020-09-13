@@ -5,6 +5,9 @@ namespace RCB.TypeScript.Infrastructure
 {
     public abstract class ServiceBase
     {
+
+        public const string elasticsearchAddress = "http://localhost:9200";
+
         protected static Result Ok()
         {
             return new Result();
