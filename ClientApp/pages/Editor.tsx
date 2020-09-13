@@ -859,8 +859,11 @@ class CanvaEditor extends Component<IProps, IState> {
 
         if (template_id) {
             let url;
-            if (this.props.match.path == "/editor/template/:template_id") {
+            if (this.props.match.path == "/editor/template/:template_id" ||
+                this.props.match.path == "/editor/admin/template/:template_id"
+            ) {
                 url = `/api/Template/Get?id=${template_id}`;
+                editorStore.isAdmin = true;
             } else if (this.props.match.path == "/editor/design/:template_id") {
                 url = `/api/Design/Get?id=${template_id}`;
             } else if (this.props.match.path == "/editor/design/:design_id/:template_id") {
