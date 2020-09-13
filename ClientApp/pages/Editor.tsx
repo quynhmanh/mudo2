@@ -5398,6 +5398,7 @@ class CanvaEditor extends Component<IProps, IState> {
         if (el) el.innerHTML = term;
 
         if (callSave) {
+            this.cancelSaving();
             this.saving = setTimeout(() => {
                 this.saveImages(null, false);
             }, 5000);
