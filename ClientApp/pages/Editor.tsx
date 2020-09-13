@@ -981,7 +981,6 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (this.props.match.path == "/editor/admin/:subtype/:mode") {
-            console.log('ok')
             editorStore.isAdmin = true;
         }
 
@@ -989,8 +988,6 @@ class CanvaEditor extends Component<IProps, IState> {
             editorStore.subtype = parseInt(this.props.match.params.subtype);
             let rectWidth;
             let rectHeight;
-
-            console.log('editorStore.subtype ', editorStore.subtype)
 
             switch (editorStore.subtype) {
                 case 0:
@@ -1018,7 +1015,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectHeight = 1134;
                     break;
                 case 6:
-                    console.log('asd')
                     rectWidth = 1024;
                     rectHeight = 1024;
                     break;
@@ -1039,8 +1035,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectHeight = 3300;
                     break;
             }
-
-            console.log('editorStore.subtype ', rectWidth, rectHeight);
 
             scaleX = (width - 100) / rectWidth;
             scaleY = (height - 100) / rectHeight;
@@ -3157,9 +3151,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         location$.pipe(
             first(),
-            // catchError(_ => 'no more drag!!!')
         ).subscribe(v => {
-            console.log('asd', v)
             this.displayResizers(false);
             this.setSavingState(SavingState.UnsavedChanges, false);
             window.dragged = true;
@@ -4040,7 +4032,6 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (editorStore.idObjectSelected) {
-            console.log('doNoObjectSelected')
             this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
             this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
 
