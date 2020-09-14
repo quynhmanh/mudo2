@@ -208,6 +208,7 @@ namespace RCB.TypeScript.Services
                             Args = arguments.ToArray(),
                             Headless = false,
                             IgnoredDefaultArgs = new string[] { "--disable-extensions" },
+                            IgnoreHTTPSErrors = true,
                         });
 
                         await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
@@ -610,7 +611,7 @@ namespace RCB.TypeScript.Services
                     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                     using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
-                        // Headless = false,
+                        Headless = false,
                         DefaultViewport = new ViewPortOptions()
                         {
                             Width = width,
