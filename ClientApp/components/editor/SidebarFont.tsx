@@ -266,6 +266,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                 <img
                                                     style={{
                                                         // margin: "auto"
+                                                        height: font.fontPickerHeight ? font.fontPickerHeight + "px" : "20px",
                                                     }}
                                                     src={font.representative}
                                                 />

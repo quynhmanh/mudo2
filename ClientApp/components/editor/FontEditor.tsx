@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import axios from "axios";
+import { values } from "mobx";
 
 export interface IProps {
   item: any;
@@ -43,6 +44,12 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         }
       });
   };
+
+  handleUpdateFontPickerHeight = () => {
+    let val = (document.getElementById("font-picker-height" ) as HTMLInputElement).value;
+    var url = `/api/Font/HandleUpdateFontPickerHeight?id=${this.props.item.id}&height=${val}`;
+    axios.post(url);
+  }
 
   handleToggleVietnameseSupport = () => {
     var url = `/api/Font/ToggleVietSupport?id=${this.props.item.id}`;
@@ -135,7 +142,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
           >
             {this.state.title}
           </p>
-          <p className="unblurred">Keywords:</p>
+          {/* <p className="unblurred">Keywords:</p> */}
           {/* {this.state.keywords.map((kw, index) => <div 
                         style={{
                             marginBottom: '10px',
@@ -144,6 +151,8 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                         <input onChange={this.handleKeywordChanged.bind(this, index)} className='unblurred' type="text" value={kw} />
                         <button className='unblurred' onClick={this.handleRemove.bind(this, index)}>Remove</button>
                     </div>)} */}
+            <p className="unblurred">Font picker height</p>
+            <input id ="font-picker-height" className="unblurred" />
 
           <div
             className="unblurred"
@@ -161,6 +170,15 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
               onClick={this.handleSubmit}
             >
               OK
+            </button>
+            <button
+              style={{
+                marginRight: "15px"
+              }}
+              className="unblurred"
+              onClick={this.handleUpdateFontPickerHeight}
+            >
+              Update font picker height
             </button>
             <button
               style={{
