@@ -629,24 +629,24 @@ namespace RCB.TypeScript.Services
                         await page.SetContentAsync(html,
                             new NavigationOptions()
                             {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load, },
+                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, },
                                 Timeout = 0,
                             });
 
-                        if (omitBackground) {
-                            await page.EvaluateFunctionAsync(@"() => {
-                                if (document.getElementById('alo2')) {
-                                    document.getElementById('alo2').style.backgroundColor = 'transparent !important';
-                                }
-                            }");
-                        }
+                        // if (omitBackground) {
+                        //     await page.EvaluateFunctionAsync(@"() => {
+                        //         if (document.getElementById('alo2')) {
+                        //             document.getElementById('alo2').style.backgroundColor = 'transparent !important';
+                        //         }
+                        //     }");
+                        // }
 
-                        await page.EvaluateFunctionAsync(@"() => {
-                            if (document.getElementById('alo2')) {
-                                document.getElementById('alo2').style.transform = 'scale(4)';
-                                document.getElementById('alo2').style.transformOrigin = '0 0';
-                            }
-                        }");
+                        // await page.EvaluateFunctionAsync(@"() => {
+                        //     if (document.getElementById('alo2')) {
+                        //         document.getElementById('alo2').style.transform = 'scale(4)';
+                        //         document.getElementById('alo2').style.transformOrigin = '0 0';
+                        //     }
+                        // }");
 
                         Stream a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
                         {
