@@ -83,6 +83,7 @@ function startRecording(videoId, width, height) {
 	    }
 	});
         const timeslice = 5000;
+        chrome.tabs.executeScript( null, {code:"let videos = document.getElementsByTagName('video'); for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;"});
         recorder.start(timeslice);
     });
 }
