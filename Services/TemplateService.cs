@@ -702,7 +702,7 @@ namespace RCB.TypeScript.Services
 
                         }
                         var path = "/app/wwwroot/test-extension";
-                        var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
+                        var extensionId = "elindhcnkcamdgnhiedjalfojeindigm";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
