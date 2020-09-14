@@ -24,7 +24,7 @@ const WIDTH = 250;
 
 class Popup extends PureComponent<IProps, IState> {
     state = {
-        total: 0,
+        total: 100,
         hasMore: true,
         yLocation: 0,
         showLeft: true,
