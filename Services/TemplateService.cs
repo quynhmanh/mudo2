@@ -618,7 +618,7 @@ namespace RCB.TypeScript.Services
                             Height = height,
                         },
                         ExecutablePath = executablePath,
-                        Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
+                        Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", },
                         IgnoreHTTPSErrors = true,
                     }))
                     {
