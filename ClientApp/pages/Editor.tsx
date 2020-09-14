@@ -4928,25 +4928,6 @@ class CanvaEditor extends Component<IProps, IState> {
         return result;
     }
 
-    uploadVideo = () => {
-        let self = this;
-        ``;
-        let fileUploader = document.getElementById(
-            "image-file"
-        ) as HTMLInputElement;
-        let file = fileUploader.files[0];
-        let fr = new FileReader();
-        fr.readAsDataURL(file);
-        fr.onload = () => {
-            let url = `/api/Media/AddVideo`;
-            axios.post(url, {
-                id: uuidv4(),
-                data: fr.result,
-                type: TemplateType.Video
-            });
-        };
-    };
-
     handleChildIdSelected = childId => {
         editorStore.childId = childId;
         this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
