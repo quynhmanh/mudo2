@@ -243,7 +243,7 @@ class LeftSide extends Component<IProps, IState> {
                     ext: file.name.split(".")[1],
                     width: vid.videoWidth,
                     height: vid.videoHeight,
-                    duration: vid.duration,
+                    duration: vid.duration ? vid.duration : 0,
                 });
             }
         };
