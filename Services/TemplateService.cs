@@ -172,7 +172,7 @@ namespace RCB.TypeScript.Services
                     for (var i = 0; i < canvas.Length; ++i)
                     {
                         var html = template.Replace("[CANVAS]", canvas[i]);
-                        var path = "/app/test-extension";
+                        var path = "/app/wwwroot/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
@@ -701,7 +701,7 @@ namespace RCB.TypeScript.Services
                         {
 
                         }
-                        var path = "/app/test-extension";
+                        var path = "/app/wwwroot/test-extension";
                         var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
