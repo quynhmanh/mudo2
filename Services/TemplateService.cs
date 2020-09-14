@@ -435,6 +435,7 @@ namespace RCB.TypeScript.Services
             template.Pages = model.Pages;
             template.Popular = model.Popular;
             template.Delete = model.Delete;
+            template.IsVideo = model.IsVideo;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
