@@ -27,26 +27,46 @@ const playIcon = <svg
 const HEIGHT = 250;
 
 const PopularTemplateItem = (props: IProps) => {
-
+    console.log('props', props)
     let picker = null;
     let showPlayIcon = false;
-    picker = <ImagePicker
-        id={props.id}
-        key={"1"}
-        color={""}
-        delay={0}
-        height={HEIGHT}
-        onPick={(e) => {}}
-        onEdit={(e) => {
-            window.open(`/editor/design/${props.id}`)
-        }}
-        className={""}
-        showButton={false}
-        defaultHeight={HEIGHT}
-        src={props.representative}
-        width={props.width}
-        backgroundColor="black"
-    />
+    if (props.isVideo) {
+        picker = <VideoPicker
+            id={props.id}
+            key={"1"}
+            color={""}
+            delay={0}
+            height={HEIGHT}
+            onPick={(e) => {}}
+            onEdit={(e) => {
+                window.open(`/editor/design/${props.id}`)
+            }}
+            className={""}
+            showButton={false}
+            defaultHeight={HEIGHT}
+            src={props.videoRepresentative}
+            width={props.width}
+            backgroundColor="black"
+        />
+    } else {
+        picker = <ImagePicker
+            id={props.id}
+            key={"1"}
+            color={""}
+            delay={0}
+            height={HEIGHT}
+            onPick={(e) => {}}
+            onEdit={(e) => {
+                window.open(`/editor/design/${props.id}`)
+            }}
+            className={""}
+            showButton={false}
+            defaultHeight={HEIGHT}
+            src={props.representative}
+            width={props.width}
+            backgroundColor="black"
+        />
+    }
 
     return (
         <CC 

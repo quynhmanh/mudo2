@@ -52,7 +52,6 @@ export interface IProps {
     selectedImage: any;
     pauser: any;
     backgroundOnMouseDown: any;
-    templateOnMouseDown: any;
     updateImages: any;
     forceEditorUpdate: any;
     setSavingState: any;
@@ -419,6 +418,8 @@ class LeftSide extends Component<IProps, IState> {
                     >
                         Upload
                     </button>
+                    <span>IsVideo</span>
+                    <input type="checkbox" id="vehicle1"/>
                     <button
                         style={{
                             bottom: 0,

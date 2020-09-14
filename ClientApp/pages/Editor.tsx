@@ -4408,6 +4408,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
     async saveImages(rep, isVideo) {
 
+        isVideo = (document.getElementById('vehicle1') as HTMLInputElement).checked;
+
         this.setSavingState(SavingState.SavingChanges, false);
         const { mode } = this.state;
         let self = this;

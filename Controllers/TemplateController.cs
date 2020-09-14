@@ -83,6 +83,10 @@ namespace RCB.TypeScript.Controllers
             bool omitBackground = model.Type == "2" ? true : false;
             await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, true, model.Type == "2", model.Representative, omitBackground);
 
+            if (model.IsVideo) {
+                await designService.GenerateVideoRepresentative(model, (int)model.Width, (int)model.Height, true, model.Type == "2", model.VideoRepresentative, omitBackground);
+            }
+
             var result = TemplateService.Add(model);
 
             return Json(Ok());
@@ -124,6 +128,10 @@ namespace RCB.TypeScript.Controllers
 
             bool omitBackground = model.Type == "2" ? true : false;
             await designService.GenerateRepresentative(model, (int)model.Width, (int)model.Height, true, model.Type == "2", model.Representative, omitBackground);
+
+            if (model.IsVideo) {
+                await designService.GenerateVideoRepresentative(model, (int)model.Width, (int)model.Height, true, model.Type == "2", model.VideoRepresentative, omitBackground);
+            }
 
             var result = TemplateService.Update(model);
             return Json(Ok());

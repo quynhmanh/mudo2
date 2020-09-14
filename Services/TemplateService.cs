@@ -528,17 +528,6 @@ namespace RCB.TypeScript.Services
         {
             string resPath = null;
             string style = AppSettings.style;
-//             if (backgroundBlack)
-//             {
-//                 style += @"
-//     #alo {
-//         background-color: rgb(33, 39, 46) !important;
-//     }
-//     body {
-//         background: #293039;
-//     }
-// ";
-//             }
             for (int i = 0; i < templateModel.FontList.Length; ++i)
             {
                 try {
@@ -596,12 +585,6 @@ namespace RCB.TypeScript.Services
 
                     }
 
-                    // if (preview)
-                    // {
-                    //     width = width * 2;
-                    //     height = height * 2;
-                    // }
-
                     var executablePath = "/usr/bin/google-chrome-stable";
                     if (HostingEnvironment.IsDevelopment())
                     {
@@ -633,21 +616,6 @@ namespace RCB.TypeScript.Services
                                 Timeout = 0,
                             });
 
-                        // if (omitBackground) {
-                        //     await page.EvaluateFunctionAsync(@"() => {
-                        //         if (document.getElementById('alo2')) {
-                        //             document.getElementById('alo2').style.backgroundColor = 'transparent !important';
-                        //         }
-                        //     }");
-                        // }
-
-                        // await page.EvaluateFunctionAsync(@"() => {
-                        //     if (document.getElementById('alo2')) {
-                        //         document.getElementById('alo2').style.transform = 'scale(4)';
-                        //         document.getElementById('alo2').style.transformOrigin = '0 0';
-                        //     }
-                        // }");
-
                         Stream a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
                         {
                             Clip = new PuppeteerSharp.Media.Clip()
@@ -674,16 +642,233 @@ namespace RCB.TypeScript.Services
                             imageFile.Flush();
                         }
                     }
-                // }
-
-                //doc.Close();
-                //pCopy.Close();
-                //data = msOutput.ToArray();
             }
-
-            //p.WaitForExit();
 
             return resPath;
         }
+
+        
+        public async virtual Task<string> GenerateVideoRepresentative(TemplateModel templateModel, int width, int height, Boolean preview, Boolean backgroundBlack, string videoPath, bool omitBackground = false)
+        {
+                string style = String.Empty;
+                for (int i = 0; i < templateModel.FontList.Length; ++i)
+                {
+                    try
+                    {
+                        byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{templateModel.FontList[i]}.ttf");
+                        String file = Convert.ToBase64String(AsBytes);
+
+                        string s = $"@font-face {{ font-family: '{templateModel.FontList[i]}'; src: url('https://localhost:64099/fonts/{templateModel.FontList[i]}.ttf'); }}";
+                        style += s;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+
+
+                string template = AppSettings.templateDownload
+                    .Replace("[ADDITIONAL_STYLE]", "")
+                    .Replace("[FONT_FACE]", style)
+                    .Replace("[RECT_WIDTH]", width.ToString())
+                    .Replace("[RECT_HEIGHT]", height.ToString());
+
+                if (HostingEnvironment.IsProduction()) {
+                    template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
+                }
+
+                byte[] data = null;
+                using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+                {
+                    iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
+                    iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
+                    doc.Open();
+                    var canvas = templateModel.Canvas2;
+                    for (var i = 0; i < canvas.Length; ++i)
+                    {
+                        var html = template.Replace("[CANVAS]", canvas[i]);
+                        try
+                        {
+                            byte[] bytes = Encoding.ASCII.GetBytes(html);
+                            using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
+                            {
+                                htmlFile.Write(bytes, 0, bytes.Length);
+                                htmlFile.Flush();
+                            }
+                        } catch (Exception e)
+                        {
+
+                        }
+                        var path = "/app/test-extension";
+                        var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
+                        var executablePath = "/usr/bin/google-chrome-stable";
+                        if (HostingEnvironment.IsDevelopment())
+                        {
+                            path = "F:\\Projects\\test-extension";
+                            extensionId = "nkmodfdkigldbhmikgbbebdbggekljmo";
+                            executablePath = Configuration.GetSection("chromeExePath").Get<string>();
+                        }
+
+                        List<string> arguments = new List<string>()
+                        {
+                            $"--whitelisted-extension-id={extensionId}",
+                            "--no-sandbox",
+                            "--disable-setuid-sandbox",
+                            "--disable-dev-shm-usage",
+                            $"--load-extension={path}",
+                        };
+
+                        if (HostingEnvironment.IsDevelopment())
+                        {
+                            arguments.Add($"--disable-extensions-except={path}");
+                        }
+
+                        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+                        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                        {
+                            DefaultViewport = new ViewPortOptions()
+                            {
+                                Width = width,
+                                Height = height,
+                            },
+                            ExecutablePath = executablePath,
+                            Args = arguments.ToArray(),
+                            Headless = false,
+                            IgnoredDefaultArgs = new string[] { "--disable-extensions" },
+                            IgnoreHTTPSErrors = true,
+                        });
+
+                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+
+                        Target backgroundPageTarget = null;
+                        var targets = browser.Targets();
+                        var len = targets.Length;
+                        var text = "";
+                        if (targets != null)
+                        {
+                            for (int t = 0; t < len; ++t)
+                            {
+                                if (targets[t] != null)
+                                {
+                                    text = text + "\n" + targets[t].Url;
+                                }
+                            }
+                        }
+                        try {
+
+                            byte[] bytes2 = Encoding.ASCII.GetBytes(text);
+                            using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
+                            {
+                                htmlFile.Write(bytes2, 0, bytes2.Length);
+                                htmlFile.Flush();
+                            }
+                        } catch (Exception e) {
+
+                        }
+
+                        if (targets != null)
+                        {
+                            for (int t = 0; t < len; ++t)
+                            {
+                                if (targets[t] != null)
+                                {
+                                    if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
+                                    {
+                                        backgroundPageTarget = targets[t];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (backgroundPageTarget == null)
+                        {
+                            throw new Exception("Cannot get background pages.");
+                        }
+
+                        var backgroundPage = await backgroundPageTarget.PageAsync();
+
+                        var page = await browser.NewPageAsync();
+                        await page.SetContentAsync(html,
+                                new NavigationOptions()
+                                {
+                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, },
+                                    Timeout = 0,
+                                }
+                            );
+
+                        await page.WaitForTimeoutAsync(5000);
+
+
+                        if (backgroundPageTarget == null)
+                        {
+                            throw new Exception("Cannot get background pages.");
+                        }
+
+                        var messages = new List<ConsoleMessage>();
+
+                        backgroundPage.Console += (sender, e) => messages.Add(e.Message);
+
+                        var inp = "/app/wwwroot/" + templateModel.Id + ".webm";
+                        if (HostingEnvironment.IsDevelopment())
+                        {
+                            inp = "./wwwroot/" + templateModel.Id + ".webm";
+                        }
+                        if (File.Exists(inp)) File.Delete(inp);
+
+                        var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
+                            startRecording('" + templateModel.Id + @"'," + width + @"," + height + @"); 
+                            return Promise.resolve(42);
+                        }");
+
+                        while (true)
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                            if (System.IO.File.Exists(inp))
+                            {
+                                await browser.CloseAsync();
+                                break;
+                            }
+                        }
+
+                        await backgroundPage.CloseAsync();
+                        await page.CloseAsync();
+                    }
+                }
+
+                int crf = 17;
+                var exePath = "/usr/bin/ffmpeg";
+                var inputArgs = "/app/wwwroot/" + templateModel.Id + ".webm -crf " + crf.ToString();
+                var outputArgs = "/app/wwwroot/video/" + templateModel.Id + ".mp4";
+
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
+                    inputArgs = "./wwwroot" + "/" + templateModel.Id + ".webm -c:v copy ";
+                    outputArgs = "./wwwroot" + "/videos/" + templateModel.Id + ".mp4";
+                }
+
+                if (File.Exists(outputArgs)) {
+                    File.Delete(outputArgs);
+                }
+
+                var process = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = exePath,
+                        Arguments = $"-i {inputArgs} {outputArgs}",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true
+                    }
+                };
+
+                process.Start();
+                process.WaitForExit();
+                process.Close();
+
+                return "";
+            }
     }
 }

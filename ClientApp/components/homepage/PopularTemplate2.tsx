@@ -59,6 +59,7 @@ class Popup extends PureComponent<IProps, IState> {
         axios
             .get(url)
             .then(res => {
+                console.log('res data ', res.data)
             let recentDesign = res.data.value.key.map(design => {
                 design.width = WIDTH;
                 design.href = `/editor/design/${uuidv4()}/${design.id}`;

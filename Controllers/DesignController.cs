@@ -529,8 +529,8 @@ namespace RCB.TypeScript.Controllers
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
-                            path = "/Users/quynhnguyen/test-extension";
-                            extensionId = "jobanehgmdbmmbedknkojbiafgcjclki";
+                            path = "F:\\Projects\\test-extension";
+                            extensionId = "nkmodfdkigldbhmikgbbebdbggekljmo";
                             executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                         }
 
@@ -540,6 +540,7 @@ namespace RCB.TypeScript.Controllers
                             "--no-sandbox",
                             "--disable-setuid-sandbox",
                             "--disable-dev-shm-usage",
+                            "--ignore-certificate-errors",
                             $"--load-extension={path}",
                         };
 
@@ -580,11 +581,15 @@ namespace RCB.TypeScript.Controllers
                             }
                         }
 
+                        try {
                         byte[] bytes2 = Encoding.ASCII.GetBytes(text);
                         using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
                         {
                             htmlFile.Write(bytes2, 0, bytes2.Length);
                             htmlFile.Flush();
+                        }
+                        } catch (Exception e) {
+                            
                         }
 
                         if (targets != null)
@@ -662,13 +667,13 @@ namespace RCB.TypeScript.Controllers
                 }
 
                 int crf = 17;
-                var exePath = "/usr/bin/ffmpeg";
+                var exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
                 var inputArgs = "/app/wwwroot/" + videoId + ".webm -crf " + crf.ToString();
                 var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
 
                 if (HostingEnvironment.IsDevelopment())
                 {
-                    exePath = "/usr/local/bin/ffmpeg";
+                    exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
                     inputArgs = "./wwwroot" + "/" + videoId + ".webm -c:v copy ";
                     outputArgs = "./wwwroot" + "/" + videoId + ".mp4";
                 }

@@ -145,6 +145,8 @@ export default class SidebarTemplate extends Component<IProps, IState> {
             });
         }
 
+        console.log('template.document_object', template.document_object)
+
         editorStore.applyTemplate(template.document_object);
 
         let fonts = toJS(editorStore.fonts);
