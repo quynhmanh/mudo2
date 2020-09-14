@@ -624,6 +624,11 @@ namespace RCB.TypeScript.Controllers
                             return Promise.resolve(42);
                         }");
 
+                        await page.EvaluateFunctionAsync(@"() => {
+                            let videos = document.getElementsByTagName('video'); 
+                            for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;
+                        }");
+
                         while (true)
                         {
                             System.Threading.Thread.Sleep(1000);

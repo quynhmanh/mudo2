@@ -273,7 +273,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                     onEdit={() => {
                                         window.open(`/editor/template/${item.id}`);
                                     }}
-                                    showButton={false}
+                                    showButton={true}
                                 />
                             ) : (
                                     <ImagePicker

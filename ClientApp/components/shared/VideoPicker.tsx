@@ -14,6 +14,8 @@ export interface IProps {
     id: string;
     delay: number;
     showButton: boolean;
+    backgroundColorLoaded: string;
+    backgroundColor: string;
 }
 
 export interface IState {
@@ -69,6 +71,13 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
       width: 300,
     };
 
+    static defaultProps = {
+      classNameContainer: "",
+      padding: 0,
+      backgroundColor: null,
+      backgroundColorLoaded: "rgba(255, 255, 255, 0.07)",
+  }
+
     componentDidMount() {
       const img = this.image;
 
@@ -105,7 +114,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             animationName: 'XhtCamN749DcvC-ecDUzp',
             animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
             animationDelay: '100ms',
-            backgroundColor: '#00000030',
+            backgroundColor: this.state.loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#fff"),
             background: '#fff',
           }} delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
             {this.props.showButton && editorStore.isAdmin  &&
