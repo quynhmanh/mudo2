@@ -55,7 +55,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selectedTab == SidebarTab.Upload) {
-            if (!this.state.loaded) {
+            if (!nextState.loaded) {
                 this.loadMore(true);
             }
         }

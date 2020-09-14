@@ -29,6 +29,7 @@ export interface IState {
     error: any;
     hasMore: boolean;
     cursor: any;
+    loaded: boolean;
 }
 
 const imgWidth = 162;
@@ -47,6 +48,7 @@ export default class SidebarFont extends Component<IProps, IState> {
         error: null,
         hasMore: true,
         cursor: null,
+        loaded: false,
     }
 
     constructor(props) {
@@ -54,12 +56,14 @@ export default class SidebarFont extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        this.loadMore.bind(this)(true);
-        this.selectFont.bind(this);
-        this.forceUpdate();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.selectedTab == SidebarTab.Font) {
+            if (!nextState.loaded) {
+                this.loadMore(true);
+            }
+        }
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Font || this.props.selectedTab == SidebarTab.Font)
         ) {
@@ -141,6 +145,7 @@ export default class SidebarFont extends Component<IProps, IState> {
 
 
     loadMore = initialLoad => {
+        console.log('loadmore')
         let pageId;
         let count;
         if (initialLoad) {
@@ -150,7 +155,7 @@ export default class SidebarFont extends Component<IProps, IState> {
             pageId = editorStore.fontsList.length / 30 + 1;
             count = 30;
         }
-        this.setState({ isLoading: true, error: undefined });
+        this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Font/Search?page=${pageId}&perPage=${count}`;
         fetch(url)
             .then(res => res.json())
@@ -165,6 +170,8 @@ export default class SidebarFont extends Component<IProps, IState> {
                         hasMore: res.value.value > editorStore.fontsList.length,
                         isLoading: false,
                     }));
+
+                    this.forceUpdate();
                 },
                 error => {
                     this.setState({ isLoading: false, error })

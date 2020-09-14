@@ -42,7 +42,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selectedTab == SidebarTab.Video) {
-            if (!this.state.loaded) {
+            if (!nextState.loaded) {
                 this.loadMoreVideo(true);
             }
         }
@@ -55,6 +55,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
     }
 
     loadMoreVideo = initialLoad => {
+        console.log('loadmoreVIdeo')
         let pageId;
         let count;
         if (initialLoad) {

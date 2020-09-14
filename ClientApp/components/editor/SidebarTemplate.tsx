@@ -61,7 +61,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selectedTab == SidebarTab.Template) {
-            if (!this.state.loaded) {
+            if (!nextState.loaded) {
                 this.loadMore(true);
             }
         }

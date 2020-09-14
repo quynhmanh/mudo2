@@ -58,7 +58,7 @@ export default class SidebarImage extends Component<IProps, IState> {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selectedTab == SidebarTab.Image) {
-            if (!this.state.loaded) {
+            if (!nextState.loaded) {
                 this.loadMore(true);
             }
         }

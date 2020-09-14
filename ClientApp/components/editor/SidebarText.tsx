@@ -55,7 +55,7 @@ export default class SidebarText extends Component<IProps, IState> {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selectedTab == SidebarTab.Text) {
-            if (!this.state.loaded) {
+            if (!nextState.loaded) {
                 this.loadMore(true);
             }
         }
