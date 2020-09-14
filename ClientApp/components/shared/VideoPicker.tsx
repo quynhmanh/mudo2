@@ -85,7 +85,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
       var ratio = img.videoWidth / img.videoHeight;
 
       if (!ratio || !this.state.loaded) {
-          img.play();
+          // img.play();
           this.setState({ loaded: true, width: ratio * 160 });
       }
   } 
@@ -136,6 +136,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     height: this.props.height + 'px',
                     width: '100%',
                     marginBottom: '10px',
+                    pointerEvents: "all",
                     // backgroundColor: this.props.color,
                 } : {display: 'none'}}
                 
@@ -155,6 +156,15 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 onError={(e) => {
                 }
                 }
+
+                onMouseEnter={e => {
+                  console.log('onMouseEnter')
+                  this.image.play();
+                }}
+                onMouseLeave={e => {
+                  console.log('onMouseLeave')
+                  this.image.pause();
+                }}
 
                 src={this.props.src}
                 onMouseDown={this.props.onPick}

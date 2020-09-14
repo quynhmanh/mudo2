@@ -94,6 +94,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
 
   render() {
     let { loaded } = this.state;
+    console.log('duration ', this.props.duration)
     return (
       <Container
         style={{
@@ -200,6 +201,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
           src={this.props.src}
           onMouseDown={this.props.onPick}
         />
+        {this.props.duration &&
         <span
           style={{
             position: "absolute",
@@ -210,7 +212,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             fontSize: "12px",
             borderRadius: "6px",
           }}
-        >{secondToMinutes(this.props.duration)}</span>
+        >{secondToMinutes(this.props.duration)}</span>}
       </Container>
     );
   }
