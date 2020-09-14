@@ -112,7 +112,7 @@ export default class Video extends Component<IProps, IState> {
                             progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';
                             progressBarPointer.style.left = `calc(${video.currentTime / video.duration * 100}% - 7.5px)`;
                         } else {
-                            e.target.style.opacity = 1;
+                            e.target.style.opacity = opacity;
                         }
                     }}
                 >
