@@ -525,7 +525,7 @@ namespace RCB.TypeScript.Controllers
 
                         }
                         var path = "/app/wwwroot/test-extension";
-                        var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
+                        var extensionId = "elindhcnkcamdgnhiedjalfojeindigm";
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
@@ -564,9 +564,8 @@ namespace RCB.TypeScript.Controllers
                             IgnoreHTTPSErrors = true,
                         });
 
-                        // await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
-
-                        Target backgroundPageTarget = null;
+                        Target backgroundPageTarget = await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+                        
                         var targets = browser.Targets();
                         var len = targets.Length;
                         var text = "";
@@ -592,29 +591,6 @@ namespace RCB.TypeScript.Controllers
                             
                         }
 
-                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
-
-
-                        if (targets != null)
-                        {
-                            for (int t = 0; t < len; ++t)
-                            {
-                                if (targets[t] != null)
-                                {
-                                    if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
-                                    {
-                                        backgroundPageTarget = targets[t];
-                                    }
-                                }
-                            }
-                        }
-                        //}
-                        //++cnt;
-                        //if (cnt > 5)
-                        //{
-                        //    break;
-                        //} 
-                        //}
                         if (backgroundPageTarget == null)
                         {
                             throw new Exception("Cannot get background pages.");
