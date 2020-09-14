@@ -667,7 +667,7 @@ namespace RCB.TypeScript.Controllers
                 }
 
                 int crf = 17;
-                var exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
+                var exePath = "/usr/bin/ffmpeg";
                 var inputArgs = "/app/wwwroot/" + videoId + ".webm -crf " + crf.ToString();
                 var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
 

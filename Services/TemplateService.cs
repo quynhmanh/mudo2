@@ -840,7 +840,7 @@ namespace RCB.TypeScript.Services
                 int crf = 17;
                 var exePath = "/usr/bin/ffmpeg";
                 var inputArgs = "/app/wwwroot/" + templateModel.Id + ".webm -crf " + crf.ToString();
-                var outputArgs = "/app/wwwroot/video/" + templateModel.Id + ".mp4";
+                var outputArgs = "/app/wwwroot/videos/" + templateModel.Id + ".mp4";
 
                 if (HostingEnvironment.IsDevelopment())
                 {
