@@ -564,7 +564,7 @@ namespace RCB.TypeScript.Controllers
                             IgnoreHTTPSErrors = true,
                         });
 
-                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+                        // await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
 
                         Target backgroundPageTarget = null;
                         var targets = browser.Targets();
@@ -591,6 +591,9 @@ namespace RCB.TypeScript.Controllers
                         } catch (Exception e) {
                             
                         }
+
+                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+
 
                         if (targets != null)
                         {
