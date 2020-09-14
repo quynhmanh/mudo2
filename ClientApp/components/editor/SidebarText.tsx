@@ -25,6 +25,7 @@ export interface IState {
     hasMore: boolean;
     cursor: any;
     total: number;
+    loaded: boolean;
 }
 
 const imgWidth = 162;
@@ -40,18 +41,24 @@ export default class SidebarText extends Component<IProps, IState> {
         error: null,
         hasMore: true,
         cursor: null,
+        loaded: false,
     }
 
     constructor(props) {
         super(props);
+
+        this.loadMore = this.loadMore.bind(this);
     }
 
     componentDidMount() {
-        this.loadMore.bind(this)(true);
-        this.forceUpdate();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.selectedTab == SidebarTab.Text) {
+            if (!nextState.loaded) {
+                this.loadMore(true);
+            }
+        }
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Text || this.props.selectedTab == SidebarTab.Text)
         ) {
@@ -114,6 +121,7 @@ export default class SidebarText extends Component<IProps, IState> {
 
 
     loadMore = initalLoad => {
+        
         let pageId;
         let count;
         if (initalLoad) {
@@ -124,7 +132,7 @@ export default class SidebarText extends Component<IProps, IState> {
                 (this.state.items.length + this.state.items2.length) / 10 + 1;
             count = 10;
         }
-        this.setState({ isLoading: true, error: undefined });
+        this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Template/Search?Type=${TemplateType.TextTemplate}&page=${pageId}&perPage=${count}`;
         fetch(url)
             .then(res => res.json())
@@ -305,6 +313,11 @@ export default class SidebarText extends Component<IProps, IState> {
 
         let left = this.state.total - this.state.items.length - this.state.items2.length;
         let t = Math.round(Math.min(left/2, 5));
+
+        if (!this.state.loaded) {
+            t = 3;
+            left = 6;
+        }
 
         return (
             <div

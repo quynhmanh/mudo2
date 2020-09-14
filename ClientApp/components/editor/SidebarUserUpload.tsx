@@ -24,6 +24,7 @@ export interface IState {
     hasMore: boolean;
     cursor: any;
     total: number;
+    loaded: boolean;
 }
 
 const imgWidth = 162;
@@ -39,19 +40,25 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         hasMore: true,
         cursor: null,
         total: 0,
+        loaded: false,
     }
 
     constructor(props) {
         super(props);
+
+        this.loadMore = this.loadMore.bind(this);
+        this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
     }
 
     componentDidMount() {
-        this.loadMore.bind(this)(true);
-        this.imgOnMouseDown.bind(this);
-        this.forceUpdate();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.selectedTab == SidebarTab.Upload) {
+            if (!nextState.loaded) {
+                this.loadMore(true);
+            }
+        }
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Upload || this.props.selectedTab == SidebarTab.Upload)
         ) {
@@ -196,7 +203,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         } else {
             pageId = (this.state.items.length + this.state.items2.length) / 16 + 1;
         }
-        this.setState({ isLoading: true, error: undefined });
+        this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${PER_PAGE}`; //&terms=${this.state.query}`;
         fetch(url)
             .then(res => res.json())
@@ -244,6 +251,11 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
         let left = this.state.total - this.state.items.length - this.state.items2.length;
         let t = Math.round(Math.min(left/2, 5));
+
+        if (!this.state.loaded) {
+            t = 5;
+            left = 1;
+        }
 
         return (
             <div

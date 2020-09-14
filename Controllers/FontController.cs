@@ -163,5 +163,16 @@ namespace RCB.TypeScript.Controllers
             
             return Ok();
         }
+
+        [HttpPost("[action]")]
+        public IActionResult HandleUpdateFontPickerHeight([FromQuery]string id, [FromQuery]int height) {
+            
+            var result = FontService.Get(id);
+            var model = result.Value;
+            model.FontPickerHeight = height;
+            FontService.Update(model);
+
+            return Ok();
+        }
     }
 }

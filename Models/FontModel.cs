@@ -7,7 +7,8 @@
         public string LastName { get; set; }
         public string Representative { get; set; }
 
-        public bool VietnameseSupport {get;set;}
+        public bool VietnameseSupport { get; set; }
+        public int FontPickerHeight{ get; set; }
 
         public FontModel(string id, string firstName, string lastName, string representative)
         {

@@ -28,6 +28,7 @@ export interface IState {
     hasMore: boolean;
     cursor: any;
     total: number;
+    loaded: boolean;
 }
 
 const backgroundWidth = 105;
@@ -45,19 +46,25 @@ export default class SidebarBackground extends Component<IProps, IState> {
         error: null,
         hasMore: true,
         cursor: null,
+        loaded: false,
     }
 
     constructor(props) {
         super(props);
+
+        this.loadMore = this.loadMore.bind(this);
+        this.backgroundOnMouseDown = this.backgroundOnMouseDown.bind(this);
     }
 
     componentDidMount() {
-        this.loadMore.bind(this)(true);
-        this.backgroundOnMouseDown.bind(this);
-        this.forceUpdate();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.selectedTab == SidebarTab.Background) {
+            if (!nextState.loaded) {
+                this.loadMore(true);
+            }
+        }
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Background || this.props.selectedTab == SidebarTab.Background)
         ) {
@@ -111,7 +118,7 @@ export default class SidebarBackground extends Component<IProps, IState> {
             pageId = (this.state.items.length + this.state.items2.length + this.state.items3.length) / 30 + 1;
             count = 30;
         }
-        this.setState({ isLoading: true, error: undefined });
+        this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Media/Search?type=${TemplateType.BackgroundImage}&page=${pageId}&perPage=${count}`;
         fetch(url)
             .then(res => res.json())
@@ -172,6 +179,11 @@ export default class SidebarBackground extends Component<IProps, IState> {
 
         let left = this.state.total - this.state.items.length - this.state.items2.length - this.state.items3.length;
         let t = Math.round(Math.min(left/3, 5));
+
+        if (!this.state.loaded) {
+            t = 5;
+            left = 1;
+        }
 
         return (
             <div

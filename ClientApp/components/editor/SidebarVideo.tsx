@@ -17,6 +17,7 @@ export interface IProps {
 
 export interface IState {
     videos: any;
+    loaded: boolean;
 }
 
 const imgWidth = 334;
@@ -24,20 +25,27 @@ const imgWidth = 334;
 export default class SidebarVideo extends Component<IProps, IState> {
     state = {
         videos: [],
+        loaded: false,
     }
 
     constructor(props) {
         super(props);
 
         this.videoOnMouseDown = this.videoOnMouseDown.bind(this);
+        this.loadMoreVideo = this.loadMoreVideo.bind(this);
     }
 
     componentDidMount() {
-        this.loadMoreVideo.bind(this)(true);
-        this.forceUpdate();
+
+
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.selectedTab == SidebarTab.Video) {
+            if (!nextState.loaded) {
+                this.loadMoreVideo(true);
+            }
+        }
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Video || this.props.selectedTab == SidebarTab.Video)
         ) {
@@ -47,6 +55,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
     }
 
     loadMoreVideo = initialLoad => {
+        console.log('loadmoreVIdeo')
         let pageId;
         let count;
         if (initialLoad) {
@@ -57,6 +66,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
             count = 30;
         }
         // this.setState({ isLoading: true, error: undefined });
+        this.setState({loaded: true,})
         const url = `/api/Media/Search?page=${pageId}&perPage=${count}&type=${TemplateType.Video}`;
         fetch(url)
             .then(res => res.json())
@@ -242,7 +252,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                             width: "100%",
                             marginTop: "18px",
                             overflow: "scroll",
-                            height: "calc(100% - 47px)"
+                            height: "calc(100% - 60px)"
                         }}
                     >
                         {this.state.videos.map((item, key) => (
