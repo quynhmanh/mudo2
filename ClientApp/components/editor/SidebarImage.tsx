@@ -24,6 +24,7 @@ export interface IState {
     hasMoreImage: boolean;
     cursor: any;
     total: number;
+    loaded: boolean;
 }
 
 const imgWidth = 162;
@@ -39,19 +40,28 @@ export default class SidebarImage extends Component<IProps, IState> {
         error: null,
         hasMoreImage: true,
         cursor: null,
+        firstLoad: false,
+        loaded: false,
     }
 
     constructor(props) {
         super(props);
+
+        this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
+        this.loadMore = this.loadMore.bind(this);
     }
 
     componentDidMount() {
-        this.loadMore.bind(this)(true);
-        this.imgOnMouseDown.bind(this);
-        this.forceUpdate();
+        // this.loadMore.bind(this)(true);
+        // this.forceUpdate();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.selectedTab == SidebarTab.Image) {
+            if (!this.state.loaded) {
+                this.loadMore(true);
+            }
+        }
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Image || this.props.selectedTab == SidebarTab.Image)
         ) {
@@ -91,7 +101,8 @@ export default class SidebarImage extends Component<IProps, IState> {
             if (dragging) {
                 let rec2 = imgDragging.getBoundingClientRect();
                 if (
-                    beingInScreenContainer === false &&
+            
+                    
                     recScreenContainer.left < rec2.left &&
                     recScreenContainer.right > rec2.right &&
                     recScreenContainer.top < rec2.top &&
@@ -193,7 +204,7 @@ export default class SidebarImage extends Component<IProps, IState> {
         } else {
             pageId = (this.state.items.length + this.state.items2.length) / 16 + 1;
         }
-        this.setState({ isLoading: true, error: undefined });
+        this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${PER_PAGE}`; //&terms=${this.state.query}`;
         fetch(url)
             .then(res => res.json())
@@ -241,6 +252,11 @@ export default class SidebarImage extends Component<IProps, IState> {
 
         let left = this.state.total - this.state.items.length - this.state.items2.length;
         let t = Math.round(Math.min(left/2, 8));
+
+        if (!this.state.loaded) {
+            left = 8;
+            t = 4;
+        }
 
         return (
             <div

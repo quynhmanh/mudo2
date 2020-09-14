@@ -26,6 +26,7 @@ export interface IState {
     error: any;
     hasMore: boolean;
     cursor: any;
+    loaded: boolean;
 }
 
 const imgWidth = 162;
@@ -40,19 +41,30 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         error: null,
         hasMore: true,
         cursor: null,
+        loaded: false,
     }
 
     constructor(props) {
         super(props);
+
+        this.loadMore = this.loadMore.bind(this);
+        this.templateOnMouseDown = this.templateOnMouseDown.bind(this);
     }
 
     componentDidMount() {
-        this.loadMore.bind(this)(true);
-        this.templateOnMouseDown.bind(this);
-        this.forceUpdate();
+        if (this.props.selectedTab == SidebarTab.Template) {
+            if (!this.state.loaded) {
+                this.loadMore(true);
+            }
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.selectedTab == SidebarTab.Template) {
+            if (!this.state.loaded) {
+                this.loadMore(true);
+            }
+        }
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Template || this.props.selectedTab == SidebarTab.Template)
         ) {
@@ -142,7 +154,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         this.props.forceEditorUpdate();
     }
 
-    loadMore = (initalLoad, subtype) => {
+    loadMore = (initalLoad) => {
         let pageId;
         let count;
         if (initalLoad) {
@@ -155,8 +167,8 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                 ) + 1;
             count = 5;
         }
-        this.setState({ isLoading: true, error: undefined });
-        var subtype = subtype ? subtype : this.props.subtype;
+        this.setState({ isLoading: true, error: undefined, loaded: true, });
+        var subtype = this.props.subtype;
         const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype}`;
         if (!subtype) {
             return;
