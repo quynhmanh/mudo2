@@ -87,7 +87,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
     var ratio = img.videoWidth / img.videoHeight;
 
     if (!ratio || !this.state.loaded) {
-      img.play();
       this.setState({ loaded: true, width: ratio * 160 });
     }
   }
