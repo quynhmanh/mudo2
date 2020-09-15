@@ -115,7 +115,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
             <Container style={{
                 position: 'relative',
                 backgroundSize: '300% 300%',
-                width: `${this.props.width}px`,
+                width: `auto`,
                 height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
                 marginBottom: '8px',
                 opacity: this.state.loaded ? 1 : 0.15,
@@ -151,7 +151,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     className={this.props.className}
                     style={loaded ? {
                         height: this.props.height + 'px',
-                        width: '100%',
+                        // width: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
                         // backgroundColor: this.props.color,
