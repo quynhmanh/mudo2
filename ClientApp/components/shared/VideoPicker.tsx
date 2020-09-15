@@ -102,7 +102,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     animationDelay: '100ms',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
-                    backgroundColor: 'rgb(0 0 0)',
+                    backgroundColor: loaded && this.props.transitionEnd ? 'white' : 'rgb(0 0 0)',
                 }} 
                 delay={this.props.delay} 
                 id={this.props.id}
