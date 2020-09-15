@@ -162,7 +162,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                     let onUp = e => {
                         setTimeout(() => {
                             window.dragging = false;
-                        }, 300);
+                        }, 3000);
                         e.stopPropagation();
                         document.removeEventListener("mouseup", onUp);
                         document.removeEventListener("mousemove", onMove);
@@ -178,7 +178,9 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                 {this.state.showLeft && <button
                     style={{
                         position: 'absolute',
-                        top: '80px',
+                        top: '0',
+                        bottom: '55px',
+                        margin: 'auto',
                         zIndex: 100,
                         width: '40px',
                         height: '40px',
@@ -209,7 +211,9 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                 {this.state.showRight && <button
                     style={{
                         position: 'absolute',
-                        top: '80px',
+                        top: '0',
+                        bottom: '55px',
+                        margin: 'auto',
                         zIndex: 100,
                         width: '40px',
                         height: '40px',
