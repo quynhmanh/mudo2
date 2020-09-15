@@ -35,6 +35,12 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.id == "sentinel-image2" && !prevState.transitionEnd) {
+            this.setState({transitionEnd: true});
+        }
+    }
+
     render() {
         const props = this.props;
         let picker = null;
@@ -100,10 +106,6 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                             overflow: 'hidden',
                         }}>
                         <div
-                            onTransitionEnd={e => {
-                                console.log('onTransitionEnd')
-                                this.setState({transitionEnd: true,})
-                            }}
                             style={{ 
                                 paddingTop: 0,
                                 width: `${props.width / props.height * 250}px`,
