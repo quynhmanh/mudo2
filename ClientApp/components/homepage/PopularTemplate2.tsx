@@ -38,7 +38,7 @@ class Popup extends PureComponent<IProps, IState> {
             .get(url)
             .then(res => {
                 let recentDesign = res.data.value.key.map(design => {
-                    design.width = WIDTH;
+                    // design.width = WIDTH;
                     design.href = `/editor/design/${uuidv4()}/${design.id}`;
                     return design;
                 });
@@ -60,10 +60,12 @@ class Popup extends PureComponent<IProps, IState> {
             .get(url)
             .then(res => {
             let recentDesign = res.data.value.key.map(design => {
-                design.width = WIDTH;
+                // design.width = WIDTH;
                 design.href = `/editor/design/${uuidv4()}/${design.id}`;
                 return design;
             })
+
+            console.log('recentDEsign ', recentDesign)
             this.setState({
                 recentDesign, 
                 total: res.data.value.value, 

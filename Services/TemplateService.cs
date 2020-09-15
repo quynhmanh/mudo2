@@ -704,10 +704,11 @@ namespace RCB.TypeScript.Services
                         var path = "/app/wwwroot/test-extension";
                         var extensionId = "elindhcnkcamdgnhiedjalfojeindigm";
                         var executablePath = "/usr/bin/google-chrome-stable";
+                        
                         if (HostingEnvironment.IsDevelopment())
                         {
-                            path = "F:\\Projects\\test-extension";
-                            extensionId = "nkmodfdkigldbhmikgbbebdbggekljmo";
+                            path = Configuration.GetSection("extensionPath").Get<string>();
+                            extensionId = Configuration.GetSection("extensionId").Get<string>();
                             executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                         }
 
@@ -849,7 +850,8 @@ namespace RCB.TypeScript.Services
 
                 if (HostingEnvironment.IsDevelopment())
                 {
-                    exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
+                    // exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
+                    exePath = Configuration.GetSection("ffmpegPath").Get<string>();
                     inputArgs = "./wwwroot" + "/" + templateModel.Id + ".webm -c:v copy ";
                     outputArgs = "./wwwroot" + "/videos/" + templateModel.Id + ".mp4";
                 }

@@ -529,8 +529,8 @@ namespace RCB.TypeScript.Controllers
                         var executablePath = "/usr/bin/google-chrome-stable";
                         if (HostingEnvironment.IsDevelopment())
                         {
-                            path = "F:\\Projects\\test-extension";
-                            extensionId = "nkmodfdkigldbhmikgbbebdbggekljmo";
+                            path = Configuration.GetSection("extensionPath").Get<string>();
+                            extensionId = Configuration.GetSection("extensionId").Get<string>();
                             executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                         }
 

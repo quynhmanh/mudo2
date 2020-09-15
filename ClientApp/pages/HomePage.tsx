@@ -571,10 +571,10 @@ class HomePage extends React.Component<IProps, IState> {
                         </div>
                     </div>
 
-                    <PopularTemplate
+                    {/* <PopularTemplate
                         key={this.state.key}
                         translate={this.translate.bind(this)}
-                    />
+                    /> */}
                     <PopularTemplate2
                         translate={this.translate.bind(this)}
                     />

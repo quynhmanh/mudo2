@@ -102,26 +102,39 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
         var ratio = img.videoWidth / img.videoHeight;
 
         if (!ratio || !this.state.loaded) {
-            // img.play();
             this.setState({ loaded: true, width: ratio * 160 });
         }
     }
 
     render() {
         let { loaded, width } = this.state;
+
+        console.log('ratio ', this.props.width / this.props.height)
+
         return (
-            <Container style={{
-                position: 'relative',
-                backgroundSize: '300% 300%',
-                width: loaded ? 'auto' : '250px',
-                height: `${loaded ? this.props.height : this.props.defaultHeight + "px"}`,
-                marginBottom: '8px',
-                opacity: loaded ? 1 : 0.15,
-                animationName: 'XhtCamN749DcvC-ecDUzp',
-                animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
-                animationDelay: '100ms',
-                backgroundColor: loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#000"),
-            }} delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={loaded ? width : this.props.width} defaultHeight={this.props.defaultHeight}>
+            <Container 
+                style={{
+                    position: 'relative',
+                    backgroundSize: '300% 300%',
+                    width: loaded ? `${this.props.width / this.props.height * 250}px` : '250px',
+                    // width: 'auto',
+                    // minWidth: loaded ? 'fit-content' : '250px',
+                    height: `250px`,
+                    marginBottom: '8px',
+                    opacity: loaded ? 1 : 0.15,
+                    animationName: 'XhtCamN749DcvC-ecDUzp',
+                    animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
+                    animationDelay: '100ms',
+                    backgroundColor: loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#000"),
+                    transition: 'width 0.5s, height 4s',
+                }} 
+                delay={this.props.delay} 
+                id={this.props.id}
+                loaded={loaded}
+                height={this.props.height}
+                width={loaded ? width : this.props.width}
+                defaultHeight={this.props.defaultHeight}
+            >
                 {this.props.showButton && editorStore.isAdmin &&
                     <button
                         style={{
@@ -148,7 +161,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     ref={i => this.image = i}
                     className={this.props.className}
                     style={loaded ? {
-                        height: this.props.height + 'px',
+                        height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
                     } : { display: 'none' }}
