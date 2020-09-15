@@ -77,6 +77,8 @@ namespace RCB.TypeScript.Models
 
         public Boolean Delete { get; set; }
 
+        public int Popularity { get; set; }
+
         public TemplateModel()
         {
 

@@ -4506,6 +4506,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
         let elTitle = (document.getElementById("designTitle") as HTMLInputElement);
         const title = elTitle ? elTitle.value : "";
+        let popEL = (document.getElementById("popularity") as HTMLInputElement);
+        const pop = popEL ? popEL.value : 0;
 
         let res = JSON.stringify({
             Title: title,
@@ -4545,6 +4547,7 @@ class CanvaEditor extends Component<IProps, IState> {
             IsVideo: isVideo,
             UserName: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
             Popular: window.template ? window.template.popular : false,
+            Popularity: pop,
         });
 
         axios

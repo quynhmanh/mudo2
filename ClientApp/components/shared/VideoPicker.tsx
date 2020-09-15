@@ -124,7 +124,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: '100ms',
                     backgroundColor: loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#000"),
-                    transition: 'width 0.5s, height 4s',
+                    transition: 'width 0.4s, height 4s',
                 }} 
                 delay={this.props.delay} 
                 id={this.props.id}

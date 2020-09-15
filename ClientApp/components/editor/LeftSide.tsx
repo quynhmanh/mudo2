@@ -420,6 +420,7 @@ class LeftSide extends Component<IProps, IState> {
                     </button>
                     <span>IsVideo</span>
                     <input type="checkbox" id="vehicle1"/>
+                    <input id="popularity" type="text" />
                     <button
                         style={{
                             bottom: 0,

@@ -21,7 +21,7 @@ namespace RCB.TypeScript.Services
 {
     public class TemplateService : ServiceBase
     {
-        const string DefaultIndex = "template-02";
+        const string DefaultIndex = "template-04";
         private IHostingEnvironment HostingEnvironment { get; set; }
         private IConfiguration Configuration { get; set; }
 
@@ -98,6 +98,7 @@ namespace RCB.TypeScript.Services
             s.Query(t => t.Bool(b => b.Must(
                 q => q.Match(c => c.Field(p => p.Popular).Query("true")), 
                 q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
+                .Sort(f => f.Descending(ff => ff.Popularity))
                 .From((page - 1) * perPage)
                 .Size(perPage));
 
@@ -436,6 +437,7 @@ namespace RCB.TypeScript.Services
             template.Popular = model.Popular;
             template.Delete = model.Delete;
             template.IsVideo = model.IsVideo;
+            template.Popularity = model.Popularity;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
