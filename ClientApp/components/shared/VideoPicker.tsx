@@ -117,8 +117,6 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     position: 'relative',
                     backgroundSize: '300% 300%',
                     width: loaded ? `${this.props.width / this.props.height * 250}px` : '250px',
-                    // width: 'auto',
-                    // minWidth: loaded ? 'fit-content' : '250px',
                     height: `250px`,
                     marginBottom: '8px',
                     opacity: loaded ? 1 : 0.15,
@@ -166,20 +164,8 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                         pointerEvents: "all",
                     } : { display: 'none' }}
 
-                    onLoadedMetadata={(e) => {
-                    }
-                    }
-
                     onCanPlay={(e) => {
                         this.handleImageLoaded();
-                    }
-                    }
-
-                    onLoadedData={(e) => {
-                    }
-                    }
-
-                    onError={(e) => {
                     }
                     }
 
