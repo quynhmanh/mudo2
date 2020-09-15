@@ -91,7 +91,7 @@ class Popup extends Component<IProps, IState> {
         return (
             <div
                 style={{
-                    padding: "20px 80px",
+                    padding: "20px 150px",
                     display: this.state.mounted ? "block" : "none",
                 }}
             >
