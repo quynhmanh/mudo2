@@ -99,9 +99,9 @@ class Popup extends Component<IProps, IState> {
                     style={{
                         marginBottom: '20px',
                         marginTop: '20px',
-                        fontFamily: "AvenirNextRoundedPro-Medium",
+                        fontFamily: "AvenirNextRoundedPro",
                         fontWeight: 600,
-                        fontSize: "25px",
+                        fontSize: "23px",
                     }}
                 >{this.props.translate("popular")}</h3>
                 <div
