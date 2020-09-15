@@ -5572,8 +5572,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                     width: "100%",
                                     height: "calc(100% - 46px)",
                                     zIndex: 1,
-                                    backgroundColor:
-                                        this.state.cropMode && "rgba(14, 19, 24, 0.15)"
                                 }}
                             >
                                 {this.state.mounted && this.props.tReady && (
