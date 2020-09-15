@@ -57,9 +57,6 @@ const Container = styled.div`
   }
   background: #fff;
   opacity ${props => props.loaded ? 1 : 0.15};
-  animation-name: XhtCamN749DcvC-ecDUzp;
-  animation: ${props => props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
-  animation-delay: ${props => props.delay}ms;
   :hover button {
     visibility: visible;
   }
@@ -120,9 +117,9 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     height: `250px`,
                     marginBottom: '8px',
                     // opacity: loaded ? 1 : 0.15,
-                    // animationName: 'XhtCamN749DcvC-ecDUzp',
-                    // animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
-                    // animationDelay: '100ms',
+                    animationName: 'XhtCamN749DcvC-ecDUzp',
+                    animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
+                    animationDelay: '100ms',
                     backgroundColor: loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#000"),
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
@@ -163,7 +160,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                         height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
-                        // backgroundColor: '#ededed',
+                        backgroundColor: '#ededed',
                     } : { display: 'none' }}
 
                     onCanPlay={(e) => {
