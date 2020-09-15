@@ -72,6 +72,9 @@ const PopularTemplateItem = (props: IProps) => {
         <CC 
             style={{ marginRight: '16px' }}
             className="templateWrapper___3Fitk"
+            onClick={e => {
+                if (window.dragging) e.preventDefault();
+            }}
         >
             <a 
                 target="_blank" 
