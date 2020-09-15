@@ -190,7 +190,9 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                         background: 'white',
                     }}
                     onClick={(e) => {
+                        this.containerSroll.style.scrollBehavior = "smooth";
                         this.containerSroll.scrollLeft -= 700;
+                        this.containerSroll.style.scrollBehavior = "";
                         this.setState({ yLocation: this.state.yLocation - 700 });
                     }}
                     className="arrowWrapper___rLMf7 arrowLeft___2lAV4"
@@ -223,7 +225,9 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                         background: 'white',
                     }}
                     onClick={(e) => {
+                        this.containerSroll.style.scrollBehavior = "smooth";
                         this.containerSroll.scrollLeft += 700;
+                        this.containerSroll.style.scrollBehavior = "";
                         this.setState({ yLocation: this.state.yLocation + 700 });
                     }}
                     className="arrowWrapper___rLMf7 arrowLeft___2lAV4"
