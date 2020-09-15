@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';  
+import React, { Component } from 'react';
 import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
 import axios from "axios";
@@ -16,28 +16,28 @@ interface IState {
     showLeft: boolean;
     mounted: boolean;
     recentDesign: any;
-    total: number;
     rem: number;
 }
 
 const TEMPLATE_PERPAGE = 10;
 const WIDTH = 250;
 
-class Popup extends PureComponent<IProps, IState> {
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: WIDTH,
+        height: WIDTH,
+        id: "sentinel-image2",
+    }
+});
+
+class Popup extends Component<IProps, IState> {
     state = {
         rem: 10,
-        total: 100,
         hasMore: true,
         yLocation: 0,
         showLeft: true,
         mounted: true,
-        recentDesign: Array(10).fill(0).map(i => {
-            return {
-                width: WIDTH,
-                height: WIDTH,
-                id:"sentinel-image2",
-            }
-        }),
+        recentDesign: getRem(10),
     }
 
     loadMore = () => {
@@ -47,26 +47,16 @@ class Popup extends PureComponent<IProps, IState> {
             .get(url)
             .then(res => {
                 let recentDesign = res.data.value.key.map(design => {
-                    // design.width = WIDTH;
                     design.href = `/editor/design/${uuidv4()}/${design.id}`;
                     return design;
                 });
-                // let hasMore = res.data.value.value > this.state.recentDesign.length + recentDesign.length - 10;
-                // console.log('handlemore', hasMore)
                 let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image2");
-                
                 newRecentDesign = [...newRecentDesign, ...recentDesign];
                 let hasMore = newRecentDesign.length < res.data.value.value;
                 let rem = 10;
                 if (hasMore) {
                     rem = Math.min(res.data.value.value - newRecentDesign.length, 10);
-                    newRecentDesign = [...newRecentDesign, 
-                        ...Array(rem).fill(0).map(i => {
-                        return {
-                            width: WIDTH,
-                            height: WIDTH,
-                            id:"sentinel-image2",
-                        }})];
+                    newRecentDesign = [...newRecentDesign, ...getRem(rem)];
                 }
 
                 this.setState({
@@ -85,90 +75,77 @@ class Popup extends PureComponent<IProps, IState> {
     }
 
     handleScroll = () => {
-        this.setState({yLocation: this.test.scrollLeft});
+        this.setState({ yLocation: this.test.scrollLeft });
 
         if (this.test.offsetWidth + this.test.scrollLeft >= this.test.scrollWidth) {
-            this.setState({showLeft: false,});
+            this.setState({ showLeft: false, });
         } else {
-            this.setState({showLeft: true,});
+            this.setState({ showLeft: true, });
         }
     }
 
     test = null;
 
-  render() {
+    render() {
 
-    console.log('this.state' ,this.state)
-    return (
-        <div
-            style={{
-              padding: "20px 80px",
-              display: this.state.mounted ? "block" : "none",
-            }}
-          >
-            <h3
-              style={{
-                marginBottom: '20px',
-                marginTop: '20px',
-                fontFamily: "AvenirNextRoundedPro-Medium",
-                fontWeight: 600,
-                fontSize: "25px",
-              }}
-            >{this.props.translate("popular")}</h3>
-            <div 
-              style={{
-                height: "250px",
-              }}>
-        <div>
-            <div style={{ position: 'relative' }}>
-                <InfiniteXScroll
-                  scroll={true}
-                  throttle={1000}
-                  threshold={300}
-                  isLoading={false}
-                  hasMore={this.state.hasMore}
-                  onLoadMore={this.loadMore.bind(this, false)}
-                  refId="sentinel-image2"
-                  marginTop={45}
-                >
-                        <ul 
-                            style={{
-                                listStyle: 'none',
-                                padding: 0,
-                                position: 'relative',
-                                zIndex: 1,
-                                display: 'inline-flex',
-                                marginTop: '1px',
-                                transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
-                            }} 
-                            className="templateList___2swQr"
-                        >
-                            {this.state.recentDesign.map( (item, index) => 
-                                <Item 
-                                    {...item} 
-                                    key={index}
-                                    keys={index}
-                                />)}
-
-                            {/* {this.state.hasMore && 
-                                Array(Math.min(TEMPLATE_PERPAGE, this.state.total - this.state.recentDesign.length))
-                                .fill(0)
-                                .map((item, i) => (
-                                <Item
-                                    id={"sentinel-image2"}
-                                    width={WIDTH}
-                                    key={this.state.recentDesign.length + i}
-                                    keys={this.state.recentDesign.length + i}
-                                />
-                          ))} */}
-                        </ul>
-                        </InfiniteXScroll>
+        return (
+            <div
+                style={{
+                    padding: "20px 80px",
+                    display: this.state.mounted ? "block" : "none",
+                }}
+            >
+                <h3
+                    style={{
+                        marginBottom: '20px',
+                        marginTop: '20px',
+                        fontFamily: "AvenirNextRoundedPro-Medium",
+                        fontWeight: 600,
+                        fontSize: "25px",
+                    }}
+                >{this.props.translate("popular")}</h3>
+                <div
+                    style={{
+                        height: "250px",
+                    }}>
+                    <div>
+                        <div style={{ position: 'relative' }}>
+                            <InfiniteXScroll
+                                scroll={true}
+                                throttle={1000}
+                                threshold={300}
+                                isLoading={false}
+                                hasMore={this.state.hasMore}
+                                onLoadMore={this.loadMore.bind(this, false)}
+                                refId="sentinel-image2"
+                                marginTop={45}
+                            >
+                                <ul
+                                    style={{
+                                        listStyle: 'none',
+                                        padding: 0,
+                                        position: 'relative',
+                                        zIndex: 1,
+                                        display: 'inline-flex',
+                                        marginTop: '1px',
+                                        transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
+                                    }}
+                                    className="templateList___2swQr"
+                                >
+                                    {this.state.recentDesign.map((item, index) =>
+                                        <Item
+                                            {...item}
+                                            key={index}
+                                            keys={index}
+                                        />)}
+                                </ul>
+                            </InfiniteXScroll>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        </div>
-        </div>
-    );  
-    }  
-}  
+        );
+    }
+}
 
 export default Popup;

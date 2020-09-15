@@ -12,6 +12,11 @@ interface IProps {
     title: string;
     size: string;
     id: string;
+    width: number;
+    height: number;
+    isVideo: boolean;
+    videoRepresentative: string;
+    representative: string;
 }
 
 interface IState {
@@ -26,15 +31,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         super(props);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('nextProps.key', nextProps.keys);
-        console.log('nextProps.width', this.props.width, nextProps.width);
-        console.log('nextProps.height', this.props.height, nextProps.height);
-
-        return true;
-    }
     render() {
-        console.log('render ', this.props.keys, this.props.width, this.props.height)
         const props = this.props;
         let picker = null;
         if (props.isVideo) {
