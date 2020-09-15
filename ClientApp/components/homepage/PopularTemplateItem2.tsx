@@ -101,7 +101,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                                 // animationName: 'XhtCamN749DcvC-ecDUzp',
                                 // animation: "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                                 // animationDelay: '100ms',
-                                transitionDuration: '0.4s',
+                                transitionDuration: '0.25s',
                                 transitionProperty: 'opacity, left, top, width',
                             }}>
                             {picker}
