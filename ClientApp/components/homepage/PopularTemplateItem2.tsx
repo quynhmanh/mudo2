@@ -20,7 +20,7 @@ interface IProps {
 }
 
 interface IState {
-
+    transitionEnd: boolean;
 }
 
 const HEIGHT = 250;
@@ -29,6 +29,10 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
     constructor(props: any) {
         super(props);
+
+        this.state = {
+            transitionEnd: false,
+        }
     }
 
     render() {
@@ -51,6 +55,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 src={props.videoRepresentative}
                 width={props.width}
                 backgroundColor="black"
+                transitionEnd={this.state.transitionEnd}
             />
         } else {
             picker = <ImagePicker
@@ -94,7 +99,11 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                             borderRadius: '4px',
                             overflow: 'hidden',
                         }}>
-                        <div 
+                        <div
+                            onTransitionEnd={e => {
+                                console.log('onTransitionEnd')
+                                this.setState({transitionEnd: true,})
+                            }}
                             style={{ 
                                 paddingTop: 0,
                                 width: `${props.width / props.height * 250}px`,

@@ -16,6 +16,7 @@ export interface IProps {
     showButton: boolean;
     backgroundColorLoaded: string;
     backgroundColor: string;
+    transitionEnd: boolean;
 }
 
 export interface IState {
@@ -55,7 +56,7 @@ export default class VideoPicker extends Component<IProps, IState> {
     }
 
     shouldComponentUpdate() {
-        if (this.state.loaded) {
+        if (this.state.loaded && this.props.transitionEnd) {
             return false;
         }
 
@@ -133,7 +134,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     muted={true}
                     ref={i => this.image = i}
                     className={this.props.className}
-                    style={loaded ? {
+                    style={loaded && this.props.transitionEnd ? {
                         height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
