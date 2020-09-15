@@ -459,7 +459,7 @@ class LeftSide extends Component<IProps, IState> {
                         Undelete
                     </button>
                 </div>
-                {this.props.mounted && this.props.toolbarOpened && (
+                {this.props.mounted && this.props.toolbarOpened && editorStore.tReady && (
                     <div
                         id="sidebar-content"
                         style={{
