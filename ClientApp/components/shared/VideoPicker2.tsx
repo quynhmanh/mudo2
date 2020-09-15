@@ -70,6 +70,14 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
         width: 300
     };
 
+    shouldComponentUpdate() {
+        if (this.state.loaded) {
+            return false;
+        }
+
+        return true;
+    }
+
     componentDidMount() {
         const img = this.image;
         //   img.pause();
