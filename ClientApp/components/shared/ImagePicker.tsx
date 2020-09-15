@@ -1,6 +1,5 @@
-import React, { PureComponent, Fragment, isValidElement } from "react";
+import React, { Component } from "react";
 import styled from 'styled-components';
-import Globals from '@Globals';
 import editorStore from "@Store/EditorStore";
 
 export interface IProps {
@@ -45,7 +44,7 @@ const Container = styled.div`
   }
 `
 
-export default class ImagePicker extends PureComponent<IProps, IState> {
+export default class ImagePicker extends Component<IProps, IState> {
     state = {
         loaded: false,
         width: 200,

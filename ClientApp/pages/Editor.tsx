@@ -1036,8 +1036,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     break;
             }
 
-            scaleX = (width - 100) / rectWidth;
-            scaleY = (height - 100) / rectHeight;
+            scaleX = (width - 50) / rectWidth;
+            scaleY = (height - 80) / rectHeight;
             let fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY)
 
             staticGuides = {
@@ -5498,7 +5498,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                     {{
                                         width: "100%",
                                         backgroundColor: "#dae0e7",
-                                        // boxShadow: "0 1px 0 rgba(14,19,24,.15)",
                                         display: "inline-flex",
                                         position: "absolute",
                                         right: 0,
@@ -5508,8 +5507,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         marginBottom: "10px",
                                         zIndex: 2,
                                         background: '#fff',
-                                        boxShadow: '0 1px 0 rgba(14,19,24,.15)',
-                                        // padding: '8px',
+                                        boxShadow: '0 1px 0 rgba(57,76,96,.15)',
                                     }}
                                 >
                                     <Toolbar
@@ -5575,7 +5573,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         this.state.cropMode && "rgba(14, 19, 24, 0.15)"
                                 }}
                             >
-                                {this.state.mounted && (
+                                {this.state.mounted && this.props.tReady && (
                                     <div
                                         id="screen-container"
                                         className="screen-container"
