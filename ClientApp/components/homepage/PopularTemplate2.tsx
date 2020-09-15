@@ -136,7 +136,7 @@ class Popup extends PureComponent<IProps, IState> {
                             {this.state.recentDesign.map( (item) => 
                                 <Item 
                                     {...item} 
-                                    key={uuidv4()}
+                                    key={item.id}
                                 />)}
 
                             {this.state.hasMore && 
