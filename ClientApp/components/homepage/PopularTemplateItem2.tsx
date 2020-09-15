@@ -35,12 +35,6 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.id == "sentinel-image2" && !prevState.transitionEnd) {
-            this.setState({transitionEnd: true});
-        }
-    }
-
     render() {
         const props = this.props;
         let picker = null;
@@ -83,6 +77,13 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             />
         }
 
+        let width = props.width / props.height * 250;
+        if (props.width == props.height && props.id != "sentinel-image2") {
+            width = 249;
+        }
+
+        console.log('width ', width)
+
         return (
             <CC 
                 style={{ marginRight: '16px' }}
@@ -106,12 +107,13 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                             overflow: 'hidden',
                         }}>
                         <div
+                            onTransitionEnd={e => {
+                                console.log('onTransitionEnd')
+                                this.setState({transitionEnd: true});
+                            }}
                             style={{ 
                                 paddingTop: 0,
-                                width: `${props.width / props.height * 250}px`,
-                                // animationName: 'XhtCamN749DcvC-ecDUzp',
-                                // animation: "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
-                                // animationDelay: '100ms',
+                                width: `${width}px`,
                                 transitionDuration: '0.25s',
                                 transitionProperty: 'opacity, left, top, width',
                             }}>

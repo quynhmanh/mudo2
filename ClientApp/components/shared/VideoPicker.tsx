@@ -57,6 +57,7 @@ export default class VideoPicker extends Component<IProps, IState> {
 
     shouldComponentUpdate() {
         if (this.state.loaded && this.props.transitionEnd) {
+            console.log('ok')
             return false;
         }
 
