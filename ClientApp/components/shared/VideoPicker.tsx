@@ -116,13 +116,13 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 style={{
                     position: 'relative',
                     backgroundSize: '300% 300%',
-                    width: loaded ? `${this.props.width / this.props.height * 250}px` : '250px',
+                    // width: `${this.props.width / this.props.height * 250}px`,
                     height: `250px`,
                     marginBottom: '8px',
-                    opacity: loaded ? 1 : 0.15,
-                    animationName: 'XhtCamN749DcvC-ecDUzp',
-                    animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
-                    animationDelay: '100ms',
+                    // opacity: loaded ? 1 : 0.15,
+                    // animationName: 'XhtCamN749DcvC-ecDUzp',
+                    // animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
+                    // animationDelay: '100ms',
                     backgroundColor: loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#000"),
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
@@ -163,7 +163,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                         height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
-                        backgroundColor: '#ededed',
+                        // backgroundColor: '#ededed',
                     } : { display: 'none' }}
 
                     onCanPlay={(e) => {

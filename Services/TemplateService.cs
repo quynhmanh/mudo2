@@ -91,7 +91,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchPopularTemplates(int page = 1, int perPage = 5) {
             var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
-            .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
+            .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 3));
             var client = new ElasticClient(settings);
 
             var res = client.Search<TemplateModel>(s => 

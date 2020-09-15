@@ -17,6 +17,7 @@ interface IState {
     mounted: boolean;
     recentDesign: any;
     total: number;
+    rem: number;
 }
 
 const TEMPLATE_PERPAGE = 10;
@@ -24,16 +25,24 @@ const WIDTH = 250;
 
 class Popup extends PureComponent<IProps, IState> {
     state = {
+        rem: 10,
         total: 100,
         hasMore: true,
         yLocation: 0,
         showLeft: true,
         mounted: true,
-        recentDesign: [],
+        recentDesign: Array(10).fill(0).map(i => {
+            return {
+                width: WIDTH,
+                height: WIDTH,
+                id:"sentinel-image2",
+            }
+        }),
     }
 
     loadMore = () => {
-        const url = `/api/Template/SearchPopularTemplates?&page=${this.state.recentDesign.length / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
+        console.log('loadmore')
+        const url = `/api/Template/SearchPopularTemplates?&page=${(this.state.recentDesign.length - this.state.rem) / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
         axios
             .get(url)
             .then(res => {
@@ -42,10 +51,28 @@ class Popup extends PureComponent<IProps, IState> {
                     design.href = `/editor/design/${uuidv4()}/${design.id}`;
                     return design;
                 });
-                let hasMore = res.data.value.value > this.state.recentDesign.length + recentDesign.length;
+                // let hasMore = res.data.value.value > this.state.recentDesign.length + recentDesign.length - 10;
+                // console.log('handlemore', hasMore)
+                let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image2");
+                
+                newRecentDesign = [...newRecentDesign, ...recentDesign];
+                let hasMore = newRecentDesign.length < res.data.value.value;
+                let rem = 10;
+                if (hasMore) {
+                    rem = Math.min(res.data.value.value - newRecentDesign.length, 10);
+                    newRecentDesign = [...newRecentDesign, 
+                        ...Array(rem).fill(0).map(i => {
+                        return {
+                            width: WIDTH,
+                            height: WIDTH,
+                            id:"sentinel-image2",
+                        }})];
+                }
+
                 this.setState({
-                    recentDesign: [...this.state.recentDesign, ...recentDesign],
+                    recentDesign: newRecentDesign,
                     hasMore,
+                    rem,
                 });
             })
             .catch(error => {
@@ -54,27 +81,7 @@ class Popup extends PureComponent<IProps, IState> {
     }
 
     componentDidMount() {
-
-        const url = `/api/Template/SearchPopularTemplates?page=1&perPage=${TEMPLATE_PERPAGE}`;
-        axios
-            .get(url)
-            .then(res => {
-            let recentDesign = res.data.value.key.map(design => {
-                // design.width = WIDTH;
-                design.href = `/editor/design/${uuidv4()}/${design.id}`;
-                return design;
-            })
-
-            console.log('recentDEsign ', recentDesign)
-            this.setState({
-                recentDesign, 
-                total: res.data.value.value, 
-                mounted: recentDesign.length > 0,
-            });
-            })
-            .catch(error => {
-                // Ui.showErrors(error.response.statusText)
-            });
+        this.loadMore();
     }
 
     handleScroll = () => {
@@ -90,6 +97,8 @@ class Popup extends PureComponent<IProps, IState> {
     test = null;
 
   render() {
+
+    console.log('this.state' ,this.state)
     return (
         <div
             style={{
@@ -134,22 +143,24 @@ class Popup extends PureComponent<IProps, IState> {
                             }} 
                             className="templateList___2swQr"
                         >
-                            {this.state.recentDesign.map( (item) => 
+                            {this.state.recentDesign.map( (item, index) => 
                                 <Item 
                                     {...item} 
-                                    key={item.id}
+                                    key={index}
+                                    keys={index}
                                 />)}
 
-                            {this.state.hasMore && 
+                            {/* {this.state.hasMore && 
                                 Array(Math.min(TEMPLATE_PERPAGE, this.state.total - this.state.recentDesign.length))
                                 .fill(0)
                                 .map((item, i) => (
                                 <Item
                                     id={"sentinel-image2"}
                                     width={WIDTH}
-                                    key={uuidv4()}
+                                    key={this.state.recentDesign.length + i}
+                                    keys={this.state.recentDesign.length + i}
                                 />
-                          ))}
+                          ))} */}
                         </ul>
                         </InfiniteXScroll>
             </div>
