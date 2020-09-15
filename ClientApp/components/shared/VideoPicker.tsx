@@ -94,13 +94,14 @@ export default class VideoPicker extends Component<IProps, IState> {
                     position: 'relative',
                     backgroundSize: '300% 300%',
                     height: `250px`,
+                    width: 'auto',
                     marginBottom: '8px',
                     animationName: 'XhtCamN749DcvC-ecDUzp',
-                    animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
+                    animation: loaded && this.props.transitionEnd ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: '100ms',
-                    backgroundColor: loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#000"),
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
+                    backgroundColor: 'rgb(0 0 0)',
                 }} 
                 delay={this.props.delay} 
                 id={this.props.id}
@@ -134,12 +135,13 @@ export default class VideoPicker extends Component<IProps, IState> {
                     muted={true}
                     ref={i => this.image = i}
                     className={this.props.className}
-                    style={loaded && this.props.transitionEnd ? {
+                    style={{
                         height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
                         backgroundColor: '#ededed',
-                    } : { display: 'none' }}
+                        opacity: loaded && this.props.transitionEnd ? 1 : 0,
+                    }}
 
                     onCanPlay={(e) => {
                         this.handleImageLoaded();
