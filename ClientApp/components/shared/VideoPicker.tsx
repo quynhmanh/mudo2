@@ -151,10 +151,8 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     className={this.props.className}
                     style={loaded ? {
                         height: this.props.height + 'px',
-                        // width: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
-                        // backgroundColor: this.props.color,
                     } : { display: 'none' }}
 
                     onLoadedMetadata={(e) => {
