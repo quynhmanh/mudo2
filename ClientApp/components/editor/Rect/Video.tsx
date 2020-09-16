@@ -116,7 +116,7 @@ export default class Video extends Component<IProps, IState> {
                         }
                     }}
                 >
-                    <source src={src} type="video/webm" />
+                    <source src={src.replace("http://167.99.73.132:64099", "https://draft.vn")} type="video/webm" />
                 </video>
             </div>
         );
