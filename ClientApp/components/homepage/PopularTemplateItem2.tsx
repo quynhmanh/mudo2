@@ -41,6 +41,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         if (props.isVideo) {
             picker = <VideoPicker
                 id={props.id}
+                keys={props.keys}
                 key={"1"}
                 color={""}
                 delay={0}
@@ -109,7 +110,9 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                         <div
                             onTransitionEnd={e => {
                                 console.log('onTransitionEnd')
-                                this.setState({transitionEnd: true});
+                                setTimeout(() => {
+                                    this.setState({transitionEnd: true});
+                                }, 100);
                             }}
                             style={{ 
                                 paddingTop: 0,

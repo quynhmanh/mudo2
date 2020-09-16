@@ -17,6 +17,7 @@ export interface IProps {
     backgroundColorLoaded: string;
     backgroundColor: string;
     transitionEnd: boolean;
+    keys: any;
 }
 
 export interface IState {
@@ -131,6 +132,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     </button>
                 }
                 <video
+                    id={`video-${this.props.keys}`}
                     autoPlay={false}
                     loop={true}
                     muted={true}
@@ -142,6 +144,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                         pointerEvents: "all",
                         backgroundColor: '#ededed',
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
+                        transition: 'opacity 0.2s linear',
                     }}
 
                     onCanPlay={(e) => {
@@ -158,7 +161,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                         this.image.pause();
                     }}
 
-                    src={this.props.src}
+                    src={""}
                     onMouseDown={this.props.onPick}
                 />
             </Container>
