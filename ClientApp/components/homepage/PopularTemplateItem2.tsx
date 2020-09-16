@@ -24,7 +24,7 @@ interface IState {
     transitionEnd: boolean;
 }
 
-const HEIGHT = 250;
+const HEIGHT = 200;
 
 export default class PopularTemplateItem extends Component<IProps, IState> {
 
@@ -79,9 +79,9 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             />
         }
 
-        let width = props.width / props.height * 250;
+        let width = props.width / props.height * 200;
         if (props.width == props.height && props.id != "sentinel-image2") {
-            width = 249;
+            width = 199;
         }
 
         console.log('width ', width)

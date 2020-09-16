@@ -20,7 +20,7 @@ interface IState {
 }
 
 const TEMPLATE_PERPAGE = 10;
-const WIDTH = 250;
+const WIDTH = 200;
 
 let getRem = (rem) => Array(rem).fill(0).map(i => {
     return {
@@ -125,7 +125,7 @@ class Popup extends Component<IProps, IState> {
                 >{this.props.translate("popular")}</h3>
                 <div
                     style={{
-                        height: "250px",
+                        height: "200px",
                     }}>
                     <div>
                         <div style={{ position: 'relative' }}>
