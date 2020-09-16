@@ -189,3 +189,13 @@ Copy data folder `/var/lib/elasticsearch/`, then:
 
 
 
+
+
+-----
+
+Python to generate chrome extension id
+import hashlib
+
+m = hashlib.sha256()
+m.update(bytes(PATH.encode('utf-8')))
+EXTID = ''.join([chr(int(i, base=16) + ord('a')) for i in m.hexdigest()][:32])
