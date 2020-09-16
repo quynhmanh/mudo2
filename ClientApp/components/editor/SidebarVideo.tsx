@@ -286,6 +286,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                                 onEdit={this.props.handleEditmedia.bind(this, item)}
                                 showButton={true}
                                 duration={item.duration}
+                                showDuration={true}
                             />
                         ))}
                     </ul>

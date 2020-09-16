@@ -16,6 +16,7 @@ export interface IProps {
     delay: number;
     showButton: boolean;
     duration: number;
+    showDuration: boolean;
 }
 
 export interface IState {
@@ -44,7 +45,7 @@ const Container = styled.div`
   }
 `;
 
-export default class ImagePicker extends Component<IProps, IState> {
+export default class VideoPicker2 extends Component<IProps, IState> {
     state = {
         loaded: false,
         width: 300
@@ -52,6 +53,7 @@ export default class ImagePicker extends Component<IProps, IState> {
 
     static defaultProps = {
         duration: 0,
+        showDuration: false,
     }
 
     shouldComponentUpdate() {
@@ -188,7 +190,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     src={this.props.src}
                     onMouseDown={this.props.onPick}
                 />
-                {this.props.duration &&
+                {this.props.showDuration && this.props.duration && this.state.loaded && 
                     <span
                         style={{
                             position: "absolute",
