@@ -82,8 +82,8 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 style={{
                     position: 'relative',
                     backgroundSize: '300% 300%',
-                    width: `${this.state.loaded ? this.state.width : this.props.width}px`,
-                    height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
+                    // width: `${this.state.loaded ? this.state.width : this.props.width}px`,
+                    width: `160px`,
                     marginBottom: '8px',
                     display: "flex",
                     opacity: this.state.loaded ? 1 : 0.15,
