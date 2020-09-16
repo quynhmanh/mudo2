@@ -174,6 +174,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                 style={{
                     height: "calc(100% + 50px)",
                     overflowX: "scroll",
+                    paddingTop: "5px",
                 }}>
                 {this.state.showLeft && <button
                     style={{
