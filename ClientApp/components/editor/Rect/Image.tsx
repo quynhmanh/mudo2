@@ -41,13 +41,17 @@ export default class Image extends Component<IProps, IState> {
             srcThumnail,
             canvas 
         } = this.props;
+
+        src = src.replace("http://167.99.73.132:64099", "https://draft.vn");
+        srcThumnail = srcThumnail.replace("http://167.99.73.132:64099", "https://draft.vn");
+        
         return (
             <div>
                 {!window.downloading && !this.state.loaded && <img
                     style={{
                         visibility: "hidden",
                     }}
-                    src={src.replace("http://167.99.73.132:64099", "https://draft.vn")}                    
+                    src={src}
                     onLoad={e => {
                         this.setState({
                             loaded: true,
