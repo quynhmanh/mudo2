@@ -122,24 +122,6 @@ class HomePage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        // NavBar.load().then(() => {
-        //     const navTop = document.getElementsByTagName("nav")[0].getBoundingClientRect().top;
-        //     this.setState({ navTop });
-        // });
-        this.setState({ mounted: true });
-        // window.addEventListener('scroll', this.handleScroll);
-
-        if (Globals.serviceUser) {
-            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}`;
-            axios
-                .get(url)
-                .then(res => {
-                    this.setState({ recentDesign: res.data.value.key });
-                })
-                .catch(error => {
-                    // Ui.showErrors(error.response.statusText)
-                });
-        }
     }
 
     @bind
@@ -572,10 +554,10 @@ class HomePage extends React.Component<IProps, IState> {
                         </div>
                     </div>
 
-                    {/* <PopularTemplate
+                    <PopularTemplate
                         key={this.state.key}
                         translate={this.translate.bind(this)}
-                    /> */}
+                    />
                     <PopularTemplate2
                         translate={this.translate.bind(this)}
                     />
