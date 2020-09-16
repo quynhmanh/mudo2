@@ -1193,7 +1193,7 @@ export default class Rect extends Component<IProps, IState> {
 																			effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px`,
 															filter: filter,
 															lineHeight: `${lineHeight * fontSize}px`,
-															letterSpacing: `${1.0 * letterSpacing / 100 * 4}px`,
+															letterSpacing: `${1.0 * letterSpacing / 100 * 50}px`,
 															fontSize: fontSize + "px",
 														}}
 													></span>

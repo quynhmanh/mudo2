@@ -103,12 +103,12 @@ export default class Spacing extends Component<IProps, IState> {
         let image = editorStore.getImageSelected();
         if (editorStore.childId) {
             let el = this.getSingleTextHTMLElement();
-            el.style.letterSpacing = `${1.0 * letterSpacing / 100 * 4}px`;
+            el.style.letterSpacing = `${1.0 * letterSpacing / 100 * 50}px`;
 
             this.props.onTextChange(image, null, editorStore.childId);
         } else {
             let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-            hihi4.style.letterSpacing = `${1.0 * letterSpacing / 100 * 4}px`;
+            hihi4.style.letterSpacing = `${1.0 * letterSpacing / 100 * 50}px`;
             let height = hihi4.offsetHeight;
 
             let image = editorStore.getImageSelected();
@@ -200,7 +200,7 @@ export default class Spacing extends Component<IProps, IState> {
                         <Slider
                             pauser={this.props.pauser}
                             title="Letter"
-                            currentValue={editorStore.currentLetterSpacing ? editorStore.currentLetterSpacing : 30}
+                            currentValue={editorStore.currentLetterSpacing}
                             onChangeStart={e => {
                                 document.removeEventListener("mouseup", this.onDown);
                                 window.selectionStart = true;

@@ -147,7 +147,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
                         lineHeight: `${lineHeight * fontSize}px`,
                         fontStyle: italic ? "italic" : "",
                         fontWeight: bold ? "bold" : "normal",
-                        letterSpacing: `${1.0 * letterSpacing / 100 * 4}px`,
+                        letterSpacing: `${1.0 * letterSpacing / 100 * 50}px`,
                     }}
                 >
                     <div

@@ -4150,7 +4150,6 @@ class CanvaEditor extends Component<IProps, IState> {
             editorStore.currentFontSize = image.fontSize * image.scaleY;
             editorStore.fontId = image.fontId;
             editorStore.fontFace = image.fontId;
-
             editorStore.currentLetterSpacing = image.letterSpacing;
             editorStore.currentLineHeight = image.lineHeight;
         }
