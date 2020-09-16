@@ -61,7 +61,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             />
         } else {
             picker = <ImagePicker
-                id={`image-${this.props.keys}`}
+                id={props.id}
                 key={"1"}
                 color={""}
                 delay={0}
