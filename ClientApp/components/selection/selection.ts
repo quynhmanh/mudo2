@@ -189,7 +189,7 @@ function Selection(options = {}) {
             // Traverse dom upwards to check if target is selectable
             while (!that._selectables.includes(target)) {
                 if (!target.parentElement) {
-                    return;
+                    return false;
                 }
 
                 target = target.parentElement;
@@ -222,6 +222,8 @@ function Selection(options = {}) {
                 that._emit('move', evt);
                 that._emit('stop', evt);
             }
+
+            return true;
         },
 
         _delayedTapMove(evt) {

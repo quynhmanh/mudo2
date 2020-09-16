@@ -165,6 +165,8 @@ class Pickr {
             // Initialization is done - pickr is usable, fire init event
             that._initializingActive = false;
             that._emit('init');
+
+            return null;
         }));
     }
 
