@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { TemplateType } from '../enums';
+import { getLetterSpacing } from "@Utils";
 
 export interface IProps {
     selected: boolean;
@@ -147,7 +148,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
                         lineHeight: `${lineHeight * fontSize}px`,
                         fontStyle: italic ? "italic" : "",
                         fontWeight: bold ? "bold" : "normal",
-                        letterSpacing: `${1.0 * letterSpacing / 100 * 50}px`,
+                        letterSpacing: getLetterSpacing(letterSpacing),
                     }}
                 >
                     <div

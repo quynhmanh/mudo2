@@ -96,7 +96,7 @@ export default class SidebarText extends Component<IProps, IState> {
             fontId: fontFace,
             effectId: 8,
             lineHeight: 1.4,
-            letterSpacing: 0,
+            letterSpacing: 30,
             opacity: 100,
         };
 

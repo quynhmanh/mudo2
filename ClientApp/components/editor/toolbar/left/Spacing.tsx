@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import Slider from "@Components/editor/Slider";
 import editorStore from "@Store/EditorStore";
+import { getLetterSpacing } from "@Utils";
 
 interface IProps {
     show: boolean;
@@ -103,12 +104,12 @@ export default class Spacing extends Component<IProps, IState> {
         let image = editorStore.getImageSelected();
         if (editorStore.childId) {
             let el = this.getSingleTextHTMLElement();
-            el.style.letterSpacing = `${1.0 * letterSpacing / 100 * 50}px`;
+            el.style.letterSpacing = getLetterSpacing(letterSpacing);
 
             this.props.onTextChange(image, null, editorStore.childId);
         } else {
             let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-            hihi4.style.letterSpacing = `${1.0 * letterSpacing / 100 * 50}px`;
+            hihi4.style.letterSpacing = getLetterSpacing(letterSpacing);
             let height = hihi4.offsetHeight;
 
             let image = editorStore.getImageSelected();
