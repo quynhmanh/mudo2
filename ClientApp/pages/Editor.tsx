@@ -4426,6 +4426,12 @@ class CanvaEditor extends Component<IProps, IState> {
             return image;
         });
 
+        tempImages = tempImages.map(img => {
+            if (img.src) img.src = img.src.replace("http://167.99.73.132:64099", "https://draft.vn");
+            if (img.srcThumnail) img.srcThumnail = img.srcThumnail.replace("http://167.99.73.132:64099", "https://draft.vn");
+            return img;
+        })
+
         if (mode === Mode.CreateTextTemplate || mode === Mode.EditTextTemplate) {
             let newImages = [];
             for (let i = 0; i < clonedArray.length; ++i) {
