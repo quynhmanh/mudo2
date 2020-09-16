@@ -51,6 +51,7 @@ class Popup extends Component<IProps, IState> {
                     return design;
                 });
                 let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image2");
+                const startPoint = newRecentDesign.length;
                 newRecentDesign = [...newRecentDesign, ...recentDesign];
                 let hasMore = newRecentDesign.length < res.data.value.value;
                 let rem = 10;
@@ -64,6 +65,27 @@ class Popup extends Component<IProps, IState> {
                     hasMore,
                     rem,
                 });
+
+                function loadImage(counter) {
+                    // Break out if no more images
+                    if (counter==newRecentDesign.length) { return; }
+                  
+                    // Grab an image obj
+                    var I = document.getElementById("video-"+counter);
+                    console.log('II', I)
+                  
+                    // Monitor load or error events, moving on to next image in either case
+                    I.onloadedmetadata = I.onerror = function() { 
+                        console.log('onLoad ')
+                        loadImage(counter+1); 
+                    }
+                  
+                    //Change source (then wait for event)
+                    I.src = newRecentDesign[counter].videoRepresentative;
+                    console.log('ewRecentDesign', counter, newRecentDesign)
+                  }
+                  
+                  loadImage(startPoint);
             })
             .catch(error => {
                 // Ui.showErrors(error.response.statusText)

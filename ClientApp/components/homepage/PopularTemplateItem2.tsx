@@ -41,6 +41,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         if (props.isVideo) {
             picker = <VideoPicker
                 id={props.id}
+                keys={props.keys}
                 key={"1"}
                 color={""}
                 delay={0}
