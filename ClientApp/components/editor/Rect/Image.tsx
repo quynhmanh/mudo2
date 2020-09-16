@@ -47,7 +47,7 @@ export default class Image extends Component<IProps, IState> {
                     style={{
                         visibility: "hidden",
                     }}
-                    src={src}
+                    src={src.replace("http://167.99.73.132:64099", "https://draft.vn")}                    
                     onLoad={e => {
                         this.setState({
                             loaded: true,
