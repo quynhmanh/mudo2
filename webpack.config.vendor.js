@@ -54,6 +54,8 @@ module.exports = (env) => {
                 './ClientApp/styles/preloader.css',
                 'nserializejson',
                 'nval-tippy',
+                'bootstrap3-native',
+                'bootstrap-css-only/css/bootstrap.css',
                 'history',
                 'connected-react-router',
                 'react-router-dom',
