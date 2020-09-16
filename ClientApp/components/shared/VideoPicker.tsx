@@ -142,6 +142,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                         pointerEvents: "all",
                         backgroundColor: '#ededed',
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
+                        transition: 'opacity 0.5s linear',
                     }}
 
                     onCanPlay={(e) => {
