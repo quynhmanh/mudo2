@@ -445,11 +445,8 @@ export default class Canvas extends Component<IProps, IState> {
                                     backgroundColor: editorStore.pageColor.get(id),
                                     backgroundImage: `url(${editorStore.pageBackgroundImage.get(id)})`,
                                 }}
-                                onClick={e => {
-                                }}
                             >
                                 {images
-                                    // .filter(img => img._id != this.props.idObjectSelected)
                                     .map(img => (
                                         <ResizableRect
                                             handleCropBtnClick={this.props.handleCropBtnClick}
@@ -492,6 +489,7 @@ export default class Canvas extends Component<IProps, IState> {
                                                 this
                                             )}
                                             bleed={this.props.bleed}
+                                            disableCropMode={null}
                                         />
                                     ))}
                             </div>
@@ -559,6 +557,7 @@ export default class Canvas extends Component<IProps, IState> {
                                                 handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                                                     this
                                                 )}
+                                                doNoObjectSelected={null}
                                             />
                                         )
                                     }
@@ -704,6 +703,8 @@ export default class Canvas extends Component<IProps, IState> {
                                             handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
                                                 this
                                             )}
+                                            doNoObjectSelected={null}
+                                            handleCropBtnClick={null}
                                         />
                                     )
                                 }

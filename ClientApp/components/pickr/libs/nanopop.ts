@@ -71,7 +71,7 @@ export class NanoPop {
         popper: HTMLElement, {
             positionFlipOrder = NanoPop.defaultPositionFlipOrder,
             variantFlipOrder = NanoPop.defaultVariantFlipOrder,
-            container = document.documentElement.getBoundingClientRect(),
+            container = document.documentElement.getBoundingClientRect() as DOMRect,
             forceApplyOnFailure = false,
             margin = 8,
             position = 'bottom-start'

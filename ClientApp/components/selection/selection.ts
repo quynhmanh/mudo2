@@ -1,5 +1,5 @@
 import {css, eventPath, intersects, off, on, removeElement, selectAll, simplifyEvent} from './utils';
-import editorStore, {Images,AllImage} from "@Store/EditorStore";
+import editorStore from "@Store/EditorStore";
 
 // Some var shorting for better compression and readability
 const {abs, max, min, round, ceil} = Math;
@@ -47,6 +47,8 @@ function Selection(options = {}) {
             move: [],
             stop: []
         },
+        _boundaries: null,
+        _targetContainer: null,
 
         // Create area element
         _area: null,
@@ -97,6 +99,13 @@ function Selection(options = {}) {
             }
         },
 
+        _ax1: null,
+        _ay1: null,
+        _ax2: null,
+        _ay2: null,
+        _singleClick: null,
+        _targetBoundary: null,
+
         _onTapStart(evt, silent = false) {
             const {x, y, target} = simplifyEvent(evt);
             const {startareas, boundaries, frame} = that.options;
@@ -108,7 +117,7 @@ function Selection(options = {}) {
 
             // Check in which container the user currently acts
             that._targetContainer = that._boundaries.find(el =>
-                intersects(el.getBoundingClientRect(), targetBoundingClientRect)
+                intersects(el.getBoundingClientRect(), targetBoundingClientRect, null, null)
             );
 
             // Check if area starts in one of the start areas / boundaries
@@ -223,7 +232,7 @@ function Selection(options = {}) {
             // Check pixel threshold
             const thresholdType = typeof startThreshold;
             if ((thresholdType === 'number' && abs((x + y) - (_ax1 + _ay1)) >= startThreshold) ||
-                (thresholdType === 'object' && abs(x - _ax1) >= startThreshold.x || abs(y - _ay1) >= startThreshold.y)) {
+                (thresholdType === 'object' && abs(x - _ax1) >= (startThreshold as any).x || abs(y - _ay1) >= (startThreshold as any).y)) {
                 off(frame, ['mousemove', 'touchmove'], that._delayedTapMove, {passive: false});
                 on(frame, ['mousemove', 'touchmove'], that._onTapMove, {passive: false});
 

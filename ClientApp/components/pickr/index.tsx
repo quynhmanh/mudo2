@@ -93,6 +93,9 @@ class Pickr {
         swatchselect: []
     };
 
+    options;
+    _representation;
+
     constructor(opt) {
 
         // Assign default values
@@ -369,6 +372,8 @@ class Pickr {
         this._components = components;
     }
 
+    _components;
+
     _bindEvents() {
         const {_root, options} = this;
 
@@ -383,7 +388,8 @@ class Pickr {
                 _root.preview.lastColor
             ], 'click', () => {
                 this._emit('cancel', this);
-                this.setHSVA(...(this._lastColor || this._color).toHSVA(), true);
+                const {h, s, v, a} = (this._lastColor || this._color).toHSVA();
+                this.setHSVA(h, s, v, a, true);
             }),
 
             // Save color
@@ -499,6 +505,8 @@ class Pickr {
         // Save bindings
         this._eventBindings = eventBindings;
     }
+
+    _eventBindings;
 
     _rePositioningPicker() {
         const {options} = this;
@@ -626,7 +634,8 @@ class Pickr {
             // Bind event
             this._eventBindings.push(
                 _.on(el, 'click', () => {
-                    this.setHSVA(...color.toHSVA(), true);
+                    const { h, s, v, a} = color.toHSVA();
+                    this.setHSVA(h, s, v, a, true);
                     this._emit('swatchselect', color);
                     this._emit('change', color);
                 })
@@ -824,8 +833,10 @@ class Pickr {
                 }
             }
 
+            const { h, s, v, a} = values;
+
             // Update color (fires 'save' event if silent is 'false')
-            if (!this.setHSVA(...values, silent)) {
+            if (!this.setHSVA(h, s, v, a, silent)) {
                 return false;
             }
 

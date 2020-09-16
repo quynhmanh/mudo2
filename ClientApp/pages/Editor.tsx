@@ -1177,6 +1177,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 });
             }
 
+            return true;
         }).on('start', evt => {
             // evt.preventDefault();
             // A selection got initiated, you could now clear the previous selection or

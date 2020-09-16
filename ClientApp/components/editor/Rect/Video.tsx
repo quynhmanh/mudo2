@@ -103,16 +103,16 @@ export default class Video extends Component<IProps, IState> {
                         el.setAttribute('max', video.duration.toString());
                     }}
                     onTimeUpdate={e => {
+                        let video = e.target as HTMLVideoElement;
                         if (this.props.name == CanvasType.All) {
                             let progress = document.getElementById(_id + "progress1");
                             let progressBar = document.getElementById(_id + "progress-bar1");
                             let progressBarPointer = document.getElementById(_id + "progress-bar-pointer1");
-                            let video = e.target as HTMLVideoElement;
                             if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration.toString());
                             progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';
                             progressBarPointer.style.left = `calc(${video.currentTime / video.duration * 100}% - 7.5px)`;
                         } else {
-                            e.target.style.opacity = opacity;
+                            video.style.opacity = opacity;
                         }
                     }}
                 >
