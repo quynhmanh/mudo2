@@ -17,7 +17,12 @@ export default class FontPicker extends Component<IProps, IState> {
     static defaultProps = {
     }
 
-    componentDidMount() {
+    shouldComponentUpdate() {
+        if (this.state.loaded) {
+            return false;
+        }
+
+        return true;
     }
 
     handleImageLoaded() {
@@ -34,13 +39,11 @@ export default class FontPicker extends Component<IProps, IState> {
                 }}>
                 <img
                     onLoad={(e) => {
-                        console.log('onLoadedData')
                         this.handleImageLoaded();
                     }
                     }
                     style={{
                         height: this.props.height + "px",
-                        // backgroundColor: !this.state.loaded ? 'black' : 'transparent',
                         width: "200px",
                         display: this.state.loaded ? 'block' : 'none',
                     }}

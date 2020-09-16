@@ -256,7 +256,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                 </button>
                                             )}
                                             <button
-                                                key={uuidv4()}
+                                                key={key}
                                                 className="font-picker"
                                                 onClick={e => {
                                                     this.selectFont(font.id, e);
@@ -343,25 +343,6 @@ export default class SidebarFont extends Component<IProps, IState> {
                                         </div>
                                         ))
                                     }
-                                    {/* {this.state.hasMore &&
-                                        Array(1)
-                                            .fill(0)
-                                            .map((item, i) => (
-                                                <ImagePicker
-                                                    key={i}
-                                                    id="sentinel-font"
-                                                    color="black"
-                                                    src={""}
-                                                    height={imgWidth}
-                                                    defaultHeight={imgWidth}
-                                                    width={imgWidth}
-                                                    className=""
-                                                    onPick={null}
-                                                    onEdit={this.props.handleEditmedia.bind(this, null)}
-                                                    delay={0}
-                                                    showButton={false}
-                                                />
-                                            ))} */}
                                 </div>
                             </div>
                         </InfiniteScroll>
