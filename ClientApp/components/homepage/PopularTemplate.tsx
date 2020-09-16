@@ -35,7 +35,7 @@ class Popup extends PureComponent<IProps, IState> {
 
     componentDidMount() {
         if (Globals.serviceUser) {
-            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=${TEMPLATE_PERPAGE}`;
+            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=${TEMPLATE_PERPAGE}`;
             axios
               .get(url)
               .then(res => {
@@ -61,7 +61,7 @@ class Popup extends PureComponent<IProps, IState> {
 
     loadMore = () => {
         if (Globals.serviceUser) {
-            const url = `https://localhost:64099/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
+            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
             axios
               .get(url)
               .then(res => {
