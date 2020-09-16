@@ -160,7 +160,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                         height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
-                        backgroundColor: '#ededed',
+                        backgroundColor: 'transparent',
                     } : { display: 'none' }}
 
                     onCanPlay={(e) => {
