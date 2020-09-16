@@ -172,9 +172,9 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                     document.addEventListener("mousemove", onMove);
                 }}
                 style={{
-                    height: "calc(100% + 50px)",
+                    height: "calc(100% + 53px)",
                     overflowX: "scroll",
-                    paddingTop: "5px",
+                    paddingTop: "3px",
                 }}>
                 {this.state.showLeft && <button
                     style={{
