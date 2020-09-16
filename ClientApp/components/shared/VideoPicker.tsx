@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, isValidElement } from "react";
+import React, { Component } from "react";
 import styled from 'styled-components';
 import editorStore from "@Store/EditorStore";
 
@@ -16,33 +16,13 @@ export interface IProps {
     showButton: boolean;
     backgroundColorLoaded: string;
     backgroundColor: string;
+    transitionEnd: boolean;
 }
 
 export interface IState {
     loaded: boolean;
     width: number;
 }
-
-
-// const Container = styled.div`
-//   position: relative;
-//   background-size: 300% 300%;
-//   position: relative;
-//   width: ${props => props.width}px;
-//   animation: gradient___UgeAv 3s linear infinite;
-//   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
-//   background-image: ${props => props.loaded ? 'none;' : 'linear-gradient(90deg,rgba(239,239,239,0),rgba(255, 255, 255, 0.06),rgba(236,240,242,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(6,12,13,0));'}
-//   margin-bottom: 10px;
-//   animation-delay: ${props => props.delay}s;
-//   background-color: #00000030;
-//   button {
-//     visibility: hidden;
-//   }
-//   :hover button {
-//     visibility: visible;
-//   }
-// `
-
 
 const Container = styled.div`
   position: relative;
@@ -62,7 +42,7 @@ const Container = styled.div`
   }
 `
 
-export default class ImagePicker extends PureComponent<IProps, IState> {
+export default class VideoPicker extends Component<IProps, IState> {
     state = {
         loaded: false,
         width: 300,
@@ -76,7 +56,8 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
     }
 
     shouldComponentUpdate() {
-        if (this.state.loaded) {
+        if (this.state.loaded && this.props.transitionEnd) {
+            console.log('ok')
             return false;
         }
 
@@ -113,16 +94,15 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 style={{
                     position: 'relative',
                     backgroundSize: '300% 300%',
-                    // width: `${this.props.width / this.props.height * 250}px`,
                     height: `250px`,
+                    width: 'auto',
                     marginBottom: '8px',
-                    // opacity: loaded ? 1 : 0.15,
                     animationName: 'XhtCamN749DcvC-ecDUzp',
-                    animation: loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
+                    animation: loaded && this.props.transitionEnd ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: '100ms',
-                    backgroundColor: loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#000"),
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
+                    backgroundColor: loaded && this.props.transitionEnd ? 'white' : 'rgb(0 0 0)',
                 }} 
                 delay={this.props.delay} 
                 id={this.props.id}
@@ -156,12 +136,13 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     muted={true}
                     ref={i => this.image = i}
                     className={this.props.className}
-                    style={loaded ? {
+                    style={{
                         height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
-                        backgroundColor: 'transparent',
-                    } : { display: 'none' }}
+                        backgroundColor: '#ededed',
+                        opacity: loaded && this.props.transitionEnd ? 1 : 0,
+                    }}
 
                     onCanPlay={(e) => {
                         this.handleImageLoaded();

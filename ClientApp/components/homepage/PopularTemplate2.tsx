@@ -91,7 +91,7 @@ class Popup extends Component<IProps, IState> {
         return (
             <div
                 style={{
-                    padding: "20px 80px",
+                    padding: "20px 150px",
                     display: this.state.mounted ? "block" : "none",
                 }}
             >
@@ -99,9 +99,9 @@ class Popup extends Component<IProps, IState> {
                     style={{
                         marginBottom: '20px',
                         marginTop: '20px',
-                        fontFamily: "AvenirNextRoundedPro-Medium",
+                        fontFamily: "AvenirNextRoundedPro",
                         fontWeight: 600,
-                        fontSize: "25px",
+                        fontSize: "23px",
                     }}
                 >{this.props.translate("popular")}</h3>
                 <div

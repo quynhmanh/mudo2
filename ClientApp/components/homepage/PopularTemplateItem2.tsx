@@ -20,7 +20,7 @@ interface IProps {
 }
 
 interface IState {
-
+    transitionEnd: boolean;
 }
 
 const HEIGHT = 250;
@@ -29,6 +29,10 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
     constructor(props: any) {
         super(props);
+
+        this.state = {
+            transitionEnd: false,
+        }
     }
 
     render() {
@@ -51,6 +55,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 src={props.videoRepresentative}
                 width={props.width}
                 backgroundColor="black"
+                transitionEnd={this.state.transitionEnd}
             />
         } else {
             picker = <ImagePicker
@@ -71,6 +76,13 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 backgroundColor="black"
             />
         }
+
+        let width = props.width / props.height * 250;
+        if (props.width == props.height && props.id != "sentinel-image2") {
+            width = 249;
+        }
+
+        console.log('width ', width)
 
         return (
             <CC 
@@ -94,13 +106,16 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                             borderRadius: '4px',
                             overflow: 'hidden',
                         }}>
-                        <div 
+                        <div
+                            onTransitionEnd={e => {
+                                console.log('onTransitionEnd')
+                                setTimeout(() => {
+                                    this.setState({transitionEnd: true});
+                                }, 100);
+                            }}
                             style={{ 
                                 paddingTop: 0,
-                                width: `${props.width / props.height * 250}px`,
-                                // animationName: 'XhtCamN749DcvC-ecDUzp',
-                                // animation: "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
-                                // animationDelay: '100ms',
+                                width: `${width}px`,
                                 transitionDuration: '0.25s',
                                 transitionProperty: 'opacity, left, top, width',
                             }}>
