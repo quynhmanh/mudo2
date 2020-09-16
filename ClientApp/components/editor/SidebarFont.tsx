@@ -290,7 +290,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                                     width: "30px",
                                                                     top: 0,
                                                                     bottom: 0,
-                                                                    right: "40px",
+                                                                    right: "44px",
                                                                 }}
                                                                 src={require("@Components/shared/svgs/editor/toolbar/vietnam-flag.svg")} alt={""} />
                                                         </Tooltip>
@@ -302,7 +302,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                             float: "right",
                                                             width: "20px",
                                                             height: "20px",
-                                                            right: "10px",
+                                                            right: "14px",
                                                             marginRight: '20px',
                                                             margin: 'auto',
                                                             top: '0',
@@ -339,35 +339,6 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                     src={font.representative}
                                                     height={font.fontPickerHeight ? font.fontPickerHeight : 20}
                                                 />
-                                                {font.vietnameseSupport &&
-                                                    <div
-                                                        style={{
-                                                            position: "absolute",
-                                                            right: '40px',
-                                                            top: '0',
-                                                            bottom: '0',
-                                                            margin: 'auto',
-                                                            height: '30px',
-                                                        }}
-                                                    >
-                                                        <Tooltip
-                                                            offsetLeft={80}
-                                                            offsetTop={-20}
-                                                            content={this.props.translate("vietnameseSupport")}
-                                                            delay={10}
-                                                            position="top"
-                                                        >
-                                                            <img
-                                                                style={{
-                                                                    height: "30px",
-                                                                    width: "30px",
-                                                                    top: 0,
-                                                                    bottom: 0,
-                                                                    right: "40px",
-                                                                }}
-                                                                src={require("@Components/shared/svgs/editor/toolbar/vietnam-flag.svg")} alt={""} />
-                                                        </Tooltip>
-                                                    </div>}
                                             </button>
                                         </div>
                                         ))
