@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';  
+import React, {Component} from 'react';  
 import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
 import Globals from "@Globals";
@@ -19,62 +19,86 @@ interface IState {
     recentDesign: any;
     hasMore: boolean;
     total: number;
+    rem: number;
 }
 
 const TEMPLATE_PERPAGE = 10;
 
-class Popup extends PureComponent<IProps, IState> {
+const WIDTH = 160;
+
+
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: WIDTH,
+        height: WIDTH,
+        id: "sentinel-image2",
+        videoRepresentative: "",
+    }
+});
+
+class Popup extends Component<IProps, IState> {
     state = {
+        rem: 10,
         total: 0,
         yLocation: 0,
         showLeft: true,
         mounted: false,
-        recentDesign: [],
+        recentDesign: getRem(10),
         hasMore: true,
     }
 
     componentDidMount() {
-        if (Globals.serviceUser) {
-            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=${TEMPLATE_PERPAGE}`;
-            axios
-              .get(url)
-              .then(res => {
-                    let recentDesign = res.data.value.key.map(design => {
-                        design.width = 160;
-                        design.href = `/editor/design/${design.id}`;
-                        return design;
-                    });
-
-                    let hasMore = res.data.value.value > recentDesign.length;
-                    this.setState({
-                        recentDesign, 
-                        hasMore,
-                        total: res.data.value.value,
-                        mounted: recentDesign.length > 0,
-                    });
-                })
-                .catch(error => {
-                    // Ui.showErrors(error.response.statusText)
-                });
-        }
+        this.loadMore();
     }
 
     loadMore = () => {
         if (Globals.serviceUser) {
-            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${this.state.recentDesign.length / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
+            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${(this.state.recentDesign.length - this.state.rem) / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
             axios
               .get(url)
               .then(res => {
-                let newRecentDesign = res.data.value.key.map(design => {
+                let recentDesign = res.data.value.key.map(design => {
                     design.width = 160;
                     design.href = `/editor/design/${design.id}`;
                     return design;
                 })
-                let hasMore = res.data.value.value > (this.state.recentDesign.length + newRecentDesign.length);
+                console.log('res.data.value ', res.data.value)
+                let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image2");
+                const startPoint = newRecentDesign.length;
+                newRecentDesign = [...newRecentDesign, ...recentDesign];
+                let hasMore = newRecentDesign.length < res.data.value.value;
+                let rem = 10;
+                if (hasMore) {
+                    rem = Math.min(res.data.value.value - newRecentDesign.length, 10);
+                    newRecentDesign = [...newRecentDesign, ...getRem(rem)];
+                }
                 this.setState({
-                    recentDesign: [...this.state.recentDesign, ...newRecentDesign],
+                    recentDesign: newRecentDesign,
                     hasMore,
+                    rem,
                 });
+
+
+                function loadImage(counter) {
+                    // Break out if no more images
+                    if (counter==newRecentDesign.length) { return; }
+                  
+                    // Grab an image obj
+                    var I = document.getElementById("image-"+counter) as HTMLImageElement;
+                    console.log('II', I)
+                  
+                    // Monitor load or error events, moving on to next image in either case
+                    I.onload = I.onerror = function() { 
+                        console.log('onLoad ')
+                        loadImage(counter+1); 
+                    }
+                  
+                    //Change source (then wait for event)
+                    I.src = newRecentDesign[counter].representative;
+                    console.log('ewRecentDesign', counter, newRecentDesign)
+                  }
+                  
+                  loadImage(startPoint);
               })
               .catch(error => {
                   // Ui.showErrors(error.response.statusText)
@@ -83,20 +107,20 @@ class Popup extends PureComponent<IProps, IState> {
     }
 
   render() {
+    console.log('this.state.recentDesign', this.state.recentDesign)
     return (
         <div
             style={{
                 padding: "20px 150px",
-                display: this.state.mounted ? "block" : "none",
             }}
           >
             <h3
                 style={{
                     marginBottom: '20px',
                     marginTop: '20px',
-                    fontFamily: "AvenirNextRoundedPro-Medium",
                     fontWeight: 600,
                     fontSize: "25px",
+                    fontFamily: 'AvenirNextRoundedPro',
                 }}
             >{this.props.translate("recentDesign")}</h3>
             <div 
@@ -127,20 +151,12 @@ class Popup extends PureComponent<IProps, IState> {
                         }} 
                         className="templateList___2swQr"
                     >
-                        {this.state.recentDesign.map( (item) => 
+                        {this.state.recentDesign.map( (item, index) => 
                             <Item 
                                 {...item} 
-                                key={uuidv4()}
+                                key={index}
+                                keys={index}
                             />)}
-                        {this.state.hasMore && Array(Math.min(TEMPLATE_PERPAGE, this.state.total - this.state.recentDesign.length))
-                        .fill(0)
-                        .map((item, i) => (
-                        <Item
-                            id={"sentinel-image"}
-                            width={160}
-                            key={uuidv4()}
-                        />
-                        ))}
                     </ul>
                 </InfiniteXScroll>
             </div>

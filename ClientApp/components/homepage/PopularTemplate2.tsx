@@ -42,7 +42,6 @@ class Popup extends Component<IProps, IState> {
     }
 
     loadMore = () => {
-        console.log('loadmore')
         const url = `/api/Template/SearchPopularTemplates?&page=${(this.state.recentDesign.length - this.state.rem) / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
         axios
             .get(url)
@@ -73,17 +72,14 @@ class Popup extends Component<IProps, IState> {
                   
                     // Grab an image obj
                     var I = document.getElementById("video-"+counter) as HTMLVideoElement;
-                    console.log('II', I)
                   
                     // Monitor load or error events, moving on to next image in either case
                     I.onloadedmetadata = I.onerror = function() { 
-                        console.log('onLoad ')
                         loadImage(counter+1); 
                     }
                   
                     //Change source (then wait for event)
                     I.src = newRecentDesign[counter].videoRepresentative;
-                    console.log('ewRecentDesign', counter, newRecentDesign)
                   }
                   
                   loadImage(startPoint);
