@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { SidebarTab, TemplateType, } from "./enums";
+import { SidebarTab, } from "./enums";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
-import ImagePicker from "@Components/shared/ImagePicker";
 import { toJS } from "mobx";
-import Globals from "@Globals";
 import Tooltip from "@Components/shared/Tooltip";
+import FontPicker from "@Components/editor/FontPicker";
 
 export interface IProps {
     scale: number;
@@ -108,12 +107,6 @@ export default class SidebarFont extends Component<IProps, IState> {
 
         editorStore.images2.set(editorStore.idObjectSelected, image);
         this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-
-        // this.setState({ 
-        //     fontName: font.representative,
-        //     fontId: font.id,
-        // });
-
         editorStore.fontId = font.id;
 
         e.preventDefault();
@@ -198,7 +191,6 @@ export default class SidebarFont extends Component<IProps, IState> {
                     height: "100%",
                     left: "0px",
                     backgroundColor: "white",
-                    // left: '19px',
                 }}
             >
                 <div>
@@ -230,39 +222,39 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                 display: 'flex',
                                             }}>
                                             {editorStore.isAdmin && (
-                                                    <button
-                                                        style={{
-                                                            top: "5px",
-                                                            left: "5px",
-                                                            borderRadius: "13px",
-                                                            border: "none",
-                                                            padding: "0 4px",
-                                                            boxShadow:
-                                                                "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
-                                                        }}
-                                                        onClick={this.props.handleEditFont.bind(this, font)}
-                                                    >
-                                                        <span>
-                                                            <svg
-                                                                width="25"
-                                                                height="25"
-                                                                viewBox="0 0 16 16"
-                                                            >
-                                                                <defs>
-                                                                    <path
-                                                                        id="_2658783389__a"
-                                                                        d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"
-                                                                    ></path>
-                                                                </defs>
-                                                                <use
-                                                                    fill="black"
-                                                                    xlinkHref="#_2658783389__a"
-                                                                    fillRule="evenodd"
-                                                                ></use>
-                                                            </svg>
-                                                        </span>
-                                                    </button>
-                                                )}
+                                                <button
+                                                    style={{
+                                                        top: "5px",
+                                                        left: "5px",
+                                                        borderRadius: "13px",
+                                                        border: "none",
+                                                        padding: "0 4px",
+                                                        boxShadow:
+                                                            "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
+                                                    }}
+                                                    onClick={this.props.handleEditFont.bind(this, font)}
+                                                >
+                                                    <span>
+                                                        <svg
+                                                            width="25"
+                                                            height="25"
+                                                            viewBox="0 0 16 16"
+                                                        >
+                                                            <defs>
+                                                                <path
+                                                                    id="_2658783389__a"
+                                                                    d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"
+                                                                ></path>
+                                                            </defs>
+                                                            <use
+                                                                fill="black"
+                                                                xlinkHref="#_2658783389__a"
+                                                                fillRule="evenodd"
+                                                            ></use>
+                                                        </svg>
+                                                    </span>
+                                                </button>
+                                            )}
                                             <button
                                                 key={uuidv4()}
                                                 className="font-picker"
@@ -270,12 +262,9 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                     this.selectFont(font.id, e);
                                                 }}
                                             >
-                                                <img
-                                                    style={{
-                                                        // margin: "auto"
-                                                        height: font.fontPickerHeight ? font.fontPickerHeight + "px" : "20px",
-                                                    }}
+                                                <FontPicker
                                                     src={font.representative}
+                                                    height={font.fontPickerHeight ? font.fontPickerHeight : 20}
                                                 />
                                                 {font.vietnameseSupport &&
                                                     <div
@@ -295,7 +284,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                             delay={10}
                                                             position="top"
                                                         >
-                                                            <svg
+                                                            <img
                                                                 style={{
                                                                     height: "30px",
                                                                     width: "30px",
@@ -303,7 +292,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                                     bottom: 0,
                                                                     right: "40px",
                                                                 }}
-                                                                xmlns="http://www.w3.org/2000/svg" id="Capa_1" enableBackground="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512"><g><path d="m495.484 90.839h-478.968l-8.699 10.161v294.151c0 9.122 7.395 16.516 16.516 16.516h477.667l10-7.021v-297.29c0-9.123-7.395-16.517-16.516-16.517z" fill="#e5646e" /><path d="m16.516 355.097v-264.258c-9.121 0-16.516 7.394-16.516 16.516v297.29c0 9.122 7.395 16.516 16.516 16.516h478.968c9.121 0 16.516-7.395 16.516-16.516h-445.935c-27.365 0-49.549-22.183-49.549-49.548z" fill="#db4655" /><path d="m352.726 229.999h-70.292l-21.722-66.851c-1.483-4.565-7.942-4.565-9.424 0l-21.722 66.851h-70.292c-4.8 0-6.795 6.142-2.912 8.964l56.867 41.317-21.721 66.852c-1.483 4.565 3.741 8.361 7.624 5.539l56.868-41.317 56.867 41.317c3.883 2.822 9.108-.975 7.625-5.539l-21.721-66.852 56.867-41.317c3.883-2.821 1.888-8.964-2.912-8.964z" fill="#ffe07d" /></g></svg>
+                                                                src={require("@Components/shared/svgs/editor/toolbar/vietnam-flag.svg")} alt={""} />
                                                         </Tooltip>
                                                     </div>}
                                                 {editorStore.fontId === font.id ? (
@@ -320,60 +309,70 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                             bottom: '0',
                                                         }}
                                                     >
-                                                        <svg fill="#2c8dd6" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 288.941 288.941" xmlSpace="preserve">
-                                                            <g>
-                                                                <path id="Check" d="M285.377,46.368c-4.74-4.704-12.439-4.704-17.179,0L96.309,217.114L20.734,142.61   c-4.74-4.704-12.439-4.704-17.179,0s-4.74,12.319,0,17.011l84.2,82.997c4.692,4.644,12.499,4.644,17.191,0l180.43-179.239   C290.129,58.687,290.129,51.06,285.377,46.368C280.637,41.664,290.129,51.06,285.377,46.368z" />
-                                                                <g>
-                                                                </g>
-                                                                <g>
-                                                                </g>
-                                                                <g>
-                                                                </g>
-                                                                <g>
-                                                                </g>
-                                                                <g>
-                                                                </g>
-                                                                <g>
-                                                                </g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                            <g>
-                                                            </g>
-                                                        </svg>
+                                                        <img
+                                                            style={{
+                                                                width: "25px",
+                                                            }}
+                                                            src={require("@Components/shared/svgs/editor/toolbar/selected.svg")} alt={""} />
                                                     </span>
 
                                                 ) : null}
                                             </button>
                                         </div>
                                     ))}
-                                    {this.state.hasMore &&
+                                    {this.state.hasMore && Array(10)
+                                        .fill(0)
+                                        .map((font, key) => (
+                                            <div
+                                            key={key}
+                                            style={{
+                                                display: 'flex',
+                                            }}>
+                                            <button
+                                                key={uuidv4()}
+                                                className="font-picker"
+                                                onClick={e => {
+                                                    this.selectFont(font.id, e);
+                                                }}
+                                            >
+                                                <FontPicker
+                                                    src={font.representative}
+                                                    height={font.fontPickerHeight ? font.fontPickerHeight : 20}
+                                                />
+                                                {font.vietnameseSupport &&
+                                                    <div
+                                                        style={{
+                                                            position: "absolute",
+                                                            right: '40px',
+                                                            top: '0',
+                                                            bottom: '0',
+                                                            margin: 'auto',
+                                                            height: '30px',
+                                                        }}
+                                                    >
+                                                        <Tooltip
+                                                            offsetLeft={80}
+                                                            offsetTop={-20}
+                                                            content={this.props.translate("vietnameseSupport")}
+                                                            delay={10}
+                                                            position="top"
+                                                        >
+                                                            <img
+                                                                style={{
+                                                                    height: "30px",
+                                                                    width: "30px",
+                                                                    top: 0,
+                                                                    bottom: 0,
+                                                                    right: "40px",
+                                                                }}
+                                                                src={require("@Components/shared/svgs/editor/toolbar/vietnam-flag.svg")} alt={""} />
+                                                        </Tooltip>
+                                                    </div>}
+                                            </button>
+                                        </div>
+                                        ))
+                                    }
+                                    {/* {this.state.hasMore &&
                                         Array(1)
                                             .fill(0)
                                             .map((item, i) => (
@@ -391,7 +390,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                     delay={0}
                                                     showButton={false}
                                                 />
-                                            ))}
+                                            ))} */}
                                 </div>
                             </div>
                         </InfiniteScroll>
