@@ -88,7 +88,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
         return (
             <CC 
-                style={{ marginRight: '16px' }}
+                style={{ marginRight: '24px' }}
                 className="templateWrapper___3Fitk"
                 onClick={e => {
                     if (window.dragging) e.preventDefault();
