@@ -12,7 +12,7 @@ namespace RCB.TypeScript.Services
 {
     public class DesignService : ServiceBase
     {
-        const string DefaultIndex = "design-01";
+        const string DefaultIndex = "design-02";
         private DesignContext _designContext;
 
         public DesignService(DesignContext designContext)
@@ -88,7 +88,7 @@ namespace RCB.TypeScript.Services
         {
             var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
-                .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
+                .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 3));
             var client = new ElasticClient(settings);
             string query = $"UserName:{userName}";
 
