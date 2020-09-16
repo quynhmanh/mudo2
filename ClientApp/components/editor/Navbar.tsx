@@ -95,7 +95,8 @@ class LeftSide extends Component<IProps, IState> {
                                         type="text" 
                                         defaultValue={this.props.designTitle}
                                         onInput={e => {
-                                            e.target.parentNode.dataset.value = e.target.value;
+                                            let el = e.target as HTMLInputElement;
+                                            (el.parentNode as HTMLLabelElement).dataset.value = el.value;
                                         }}
                                         size={this.props.designTitle ? this.props.designTitle.length : 0} 
                                         />

@@ -788,3 +788,5 @@ export const getGuideOfImage = id => {
 export const hideGuide = el => {
     el.style.display = "none";
 }
+
+export const getLetterSpacing = val => `${1.0 * val / 100 * 50 - 15}px`;

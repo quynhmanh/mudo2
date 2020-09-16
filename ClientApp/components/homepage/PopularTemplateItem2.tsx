@@ -17,6 +17,7 @@ interface IProps {
     isVideo: boolean;
     videoRepresentative: string;
     representative: string;
+    keys: string;
 }
 
 interface IState {

@@ -50,6 +50,10 @@ export default class ImagePicker extends Component<IProps, IState> {
         width: 300
     };
 
+    static defaultProps = {
+        duration: 0,
+    }
+
     shouldComponentUpdate() {
         if (this.state.loaded) {
             return false;

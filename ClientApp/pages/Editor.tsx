@@ -1177,6 +1177,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 });
             }
 
+            return true;
         }).on('start', evt => {
             // evt.preventDefault();
             // A selection got initiated, you could now clear the previous selection or
@@ -4150,7 +4151,6 @@ class CanvaEditor extends Component<IProps, IState> {
             editorStore.currentFontSize = image.fontSize * image.scaleY;
             editorStore.fontId = image.fontId;
             editorStore.fontFace = image.fontId;
-
             editorStore.currentLetterSpacing = image.letterSpacing;
             editorStore.currentLineHeight = image.lineHeight;
         }

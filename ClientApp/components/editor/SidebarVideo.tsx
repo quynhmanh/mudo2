@@ -74,8 +74,8 @@ export default class SidebarVideo extends Component<IProps, IState> {
                 res => {
                     this.setState(state => ({
                         videos: [...state.videos, ...res.value.key],
-                        hasMoreVideos:
-                            res.value.value > state.videos.length + res.value.key.length
+                        hasMoreVideos: res.value.value > state.videos.length + res.value.key.length,
+                        loaded: true,
                     }));
                     this.forceUpdate();
                 },

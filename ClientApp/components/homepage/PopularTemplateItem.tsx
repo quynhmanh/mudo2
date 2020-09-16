@@ -24,7 +24,7 @@ const PopularTemplateItem = (props: IProps) => {
         key={"1"}
         color={""}
         delay={0}
-        // height={160}
+        height={160}
         onPick={(e) => {}}
         onEdit={(e) => {
             window.open(`/editor/design/${props.id}`)

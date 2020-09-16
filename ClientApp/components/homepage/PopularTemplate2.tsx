@@ -27,6 +27,7 @@ let getRem = (rem) => Array(rem).fill(0).map(i => {
         width: WIDTH,
         height: WIDTH,
         id: "sentinel-image2",
+        videoRepresentative: "",
     }
 });
 
@@ -71,7 +72,7 @@ class Popup extends Component<IProps, IState> {
                     if (counter==newRecentDesign.length) { return; }
                   
                     // Grab an image obj
-                    var I = document.getElementById("video-"+counter);
+                    var I = document.getElementById("video-"+counter) as HTMLVideoElement;
                     console.log('II', I)
                   
                     // Monitor load or error events, moving on to next image in either case

@@ -52,7 +52,7 @@ const unitify = (val, unit = 'px') => typeof val === 'number' ? val + unit : val
  * @param val The value for a single attribute.
  * @returns {*}
  */
-export function css(el, attr, val) {
+export function css(el, attr, val = null) {
     const style = el && el.style;
     if (style) {
         if (typeof attr === 'object') {
@@ -278,7 +278,7 @@ export function selectAll(selector, doc = document) {
         const item = selector[i];
 
         if (typeof item === 'string') {
-            nodes.push(...doc.querySelectorAll(item));
+            nodes.push(...Array.from(doc.querySelectorAll(item)));
         } else if (item instanceof doc.defaultView.HTMLElement) {
             nodes.push(item);
         }
