@@ -31,7 +31,7 @@ let getRem = (rem) => Array(rem).fill(0).map(i => {
     return {
         width: WIDTH,
         height: WIDTH,
-        id: "sentinel-image2",
+        id: "sentinel-image1",
         videoRepresentative: "",
     }
 });
@@ -63,7 +63,7 @@ class Popup extends Component<IProps, IState> {
                     return design;
                 })
                 console.log('res.data.value ', res.data.value)
-                let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image2");
+                let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image1");
                 const startPoint = newRecentDesign.length;
                 newRecentDesign = [...newRecentDesign, ...recentDesign];
                 let hasMore = newRecentDesign.length < res.data.value.value;
