@@ -4408,6 +4408,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     async saveImages(rep, isVideo) {
 
+        // if (editorStore.isAdmin) return;
         isVideo = (document.getElementById('vehicle1') as HTMLInputElement).checked;
 
         this.setSavingState(SavingState.SavingChanges, false);
@@ -5097,23 +5098,31 @@ class CanvaEditor extends Component<IProps, IState> {
     forwardSelectedObject = id => {
         let image = this.getImageSelected();
         image.zIndex = editorStore.upperZIndex + 1;
-        editorStore.imageSelected = image;
         editorStore.images2.set(editorStore.idObjectSelected, image);
+        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         editorStore.increaseUpperzIndex();
     };
 
     backwardSelectedObject = id => {
         let image = this.getImageSelected();
         image.zIndex = 2;
-        editorStore.imageSelected = image;
         editorStore.images2.forEach((val, key) => {
-            if (key == editorStore.idObjectSelected) {
-                val.zIndex = 2;
-            } else {
-                val.zIndex += 1;
+            if (val.page == image.page) {
+                if (key == editorStore.idObjectSelected) {
+                    val.zIndex = 1;
+                } else {
+                    val.zIndex += 1;
+                }
+                val.selected = false;
+                val.hovered = false;
+                editorStore.images2.set(key, val);
+                this.updateImages(key, editorStore.pageId, val, true);
             }
-            editorStore.images2.set(key, val);
         });
+        editorStore.upperZIndex += 1;
+        editorStore.images2.set(editorStore.idObjectSelected, image);
+        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+
     };
 
     renderCanvas(preview, index, downloading) {

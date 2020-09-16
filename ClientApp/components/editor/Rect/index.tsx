@@ -389,10 +389,12 @@ export default class Rect extends Component<IProps, IState> {
 				type,
 				left,
 				top,
-				zIndex,
 				hollowThickness,
 			}
 		} = this.state;
+
+		let zIndex = this.state.image.zIndex;
+		if (type == TemplateType.BackgroundImage) zIndex = 0;
 		
 		const imgWidth = imgWidth2 * scale;
 		const imgHeight = imgHeight2 * scale;
