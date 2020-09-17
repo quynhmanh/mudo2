@@ -31,11 +31,14 @@ export default class Spacing extends Component<IProps, IState> {
     }
 
     handleLineHeightChangeEnd = (val) => {
+        if (!val) return;
+        let lineHeight = 1.0 * val / 100 * 2 + 0.5;
+        console.log('lineHeight ', lineHeight)
         let image = editorStore.getImageSelected();
         if (editorStore.childId) {
             let texts = image.document_object.map(text => {
                 if (text._id == editorStore.childId) {
-                    text.lineHeight = window.lineHeight;
+                    text.lineHeight = lineHeight;
                 }
                 return text;
             });
@@ -43,7 +46,6 @@ export default class Spacing extends Component<IProps, IState> {
             editorStore.images2.set(editorStore.idObjectSelected, image);
             this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         } else {
-            let lineHeight = 1.0 * val / 100 * 2 + 0.5;
             image.lineHeight = lineHeight;
             image.height = window.imageHeight;
             image.origin_height = window.imageHeight / image.scaleY;
