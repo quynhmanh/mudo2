@@ -898,6 +898,9 @@ class CanvaEditor extends Component<IProps, IState> {
                         mode = Mode.EditTextTemplate;
                     }
 
+                    editorStore.isVideo = image.value.isVideo;
+                    editorStore.popularity = image.value.popularity;
+
                     let document = JSON.parse(image.value.document);
                     scaleX = (width - 100) / document.width;
                     scaleY = (height - 100) / document.height;

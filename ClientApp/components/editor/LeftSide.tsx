@@ -419,8 +419,12 @@ class LeftSide extends Component<IProps, IState> {
                         Upload
                     </button>
                     <span>IsVideo</span>
-                    <input type="checkbox" id="vehicle1"/>
-                    <input id="popularity" type="text" />
+                    <input type="checkbox" id="vehicle1" checked={editorStore.isVideo} onChange={e => {
+                        editorStore.isVideo = !editorStore.isVideo;
+                    }}/>
+                    <input id="popularity" type="text" value={editorStore.popularity} onChange={e => {
+                        editorStore.popularity = e.target.value;
+                    }} />
                     <button
                         style={{
                             bottom: 0,

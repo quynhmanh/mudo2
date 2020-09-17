@@ -38,7 +38,9 @@ const Container = styled.div`
   button {
     visibility: hidden;
   }
-  background: #fff;
+  animation-name: XhtCamN749DcvC-ecDUzp;
+  animation: ${props => props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
+  animation-delay: ${props => props.delay}ms;
   opacity ${props => props.loaded ? 1 : 0.15};
   :hover button {
     visibility: visible;
@@ -103,7 +105,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     animationDelay: '100ms',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
-                    backgroundColor: loaded && this.props.transitionEnd ? 'transparent' : '#797979',
+                    backgroundColor: loaded && this.props.transitionEnd ? 'transparent' : 'black',
                 }} 
                 delay={this.props.delay} 
                 id={this.props.id}
@@ -144,7 +146,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                         pointerEvents: "all",
                         // backgroundColor: 'black',
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
-                        transition: 'opacity 0.2s linear',
+                        transition: 'opacity 0.1s linear',
                     }}
 
                     onLoadedMetadata={e => {

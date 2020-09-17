@@ -48,6 +48,8 @@ class Images {
     @observable currentLineHeight = 0;
     @observable subtype = null;
     @observable isAdmin = false;
+    @observable popularity = 0;
+    @observable isVideo = false;
     
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));

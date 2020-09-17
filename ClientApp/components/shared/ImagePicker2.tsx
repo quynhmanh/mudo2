@@ -100,7 +100,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     animationName: 'XhtCamN749DcvC-ecDUzp',
                     animation: loaded && this.props.transitionEnd ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: this.props.delay + 'ms',
-                    backgroundColor: loaded && this.props.transitionEnd ? 'transparent' : '#797979',
+                    backgroundColor: loaded && this.props.transitionEnd ? 'transparent' : 'black',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
@@ -135,7 +135,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                         boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
                         // backgroundColor: '#ededed',
-                        transition: 'opacity 0.2s linear',
+                        transition: 'opacity 0.1s linear',
                     }}
                     // onLoad={(e) => {
                     //     // this.handleImageLoaded();
