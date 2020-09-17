@@ -120,7 +120,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                                 paddingTop: 0,
                                 width: `${width}px`,
                                 transitionDuration: '0.25s',
-                                transitionProperty: 'opacity, left, top, width',
+                                transitionProperty: 'opacity, width',
                             }}>
                             {picker}
                         </div>
