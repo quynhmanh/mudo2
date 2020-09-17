@@ -27,6 +27,7 @@ export interface IState {
     hasMore: boolean;
     cursor: any;
     loaded: boolean;
+    total: number;
 }
 
 const imgWidth = 162;
@@ -42,6 +43,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         hasMore: true,
         cursor: null,
         loaded: false,
+        total: 100,
     }
 
     constructor(props) {
@@ -201,6 +203,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         currentItemsHeight,
                         currentItems2Height,
                         isLoading: false,
+                        total: res.value.value,
                         hasMore:
                             res.value.value >
                             state.items.length +
@@ -217,6 +220,9 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     };
 
     render() {
+
+        let left = this.state.total - this.state.items.length - this.state.items2.length;
+        let t = Math.min(5, Math.round((left - 1) / 2));
 
         return (
             <div
@@ -295,26 +301,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                 )
                         )}
                         {this.state.hasMore &&
-                            Array(1)
-                                .fill(0)
-                                .map((item, i) => (
-                                    <ImagePicker
-                                        key={i}
-                                        id="sentinel-template"
-                                        color="black"
-                                        src={""}
-                                        height={imgWidth}
-                                        width={imgWidth}
-                                        defaultHeight={imgWidth}
-                                        className=""
-                                        onPick={null}
-                                        onEdit={this.props.handleEditmedia.bind(this, null)}
-                                        delay={0}
-                                        showButton={false}
-                                    />
-                                ))}
-                        {this.state.hasMore &&
-                            Array(10)
+                            Array(t)
                                 .fill(0)
                                 .map((item, i) => (
                                     <ImagePicker
@@ -376,26 +363,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                 )
                         )}
                         {this.state.hasMore &&
-                            Array(1)
-                                .fill(0)
-                                .map((item, i) => (
-                                    <ImagePicker
-                                        key={i}
-                                        id="sentinel-template"
-                                        color="black"
-                                        src={""}
-                                        height={imgWidth}
-                                        width={imgWidth}
-                                        defaultHeight={imgWidth}
-                                        className=""
-                                        onPick={null}
-                                        onEdit={this.props.handleEditmedia.bind(this, null)}
-                                        delay={150}
-                                        showButton={false}
-                                    />
-                                ))}
-                        {this.state.hasMore &&
-                            Array(10)
+                            Array(t)
                                 .fill(0)
                                 .map((item, i) => (
                                     <ImagePicker

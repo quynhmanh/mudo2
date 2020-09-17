@@ -50,6 +50,7 @@ class Images {
     @observable isAdmin = false;
     @observable popularity = 0;
     @observable isVideo = false;
+    @observable isPopular = false;
     
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));

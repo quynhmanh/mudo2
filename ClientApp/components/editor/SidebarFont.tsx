@@ -138,7 +138,7 @@ export default class SidebarFont extends Component<IProps, IState> {
 
 
     loadMore = initialLoad => {
-        console.log('loadmore')
+        console.log('loadmore ', editorStore.fontsList.length)
         let pageId;
         let count;
         if (initialLoad) {
@@ -154,8 +154,9 @@ export default class SidebarFont extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
+                    console.log('loadmore ', res.value.key)
                     for (var i = 0; i < res.value.key.length; ++i) {
-                        if (res.value.key[i].id)
+                        // if (res.value.key[i].id)
                             editorStore.addFontItem(res.value.key[i]);
                     }
 
@@ -215,7 +216,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                         marginTop: "10px",
                                     }}
                                 >
-                                    {editorStore.fontsList.map((font, key) => (
+                                    {editorStore.fontsList.filter(font => font.id).map((font, key) => (
                                         <div
                                             key={key}
                                             style={{
@@ -325,6 +326,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                         .map((font, key) => (
                                             <div
                                             key={key}
+                                            id="sentinel-font"
                                             style={{
                                                 display: 'flex',
                                             }}>

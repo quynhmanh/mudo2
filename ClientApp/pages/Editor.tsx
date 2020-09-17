@@ -347,6 +347,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.forceEditorUpdate = this.forceEditorUpdate.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
         this.setScale = this.setScale.bind(this);
+        this.saveImages = this.saveImages.bind(this);
     }
 
     $app = null;
@@ -900,6 +901,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
                     editorStore.isVideo = image.value.isVideo;
                     editorStore.popularity = image.value.popularity;
+                    editorStore.isPopular = image.value.popular;
 
                     let document = JSON.parse(image.value.document);
                     scaleX = (width - 100) / document.width;
@@ -4409,7 +4411,11 @@ class CanvaEditor extends Component<IProps, IState> {
         });
     }
 
-    async saveImages(rep, isVideo) {
+    async saveImages(rep, isVideo, isAdmin) {
+
+        console.log('arguments ', rep, isVideo, isAdmin)
+
+        if (editorStore.isAdmin && !isAdmin) return;
 
         // if (editorStore.isAdmin) return;
         isVideo = (document.getElementById('vehicle1') as HTMLInputElement).checked;
@@ -4556,7 +4562,7 @@ class CanvaEditor extends Component<IProps, IState> {
             VideoRepresentative: `videos/${_id}.mp4`,
             IsVideo: isVideo,
             UserName: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
-            Popular: window.template ? window.template.popular : false,
+            Popular: editorStore.isPopular,
             Popularity: pop,
         });
 
@@ -5492,6 +5498,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 forceEditorUpdate={this.forceEditorUpdate}
                                 setSavingState={this.setSavingState}
                                 handleEditmedia={this.handleEditmedia}
+                                saveImages={this.saveImages}
                             />
                         </div>
                         <div

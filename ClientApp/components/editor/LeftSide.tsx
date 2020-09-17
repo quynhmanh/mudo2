@@ -56,6 +56,7 @@ export interface IProps {
     forceEditorUpdate: any;
     setSavingState: any;
     handleEditmedia: any;
+    saveImages: any;
 }
 
 interface IState {
@@ -422,6 +423,10 @@ class LeftSide extends Component<IProps, IState> {
                     <input type="checkbox" id="vehicle1" checked={editorStore.isVideo} onChange={e => {
                         editorStore.isVideo = !editorStore.isVideo;
                     }}/>
+                    <span>Ispopular</span>
+                    <input type="checkbox" id="vehicle1" checked={editorStore.isPopular} onChange={e => {
+                        editorStore.isPopular = !editorStore.isPopular;
+                    }}/>
                     <input id="popularity" type="text" value={editorStore.popularity} onChange={e => {
                         editorStore.popularity = e.target.value;
                     }} />
@@ -463,6 +468,13 @@ class LeftSide extends Component<IProps, IState> {
                     >
                         Undelete
                     </button>
+                    <button
+                        onClick={e => {
+                            this.props.saveImages(null, false, true)}
+                        }
+                    >
+                        Save
+                        </button>
                 </div>
                 {this.props.mounted && this.props.toolbarOpened && editorStore.tReady && (
                     <div

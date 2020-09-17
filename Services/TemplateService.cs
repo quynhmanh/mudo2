@@ -31,7 +31,8 @@ namespace RCB.TypeScript.Services
             Configuration = configuration;
         }
 
-        public Result<int> MakeAsPopulate(string id) {
+        public Result<int> MakeAsPopulate(string id)
+        {
             Result<TemplateModel> templateResult = this.Get(id);
             var model = templateResult.Value;
             model.Popular = true;
@@ -76,7 +77,7 @@ namespace RCB.TypeScript.Services
             var client = new ElasticClient(settings);
             string query = $"UserName:{userName}";
 
-            var res = client.Search<TemplateModel>(s => 
+            var res = client.Search<TemplateModel>(s =>
             s.Query(t => t.Bool(b => b.Must(
                 q => q.Match(c => c.Field(p => p.UserName).Query(userName)),
                 q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
@@ -88,15 +89,16 @@ namespace RCB.TypeScript.Services
             return Ok(res2);
         }
 
-        public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchPopularTemplates(int page = 1, int perPage = 5) {
+        public virtual Result<KeyValuePair<List<TemplateModel>, long>> SearchPopularTemplates(int page = 1, int perPage = 5)
+        {
             var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex)
             .DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 3));
             var client = new ElasticClient(settings);
 
-            var res = client.Search<TemplateModel>(s => 
+            var res = client.Search<TemplateModel>(s =>
             s.Query(t => t.Bool(b => b.Must(
-                q => q.Match(c => c.Field(p => p.Popular).Query("true")), 
+                q => q.Match(c => c.Field(p => p.Popular).Query("true")),
                 q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
                 .Sort(f => f.Descending(ff => ff.Popularity))
                 .From((page - 1) * perPage)
@@ -137,53 +139,54 @@ namespace RCB.TypeScript.Services
             }
 
             string style = AppSettings.style;
-                for (int i = 0; i < model.FontList.Length; ++i)
+            for (int i = 0; i < model.FontList.Length; ++i)
+            {
+                try
                 {
-                    try
-                    {
-                        byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{model.FontList[i]}.ttf");
-                        String file = Convert.ToBase64String(AsBytes);
+                    byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{model.FontList[i]}.ttf");
+                    String file = Convert.ToBase64String(AsBytes);
 
-                        string s = $"@font-face {{ font-family: '{model.FontList[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
-                        style += s;
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
+                    string s = $"@font-face {{ font-family: '{model.FontList[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
+                    style += s;
                 }
-
-                string template = AppSettings
-                    .templateDownload.Replace("[ADDITIONAL_STYLE]", model.AdditionalStyle)
-                    .Replace("[FONT_FACE]", style)
-                    .Replace("[RECT_WIDTH]", width)
-                    .Replace("[RECT_HEIGHT]", height);
-
-                if (HostingEnvironment.IsProduction()) {
-                    template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
-                }
-
-                byte[] data = null;
-                using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+                catch (Exception e)
                 {
-                    iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
-                    iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
-                    doc.Open();
-                    var canvas = model.Canvas;
-                    for (var i = 0; i < canvas.Length; ++i)
-                    {
-                        var html = template.Replace("[CANVAS]", canvas[i]);
-                        var path = "/app/wwwroot/test-extension";
-                        var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
-                        var executablePath = "/usr/bin/google-chrome-stable";
-                        if (HostingEnvironment.IsDevelopment())
-                        {
-                            executablePath = Configuration.GetSection("chromeExePath").Get<string>();
-                            path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
-                            extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
-                        }
 
-                        List<string> arguments = new List<string>()
+                }
+            }
+
+            string template = AppSettings
+                .templateDownload.Replace("[ADDITIONAL_STYLE]", model.AdditionalStyle)
+                .Replace("[FONT_FACE]", style)
+                .Replace("[RECT_WIDTH]", width)
+                .Replace("[RECT_HEIGHT]", height);
+
+            if (HostingEnvironment.IsProduction())
+            {
+                template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
+            }
+
+            byte[] data = null;
+            using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+            {
+                iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
+                iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
+                doc.Open();
+                var canvas = model.Canvas;
+                for (var i = 0; i < canvas.Length; ++i)
+                {
+                    var html = template.Replace("[CANVAS]", canvas[i]);
+                    var path = "/app/wwwroot/test-extension";
+                    var extensionId = "hkfcaghpglcicnlgjedepbnljbfhgmjg";
+                    var executablePath = "/usr/bin/google-chrome-stable";
+                    if (HostingEnvironment.IsDevelopment())
+                    {
+                        executablePath = Configuration.GetSection("chromeExePath").Get<string>();
+                        path = "/Users/llaugusty/Downloads/puppeteer-tab-capture-repro/test-extension";
+                        extensionId = "ihfahmlcdcnbdmbjlohjpgbiknhljmdc";
+                    }
+
+                    List<string> arguments = new List<string>()
                         {
                             $"--whitelisted-extension-id={extensionId}",
                             "--no-sandbox",
@@ -192,120 +195,120 @@ namespace RCB.TypeScript.Services
                             $"--load-extension={path}"
                         };
 
-                        if (HostingEnvironment.IsDevelopment())
-                        {
-                            arguments.Add($"--disable-extensions-except={path}");
-                        }
+                    if (HostingEnvironment.IsDevelopment())
+                    {
+                        arguments.Add($"--disable-extensions-except={path}");
+                    }
 
-                        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                    await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+                    var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                    {
+                        DefaultViewport = new ViewPortOptions()
                         {
-                            DefaultViewport = new ViewPortOptions()
+                            Width = (int)double.Parse(width),
+                            Height = (int)double.Parse(height),
+                        },
+                        ExecutablePath = executablePath,
+                        Args = arguments.ToArray(),
+                        Headless = false,
+                        IgnoredDefaultArgs = new string[] { "--disable-extensions" },
+                        IgnoreHTTPSErrors = true,
+                    });
+
+                    await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+
+                    Target backgroundPageTarget = null;
+                    var targets = browser.Targets();
+                    var len = targets.Length;
+                    if (targets != null)
+                    {
+                        for (int t = 0; t < len; ++t)
+                        {
+                            if (targets[t] != null)
                             {
-                                Width = (int)double.Parse(width),
-                                Height = (int)double.Parse(height),
-                            },
-                            ExecutablePath = executablePath,
-                            Args = arguments.ToArray(),
-                            Headless = false,
-                            IgnoredDefaultArgs = new string[] { "--disable-extensions" },
-                            IgnoreHTTPSErrors = true,
-                        });
-
-                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
-
-                        Target backgroundPageTarget = null;
-                        var targets = browser.Targets();
-                        var len = targets.Length;
-                        if (targets != null)
-                        {
-                            for (int t = 0; t < len; ++t)
-                            {
-                                if (targets[t] != null)
+                                if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
                                 {
-                                    if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
-                                    {
-                                        backgroundPageTarget = targets[t];
-                                    }
+                                    backgroundPageTarget = targets[t];
                                 }
                             }
                         }
-                        //}
-                        //++cnt;
-                        //if (cnt > 5)
-                        //{
-                        //    break;
-                        //} 
-                        //}
-                        if (backgroundPageTarget == null)
-                        {
-                            throw new Exception("Cannot get background pages.");
-                        }
+                    }
+                    //}
+                    //++cnt;
+                    //if (cnt > 5)
+                    //{
+                    //    break;
+                    //} 
+                    //}
+                    if (backgroundPageTarget == null)
+                    {
+                        throw new Exception("Cannot get background pages.");
+                    }
 
-                        var backgroundPage = await backgroundPageTarget.PageAsync();
+                    var backgroundPage = await backgroundPageTarget.PageAsync();
 
-                        var page = await browser.NewPageAsync();
-                        await page.SetContentAsync(html,
-                                new NavigationOptions()
-                                {
-                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
-                                    Timeout = 0,
-                                }
-                            );
+                    var page = await browser.NewPageAsync();
+                    await page.SetContentAsync(html,
+                            new NavigationOptions()
+                            {
+                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0, },
+                                Timeout = 0,
+                            }
+                        );
 
-                        await page.WaitForTimeoutAsync(5000);
+                    await page.WaitForTimeoutAsync(5000);
 
 
-                        if (backgroundPageTarget == null)
-                        {
-                            throw new Exception("Cannot get background pages.");
-                        }
+                    if (backgroundPageTarget == null)
+                    {
+                        throw new Exception("Cannot get background pages.");
+                    }
 
-                        var messages = new List<ConsoleMessage>();
+                    var messages = new List<ConsoleMessage>();
 
-                        backgroundPage.Console += (sender, e) => messages.Add(e.Message);
+                    backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
-                        var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
+                    var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
                             startRecording('" + videoId + @"'," + width + @"," + height + @"); 
                             return Promise.resolve(42);
                         }");
 
-                        while (true)
+                    while (true)
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        var inp = "/app/wwwroot/" + videoId + ".webm";
+                        if (HostingEnvironment.IsDevelopment())
                         {
-                            System.Threading.Thread.Sleep(1000);
-                            var inp = "/app/wwwroot/" + videoId + ".webm";
-                            if (HostingEnvironment.IsDevelopment())
-                            {
-                                inp = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
-                            }
-
-                            if (System.IO.File.Exists(inp))
-                            {
-                                await browser.CloseAsync();
-                                break;
-                            }
+                            inp = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm";
                         }
 
-                        await backgroundPage.CloseAsync();
-                        await page.CloseAsync();
+                        if (System.IO.File.Exists(inp))
+                        {
+                            await browser.CloseAsync();
+                            break;
+                        }
                     }
+
+                    await backgroundPage.CloseAsync();
+                    await page.CloseAsync();
                 }
+            }
 
-                int crf = 35;
-                var exePath = "/usr/bin/ffmpeg";
-                var inputArgs = "/app/wwwroot/" + videoId + ".webm -crf " + crf.ToString() ;
-                var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
+            int crf = 35;
+            var exePath = "/usr/bin/ffmpeg";
+            var inputArgs = "/app/wwwroot/" + videoId + ".webm -crf " + crf.ToString();
+            var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
 
-                if (HostingEnvironment.IsDevelopment())
-                {
-                    exePath = "/usr/local/bin/ffmpeg";
-                    inputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm -crf " + crf.ToString();
-                    outputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".mp4";
-                }
+            if (HostingEnvironment.IsDevelopment())
+            {
+                exePath = "/usr/local/bin/ffmpeg";
+                inputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".webm -crf " + crf.ToString();
+                outputArgs = "/Users/llaugusty/Downloads" + "/" + videoId + ".mp4";
+            }
 
-                var process = new Process
-                {
-                    StartInfo =
+            var process = new Process
+            {
+                StartInfo =
                     {
                         FileName = exePath,
                         Arguments = $"-i {inputArgs} {outputArgs}",
@@ -313,13 +316,13 @@ namespace RCB.TypeScript.Services
                         CreateNoWindow = true,
                         RedirectStandardInput = true
                     }
-                };
+            };
 
-                process.Start();
-                process.WaitForExit();
-                process.Close();
+            process.Start();
+            process.WaitForExit();
+            process.Close();
 
-                byte[] file2 = System.IO.File.ReadAllBytes(outputArgs);
+            byte[] file2 = System.IO.File.ReadAllBytes(outputArgs);
 
             return file2;
         }
@@ -361,7 +364,7 @@ namespace RCB.TypeScript.Services
 
             Dictionary<string, long?> aggregations = new Dictionary<string, long?>();
 
-            foreach(var i in res.Aggregations.Terms("my_agg")?.Buckets)
+            foreach (var i in res.Aggregations.Terms("my_agg")?.Buckets)
             {
                 aggregations.Add(i.Key, i.DocCount);
             }
@@ -533,26 +536,30 @@ namespace RCB.TypeScript.Services
             string style = AppSettings.style;
             for (int i = 0; i < templateModel.FontList.Length; ++i)
             {
-                try {
+                try
+                {
                     byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{templateModel.FontList[i]}.ttf");
                     String file = Convert.ToBase64String(AsBytes);
 
                     string s = $"@font-face {{ font-family: '{templateModel.FontList[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
                     style += s;
-                } catch (Exception e) 
+                }
+                catch (Exception e)
                 {
-                    
+
                 }
             }
 
             string additionalStyle = "";
-            if (omitBackground) {
+            if (omitBackground)
+            {
                 additionalStyle = $".alo2 {{background-color: transparent !important; }}";
             }
 
             var template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", additionalStyle);
 
-            if (HostingEnvironment.IsProduction()) {
+            if (HostingEnvironment.IsProduction())
+            {
                 template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
             }
 
@@ -566,15 +573,134 @@ namespace RCB.TypeScript.Services
                 string[] canvas;
                 if (preview)
                 {
-                    canvas = templateModel.Canvas2; 
-                } else
+                    canvas = templateModel.Canvas2;
+                }
+                else
                 {
                     canvas = templateModel.Canvas;
                 }
                 var cv = canvas[0];
                 // for (var i = 0; i < canvas.Length; ++i)
                 // {
-                    var html = template.Replace("[CANVAS]", cv);
+                var html = template.Replace("[CANVAS]", cv);
+                try
+                {
+                    byte[] bytes = Encoding.ASCII.GetBytes(html);
+                    using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
+                    {
+                        htmlFile.Write(bytes, 0, bytes.Length);
+                        htmlFile.Flush();
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
+
+                var executablePath = "/usr/bin/google-chrome-stable";
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    executablePath = Configuration.GetSection("chromeExePath").Get<string>();
+                }
+
+                await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+                using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                {
+                    Headless = false,
+                    DefaultViewport = new ViewPortOptions()
+                    {
+                        Width = width,
+                        Height = height,
+                    },
+                    ExecutablePath = executablePath,
+                    Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", },
+                    IgnoreHTTPSErrors = true,
+                }))
+                {
+
+
+                    var page = await browser.NewPageAsync();
+
+                    await page.SetContentAsync(html,
+                        new NavigationOptions()
+                        {
+                            WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, WaitUntilNavigation.Load, },
+                            Timeout = 0,
+                        });
+
+                    Stream a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
+                    {
+                        Clip = new PuppeteerSharp.Media.Clip()
+                        {
+                            Width = (decimal)width,
+                            Height = (decimal)height,
+                        },
+                        Type = ScreenshotType.Png,
+                        // Quality = 90,
+                        OmitBackground = true,
+                    });
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        a.CopyTo(memoryStream);
+                        data = memoryStream.ToArray();
+                    }
+
+                    var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + path);
+
+                    using (var imageFile = new FileStream(filePathRep, FileMode.Create))
+                    {
+                        imageFile.Write(data, 0, data.Length);
+                        imageFile.Flush();
+                    }
+                }
+            }
+
+            return resPath;
+        }
+
+
+        public async virtual Task<string> GenerateVideoRepresentative(TemplateModel templateModel, int width, int height, Boolean preview, Boolean backgroundBlack, string videoPath, bool omitBackground = false)
+        {
+            string style = String.Empty;
+            for (int i = 0; i < templateModel.FontList.Length; ++i)
+            {
+                try
+                {
+                    byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{templateModel.FontList[i]}.ttf");
+                    String file = Convert.ToBase64String(AsBytes);
+
+                    string s = $"@font-face {{ font-family: '{templateModel.FontList[i]}'; src: url('https://localhost:64099/fonts/{templateModel.FontList[i]}.ttf'); }}";
+                    style += s;
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+
+
+            string template = AppSettings.templateDownload
+                .Replace("[ADDITIONAL_STYLE]", "")
+                .Replace("[FONT_FACE]", style)
+                .Replace("[RECT_WIDTH]", width.ToString())
+                .Replace("[RECT_HEIGHT]", height.ToString());
+
+            if (HostingEnvironment.IsProduction())
+            {
+                template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
+            }
+
+            byte[] data = null;
+            using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+            {
+                iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
+                iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
+                doc.Open();
+                var canvas = templateModel.Canvas2;
+                for (var i = 0; i < canvas.Length; ++i)
+                {
+                    var html = template.Replace("[CANVAS]", canvas[i]);
                     try
                     {
                         byte[] bytes = Encoding.ASCII.GetBytes(html);
@@ -583,138 +709,23 @@ namespace RCB.TypeScript.Services
                             htmlFile.Write(bytes, 0, bytes.Length);
                             htmlFile.Flush();
                         }
-                    } catch(Exception e)
-                    {
-
-                    }
-
-                    var executablePath = "/usr/bin/google-chrome-stable";
-                    if (HostingEnvironment.IsDevelopment())
-                    {
-                        executablePath = Configuration.GetSection("chromeExePath").Get<string>();
-                    }
-
-                    await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                    using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-                    {
-                        Headless = false,
-                        DefaultViewport = new ViewPortOptions()
-                        {
-                            Width = width,
-                            Height = height,
-                        },
-                        ExecutablePath = executablePath,
-                        Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", },
-                        IgnoreHTTPSErrors = true,
-                    }))
-                    {
-
-
-                        var page = await browser.NewPageAsync();
-
-                        await page.SetContentAsync(html,
-                            new NavigationOptions()
-                            {
-                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, },
-                                Timeout = 0,
-                            });
-
-                        Stream a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
-                        {
-                            Clip = new PuppeteerSharp.Media.Clip()
-                            {
-                                Width = (decimal)width,
-                                Height = (decimal)height,
-                            },
-                            Type = ScreenshotType.Png,
-                            // Quality = 90,
-                            OmitBackground = true,
-                        });
-
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            a.CopyTo(memoryStream);
-                            data = memoryStream.ToArray();
-                        }
-
-                        var filePathRep = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + path);
-
-                        using (var imageFile = new FileStream(filePathRep, FileMode.Create))
-                        {
-                            imageFile.Write(data, 0, data.Length);
-                            imageFile.Flush();
-                        }
-                    }
-            }
-
-            return resPath;
-        }
-
-        
-        public async virtual Task<string> GenerateVideoRepresentative(TemplateModel templateModel, int width, int height, Boolean preview, Boolean backgroundBlack, string videoPath, bool omitBackground = false)
-        {
-                string style = String.Empty;
-                for (int i = 0; i < templateModel.FontList.Length; ++i)
-                {
-                    try
-                    {
-                        byte[] AsBytes = System.IO.File.ReadAllBytes($"./wwwroot/fonts/{templateModel.FontList[i]}.ttf");
-                        String file = Convert.ToBase64String(AsBytes);
-
-                        string s = $"@font-face {{ font-family: '{templateModel.FontList[i]}'; src: url('https://localhost:64099/fonts/{templateModel.FontList[i]}.ttf'); }}";
-                        style += s;
                     }
                     catch (Exception e)
                     {
 
                     }
-                }
+                    var path = "/app/wwwroot/test-extension";
+                    var extensionId = "elindhcnkcamdgnhiedjalfojeindigm";
+                    var executablePath = "/usr/bin/google-chrome-stable";
 
-
-                string template = AppSettings.templateDownload
-                    .Replace("[ADDITIONAL_STYLE]", "")
-                    .Replace("[FONT_FACE]", style)
-                    .Replace("[RECT_WIDTH]", width.ToString())
-                    .Replace("[RECT_HEIGHT]", height.ToString());
-
-                if (HostingEnvironment.IsProduction()) {
-                    template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
-                }
-
-                byte[] data = null;
-                using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-                {
-                    iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
-                    iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
-                    doc.Open();
-                    var canvas = templateModel.Canvas2;
-                    for (var i = 0; i < canvas.Length; ++i)
+                    if (HostingEnvironment.IsDevelopment())
                     {
-                        var html = template.Replace("[CANVAS]", canvas[i]);
-                        try
-                        {
-                            byte[] bytes = Encoding.ASCII.GetBytes(html);
-                            using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
-                            {
-                                htmlFile.Write(bytes, 0, bytes.Length);
-                                htmlFile.Flush();
-                            }
-                        } catch (Exception e)
-                        {
+                        path = Configuration.GetSection("extensionPath").Get<string>();
+                        extensionId = Configuration.GetSection("extensionId").Get<string>();
+                        executablePath = Configuration.GetSection("chromeExePath").Get<string>();
+                    }
 
-                        }
-                        var path = "/app/wwwroot/test-extension";
-                        var extensionId = "elindhcnkcamdgnhiedjalfojeindigm";
-                        var executablePath = "/usr/bin/google-chrome-stable";
-                        
-                        if (HostingEnvironment.IsDevelopment())
-                        {
-                            path = Configuration.GetSection("extensionPath").Get<string>();
-                            extensionId = Configuration.GetSection("extensionId").Get<string>();
-                            executablePath = Configuration.GetSection("chromeExePath").Get<string>();
-                        }
-
-                        List<string> arguments = new List<string>()
+                    List<string> arguments = new List<string>()
                         {
                             $"--whitelisted-extension-id={extensionId}",
                             "--no-sandbox",
@@ -723,148 +734,152 @@ namespace RCB.TypeScript.Services
                             $"--load-extension={path}",
                         };
 
-                        if (HostingEnvironment.IsDevelopment())
+                    if (HostingEnvironment.IsDevelopment())
+                    {
+                        arguments.Add($"--disable-extensions-except={path}");
+                    }
+
+                    await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+                    var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                    {
+                        DefaultViewport = new ViewPortOptions()
                         {
-                            arguments.Add($"--disable-extensions-except={path}");
+                            Width = width,
+                            Height = height,
+                        },
+                        ExecutablePath = executablePath,
+                        Args = arguments.ToArray(),
+                        Headless = false,
+                        IgnoredDefaultArgs = new string[] { "--disable-extensions" },
+                        IgnoreHTTPSErrors = true,
+                    });
+
+                    await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+
+                    Target backgroundPageTarget = null;
+                    var targets = browser.Targets();
+                    var len = targets.Length;
+                    var text = "";
+                    if (targets != null)
+                    {
+                        for (int t = 0; t < len; ++t)
+                        {
+                            if (targets[t] != null)
+                            {
+                                text = text + "\n" + targets[t].Url;
+                            }
                         }
+                    }
+                    try
+                    {
 
-                        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                        byte[] bytes2 = Encoding.ASCII.GetBytes(text);
+                        using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
                         {
-                            DefaultViewport = new ViewPortOptions()
-                            {
-                                Width = width,
-                                Height = height,
-                            },
-                            ExecutablePath = executablePath,
-                            Args = arguments.ToArray(),
-                            Headless = false,
-                            IgnoredDefaultArgs = new string[] { "--disable-extensions" },
-                            IgnoreHTTPSErrors = true,
-                        });
+                            htmlFile.Write(bytes2, 0, bytes2.Length);
+                            htmlFile.Flush();
+                        }
+                    }
+                    catch (Exception e)
+                    {
 
-                        await browser.WaitForTargetAsync(target => target.Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture));
+                    }
 
-                        Target backgroundPageTarget = null;
-                        var targets = browser.Targets();
-                        var len = targets.Length;
-                        var text = "";
-                        if (targets != null)
+                    if (targets != null)
+                    {
+                        for (int t = 0; t < len; ++t)
                         {
-                            for (int t = 0; t < len; ++t)
+                            if (targets[t] != null)
                             {
-                                if (targets[t] != null)
+                                if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
                                 {
-                                    text = text + "\n" + targets[t].Url;
+                                    backgroundPageTarget = targets[t];
                                 }
                             }
                         }
-                        try {
+                    }
 
-                            byte[] bytes2 = Encoding.ASCII.GetBytes(text);
-                            using (var htmlFile = new FileStream("/app/log.txt", FileMode.Create))
+                    if (backgroundPageTarget == null)
+                    {
+                        throw new Exception("Cannot get background pages.");
+                    }
+
+                    var backgroundPage = await backgroundPageTarget.PageAsync();
+
+                    var page = await browser.NewPageAsync();
+                    await page.SetContentAsync(html,
+                            new NavigationOptions()
                             {
-                                htmlFile.Write(bytes2, 0, bytes2.Length);
-                                htmlFile.Flush();
+                                WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, },
+                                Timeout = 0,
                             }
-                        } catch (Exception e) {
+                        );
 
-                        }
-
-                        if (targets != null)
-                        {
-                            for (int t = 0; t < len; ++t)
-                            {
-                                if (targets[t] != null)
-                                {
-                                    if (targets[t].Type == TargetType.BackgroundPage && targets[t].Url != null && targets[t].Url.StartsWith($"chrome-extension://{extensionId}/", StringComparison.CurrentCulture))
-                                    {
-                                        backgroundPageTarget = targets[t];
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if (backgroundPageTarget == null)
-                        {
-                            throw new Exception("Cannot get background pages.");
-                        }
-
-                        var backgroundPage = await backgroundPageTarget.PageAsync();
-
-                        var page = await browser.NewPageAsync();
-                        await page.SetContentAsync(html,
-                                new NavigationOptions()
-                                {
-                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, },
-                                    Timeout = 0,
-                                }
-                            );
-
-                        await page.WaitForTimeoutAsync(5000);
+                    await page.WaitForTimeoutAsync(5000);
 
 
-                        if (backgroundPageTarget == null)
-                        {
-                            throw new Exception("Cannot get background pages.");
-                        }
+                    if (backgroundPageTarget == null)
+                    {
+                        throw new Exception("Cannot get background pages.");
+                    }
 
-                        var messages = new List<ConsoleMessage>();
+                    var messages = new List<ConsoleMessage>();
 
-                        backgroundPage.Console += (sender, e) => messages.Add(e.Message);
+                    backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
-                        var inp = "/app/wwwroot/" + templateModel.Id + ".webm";
-                        if (HostingEnvironment.IsDevelopment())
-                        {
-                            inp = "./wwwroot/" + templateModel.Id + ".webm";
-                        }
-                        if (File.Exists(inp)) File.Delete(inp);
+                    var inp = "/app/wwwroot/" + templateModel.Id + ".webm";
+                    if (HostingEnvironment.IsDevelopment())
+                    {
+                        inp = "./wwwroot/" + templateModel.Id + ".webm";
+                    }
+                    if (File.Exists(inp)) File.Delete(inp);
 
-                        var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
+                    var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
                             startRecording('" + templateModel.Id + @"'," + width + @"," + height + @"); 
                             return Promise.resolve(42);
                         }");
 
-                        await page.EvaluateFunctionAsync(@"() => {
+                    await page.EvaluateFunctionAsync(@"() => {
                             let videos = document.getElementsByTagName('video'); 
                             for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;
                         }");
 
-                        while (true)
+                    while (true)
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        if (System.IO.File.Exists(inp))
                         {
-                            System.Threading.Thread.Sleep(1000);
-                            if (System.IO.File.Exists(inp))
-                            {
-                                await browser.CloseAsync();
-                                break;
-                            }
+                            await browser.CloseAsync();
+                            break;
                         }
-
-                        await backgroundPage.CloseAsync();
-                        await page.CloseAsync();
                     }
+
+                    await backgroundPage.CloseAsync();
+                    await page.CloseAsync();
                 }
+            }
 
-                int crf = 17;
-                var exePath = "/usr/bin/ffmpeg";
-                var inputArgs = "/app/wwwroot/" + templateModel.Id + ".webm -crf " + crf.ToString();
-                var outputArgs = "/app/wwwroot/videos/" + templateModel.Id + ".mp4";
+            int crf = 17;
+            var exePath = "/usr/bin/ffmpeg";
+            var inputArgs = "/app/wwwroot/" + templateModel.Id + ".webm -crf " + crf.ToString();
+            var outputArgs = "/app/wwwroot/videos/" + templateModel.Id + ".mp4";
 
-                if (HostingEnvironment.IsDevelopment())
-                {
-                    // exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
-                    exePath = Configuration.GetSection("ffmpegPath").Get<string>();
-                    inputArgs = "./wwwroot" + "/" + templateModel.Id + ".webm -c:v copy ";
-                    outputArgs = "./wwwroot" + "/videos/" + templateModel.Id + ".mp4";
-                }
+            if (HostingEnvironment.IsDevelopment())
+            {
+                // exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
+                exePath = Configuration.GetSection("ffmpegPath").Get<string>();
+                inputArgs = "./wwwroot" + "/" + templateModel.Id + ".webm -c:v copy ";
+                outputArgs = "./wwwroot" + "/videos/" + templateModel.Id + ".mp4";
+            }
 
-                if (File.Exists(outputArgs)) {
-                    File.Delete(outputArgs);
-                }
+            if (File.Exists(outputArgs))
+            {
+                File.Delete(outputArgs);
+            }
 
-                var process = new Process
-                {
-                    StartInfo =
+            var process = new Process
+            {
+                StartInfo =
                     {
                         FileName = exePath,
                         Arguments = $"-i {inputArgs} {outputArgs}",
@@ -872,13 +887,13 @@ namespace RCB.TypeScript.Services
                         CreateNoWindow = true,
                         RedirectStandardInput = true
                     }
-                };
+            };
 
-                process.Start();
-                process.WaitForExit();
-                process.Close();
+            process.Start();
+            process.WaitForExit();
+            process.Close();
 
-                return "";
-            }
+            return "";
+        }
     }
 }
