@@ -1,4 +1,4 @@
-import React, {Component} from 'react';  
+import React, { Component } from 'react';
 import loadable from '@loadable/component';
 import Globals from "@Globals";
 import axios from "axios";
@@ -10,7 +10,7 @@ const Item = loadable(() => import("@Components/homepage/PopularTemplateItem"));
 export interface IProps {
     translate: any;
 }
-  
+
 interface IState {
     yLocation: number;
     showLeft: boolean;
@@ -47,123 +47,135 @@ class Popup extends Component<IProps, IState> {
         hasMore: true,
     }
 
+    constructor(props: any) {
+        super(props);
+
+        this.loadImage = this.loadImage.bind(this);
+    }
+
     componentDidMount() {
         this.loadMore();
     }
+
+    loadImage(counter) {
+        console.log('populartemplate loadimage ', counter)
+        let self = this;
+
+        let newRecentDesign = this.state.recentDesign;
+
+        console.log('loadImage', counter, newRecentDesign.length)
+        // Break out if no more images
+        if (counter == newRecentDesign.length) { return; }
+
+        // Grab an image obj
+        var I = document.getElementById("image-1-" + counter) as HTMLImageElement;
+        console.log('loadImage1', I, newRecentDesign[counter].representative)
+        // Monitor load or error events, moving on to next image in either case
+        I.onload = I.onerror = function () {
+            setTimeout(() => {
+                self.loadImage(counter+1); 
+            }, 100);
+        }
+
+        //Change source (then wait for event)
+        I.src = newRecentDesign[counter].representative;
+    }
+
 
     loadMore = () => {
         if (Globals.serviceUser) {
             const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${(this.state.recentDesign.length - this.state.rem) / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
             axios
-              .get(url)
-              .then(res => {
-                let recentDesign = res.data.value.key.map(design => {
-                    design.width = 160;
-                    design.href = `/editor/design/${design.id}`;
-                    return design;
-                })
-                let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image1");
-                const startPoint = newRecentDesign.length;
-                newRecentDesign = [...newRecentDesign, ...recentDesign];
-                let hasMore = newRecentDesign.length < res.data.value.value;
-                let rem = 10;
-                if (hasMore) {
-                    rem = Math.min(res.data.value.value - newRecentDesign.length, 10);
-                    newRecentDesign = [...newRecentDesign, ...getRem(rem)];
-                }
-                this.setState({
-                    recentDesign: newRecentDesign,
-                    hasMore,
-                    rem,
-                    startPoint,
-                }, () => {
-                    setTimeout(() => {
-                        function loadImage(counter) {
-                            console.log('loadImage', counter, newRecentDesign.length)
-                            // Break out if no more images
-                            if (counter==newRecentDesign.length) { return; }
-                        
-                            // Grab an image obj
-                            var I = document.getElementById("image-1-"+counter) as HTMLImageElement;
-                            console.log('loadImage1', I, newRecentDesign[counter].representative)
-                            // Monitor load or error events, moving on to next image in either case
-                            I.onload = I.onerror = function() { 
-                                loadImage(counter+1); 
-                            }
-                        
-                            //Change source (then wait for event)
-                            I.src = newRecentDesign[counter].representative;
-                        }
-                        
-                        loadImage(startPoint);
-                    }, 300);
-                });
+                .get(url)
+                .then(res => {
+                    let recentDesign = res.data.value.key.map(design => {
+                        design.width = 160;
+                        design.href = `/editor/design/${design.id}`;
+                        return design;
+                    })
+                    let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image1");
+                    const startPoint = newRecentDesign.length;
+                    newRecentDesign = [...newRecentDesign, ...recentDesign];
+                    let hasMore = newRecentDesign.length < res.data.value.value;
+                    let rem = 10;
+                    if (hasMore) {
+                        rem = Math.min(res.data.value.value - newRecentDesign.length, 10);
+                        newRecentDesign = [...newRecentDesign, ...getRem(rem)];
+                    }
+                    this.setState({
+                        recentDesign: newRecentDesign,
+                        hasMore,
+                        rem,
+                        startPoint,
+                    });
 
-              })
-              .catch(error => {
-                  // Ui.showErrors(error.response.statusText)
-              });
+                })
+                .catch(error => {
+                    // Ui.showErrors(error.response.statusText)
+                });
         }
     }
 
-  render() {
-    return (
-        <div
-            style={{
-                padding: "20px 150px",
-            }}
-          >
-            <h3
+    render() {
+        return (
+            <div
                 style={{
-                    marginBottom: '20px',
-                    marginTop: '20px',
-                    fontWeight: 600,
-                    fontSize: "23px",
-                    fontFamily: 'AvenirNextRoundedPro',
+                    padding: "20px 150px",
                 }}
-            >{this.props.translate("recentDesign")}</h3>
-            <div 
-              style={{
-                height: "220px",
-              }}>
-        <div>
-            <div style={{ position: 'relative' }}>
-                <InfiniteXScroll
-                    scroll={true}
-                    throttle={1000}
-                    threshold={300}
-                    isLoading={false}
-                    hasMore={this.state.hasMore}
-                    onLoadMore={this.loadMore.bind(this, false)}
-                    refId="sentinel-image1"
-                    marginTop={45}
-                >
-                    <ul 
-                        style={{
-                            listStyle: 'none',
-                            padding: 0,
-                            position: 'relative',
-                            zIndex: 1,
-                            display: 'inline-flex',
-                            marginTop: '1px',
-                            transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
-                        }} 
-                        className="templateList___2swQr"
-                    >
-                        {this.state.recentDesign.map( (item, index) => 
-                            <Item 
-                                {...item} 
-                                key={index}
-                                keys={index}
-                            />)}
-                    </ul>
-                </InfiniteXScroll>
+            >
+                <h3
+                    style={{
+                        marginBottom: '20px',
+                        marginTop: '20px',
+                        fontWeight: 600,
+                        fontSize: "23px",
+                        fontFamily: 'AvenirNextRoundedPro',
+                    }}
+                >{this.props.translate("recentDesign")}</h3>
+                <div
+                    style={{
+                        height: "220px",
+                    }}>
+                    <div>
+                        <div style={{ position: 'relative' }}>
+                            <InfiniteXScroll
+                                scroll={true}
+                                throttle={1000}
+                                threshold={300}
+                                isLoading={false}
+                                hasMore={this.state.hasMore}
+                                onLoadMore={this.loadMore.bind(this, false)}
+                                refId="sentinel-image1"
+                                marginTop={45}
+                            >
+                                <ul
+                                    style={{
+                                        listStyle: 'none',
+                                        padding: 0,
+                                        position: 'relative',
+                                        zIndex: 1,
+                                        display: 'inline-flex',
+                                        marginTop: '1px',
+                                        transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
+                                    }}
+                                    className="templateList___2swQr"
+                                >
+                                    {this.state.recentDesign.map((item, index) =>
+                                        <Item
+                                            {...item}
+                                            key={index}
+                                            keys={index}
+                                            loadImage={this.loadImage}
+                                            startPoint={this.state.startPoint}
+                                        />)}
+                                </ul>
+                            </InfiniteXScroll>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        </div>
-        </div>
-    );  
-    }  
-}  
+        );
+    }
+}
 
 export default Popup;

@@ -51,7 +51,6 @@ class Popup extends Component<IProps, IState> {
     loadImage(counter) {
         let self = this;
         let newRecentDesign = this.state.recentDesign;
-        console.log('laodImage ', counter);
         // Break out if no more images
         if (counter==newRecentDesign.length) { return; }
         
