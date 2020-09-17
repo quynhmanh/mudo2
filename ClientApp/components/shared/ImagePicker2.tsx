@@ -122,6 +122,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                         margin: 'auto',
                         borderRadius: "4px",
                         boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
+                        opacity: loaded && this.props.transitionEnd ? 1 : 0,
                     } : { display: 'none' }}
                     onLoad={(e) => {
                         this.handleImageLoaded();

@@ -77,6 +77,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 defaultHeight={HEIGHT}
                 src={props.representative}
                 backgroundColor="black"
+                transitionEnd={this.state.transitionEnd}
             />
         }
 
