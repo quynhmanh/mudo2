@@ -15,8 +15,11 @@ import { isClickOutside } from '@Functions/shared/common';
 import axios from "axios";
 import "@Styles/homePage.scss";
 
-const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
-const PopularTemplate2 = loadable(() => import("@Components/homepage/PopularTemplate2"));
+import PopularTemplate from "@Components/homepage/PopularTemplate";
+import PopularTemplate2 from "@Components/homepage/PopularTemplate2";
+
+// const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
+// const PopularTemplate2 = loadable(() => import("@Components/homepage/PopularTemplate2"));
 const NavBar = loadable(() => import("@Components/homepage/NavBar"));
 const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
 
@@ -113,7 +116,6 @@ class HomePage extends React.Component<IProps, IState> {
                 .get(url)
                 .then(res => {
                     // this.setState({hasDesign: res.data.value.value > 0});
-                    console.log('asd', this.state, res.data.value.value > 0);
                     this.setState({hasDesign: res.data.value.value > 0 })
                 });
         }
@@ -295,7 +297,6 @@ class HomePage extends React.Component<IProps, IState> {
 
         const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
 
-        console.log('loggedIn ', loggedIn, this.state.hasDesign)
 
         const { t } = this.props;
 

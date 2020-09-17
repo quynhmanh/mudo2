@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from 'styled-components';
 import editorStore from "@Store/EditorStore";
+import { t } from "i18next";
 
 export interface IProps {
     src: string;
@@ -18,6 +19,7 @@ export interface IProps {
     backgroundColor: string;
     transitionEnd: boolean;
     keys: any;
+    startPoint: any;
 }
 
 export interface IState {
@@ -58,7 +60,6 @@ export default class VideoPicker extends Component<IProps, IState> {
 
     shouldComponentUpdate() {
         if (this.state.loaded && this.props.transitionEnd) {
-            console.log('ok')
             return false;
         }
 
@@ -88,7 +89,6 @@ export default class VideoPicker extends Component<IProps, IState> {
     render() {
         let { loaded, width } = this.state;
 
-        console.log('ratio ', this.props.width / this.props.height)
 
         return (
             <Container 
@@ -103,7 +103,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     animationDelay: '100ms',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
-                    backgroundColor: loaded && this.props.transitionEnd ? 'white' : '#797979',
+                    backgroundColor: loaded && this.props.transitionEnd ? 'transparent' : '#797979',
                 }} 
                 delay={this.props.delay} 
                 id={this.props.id}
@@ -142,26 +142,32 @@ export default class VideoPicker extends Component<IProps, IState> {
                         height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
-                        backgroundColor: '#ededed',
+                        // backgroundColor: 'black',
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
                         transition: 'opacity 0.2s linear',
                     }}
 
-                    onCanPlay={(e) => {
+                    onLoadedMetadata={e => {
+                        console.log('startPOint ', this.props.startPoint)
                         this.handleImageLoaded();
-                    }
-                    }
+                        if (this.props.startPoint == this.props.keys) {
+                            this.props.loadImage(this.props.keys + 1);
+                        } 
+                    }}
+
+                    // onCanPlay={(e) => {
+                    //     this.handleImageLoaded();
+                    // }
+                    // }
 
                     onMouseEnter={e => {
-                        console.log('onMouseEnter')
                         this.image.play();
                     }}
                     onMouseLeave={e => {
-                        console.log('onMouseLeave')
                         this.image.pause();
                     }}
 
-                    src={""}
+                    src={this.props.startPoint == this.props.keys ? this.props.src : ""}
                     onMouseDown={this.props.onPick}
                 />
             </Container>

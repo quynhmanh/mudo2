@@ -19,6 +19,7 @@ interface IState {
     hasMore: boolean;
     total: number;
     rem: number;
+    startPoint: number;
 }
 
 const TEMPLATE_PERPAGE = 10;
@@ -51,7 +52,6 @@ class Popup extends Component<IProps, IState> {
     }
 
     loadMore = () => {
-        console.log('loadMore')
         if (Globals.serviceUser) {
             const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${(this.state.recentDesign.length - this.state.rem) / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
             axios
@@ -62,7 +62,6 @@ class Popup extends Component<IProps, IState> {
                     design.href = `/editor/design/${design.id}`;
                     return design;
                 })
-                console.log('res.data.value ', res.data.value)
                 let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image1");
                 const startPoint = newRecentDesign.length;
                 newRecentDesign = [...newRecentDesign, ...recentDesign];
@@ -76,30 +75,30 @@ class Popup extends Component<IProps, IState> {
                     recentDesign: newRecentDesign,
                     hasMore,
                     rem,
+                    startPoint,
+                }, () => {
+                    setTimeout(() => {
+                        function loadImage(counter) {
+                            console.log('loadImage', counter, newRecentDesign.length)
+                            // Break out if no more images
+                            if (counter==newRecentDesign.length) { return; }
+                        
+                            // Grab an image obj
+                            var I = document.getElementById("image-1-"+counter) as HTMLImageElement;
+                            console.log('loadImage1', I, newRecentDesign[counter].representative)
+                            // Monitor load or error events, moving on to next image in either case
+                            I.onload = I.onerror = function() { 
+                                loadImage(counter+1); 
+                            }
+                        
+                            //Change source (then wait for event)
+                            I.src = newRecentDesign[counter].representative;
+                        }
+                        
+                        loadImage(startPoint);
+                    }, 300);
                 });
 
-
-                function loadImage(counter) {
-                    // Break out if no more images
-                    if (counter==newRecentDesign.length) { return; }
-                  
-                    // Grab an image obj
-                    var I = document.getElementById("image-1-"+counter) as HTMLImageElement;
-                    console.log('II', I)
-                  
-                    // Monitor load or error events, moving on to next image in either case
-                    I.onload = I.onerror = function() { 
-                        console.log('onLoad ')
-                        loadImage(counter+1); 
-                    }
-                  
-                    //Change source (then wait for event)
-                    I.src = newRecentDesign[counter].representative;
-                    console.log('ewRecentDesign', counter, newRecentDesign)
-                  }
-                  
-                  console.log('loadImage ', startPoint)
-                  loadImage(startPoint);
               })
               .catch(error => {
                   // Ui.showErrors(error.response.statusText)
@@ -108,7 +107,6 @@ class Popup extends Component<IProps, IState> {
     }
 
   render() {
-    console.log('this.state.recentDesign', this.state.recentDesign)
     return (
         <div
             style={{

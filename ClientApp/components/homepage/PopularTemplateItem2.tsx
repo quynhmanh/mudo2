@@ -18,6 +18,7 @@ interface IProps {
     videoRepresentative: string;
     representative: string;
     keys: string;
+    startPoint: number;
 }
 
 interface IState {
@@ -32,7 +33,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            transitionEnd: false,
+            transitionEnd: this.props.id != "sentinel-image2" ? true: false,
         }
     }
 
@@ -58,6 +59,8 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 width={props.width}
                 backgroundColor="black"
                 transitionEnd={this.state.transitionEnd}
+                startPoint={this.props.startPoint}
+                loadImage={this.props.loadImage}
             />
         } else {
             picker = <ImagePicker
@@ -66,7 +69,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 prefix="2"
                 key={"1"}
                 color={""}
-                delay={0}
+                delay={100}
                 height={HEIGHT}
                 onPick={(e) => {}}
                 onEdit={(e) => {
@@ -78,6 +81,8 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 src={props.representative}
                 backgroundColor="black"
                 transitionEnd={this.state.transitionEnd}
+                startPoint={this.props.startPoint}
+                loadImage={this.props.loadImage}
             />
         }
 
@@ -86,7 +91,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             width = 199;
         }
 
-        console.log('width ', width)
+        console.log('render width ', props.id, width, props.keys)
 
         return (
             <CC 
@@ -112,10 +117,8 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                         }}>
                         <div
                             onTransitionEnd={e => {
-                                console.log('onTransitionEnd')
-                                setTimeout(() => {
-                                    this.setState({transitionEnd: true});
-                                }, 100);
+                                console.log('onTransitionEnd', this.props.keys)
+                                this.setState({transitionEnd: true});
                             }}
                             style={{ 
                                 paddingTop: 0,

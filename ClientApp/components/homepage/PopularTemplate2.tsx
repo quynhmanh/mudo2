@@ -17,6 +17,7 @@ interface IState {
     mounted: boolean;
     recentDesign: any;
     rem: number;
+    startPoint: number;
 }
 
 const TEMPLATE_PERPAGE = 10;
@@ -39,6 +40,46 @@ class Popup extends Component<IProps, IState> {
         showLeft: true,
         mounted: true,
         recentDesign: getRem(10),
+    }
+
+    constructor(props: any) {
+        super(props);
+
+        this.loadImage = this.loadImage.bind(this);
+    }
+
+    loadImage(counter) {
+        let self = this;
+        let newRecentDesign = this.state.recentDesign;
+        console.log('laodImage ', counter);
+        // Break out if no more images
+        if (counter==newRecentDesign.length) { return; }
+        
+        if (newRecentDesign[counter].isVideo) {
+        // Grab an image obj
+            var I = document.getElementById("video-"+counter);
+        } else {
+            var I = document.getElementById("image-2-"+counter);
+        }
+        
+        if (newRecentDesign[counter].isVideo) {
+            // Monitor load or error events, moving on to next image in either case
+            I.onloadedmetadata = I.onerror = function() { 
+                self.loadImage(counter+1); 
+            }
+        } else {
+            I.onload = I.onerror = function() { 
+                self.loadImage(counter+1); 
+            }
+        }
+        
+        
+        //Change source (then wait for event)
+        if (newRecentDesign[counter].isVideo) {
+            I.src = newRecentDesign[counter].videoRepresentative;
+        } else {
+            I.src = newRecentDesign[counter].representative;
+        }
     }
 
     loadMore = () => {
@@ -64,46 +105,9 @@ class Popup extends Component<IProps, IState> {
                     recentDesign: newRecentDesign,
                     hasMore,
                     rem,
+                    startPoint,
                 });
 
-                console.log('newRecentDesign', newRecentDesign)
-
-                function loadImage(counter) {
-                    console.log('loadImage ', counter)
-                    // Break out if no more images
-                    if (counter==newRecentDesign.length) { return; }
-                  
-                    if (newRecentDesign[counter].isVideo) {
-                    // Grab an image obj
-                        var I = document.getElementById("video-"+counter);
-                    } else {
-                        var I = document.getElementById("image-2-"+counter);
-                    }
-                    console.log('I')
-                  
-                    if (newRecentDesign[counter].isVideo) {
-                        // Monitor load or error events, moving on to next image in either case
-                        I.onloadedmetadata = I.onerror = function() { 
-                            loadImage(counter+1); 
-                        }
-                    } else {
-                        I.onload = I.onerror = function() { 
-                            loadImage(counter+1); 
-                        }
-                    }
-                    
-                  
-                    //Change source (then wait for event)
-                    if (newRecentDesign[counter].isVideo) {
-                        console.log('I video', newRecentDesign[counter].videoRepresentative)
-                        I.src = newRecentDesign[counter].videoRepresentative;
-                    } else {
-                        console.log('I image', newRecentDesign[counter].representative)
-                        I.src = newRecentDesign[counter].representative;
-                    }
-                  }
-                  
-                  loadImage(startPoint);
             })
             .catch(error => {
                 // Ui.showErrors(error.response.statusText)
@@ -177,6 +181,8 @@ class Popup extends Component<IProps, IState> {
                                             {...item}
                                             key={index}
                                             keys={index}
+                                            loadImage={this.loadImage}
+                                            startPoint={this.state.startPoint}
                                         />)}
                                 </ul>
                             </InfiniteXScroll>
