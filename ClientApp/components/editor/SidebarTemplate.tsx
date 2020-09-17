@@ -266,7 +266,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                 item.isVideo ? (
                                     <VideoPicker
                                         id=""
-                                        defaultHeight={imgWidth}
+                                        defaultHeight={imgWidth / editorStore.templateRatio}
                                         delay={0}
                                         width={imgWidth}
                                         key={key}
@@ -283,7 +283,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                 ) : (
                                         <ImagePicker
                                             id=""
-                                            defaultHeight={imgWidth}
+                                            defaultHeight={imgWidth / editorStore.templateRatio}
                                             delay={0}
                                             width={imgWidth}
                                             key={key}
@@ -328,7 +328,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                 item.isVideo ? (
                                     <VideoPicker
                                         id=""
-                                        defaultHeight={imgWidth}
+                                        defaultHeight={imgWidth / editorStore.templateRatio}
                                         delay={150}
                                         width={imgWidth}
                                         key={key}
@@ -345,7 +345,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                 ) : (
                                         <ImagePicker
                                             id=""
-                                            defaultHeight={imgWidth}
+                                            defaultHeight={imgWidth / editorStore.templateRatio}
                                             delay={150}
                                             width={imgWidth}
                                             key={key}
