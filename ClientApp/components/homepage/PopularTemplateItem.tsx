@@ -21,6 +21,7 @@ const PopularTemplateItem = (props: IProps) => {
     let picker = null;
     picker = <ImagePicker
         id={props.id}
+        prefix="1"
         keys={props.keys}
         key={"1"}
         color={""}
@@ -34,8 +35,8 @@ const PopularTemplateItem = (props: IProps) => {
         showButton={false}
         defaultHeight={160}
         src={props.representative}
-        width={props.width}
         backgroundColor="black"
+        width={160}
     />
 
     return (

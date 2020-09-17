@@ -85,7 +85,7 @@ class Popup extends Component<IProps, IState> {
                     if (counter==newRecentDesign.length) { return; }
                   
                     // Grab an image obj
-                    var I = document.getElementById("image-"+counter) as HTMLImageElement;
+                    var I = document.getElementById("image-1-"+counter) as HTMLImageElement;
                     console.log('II', I)
                   
                     // Monitor load or error events, moving on to next image in either case

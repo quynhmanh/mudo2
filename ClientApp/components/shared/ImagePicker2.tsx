@@ -17,6 +17,7 @@ export interface IProps {
     showButton: boolean;
     padding: number;
     backgroundColor: string;
+    prefix: string;
 }
 
 export interface IState {
@@ -83,7 +84,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     position: 'relative',
                     backgroundSize: '300% 300%',
                     // width: `${this.state.loaded ? this.state.width : this.props.width}px`,
-                    width: `160px`,
+                    width: this.props.width ? this.props.width + "px" : 'auto',
                     marginBottom: '8px',
                     display: "flex",
                     opacity: this.state.loaded ? 1 : 0.15,
@@ -113,7 +114,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     </button>
                 }
                 <img
-                    id={`image-${this.props.keys}`}
+                    id={`image-${this.props.prefix}-${this.props.keys}`}
                     ref={i => this.image = i}
                     className={this.props.className}
                     style={loaded ? {

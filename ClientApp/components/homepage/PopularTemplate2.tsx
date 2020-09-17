@@ -66,20 +66,41 @@ class Popup extends Component<IProps, IState> {
                     rem,
                 });
 
+                console.log('newRecentDesign', newRecentDesign)
+
                 function loadImage(counter) {
+                    console.log('loadImage ', counter)
                     // Break out if no more images
                     if (counter==newRecentDesign.length) { return; }
                   
+                    if (newRecentDesign[counter].isVideo) {
                     // Grab an image obj
-                    var I = document.getElementById("video-"+counter) as HTMLVideoElement;
-                  
-                    // Monitor load or error events, moving on to next image in either case
-                    I.onloadedmetadata = I.onerror = function() { 
-                        loadImage(counter+1); 
+                        var I = document.getElementById("video-"+counter);
+                    } else {
+                        var I = document.getElementById("image-2-"+counter);
                     }
+                    console.log('I')
+                  
+                    if (newRecentDesign[counter].isVideo) {
+                        // Monitor load or error events, moving on to next image in either case
+                        I.onloadedmetadata = I.onerror = function() { 
+                            loadImage(counter+1); 
+                        }
+                    } else {
+                        I.onload = I.onerror = function() { 
+                            loadImage(counter+1); 
+                        }
+                    }
+                    
                   
                     //Change source (then wait for event)
-                    I.src = newRecentDesign[counter].videoRepresentative;
+                    if (newRecentDesign[counter].isVideo) {
+                        console.log('I video', newRecentDesign[counter].videoRepresentative)
+                        I.src = newRecentDesign[counter].videoRepresentative;
+                    } else {
+                        console.log('I image', newRecentDesign[counter].representative)
+                        I.src = newRecentDesign[counter].representative;
+                    }
                   }
                   
                   loadImage(startPoint);

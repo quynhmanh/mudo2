@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import styled from 'styled-components';
-import ImagePicker from "@Components/shared/ImagePicker";
+import ImagePicker from "@Components/shared/ImagePicker2";
 import VideoPicker from "@Components/shared/VideoPicker";
 
 interface IProps {
@@ -62,6 +62,8 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         } else {
             picker = <ImagePicker
                 id={props.id}
+                keys={props.keys}
+                prefix="2"
                 key={"1"}
                 color={""}
                 delay={0}
@@ -74,7 +76,6 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 showButton={false}
                 defaultHeight={HEIGHT}
                 src={props.representative}
-                width={props.width}
                 backgroundColor="black"
             />
         }
