@@ -18,6 +18,7 @@ export interface IProps {
     padding: number;
     backgroundColor: string;
     prefix: string;
+    transitionEnd: boolean;
 }
 
 export interface IState {

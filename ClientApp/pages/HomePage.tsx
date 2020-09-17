@@ -530,7 +530,7 @@ class HomePage extends React.Component<IProps, IState> {
                                 </div>
                                 <header
                                     style={{
-                                        height: "320px",
+                                        height: "260px",
                                         position: 'relative',
                                         marginTop: 'auto',
                                         marginBottom: 'auto',

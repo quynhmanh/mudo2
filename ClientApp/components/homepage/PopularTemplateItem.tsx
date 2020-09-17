@@ -37,6 +37,7 @@ const PopularTemplateItem = (props: IProps) => {
         src={props.representative}
         backgroundColor="black"
         width={160}
+        transitionEnd={true}
     />
 
     return (
