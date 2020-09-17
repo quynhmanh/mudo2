@@ -5712,7 +5712,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             id="closePreviewBtn"
                             style={{
                                 position: 'absolute',
-                                right: '130px',
+                                right: '137px',
                                 top: '10px',
                                 color: 'white',
                                 backgroundColor: 'rgba(255, 255, 255, 0.15)',
