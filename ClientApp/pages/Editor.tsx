@@ -966,6 +966,10 @@ class CanvaEditor extends Component<IProps, IState> {
                         designTitle: image.value.title,
                     });
 
+                    editorStore.templateRatio = document.width / document.height;
+
+                    console.log('asd', editorStore.templateRatio)
+
                     let zIndexMax = 0;
                     images.forEach(img => {
                         zIndexMax = Math.max(zIndexMax, img.zIndex);
@@ -1097,6 +1101,10 @@ class CanvaEditor extends Component<IProps, IState> {
                 scale: fitScale,
                 fitScale,
             });
+
+            editorStore.templateRatio = rectWidth / rectHeight;
+
+                    console.log('asd', editorStore.templateRatio)
         }
 
         document.addEventListener("keydown", this.removeImage.bind(this));
