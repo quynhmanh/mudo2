@@ -55,7 +55,11 @@ const PopularTemplateItem = (props: IProps) => {
                     if (window.dragging) e.preventDefault();
                 }}
             >
-                <div className="previewWrapper___mbAh5">
+                <div 
+                    style={{
+                        width: '200px',
+                    }}
+                className="previewWrapper___mbAh5">
                     <div 
                         style={{ 
                             paddingTop: 0, 
@@ -82,6 +86,7 @@ var CC = styled.li`
     height: 160px;
     margin-right: 16px;
     transition: .3s;
+    width: 200px;
 `;
 
 export default PopularTemplateItem;

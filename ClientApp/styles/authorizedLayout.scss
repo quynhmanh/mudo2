@@ -193,10 +193,9 @@ html {
     position: relative;
     height: 160px;
     margin-right: 16px;
-    transition: .3s;
     box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 0 1px rgba(0,0,0,.16);
     border-radius: 3px;
-    transition: .3s cubic-bezier(.645,.045,.355,1);
+    // transition: .3s cubic-bezier(.645,.045,.355,1);
 }
 
 .templateWrapper___3Fitk:hover {

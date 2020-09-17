@@ -1,6 +1,5 @@
 import React, {Component} from 'react';  
 import loadable from '@loadable/component';
-import uuidv4 from "uuid/v4";
 import Globals from "@Globals";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";

@@ -68,7 +68,7 @@ class HomePage extends React.Component<IProps, IState> {
         showLanguageDropdown: false,
         locale: initLocale,
         recentDesign: [],
-        hasDesign: false,
+        hasDesign: true,
     };
 
     getLocale = (value: string) => {
@@ -106,6 +106,19 @@ class HomePage extends React.Component<IProps, IState> {
         }
     }
 
+    componentWillMount() {
+        if (Globals.serviceUser) {
+            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=1`;
+            axios
+                .get(url)
+                .then(res => {
+                    // this.setState({hasDesign: res.data.value.value > 0});
+                    console.log('asd', this.state, res.data.value.value > 0);
+                    this.setState({hasDesign: res.data.value.value > 0 })
+                });
+        }
+    }
+
     handleLoginSuccess = (user) => {
         this.setState({ externalProviderCompleted: true });
         window['publicSession'] = { serviceUser: user, locale: this.state.locale };
@@ -133,14 +146,14 @@ class HomePage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        if (Globals.serviceUser) {
-            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=1`;
-            axios
-                .get(url)
-                .then(res => {
-                    this.setState({hasDesign: res.data.value.value > 0});
-                });
-        }
+        // if (Globals.serviceUser) {
+        //     const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=1`;
+        //     axios
+        //         .get(url)
+        //         .then(res => {
+        //             this.setState({hasDesign: res.data.value.value > 0});
+        //         });
+        // }
     }
 
     @bind
@@ -282,7 +295,7 @@ class HomePage extends React.Component<IProps, IState> {
 
         const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
 
-        // console.log('loggedIn ', loggedIn, Globals.serviceUser.username)
+        console.log('loggedIn ', loggedIn, this.state.hasDesign)
 
         const { t } = this.props;
 
