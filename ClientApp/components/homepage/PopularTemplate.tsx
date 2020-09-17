@@ -52,6 +52,7 @@ class Popup extends Component<IProps, IState> {
     }
 
     loadMore = () => {
+        console.log('loadMore')
         if (Globals.serviceUser) {
             const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=${(this.state.recentDesign.length - this.state.rem) / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}`;
             axios
@@ -98,6 +99,7 @@ class Popup extends Component<IProps, IState> {
                     console.log('ewRecentDesign', counter, newRecentDesign)
                   }
                   
+                  console.log('loadImage ', startPoint)
                   loadImage(startPoint);
               })
               .catch(error => {
@@ -136,7 +138,7 @@ class Popup extends Component<IProps, IState> {
                     isLoading={false}
                     hasMore={this.state.hasMore}
                     onLoadMore={this.loadMore.bind(this, false)}
-                    refId="sentinel-image"
+                    refId="sentinel-image1"
                     marginTop={45}
                 >
                     <ul 
