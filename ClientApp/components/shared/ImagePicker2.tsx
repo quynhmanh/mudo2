@@ -146,7 +146,10 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                         this.handleImageLoaded();
 
                         if (this.props.startPoint == this.props.keys) {
-                            this.props.loadImage(this.props.keys + 1);
+                            
+                            setTimeout(() => {
+                                this.props.loadImage(this.props.keys + 1);
+                            }, 100);
                         } 
                     }}
 

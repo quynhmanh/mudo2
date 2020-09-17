@@ -153,7 +153,9 @@ export default class VideoPicker extends Component<IProps, IState> {
                         console.log('startPOint ', this.props.startPoint)
                         this.handleImageLoaded();
                         if (this.props.startPoint == this.props.keys) {
-                            this.props.loadImage(this.props.keys + 1);
+                            setTimeout(() => {
+                                this.props.loadImage(this.props.keys + 1);
+                            }, 100);
                         } 
                     }}
 
