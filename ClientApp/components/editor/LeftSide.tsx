@@ -507,6 +507,7 @@ class LeftSide extends Component<IProps, IState> {
                             scale={this.props.scale}
                             setSavingState={this.props.setSavingState}
                         />
+                        {editorStore.templateRatio &&
                         <SidebarTemplate
                             handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
@@ -516,7 +517,7 @@ class LeftSide extends Component<IProps, IState> {
                             rectWidth={this.props.rectWidth}
                             rectHeight={this.props.rectHeight}
                             forceEditorUpdate={this.props.forceEditorUpdate}
-                        />
+                        />}
                         <SidebarBackground
                             handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}

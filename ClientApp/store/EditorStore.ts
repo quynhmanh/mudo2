@@ -51,7 +51,7 @@ class Images {
     @observable popularity = 0;
     @observable isVideo = false;
     @observable isPopular = false;
-    @observable templateRatio = 1;
+    @observable templateRatio = 0;
     
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));
