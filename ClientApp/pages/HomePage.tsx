@@ -36,6 +36,7 @@ interface IState {
     locale: ILocale;
     recentDesign: any;
     key: number;
+    hasDesign: boolean;
 }
 
 
@@ -67,6 +68,7 @@ class HomePage extends React.Component<IProps, IState> {
         showLanguageDropdown: false,
         locale: initLocale,
         recentDesign: [],
+        hasDesign: false,
     };
 
     getLocale = (value: string) => {
@@ -112,6 +114,15 @@ class HomePage extends React.Component<IProps, IState> {
 
         this.setState({ key: this.state.key + 1 });
 
+        if (Globals.serviceUser) {
+            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=1`;
+            axios
+                .get(url)
+                .then(res => {
+                    this.setState({hasDesign: res.data.value.value > 0});
+                });
+        }
+
         this.forceUpdate();
     }
 
@@ -122,6 +133,14 @@ class HomePage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
+        if (Globals.serviceUser) {
+            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=1`;
+            axios
+                .get(url)
+                .then(res => {
+                    this.setState({hasDesign: res.data.value.value > 0});
+                });
+        }
     }
 
     @bind
@@ -262,6 +281,8 @@ class HomePage extends React.Component<IProps, IState> {
             return null;
 
         const loggedIn = Globals.serviceUser && Globals.serviceUser.username !== undefined;
+
+        // console.log('loggedIn ', loggedIn, Globals.serviceUser.username)
 
         const { t } = this.props;
 
@@ -554,10 +575,11 @@ class HomePage extends React.Component<IProps, IState> {
                         </div>
                     </div>
 
-                    <PopularTemplate
-                        key={this.state.key}
-                        translate={this.translate.bind(this)}
-                    />
+                    {loggedIn && this.state.hasDesign &&
+                        <PopularTemplate
+                            key={this.state.key}
+                            translate={this.translate.bind(this)}
+                        />}
                     <PopularTemplate2
                         translate={this.translate.bind(this)}
                     />
