@@ -153,7 +153,7 @@ class Popup extends Component<IProps, IState> {
                 >{this.props.translate("popular")}</h3>
                 <div
                     style={{
-                        height: "200px",
+                        height: "220px",
                     }}>
                     <div>
                         <div style={{ position: 'relative' }}>
