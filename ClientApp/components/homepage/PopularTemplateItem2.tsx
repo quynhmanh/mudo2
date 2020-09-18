@@ -83,6 +83,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 transitionEnd={this.state.transitionEnd}
                 startPoint={this.props.startPoint}
                 loadImage={this.props.loadImage}
+                animation={false}
             />
         }
 

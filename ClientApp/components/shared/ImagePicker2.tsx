@@ -19,6 +19,7 @@ export interface IProps {
     backgroundColor: string;
     prefix: string;
     transitionEnd: boolean;
+    animation: boolean;
 }
 
 export interface IState {
@@ -92,11 +93,11 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     width: this.props.width ? this.props.width + "px" : 'auto',
                     marginBottom: '8px',
                     display: "flex",
-                    // opacity: this.state.loaded ? 1 : 0.15,
-                    // animationName: 'XhtCamN749DcvC-ecDUzp',
-                    // animation: loaded && this.props.transitionEnd ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
-                    // animationDelay: this.props.delay + 'ms',
-                    backgroundColor: '#eee',
+                    opacity: this.props.animation ? (this.state.loaded ? 1 : 0.15) : 1,
+                    animationName: this.props.animation && 'XhtCamN749DcvC-ecDUzp',
+                    animation: this.props.animation && (loaded && this.props.transitionEnd ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"),
+                    animationDelay: this.props.delay + 'ms',
+                    backgroundColor: this.props.animation ? (loaded && this.props.transitionEnd ? "transparent" : 'black') : '#eee',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
