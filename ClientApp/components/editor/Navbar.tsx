@@ -162,6 +162,7 @@ class LeftSide extends Component<IProps, IState> {
                                                 fontSize: "15px",
                                                 margin: 0,
                                                 marginRight: "10px",
+                                                marginLeft: '5px',
                                             }}>{this.props.translate("download")}</p>
                                             <div
                                                 style={{
