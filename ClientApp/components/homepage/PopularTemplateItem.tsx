@@ -49,6 +49,13 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             this.picker.image.parentNode.style.height = "";
         }
     }
+    
+    shouldComponentUpdate(nextProps) {
+        if (this.props.id != nextProps.id) {
+            return true;
+        }
+        return false;
+    }
 
     render() {
         let props = this.props;
