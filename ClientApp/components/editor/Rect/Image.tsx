@@ -42,8 +42,8 @@ export default class Image extends Component<IProps, IState> {
             canvas 
         } = this.props;
 
-        src = src.replace("http://167.99.73.132:64099", "https://draft.vn");
-        srcThumnail = srcThumnail.replace("http://167.99.73.132:64099", "https://draft.vn");
+        src = src && src.replace("http://167.99.73.132:64099", "https://draft.vn");
+        srcThumnail = srcThumnail && srcThumnail.replace("http://167.99.73.132:64099", "https://draft.vn");
         
         return (
             <div>
