@@ -49,6 +49,7 @@ class Popup extends Component<IProps, IState> {
     }
 
     loadImage(counter) {
+        console.log('laodImage ', counter);
         let self = this;
         let newRecentDesign = this.state.recentDesign;
         // Break out if no more images
@@ -62,18 +63,18 @@ class Popup extends Component<IProps, IState> {
         }
         
         if (newRecentDesign[counter].isVideo) {
-            // Monitor load or error events, moving on to next image in either case
-            I.onloadedmetadata = I.onerror = function() { 
-                setTimeout(() => {
-                    self.loadImage(counter+1); 
-                }, 100);
-            }
+            // // Monitor load or error events, moving on to next image in either case
+            // I.onloadeddata = I.onerror = function() { 
+            //     setTimeout(() => {
+            //         self.loadImage(counter+1); 
+            //     }, 100);
+            // }
         } else {
-            I.onload = I.onerror = function() { 
-                setTimeout(() => {
-                    self.loadImage(counter+1); 
-                }, 100);
-            }
+            // I.onload = I.onerror = function() { 
+            //     setTimeout(() => {
+            //         self.loadImage(counter+1); 
+            //     }, 100);
+            // }
         }
         
         

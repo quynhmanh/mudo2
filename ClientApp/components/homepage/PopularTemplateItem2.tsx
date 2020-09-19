@@ -17,8 +17,9 @@ interface IProps {
     isVideo: boolean;
     videoRepresentative: string;
     representative: string;
-    keys: string;
+    keys: number;
     startPoint: number;
+    loadImage: any;
 }
 
 interface IState {
@@ -42,18 +43,22 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
     }
 
     mediaLoaded(loaded, transitionEnd) {
+        console.log('mediaLoaded ', this.props.keys, loaded, transitionEnd, this.loaded, this.transitionEnd)
         if (loaded) this.loaded = true;
         if (transitionEnd) this.transitionEnd = true;
 
-        if (this.loaded && this.transitionEnd) {
-            // this.cc.style.background = "transparent";
+        if (this.loaded && this.transitionEnd && !this.transitioned) {
+            console.log('changed', this.props.keys)
             this.cc.style.animation = "";
             this.cc.style.background = "transparent";
+            this.cc.style.opacity = 1;
             this.picker.image.style.opacity = 1;
-            // setTimeout(() => {
-                // this.cc.style.backgroundColor = "transparent";
-                // this.cc.style.animation = "";
-            // }, 90);
+                this.transitioned = true;
+            // if (this.props.keys == this.props.startPoint) {
+                setTimeout(() => {
+                    this.props.loadImage(this.props.keys + 1);
+                }, 100);
+            // }
         }
     }
 
@@ -66,6 +71,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
 
     loaded = false;
     transitionEnd = false;
+    transitioned = false;
     cc = null;
     picker = null;
 
@@ -113,7 +119,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                 showButton={false}
                 defaultHeight={HEIGHT}
                 src={props.representative}
-                backgroundColor="black"
+                // backgroundColor="black"
                 transitionEnd={this.state.transitionEnd}
                 startPoint={this.props.startPoint}
                 loadImage={this.props.loadImage}
@@ -139,6 +145,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                     background: 'black',
                     animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
                     borderRadius: "4px",
+                    opacity: 0.7,
                 }}
                 className="templateWrapper___3Fitk"
                 onClick={e => {
@@ -161,10 +168,11 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                         }}>
                         <div
                             onTransitionEnd={e => {
+                                console.log('onTransitionEnd', width, this.props.keys, this.props.id)
                                 // this.setState({transitionEnd: true});
-                                setTimeout(() => {
+                                // setTimeout(() => {
                                     this.mediaLoaded(false, true);
-                                }, 200);
+                                // }, 100);
                             }}
                             style={{ 
                                 paddingTop: 0,
@@ -191,5 +199,4 @@ var CC = styled.li`
     position: relative;
     height: ${HEIGHT}px;
     margin-right: 16px;
-    transition: .3s;
 `;

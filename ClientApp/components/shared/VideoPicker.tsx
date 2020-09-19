@@ -57,20 +57,19 @@ export default class VideoPicker extends Component<IProps, IState> {
         backgroundColorLoaded: "rgba(255, 255, 255, 0.07)",
     }
 
-    shouldComponentUpdate() {
-        if (this.state.loaded && this.props.transitionEnd) {
-            return false;
+    shouldComponentUpdate(nextProps) {
+        if (this.props.id != nextProps.id) {
+            return true;
         }
-
-        return true;
+        return false;
     }
 
     componentDidMount() {
-        const img = this.image;
+        // const img = this.image;
 
-        if (img && img.readyState == 4) {
-            this.handleImageLoaded();
-        }
+        // if (img && img.readyState == 4) {
+        //     this.handleImageLoaded();
+        // }
     }
 
     image = null;
@@ -82,6 +81,7 @@ export default class VideoPicker extends Component<IProps, IState> {
     render() {
         let { loaded, width } = this.state;
 
+        console.log('videoPicker render', this.props.key)
 
         return (
             <Container 
@@ -134,16 +134,11 @@ export default class VideoPicker extends Component<IProps, IState> {
                         marginBottom: '10px',
                         pointerEvents: "all",
                         opacity: 0,
+                        transition: 'opacity 0.1s linear',
                     }}
 
                     onLoadedMetadata={e => {
-                        console.log('startPOint ', this.props.startPoint)
                         this.handleImageLoaded();
-                        if (this.props.startPoint == this.props.keys) {
-                            setTimeout(() => {
-                                this.props.loadImage(this.props.keys + 1);
-                            }, 100);
-                        } 
                     }}
 
                     // onCanPlay={(e) => {

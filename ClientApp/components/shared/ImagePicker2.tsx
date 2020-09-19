@@ -61,16 +61,23 @@ export default class ImagePicker extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        const img = this.image;
-        if (img && img.complete) {
-            this.handleImageLoaded();
-        }
+        // const img = this.image;
+        // if (img && img.complete) {
+        //     this.handleImageLoaded();
+        // }
     }
 
     image = null;
 
     handleImageLoaded() {
         this.props.mediaLoaded(true);
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (this.props.id != nextProps.id) {
+            return true;
+        }
+        return false;
     }
 
     render() {
@@ -82,15 +89,10 @@ export default class ImagePicker extends Component<IProps, IState> {
                 style={{
                     position: 'relative',
                     backgroundSize: '300% 300%',
-                    // width: `${this.state.loaded ? this.state.width : this.props.width}px`,
                     width: this.props.width ? this.props.width + "px" : 'auto',
                     marginBottom: '8px',
                     display: "flex",
                     height: this.props.defaultHeight + "px",
-                    // opacity: this.props.animation ? (this.state.loaded ? 1 : 0.15) : 1,
-                    // animationName: this.props.animation && 'TB8Ekw',
-                    // animation: this.props.animation && (loaded && this.props.transitionEnd ? "none" : "TB8Ekw 1.4s infinite"),
-                    // animationDelay: this.props.delay + 'ms',
                     backgroundColor: this.props.backgroundColor,
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
@@ -125,19 +127,12 @@ export default class ImagePicker extends Component<IProps, IState> {
                         borderRadius: "4px",
                         boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
-                        backgroundColor: '#ededed',
-                        // transition: 'opacity 0.1s linear',
+                        // backgroundColor: '#ededed',
+                        transition: 'opacity 0.1s linear',
                     }}
 
                     onLoad={e => {
                         this.handleImageLoaded();
-
-                        if (this.props.startPoint == this.props.keys) {
-                            
-                            setTimeout(() => {
-                                this.props.loadImage(this.props.keys + 1);
-                            }, 100);
-                        } 
                     }}
 
                     // onLoadedData={(e) => {

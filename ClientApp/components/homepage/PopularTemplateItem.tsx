@@ -34,6 +34,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
     loaded = false;
     transitionEnd = true;
+    transitioned = false;
     picker = null;
     cc = null;
 
@@ -42,11 +43,17 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         if (transitionEnd) this.transitionEnd = true;
 
             console.log('mediaLoaded ', loaded, transitionEnd, this.loaded, this.transitionEnd);
-        if (this.loaded && this.transitionEnd) {
+        if (this.loaded && this.transitionEnd && !this.transitioned) {
             this.cc.style.backgroundColor = "transparent";
             this.cc.style.animation = "";
             this.picker.image.style.opacity = 1;
             this.picker.image.parentNode.style.height = "";
+
+            this.transitioned = true;
+            // if (this.props.keys == this.props.startPoint) {
+                setTimeout(() => {
+                    this.props.loadImage(this.props.keys + 1);
+                }, 100);
         }
     }
     
