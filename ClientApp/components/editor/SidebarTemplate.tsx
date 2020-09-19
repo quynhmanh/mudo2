@@ -313,7 +313,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                             className=""
                                             onPick={null}
                                             onEdit={this.props.handleEditmedia.bind(this, null)}
-                                            delay={0}
+                                            delay={180 * i}
                                             showButton={false}
                                         />
                                     ))}
