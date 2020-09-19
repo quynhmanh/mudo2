@@ -33,7 +33,6 @@ const Container = styled.div`
   background-size: 300% 300%;
   position: relative;
   width: ${props => props.width}px;
-  height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
   margin-bottom: 8px;
   button {
     visibility: hidden;
@@ -87,6 +86,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     width: this.props.width ? this.props.width + "px" : 'auto',
                     marginBottom: '8px',
                     display: "flex",
+                    height: this.props.defaultHeight + "px",
                     // opacity: this.props.animation ? (this.state.loaded ? 1 : 0.15) : 1,
                     // animationName: this.props.animation && 'TB8Ekw',
                     // animation: this.props.animation && (loaded && this.props.transitionEnd ? "none" : "TB8Ekw 1.4s infinite"),

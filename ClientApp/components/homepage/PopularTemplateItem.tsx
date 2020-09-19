@@ -46,6 +46,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             this.cc.style.backgroundColor = "transparent";
             this.cc.style.animation = "";
             this.picker.image.style.opacity = 1;
+            this.picker.image.parentNode.style.height = "";
         }
     }
 
@@ -83,7 +84,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         return (
             <CC
                 ref={i => this.cc = i}
-                style={{ marginRight: '24px' }}
+                style={{ marginRight: '24px', overflow: 'hidden', }}
                 className="templateWrapper___3Fitk"
             >
                 <a
@@ -99,11 +100,14 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                     <div
                         style={{
                             width: '200px',
+                            minHeight: '200px',
+                            display: 'flex',
                         }}
                         className="previewWrapper___mbAh5">
                         <div
                             style={{
                                 paddingTop: 0,
+                                margin: 'auto',
                                 // boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)", 
                             }}>
                             {picker}
@@ -125,7 +129,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
 let CC = styled.li`
     position: relative;
-    height: 160px;
+    height: 200px;
     margin-right: 16px;
     transition: .3s;
     width: 200px;
