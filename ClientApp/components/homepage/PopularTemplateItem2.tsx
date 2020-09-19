@@ -46,8 +46,9 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
         if (transitionEnd) this.transitionEnd = true;
 
         if (this.loaded && this.transitionEnd) {
-            this.cc.style.backgroundColor = "transparent";
+            // this.cc.style.background = "transparent";
             this.cc.style.animation = "";
+            this.cc.style.background = "transparent";
             this.picker.image.style.opacity = 1;
             // setTimeout(() => {
                 // this.cc.style.backgroundColor = "transparent";
@@ -135,7 +136,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                 style={{ 
                     marginRight: '24px',
                     animation: "TB8Ekw 1.4s infinite",
-                    backgroundColor: 'black',
+                    background: 'black',
                     animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
                     borderRadius: "4px",
                 }}

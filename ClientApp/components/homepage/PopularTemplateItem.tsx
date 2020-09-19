@@ -43,11 +43,9 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
             console.log('mediaLoaded ', loaded, transitionEnd, this.loaded, this.transitionEnd);
         if (this.loaded && this.transitionEnd) {
+            this.cc.style.backgroundColor = "transparent";
+            this.cc.style.animation = "";
             this.picker.image.style.opacity = 1;
-            setTimeout(() => {
-                this.cc.style.backgroundColor = "transparent";
-                this.cc.style.animation = "";
-            }, 100);
         }
     }
 
@@ -71,7 +69,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             showButton={false}
             defaultHeight={160}
             src={props.representative}
-            backgroundColor="black"
+            // backgroundColor="black"
             width={160}
             transitionEnd={true}
             startPoint={props.startPoint}
@@ -79,6 +77,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             animation={true}
             ref={i => this.picker = i}
             mediaLoaded={this.mediaLoaded}
+            backgroundColor="rgb(0 0 0 / 4%)"
         />
 
         return (

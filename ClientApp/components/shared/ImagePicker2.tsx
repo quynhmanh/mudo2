@@ -91,7 +91,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     // animationName: this.props.animation && 'TB8Ekw',
                     // animation: this.props.animation && (loaded && this.props.transitionEnd ? "none" : "TB8Ekw 1.4s infinite"),
                     // animationDelay: this.props.delay + 'ms',
-                    // backgroundColor: this.props.animation ? (loaded && this.props.transitionEnd ? "transparent" : 'black') : '#eee',
+                    backgroundColor: this.props.backgroundColor,
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
@@ -125,7 +125,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                         borderRadius: "4px",
                         boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
-                        // backgroundColor: '#ededed',
+                        backgroundColor: '#ededed',
                         // transition: 'opacity 0.1s linear',
                     }}
 
