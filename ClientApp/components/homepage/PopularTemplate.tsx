@@ -117,7 +117,7 @@ class Popup extends Component<IProps, IState> {
         return (
             <div
                 style={{
-                    padding: "20px 150px",
+                    padding: "20px 100px",
                 }}
             >
                 <h3
