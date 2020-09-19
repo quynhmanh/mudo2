@@ -3,8 +3,7 @@ import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
-
-const Item = loadable(() => import("@Components/homepage/PopularTemplateItem2"));
+import Item from "@Components/homepage/PopularTemplateItem2";
 
 export interface IProps {
     translate: any;
@@ -40,6 +39,7 @@ class Popup extends Component<IProps, IState> {
         showLeft: true,
         mounted: true,
         recentDesign: getRem(10),
+        startPoint: 0,
     }
 
     constructor(props: any) {

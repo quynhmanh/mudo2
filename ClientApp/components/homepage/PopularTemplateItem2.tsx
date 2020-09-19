@@ -23,6 +23,7 @@ interface IProps {
 
 interface IState {
     transitionEnd: boolean;
+    loaded: boolean;
 }
 
 const HEIGHT = 200;
@@ -34,8 +35,27 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
         this.state = {
             transitionEnd: this.props.id != "sentinel-image2" ? true: false,
+            loaded: false,
         }
+
+        this.mediaLoaded = this.mediaLoaded.bind(this);
     }
+
+    mediaLoaded() {
+        console.log('mediaLoaded' , this.props.keys)
+        // this.setState({loaded: true})
+        this.cc.style.backgroundColor = "transparent";
+        this.cc.style.animation = "";
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (this.props.id != nextProps.id) {
+            return true;
+        }
+        return false;
+    }
+
+    cc = null;
 
     render() {
         const props = this.props;
@@ -61,6 +81,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 transitionEnd={this.state.transitionEnd}
                 startPoint={this.props.startPoint}
                 loadImage={this.props.loadImage}
+                mediaLoaded={this.mediaLoaded}
             />
         } else {
             picker = <ImagePicker
@@ -84,6 +105,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 startPoint={this.props.startPoint}
                 loadImage={this.props.loadImage}
                 animation={false}
+                mediaLoaded={this.mediaLoaded}
             />
         }
 
@@ -92,10 +114,18 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             width = 199;
         }
 
+        console.log('(this.props.keys - this.props.startPoint) * 120 + "ms" ', this.props.keys, this.props.startPoint, (this.props.keys - this.props.startPoint) * 120 + "ms")
 
         return (
-            <CC 
-                style={{ marginRight: '24px' }}
+            <CC
+                ref={i => this.cc = i}
+                style={{ 
+                    marginRight: '24px',
+                    animation: this.state.loaded && this.state.transitionEnd ? "" : "TB8Ekw 1.4s infinite",
+                    backgroundColor: this.state.loaded && this.state.transitionEnd ? "transparent" : 'black',
+                    animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
+                    borderRadius: "4px",
+                }}
                 className="templateWrapper___3Fitk"
                 onClick={e => {
                     if (window.dragging) e.preventDefault();

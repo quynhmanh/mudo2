@@ -20,6 +20,7 @@ export interface IProps {
     transitionEnd: boolean;
     keys: any;
     startPoint: any;
+    mediaLoaded: any;
 }
 
 export interface IState {
@@ -75,13 +76,10 @@ export default class VideoPicker extends Component<IProps, IState> {
     image = null;
 
     handleImageLoaded() {
-        const img = this.image;
-
-        var ratio = img.videoWidth / img.videoHeight;
-
-        if (!ratio || !this.state.loaded) {
-            this.setState({ loaded: true, width: ratio * 160 });
-        }
+        this.image.style.opacity = 1;
+        setTimeout(() => {
+            this.props.mediaLoaded();
+        }, 100);
     }
 
     render() {
@@ -98,7 +96,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     marginBottom: '8px',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
-                    backgroundColor: '#eee',
+                    // backgroundColor: '#eee',
                 }} 
                 delay={this.props.delay} 
                 id={this.props.id}

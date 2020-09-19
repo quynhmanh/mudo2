@@ -98,12 +98,12 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                         }`,
                     marginBottom: "8px",
                     opacity: this.state.loaded ? 1 : 0.15,
-                    animationName: "XhtCamN749DcvC-ecDUzp",
-                    animation: this.state.loaded
-                        ? "none"
-                        : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
-                    animationDelay: "100ms",
-                    backgroundColor: this.state.loaded ? "transparent" : "#fff",
+                    // animationName: "XhtCamN749DcvC-ecDUzp",
+                    // animation: this.state.loaded
+                    //     ? "none"
+                    //     : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
+                    // animationDelay: "100ms",
+                    // backgroundColor: this.state.loaded ? "transparent" : "#fff",
                 }}
                 delay={this.props.delay}
                 id={this.props.id}

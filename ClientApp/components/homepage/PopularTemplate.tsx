@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import loadable from '@loadable/component';
 import Globals from "@Globals";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
-
-const Item = loadable(() => import("@Components/homepage/PopularTemplateItem"));
-
+import Item from "@Components/homepage/PopularTemplateItem";
 
 export interface IProps {
     translate: any;
