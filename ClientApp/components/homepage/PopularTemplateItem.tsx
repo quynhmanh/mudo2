@@ -42,7 +42,7 @@ const PopularTemplateItem = (props: IProps) => {
 
     return (
         <CC 
-            style={{ marginRight: '16px' }}
+            style={{ marginRight: '24px' }}
             className="templateWrapper___3Fitk"
         >
             <a 

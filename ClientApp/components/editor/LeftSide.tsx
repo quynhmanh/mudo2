@@ -423,7 +423,7 @@ class LeftSide extends Component<IProps, IState> {
                         editorStore.isVideo = !editorStore.isVideo;
                     }}/>
                     <input id="popularity" type="text" value={editorStore.popularity} onChange={e => {
-                        editorStore.popularity = e.target.value;
+                        editorStore.popularity = parseInt(e.target.value);
                     }} />
                     <button
                         style={{
