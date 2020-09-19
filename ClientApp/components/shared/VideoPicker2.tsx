@@ -32,6 +32,7 @@ const Container = styled.div`
   height: ${props =>
         props.loaded ? props.height : props.defaultHeight + "px"};
   margin-bottom: 8px;
+  margin-right: 8px;
   button {
     visibility: hidden;
   }
@@ -40,6 +41,7 @@ const Container = styled.div`
   animation: ${props =>
         props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
   animation-delay: ${props => props.delay}ms;
+  display: inline-block;
   :hover button {
     visibility: visible;
   }

@@ -39,6 +39,7 @@ const Container = styled.div`
   animation-name: XhtCamN749DcvC-ecDUzp;
   animation: ${props => props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
   animation-delay: ${props => props.delay}ms;
+  display: inline-block;
   :hover button {
     visibility: visible;
   }
@@ -87,12 +88,13 @@ export default class ImagePicker extends Component<IProps, IState> {
                     width: `${this.state.loaded ? this.state.width : this.props.width}px`,
                     height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
                     marginBottom: '8px',
+                    marginRight: '8px',
                     opacity: this.state.loaded ? 1 : 0.15,
                     animationName: 'XhtCamN749DcvC-ecDUzp',
                     animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: this.props.delay + 'ms',
+                    backgroundColor: this.state.loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#fff"),
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
-                    background: 'rgb(0 0 0 / 6%)',
                 }}
                 delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
                 {this.props.showButton && editorStore.isAdmin &&

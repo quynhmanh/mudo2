@@ -183,31 +183,31 @@ export default class SidebarTemplate extends Component<IProps, IState> {
             .then(
                 res => {
                     var result = res.value.key;
-                    var currentItemsHeight = this.state.currentItemsHeight;
-                    var currentItems2Height = this.state.currentItems2Height;
-                    var res1 = [];
-                    var res2 = [];
-                    for (var i = 0; i < result.length; ++i) {
-                        var currentItem = result[i];
-                        if (currentItemsHeight <= currentItems2Height) {
-                            res1.push(currentItem);
-                            currentItemsHeight += imgWidth / (currentItem.width / currentItem.height);
-                        } else {
-                            res2.push(currentItem);
-                            currentItems2Height += imgWidth / (currentItem.width / currentItem.height);
-                        }
-                    }
+                    // var currentItemsHeight = this.state.currentItemsHeight;
+                    // var currentItems2Height = this.state.currentItems2Height;
+                    // var res1 = [];
+                    // var res2 = [];
+                    // for (var i = 0; i < result.length; ++i) {
+                    //     var currentItem = result[i];
+                    //     if (currentItemsHeight <= currentItems2Height) {
+                    //         res1.push(currentItem);
+                    //         currentItemsHeight += imgWidth / (currentItem.width / currentItem.height);
+                    //     } else {
+                    //         res2.push(currentItem);
+                    //         currentItems2Height += imgWidth / (currentItem.width / currentItem.height);
+                    //     }
+                    // }
                     this.setState(state => ({
-                        items: [...state.items, ...res1],
-                        items2: [...state.items2, ...res2],
-                        currentItemsHeight,
-                        currentItems2Height,
+                        items: [...state.items, ...result],
+                        // items2: [...state.items2, ...res2],
+                        // currentItemsHeight,
+                        // currentItems2Height,
                         isLoading: false,
                         total: res.value.value,
                         hasMore:
                             res.value.value >
                             state.items.length +
-                            state.items2.length +
+                            // state.items2.length +
                             res.value.key.length
                     }));
 
@@ -254,12 +254,11 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                 >
                     <div
                         id="image-container-picker"
-                        style={{ display: "flex", padding: "16px 13px 10px 0px" }}
+                        style={{ display: "flex", padding: "16px 0px 10px 0px" }}
                     >
                         <div
                             style={{
                                 width: "350px",
-                                marginRight: "10px"
                             }}
                         >
                             {this.state.items.map((item, key) =>
@@ -300,7 +299,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                     )
                             )}
                             {this.state.hasMore &&
-                                Array(t)
+                                Array(left)
                                     .fill(0)
                                     .map((item, i) => (
                                         <ImagePicker
@@ -319,7 +318,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                         />
                                     ))}
                         </div>
-                        <div
+                        {/* <div
                             style={{
                                 width: "350px"
                             }}
@@ -380,7 +379,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                             showButton={false}
                                         />
                                     ))}
-                        </div>
+                        </div> */}
                     </div>
                 </InfiniteScroll>
                 <input
