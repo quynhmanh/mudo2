@@ -19,6 +19,7 @@ export interface IProps {
     backgroundColor: string;
     prefix: string;
     transitionEnd: boolean;
+    animation: boolean;
 }
 
 export interface IState {
@@ -36,10 +37,6 @@ const Container = styled.div`
   button {
     visibility: hidden;
   }
-  opacity ${props => props.loaded ? 1 : 0.15};
-  animation-name: XhtCamN749DcvC-ecDUzp;
-  animation: ${props => props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
-  animation-delay: ${props => props.delay}ms;
   :hover button {
     visibility: visible;
   }
@@ -96,11 +93,11 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                     width: this.props.width ? this.props.width + "px" : 'auto',
                     marginBottom: '8px',
                     display: "flex",
-                    // opacity: this.state.loaded ? 1 : 0.15,
-                    animationName: 'XhtCamN749DcvC-ecDUzp',
-                    animation: loaded && this.props.transitionEnd ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
+                    opacity: this.props.animation ? (this.state.loaded ? 1 : 0.15) : 1,
+                    animationName: this.props.animation && 'XhtCamN749DcvC-ecDUzp',
+                    animation: this.props.animation && (loaded && this.props.transitionEnd ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"),
                     animationDelay: this.props.delay + 'ms',
-                    backgroundColor: loaded && this.props.transitionEnd ? 'transparent' : 'black',
+                    backgroundColor: this.props.animation ? (loaded && this.props.transitionEnd ? "transparent" : 'black') : '#eee',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
@@ -127,7 +124,7 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                 <img
                     id={`image-${this.props.prefix}-${this.props.keys}`}
                     ref={i => this.image = i}
-                    className={this.props.className}
+                    className={`${this.props.className} fadeInRight`}
                     style={{
                         width: '100%',
                         margin: 'auto',
@@ -146,7 +143,10 @@ export default class ImagePicker extends PureComponent<IProps, IState> {
                         this.handleImageLoaded();
 
                         if (this.props.startPoint == this.props.keys) {
-                            this.props.loadImage(this.props.keys + 1);
+                            
+                            setTimeout(() => {
+                                this.props.loadImage(this.props.keys + 1);
+                            }, 100);
                         } 
                     }}
 

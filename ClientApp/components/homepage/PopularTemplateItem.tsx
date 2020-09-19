@@ -38,6 +38,9 @@ const PopularTemplateItem = (props: IProps) => {
         backgroundColor="black"
         width={160}
         transitionEnd={true}
+        startPoint={props.startPoint}
+        loadImage={props.loadImage}
+        animation={true}
     />
 
     return (

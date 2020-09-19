@@ -83,6 +83,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 transitionEnd={this.state.transitionEnd}
                 startPoint={this.props.startPoint}
                 loadImage={this.props.loadImage}
+                animation={false}
             />
         }
 
@@ -91,7 +92,6 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             width = 199;
         }
 
-        console.log('render width ', props.id, width, props.keys)
 
         return (
             <CC 
@@ -117,7 +117,6 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                         }}>
                         <div
                             onTransitionEnd={e => {
-                                console.log('onTransitionEnd', this.props.keys)
                                 this.setState({transitionEnd: true});
                             }}
                             style={{ 

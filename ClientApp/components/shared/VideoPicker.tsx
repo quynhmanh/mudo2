@@ -38,10 +38,6 @@ const Container = styled.div`
   button {
     visibility: hidden;
   }
-  animation-name: XhtCamN749DcvC-ecDUzp;
-  animation: ${props => props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
-  animation-delay: ${props => props.delay}ms;
-  opacity ${props => props.loaded ? 1 : 0.15};
   :hover button {
     visibility: visible;
   }
@@ -100,12 +96,9 @@ export default class VideoPicker extends Component<IProps, IState> {
                     height: `200px`,
                     width: 'auto',
                     marginBottom: '8px',
-                    animationName: 'XhtCamN749DcvC-ecDUzp',
-                    animation: loaded && this.props.transitionEnd ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
-                    animationDelay: '100ms',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
-                    backgroundColor: loaded && this.props.transitionEnd ? 'transparent' : 'black',
+                    backgroundColor: '#eee',
                 }} 
                 delay={this.props.delay} 
                 id={this.props.id}
@@ -153,7 +146,9 @@ export default class VideoPicker extends Component<IProps, IState> {
                         console.log('startPOint ', this.props.startPoint)
                         this.handleImageLoaded();
                         if (this.props.startPoint == this.props.keys) {
-                            this.props.loadImage(this.props.keys + 1);
+                            setTimeout(() => {
+                                this.props.loadImage(this.props.keys + 1);
+                            }, 100);
                         } 
                     }}
 

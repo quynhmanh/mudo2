@@ -3,7 +3,7 @@ import { SidebarTab, TemplateType, } from "./enums";
 import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
-import {toJS} from "mobx";
+import { toJS } from "mobx";
 import VideoPicker from "@Components/shared/VideoPicker2";
 
 export interface IProps {
@@ -27,6 +27,7 @@ export interface IState {
     hasMore: boolean;
     cursor: any;
     loaded: boolean;
+    total: number;
 }
 
 const imgWidth = 162;
@@ -42,6 +43,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         hasMore: true,
         cursor: null,
         loaded: false,
+        total: 100,
     }
 
     constructor(props) {
@@ -82,7 +84,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         }
     }
 
-    
+
     templateOnMouseDown(id, e) {
 
         e.preventDefault();
@@ -91,7 +93,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         if (!doc) {
             doc = this.state.items2.find(doc => doc.id == id);
         }
-        
+
         editorStore.doNoObjectSelected();
         let ce = document.createElement.bind(document);
         let ca = document.createAttribute.bind(document);
@@ -140,7 +142,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                 link.crossOrigin = "anonymous";
                 head.appendChild(link);
                 return {
-                id: id
+                    id: id
                 };
             });
         }
@@ -201,6 +203,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         currentItemsHeight,
                         currentItems2Height,
                         isLoading: false,
+                        total: res.value.value,
                         hasMore:
                             res.value.value >
                             state.items.length +
@@ -218,72 +221,57 @@ export default class SidebarTemplate extends Component<IProps, IState> {
 
     render() {
 
+        let left = this.state.total - this.state.items.length - this.state.items2.length;
+        let t = Math.min(5, Math.round((left - 1) / 2));
+
         return (
             <div
-            style={{
-                opacity: editorStore.selectedTab === SidebarTab.Template ? 1 : 0,
-                position: "absolute",
-                width: "347px",
-                transition:
-                    "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                transform:
-                    editorStore.selectedTab !== SidebarTab.Template &&
-                    `translate3d(0px, calc(${
-                    editorStore.selectedTab < SidebarTab.Template ? 40 : -40
-                    }px), 0px)`,
-                top: "10px",
-                zIndex: editorStore.selectedTab !== SidebarTab.Template && -1,
-                height: "100%",
-                left: '19px',
-            }}
-        >
-            <InfiniteScroll
-                scroll={true}
-                throttle={500}
-                threshold={300}
-                isLoading={this.state.isLoading}
-                hasMore={this.state.hasMore}
-                onLoadMore={this.loadMore.bind(this, false)}
-                marginTop={45}
-                refId="sentinel-template"
+                style={{
+                    opacity: editorStore.selectedTab === SidebarTab.Template ? 1 : 0,
+                    position: "absolute",
+                    width: "347px",
+                    transition:
+                        "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
+                    transform:
+                        editorStore.selectedTab !== SidebarTab.Template &&
+                        `translate3d(0px, calc(${editorStore.selectedTab < SidebarTab.Template ? 40 : -40
+                        }px), 0px)`,
+                    top: "10px",
+                    zIndex: editorStore.selectedTab !== SidebarTab.Template && -1,
+                    height: "100%",
+                    left: '19px',
+                }}
             >
-                <div
-                    id="image-container-picker"
-                    style={{ display: "flex", padding: "16px 13px 10px 0px" }}
+                <InfiniteScroll
+                    scroll={true}
+                    throttle={500}
+                    threshold={300}
+                    isLoading={this.state.isLoading}
+                    hasMore={this.state.hasMore}
+                    onLoadMore={this.loadMore.bind(this, false)}
+                    marginTop={45}
+                    refId="sentinel-template"
                 >
                     <div
-                        style={{
-                            width: "350px",
-                            marginRight: "10px"
-                        }}
+                        id="image-container-picker"
+                        style={{ display: "flex", padding: "16px 13px 10px 0px" }}
                     >
-                        {this.state.items.map((item, key) =>
-                            item.isVideo ? (
-                                <VideoPicker
-                                    id=""
-                                    defaultHeight={imgWidth}
-                                    delay={0}
-                                    width={imgWidth}
-                                    key={key}
-                                    color={item.color}
-                                    src={item.videoRepresentative}
-                                    height={imgWidth / (item.width / item.height)}
-                                    className="template-picker"
-                                    onPick={this.templateOnMouseDown.bind(this, item.id)}
-                                    onEdit={() => {
-                                        window.open(`/editor/template/${item.id}`);
-                                    }}
-                                    showButton={true}
-                                />
-                            ) : (
-                                    <ImagePicker
+                        <div
+                            style={{
+                                width: "350px",
+                                marginRight: "10px"
+                            }}
+                        >
+                            {this.state.items.map((item, key) =>
+                                item.isVideo ? (
+                                    <VideoPicker
                                         id=""
-                                        defaultHeight={imgWidth}
+                                        defaultHeight={imgWidth / editorStore.templateRatio}
                                         delay={0}
                                         width={imgWidth}
                                         key={key}
                                         color={item.color}
-                                        src={item.representative}
+                                        src={item.videoRepresentative}
                                         height={imgWidth / (item.width / item.height)}
                                         className="template-picker"
                                         onPick={this.templateOnMouseDown.bind(this, item.id)}
@@ -292,153 +280,132 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                         }}
                                         showButton={true}
                                     />
-                                )
-                        )}
-                        {this.state.hasMore &&
-                            Array(1)
-                                .fill(0)
-                                .map((item, i) => (
-                                    <ImagePicker
-                                        key={i}
-                                        id="sentinel-template"
-                                        color="black"
-                                        src={""}
-                                        height={imgWidth}
-                                        width={imgWidth}
-                                        defaultHeight={imgWidth}
-                                        className=""
-                                        onPick={null}
-                                        onEdit={this.props.handleEditmedia.bind(this, null)}
-                                        delay={0}
-                                        showButton={false}
-                                    />
-                                ))}
-                        {this.state.hasMore &&
-                            Array(10)
-                                .fill(0)
-                                .map((item, i) => (
-                                    <ImagePicker
-                                        key={i}
-                                        id="sentinel-template"
-                                        color="black"
-                                        src={""}
-                                        height={imgWidth}
-                                        width={imgWidth}
-                                        defaultHeight={imgWidth}
-                                        className=""
-                                        onPick={null}
-                                        onEdit={this.props.handleEditmedia.bind(this, null)}
-                                        delay={0}
-                                        showButton={false}
-                                    />
-                                ))}
-                    </div>
-                    <div
-                        style={{
-                            width: "350px"
-                        }}
-                    >
-                        {this.state.items2.map((item, key) =>
-                            item.isVideo ? (
-                                <VideoPicker
-                                    id=""
-                                    defaultHeight={imgWidth}
-                                    delay={150}
-                                    width={imgWidth}
-                                    key={key}
-                                    color={item.color}
-                                    src={item.videoRepresentative}
-                                    height={imgWidth / (item.width / item.height)}
-                                    className="template-picker"
-                                    onPick={this.templateOnMouseDown.bind(this, item.id)}
-                                    onEdit={() => {
-                                        window.open(`/editor/template/${item.id}`);
-                                    }}
-                                    showButton={true}
-                                />
-                            ) : (
-                                    <ImagePicker
+                                ) : (
+                                        <ImagePicker
+                                            id=""
+                                            defaultHeight={imgWidth / editorStore.templateRatio}
+                                            delay={0}
+                                            width={imgWidth}
+                                            key={key}
+                                            color={item.color}
+                                            src={item.representative}
+                                            height={imgWidth / (item.width / item.height)}
+                                            className="template-picker"
+                                            onPick={this.templateOnMouseDown.bind(this, item.id)}
+                                            onEdit={() => {
+                                                window.open(`/editor/template/${item.id}`);
+                                            }}
+                                            showButton={true}
+                                        />
+                                    )
+                            )}
+                            {this.state.hasMore &&
+                                Array(t)
+                                    .fill(0)
+                                    .map((item, i) => (
+                                        <ImagePicker
+                                            key={i}
+                                            id="sentinel-template"
+                                            color="black"
+                                            src={""}
+                                            height={imgWidth / editorStore.templateRatio}
+                                            width={imgWidth}
+                                            defaultHeight={imgWidth / editorStore.templateRatio}
+                                            className=""
+                                            onPick={null}
+                                            onEdit={this.props.handleEditmedia.bind(this, null)}
+                                            delay={0}
+                                            showButton={false}
+                                        />
+                                    ))}
+                        </div>
+                        <div
+                            style={{
+                                width: "350px"
+                            }}
+                        >
+                            {this.state.items2.map((item, key) =>
+                                item.isVideo ? (
+                                    <VideoPicker
                                         id=""
-                                        defaultHeight={imgWidth}
+                                        defaultHeight={imgWidth / editorStore.templateRatio}
                                         delay={150}
                                         width={imgWidth}
                                         key={key}
                                         color={item.color}
-                                        className="template-picker"
+                                        src={item.videoRepresentative}
                                         height={imgWidth / (item.width / item.height)}
-                                        src={item.representative}
+                                        className="template-picker"
                                         onPick={this.templateOnMouseDown.bind(this, item.id)}
                                         onEdit={() => {
                                             window.open(`/editor/template/${item.id}`);
                                         }}
                                         showButton={true}
                                     />
-                                )
-                        )}
-                        {this.state.hasMore &&
-                            Array(1)
-                                .fill(0)
-                                .map((item, i) => (
-                                    <ImagePicker
-                                        key={i}
-                                        id="sentinel-template"
-                                        color="black"
-                                        src={""}
-                                        height={imgWidth}
-                                        width={imgWidth}
-                                        defaultHeight={imgWidth}
-                                        className=""
-                                        onPick={null}
-                                        onEdit={this.props.handleEditmedia.bind(this, null)}
-                                        delay={150}
-                                        showButton={false}
-                                    />
-                                ))}
-                        {this.state.hasMore &&
-                            Array(10)
-                                .fill(0)
-                                .map((item, i) => (
-                                    <ImagePicker
-                                        key={i}
-                                        id="sentinel-template"
-                                        color="black"
-                                        src={""}
-                                        height={imgWidth}
-                                        width={imgWidth}
-                                        defaultHeight={imgWidth}
-                                        className=""
-                                        onPick={null}
-                                        onEdit={this.props.handleEditmedia.bind(this, null)}
-                                        delay={150}
-                                        showButton={false}
-                                    />
-                                ))}
+                                ) : (
+                                        <ImagePicker
+                                            id=""
+                                            defaultHeight={imgWidth / editorStore.templateRatio}
+                                            delay={150}
+                                            width={imgWidth}
+                                            key={key}
+                                            color={item.color}
+                                            className="template-picker"
+                                            height={imgWidth / (item.width / item.height)}
+                                            src={item.representative}
+                                            onPick={this.templateOnMouseDown.bind(this, item.id)}
+                                            onEdit={() => {
+                                                window.open(`/editor/template/${item.id}`);
+                                            }}
+                                            showButton={true}
+                                        />
+                                    )
+                            )}
+                            {this.state.hasMore &&
+                                Array(t)
+                                    .fill(0)
+                                    .map((item, i) => (
+                                        <ImagePicker
+                                            key={i}
+                                            id="sentinel-template"
+                                            color="black"
+                                            src={""}
+                                            height={imgWidth / editorStore.templateRatio}
+                                            width={imgWidth}
+                                            defaultHeight={imgWidth / editorStore.templateRatio}
+                                            className=""
+                                            onPick={null}
+                                            onEdit={this.props.handleEditmedia.bind(this, null)}
+                                            delay={150}
+                                            showButton={false}
+                                        />
+                                    ))}
+                        </div>
                     </div>
-                </div>
-            </InfiniteScroll>
-            <input
-                style={{
-                    zIndex: 11,
-                    width: "calc(100% - 13px)",
-                    marginBottom: "8px",
-                    border: "none",
-                    height: "37px",
-                    borderRadius: "3px",
-                    padding: "5px",
-                    fontSize: "13px",
-                    boxShadow:
-                        "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
-                    position: "absolute",
-                    top: "6px"
-                }}
-                // onKeyDown={this.handleQuery}
-                type="text"
-                onChange={e => {
-                    // this.setState({ query: e.target.value });
-                }}
+                </InfiniteScroll>
+                <input
+                    style={{
+                        zIndex: 11,
+                        width: "calc(100% - 13px)",
+                        marginBottom: "8px",
+                        border: "none",
+                        height: "37px",
+                        borderRadius: "3px",
+                        padding: "5px",
+                        fontSize: "13px",
+                        boxShadow:
+                            "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+                        position: "absolute",
+                        top: "6px"
+                    }}
+                    // onKeyDown={this.handleQuery}
+                    type="text"
+                    onChange={e => {
+                        // this.setState({ query: e.target.value });
+                    }}
                 // value={this.state.query}
-            />
-        </div>
+                />
+            </div>
         )
     }
 }

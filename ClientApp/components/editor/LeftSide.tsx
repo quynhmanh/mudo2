@@ -56,6 +56,7 @@ export interface IProps {
     forceEditorUpdate: any;
     setSavingState: any;
     handleEditmedia: any;
+    saveImages: any;
 }
 
 interface IState {
@@ -422,6 +423,10 @@ class LeftSide extends Component<IProps, IState> {
                     <input type="checkbox" id="vehicle1" checked={editorStore.isVideo} onChange={e => {
                         editorStore.isVideo = !editorStore.isVideo;
                     }}/>
+                    <span>Ispopular</span>
+                    <input type="checkbox" id="vehicle1" checked={editorStore.isPopular} onChange={e => {
+                        editorStore.isPopular = !editorStore.isPopular;
+                    }}/>
                     <input id="popularity" type="text" value={editorStore.popularity} onChange={e => {
                         editorStore.popularity = parseInt(e.target.value);
                     }} />
@@ -463,6 +468,13 @@ class LeftSide extends Component<IProps, IState> {
                     >
                         Undelete
                     </button>
+                    <button
+                        onClick={e => {
+                            this.props.saveImages(null, false, true)}
+                        }
+                    >
+                        Save
+                        </button>
                 </div>
                 {this.props.mounted && this.props.toolbarOpened && editorStore.tReady && (
                     <div
@@ -495,6 +507,7 @@ class LeftSide extends Component<IProps, IState> {
                             scale={this.props.scale}
                             setSavingState={this.props.setSavingState}
                         />
+                        {editorStore.templateRatio &&
                         <SidebarTemplate
                             handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
@@ -504,7 +517,7 @@ class LeftSide extends Component<IProps, IState> {
                             rectWidth={this.props.rectWidth}
                             rectHeight={this.props.rectHeight}
                             forceEditorUpdate={this.props.forceEditorUpdate}
-                        />
+                        />}
                         <SidebarBackground
                             handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
