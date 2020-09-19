@@ -71,18 +71,7 @@ export default class ImagePicker extends Component<IProps, IState> {
     image = null;
 
     handleImageLoaded() {
-        // const img = this.image;
-
-        // var ratio = img.naturalWidth / img.naturalHeight;
-
-        // if (!this.state.loaded) {
-        //     // this.setState({ loaded: true, width: ratio * this.props.height });
-        // }
-
-        this.image.style.opacity = 1;
-        setTimeout(() => {
-            this.props.mediaLoaded();
-        }, 100);
+        this.props.mediaLoaded(true);
     }
 
     render() {

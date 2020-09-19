@@ -76,10 +76,7 @@ export default class VideoPicker extends Component<IProps, IState> {
     image = null;
 
     handleImageLoaded() {
-        this.image.style.opacity = 1;
-        setTimeout(() => {
-            this.props.mediaLoaded();
-        }, 100);
+        this.props.mediaLoaded(true);
     }
 
     render() {
@@ -125,6 +122,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     </button>
                 }
                 <video
+                    ref={i => this.image = i}
                     id={`video-${this.props.keys}`}
                     autoPlay={false}
                     loop={true}
@@ -135,9 +133,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                         height: '100%',
                         marginBottom: '10px',
                         pointerEvents: "all",
-                        // backgroundColor: 'black',
-                        opacity: loaded && this.props.transitionEnd ? 1 : 0,
-                        transition: 'opacity 0.1s linear',
+                        opacity: 0,
                     }}
 
                     onLoadedMetadata={e => {

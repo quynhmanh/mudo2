@@ -28,7 +28,7 @@ interface IState {
 
 const HEIGHT = 200;
 
-export default class PopularTemplateItem extends Component<IProps, IState> {
+export default class PopularTemplateItem2 extends Component<IProps, IState> {
 
     constructor(props: any) {
         super(props);
@@ -41,11 +41,17 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         this.mediaLoaded = this.mediaLoaded.bind(this);
     }
 
-    mediaLoaded() {
-        console.log('mediaLoaded' , this.props.keys)
-        // this.setState({loaded: true})
-        this.cc.style.backgroundColor = "transparent";
-        this.cc.style.animation = "";
+    mediaLoaded(loaded, transitionEnd) {
+        if (loaded) this.loaded = true;
+        if (transitionEnd) this.transitionEnd = true;
+
+        if (this.loaded && this.transitionEnd) {
+            this.picker.image.style.opacity = 1;
+            setTimeout(() => {
+                this.cc.style.backgroundColor = "transparent";
+                this.cc.style.animation = "";
+            }, 100);
+        }
     }
 
     shouldComponentUpdate(nextProps) {
@@ -55,7 +61,10 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         return false;
     }
 
+    loaded = false;
+    transitionEnd = false;
     cc = null;
+    picker = null;
 
     render() {
         const props = this.props;
@@ -82,6 +91,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 startPoint={this.props.startPoint}
                 loadImage={this.props.loadImage}
                 mediaLoaded={this.mediaLoaded}
+                ref={i => this.picker = i}
             />
         } else {
             picker = <ImagePicker
@@ -106,6 +116,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                 loadImage={this.props.loadImage}
                 animation={false}
                 mediaLoaded={this.mediaLoaded}
+                ref={i => this.picker = i}
             />
         }
 
@@ -147,7 +158,9 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                         }}>
                         <div
                             onTransitionEnd={e => {
-                                this.setState({transitionEnd: true});
+                                // this.setState({transitionEnd: true});
+
+                                this.mediaLoaded(false, true);
                             }}
                             style={{ 
                                 paddingTop: 0,
