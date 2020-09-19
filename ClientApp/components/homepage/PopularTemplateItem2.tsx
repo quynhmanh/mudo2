@@ -46,11 +46,13 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
         if (transitionEnd) this.transitionEnd = true;
 
         if (this.loaded && this.transitionEnd) {
+            this.cc.style.backgroundColor = "transparent";
+            this.cc.style.animation = "";
             this.picker.image.style.opacity = 1;
-            setTimeout(() => {
-                this.cc.style.backgroundColor = "transparent";
-                this.cc.style.animation = "";
-            }, 100);
+            // setTimeout(() => {
+                // this.cc.style.backgroundColor = "transparent";
+                // this.cc.style.animation = "";
+            // }, 90);
         }
     }
 
@@ -132,8 +134,8 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                 ref={i => this.cc = i}
                 style={{ 
                     marginRight: '24px',
-                    animation: this.state.loaded && this.state.transitionEnd ? "" : "TB8Ekw 1.4s infinite",
-                    backgroundColor: this.state.loaded && this.state.transitionEnd ? "transparent" : 'black',
+                    animation: "TB8Ekw 1.4s infinite",
+                    backgroundColor: 'black',
                     animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
                     borderRadius: "4px",
                 }}
@@ -159,8 +161,9 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                         <div
                             onTransitionEnd={e => {
                                 // this.setState({transitionEnd: true});
-
-                                this.mediaLoaded(false, true);
+                                setTimeout(() => {
+                                    this.mediaLoaded(false, true);
+                                }, 200);
                             }}
                             style={{ 
                                 paddingTop: 0,

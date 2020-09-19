@@ -126,7 +126,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                         boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
                         // backgroundColor: '#ededed',
-                        transition: 'opacity 0.1s linear',
+                        // transition: 'opacity 0.1s linear',
                     }}
 
                     onLoad={e => {
