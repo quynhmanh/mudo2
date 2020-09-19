@@ -36,9 +36,6 @@ const Container = styled.div`
     visibility: hidden;
   }
   opacity ${props => props.loaded ? 1 : 0.15};
-  animation-name: XhtCamN749DcvC-ecDUzp;
-  animation: ${props => props.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite"};
-  animation-delay: ${props => props.delay}ms;
   display: inline-block;
   :hover button {
     visibility: visible;
@@ -89,7 +86,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
                     marginBottom: '8px',
                     marginRight: '8px',
-                    opacity: this.state.loaded ? 1 : 0.15,
+                    opacity: this.state.loaded ? 1 : 0.07,
                     animationName: 'XhtCamN749DcvC-ecDUzp',
                     animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: this.props.delay + 'ms',

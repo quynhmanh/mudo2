@@ -32,10 +32,19 @@ export interface IState {
 
 const imgWidth = 162;
 
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: imgWidth,
+        height: imgWidth,
+        id: "sentinel-template",
+    }
+});
+
+
 export default class SidebarTemplate extends Component<IProps, IState> {
     state = {
         isLoading: false,
-        items: [],
+        items: getRem(10),
         items2: [],
         currentItemsHeight: 0,
         currentItems2Height: 0,
@@ -183,25 +192,16 @@ export default class SidebarTemplate extends Component<IProps, IState> {
             .then(
                 res => {
                     var result = res.value.key;
-                    // var currentItemsHeight = this.state.currentItemsHeight;
-                    // var currentItems2Height = this.state.currentItems2Height;
-                    // var res1 = [];
-                    // var res2 = [];
-                    // for (var i = 0; i < result.length; ++i) {
-                    //     var currentItem = result[i];
-                    //     if (currentItemsHeight <= currentItems2Height) {
-                    //         res1.push(currentItem);
-                    //         currentItemsHeight += imgWidth / (currentItem.width / currentItem.height);
-                    //     } else {
-                    //         res2.push(currentItem);
-                    //         currentItems2Height += imgWidth / (currentItem.width / currentItem.height);
-                    //     }
-                    // }
+                    
+                    let items = this.state.items.filter(item => item.id != "sentinel-template");
+                    items = [...items, ...result];
+                    if (res.value.value > items.length) {
+                        let left = Math.min(10, res.value.value - items.length);
+                        items = [...items, ...getRem(left)];
+                    }
+
                     this.setState(state => ({
-                        items: [...state.items, ...result],
-                        // items2: [...state.items2, ...res2],
-                        // currentItemsHeight,
-                        // currentItems2Height,
+                        items,
                         isLoading: false,
                         total: res.value.value,
                         hasMore:
@@ -283,7 +283,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                         <ImagePicker
                                             id=""
                                             defaultHeight={imgWidth / editorStore.templateRatio}
-                                            delay={0}
+                                            delay={150 * key}
                                             width={imgWidth}
                                             key={key}
                                             color={item.color}
@@ -298,88 +298,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                         />
                                     )
                             )}
-                            {this.state.hasMore &&
-                                Array(left)
-                                    .fill(0)
-                                    .map((item, i) => (
-                                        <ImagePicker
-                                            key={i}
-                                            id="sentinel-template"
-                                            color="black"
-                                            src={""}
-                                            height={imgWidth / editorStore.templateRatio}
-                                            width={imgWidth}
-                                            defaultHeight={imgWidth / editorStore.templateRatio}
-                                            className=""
-                                            onPick={null}
-                                            onEdit={this.props.handleEditmedia.bind(this, null)}
-                                            delay={180 * i}
-                                            showButton={false}
-                                        />
-                                    ))}
                         </div>
-                        {/* <div
-                            style={{
-                                width: "350px"
-                            }}
-                        >
-                            {this.state.items2.map((item, key) =>
-                                item.isVideo ? (
-                                    <VideoPicker
-                                        id=""
-                                        defaultHeight={imgWidth / editorStore.templateRatio}
-                                        delay={150}
-                                        width={imgWidth}
-                                        key={key}
-                                        color={item.color}
-                                        src={item.videoRepresentative}
-                                        height={imgWidth / (item.width / item.height)}
-                                        className="template-picker"
-                                        onPick={this.templateOnMouseDown.bind(this, item.id)}
-                                        onEdit={() => {
-                                            window.open(`/editor/template/${item.id}`);
-                                        }}
-                                        showButton={true}
-                                    />
-                                ) : (
-                                        <ImagePicker
-                                            id=""
-                                            defaultHeight={imgWidth / editorStore.templateRatio}
-                                            delay={150}
-                                            width={imgWidth}
-                                            key={key}
-                                            color={item.color}
-                                            className="template-picker"
-                                            height={imgWidth / (item.width / item.height)}
-                                            src={item.representative}
-                                            onPick={this.templateOnMouseDown.bind(this, item.id)}
-                                            onEdit={() => {
-                                                window.open(`/editor/template/${item.id}`);
-                                            }}
-                                            showButton={true}
-                                        />
-                                    )
-                            )}
-                            {this.state.hasMore &&
-                                Array(t)
-                                    .fill(0)
-                                    .map((item, i) => (
-                                        <ImagePicker
-                                            key={i}
-                                            id="sentinel-template"
-                                            color="black"
-                                            src={""}
-                                            height={imgWidth / editorStore.templateRatio}
-                                            width={imgWidth}
-                                            defaultHeight={imgWidth / editorStore.templateRatio}
-                                            className=""
-                                            onPick={null}
-                                            onEdit={this.props.handleEditmedia.bind(this, null)}
-                                            delay={150}
-                                            showButton={false}
-                                        />
-                                    ))}
-                        </div> */}
                     </div>
                 </InfiniteScroll>
                 <input
