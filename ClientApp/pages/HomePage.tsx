@@ -418,10 +418,12 @@ class HomePage extends React.Component<IProps, IState> {
                                                 fontSize: '13px',
                                                 borderRadius: '4px',
                                                 color: '#555',
+                                                display: 'flex',
                                             }}
                                             className="button-list"
                                             onClick={this.handleProfilePopup}
-                                        ><span style={{ marginRight: '10px', fontSize: '13px', }}>{Globals.serviceUser.username}</span>
+                                        >
+                                            <span style={{ marginRight: '10px',  marginTop: '3px', fontSize: '13px', }}>{Globals.serviceUser.username}</span>
                                             <img style={{
                                                 width: '29px',
                                                 height: '29px',
