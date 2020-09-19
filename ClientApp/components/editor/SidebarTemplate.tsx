@@ -281,7 +281,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                     />
                                 ) : (
                                         <ImagePicker
-                                            id=""
+                                            id={item.id}
                                             defaultHeight={imgWidth / editorStore.templateRatio}
                                             delay={150 * key}
                                             width={imgWidth}
