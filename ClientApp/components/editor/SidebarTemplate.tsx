@@ -168,6 +168,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     }
 
     loadMore = (initalLoad) => {
+        console.log('loadmore')
         let pageId;
         let count;
         if (initalLoad) {
@@ -191,11 +192,11 @@ export default class SidebarTemplate extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
-                    var result = res.value.key;
-                    
+                    let result = res.value.key;
                     let items = this.state.items.filter(item => item.id != "sentinel-template");
                     items = [...items, ...result];
-                    if (res.value.value > items.length) {
+                    let hasMore = res.value.value > items.length;
+                    if (hasMore) {
                         let left = Math.min(10, res.value.value - items.length);
                         items = [...items, ...getRem(left)];
                     }
@@ -204,11 +205,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         items,
                         isLoading: false,
                         total: res.value.value,
-                        hasMore:
-                            res.value.value >
-                            state.items.length +
-                            // state.items2.length +
-                            res.value.key.length
+                        hasMore,
                     }));
 
                     this.forceUpdate();
