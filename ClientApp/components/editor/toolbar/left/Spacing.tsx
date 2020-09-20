@@ -26,6 +26,12 @@ interface IState {
 
 export default class Spacing extends Component<IProps, IState> {
 
+    constructor(props: any) {
+        super(props);
+
+        this.onDown = this.onDown.bind(this);
+    }
+
     getSingleTextHTMLElement() {
         return document.getElementById(editorStore.idObjectSelected + editorStore.childId + "text-container2alo");
     }
@@ -132,6 +138,7 @@ export default class Spacing extends Component<IProps, IState> {
         e.preventDefault();
         let el = document.getElementById("mySpacingList");
         if (!el || !document.getElementById("mySpacingList").contains(e.target)) {
+            console.log('Spacing')
             var dropdowns = document.getElementsByClassName(
                 "dropdown-content-font-size"
             );
