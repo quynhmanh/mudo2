@@ -435,7 +435,7 @@ export default class Canvas extends Component<IProps, IState> {
                             <div
                                 {...customAttr}
                                 id="canvas"
-                                className="canvas unblurred"
+                                className={`canvas unblurred canvas-${id}`}
                                 style={{
                                     width: rectWidth * scale + "px",
                                     height: rectHeight * scale + "px",

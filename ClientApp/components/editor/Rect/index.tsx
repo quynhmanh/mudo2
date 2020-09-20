@@ -152,14 +152,14 @@ export default class Rect extends Component<IProps, IState> {
 
 		if (cropMode) {
 			let aloEL = document.getElementById('screen-container-parent');
-			let canvas = document.getElementById('canvas');
+			let canvas = document.getElementsByClassName('canvas-' + this.props.image.page)[0];
 			if (this.cropLayer && aloEL && canvas) {
 				let rectAloEL = aloEL.getBoundingClientRect();
 				let rectCanvas = canvas.getBoundingClientRect();
 				let left = rectAloEL.left - rectCanvas.left;
-				let top = rectAloEL.top - rectCanvas.top;
+				let top = rectAloEL.top - rectCanvas.top - aloEL.scrollTop;
 				let width = rectAloEL.right - rectAloEL.left;
-				let height = rectAloEL.bottom - rectAloEL.top;
+				let height = aloEL.scrollHeight;
 				this.cropLayer.style.left = left + "px";
 				this.cropLayer.style.top = top + "px";
 				this.cropLayer.style.width = width + "px";
