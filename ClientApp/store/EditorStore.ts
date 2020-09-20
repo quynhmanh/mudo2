@@ -41,6 +41,7 @@ class Images {
     @observable selectedTab = SidebarTab.Template;
     @observable tReady = false;
     @observable fontId = null;
+    @observable fontText = null;
     @observable effectId = null;
     @observable currentOpacity = 0;
     @observable currentFontSize = 0;

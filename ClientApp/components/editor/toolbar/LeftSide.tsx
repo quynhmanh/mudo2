@@ -107,7 +107,7 @@ class LeftSide extends Component<IProps, IState> {
                     }
                     translate={props.translate}
                     onClickDropDownFontList={this.onClickDropDownFontList}
-                    fontName={image && image.fontRepresentative}
+                    fontName={editorStore.fontText}
                     selectedTab={editorStore.selectedTab}
                 />
                 <FontSizeWrapper

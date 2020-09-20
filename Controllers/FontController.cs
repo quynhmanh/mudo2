@@ -74,6 +74,7 @@ namespace RCB.TypeScript.Controllers
 
                 FontModel fontModel = new FontModel();
                 fontModel.Id = id.ToString();
+                fontModel.Text = oDownloadBody.name;
 
                 string style = $"@font-face {{ font-family: '{id}'; src: url(data:font/ttf;base64,{base64} ); }}";
 

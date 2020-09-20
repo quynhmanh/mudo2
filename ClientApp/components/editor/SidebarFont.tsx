@@ -104,10 +104,14 @@ export default class SidebarFont extends Component<IProps, IState> {
         image.fontId = id;
         image.fontFace = id;
         image.fontRepresentative = font.representative;
+        image.fontText = font.text;
+
+        console.log('font ', font)
 
         editorStore.images2.set(editorStore.idObjectSelected, image);
         this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         editorStore.fontId = font.id;
+        editorStore.fontText = "Loading ...";
 
         e.preventDefault();
         let style = `@font-face {
@@ -129,6 +133,9 @@ export default class SidebarFont extends Component<IProps, IState> {
         link.media = "all";
         link.as = "font";
         link.crossOrigin = "anonymous";
+        link.onload = () => {
+            editorStore.fontText = font.text;
+        }
         head.appendChild(link);
 
         editorStore.addFont(id);

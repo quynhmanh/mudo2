@@ -22,7 +22,7 @@ const FontFamily = (props: IProps) => {
             style={{ display: show ? "block" : "none" }}
             position="top"
         >
-            <a
+            <div
                 href="#"
                 className="toolbar-btn"
                 onClick={onClickDropDownFontList}
@@ -35,16 +35,26 @@ const FontFamily = (props: IProps) => {
                     position: "relative",
                     backgroundColor: props.selectedTab === SidebarTab.Font ? "#f2f5f7 " : "white",
                     height: "100%",
-                    width: "216px",
+                    width: "160px",
                 }}
             >
-                <img
+                {/* <img
                     style={{
                         height: "18px",
                         margin: "auto",
                     }}
                     src={fontName}
-                />
+                /> */}
+                <span
+                    style={{
+                        lineHeight: '30px',
+                        textOverflow: 'ellipsis',
+                        width: '150px',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        fontSize: "14px",
+                    }}
+                >{fontName}</span>
                 <img
                     src={require("@Components/shared/svgs/editor/toolbar/fontFamily.svg")}
                     alt={content}
@@ -52,7 +62,7 @@ const FontFamily = (props: IProps) => {
                         pointerEvents: "none",
                         margin: "auto",
                     }} />
-            </a>
+            </div>
         </Tooltip>
     );
 }
