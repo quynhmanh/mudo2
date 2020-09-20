@@ -144,7 +144,7 @@ export default class Rect extends Component<IProps, IState> {
 
 		if (
 			type === TemplateType.Heading &&
-			selected != prevState.image.selected &&
+			(selected != prevState.image.selected || this.props.name == CanvasType.Download) &&
 			this.$textEle2
 		) {
 			this.$textEle2.innerHTML = innerHTML;

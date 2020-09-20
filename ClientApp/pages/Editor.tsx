@@ -591,9 +591,6 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.set(editorStore.idObjectSelected, image);
         this.updateImages2(image, true);
 
-        this.setState({ fontSize: fontSize });
-
-
         editorStore.currentFontSize = fontSize;
 
         (document.getElementById("fontSizeButton") as HTMLInputElement).value = fontSize.toString();

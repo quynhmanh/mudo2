@@ -33,13 +33,22 @@ const PositionDropdown = (props: IProps) => {
                             backgroundColor: "#eee",
                             borderRadius: "3px",
                             marginRight: "10px",
-                            width: "135px"
+                            width: "135px",
+                            display: "inline-flex",
+                            justifyContent: "center",
                         }}
                         onClick={props.forwardSelectedObject}
                     >
-                        <img src={require("@Components/shared/svgs/editor/toolbar/forward.svg")} alt={props.translate("forward")} style={{ marginRight: "5px" }}/>
-                        <span style={{ lineHeight: "24px" }}>
-                            {/* Lên trên */}
+                        <img 
+                            src={require("@Components/shared/svgs/editor/toolbar/forward.svg")} 
+                            alt={props.translate("forward")} 
+                            style={{ marginRight: "10px" }}
+                        />
+                        <span 
+                            style={{ 
+                                lineHeight: "24px" 
+                            }}
+                        >
                             {props.translate("forward")}
                         </span>
                     </button>
@@ -50,13 +59,22 @@ const PositionDropdown = (props: IProps) => {
                             border: "none",
                             backgroundColor: "#eee",
                             borderRadius: "3px",
-                            width: "135px"
+                            width: "135px",
+                            display: "inline-flex",
+                            justifyContent: "center",
                         }}
                         onClick={props.backwardSelectedObject}
                     >
-                        <img src={require("@Components/shared/svgs/editor/toolbar/backward.svg")} alt={props.translate("backward")} style={{ marginRight: "5px" }}/>
-                        <span style={{ lineHeight: "24px" }}>
-                            {/* Xuống dưới */}
+                        <img 
+                            src={require("@Components/shared/svgs/editor/toolbar/backward.svg")} 
+                            alt={props.translate("backward")} 
+                            style={{ 
+                                marginRight: "10px" 
+                                }}/>
+                        <span 
+                            style={{ 
+                                lineHeight: "24px" 
+                        }}>
                             {props.translate("backward")}
                         </span>
                     </button>
