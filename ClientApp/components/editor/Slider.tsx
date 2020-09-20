@@ -104,13 +104,13 @@ export default class Slider extends Component<IProps, IState> {
         return <div
             style={{
                 width: "100%",
-                padding: "15px 0px",
+                marginBottom: "15px",
                 background: "white",
                 position: "relative",
             }}
         >
             <div style={{
-                height: "40px",
+                height: "30px",
             }}>
                 <p
                     style={{

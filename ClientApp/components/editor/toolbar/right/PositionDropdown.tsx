@@ -11,6 +11,7 @@ const PositionDropdown = (props: IProps) => {
         <div
             id="myPositionList"
             style={{
+                marginTop: "-1px",
                 right: "10px",
                 backgroundColor: "white",
                 animation: "bounce 0.8s ease-out"
