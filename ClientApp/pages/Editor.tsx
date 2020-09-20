@@ -5476,6 +5476,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 backgroundColor: "#293039",
                             }}
                         >
+                            {editorStore.templateRatio &&
                             <LeftSide
                                 id={this.state._id}
                                 effectId={this.state.effectId}
@@ -5505,7 +5506,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 setSavingState={this.setSavingState}
                                 handleEditmedia={this.handleEditmedia}
                                 saveImages={this.saveImages}
-                            />
+                            />}
                         </div>
                         <div
                             style={{

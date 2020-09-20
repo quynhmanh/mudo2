@@ -72,11 +72,6 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        let height = imgWidth / editorStore.templateRatio + 10;
-        this.rem = Math.floor(document.getElementById('sidebar-content').getBoundingClientRect().height - 70 / height) * 2;
-
-        this.state.items = getRem(this.rem);
-
         if (this.props.selectedTab == SidebarTab.Template) {
             if (!this.state.loaded) {
                 this.loadMore(true);

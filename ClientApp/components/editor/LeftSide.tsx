@@ -175,7 +175,6 @@ class LeftSide extends Component<IProps, IState> {
     componentDidMount() {
         let height = imgWidth / editorStore.templateRatio + 10;
         this.rem = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / height) + 1) * 2;
-        console.log('asd', (document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / height)
 
         this.setState({mounted: true,})
     }
