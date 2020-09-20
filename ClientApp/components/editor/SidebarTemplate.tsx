@@ -42,9 +42,11 @@ let getRem = (rem) => Array(rem).fill(0).map(i => {
 
 
 export default class SidebarTemplate extends Component<IProps, IState> {
+    container = null;
+    rem = 10;
     state = {
         isLoading: false,
-        items: getRem(10),
+        items: [],
         items2: [],
         currentItemsHeight: 0,
         currentItems2Height: 0,
@@ -58,11 +60,23 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     constructor(props) {
         super(props);
 
+        console.log('props.rem ', props.rem)
+
+        this.state.items = getRem(props.rem);
+
         this.loadMore = this.loadMore.bind(this);
         this.templateOnMouseDown = this.templateOnMouseDown.bind(this);
     }
 
+    componentWillMount() {
+    }
+
     componentDidMount() {
+        let height = imgWidth / editorStore.templateRatio + 10;
+        this.rem = Math.floor(document.getElementById('sidebar-content').getBoundingClientRect().height - 70 / height) * 2;
+
+        this.state.items = getRem(this.rem);
+
         if (this.props.selectedTab == SidebarTab.Template) {
             if (!this.state.loaded) {
                 this.loadMore(true);
@@ -197,7 +211,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                     items = [...items, ...result];
                     let hasMore = res.value.value > items.length;
                     if (hasMore) {
-                        let left = Math.min(10, res.value.value - items.length);
+                        let left = Math.min(this.rem, res.value.value - items.length);
                         items = [...items, ...getRem(left)];
                     }
 
@@ -223,6 +237,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
 
         return (
             <div
+                ref={i => this.container = i}
                 style={{
                     opacity: editorStore.selectedTab === SidebarTab.Template ? 1 : 0,
                     position: "absolute",

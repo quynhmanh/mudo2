@@ -129,7 +129,7 @@ class LeftSide extends Component<IProps, IState> {
         cursor: null,
         hasMoreImage: true,
         error: null,
-        mounted: true,
+        mounted: false,
         backgrounds1: [],
         backgrounds2: [],
         backgrounds3: [],
@@ -163,11 +163,21 @@ class LeftSide extends Component<IProps, IState> {
         hasMoreUserUpload: true,
         isRemovedBackgroundImageLoading: false,
         hasMoreRemovedBackground: true,
-        hasMoreVideos: true
+        hasMoreVideos: true,
     };
 
     constructor(props) {
         super(props);
+    }
+
+    rem = 0;
+
+    componentDidMount() {
+        let height = imgWidth / editorStore.templateRatio + 10;
+        this.rem = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / height) + 1) * 2;
+        console.log('asd', (document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / height)
+
+        this.setState({mounted: true,})
     }
 
     handleMakeAsPopular = () => {
@@ -476,14 +486,14 @@ class LeftSide extends Component<IProps, IState> {
                         Save
                         </button>
                 </div>
-                {this.props.mounted && this.props.toolbarOpened && editorStore.tReady && (
+                {/* {this.props.mounted && this.props.toolbarOpened && editorStore.tReady && ( */}
                     <div
                         id="sidebar-content"
                         style={{
                             position: "relative",
                             height: `calc(100% - ${
                                 editorStore.isAdmin
-                                    ? 78
+                                       ? 78
                                     : 0
                                 }px)`,
                             width: "370px",
@@ -507,7 +517,7 @@ class LeftSide extends Component<IProps, IState> {
                             scale={this.props.scale}
                             setSavingState={this.props.setSavingState}
                         />
-                        {editorStore.templateRatio &&
+                        {editorStore.templateRatio && this.state.mounted && this.props.mounted && editorStore.tReady && 
                         <SidebarTemplate
                             handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
@@ -517,6 +527,7 @@ class LeftSide extends Component<IProps, IState> {
                             rectWidth={this.props.rectWidth}
                             rectHeight={this.props.rectHeight}
                             forceEditorUpdate={this.props.forceEditorUpdate}
+                            rem={this.rem}
                         />}
                         <SidebarBackground
                             handleEditmedia={this.props.handleEditmedia}
@@ -586,7 +597,7 @@ class LeftSide extends Component<IProps, IState> {
                             setSavingState={this.props.setSavingState}
                         />
                     </div>
-                )}
+                {/* )} */}
             </div>
         );
     }
