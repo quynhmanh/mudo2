@@ -303,7 +303,6 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                             style={{
                                 height: "calc(100% - 170px)",
                                 width: "350px",
-                                marginRight: "10px"
                             }}
                         >
                             {this.state.items.map((item, key) => (
