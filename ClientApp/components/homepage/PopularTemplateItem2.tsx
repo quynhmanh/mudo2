@@ -130,7 +130,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
             />
         }
 
-        let width = props.width / props.height * 141;
+        let width = props.width / props.height * 200;
         if (props.width == props.height && props.id != "sentinel-image2") {
             width = 199;
         }
