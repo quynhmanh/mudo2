@@ -1091,6 +1091,10 @@ button {
 //   }
 // }
 
+#designTitle::placeholder {
+  color: rgb(204,200,244);
+}
+
 
 .input-sizer {
   display: inline-grid;

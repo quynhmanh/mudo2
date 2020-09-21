@@ -4325,7 +4325,11 @@ class CanvaEditor extends Component<IProps, IState> {
                             bleed: false,
                             downloading: false
                         });
-                        this.download("test.pdf", response.data);
+
+                        const title = document.getElementById("designTitle").value;
+                        title = title ? title : "Untitled design";
+
+                        this.download(title + ".pdf", response.data);
                         this.hidePopupDownloading();
                     })
                     .catch(error => {
