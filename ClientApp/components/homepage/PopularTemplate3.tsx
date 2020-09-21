@@ -153,7 +153,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                         fontWeight: 600,
                         fontSize: "23px",
                     }}
-                >{this.props.translate("popular")}</h3>
+                >Letter header</h3>
                 <div
                     style={{
                         height: "220px",
