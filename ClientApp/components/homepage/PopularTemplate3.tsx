@@ -48,7 +48,8 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
 
         this.perPage = Math.floor((window.innerWidth - 200) / 141) + 1;
 
-        console.log('this.perPage ', this.perPage)
+        this.state.rem = this.perPage;
+        this.state.recentDesign = getRem(this.perPage);
 
         this.loadImage = this.loadImage.bind(this);
     }
