@@ -15,6 +15,7 @@ using PuppeteerSharp;
 using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
 using System.Linq;
+using Serilog;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -433,7 +434,8 @@ namespace RCB.TypeScript.Controllers
                                     pageDict.Put(PdfName.CROPBOX, rect);
                                     
                                     break;
-                                } catch (Exception) {
+                                } catch (Exception e) {
+                                    Log.Logger.Error($"Something went wrong: {e}");
                                     pages2[i] = await browser.NewPageAsync();
                                 }
                             }
