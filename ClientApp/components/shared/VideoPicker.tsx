@@ -35,7 +35,6 @@ const Container = styled.div`
   width: ${props => props.width}px;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
   margin-bottom: 8px;
-  background-color: ${props => props.loaded ? "none" : "#00000030"};
   button {
     visibility: hidden;
   }
