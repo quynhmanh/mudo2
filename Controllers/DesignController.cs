@@ -398,7 +398,9 @@ namespace RCB.TypeScript.Controllers
                             // }
                             
                             pages2[i] = await browser.NewPageAsync();
+                            int cnt = 0;
                             while (true) {
+                                ++cnt;
                                 try {
                                     await pages2[i].SetContentAsync(html, new NavigationOptions() {
                                         WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Networkidle0}
@@ -437,6 +439,9 @@ namespace RCB.TypeScript.Controllers
                                 } catch (Exception e) {
                                     Log.Logger.Error($"Something went wrong: {e}");
                                     pages2[i] = await browser.NewPageAsync();
+                                    if (cnt == 3) {
+                                        break;
+                                    }
                                 }
                             }
                         }));
