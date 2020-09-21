@@ -81,7 +81,6 @@ export default class ImagePicker extends Component<IProps, IState> {
     }
 
     render() {
-        console.log('imagepicker2 render')
         let { loaded } = this.state;
         return (
             <Container

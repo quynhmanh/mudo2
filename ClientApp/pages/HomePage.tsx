@@ -18,9 +18,8 @@ import "@Styles/homePage.scss";
 import PopularTemplate from "@Components/homepage/PopularTemplate";
 import PopularTemplate2 from "@Components/homepage/PopularTemplate2";
 
-// const PopularTemplate = loadable(() => import("@Components/homepage/PopularTemplate"));
-// const PopularTemplate2 = loadable(() => import("@Components/homepage/PopularTemplate2"));
-const NavBar = loadable(() => import("@Components/homepage/NavBar"));
+
+const PopularTemplate3 = loadable(() => import("@Components/homepage/PopularTemplate3"));
 const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
 
 export interface IProps {

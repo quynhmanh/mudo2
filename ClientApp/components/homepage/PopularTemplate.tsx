@@ -55,18 +55,15 @@ class Popup extends Component<IProps, IState> {
     }
 
     loadImage(counter) {
-        console.log('populartemplate loadimage ', counter)
         let self = this;
 
         let newRecentDesign = this.state.recentDesign;
 
-        console.log('loadImage', counter, newRecentDesign.length)
         // Break out if no more images
         if (counter == newRecentDesign.length) { return; }
 
         // Grab an image obj
         var I = document.getElementById("image-1-" + counter) as HTMLImageElement;
-        console.log('loadImage1', I, newRecentDesign[counter].representative)
         // Monitor load or error events, moving on to next image in either case
         I.onload = I.onerror = function () {
             setTimeout(() => {

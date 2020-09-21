@@ -43,12 +43,10 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
     }
 
     mediaLoaded(loaded, transitionEnd) {
-        console.log('mediaLoaded ', this.props.keys, loaded, transitionEnd, this.loaded, this.transitionEnd)
         if (loaded) this.loaded = true;
         if (transitionEnd) this.transitionEnd = true;
 
         if (this.loaded && this.transitionEnd && !this.transitioned) {
-            console.log('changed', this.props.keys)
             this.cc.style.animation = "";
             this.cc.style.background = "transparent";
             this.cc.style.opacity = 1;
@@ -134,7 +132,6 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
             width = 199;
         }
 
-        console.log('(this.props.keys - this.props.startPoint) * 120 + "ms" ', this.props.keys, this.props.startPoint, (this.props.keys - this.props.startPoint) * 120 + "ms")
 
         return (
             <CC
@@ -168,7 +165,6 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                         }}>
                         <div
                             onTransitionEnd={e => {
-                                console.log('onTransitionEnd', width, this.props.keys, this.props.id)
                                 // this.setState({transitionEnd: true});
                                 // setTimeout(() => {
                                     this.mediaLoaded(false, true);
