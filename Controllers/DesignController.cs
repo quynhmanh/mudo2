@@ -389,41 +389,49 @@ namespace RCB.TypeScript.Controllers
 
                             await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                             
-                                var page = await browser.NewPageAsync();
-                                await page.SetContentAsync(html, new NavigationOptions() {
-                                    WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Networkidle0}
-                                });
-                                Stream a = await page.PdfStreamAsync(new PdfOptions()
-                                {
-                                    Width = width + "px",
-                                    Height = (int)double.Parse(height) + 3000 + "px",
-                                });
-
-                                string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
-                                {
-                                    Clip = new PuppeteerSharp.Media.Clip()
+                            var page = await browser.NewPageAsync();
+                            while (true) {
+                                try {
+                                    await page.SetContentAsync(html, new NavigationOptions() {
+                                        WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Networkidle0}
+                                    });
+                                    Stream a = await page.PdfStreamAsync(new PdfOptions()
                                     {
-                                        Width = decimal.Parse(width),
-                                        Height = decimal.Parse(height),
-                                    },
-                                    OmitBackground = true,
-                                });
+                                        Width = width + "px",
+                                        Height = (int)double.Parse(height) + 3000 + "px",
+                                    });
 
-                                reader2[i] = new PdfReader(a);
-                                Rectangle rec = reader2[i].GetPageSize(1);
-                                float ratio = (int)double.Parse(width) * 1f / (int)double.Parse(height);
-                                float left = 0;
-                                float bottom = rec.Height - rec.Width / ratio;
-                                float right = rec.Width;
-                                float top = rec.Height;
+                                    string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
+                                    {
+                                        Clip = new PuppeteerSharp.Media.Clip()
+                                        {
+                                            Width = decimal.Parse(width),
+                                            Height = decimal.Parse(height),
+                                        },
+                                        OmitBackground = true,
+                                    });
 
-                                System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
-                                PdfDictionary pageDict;
-                                PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
-                                pageDict = reader2[i].GetPageN(1);
-                                pageDict.Put(PdfName.CROPBOX, rect);
+                                    reader2[i] = new PdfReader(a);
+                                    Rectangle rec = reader2[i].GetPageSize(1);
+                                    float ratio = (int)double.Parse(width) * 1f / (int)double.Parse(height);
+                                    float left = 0;
+                                    float bottom = rec.Height - rec.Width / ratio;
+                                    float right = rec.Width;
+                                    float top = rec.Height;
+
+                                    System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
+                                    PdfDictionary pageDict;
+                                    PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
+                                    pageDict = reader2[i].GetPageN(1);
+                                    pageDict.Put(PdfName.CROPBOX, rect);
+                                    
+                                    break;
+                                } catch (Exception) {
+                                    page = await browser.NewPageAsync();
+                                }
+                            }
                         }));
-                        }
+                    }
 
                     for (var i = 0; i < canvas.Length; ++i) {
                         pCopy.AddPage(pCopy.GetImportedPage(reader2[i], 1));
