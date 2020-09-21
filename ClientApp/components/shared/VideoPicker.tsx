@@ -131,7 +131,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     className={this.props.className}
                     style={{
                         height: '100%',
-                        marginBottom: '10px',
+                        marginBottom: '8px',
                         pointerEvents: "all",
                         opacity: 0,
                         transition: 'opacity 0.1s linear',

@@ -501,7 +501,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleImageBackgroundColorBtnClick = (e: any) => {
         e.preventDefault();
-        this.setState({ selectedTab: SidebarTab.Color });
+        editorStore.selectedTab = SidebarTab.Color;
     }
 
     canvas = null;
@@ -1037,8 +1037,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectHeight = 1080;
                     break;
                 case 10:
-                    rectWidth = 2550;
-                    rectHeight = 3300;
+                    rectWidth = 2480;
+                    rectHeight = 3508;
                     break;
             }
 
@@ -1558,8 +1558,8 @@ class CanvaEditor extends Component<IProps, IState> {
                         deltaW,
                         deltaH,
                         ratio,
-                        10,
-                        10
+                        5,
+                        5
                     );
 
                     let style = centerToTL({ centerX, centerY, width, height, rotateAngle });
@@ -2632,8 +2632,8 @@ class CanvaEditor extends Component<IProps, IState> {
                             deltaW,
                             deltaH,
                             null,
-                            10,
-                            10
+                            5,
+                            5
                         );
                         let style = centerToTL({ centerX, centerY, width, height, rotateAngle });
                         this.handleResize(

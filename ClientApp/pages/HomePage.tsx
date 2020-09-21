@@ -599,6 +599,9 @@ class HomePage extends React.Component<IProps, IState> {
                     <PopularTemplate2
                         translate={this.translate.bind(this)}
                     />
+                    <PopularTemplate3
+                        translate={this.translate.bind(this)}
+                    />
 
                 </div>
                 <LoginPopup

@@ -25,7 +25,17 @@ const ImageBackgroundColor = (props: IProps) => {
                 }}
                 className="dropbtn-font dropbtn-font-size toolbar-btn"
                 onClick={handleImageBackgroundColorBtnClick}
-            ></button>
+            >
+                <div
+                    style={{
+                        width: "24px",
+                        height: "24px",
+                        borderRadius: "2px",
+                        backgroundColor: 'black',
+                        boxShadow: "rgba(75, 102, 129, 0.15) 0px 0px 0px 1px inset",
+                    }}></div>
+
+            </button>
         </div>
     );
 }

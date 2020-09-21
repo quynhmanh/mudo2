@@ -31,7 +31,7 @@ let getRem = (rem) => Array(rem).fill(0).map(i => {
     }
 });
 
-class Popup extends Component<IProps, IState> {
+export default class PopularTemplate2 extends Component<IProps, IState> {
     state = {
         rem: 10,
         hasMore: true,
@@ -197,5 +197,3 @@ class Popup extends Component<IProps, IState> {
         );
     }
 }
-
-export default Popup;
