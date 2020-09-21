@@ -161,7 +161,6 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                         style={{
                             position: 'relative',
                             borderRadius: '4px',
-                            overflow: 'hidden',
                         }}>
                         <div
                             onTransitionEnd={e => {

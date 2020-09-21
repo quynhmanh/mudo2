@@ -135,6 +135,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                         pointerEvents: "all",
                         opacity: 0,
                         transition: 'opacity 0.1s linear',
+                        borderRadius: '4px',
                     }}
 
                     onLoadedMetadata={e => {

@@ -116,13 +116,14 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                             width: '200px',
                             minHeight: '200px',
                             display: 'flex',
+                            boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
                         }}
                         className="previewWrapper___mbAh5">
                         <div
                             style={{
                                 paddingTop: 0,
                                 margin: 'auto',
-                                // boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)", 
+                                boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
                             }}>
                             {picker}
                             {/* {showPlayIcon === true ? playIcon : null} */}
