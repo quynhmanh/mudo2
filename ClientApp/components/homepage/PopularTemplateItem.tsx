@@ -101,7 +101,6 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
         return (
             <CC
-                ref={i => this.cc = i}
                 style={{ 
                     marginRight: '24px', 
                     overflow: 'hidden', 
@@ -127,6 +126,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                         }}
                         className="previewWrapper___mbAh5">
                         <div
+                            ref={i => this.cc = i}
                             style={{
                                 paddingTop: 0,
                                 margin: 'auto',
