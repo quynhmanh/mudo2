@@ -345,6 +345,7 @@ namespace RCB.TypeScript.Controllers
                     var canvas = oDownloadBody.Canvas;
                     PdfImportedPage[] pages = new PdfImportedPage[canvas.Length];
                     PdfReader[] reader2 = new PdfReader[canvas.Length];
+                    Page[] pages2 = new Page[canvas.Length];
 
                     var executablePath = "/usr/bin/google-chrome-stable";
                     if (HostingEnvironment.IsDevelopment())
@@ -395,19 +396,19 @@ namespace RCB.TypeScript.Controllers
 
                             // }
                             
-                            var page = await browser.NewPageAsync();
+                            pages2[i] = await browser.NewPageAsync();
                             while (true) {
                                 try {
-                                    await page.SetContentAsync(html, new NavigationOptions() {
+                                    await pages2[i].SetContentAsync(html, new NavigationOptions() {
                                         WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Networkidle0}
                                     });
-                                    Stream a = await page.PdfStreamAsync(new PdfOptions()
+                                    Stream a = await pages2[i].PdfStreamAsync(new PdfOptions()
                                     {
                                         Width = width + "px",
                                         Height = (int)double.Parse(height) + 3000 + "px",
                                     });
 
-                                    string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
+                                    string b = await pages2[i].ScreenshotBase64Async(new ScreenshotOptions()
                                     {
                                         Clip = new PuppeteerSharp.Media.Clip()
                                         {
@@ -433,7 +434,7 @@ namespace RCB.TypeScript.Controllers
                                     
                                     break;
                                 } catch (Exception) {
-                                    page = await browser.NewPageAsync();
+                                    pages2[i] = await browser.NewPageAsync();
                                 }
                             }
                         }));
@@ -442,6 +443,7 @@ namespace RCB.TypeScript.Controllers
                     for (var i = 0; i < canvas.Length; ++i) {
                         pCopy.AddPage(pCopy.GetImportedPage(reader2[i], 1));
                         reader2[i].Close();
+                        pages2[i].CloseAsync();
                     }
 
                     doc.Close();
