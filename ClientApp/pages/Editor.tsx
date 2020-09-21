@@ -554,15 +554,17 @@ class CanvaEditor extends Component<IProps, IState> {
             let font = fonts[i];
             (font as HTMLElement).style.fontSize = fontSizePx;
 
+            let lines = font.offsetHeight / (image.lineHeight * image.fontSize);
+
 
             width2 = Math.max(width2, this.getTextWidth(font.innerHTML, fontSizePt + " " + image.fontFace));
-            height2 += fontSize * image.lineHeight;
+            height2 += fontSize * image.lineHeight * lines;
         }
 
         if (!editorStore.childId) {
             image.scaleX = 1;
             image.scaleY = 1;
-            image.width = width2;
+            // image.width = width2;
             image.origin_width = width2;
             image.height = height2;
             image.origin_height = height2;
