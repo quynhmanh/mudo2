@@ -186,13 +186,13 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         } else {
             pageId =
                 Math.round(
-                    (this.state.items.length + this.state.items2.length) / 5
+                    (this.state.items.length + this.state.items2.length) / this.props.rem
                 ) + 1;
             count = 5;
         }
         this.setState({ isLoading: true, error: undefined, loaded: true, });
         var subtype = this.props.subtype;
-        const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${count}&printType=${subtype}`;
+        const url = `/api/Template/Search?Type=${TemplateType.Template}&page=${pageId}&perPage=${this.props.rem}&printType=${subtype}`;
         if (!subtype) {
             return;
         }
