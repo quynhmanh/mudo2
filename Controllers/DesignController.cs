@@ -396,7 +396,7 @@ namespace RCB.TypeScript.Controllers
                                 Stream a = await page.PdfStreamAsync(new PdfOptions()
                                 {
                                     Width = width + "px",
-                                    Height = (int)double.Parse(height) + 5000 + "px",
+                                    Height = (int)double.Parse(height) + 3000 + "px",
                                 });
 
                                 string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
