@@ -13,6 +13,8 @@ interface IProps {
     id: string;
     representative: string;
     width: number;
+    keys: number;
+    startPoint: number;
 }
 
 interface IState {
@@ -95,10 +97,15 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             backgroundColor="rgb(0 0 0 / 4%)"
         />
 
+        console.log('populartemplateitem ', this.props.keys, this.props.startPoint);
+
         return (
             <CC
                 ref={i => this.cc = i}
-                style={{ marginRight: '24px', overflow: 'hidden', }}
+                style={{ 
+                    marginRight: '24px', 
+                    overflow: 'hidden', 
+                }}
                 className="templateWrapper___3Fitk"
             >
                 <a
@@ -124,6 +131,9 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                                 paddingTop: 0,
                                 margin: 'auto',
                                 boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
+                                animation: "TB8Ekw 1.4s infinite",
+                                backgroundColor: 'black',
+                                animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
                             }}>
                             {picker}
                             {/* {showPlayIcon === true ? playIcon : null} */}
