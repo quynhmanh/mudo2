@@ -58,7 +58,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
         // Grab an image obj
             var I = document.getElementById("video-"+counter);
         } else {
-            var I = document.getElementById("image-2-"+counter);
+            var I = document.getElementById("image-3-"+counter);
         }
         
         if (newRecentDesign[counter].isVideo) {
@@ -184,6 +184,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                                 >
                                     {this.state.recentDesign.map((item, index) =>
                                         <Item
+                                            prefix={3}
                                             {...item}
                                             key={index}
                                             keys={index}

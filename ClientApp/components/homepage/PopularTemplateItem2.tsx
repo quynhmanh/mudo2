@@ -20,6 +20,7 @@ interface IProps {
     keys: number;
     startPoint: number;
     loadImage: any;
+    prefix: any;
 }
 
 interface IState {
@@ -104,7 +105,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
             picker = <ImagePicker
                 id={props.id}
                 keys={props.keys}
-                prefix="2"
+                prefix={this.props.prefix}
                 key={"1"}
                 color={""}
                 delay={100}
