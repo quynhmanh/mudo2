@@ -166,7 +166,7 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                             ? {
                                 height: this.props.height + "px",
                                 width: "100%",
-                                marginBottom: "10px",
+                                marginBottom: "8px",
                                 backgroundColor: 'transparent',
                             }
                             : { display: "none" }
