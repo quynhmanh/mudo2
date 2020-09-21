@@ -1040,6 +1040,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectWidth = 2480;
                     rectHeight = 3508;
                     break;
+                case 11: // Menu
+                    rectWidth = 794;
+                    rectHeight = 1123;
+                    break;
             }
 
             scaleX = (width - 50) / rectWidth;
