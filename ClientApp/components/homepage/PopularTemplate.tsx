@@ -52,7 +52,7 @@ class Popup extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        // this.loadMore();
+        this.loadMore();
     }
 
     loadImage(counter) {
