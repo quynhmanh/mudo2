@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import uuidv4 from "uuid/v4";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
-import Item from "@Components/homepage/PopularTemplateItem2";
+import Item from "@Components/homepage/PopularTemplateItem3";
 
 export interface IProps {
     translate: any;
@@ -54,7 +54,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
     }
 
     loadImage(counter) {
-        console.log('laodImage ', counter);
+        console.log('laodImage ', counter, this.state.recentDesign);
         let self = this;
         let newRecentDesign = this.state.recentDesign;
         // Break out if no more images

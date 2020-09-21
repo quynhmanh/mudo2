@@ -129,6 +129,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     }}
 
                     onLoad={e => {
+                        console.log('props.keys', this.props.keys)
                         this.handleImageLoaded();
                     }}
 
@@ -145,6 +146,8 @@ export default class ImagePicker extends Component<IProps, IState> {
                     // }
 
                     onError={(e) => {
+                        console.log('error props.keys', e, this.props.keys)
+                        // this.handleImageLoaded();
                     }}
 
                     src={this.props.startPoint == this.props.keys ? this.props.src : ""}

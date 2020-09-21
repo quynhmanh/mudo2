@@ -30,7 +30,7 @@ interface IState {
 
 const HEIGHT = 200;
 
-export default class PopularTemplateItem2 extends Component<IProps, IState> {
+export default class PopularTemplateItem3 extends Component<IProps, IState> {
 
     constructor(props: any) {
         super(props);
@@ -71,7 +71,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
     }
 
     loaded = false;
-    transitionEnd = false;
+    transitionEnd = true;
     transitioned = false;
     cc = null;
     picker = null;
@@ -130,10 +130,10 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
             />
         }
 
-        let width = props.width / props.height * 141;
-        if (props.width == props.height && props.id != "sentinel-image2") {
-            width = 199;
-        }
+        let width = 141;
+        // if (props.width == props.height && props.id != "sentinel-image2") {
+        //     width = 199;
+        // }
 
 
         return (
@@ -170,7 +170,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                                 console.log('props ', this.props.keys)
                                 // this.setState({transitionEnd: true});
                                 // setTimeout(() => {
-                                    this.mediaLoaded(false, true);
+                                    // this.mediaLoaded(false, true);
                                 // }, 100);
                             }}
                             style={{ 
