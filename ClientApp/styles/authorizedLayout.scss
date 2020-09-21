@@ -200,6 +200,7 @@ html {
 
 .templateWrapper___3Fitk:hover {
     transform: translateY(-3px);
+    transition: .3s cubic-bezier(.645,.045,.355,1);
 }
 
 .editTemplateWrapper___29oLU {
@@ -263,7 +264,7 @@ html {
 }
 
 .small___1Vvfz {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 21px;
     font-weight: 500;
     margin-bottom: 0;

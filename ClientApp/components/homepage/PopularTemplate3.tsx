@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import uuidv4 from "uuid/v4";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
-import Item from "@Components/homepage/PopularTemplateItem2";
+import Item from "@Components/homepage/PopularTemplateItem3";
 
 export interface IProps {
     translate: any;
@@ -41,14 +41,21 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
         startPoint: 0,
     }
 
+    perPage = 0;
+
     constructor(props: any) {
         super(props);
+
+        this.perPage = Math.floor((window.innerWidth - 200) / 141) + 1;
+
+        this.state.rem = this.perPage;
+        this.state.recentDesign = getRem(this.perPage);
 
         this.loadImage = this.loadImage.bind(this);
     }
 
     loadImage(counter) {
-        console.log('laodImage ', counter);
+        console.log('laodImage ', counter, this.state.recentDesign);
         let self = this;
         let newRecentDesign = this.state.recentDesign;
         // Break out if no more images
@@ -58,7 +65,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
         // Grab an image obj
             var I = document.getElementById("video-"+counter);
         } else {
-            var I = document.getElementById("image-2-"+counter);
+            var I = document.getElementById("image-3-"+counter);
         }
         
         if (newRecentDesign[counter].isVideo) {
@@ -86,7 +93,8 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
     }
 
     loadMore = () => {
-        const url = `/api/Template/Search?Type=2&page=${(this.state.recentDesign.length - this.state.rem) / TEMPLATE_PERPAGE + 1}&perPage=${TEMPLATE_PERPAGE}&printType=10`;
+        const url = `/api/Template/Search?Type=1&page=${(this.state.recentDesign.length - this.state.rem) / this.perPage + 1}&perPage=${this.perPage}&printType=10`;
+        //https://localhost:64099/api/Template/Search?Type=1&page=1&perPage=10&printType=10
         console.log('ur l' , url)
         axios
             .get(url)
@@ -152,7 +160,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                         fontWeight: 600,
                         fontSize: "23px",
                     }}
-                >{this.props.translate("popular")}</h3>
+                >Letter header</h3>
                 <div
                     style={{
                         height: "220px",
@@ -183,6 +191,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                                 >
                                     {this.state.recentDesign.map((item, index) =>
                                         <Item
+                                            prefix={3}
                                             {...item}
                                             key={index}
                                             keys={index}

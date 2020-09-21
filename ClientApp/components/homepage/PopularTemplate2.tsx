@@ -183,6 +183,7 @@ export default class PopularTemplate2 extends Component<IProps, IState> {
                                     {this.state.recentDesign.map((item, index) =>
                                         <Item
                                             {...item}
+                                            prefix={2}
                                             key={index}
                                             keys={index}
                                             loadImage={this.loadImage}

@@ -33,7 +33,6 @@ const Container = styled.div`
   background-size: 300% 300%;
   position: relative;
   width: ${props => props.width}px;
-  margin-bottom: 8px;
   button {
     visibility: hidden;
   }
@@ -89,7 +88,6 @@ export default class ImagePicker extends Component<IProps, IState> {
                     position: 'relative',
                     backgroundSize: '300% 300%',
                     width: this.props.width ? this.props.width + "px" : 'auto',
-                    marginBottom: '8px',
                     display: "flex",
                     height: this.props.defaultHeight + "px",
                     backgroundColor: this.props.backgroundColor,
@@ -124,13 +122,14 @@ export default class ImagePicker extends Component<IProps, IState> {
                         width: '100%',
                         // margin: 'auto',
                         borderRadius: "4px",
-                        boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
+                        // boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
                         // backgroundColor: '#ededed',
                         transition: 'opacity 0.1s linear',
                     }}
 
                     onLoad={e => {
+                        console.log('props.keys', this.props.keys)
                         this.handleImageLoaded();
                     }}
 
@@ -147,6 +146,8 @@ export default class ImagePicker extends Component<IProps, IState> {
                     // }
 
                     onError={(e) => {
+                        console.log('error props.keys', e, this.props.keys)
+                        // this.handleImageLoaded();
                     }}
 
                     src={this.props.startPoint == this.props.keys ? this.props.src : ""}

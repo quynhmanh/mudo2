@@ -35,7 +35,6 @@ const Container = styled.div`
   width: ${props => props.width}px;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
   margin-bottom: 8px;
-  background-color: ${props => props.loaded ? "none" : "#00000030"};
   button {
     visibility: hidden;
   }
@@ -90,7 +89,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                     backgroundSize: '300% 300%',
                     height: `200px`,
                     width: 'auto',
-                    marginBottom: '8px',
+                    marginBottom: '0px',
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
                     // backgroundColor: '#eee',
@@ -135,6 +134,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                         pointerEvents: "all",
                         opacity: 0,
                         transition: 'opacity 0.1s linear',
+                        borderRadius: '4px',
                     }}
 
                     onLoadedMetadata={e => {
