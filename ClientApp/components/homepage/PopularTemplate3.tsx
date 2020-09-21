@@ -46,7 +46,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
     constructor(props: any) {
         super(props);
 
-        this.perPage = Math.floor((window.innerWidth - 200) / 141);
+        this.perPage = Math.floor((window.innerWidth - 200) / 141) + 1;
 
         console.log('this.perPage ', this.perPage)
 
