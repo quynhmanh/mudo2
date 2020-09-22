@@ -306,8 +306,6 @@ class LoginPopup extends PureComponent<IProps, IState> {
                   data-categ="registrationModal"
                   data-value="goToLoginModal"
                 >
-                  {/* Miễn phí tạo ngay */}
-                  {this.props.translate("createAFreeAccount")}
                 </button>
               </div> */}
             </div>
