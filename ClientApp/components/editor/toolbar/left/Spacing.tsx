@@ -39,7 +39,6 @@ export default class Spacing extends Component<IProps, IState> {
     handleLineHeightChangeEnd = (val) => {
         if (!val) return;
         let lineHeight = 1.0 * val / 100 * 2 + 0.5;
-        console.log('lineHeight ', lineHeight)
         let image = editorStore.getImageSelected();
         if (editorStore.childId) {
             let texts = image.document_object.map(text => {
@@ -138,7 +137,6 @@ export default class Spacing extends Component<IProps, IState> {
         e.preventDefault();
         let el = document.getElementById("mySpacingList");
         if (!el || !document.getElementById("mySpacingList").contains(e.target)) {
-            console.log('Spacing')
             var dropdowns = document.getElementsByClassName(
                 "dropdown-content-font-size"
             );

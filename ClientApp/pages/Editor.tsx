@@ -454,7 +454,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (id: string) => {
-        
+
         let image = editorStore.getImageSelected();
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
@@ -967,8 +967,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
                     editorStore.templateRatio = document.width / document.height;
 
-                    console.log('asd', editorStore.templateRatio)
-
                     let zIndexMax = 0;
                     images.forEach(img => {
                         zIndexMax = Math.max(zIndexMax, img.zIndex);
@@ -1106,8 +1104,6 @@ class CanvaEditor extends Component<IProps, IState> {
             });
 
             editorStore.templateRatio = rectWidth / rectHeight;
-
-                    console.log('asd', editorStore.templateRatio)
         }
 
         document.addEventListener("keydown", this.removeImage.bind(this));
@@ -4429,11 +4425,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
     async saveImages(rep, isVideo, isAdmin = false) {
 
-        console.log('arguments ', rep, isVideo, isAdmin)
-
         if (editorStore.isAdmin && !isAdmin) return;
 
-        // if (editorStore.isAdmin) return;
         isVideo = (document.getElementById('vehicle1') as HTMLInputElement).checked;
 
         this.setSavingState(SavingState.SavingChanges, false);
@@ -5487,36 +5480,36 @@ class CanvaEditor extends Component<IProps, IState> {
                             }}
                         >
                             {editorStore.templateRatio &&
-                            <LeftSide
-                                id={this.state._id}
-                                effectId={this.state.effectId}
-                                align={this.state.align}
-                                pauser={this.pauser}
-                                colorPickerShown={this.colorPickerShown}
-                                handleEditFont={this.handleEditFont}
-                                scale={this.state.scale}
-                                fontId={this.state.fontId}
-                                translate={this.translate.bind(this)}
-                                mounted={this.state.mounted}
-                                selectFont={this.selectFont.bind(this)}
-                                handleFontColorChange={this.handleFontColorChange.bind(this)}
-                                typeObjectSelected={this.state.typeObjectSelected}
-                                idObjectSelected={editorStore.idObjectSelected}
-                                childId={editorStore.childId}
-                                rectWidth={this.state.rectWidth}
-                                rectHeight={this.state.rectHeight}
-                                toolbarOpened={this.state.toolbarOpened}
-                                toolbarSize={this.state.toolbarSize}
-                                mode={this.state.mode}
-                                selectedTab={this.state.selectedTab}
-                                handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
-                                handleImageSelected={this.handleImageSelected}
-                                updateImages={this.updateImages}
-                                forceEditorUpdate={this.forceEditorUpdate}
-                                setSavingState={this.setSavingState}
-                                handleEditmedia={this.handleEditmedia}
-                                saveImages={this.saveImages}
-                            />}
+                                <LeftSide
+                                    id={this.state._id}
+                                    effectId={this.state.effectId}
+                                    align={this.state.align}
+                                    pauser={this.pauser}
+                                    colorPickerShown={this.colorPickerShown}
+                                    handleEditFont={this.handleEditFont}
+                                    scale={this.state.scale}
+                                    fontId={this.state.fontId}
+                                    translate={this.translate.bind(this)}
+                                    mounted={this.state.mounted}
+                                    selectFont={this.selectFont.bind(this)}
+                                    handleFontColorChange={this.handleFontColorChange.bind(this)}
+                                    typeObjectSelected={this.state.typeObjectSelected}
+                                    idObjectSelected={editorStore.idObjectSelected}
+                                    childId={editorStore.childId}
+                                    rectWidth={this.state.rectWidth}
+                                    rectHeight={this.state.rectHeight}
+                                    toolbarOpened={this.state.toolbarOpened}
+                                    toolbarSize={this.state.toolbarSize}
+                                    mode={this.state.mode}
+                                    selectedTab={this.state.selectedTab}
+                                    handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
+                                    handleImageSelected={this.handleImageSelected}
+                                    updateImages={this.updateImages}
+                                    forceEditorUpdate={this.forceEditorUpdate}
+                                    setSavingState={this.setSavingState}
+                                    handleEditmedia={this.handleEditmedia}
+                                    saveImages={this.saveImages}
+                                />}
                         </div>
                         <div
                             style={{

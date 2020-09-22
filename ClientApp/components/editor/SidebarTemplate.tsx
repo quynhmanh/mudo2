@@ -60,8 +60,6 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     constructor(props) {
         super(props);
 
-        console.log('props.rem ', props.rem)
-
         this.left = props.rem;
 
         this.state.items = getRem(props.rem);
@@ -166,8 +164,6 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                 };
             });
         }
-
-        console.log('template.document_object', template.document_object)
 
         editorStore.applyTemplate(template.document_object);
 

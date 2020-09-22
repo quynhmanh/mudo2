@@ -44,7 +44,6 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         if (loaded) this.loaded = true;
         if (transitionEnd) this.transitionEnd = true;
 
-            console.log('mediaLoaded ', loaded, transitionEnd, this.loaded, this.transitionEnd);
         if (this.loaded && this.transitionEnd && !this.transitioned) {
             this.cc.style.backgroundColor = "transparent";
             this.cc.style.animation = "";
@@ -96,8 +95,6 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             mediaLoaded={this.mediaLoaded}
             backgroundColor="rgb(0 0 0 / 4%)"
         />
-
-        console.log('populartemplateitem ', this.props.keys, this.props.startPoint);
 
         return (
             <CC

@@ -47,8 +47,6 @@ export default class PopularTemplateItem3 extends Component<IProps, IState> {
         if (loaded) this.loaded = true;
         if (transitionEnd) this.transitionEnd = true;
 
-        console.log('props ,keys ', this.props.keys, loaded, transitionEnd, this.loaded, this.transitionEnd, this.transitioned)
-
         if (this.loaded && this.transitionEnd && !this.transitioned) {
             this.cc.style.animation = "";
             this.cc.style.background = "transparent";
@@ -166,13 +164,6 @@ export default class PopularTemplateItem3 extends Component<IProps, IState> {
                             borderRadius: '4px',
                         }}>
                         <div
-                            onTransitionEnd={e => {
-                                console.log('props ', this.props.keys)
-                                // this.setState({transitionEnd: true});
-                                // setTimeout(() => {
-                                    // this.mediaLoaded(false, true);
-                                // }, 100);
-                            }}
                             style={{ 
                                 paddingTop: 0,
                                 width: `${width}px`,

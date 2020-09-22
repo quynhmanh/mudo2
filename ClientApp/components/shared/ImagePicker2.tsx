@@ -21,6 +21,8 @@ export interface IProps {
     transitionEnd: boolean;
     animation: boolean;
     mediaLoaded: any;
+    keys: number;
+    startPoint: number;
 }
 
 export interface IState {
@@ -129,25 +131,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     }}
 
                     onLoad={e => {
-                        console.log('props.keys', this.props.keys)
                         this.handleImageLoaded();
-                    }}
-
-                    // onLoadedData={(e) => {
-                    //     this.handleImageLoaded();
-
-                    //     if (this.props.startPoint == this.props.keys) {
-                            
-                    //         setTimeout(() => {
-                    //             this.props.loadImage(this.props.keys + 1);
-                    //         }, 100);
-                    //     } 
-                    // }
-                    // }
-
-                    onError={(e) => {
-                        console.log('error props.keys', e, this.props.keys)
-                        // this.handleImageLoaded();
                     }}
 
                     src={this.props.startPoint == this.props.keys ? this.props.src : ""}

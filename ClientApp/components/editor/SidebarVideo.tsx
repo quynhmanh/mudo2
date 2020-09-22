@@ -55,7 +55,6 @@ export default class SidebarVideo extends Component<IProps, IState> {
     }
 
     loadMoreVideo = initialLoad => {
-        console.log('loadmoreVIdeo')
         let pageId;
         let count;
         if (initialLoad) {

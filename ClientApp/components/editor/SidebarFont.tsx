@@ -106,8 +106,6 @@ export default class SidebarFont extends Component<IProps, IState> {
         image.fontRepresentative = font.representative;
         image.fontText = font.text;
 
-        console.log('font ', font)
-
         editorStore.images2.set(editorStore.idObjectSelected, image);
         this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         editorStore.fontId = font.id;
@@ -145,7 +143,6 @@ export default class SidebarFont extends Component<IProps, IState> {
 
 
     loadMore = initialLoad => {
-        console.log('loadmore ', editorStore.fontsList.length)
         let pageId;
         let count;
         if (initialLoad) {
@@ -161,10 +158,8 @@ export default class SidebarFont extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
-                    console.log('loadmore ', res.value.key)
                     for (var i = 0; i < res.value.key.length; ++i) {
-                        // if (res.value.key[i].id)
-                            editorStore.addFontItem(res.value.key[i]);
+                        editorStore.addFontItem(res.value.key[i]);
                     }
 
                     this.setState(state => ({

@@ -49,7 +49,6 @@ export default class PopularTemplate2 extends Component<IProps, IState> {
     }
 
     loadImage(counter) {
-        console.log('laodImage ', counter);
         let self = this;
         let newRecentDesign = this.state.recentDesign;
         // Break out if no more images

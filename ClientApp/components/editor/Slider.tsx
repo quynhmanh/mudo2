@@ -70,7 +70,6 @@ export default class Slider extends Component<IProps, IState> {
             this.$grabSlider.style.border = '1px solid rgba(14, 19, 24, 0.2)';
         }
 
-        console.log('onUp')
         var rec1 = this.$el
         .getBoundingClientRect();
             var slide = e.clientX - rec1.left;
@@ -177,7 +176,6 @@ export default class Slider extends Component<IProps, IState> {
                     this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
                     this.$leftSLide.style.width = scale + "%";
                     this.props.onChange(scale);
-                    console.log('onCHangeEnd ', scale)
                     this.props.onChangeEnd(scale);
                 }}
             >

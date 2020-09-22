@@ -80,8 +80,6 @@ export default class VideoPicker extends Component<IProps, IState> {
     render() {
         let { loaded, width } = this.state;
 
-        console.log('videoPicker render', this.props.key)
-
         return (
             <Container 
                 style={{
