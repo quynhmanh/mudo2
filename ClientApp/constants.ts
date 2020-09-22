@@ -324,7 +324,7 @@ export const CATALOG_LIST = [
 export const SUGGESTED_LIST = [
   {
     url: "/editor/3/0",
-    src: "images/cTgIK8jqHEubjih9549hAw.svg",
+    src: "web_images/poster.svg",
     title: "poster",
     size: "42 × 59.4 cm"
   },
