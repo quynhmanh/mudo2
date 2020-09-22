@@ -289,7 +289,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                   />
                 </div>
               </div>
-              <div className="logIn___R_tvz">
+              {/* <div className="logIn___R_tvz">
                 <p style={{ color: "white" }} className="logInText___xkR-S">
                 {this.props.translate("doNotHaveAccount")}
                 </p>
@@ -309,7 +309,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                   {/* Miễn phí tạo ngay */}
                   {this.props.translate("createAFreeAccount")}
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
           <div style={{ position: "relative", width: "400px" }} id="downloadPopupRight">
