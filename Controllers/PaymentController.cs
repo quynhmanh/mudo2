@@ -10,6 +10,7 @@ using System;
 using MoMo;
 using System.Net;
 using RCB.TypeScript.Models;
+using Serilog;
 
 namespace WebApi.Controllers
 {
@@ -124,7 +125,7 @@ namespace WebApi.Controllers
                 result.AccessKey = result.PartnerCode = result.Signature = null;
                 return Ok(result);
             } catch (WebException e) {
-
+                Log.Logger.Error($"Something went wrong: {e}");
             }
             return BadRequest(new { message = "Exception occurs while process order request" });
         }

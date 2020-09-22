@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Serilog;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -216,6 +217,7 @@ namespace RCB.TypeScript.Controllers
 
                 } catch (Exception e)
                 {
+                    Log.Logger.Error($"Something went wrong: {e}");
                     mediaModel.RepresentativeThumbnail = file2;
                 }
 

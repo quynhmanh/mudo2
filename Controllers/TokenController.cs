@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using RCB.TypeScript.dbcontext;
 using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
+using Serilog;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -50,6 +51,7 @@ namespace RCB.TypeScript.Controllers
 
                 return Ok(new { value = new { token = newJwtToken, refreshToken = newRefreshToken} });
             } catch (Exception e) {
+                Log.Logger.Error($"Something went wrong: {e}");
                 return BadRequest();
             }
         }

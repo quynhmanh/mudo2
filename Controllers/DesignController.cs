@@ -151,12 +151,12 @@ namespace RCB.TypeScript.Controllers
                             string s = $"@font-face {{ font-family: '{oDownloadBody.Fonts[i]}'; src: url(data:font/ttf;base64,{file} ); }}";
                             style += s;
                         } catch (Exception e) {
-                            
+                            Log.Logger.Error($"Something went wrong: {e}");
                         }
                     }
                 } catch (Exception e)
                 {
-
+                    Log.Logger.Error($"Something went wrong: {e}");
                 }
 
                 string template =
@@ -192,7 +192,7 @@ namespace RCB.TypeScript.Controllers
                         }
                         catch (Exception e)
                         {
-
+                            Log.Logger.Error($"Something went wrong: {e}");
                         }
 
                         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
@@ -280,7 +280,7 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
-        public async System.Threading.Tasks.Task<IActionResult> VideoStream([FromQuery]string videoId)
+        public IActionResult VideoStream([FromQuery]string videoId)
         {
 
             var filePath = "/app/wwwroot/" + videoId + ".webm";
@@ -295,7 +295,7 @@ namespace RCB.TypeScript.Controllers
                 file.CopyTo(fontFile);
             }
 
-            return Json("");
+            return Ok();
         }
 
         [HttpPost("[action]")]
@@ -322,7 +322,7 @@ namespace RCB.TypeScript.Controllers
                     }
                     catch (Exception e)
                     {
-
+                        Log.Logger.Error($"Something went wrong: {e}");
                     }
                 }
 
@@ -385,14 +385,8 @@ namespace RCB.TypeScript.Controllers
                                 }
                             } catch (Exception e)
                             {
-
+                                Log.Logger.Error($"Something went wrong: {e}");
                             }
-
-                            // try {
-                            //     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                            // } catch (Exception) {
-
-                            // }
                             
                             pages2[i] = await browser.NewPageAsync();
                             int cnt = 0;
@@ -486,7 +480,7 @@ namespace RCB.TypeScript.Controllers
                     }
                     catch (Exception e)
                     {
-
+                        Log.Logger.Error($"Something went wrong: {e}");
                     }
                 }
 
@@ -502,7 +496,6 @@ namespace RCB.TypeScript.Controllers
                     template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
                 }
 
-                byte[] data = null;
                 using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
                 {
                     iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
@@ -522,7 +515,7 @@ namespace RCB.TypeScript.Controllers
                             }
                         } catch (Exception e)
                         {
-
+                            Log.Logger.Error($"Something went wrong: {e}");
                         }
                         var path = "/app/wwwroot/test-extension";
                         var extensionId = "elindhcnkcamdgnhiedjalfojeindigm";
@@ -588,7 +581,7 @@ namespace RCB.TypeScript.Controllers
                             htmlFile.Flush();
                         }
                         } catch (Exception e) {
-                            
+                            Log.Logger.Error($"Something went wrong: {e}");
                         }
 
                         if (backgroundPageTarget == null)
