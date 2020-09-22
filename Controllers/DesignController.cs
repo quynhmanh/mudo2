@@ -354,8 +354,6 @@ namespace RCB.TypeScript.Controllers
                         executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                     }
 
-                    await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-
                     using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                     {
                         DefaultViewport = new ViewPortOptions()
@@ -375,7 +373,6 @@ namespace RCB.TypeScript.Controllers
                         IgnoreHTTPSErrors = true,
                     }))
                     {
-
                         await Task.WhenAll(canvas.Select(async (c, i) => {
                             var html = template.Replace("[CANVAS]", c);
                             try
