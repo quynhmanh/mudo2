@@ -363,7 +363,6 @@ namespace RCB.TypeScript.Controllers
                             executablePath = Configuration.GetSection("chromeExePath").Get<string>();
                         }
 
-                        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                         using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                         {
                             DefaultViewport = new ViewPortOptions()
@@ -549,7 +548,7 @@ namespace RCB.TypeScript.Controllers
                             arguments.Add($"--disable-extensions-except={path}");
                         }
 
-                        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+                        // await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                         {
                             DefaultViewport = new ViewPortOptions()
