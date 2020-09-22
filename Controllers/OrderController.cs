@@ -33,7 +33,7 @@ namespace RCB.TypeScript.Controllers
 
         
         [HttpPost("[action]")]
-        public async Task<IActionResult> Add(OrderModel model)
+        public IActionResult Add(OrderModel model)
         {
             if (model == null)
                 return BadRequest($"{nameof(model)} is null.");

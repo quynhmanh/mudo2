@@ -4326,7 +4326,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             downloading: false
                         });
 
-                        const title = document.getElementById("designTitle").value;
+                        let title = (document.getElementById("designTitle") as HTMLInputElement).value;
                         title = title ? title : "Untitled design";
 
                         this.download(title + ".pdf", response.data);
@@ -4427,7 +4427,7 @@ class CanvaEditor extends Component<IProps, IState> {
         });
     }
 
-    async saveImages(rep, isVideo, isAdmin) {
+    async saveImages(rep, isVideo, isAdmin = false) {
 
         console.log('arguments ', rep, isVideo, isAdmin)
 

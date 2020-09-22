@@ -16,6 +16,7 @@ using RCB.TypeScript.dbcontext;
 using RCB.TypeScript.Infrastructure;
 using RCB.TypeScript.Models;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace RCB.TypeScript.Services
 {
@@ -151,7 +152,7 @@ namespace RCB.TypeScript.Services
                 }
                 catch (Exception e)
                 {
-
+                    Log.Logger.Error($"Something went wrong: {e}");
                 }
             }
 
@@ -166,7 +167,6 @@ namespace RCB.TypeScript.Services
                 template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
             }
 
-            byte[] data = null;
             using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
             {
                 iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
@@ -233,13 +233,7 @@ namespace RCB.TypeScript.Services
                             }
                         }
                     }
-                    //}
-                    //++cnt;
-                    //if (cnt > 5)
-                    //{
-                    //    break;
-                    //} 
-                    //}
+                    
                     if (backgroundPageTarget == null)
                     {
                         throw new Exception("Cannot get background pages.");
@@ -546,7 +540,7 @@ namespace RCB.TypeScript.Services
                 }
                 catch (Exception e)
                 {
-
+                    Log.Logger.Error($"Something went wrong: {e}");
                 }
             }
 
@@ -594,7 +588,7 @@ namespace RCB.TypeScript.Services
                 }
                 catch (Exception e)
                 {
-
+                    Log.Logger.Error($"Something went wrong: {e}");
                 }
 
                 var executablePath = "/usr/bin/google-chrome-stable";
@@ -675,7 +669,7 @@ namespace RCB.TypeScript.Services
                 }
                 catch (Exception e)
                 {
-
+                    Log.Logger.Error($"Something went wrong: {e}");
                 }
             }
 
@@ -691,7 +685,6 @@ namespace RCB.TypeScript.Services
                 template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
             }
 
-            byte[] data = null;
             using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
             {
                 iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
@@ -712,7 +705,7 @@ namespace RCB.TypeScript.Services
                     }
                     catch (Exception e)
                     {
-
+                        Log.Logger.Error($"Something went wrong: {e}");
                     }
                     var path = "/app/wwwroot/test-extension";
                     var extensionId = "elindhcnkcamdgnhiedjalfojeindigm";
@@ -782,7 +775,7 @@ namespace RCB.TypeScript.Services
                     }
                     catch (Exception e)
                     {
-
+                        Log.Logger.Error($"Something went wrong: {e}");
                     }
 
                     if (targets != null)

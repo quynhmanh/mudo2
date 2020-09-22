@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
 using RCB.TypeScript.dbcontext;
+using Serilog;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -90,7 +91,7 @@ namespace RCB.TypeScript.Controllers
                 }
                 catch (HttpRequestException e)
                 {
-
+                    Log.Logger.Error($"Something went wrong: {e}");
                 }
             }
 
@@ -127,7 +128,7 @@ namespace RCB.TypeScript.Controllers
                 }
                 catch (HttpRequestException e)
                 {
-                    
+                    Log.Logger.Error($"Something went wrong: {e}");
                 }
             }
 
@@ -176,7 +177,7 @@ namespace RCB.TypeScript.Controllers
                 }
                 catch (HttpRequestException e)
                 {
-
+                    Log.Logger.Error($"Something went wrong: {e}");
                 }
             }
 
@@ -186,7 +187,6 @@ namespace RCB.TypeScript.Controllers
             {
                 string aud = (string)data.GetValue("aud");
                 string email = (string)data.GetValue("email");
-                string name;
                 if (aud.Equals(CLIENT_ID))
                 {
                     return Ok(_userService.Login(HttpContext, email, null, null));

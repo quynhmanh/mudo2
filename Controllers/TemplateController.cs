@@ -200,7 +200,7 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
-        public async System.Threading.Tasks.Task<IActionResult> Edit()
+        public IActionResult Edit()
         {
             string body = null;
             using (var reader = new StreamReader(Request.Body))

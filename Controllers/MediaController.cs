@@ -80,7 +80,7 @@ namespace RCB.TypeScript.Controllers
 
         [HttpPost("[action]")]
         [RequestSizeLimit(200000000)]
-        public async System.Threading.Tasks.Task<IActionResult> AddVideo()
+        public IActionResult AddVideo()
         {
             string body = null;
             using (var reader = new StreamReader(Request.Body))
@@ -138,6 +138,7 @@ namespace RCB.TypeScript.Controllers
                 }
                 catch (Exception e)
                 {
+                    Log.Logger.Error($"Something went wrong: {e}");
                     mediaModel.RepresentativeThumbnail = file2;
                 }
 
@@ -149,7 +150,7 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
-        public async System.Threading.Tasks.Task<IActionResult> Add()
+        public IActionResult Add()
         {
             string body = null;
             using (var reader = new StreamReader(Request.Body))
@@ -225,12 +226,10 @@ namespace RCB.TypeScript.Controllers
 
                 return Ok(mediaModel);
             }
-
-            return Ok();
         }
 
         [HttpPost("[action]")]
-        public async System.Threading.Tasks.Task<IActionResult> Add2()
+        public IActionResult Add2()
         {
             string svgTemplate = @"<svg 
             className='unblurred' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' version='1.1' id='svgElement' x='0px' y='0px' width='600px' height='400px' viewBox='0 0 600 400' enable-background='new 0 0 600 400' xmlSpace='preserve'>
@@ -263,7 +262,6 @@ namespace RCB.TypeScript.Controllers
                 string base64 = dataFont.Substring(dataFont.IndexOf(',') + 1);
                 svgTemplate = svgTemplate.Replace("[IMAGE2]", base64);
                 byte[] data = Convert.FromBase64String(base64);
-                System.Drawing.Image img;
                 using (var fontFile = new FileStream(filePath, FileMode.Create))
                 {
                     fontFile.Write(data, 0, data.Length);
@@ -378,7 +376,7 @@ namespace RCB.TypeScript.Controllers
         }
 
         [HttpPost("[action]")]
-        public async System.Threading.Tasks.Task<IActionResult> Edit()
+        public IActionResult Edit()
         {
             string body = null;
             using (var reader = new StreamReader(Request.Body))

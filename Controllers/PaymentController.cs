@@ -75,7 +75,7 @@ namespace WebApi.Controllers
                 if (jmessage.ContainsKey("payUrl"))
                     return Ok(responseFromMomo);
             } catch (WebException e) {
-
+                Log.Logger.Error($"Something went wrong: {e}");
             }
             return BadRequest(new { message = "Exception occurs while process order request" });
         }
