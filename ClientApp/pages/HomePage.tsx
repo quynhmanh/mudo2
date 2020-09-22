@@ -599,11 +599,20 @@ class HomePage extends React.Component<IProps, IState> {
                                                         className="sc-fzXfMz sc-fzXfMA ddkFCa proxima-regular___3FDdY"
                                                         placeholder="Search from thousands of formats and designs" 
                                                         onFocus={e => {
-                                                            let el = document.getElementById("homepage_list").style.display = "block";
+                                                            document.getElementById("homepage_list").style.display = "block";
+
+                                                            const onUp = (e) => {
+                                                                let sugEl =  document.getElementById('suggested_list');
+                                                                if (e.target.contains(sugEl)) {
+                                                                    document.getElementById("homepage_list").style.display = "none";
+                                                                }
+                                                            }
+
+                                                            document.addEventListener("mouseup", onUp);
                                                         }}
-                                                        onBlur={e => {
-                                                            let el = document.getElementById("homepage_list").style.display = "none";
-                                                        }}
+                                                        // onBlur={e => {
+                                                        //     let el = document.getElementById("homepage_list").style.display = "none";
+                                                        // }}
                                                     />
                                                     </div>
                                                 <div className="buttonsWrapper___2Ertf">
