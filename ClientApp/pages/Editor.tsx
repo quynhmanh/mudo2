@@ -4236,7 +4236,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     {
                         fonts: toJS(editorStore.fonts),
                         canvas,
-                        // additionalStyle: a[0].outerHTML
                     },
                     {
                         headers: {
@@ -4250,7 +4249,10 @@ class CanvaEditor extends Component<IProps, IState> {
                         showPopup: false,
                         downloading: false
                     });
-                    this.download(`test.mp4`, response.data);
+                    let title = (document.getElementById("designTitle") as HTMLInputElement).value;
+                        title = title ? title : "Untitled design";
+
+                    this.download(title + `.mp4`, response.data);
                     this.hidePopupDownloading();
                 })
                 .catch(error => {
