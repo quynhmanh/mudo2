@@ -35,3 +35,105 @@ body {
 		opacity: .07
 	}
 }
+
+.ddkFCa {
+    display: flex;
+    transition: background 0.3s ease 0s, box-shadow 0.3s ease 0s, color 0.3s ease 0s;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    padding-right: 16px;
+    padding-left: 16px;
+    height: 56px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 24px;
+    background: rgb(255, 255, 255);
+    color: rgb(18, 19, 22);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 1px, rgba(0, 0, 0, 0.08) 0px 2px 4px;
+}
+
+.searchWrapper___ktY0d {
+	width: 500px;
+    margin: auto;
+}
+
+.kNYgVe {
+    height: 24px;
+    padding: 4px 8px;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.24);
+    color: rgb(18, 19, 22);
+    pointer-events: auto;
+}
+
+.popularList___3nk_n {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    height: 24px;
+    overflow: hidden;
+}
+
+.tryThis___36Zem {
+	margin: 0;
+    margin-right: 12px;
+    color: var(--new-home-try-this);
+    white-space: nowrap;
+}
+
+.popularFormatsWrapper___1PPVz {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-left: 16px;
+    overflow: hidden;
+}
+
+.buttonsWrapper___2Ertf {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    display: -ms-flexbox;
+    display: flex;
+    transform: translateY(-50%);
+}
+
+.form___1I3Xs {
+    position: relative;
+}
+
+.ivaxgr {
+    height: 40px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background-color: transparent;
+    color: rgb(33, 83, 204);
+	pointer-events: auto;
+	border: none;
+}
+
+.ceNsQj {
+    opacity: 1;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    transition: opacity 0.1s ease 0s;
+}
+
+.exPXfb {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    fill: currentcolor;
+    flex-shrink: 0;
+    user-select: none;
+    transition: fill 0.3s ease 0s;
+}

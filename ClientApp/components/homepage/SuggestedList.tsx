@@ -27,7 +27,9 @@ const SuggestedList = (props: IProps) => {
                 position: 'absolute',
                 left: '0',
                 marginTop: '1px',
-                zIndex: 99999
+                zIndex: 99999,
+                marginTop: '-35px',
+                display: "none",
             }}
         >
             <ul

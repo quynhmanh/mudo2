@@ -14,7 +14,7 @@ import loadable from '@loadable/component';
 import { isClickOutside } from '@Functions/shared/common';
 import axios from "axios";
 import "@Styles/homePage.scss";
-
+import SuggestedList from "@Components/homepage/SuggestedList";
 import PopularTemplate from "@Components/homepage/PopularTemplate";
 import PopularTemplate2 from "@Components/homepage/PopularTemplate2";
 
@@ -115,7 +115,7 @@ class HomePage extends React.Component<IProps, IState> {
                 .get(url)
                 .then(res => {
                     // this.setState({hasDesign: res.data.value.value > 0});
-                    this.setState({hasDesign: res.data.value.value > 0 })
+                    this.setState({ hasDesign: res.data.value.value > 0 })
                 });
         }
     }
@@ -133,7 +133,7 @@ class HomePage extends React.Component<IProps, IState> {
             axios
                 .get(url)
                 .then(res => {
-                    this.setState({hasDesign: res.data.value.value > 0});
+                    this.setState({ hasDesign: res.data.value.value > 0 });
                 });
         }
 
@@ -314,7 +314,7 @@ class HomePage extends React.Component<IProps, IState> {
                         }}
                     >
                         <div style={{
-                            height: '50px',
+                            height: '40px',
                             display: 'flex',
                             justifyContent: 'space-between',
                             position: 'relative',
@@ -336,11 +336,12 @@ class HomePage extends React.Component<IProps, IState> {
                                 height: '100%',
                             }} id="logo" href="/">
                                 <svg style={{
-                                    transform: 'scale(0.5)',
+                                    transform: 'scale(0.4)',
                                     transformOrigin: 'center 20px',
                                     position: 'absolute',
                                     left: 0,
                                     right: 0,
+                                    top: '-4px',
                                     margin: 'auto',
                                     fill: 'rgb(28 119 212)'
                                 }} width="160" height="60" xmlns="http://www.w3.org/2000/svg">
@@ -396,7 +397,6 @@ class HomePage extends React.Component<IProps, IState> {
                                             display: 'block',
                                             padding: '0 10px',
                                         }}
-                                        // onClick={() => {location.href='/login';}}
                                         onClick={this.handleLogin}
                                     >{this.translate("login")}</button></div>
                                     :
@@ -422,7 +422,7 @@ class HomePage extends React.Component<IProps, IState> {
                                             className="button-list"
                                             onClick={this.handleProfilePopup}
                                         >
-                                            <span style={{ marginRight: '10px',  marginTop: '3px', fontSize: '13px', }}>{Globals.serviceUser.username}</span>
+                                            <span style={{ marginRight: '10px', marginTop: '3px', fontSize: '13px', }}>{Globals.serviceUser.username}</span>
                                             <img style={{
                                                 width: '29px',
                                                 height: '29px',
@@ -531,7 +531,6 @@ class HomePage extends React.Component<IProps, IState> {
                             }}
                         >
                             <div
-                                // className="container" 
                                 style={{
                                     borderRadius: '10px',
                                     backgroundSize: 'cover',
@@ -553,12 +552,12 @@ class HomePage extends React.Component<IProps, IState> {
                                         content: "",
                                         display: 'block',
                                         top: 0,
-                                        left: "30px",
+                                        left: "25px",
                                         right: "30px",
                                         width: "calc(100% - 60px)",
                                         borderRadius: "10px",
                                         bottom: 0,
-                                        zIndex: 1,
+                                        zIndex: 123,
                                         // opacity: .9,
                                         backgroundRepeat: 'no-repeat',
                                         backgroundSize: 'cover',
@@ -569,7 +568,7 @@ class HomePage extends React.Component<IProps, IState> {
                                     <div className="h__hero u-color-inherit@medium ">
                                         <svg style={{
                                             display: 'block',
-                                            margin: '88px auto',
+                                            margin: '30px auto',
                                             fill: 'rgb(45 44 44)',
                                         }} version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="317" height="44">
                                             <g id="Layer1" name="Layer 1" opacity="1">
@@ -585,6 +584,30 @@ class HomePage extends React.Component<IProps, IState> {
                                             </g>
                                         </svg>
                                     </div>
+
+                                    <div className="searchWrapper___ktY0d">
+                                        <div className="searchFormWrapper___2LC5i">
+                                            <form className="form___1I3Xs" noValidate>
+                                                <div className="sc-fzXfMy cllNNH">
+                                                    <input 
+                                                        type="text"
+                                                        autoComplete="off"
+                                                        name="searchQuery"
+                                                        className="sc-fzXfMz sc-fzXfMA ddkFCa proxima-regular___3FDdY"
+                                                        placeholder="Search from thousands of formats and designs" 
+                                                        onFocus={e => {
+                                                            let el = document.getElementById("homepage_list").style.display = "block";
+                                                        }}
+                                                        onBlur={e => {
+                                                            let el = document.getElementById("homepage_list").style.display = "none";
+                                                        }}
+                                                    />
+                                                    </div>
+                                                <div className="buttonsWrapper___2Ertf">
+                                                <button type="submit" className="sc-AykKD itGidr sc-AykKE ivaxgr searchBtn___3JEWS" data-categ="homeSearchForm" data-value="submit"><div className="sc-AykKF ceNsQj"><svg viewBox="0 0 24 24" width={24} height={24} className="sc-AykKK exPXfb"><path fillRule="evenodd" clipRule="evenodd" d="M17.4138 15.8368L21.8574 20.2857C22.0558 20.5064 22.046 20.8443 21.8352 21.0532L21.0575 21.8317C20.9532 21.937 20.8113 21.9962 20.6632 21.9962C20.5151 21.9962 20.3731 21.937 20.2688 21.8317L15.8252 17.3828C15.7023 17.2596 15.5907 17.1256 15.4919 16.9824L14.6587 15.8701C13.2802 16.9723 11.5682 17.5724 9.80409 17.5719C6.16878 17.5845 3.00983 15.0738 2.19744 11.5261C1.38504 7.97844 3.13601 4.34066 6.41372 2.76643C9.69143 1.1922 13.6211 2.10166 15.8763 4.95639C18.1314 7.81111 18.1102 11.8492 15.8252 14.68L16.9361 15.4475C17.1096 15.5586 17.2698 15.6892 17.4138 15.8368ZM4.24951 9.78627C4.24951 12.8576 6.73635 15.3475 9.80402 15.3475C11.2772 15.3475 12.69 14.7616 13.7317 13.7186C14.7733 12.6757 15.3585 11.2612 15.3585 9.78627C15.3585 6.7149 12.8717 4.22507 9.80402 4.22507C6.73635 4.22507 4.24951 6.7149 4.24951 9.78627Z" /></svg></div></button></div></form><div /></div><div className="popularFormatsWrapper___1PPVz"><p className="typography-subheading-s tryThis___36Zem">Try this:</p><div className="popularList___3nk_n"><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="facebookSM" data-subcateg="searchSuggesting" href="/home/facebook/"><div className="sc-AykKF ceNsQj">Facebook Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="socialMediaSM" data-subcateg="searchSuggesting" href="/home/square-graphic-post/"><div className="sc-AykKF ceNsQj">Square Graphic Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="animatedPostAN" data-subcateg="searchSuggesting" href="/home/animated-post/"><div className="sc-AykKF ceNsQj">Square Video Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramStorySM" data-subcateg="searchSuggesting" href="/home/instagram-story/"><div className="sc-AykKF ceNsQj">Instagram Story</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramSM" data-subcateg="searchSuggesting" href="/home/instagram/"><div className="sc-AykKF ceNsQj">Instagram Post</div></a></div></div></div>
+                                    <SuggestedList
+                                        translate={this.translate}
+                                    />
                                 </header>
                             </div>
                         </div>
