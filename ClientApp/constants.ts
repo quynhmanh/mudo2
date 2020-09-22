@@ -330,37 +330,37 @@ export const SUGGESTED_LIST = [
   },
   {
     url: "/editor/4/0",
-    src: "images/eIRfvcnuuEKn2QGfvVGOqQ.svg",
+    src: "images/Logo-01.svg",
     title: "logo",
     size: "500 × 500 px"
   },
   {
     url: "/editor/7/0",
-    src: "images/owdn5oxp2UG8OjFOrxcFQ.svg",
+    src: "images/brochures.svg",
     title: "brochures",
     size: "1920 × 1080 px"
   },
   {
     url: "/editor/7/0",
-    src: "images/2RswVAz1kORIR98Y7DdA.svg",
+    src: "images/flyer.svg",
     title: "flyer",
     size: "210 × 297 mm"
   },
   {
     url: "/templates/business-cards",
-    src: "images/kPsZvFiQTEGq3asTsPBNHg.svg",
+    src: "images/business-card.svg",
     title: "business-card",
     size: "8.5 × 5 cm"
   },
   {
     url: "/templates/postcards",
-    src: "images/JGzOwEpLlkSGGHMaLuGagA.svg",
+    src: "images/card.svg",
     title: "post-card",
     size: "148 × 105 mm"
   },
   {
     url: "/templates/resume",
-    src: "images/xZv5tdDLc0OpQkBnGLJ8ag.svg",
+    src: "images/resume.svg",
     title: "resume",
     size: "148 × 105 mm"
   }
