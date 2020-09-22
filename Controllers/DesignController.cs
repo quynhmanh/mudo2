@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using PuppeteerSharp;
 using RCB.TypeScript.Models;
 using RCB.TypeScript.Services;
+using System.Linq;
+using Serilog;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -339,110 +341,116 @@ namespace RCB.TypeScript.Controllers
                 {
                     iTextSharp.text.Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
                     iTextSharp.text.pdf.PdfSmartCopy pCopy = new iTextSharp.text.pdf.PdfSmartCopy(doc, msOutput);
+
                     doc.Open();
                     var canvas = oDownloadBody.Canvas;
-                    for (var i = 0; i < canvas.Length; ++i)
+                    PdfImportedPage[] pages = new PdfImportedPage[canvas.Length];
+                    PdfReader[] reader2 = new PdfReader[canvas.Length];
+                    Page[] pages2 = new Page[canvas.Length];
+
+                    var executablePath = "/usr/bin/google-chrome-stable";
+                    if (HostingEnvironment.IsDevelopment())
                     {
-                        var html = template.Replace("[CANVAS]", canvas[i]);
-                        try
-                        {
-                            byte[] bytes = Encoding.ASCII.GetBytes(html);
-                            using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
-                            {
-                                htmlFile.Write(bytes, 0, bytes.Length);
-                                htmlFile.Flush();
-                            }
-                        } catch (Exception e)
-                        {
+                        executablePath = Configuration.GetSection("chromeExePath").Get<string>();
+                    }
 
-                        }
+                    await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
 
-                        var executablePath = "/usr/bin/google-chrome-stable";
-                        if (HostingEnvironment.IsDevelopment())
+                    using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+                    {
+                        DefaultViewport = new ViewPortOptions()
                         {
-                            executablePath = Configuration.GetSection("chromeExePath").Get<string>();
-                        }
+                            Width = (int)double.Parse(width),
+                            Height = (int)double.Parse(height),
+                        },
+                        Args = new string[] { 
+                            "--no-sandbox", 
+                            "--disable-setuid-sandbox",
+                            "--disable-gpu",
+                            "--unlimited-storage",
+                            "--disable-dev-shm-usage",
+                        },
+                        ExecutablePath = executablePath,
+                        // Headless = false,
+                        IgnoreHTTPSErrors = true,
+                    }))
+                    {
 
-                        using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-                        {
-                            DefaultViewport = new ViewPortOptions()
+                        await Task.WhenAll(canvas.Select(async (c, i) => {
+                            var html = template.Replace("[CANVAS]", c);
+                            try
                             {
-                                Width = (int)double.Parse(width),
-                                Height = (int)double.Parse(height),
-                            },
-                            Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
-                            ExecutablePath = executablePath,
-                            //Headless = false,
-                            IgnoreHTTPSErrors = true,
-                        }))
-                        {
-                            var page = await browser.NewPageAsync();
-                            await page.SetContentAsync(html, new NavigationOptions() {
-                                WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Load}
-                            });
-                            Stream a = await page.PdfStreamAsync(new PdfOptions()
-                            {
-                                Width = width + "px",
-                                Height = (int)double.Parse(height) + 5000 + "px",
-                            });
-
-                            string b = await page.ScreenshotBase64Async(new ScreenshotOptions()
-                            {
-                                Clip = new PuppeteerSharp.Media.Clip()
+                                byte[] bytes = Encoding.ASCII.GetBytes(html);
+                                using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
                                 {
-                                    Width = decimal.Parse(width),
-                                    Height = decimal.Parse(height),
-                                },
-                                OmitBackground = true,
-                            });
+                                    htmlFile.Write(bytes, 0, bytes.Length);
+                                    htmlFile.Flush();
+                                }
+                            } catch (Exception e)
+                            {
 
-                            PdfReader reader2 = new PdfReader(a);
-                            Rectangle rec = reader2.GetPageSize(1);
-                            float ratio = (int)double.Parse(width) * 1f / (int)double.Parse(height);
-                            float left = 0;
-                            float bottom = rec.Height - rec.Width / ratio;
-                            float right = rec.Width;
-                            float top = rec.Height;
+                            }
 
-                            System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
-                            PdfDictionary pageDict;
-                            PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
-                            pageDict = reader2.GetPageN(1);
-                            pageDict.Put(PdfName.CROPBOX, rect);
+                            // try {
+                            //     await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+                            // } catch (Exception) {
 
-                            //PdfStamper pdfStamper2 = new PdfStamper(reader2, new FileStream("/Users/llaugusty/Downloads/quynh2.pdf", FileMode.Create));
+                            // }
+                            
+                            pages2[i] = await browser.NewPageAsync();
+                            int cnt = 0;
+                            while (true) {
+                                ++cnt;
+                                try {
+                                    await pages2[i].SetContentAsync(html, new NavigationOptions() {
+                                        WaitUntil = new WaitUntilNavigation[] {WaitUntilNavigation.Networkidle0}
+                                    });
+                                    Stream a = await pages2[i].PdfStreamAsync(new PdfOptions()
+                                    {
+                                        Width = width + "px",
+                                        Height = (int)double.Parse(height) + 3000 + "px",
+                                    });
 
-                            //iTextSharp.text.Rectangle pageRectangle = reader2.GetPageSizeWithRotation(1);
-                            //PdfContentByte pdfData = pdfStamper2.GetOverContent(1);
-                            //pdfData.SetFontAndSize(BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED), 10);
-                            //PdfGState graphicsState = new PdfGState();
-                            //graphicsState.FillOpacity = 0.4F;
-                            //pdfData.SetGState(graphicsState);
-                            //pdfData.BeginText();
+                                    string b = await pages2[i].ScreenshotBase64Async(new ScreenshotOptions()
+                                    {
+                                        Clip = new PuppeteerSharp.Media.Clip()
+                                        {
+                                            Width = decimal.Parse(width),
+                                            Height = decimal.Parse(height),
+                                        },
+                                        OmitBackground = true,
+                                    });
 
-                            //iTextSharp.text.Image jpeg = Image.GetInstance("https://www.pngfind.com/pngs/m/256-2563274_rose-flowers-love-yellow-roses-png-image-rose.png");
-                            //float width2 = pageRectangle.Width;
-                            //float height2 = pageRectangle.Height;
-                            ////jpeg.ScaleToFit(width2, height2);
-                            //jpeg.SetAbsolutePosition(100, 100);
+                                    reader2[i] = new PdfReader(a);
+                                    Rectangle rec = reader2[i].GetPageSize(1);
+                                    float ratio = (int)double.Parse(width) * 1f / (int)double.Parse(height);
+                                    float left = 0;
+                                    float bottom = rec.Height - rec.Width / ratio;
+                                    float right = rec.Width;
+                                    float top = rec.Height;
 
-                            ////jpeg.SetAbsolutePosition(width2 / 2 - jpeg.ScaledWidth / 2, height2 / 2 - jpeg.ScaledHeight / 2);
-                            //jpeg.Rotation = 45;
+                                    System.IO.MemoryStream msOutput3 = new System.IO.MemoryStream();
+                                    PdfDictionary pageDict;
+                                    PdfRectangle rect = new PdfRectangle(left, bottom, right, top);
+                                    pageDict = reader2[i].GetPageN(1);
+                                    pageDict.Put(PdfName.CROPBOX, rect);
+                                    
+                                    break;
+                                } catch (Exception e) {
+                                    Log.Logger.Error($"Something went wrong: {e}");
+                                    pages2[i] = await browser.NewPageAsync();
+                                    if (cnt == 3) {
+                                        break;
+                                    }
+                                }
+                            }
+                        }));
+                    }
 
-                            //pdfData.AddImage(jpeg);
-
-                            ////var text = "Other random blabla...";
-                            ////// put the alignment and coordinates here
-                            ////pdfData.ShowTextAligned(2, text, 100, 200, 0);
-
-                            //pdfData.EndText();
-                            ////msOutput3.Close();
-                            ////pdfStamper2.Close();
-                            //msOutput3.Position = 0;
-                            ////PdfReader reader3 = new PdfReader(msOutput3);
-                            pCopy.AddPage(pCopy.GetImportedPage(reader2, 1));
-                            reader2.Close();
-                        }
+                    for (var i = 0; i < canvas.Length; ++i) {
+                        pCopy.AddPage(pCopy.GetImportedPage(reader2[i], 1));
+                        reader2[i].Close();
+                        pages2[i].CloseAsync();
                     }
 
                     doc.Close();
@@ -450,11 +458,7 @@ namespace RCB.TypeScript.Controllers
                     data = msOutput.ToArray();
                 }
 
-                //p.WaitForExit();
-
                 return File(data, "application/pdf");
-
-                //return Json(null);
             }
         }
 

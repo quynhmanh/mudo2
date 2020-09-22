@@ -42,6 +42,7 @@ class Popup extends Component<IProps, IState> {
         mounted: false,
         recentDesign: getRem(10),
         hasMore: true,
+        startPoint: 0,
     }
 
     constructor(props: any) {
