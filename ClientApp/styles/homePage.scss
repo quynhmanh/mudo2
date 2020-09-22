@@ -4,7 +4,9 @@ body {
     overscroll-behavior: none;
 }
   
-
+a:focus, a:hover {
+	text-decoration: none;
+}
 
 @-webkit-keyframes TB8Ekw {
 	0% {
@@ -136,4 +138,12 @@ body {
     flex-shrink: 0;
     user-select: none;
     transition: fill 0.3s ease 0s;
+}
+
+.popularItem___EYcj6:not(:last-child) {
+    margin-right: 8px;
+}
+
+.kNYgVe:hover, .kNYgVe:active, .kNYgVe.active {
+    background-color: rgba(255, 255, 255, 0.8);
 }
