@@ -406,9 +406,22 @@ class HomePage extends React.Component<IProps, IState> {
                                                 </div>
                                                 <div className="buttonsWrapper___2Ertf">
                                                     <button type="submit" className="sc-AykKD itGidr sc-AykKE ivaxgr searchBtn___3JEWS" data-categ="homeSearchForm" data-value="submit"><div className="sc-AykKF ceNsQj"><svg viewBox="0 0 24 24" width={24} height={24} className="sc-AykKK exPXfb"><path fillRule="evenodd" clipRule="evenodd" d="M17.4138 15.8368L21.8574 20.2857C22.0558 20.5064 22.046 20.8443 21.8352 21.0532L21.0575 21.8317C20.9532 21.937 20.8113 21.9962 20.6632 21.9962C20.5151 21.9962 20.3731 21.937 20.2688 21.8317L15.8252 17.3828C15.7023 17.2596 15.5907 17.1256 15.4919 16.9824L14.6587 15.8701C13.2802 16.9723 11.5682 17.5724 9.80409 17.5719C6.16878 17.5845 3.00983 15.0738 2.19744 11.5261C1.38504 7.97844 3.13601 4.34066 6.41372 2.76643C9.69143 1.1922 13.6211 2.10166 15.8763 4.95639C18.1314 7.81111 18.1102 11.8492 15.8252 14.68L16.9361 15.4475C17.1096 15.5586 17.2698 15.6892 17.4138 15.8368ZM4.24951 9.78627C4.24951 12.8576 6.73635 15.3475 9.80402 15.3475C11.2772 15.3475 12.69 14.7616 13.7317 13.7186C14.7733 12.6757 15.3585 11.2612 15.3585 9.78627C15.3585 6.7149 12.8717 4.22507 9.80402 4.22507C6.73635 4.22507 4.24951 6.7149 4.24951 9.78627Z" /></svg></div></button></div></form><div /></div><div className="popularFormatsWrapper___1PPVz"><p className="typography-subheading-s tryThis___36Zem">Try this:</p><div className="popularList___3nk_n"><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="facebookSM" data-subcateg="searchSuggesting" href="/templates/6">
-                                                        <div className="sc-AykKF ceNsQj">Facebook Post</div></a>
-                                                        <a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="socialMediaSM" data-subcateg="searchSuggesting" href="/templates/10/">
-                                                            <div className="sc-AykKF ceNsQj">Menu</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="animatedPostAN" data-subcateg="searchSuggesting" href="/home/animated-post/"><div className="sc-AykKF ceNsQj">Square Video Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramStorySM" data-subcateg="searchSuggesting" href="/home/instagram-story/"><div className="sc-AykKF ceNsQj">Instagram Story</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramSM" data-subcateg="searchSuggesting" href="/home/instagram/"><div className="sc-AykKF ceNsQj">Instagram Post</div></a></div></div></div>
+                                                    <div className="sc-AykKF ceNsQj">Facebook Post</div>
+</a>
+<a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="socialMediaSM" data-subcateg="searchSuggesting" href="/templates/10/">
+   <div className="sc-AykKF ceNsQj">Menu</div>
+</a>
+{/*<a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="animatedPostAN" data-subcateg="searchSuggesting" href="/home/animated-post/">
+   <div className="sc-AykKF ceNsQj">Square Video Post</div>
+</a>
+ <a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramStorySM" data-subcateg="searchSuggesting" href="/home/instagram-story/">
+   <div className="sc-AykKF ceNsQj">Instagram Story</div>
+</a>
+<a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramSM" data-subcateg="searchSuggesting" href="/home/instagram/">
+   <div className="sc-AykKF ceNsQj">Instagram Post</div>
+</a> */}
+</div></div></div>
+
                                     <SuggestedList
                                         translate={this.translate}
                                     />
