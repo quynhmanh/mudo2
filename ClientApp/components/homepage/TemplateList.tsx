@@ -212,15 +212,6 @@ export default class TemplateList extends Component<IProps, IState> {
                     display: this.state.mounted ? "block" : "none",
                 }}
             >
-                <h3
-                    style={{
-                        marginBottom: '20px',
-                        marginTop: '20px',
-                        fontFamily: "AvenirNextRoundedPro",
-                        fontWeight: 600,
-                        fontSize: "23px",
-                    }}
-                >Letter header</h3>
                 <div>
                     <div>
                         <div style={{ position: 'relative' }}>

@@ -37,9 +37,39 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
     }
 
     render() {
-        let loggedIn = false;
 
-        console.log('parseInt(this.props.match.params.subtype)', this.props, this.props.match.params.subtype, parseInt(this.props.match.params.subtype))
+        const type = parseInt(this.props.match.params.subtype);
+        let title = "";
+
+        switch (type) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                title = "Facebook Post";
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11: // Menu
+                title = "Menu";
+                break;
+        }
+
         return <div>
             <Helmet>
                 <title>Mẫu thiết kế</title>
@@ -49,6 +79,16 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
                     <div
                         style={{ width: '100%' }}
                     >
+                        {!isNode() && 
+                        <h1
+                    style={{
+                        marginTop: '30px',
+                        fontFamily: "AvenirNextRoundedPro",
+                        fontWeight: 600,
+                        fontSize: "30px",
+                        textAlign: 'center',
+                    }}
+                >{title}</h1>}
                         {/* <div id="divSmoothingFactor">
             <label for="cmbBufferSize">Buffer size:</label>
             <select id="cmbBufferSize">
