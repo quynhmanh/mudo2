@@ -245,6 +245,7 @@ export default class TemplateList extends Component<IProps, IState> {
                                         marginTop: '1px',
                                         transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
                                         flexWrap: 'wrap',
+                                        justifyContent: 'space-between',
                                     }}
                                     className="templateList___2swQr"
                                 >
@@ -259,6 +260,38 @@ export default class TemplateList extends Component<IProps, IState> {
                                             loadImage={this.loadImage}
                                             startPoint={this.state.startPoint}
                                         />)}
+                                    <Item
+                                        itemWidth={width}
+                                        itemHeight={0}
+                                        prefix={3}
+                                        key={0}
+                                        keys={0}
+                                        loadImage={this.loadImage}
+                                        startPoint={this.state.startPoint}/>
+                                    <Item
+                                        itemWidth={width}
+                                        itemHeight={0}
+                                        prefix={3}
+                                        key={0}
+                                        keys={0}
+                                        loadImage={this.loadImage}
+                                        startPoint={this.state.startPoint}/>
+                                    <Item
+                                        itemWidth={width}
+                                        itemHeight={0}
+                                        prefix={3}
+                                        key={0}
+                                        keys={0}
+                                        loadImage={this.loadImage}
+                                        startPoint={this.state.startPoint}/>
+                                    <Item
+                                        itemWidth={width}
+                                        itemHeight={0}
+                                        prefix={3}
+                                        key={0}
+                                        keys={0}
+                                        loadImage={this.loadImage}
+                                        startPoint={this.state.startPoint}/>
                                 </div>
                             </InfiniteScroll>
                         </div>
