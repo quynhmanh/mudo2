@@ -246,6 +246,7 @@ export default class TemplateList extends Component<IProps, IState> {
                                         marginTop: '1px',
                                         transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
                                         flexWrap: 'wrap',
+                                        justifyContent: "center",
                                     }}
                                     className="templateList___2swQr"
                                 >
