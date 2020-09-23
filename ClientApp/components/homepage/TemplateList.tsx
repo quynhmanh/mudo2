@@ -58,7 +58,7 @@ export default class TemplateList extends Component<IProps, IState> {
 
         this.loadImage = this.loadImage.bind(this);
 
-        if (props.type == 7) {
+        if (props.type == 7 || props.type == 9) {
             let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
             this.width = (el.width - 100) / 2 - 100;
         }
@@ -107,6 +107,7 @@ export default class TemplateList extends Component<IProps, IState> {
             case 9:
                 rectWidth = 1080;
                 rectHeight = 1080;
+                width = this.width;
                 break;
             case 10:
                 rectWidth = 2480;
