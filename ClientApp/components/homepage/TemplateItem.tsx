@@ -140,7 +140,7 @@ export default class TemplateItem extends Component<IProps, IState> {
                     background: 'black',
                     animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
                     borderRadius: "4px",
-                    marginBottom: '20px',
+                    marginBottom: '35px',
                     opacity: 0.7,
                     height: this.props.itemHeight + "px",
                 }}
