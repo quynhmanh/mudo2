@@ -62,11 +62,15 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
             case 8:
                 break;
             case 9:
+                title = "Square Video Post";
                 break;
             case 10:
                 break;
             case 11: // Menu
                 title = "Menu";
+                break;
+            case 12: // Instagram Story
+                title = "Instagram Story";
                 break;
         }
 

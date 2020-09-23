@@ -411,15 +411,15 @@ class HomePage extends React.Component<IProps, IState> {
 <a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="socialMediaSM" data-subcateg="searchSuggesting" href="/templates/10/">
    <div className="sc-AykKF ceNsQj">Menu</div>
 </a>
-{/*<a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="animatedPostAN" data-subcateg="searchSuggesting" href="/home/animated-post/">
+<a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="animatedPostAN" data-subcateg="searchSuggesting" href="/templates/9/">
    <div className="sc-AykKF ceNsQj">Square Video Post</div>
 </a>
- <a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramStorySM" data-subcateg="searchSuggesting" href="/home/instagram-story/">
+ <a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramStorySM" data-subcateg="searchSuggesting" href="/templates/12/">
    <div className="sc-AykKF ceNsQj">Instagram Story</div>
 </a>
 <a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramSM" data-subcateg="searchSuggesting" href="/home/instagram/">
    <div className="sc-AykKF ceNsQj">Instagram Post</div>
-</a> */}
+</a>
 </div></div></div>
 
                                     <SuggestedList

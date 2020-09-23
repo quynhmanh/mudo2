@@ -116,6 +116,10 @@ export default class TemplateList extends Component<IProps, IState> {
                 rectWidth = 794;
                 rectHeight = 1123;
                 break;
+            case 12: // Instagram Story
+                rectHeight = 1920;
+                rectWidth = 1080;
+                break;
         }
 
         let height = width / (rectWidth / rectHeight);
