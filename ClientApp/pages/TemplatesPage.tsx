@@ -85,7 +85,7 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
                         marginTop: '30px',
                         fontFamily: "AvenirNextRoundedPro",
                         fontWeight: 600,
-                        fontSize: "30px",
+                        fontSize: "35px",
                         textAlign: 'center',
                     }}
                 >{title}</h1>}

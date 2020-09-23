@@ -223,7 +223,7 @@ export default class TemplateList extends Component<IProps, IState> {
                                 hasMore={this.state.hasMore}
                                 onLoadMore={this.loadMore.bind(this, false)}
                                 refId="sentinel-image2"
-                                marginTop={45}
+                                marginTop={10}
                             >
                                 <div
                                     id="templateList___2swQr"
