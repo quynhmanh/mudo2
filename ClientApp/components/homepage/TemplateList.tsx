@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import uuidv4 from "uuid/v4";
 import axios from "axios";
-import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
+import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import Item from "@Components/homepage/TemplateItem";
 import { isNode } from '@Utils';
 
@@ -220,13 +220,10 @@ export default class TemplateList extends Component<IProps, IState> {
                         fontSize: "23px",
                     }}
                 >Letter header</h3>
-                <div
-                    style={{
-                        height: "220px",
-                    }}>
+                <div>
                     <div>
                         <div style={{ position: 'relative' }}>
-                            {/* <InfiniteXScroll
+                            <InfiniteScroll
                                 scroll={true}
                                 throttle={1000}
                                 threshold={300}
@@ -235,7 +232,7 @@ export default class TemplateList extends Component<IProps, IState> {
                                 onLoadMore={this.loadMore.bind(this, false)}
                                 refId="sentinel-image2"
                                 marginTop={45}
-                            > */}
+                            >
                                 <div
                                     style={{
                                         listStyle: 'none',
@@ -261,7 +258,7 @@ export default class TemplateList extends Component<IProps, IState> {
                                             startPoint={this.state.startPoint}
                                         />)}
                                 </div>
-                            {/* </InfiniteXScroll> */}
+                            </InfiniteScroll>
                         </div>
                     </div>
                 </div>
