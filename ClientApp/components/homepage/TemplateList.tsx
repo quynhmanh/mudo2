@@ -44,6 +44,7 @@ export default class TemplateList extends Component<IProps, IState> {
     }
 
     perPage = 0;
+    width = 0;
 
     constructor(props: any) {
         super(props);
@@ -56,6 +57,71 @@ export default class TemplateList extends Component<IProps, IState> {
         this.state.recentDesign = getRem(this.perPage);
 
         this.loadImage = this.loadImage.bind(this);
+
+        if (props.type == 7) {
+            let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
+            this.width = (el.width - 100) / 2 - 100;
+        }
+
+        let width = 200;
+        let rectWidth, rectHeight;
+
+        switch (this.props.type) {
+            case 0:
+                rectWidth = 642;
+                rectHeight = 378;
+                break;
+            case 1:
+                rectWidth = 1587.402;
+                rectHeight = 2245.04;
+                break;
+            case 2:
+                rectWidth = 2245.04;
+                rectHeight = 1587.402;
+                break;
+            case 3:
+                rectWidth = 3174.8;
+                rectHeight = 4490.08;
+                break;
+            case 4:
+                rectWidth = 500;
+                rectHeight = 500;
+                break;
+            case 5:
+                rectWidth = 794;
+                rectHeight = 1134;
+                break;
+            case 6:
+                rectWidth = 1024;
+                rectHeight = 1024;
+                break;
+            case 7:
+                rectWidth = 1920;
+                rectHeight = 1080;
+                width = this.width;
+                break;
+            case 8:
+                rectWidth = 940;
+                rectHeight = 788;
+                break;
+            case 9:
+                rectWidth = 1080;
+                rectHeight = 1080;
+                break;
+            case 10:
+                rectWidth = 2480;
+                rectHeight = 3508;
+                break;
+            case 11: // Menu
+                rectWidth = 794;
+                rectHeight = 1123;
+                break;
+        }
+
+        let height = width / (rectWidth / rectHeight);
+
+        this.width = width;
+        this.height = height;
     }
 
     loadImage(counter) {
@@ -146,64 +212,8 @@ export default class TemplateList extends Component<IProps, IState> {
 
     render() {
 
-        let width = 200;
-        let rectWidth, rectHeight;
-
-        switch (this.props.type) {
-            case 0:
-                rectWidth = 642;
-                rectHeight = 378;
-                break;
-            case 1:
-                rectWidth = 1587.402;
-                rectHeight = 2245.04;
-                break;
-            case 2:
-                rectWidth = 2245.04;
-                rectHeight = 1587.402;
-                break;
-            case 3:
-                rectWidth = 3174.8;
-                rectHeight = 4490.08;
-                break;
-            case 4:
-                rectWidth = 500;
-                rectHeight = 500;
-                break;
-            case 5:
-                rectWidth = 794;
-                rectHeight = 1134;
-                break;
-            case 6:
-                rectWidth = 1024;
-                rectHeight = 1024;
-                break;
-            case 7:
-                rectWidth = 1920;
-                rectHeight = 1080;
-                width = (screen.width - 200) / 2 - 200;
-                break;
-            case 8:
-                rectWidth = 940;
-                rectHeight = 788;
-                break;
-            case 9:
-                rectWidth = 1080;
-                rectHeight = 1080;
-                break;
-            case 10:
-                rectWidth = 2480;
-                rectHeight = 3508;
-                break;
-            case 11: // Menu
-                rectWidth = 794;
-                rectHeight = 1123;
-                break;
-        }
-
-        let height = width / (rectWidth / rectHeight);
-
-        console.log('width ', width)
+        let width = this.width;
+        let height = this.height;
 
         return (
             <div
@@ -255,32 +265,28 @@ export default class TemplateList extends Component<IProps, IState> {
                                         itemWidth={width}
                                         itemHeight={0}
                                         prefix={3}
-                                        key={0}
-                                        keys={0}
+                                        keys={this.state.recentDesign.length}
                                         loadImage={this.loadImage}
                                         startPoint={this.state.startPoint}/>
                                     <Item
                                         itemWidth={width}
                                         itemHeight={0}
                                         prefix={3}
-                                        key={0}
-                                        keys={0}
+                                        keys={this.state.recentDesign.length + 1}
                                         loadImage={this.loadImage}
                                         startPoint={this.state.startPoint}/>
                                     <Item
                                         itemWidth={width}
                                         itemHeight={0}
                                         prefix={3}
-                                        key={0}
-                                        keys={0}
+                                        keys={this.state.recentDesign.length + 2}
                                         loadImage={this.loadImage}
                                         startPoint={this.state.startPoint}/>
                                     <Item
                                         itemWidth={width}
                                         itemHeight={0}
                                         prefix={3}
-                                        key={0}
-                                        keys={0}
+                                        keys={this.state.recentDesign.length + 3}
                                         loadImage={this.loadImage}
                                         startPoint={this.state.startPoint}/>
                                 </div>
