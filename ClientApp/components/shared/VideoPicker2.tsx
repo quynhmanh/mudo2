@@ -95,7 +95,7 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                             : this.props.defaultHeight + "px"
                         }`,
                     marginBottom: "8px",
-                    opacity: this.state.loaded ? 1 : 0.15,
+                    opacity: this.state.loaded ? 1 : 0.07,
                     animationName: "XhtCamN749DcvC-ecDUzp",
                     animation: this.state.loaded
                         ? "none"
