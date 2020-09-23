@@ -181,6 +181,7 @@ export default class TemplateList extends Component<IProps, IState> {
             case 7:
                 rectWidth = 1920;
                 rectHeight = 1080;
+                width = (screen.width - 200) / 2 - 200;
                 break;
             case 8:
                 rectWidth = 940;
@@ -234,6 +235,7 @@ export default class TemplateList extends Component<IProps, IState> {
                                 marginTop={45}
                             >
                                 <div
+                                    id="templateList___2swQr"
                                     style={{
                                         listStyle: 'none',
                                         padding: 0,
@@ -248,7 +250,7 @@ export default class TemplateList extends Component<IProps, IState> {
                                 >
                                     {this.state.recentDesign.map((item, index) =>
                                         <Item
-                                            itemWidth={200}
+                                            itemWidth={width}
                                             itemHeight={height}
                                             prefix={3}
                                             {...item}
