@@ -291,6 +291,8 @@ class HomePage extends React.Component<IProps, IState> {
     }
 
     render() {
+
+        console.log('rerender')
         if (this.props.i18n.language === undefined)
             return null;
 
@@ -304,219 +306,6 @@ class HomePage extends React.Component<IProps, IState> {
                 <Helmet>
                     <title>{this.props.tReady ? this.translate("title-website") : "Draft"}</title>
                 </Helmet>
-                <div
-                    style={{
-                        boxShadow: '0 1px 8px rgba(38,49,71,.08)',
-                    }}>
-                    <div
-                        className="container"
-                        style={{
-                        }}
-                    >
-                        <div style={{
-                            height: '40px',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            position: 'relative',
-                        }}>
-                            <div style={{
-                                height: '39px',
-                                textAlign: 'center',
-                                lineHeight: '39px',
-                                fontSize: '16px',
-                                width: '200px',
-                            }}>
-                                {/* <a>Menu</a> */}
-                            </div>
-                            <a style={{
-                                position: 'absolute',
-                                left: 0,
-                                right: 0,
-                                width: '200px',
-                                height: '100%',
-                            }} id="logo" href="/">
-                                <svg style={{
-                                    transform: 'scale(0.4)',
-                                    transformOrigin: 'center 20px',
-                                    position: 'absolute',
-                                    left: 0,
-                                    right: 0,
-                                    top: '-4px',
-                                    margin: 'auto',
-                                    fill: 'rgb(28 119 212)'
-                                }} width="160" height="60" xmlns="http://www.w3.org/2000/svg">
-                                    <metadata id="metadata190397">image/svg+xml</metadata>
-
-                                    <g>
-                                        <title>background</title>
-                                        <rect fill="none" id="canvas_background" height="62" width="162" y="-1" x="-1" />
-                                    </g>
-                                    <g>
-                                        <title>Layer 1</title>
-                                        <g stroke="null" id="logo-group">
-                                            <g stroke="null" fontWeight="700" fontSize="72px" fontFamily="'Brandmark1 Bold'" textAnchor="middle" id="title">
-                                                <path stroke="null" transform="translate(0,365.45123291015625) " d="m4.52583,-318.85031c1.04036,2.24451 2.4275,4.29098 4.23078,6.00737c1.87264,1.71639 3.95335,3.10271 6.31149,4.02692c2.4275,0.99023 5.06306,1.45233 7.69863,1.45233c2.63557,0 5.27114,-0.46211 7.69863,-1.45233c2.35814,-0.92421 4.43885,-2.31053 6.31149,-4.02692c1.80328,-1.71639 3.19042,-3.76286 4.23078,-6.00737c1.04036,-2.31053 1.52586,-4.75308 1.52586,-7.32767l0,-32.0173l-10.40356,-3.30075l0,18.74828c-0.55486,-0.26406 -1.10971,-0.52812 -1.66457,-0.72617c-2.4275,-0.99023 -4.99371,-1.45233 -7.69863,-1.45233c-2.63557,0 -5.27114,0.46211 -7.69863,1.45233c-2.35814,0.92421 -4.43885,2.31053 -6.31149,4.02692c-1.80328,1.71639 -3.19042,3.76286 -4.23078,6.00737c-0.971,2.31053 -1.52586,4.75308 -1.52586,7.26166c0,2.57459 0.55486,5.01714 1.52586,7.32767zm18.2409,-16.2397c5.13242,0 9.3632,4.02692 9.3632,8.91203c0,4.95113 -4.23078,8.91203 -9.3632,8.91203c-5.13242,0 -9.3632,-3.9609 -9.3632,-8.91203c0,-4.88511 4.23078,-8.91203 9.3632,-8.91203z" id="path190399" />
-                                                <path stroke="null" transform="translate(0,365.45123291015625) " d="m58.15835,-307.8258l0,0l0,-16.2397c0,-6.33745 5.40985,-11.55263 12.13748,-11.55263l0,-9.90226c-3.05171,0 -6.03406,0.59414 -8.80834,1.71639c-2.63557,1.05624 -5.06306,2.6406 -7.14378,4.62105c-2.08071,1.91444 -3.67592,4.22496 -4.85499,6.79955c-1.17907,2.6406 -1.73393,5.41323 -1.73393,8.3179l0,16.2397l10.40356,0z" id="path190401" />
-                                                <path stroke="null" transform="translate(0,365.45123291015625) " d="m97.54557,-344.99227l0.06936,2.11248c-2.77428,-1.3203 -5.82599,-2.04647 -8.94706,-2.04647c-2.63557,0 -5.27114,0.46211 -7.69863,1.45233c-2.35814,0.99023 -4.43885,2.31053 -6.31149,4.02692c-1.80328,1.71639 -3.19042,3.76286 -4.23078,6.00737c-0.971,2.31053 -1.52586,4.8191 -1.52586,7.32767c0,2.50857 0.55486,5.01714 1.52586,7.32767c1.04036,2.24451 2.4275,4.22496 4.23078,6.00737c1.87264,1.71639 3.95335,3.03669 6.31149,4.02692c2.4275,0.92421 5.06306,1.45233 7.69863,1.45233c3.12107,0 6.17278,-0.72617 8.94706,-2.04647l-0.06936,1.51835l10.40356,0l0,-37.16648l-10.40356,0zm-4.16142,26.53805c-1.38714,0.79218 -3.05171,1.25429 -4.71628,1.25429c-5.13242,0 -9.3632,-4.02692 -9.3632,-8.91203c0,-4.88511 4.23078,-8.91203 9.3632,-8.91203c1.80328,0 3.60657,0.46211 5.06306,1.45233c1.52586,0.8582 2.70492,2.1785 3.3985,3.69684c0.62421,1.18827 0.90164,2.44256 0.90164,3.76286c0,1.58436 -0.41614,3.10271 -1.24843,4.48902c-0.83228,1.3203 -1.942,2.44256 -3.3985,3.16872z" id="path190403" />
-                                                <path stroke="null" transform="translate(0,365.45123291015625) " d="m124.14507,-344.46415l0,-0.06602c0,-5.74331 4.92435,-10.49639 11.02777,-10.49639l0,-9.90226c-2.913,0 -5.75663,0.59414 -8.3922,1.65038c-2.56621,0.99023 -4.85499,2.44256 -6.79699,4.35699c-1.942,1.84842 -3.53721,4.02692 -4.57757,6.46948c-1.10971,2.50857 -1.66457,5.21519 -1.66457,7.92181l0,36.70437l10.40356,0l0,-27.39625l11.02777,0l0,-9.24211l-11.02777,0z" id="path190405" />
-                                                <path stroke="null" transform="translate(0,365.45123291015625) " d="m157.99997,-335.35407l0,-9.24211l-11.02777,0l0,-11.81669l-10.40356,3.30075l0,25.61384c0,2.77263 0.55486,5.41323 1.66457,7.92181c1.04036,2.44256 2.63557,4.62105 4.57757,6.46948c1.942,1.91444 4.23078,3.36677 6.79699,4.42301c2.63557,1.05624 5.47921,1.58436 8.3922,1.58436l0,-9.90226c-6.10342,0 -11.02777,-4.68707 -11.02777,-10.49639l0,-7.85579l11.02777,0z" id="path190407" />
-                                            </g>
-                                            <g stroke="null" fontWeight="400" fontSize="32px" fontFamily="Montserrat" textAnchor="middle" id="tagline" />
-                                        </g>
-                                    </g>
-                                </svg>
-                            </a>
-                            <div style={{
-                                height: '100%',
-                                textAlign: 'center',
-                                lineHeight: '39px',
-                                fontSize: '16px',
-                                padding: '10px',
-                                position: 'relative',
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
-                                {!loggedIn ? <div style={{ display: 'flex' }}>
-                                    <div
-                                        style={{
-                                            borderRight: '1px solid rgb(221, 221, 221)',
-                                            height: '19px',
-                                            marginLeft: '10px',
-                                            marginRight: '10px',
-                                            marginTop: '6px',
-                                        }} />
-                                    <button
-                                        id="login-btn"
-                                        style={{
-                                            height: '30px',
-                                            lineHeight: '30px',
-                                            border: 'none',
-                                            fontSize: '13px',
-                                            borderRadius: '4px',
-                                            color: '#555',
-                                            display: 'block',
-                                            padding: '0 10px',
-                                        }}
-                                        onClick={this.handleLogin}
-                                    >{this.translate("login")}</button></div>
-                                    :
-                                    <div style={{ display: 'flex', position: 'relative', }}>
-                                        <div
-                                            style={{
-                                                borderRight: '1px solid rgb(221, 221, 221)',
-                                                height: '19px',
-                                                marginLeft: '10px',
-                                                marginRight: '10px',
-                                                marginTop: '6px',
-                                            }} />
-                                        <button
-                                            style={{
-                                                height: '30px',
-                                                lineHeight: '25px',
-                                                border: 'none',
-                                                fontSize: '13px',
-                                                borderRadius: '4px',
-                                                color: '#555',
-                                                display: 'flex',
-                                            }}
-                                            className="button-list"
-                                            onClick={this.handleProfilePopup}
-                                        >
-                                            <span style={{ marginRight: '10px', marginTop: '3px', fontSize: '13px', }}>{Globals.serviceUser.username}</span>
-                                            <img style={{
-                                                width: '29px',
-                                                height: '29px',
-                                                borderRadius: '50%',
-                                            }} src="https://www.google.com/s2/photos/private/AIbEiAIAAABDCOiLwpvLu8CPRCILdmNhcmRfcGhvdG8qKGUxNjQ2YjUwNTQwNTVmNGVlZjdkMTQxNDcxYzhjNzg1YmU4OWRjODQwAQZAjaC_9irsFzfZrYEDu9rc_9V6/s100" />
-                                        </button>
-                                        <div id="myProfilePopup"
-                                            className="dropdown-content-font-size"
-                                            style={{
-                                                display: 'none',
-                                                position: 'absolute',
-                                                textAlign: 'center',
-                                                backgroundColor: 'rgb(255, 255, 255)',
-                                                lineHeight: '2rem',
-                                                boxShadow: 'rgba(14, 19, 24, 0.02) 0px 0px 0px 1px, rgba(14, 19, 24, 0.15) 0px 2px 8px',
-                                                background: 'white',
-                                                padding: '10px 0',
-                                                zIndex: 999999,
-                                                left: '15px',
-                                                top: 'calc(100% + 20px)',
-                                                width: '100%',
-                                            }}>
-                                            <button
-                                                id="login-btn"
-                                                style={{
-                                                    height: '30px',
-                                                    lineHeight: '30px',
-                                                    border: 'none',
-                                                    fontSize: '13px',
-                                                    color: 'black',
-                                                    display: 'block',
-                                                    padding: '0 12px',
-                                                    width: '100%',
-                                                    textAlign: 'left',
-                                                }}
-                                                onClick={this.onClickSignOut}
-                                            >{this.translate("logout")}</button>
-                                        </div>
-                                    </div>}
-                                <div
-                                    style={{
-                                        borderRight: '1px solid rgb(221, 221, 221)',
-                                        height: '19px',
-                                        marginLeft: '10px',
-                                        marginRight: '10px',
-                                    }} />
-                                <a id="language-btn" onClick={this.onLanguageBtnClick}>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M3.8 14.25h3.81a21.9 21.9 0 0 1 0-4.5h-3.8a8.5 8.5 0 0 0 0 4.5zm.57 1.5c1 2.04 2.8 3.61 4.98 4.33-.68-1.1-1.2-2.6-1.52-4.33H4.37zm15.83-1.5a8.5 8.5 0 0 0 0-4.5h-3.81a21.9 21.9 0 0 1 0 4.5h3.8zm-.57 1.5h-3.46a12.78 12.78 0 0 1-1.52 4.33 8.53 8.53 0 0 0 4.98-4.33zm-10.5-1.5h5.74a20.12 20.12 0 0 0 0-4.5H9.13a20.12 20.12 0 0 0 0 4.5zm.23 1.5c.56 2.84 1.69 4.75 2.64 4.75.95 0 2.08-1.9 2.64-4.75H9.36zm-4.99-7.5h3.46c.31-1.74.84-3.24 1.52-4.33a8.53 8.53 0 0 0-4.98 4.33zm15.26 0a8.53 8.53 0 0 0-4.98-4.33c.68 1.1 1.2 2.6 1.52 4.33h3.46zm1.64 0h.04v.1a10 10 0 1 1-.04-.1zm-11.91 0h5.28C14.08 5.41 12.95 3.5 12 3.5c-.95 0-2.08 1.9-2.64 4.75z"></path></svg>
-                                    </span>
-                                    <span className="language-btn-title">
-                                        {this.state.locale.title}
-                                    </span>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16"><path fill="currentColor" d="M11.71 6.47l-3.53 3.54c-.1.1-.26.1-.36 0L4.3 6.47a.75.75 0 1 0-1.06 1.06l3.53 3.54c.69.68 1.8.68 2.48 0l3.53-3.54a.75.75 0 0 0-1.06-1.06z"></path></svg>
-                                    </span>
-                                </a>
-                                <div id="language-dropdown" style={{ display: this.state.showLanguageDropdown ? "block" : "none" }}>
-                                    <div className="search-box-container">
-                                        <input type="text" className="search-box" />
-                                    </div>
-                                    <div className="language-list-container">
-                                        <ul className="language-list">
-                                            <li className="language-list-item disabled">
-                                                <div className="language-list-item-selected">
-                                                    <div className="language-list-item-selected-left">
-                                                        {this.state.locale.title}
-                                                    </div>
-                                                    <span className="language-list-item-selected-right">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4.53 11.9L9 16.38 19.44 5.97a.75.75 0 0 1 1.06 1.06L9.53 17.97c-.3.29-.77.29-1.06 0l-5-5c-.7-.71.35-1.77 1.06-1.07z"></path></svg>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li className="language-list-item disabled">
-                                                <div className="language-hr-container">
-                                                    <hr className="language-hr" />
-                                                </div>
-                                            </li>
-                                            {languages.filter((language) => language.value !== this.state.locale.value).map((language) => (
-                                                <li className="language-list-item" key={uuidv4()} onClick={() => this.handleSelectLanguage(language)}>
-                                                    <a className="language-list-item-non-selected">
-                                                        <span className="language-list-item-non-selected-content">
-                                                            {language.title}
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div
                     style={{
                         width: "100%",
@@ -616,7 +405,7 @@ class HomePage extends React.Component<IProps, IState> {
                                                     />
                                                     </div>
                                                 <div className="buttonsWrapper___2Ertf">
-                                                <button type="submit" className="sc-AykKD itGidr sc-AykKE ivaxgr searchBtn___3JEWS" data-categ="homeSearchForm" data-value="submit"><div className="sc-AykKF ceNsQj"><svg viewBox="0 0 24 24" width={24} height={24} className="sc-AykKK exPXfb"><path fillRule="evenodd" clipRule="evenodd" d="M17.4138 15.8368L21.8574 20.2857C22.0558 20.5064 22.046 20.8443 21.8352 21.0532L21.0575 21.8317C20.9532 21.937 20.8113 21.9962 20.6632 21.9962C20.5151 21.9962 20.3731 21.937 20.2688 21.8317L15.8252 17.3828C15.7023 17.2596 15.5907 17.1256 15.4919 16.9824L14.6587 15.8701C13.2802 16.9723 11.5682 17.5724 9.80409 17.5719C6.16878 17.5845 3.00983 15.0738 2.19744 11.5261C1.38504 7.97844 3.13601 4.34066 6.41372 2.76643C9.69143 1.1922 13.6211 2.10166 15.8763 4.95639C18.1314 7.81111 18.1102 11.8492 15.8252 14.68L16.9361 15.4475C17.1096 15.5586 17.2698 15.6892 17.4138 15.8368ZM4.24951 9.78627C4.24951 12.8576 6.73635 15.3475 9.80402 15.3475C11.2772 15.3475 12.69 14.7616 13.7317 13.7186C14.7733 12.6757 15.3585 11.2612 15.3585 9.78627C15.3585 6.7149 12.8717 4.22507 9.80402 4.22507C6.73635 4.22507 4.24951 6.7149 4.24951 9.78627Z" /></svg></div></button></div></form><div /></div><div className="popularFormatsWrapper___1PPVz"><p className="typography-subheading-s tryThis___36Zem">Try this:</p><div className="popularList___3nk_n"><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="facebookSM" data-subcateg="searchSuggesting" href="/home/facebook/"><div className="sc-AykKF ceNsQj">Facebook Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="socialMediaSM" data-subcateg="searchSuggesting" href="/home/square-graphic-post/"><div className="sc-AykKF ceNsQj">Square Graphic Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="animatedPostAN" data-subcateg="searchSuggesting" href="/home/animated-post/"><div className="sc-AykKF ceNsQj">Square Video Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramStorySM" data-subcateg="searchSuggesting" href="/home/instagram-story/"><div className="sc-AykKF ceNsQj">Instagram Story</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramSM" data-subcateg="searchSuggesting" href="/home/instagram/"><div className="sc-AykKF ceNsQj">Instagram Post</div></a></div></div></div>
+                                                <button type="submit" className="sc-AykKD itGidr sc-AykKE ivaxgr searchBtn___3JEWS" data-categ="homeSearchForm" data-value="submit"><div className="sc-AykKF ceNsQj"><svg viewBox="0 0 24 24" width={24} height={24} className="sc-AykKK exPXfb"><path fillRule="evenodd" clipRule="evenodd" d="M17.4138 15.8368L21.8574 20.2857C22.0558 20.5064 22.046 20.8443 21.8352 21.0532L21.0575 21.8317C20.9532 21.937 20.8113 21.9962 20.6632 21.9962C20.5151 21.9962 20.3731 21.937 20.2688 21.8317L15.8252 17.3828C15.7023 17.2596 15.5907 17.1256 15.4919 16.9824L14.6587 15.8701C13.2802 16.9723 11.5682 17.5724 9.80409 17.5719C6.16878 17.5845 3.00983 15.0738 2.19744 11.5261C1.38504 7.97844 3.13601 4.34066 6.41372 2.76643C9.69143 1.1922 13.6211 2.10166 15.8763 4.95639C18.1314 7.81111 18.1102 11.8492 15.8252 14.68L16.9361 15.4475C17.1096 15.5586 17.2698 15.6892 17.4138 15.8368ZM4.24951 9.78627C4.24951 12.8576 6.73635 15.3475 9.80402 15.3475C11.2772 15.3475 12.69 14.7616 13.7317 13.7186C14.7733 12.6757 15.3585 11.2612 15.3585 9.78627C15.3585 6.7149 12.8717 4.22507 9.80402 4.22507C6.73635 4.22507 4.24951 6.7149 4.24951 9.78627Z" /></svg></div></button></div></form><div /></div><div className="popularFormatsWrapper___1PPVz"><p className="typography-subheading-s tryThis___36Zem">Try this:</p><div className="popularList___3nk_n"><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="facebookSM" data-subcateg="searchSuggesting" href="/templates/6"><div className="sc-AykKF ceNsQj">Facebook Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="socialMediaSM" data-subcateg="searchSuggesting" href="/home/square-graphic-post/"><div className="sc-AykKF ceNsQj">Square Graphic Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="animatedPostAN" data-subcateg="searchSuggesting" href="/home/animated-post/"><div className="sc-AykKF ceNsQj">Square Video Post</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramStorySM" data-subcateg="searchSuggesting" href="/home/instagram-story/"><div className="sc-AykKF ceNsQj">Instagram Story</div></a><a className="sc-AykKD itGidr sc-AykKE kNYgVe popularItem___EYcj6" data-categ="template" data-value="instagramSM" data-subcateg="searchSuggesting" href="/home/instagram/"><div className="sc-AykKF ceNsQj">Instagram Post</div></a></div></div></div>
                                     <SuggestedList
                                         translate={this.translate}
                                     />
@@ -638,10 +427,6 @@ class HomePage extends React.Component<IProps, IState> {
                     />
 
                 </div>
-                <LoginPopup
-                    locale={this.state.locale}
-                    translate={this.translate}
-                    handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={this.handleLoginSuccess} />
             </div>
         );
     }

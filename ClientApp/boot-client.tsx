@@ -23,11 +23,23 @@ import './i18n';
 import { Helmet } from "react-helmet";
 
 const Loader = () => 
-<div style={{ position: "fixed", top: "50%", left: "50%" }}>
+<div style={{ position: "fixed", width: "100vw", height: "100vh", top: "50%", left: "50%" }}>
     <Helmet>
         <title>Draft</title>
     </Helmet>
-    Loading...
+    <p
+        style={{
+            margin: 'auto',
+            textAlign: 'center',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            width: '100px',
+            height: '20px',
+        }}
+    >Loading...</p>
 </div>;
 
 function setupSession() {

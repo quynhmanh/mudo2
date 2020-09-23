@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import uuidv4 from "uuid/v4";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
-import Item from "@Components/homepage/PopularTemplateItem3";
+import Item from "@Components/homepage/TemplateItem";
+import { isNode } from '@Utils';
 
 export interface IProps {
     translate: any;
+    type: any;
 }
 
 interface IState {
@@ -30,7 +32,7 @@ let getRem = (rem) => Array(rem).fill(0).map(i => {
     }
 });
 
-export default class PopularTemplate3 extends Component<IProps, IState> {
+export default class TemplateList extends Component<IProps, IState> {
     state = {
         rem: 10,
         hasMore: true,
@@ -46,8 +48,9 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
     constructor(props: any) {
         super(props);
 
-        if (window)
+        if (!isNode()) {
             this.perPage = Math.floor((window.innerWidth - 200) / 141) + 1;
+        }
 
         this.state.rem = this.perPage;
         this.state.recentDesign = getRem(this.perPage);
@@ -93,7 +96,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
     }
 
     loadMore = () => {
-        const url = `/api/Template/Search?Type=1&page=${(this.state.recentDesign.length - this.state.rem) / this.perPage + 1}&perPage=${this.perPage}&printType=10`;
+        const url = `/api/Template/Search?Type=1&page=${(this.state.recentDesign.length - this.state.rem) / this.perPage + 1}&perPage=${this.perPage}&printType=${this.props.type}`;
         //https://localhost:64099/api/Template/Search?Type=1&page=1&perPage=10&printType=10
         axios
             .get(url)
@@ -143,6 +146,64 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
 
     render() {
 
+        let width = 200;
+        let rectWidth, rectHeight;
+
+        switch (this.props.type) {
+            case 0:
+                rectWidth = 642;
+                rectHeight = 378;
+                break;
+            case 1:
+                rectWidth = 1587.402;
+                rectHeight = 2245.04;
+                break;
+            case 2:
+                rectWidth = 2245.04;
+                rectHeight = 1587.402;
+                break;
+            case 3:
+                rectWidth = 3174.8;
+                rectHeight = 4490.08;
+                break;
+            case 4:
+                rectWidth = 500;
+                rectHeight = 500;
+                break;
+            case 5:
+                rectWidth = 794;
+                rectHeight = 1134;
+                break;
+            case 6:
+                rectWidth = 1024;
+                rectHeight = 1024;
+                break;
+            case 7:
+                rectWidth = 1920;
+                rectHeight = 1080;
+                break;
+            case 8:
+                rectWidth = 940;
+                rectHeight = 788;
+                break;
+            case 9:
+                rectWidth = 1080;
+                rectHeight = 1080;
+                break;
+            case 10:
+                rectWidth = 2480;
+                rectHeight = 3508;
+                break;
+            case 11: // Menu
+                rectWidth = 794;
+                rectHeight = 1123;
+                break;
+        }
+
+        let height = width / (rectWidth / rectHeight);
+
+        console.log('width ', width)
+
         return (
             <div
                 style={{
@@ -165,7 +226,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                     }}>
                     <div>
                         <div style={{ position: 'relative' }}>
-                            <InfiniteXScroll
+                            {/* <InfiniteXScroll
                                 scroll={true}
                                 throttle={1000}
                                 threshold={300}
@@ -174,21 +235,24 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                                 onLoadMore={this.loadMore.bind(this, false)}
                                 refId="sentinel-image2"
                                 marginTop={45}
-                            >
-                                <ul
+                            > */}
+                                <div
                                     style={{
                                         listStyle: 'none',
                                         padding: 0,
                                         position: 'relative',
                                         zIndex: 1,
-                                        display: 'inline-flex',
+                                        display: 'flex',
                                         marginTop: '1px',
                                         transition: '.5s cubic-bezier(.68,-.55,.265,1.55)',
+                                        flexWrap: 'wrap',
                                     }}
                                     className="templateList___2swQr"
                                 >
                                     {this.state.recentDesign.map((item, index) =>
                                         <Item
+                                            itemWidth={200}
+                                            itemHeight={height}
                                             prefix={3}
                                             {...item}
                                             key={index}
@@ -196,8 +260,8 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                                             loadImage={this.loadImage}
                                             startPoint={this.state.startPoint}
                                         />)}
-                                </ul>
-                            </InfiniteXScroll>
+                                </div>
+                            {/* </InfiniteXScroll> */}
                         </div>
                     </div>
                 </div>

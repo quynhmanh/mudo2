@@ -85,7 +85,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                 style={{
                     position: 'relative',
                     backgroundSize: '300% 300%',
-                    height: `200px`,
+                    // height: `200px`,
                     width: 'auto',
                     marginBottom: '0px',
                     transitionDuration: '0.4s',
