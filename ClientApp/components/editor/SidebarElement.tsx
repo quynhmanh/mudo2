@@ -33,6 +33,96 @@ export interface IState {
 const imgWidth = 162;
 const backgroundWidth = 105;
 
+const elements = [
+    {
+        representative: "https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png",
+        clipId: "__id1_0",
+        clipWidth: 500,
+        clipHeight: 500,
+        path: "M500 250.002c0 138.065-111.931 249.996-250 249.996-138.071 0-250-111.931-250-249.996C0 111.93 111.929 0 250 0s250 111.93 250 250.002z"
+    },
+    {
+        representative:
+            "https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png",
+        clipId: "__id1_0",
+        clipWidth: 500,
+        clipHeight: 500,
+        path: "M500 250.002c0 138.065-111.931 249.996-250 249.996-138.071 0-250-111.931-250-249.996C0 111.93 111.929 0 250 0s250 111.93 250 250.002z"
+    },
+    {
+        representative:
+            "https://template.canva.com/EADX7QrTMRE/1/0/800w-9JSF7RR-P-c.png",
+        clipId: "__id1_10",
+        clipWidth: 485,
+        clipHeight: 333.5,
+        path: "M485 333.5L0 291.1V0l485 42.4z"
+    },
+    {
+        representative:
+            "https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png",
+        clipId: "__id1_11",
+        clipWidth: 229.6,
+        clipHeight: 264.2,
+        path: "M75.6 215.7h75.7l14.7 48.6h63.6L147.2 0H82.6L0 264.2h61.3l14.3-48.5zm38-128.2l20.4 70H92.9l20.7-70z"
+    },
+    {
+        representative:
+            "https://template.canva.com/EADfCquREdE/1/0/404w-eJxIhDu9uEM.png",
+        clipId: "__id1_12",
+        clipWidth: 206.3,
+        clipHeight: 408.2,
+        path: "m175.3 12.3h-21.4v4.5c0 5.1-4.2 9.3-9.3 9.3h-82.6c-5.1 0-9.3-4.2-9.3-9.3v-4.5h-21.6c-9.1 0-16.5 7.4-16.5 16.5v351c0 9.1 7.4 16.5 16.5 16.5h144.2c9.1 0 16.5-7.4 16.5-16.5v-351c0.1-9.1-7.3-16.5-16.5-16.5z",
+        path2: [{
+            path: "m174.2 2h-142.1c-15.4 0-27.9 12.5-27.9 27.9v348.3c0 15.4 12.5 27.9 27.9 27.9h142.1c15.4 0 27.9-12.5 27.9-27.9v-348.3c0-15.4-12.5-27.9-27.9-27.9zm-47.3 12.8c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5 1.2-2.5 2.5-2.5zm-36.9 0.8h24c0.9 0 1.7 0.7 1.7 1.7s-0.8 1.7-1.7 1.7h-24c-0.9 0-1.7-0.7-1.7-1.7s0.8-1.7 1.7-1.7zm101.9 364.2c0 9.1-7.4 16.5-16.5 16.5h-144.3c-9.1 0-16.5-7.4-16.5-16.5v-351c0-9.1 7.4-16.5 16.5-16.5h21.5v4.5c0 5.1 4.2 9.3 9.3 9.3h82.7c5.1 0 9.3-4.2 9.3-9.3v-4.5h21.4c9.1 0 16.5 7.4 16.5 16.5v351z",
+            fill: "#000000",
+        }],
+    },
+    {
+        representative:
+            "https://template.canva.com/EADeqIhE6gQ/1/0/800w-aHMY8cRMwKQ.png",
+        clipId: "__id1_13",
+        clipWidth: 588,
+        clipHeight: 472.1,
+        path: "M24.8 27.8H562.4V329.8H24.8z",
+        path2: [
+            {
+                path: "m561.2 0h-534.4c-14.8 0-26.8 12-26.8 26.8v328.6h588v-328.6c0-14.8-12-26.8-26.8-26.8zm1.2 329.8h-537.6v-302h537.6v302z",
+                fill: "#000000",
+            },
+            {
+                path: "m0 383.5c0 14.8 12 26.8 26.8 26.8h534.4c14.8 0 26.8-12 26.8-26.8v-28h-588v28z",
+                fill: "#e9e9e9",
+            },
+            {
+                path: "m290.4 410.3h-63.4s-1.9 29.2-3.9 41.4c-3.5 20.9-24.9 14.2-31 18.6-0.8 0.6-0.4 1.9 0.6 1.9h202.4c1 0 1.4-1.3 0.6-1.9-6.1-4.4-27.5 2.3-31-18.6-2-12.2-3.9-41.4-3.9-41.4h-70.4z",
+                fill: "#bbbbbb",
+            }
+        ],
+    },
+    {
+        representative:
+            "https://template.canva.com/EADeqUpyBjA/1/0/800w-QJezxdZmZ_Y.png",
+        clipId: "__id1_14",
+        clipWidth: 628.5,
+        clipHeight: 360.5,
+        path: "M75.8 21.8H552.6V320.2H75.8z",
+        path2: [
+            {
+                path: "m550.4 1.7h-472.3c-9.8 0-17.8 8-17.8 17.8v322.9h508v-322.9c-0.1-9.8-8.1-17.8-17.9-17.8zm2.2 318.4h-476.8v-298.3h476.8v298.3z",
+                fill: "#000000",
+            },
+            {
+                path: "m570 342.4v-323.2c0-10.6-8.6-19.2-19.2-19.2h-473.2c-10.5 0-19.1 8.6-19.1 19.2v323.3h-58.5v7.7c0 4.2 3.4 7.5 7.5 7.5h613.5c4.2 0 7.5-3.4 7.5-7.5v-7.7h-58.5zm-214.1 0v0.1c0 4.2-3.4 7.5-7.5 7.5h-68.3c-4.2 0-7.5-3.4-7.5-7.5v-0.1h-212.3v-322.9c0-9.8 8-17.8 17.8-17.8h472.3c9.8 0 17.8 8 17.8 17.8v322.9h-212.3z",
+                fill: "#e9e9e9"
+            },
+            {
+                path: "m280.1 350.1h68.3c4.2 0 7.5-3.4 7.5-7.5v-0.1h-83.4v0.1c0 4.1 3.4 7.5 7.6 7.5z",
+                fill: "#cccccc",
+            }
+        ],
+    }
+];
+
 export default class SidebarEffect extends Component<IProps, IState> {
     state = {
         isLoading: false,
@@ -331,105 +421,27 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     freeStyle: true
                                 })}
                                 style={{
-                                    width: "160px",
-                                    height: imgWidth + "px",
+                                    width: "100px",
+                                    height: 100 + "px",
                                     backgroundColor: "#019fb6",
                                     marginRight: "8px",
                                     marginBottom: "8px",
                                 }}
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                             />
-                            <img
-                                onMouseDown={this.imgOnMouseDown.bind(this, {
-                                    representative:
-                                        "https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png",
-                                    clipId: "__id1_0",
-                                    clipWidth: 500,
-                                    clipHeight: 500,
-                                    path: "M500 250.002c0 138.065-111.931 249.996-250 249.996-138.071 0-250-111.931-250-249.996C0 111.93 111.929 0 250 0s250 111.93 250 250.002z"
-                                })}
-                                style={{
-                                    width: "162px",
-                                    height: imgWidth + "px",
-                                    marginRight: "8px",
-                                    marginBottom: "8px",
-                                }}
-                                src="https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png"
-                            />
-
-                            <img
-                                onMouseDown={this.imgOnMouseDown.bind(this, {
-                                    representative:
-                                        "https://template.canva.com/EADX7r0xmN0/1/0/800w-KJddcbuAC3c.png",
-                                    clipId: "__id1_9",
-                                    clipWidth: 500,
-                                    clipHeight: 500,
-                                    path: "M440.102 79.27c-9.778-16.932-27.509-26.405-45.749-26.418l.003-.003c-18.24-.016-35.974-9.488-45.749-26.418-14.586-25.267-46.892-33.922-72.159-19.333l-.004.003v-.016c-15.693 9.041-35.609 9.757-52.466.198A52.578 52.578 0 0 0 197.201 0c-19.551 0-36.619 10.623-45.755 26.412v-.003c-9.133 15.786-26.205 26.409-45.753 26.409-29.175 0-52.824 23.649-52.824 52.824v.006l-.016-.006c-.016 18.101-9.345 35.698-26.03 45.521a52.552 52.552 0 0 0-19.722 19.559c-9.776 16.934-9.111 37.025-.003 52.83h-.003c9.101 15.802 9.766 35.895-.01 52.827-14.585 25.264-5.931 57.57 19.336 72.159l.003.003-.01.007c15.789 9.129 26.407 26.201 26.407 45.752 0 29.175 23.649 52.824 52.823 52.824 19.552 0 36.617 10.621 45.756 26.41 9.133 15.782 26.204 26.41 45.753 26.41a52.61 52.61 0 0 0 26.777-7.284c16.853-9.557 36.774-8.841 52.466.203v-.019l.003.006c25.267 14.586 57.573 5.928 72.163-19.336 9.775-16.929 27.506-26.403 45.746-26.416l-.004-.007c18.24-.013 35.974-9.487 45.746-26.416 4.813-8.335 7.097-17.439 7.087-26.417l.007.006c.016-17.594 8.832-34.719 24.652-44.682 8.528-4.484 15.929-11.355 21.1-20.312 9.779-16.938 9.114-37.031.007-52.833h.003c-9.104-15.802-9.77-35.895.007-52.828 14.589-25.267 5.931-57.57-19.336-72.159l-.004-.004.01-.003c-15.662-9.062-26.236-25.935-26.403-45.291.092-9.134-2.185-18.404-7.078-26.882"
-                                })}
-                                style={{
-                                    width: "162px",
-                                    height: imgWidth + "px",
-                                    marginRight: "8px",
-                                    marginBottom: "8px",
-                                }}
-                                src="https://template.canva.com/EADX7r0xmN0/1/0/800w-KJddcbuAC3c.png"
-                            />
-
-                            <img
-                                onMouseDown={this.imgOnMouseDown.bind(this, {
-                                    representative:
-                                        "https://template.canva.com/EADX7QrTMRE/1/0/800w-9JSF7RR-P-c.png",
-                                    clipId: "__id1_10",
-                                    clipWidth: 485,
-                                    clipHeight: 333.5,
-                                    path: "M485 333.5L0 291.1V0l485 42.4z"
-                                })}
-                                style={{
-                                    width: "162px",
-                                    height: 111.3 + "px",
-                                    marginRight: "8px",
-                                    marginBottom: "8px",
-                                }}
-                                src="https://template.canva.com/EADX7QrTMRE/1/0/800w-9JSF7RR-P-c.png"
-                            />
-                            <img
-                                onMouseDown={this.imgOnMouseDown.bind(this, {
-                                    representative:
-                                        "https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png",
-                                    clipId: "__id1_11",
-                                    clipWidth: 229.6,
-                                    clipHeight: 264.2,
-                                    path: "M75.6 215.7h75.7l14.7 48.6h63.6L147.2 0H82.6L0 264.2h61.3l14.3-48.5zm38-128.2l20.4 70H92.9l20.7-70z"
-                                })}
-                                style={{
-                                    width: "162px",
-                                    height: 186 + "px",
-                                    marginRight: "8px",
-                                    marginBottom: "8px",
-                                }}
-                                src="https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png"
-                            />
-                            <img
-                                onMouseDown={this.imgOnMouseDown.bind(this, {
-                                    representative:
-                                        "https://template.canva.com/EADfCquREdE/1/0/404w-eJxIhDu9uEM.png",
-                                    clipId: "__id1_12",
-                                    clipWidth: 206.3,
-                                    clipHeight: 408.2,
-                                    path: "m175.3 12.3h-21.4v4.5c0 5.1-4.2 9.3-9.3 9.3h-82.6c-5.1 0-9.3-4.2-9.3-9.3v-4.5h-21.6c-9.1 0-16.5 7.4-16.5 16.5v351c0 9.1 7.4 16.5 16.5 16.5h144.2c9.1 0 16.5-7.4 16.5-16.5v-351c0.1-9.1-7.3-16.5-16.5-16.5z",
-                                    path2: [{
-                                        path: "m174.2 2h-142.1c-15.4 0-27.9 12.5-27.9 27.9v348.3c0 15.4 12.5 27.9 27.9 27.9h142.1c15.4 0 27.9-12.5 27.9-27.9v-348.3c0-15.4-12.5-27.9-27.9-27.9zm-47.3 12.8c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5 1.2-2.5 2.5-2.5zm-36.9 0.8h24c0.9 0 1.7 0.7 1.7 1.7s-0.8 1.7-1.7 1.7h-24c-0.9 0-1.7-0.7-1.7-1.7s0.8-1.7 1.7-1.7zm101.9 364.2c0 9.1-7.4 16.5-16.5 16.5h-144.3c-9.1 0-16.5-7.4-16.5-16.5v-351c0-9.1 7.4-16.5 16.5-16.5h21.5v4.5c0 5.1 4.2 9.3 9.3 9.3h82.7c5.1 0 9.3-4.2 9.3-9.3v-4.5h21.4c9.1 0 16.5 7.4 16.5 16.5v351z",
-                                        fill: "#000000",
-                                    }],
-                                })}
-                                style={{
-                                    width: "162px",
-                                    height: 320.5 + "px",
-                                    marginRight: "8px",
-                                    marginBottom: "8px",
-                                }}
-                                src="https://template.canva.com/EADfCquREdE/1/0/404w-eJxIhDu9uEM.png"
-                            />
+                            {elements.map(el =>
+                                <img
+                                    onMouseDown={this.imgOnMouseDown.bind(this, el)}
+                                    style={{
+                                        width: "100px",
+                                        height: 100 / (el.clipWidth / el.clipHeight) + "px",
+                                        marginRight: "8px",
+                                        marginBottom: "8px",
+                                        cursor: 'pointer',
+                                    }}
+                                    src={el.representative}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

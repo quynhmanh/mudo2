@@ -76,7 +76,7 @@ export default class Image extends Component<IProps, IState> {
                         width: '100%',
                         height: '100%',
                         pointerEvents: 'none',
-                    }} viewBox="0 0 206.3 408.2"><path d={p.path} fill={p.fill}></path></svg>)}
+                    }} viewBox={`0 0 ${clipWidth} ${clipHeight}`}><path d={p.path} fill={p.fill}></path></svg>)}
                 </div>
                 <div
                     style={{

@@ -2194,6 +2194,8 @@ class CanvaEditor extends Component<IProps, IState> {
         if (objectType == TemplateType.ClipImage) {
             let el = document.getElementById(_id + "hihi4alo");
             el.style.transform = `scale(${width * scale/image.clipWidth})`;
+            el.style.width = `${1 / (width * scale / image.clipWidth) * 100}%`;
+            el.style.height = `${1 / (width * scale / image.clipWidth) * 100}%`;
 
             if (image.posX != 0) posX = image.posX * width / image.width;
             if (image.posY != 0) posY = image.posY * width / image.width;
@@ -2488,6 +2490,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 if (image2.type == TemplateType.ClipImage) {
                     let el = document.getElementById(image2._id + "hihi4alo");
                     el.style.transform = `scale(${newWidth * scale/image2.clipWidth})`;
+                    el.style.width = `${1 / (newWidth * scale / image2.clipWidth) * 100}%`;
+                    el.style.height = `${1 / (newWidth * scale / image2.clipWidth) * 100}%`;
                 }
 
                 window.selectionsAngle[image2._id] = {
