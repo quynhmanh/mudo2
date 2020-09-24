@@ -2490,8 +2490,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
                 if (image2.type == TemplateType.ClipImage) {
                     let el = document.getElementById(image2._id + "hihi4alo");
-                    console.log('quynfic', newImgWidth * scale/image2.clipWidth)
-                    el.style.transform = `scale(${newImgWidth * scale/image2.clipWidth})`;
+                    el.style.transform = `scale(${newWidth * scale/image2.clipWidth})`;
                 }
 
                 window.selectionsAngle[image2._id] = {
