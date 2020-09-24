@@ -1520,7 +1520,7 @@ class CanvaEditor extends Component<IProps, IState> {
             ratio = image.width / image.height;
         }
 
-        if ((image.type == TemplateType.Image || image.type == TemplateType.Video || image.type == TemplateType.GroupedItem) &&
+        if ((image.type == TemplateType.Image || image.type == TemplateType.Video || image.type == TemplateType.GroupedItem || image.type == TemplateType.ClipImage) &&
             (type == "tl" || type == "tr" || type == "bl" || type == "br")) {
             ratio = image.width / image.height;
         } else if ((image.type == TemplateType.Heading || image.type == TemplateType.TextTemplate) &&
@@ -1629,6 +1629,10 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image.origin_width = window.origin_width;
         window.image.origin_height = window.origin_height;
         window.image.document_object = window.document_object;
+
+        if (window.image.type == TemplateType.ClipImage) {
+            window.image.clipScale = window.imageWidth * this.state.scale / 500;
+        }
 
         if (window.image.type == TemplateType.TextTemplate) {
             window.image.document_object = window.image.document_object.map(doc => {
@@ -2183,6 +2187,11 @@ class CanvaEditor extends Component<IProps, IState> {
             if (type == "tl" || type == "tr") {
                 posY += height - image.height;
             }
+        }
+
+        if (objectType == TemplateType.ClipImage) {
+            let el = document.getElementById(_id + "hihi4alo");
+            el.style.transform = `scale(${width * scale/500})`;
         }
 
         window.imageTop = top;

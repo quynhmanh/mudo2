@@ -91,6 +91,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         let beingInScreenContainer = false;
 
         const onMove = e => {
+            window.imagedragging = true;
             image.style.opacity = 0;
             if (dragging) {
                 let rec2 = imgDragging.getBoundingClientRect();
@@ -131,7 +132,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         };
 
         const onUp = evt => {
-
+            window.imagedragging = false;
             dragging = false;
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
@@ -148,7 +149,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 ) {
                     let newImg = {
                         _id: uuidv4(),
-                        type: TemplateType.Image,
+                        type: TemplateType.ClipImage,
                         width: rec2.width / scale,
                         height: rec2.height / scale,
                         origin_width: rec2.width / scale,
@@ -156,14 +157,16 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         left: (rec2.left - rec.left) / scale,
                         top: (rec2.top - rec.top) / scale,
                         rotateAngle: 0.0,
-                        src: !img.representative.startsWith("data")
-                            ? window.location.origin + "/" + img.representative
-                            : img.representative,
+                        // src: !img.representative.startsWith("data")
+                        //     ? window.location.origin + "/" + img.representative
+                        //     : img.representative,
+                        src: "https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png",
                         srcThumnail: img.representativeThumbnail,
                         backgroundColor: target.style.backgroundColor,
                         selected: true,
                         scaleX: 1,
                         scaleY: 1,
+                        clipScale: (rec2.width) / 500,
                         posX: 0,
                         posY: 0,
                         imgWidth: rec2.width / scale,
@@ -274,8 +277,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                     transform:
                         editorStore.selectedTab !== SidebarTab.Element &&
-                        `translate3d(0px, calc(${
-                        editorStore.selectedTab < SidebarTab.Element ? 40 : -40
+                        `translate3d(0px, calc(${editorStore.selectedTab < SidebarTab.Element ? 40 : -40
                         }px), 0px)`,
                     top: "10px",
                     zIndex: editorStore.selectedTab !== SidebarTab.Element && -1,
@@ -317,7 +319,20 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 width: "350px",
                                 marginRight: "10px"
                             }}
-                        ></div>
+                        >
+                            <img
+                                onMouseDown={this.imgOnMouseDown.bind(this, {
+                                    representative:
+                                        "https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png",
+                                    freeStyle: true
+                                })}
+                                style={{
+                                    width: "160px",
+                                    height: imgWidth + "px",
+                                }}
+                                src="https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, ge
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import Image from "@Components/editor/Rect/Image";
+import ClipImage from "@Components/editor/Rect/ClipImage";
 import Video from "@Components/editor/Rect/Video";
 import { TemplateType, CanvasType, } from "../enums";
 import editorStore from "@Store/EditorStore";
@@ -390,12 +391,13 @@ export default class Rect extends Component<IProps, IState> {
 				left,
 				top,
 				hollowThickness,
+				clipScale,
 			}
 		} = this.state;
 
 		let zIndex = this.state.image.zIndex;
 		if (type == TemplateType.BackgroundImage) zIndex = 0;
-		
+
 		const imgWidth = imgWidth2 * scale;
 		const imgHeight = imgHeight2 * scale;
 		const posX = posX2 * scale;
@@ -522,6 +524,21 @@ export default class Rect extends Component<IProps, IState> {
 								e.preventDefault();
 								this.props.handleCropBtnClick(_id);
 							}}
+							onMouseEnter={e => {
+								console.log('mouseEnter')
+								if (window.imagedragging && type == TemplateType.ClipImage) {
+									let el = document.getElementById(_id + "1235alo");
+									el.src = window.imagesrc;
+									window.imageselected = _id;
+								}
+							}}
+							onMouseLeave={e => {
+								if (type == TemplateType.ClipImage) {
+									let el = document.getElementById(_id + "1235alo");
+									el.src = src;
+									window.imageselected = null;
+								}
+							}}
 							className={type == TemplateType.BackgroundImage && "selectable"}
 							style={{
 								width: "100%",
@@ -552,7 +569,7 @@ export default class Rect extends Component<IProps, IState> {
 												padding: "3px"
 											}}
 										>
-											<img src={require("@Components/shared/svgs/editor/toolbar/rotate.svg")}/>
+											<img src={require("@Components/shared/svgs/editor/toolbar/rotate.svg")} />
 										</div>
 									</div>
 								)}
@@ -591,7 +608,7 @@ export default class Rect extends Component<IProps, IState> {
 								(cropMode && name == CanvasType.HoverLayer) ||
 								name == CanvasType.Download) &&
 								src &&
-								(type === TemplateType.Image || type === TemplateType.BackgroundImage) && (
+								(type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.ClipImage) && (
 									<div
 										id={_id}
 										style={{
@@ -603,11 +620,12 @@ export default class Rect extends Component<IProps, IState> {
 											pointerEvents: "none",
 										}}
 									>
+										{(type === TemplateType.Image || type === TemplateType.BackgroundImage) &&
 										<div
 											id={_id + "hihi4" + canvas}
 											style={{
-												width: "100%",
-												height: "100%",
+												width: '100%',
+    											height: '100%',
 												position: "absolute",
 												overflow: !this.props.bleed && "hidden",
 												opacity,
@@ -631,7 +649,40 @@ export default class Rect extends Component<IProps, IState> {
 												enableCropMode={null}
 												srcThumnail={srcThumnail}
 											/>
-										</div>
+										</div>}
+										{(type === TemplateType.ClipImage) && <div
+											id={_id + "hihi4" + canvas}
+											style={{
+												position: "absolute",
+												overflow: !this.props.bleed && "hidden",
+												opacity,
+												transform: `scale(${width * scale/500})`,
+												transformOrigin: '0 0',
+											}}
+											onDoubleClick={e => {
+												e.preventDefault();
+												this.props.handleCropBtnClick(_id);
+											}}
+										>
+											<ClipImage
+												name={name}
+												canvas={canvas}
+												_id={_id}
+												imgWidth={imgWidth}
+												imgHeight={imgHeight}
+												width={width * scale}
+												height={height * scale}
+												posX={posX}
+												posY={posY}
+												clipScale={clipScale}
+												selected={selected}
+												cropMode={cropMode}
+												backgroundColor={backgroundColor}
+												src={src}
+												enableCropMode={null}
+												srcThumnail={srcThumnail}
+											/>
+										</div>}
 										{selected && cropMode && (
 											<div
 												style={{
@@ -983,7 +1034,7 @@ export default class Rect extends Component<IProps, IState> {
 													position: "relative",
 												}}>
 												{this.state.paused ?
-													<img 
+													<img
 														style={{
 															margin: "auto",
 															left: 0,
@@ -992,9 +1043,9 @@ export default class Rect extends Component<IProps, IState> {
 															bottom: 0,
 															position: "absolute",
 														}}
-													src={require("@Components/shared/svgs/editor/toolbar/pause.svg")}/>
+														src={require("@Components/shared/svgs/editor/toolbar/pause.svg")} />
 													:
-													<img 
+													<img
 														style={{
 															margin: "auto",
 															left: 0,
@@ -1003,7 +1054,7 @@ export default class Rect extends Component<IProps, IState> {
 															bottom: 0,
 															position: "absolute",
 														}}
-													src={require("@Components/shared/svgs/editor/toolbar/play.svg")}/>
+														src={require("@Components/shared/svgs/editor/toolbar/play.svg")} />
 												}
 											</span>
 										</div>

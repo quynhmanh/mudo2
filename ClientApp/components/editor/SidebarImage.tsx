@@ -12,6 +12,7 @@ export interface IProps {
     handleEditmedia: any;
     handleImageSelected: any;
     setSavingState: any;
+    updateImages: any;
 }
 
 export interface IState {
@@ -82,6 +83,7 @@ export default class SidebarImage extends Component<IProps, IState> {
         target.src = img.representativeThumbnail
             ? img.representativeThumbnail
             : e.target.src;
+        window.imagesrc = target.src;
         target.style.width = e.target.getBoundingClientRect().width + "px";
         target.style.backgroundColor = e.target.style.backgroundColor;
         document.body.appendChild(target);
@@ -97,7 +99,9 @@ export default class SidebarImage extends Component<IProps, IState> {
         let beingInScreenContainer = false;
 
         const onMove = e => {
+            window.imagedragging = true;
             image.style.opacity = 0;
+            target.style.pointerEvents = "none";
             if (dragging) {
                 let rec2 = imgDragging.getBoundingClientRect();
                 if (
@@ -138,14 +142,34 @@ export default class SidebarImage extends Component<IProps, IState> {
         };
 
         const onUp = evt => {
-            
+            window.imagedragging = false;
             dragging = false;
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
 
+            console.log('window.imageselected', window.imageselected)
+
+            if (window.imageselected) {
+
+                imgDragging.remove();
+                image.style.opacity = 1;
+
+                console.log('window.imageselected', window.imageselected)
+                let id = window.imageselected;
+                let image2 = editorStore.images2.get(id);
+                image2.src = target.src;
+                image2.selected = false;
+                image2.hovered = false;
+
+                this.props.updateImages(id, image2.page, image2, true);
+
+                return;
+            }
+
             let recs = document.getElementsByClassName("alo");
             let rec2 = imgDragging.getBoundingClientRect();
             for (let i = 0; i < recs.length; ++i) {
+                console.log('asd', rec2)
                 let rec = recs[i].getBoundingClientRect();
                 if (
                     rec.left < rec2.right &&
@@ -180,6 +204,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                         freeStyle: img.freeStyle
                     };
 
+                    console.log('asd')
                     this.props.setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();

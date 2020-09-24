@@ -42,6 +42,7 @@ export enum TemplateType {
     UserUpload = 8,
     Video = 9,
     GroupedItem = 10,
+    ClipImage = 11,
 }
 
 export enum SavingState {
