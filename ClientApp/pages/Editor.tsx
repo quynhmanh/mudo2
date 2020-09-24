@@ -2179,6 +2179,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             el = document.getElementById(_id + "1238alo");
             if (el) {
+                console.log('quynh')
                 el.style.width = imgWidth * scale + "px";
                 el.style.height = imgHeight * scale + "px";
             }
@@ -2456,11 +2457,13 @@ class CanvaEditor extends Component<IProps, IState> {
                 let newPosX = image2.posX / image.width * width;
                 let newPosY = image2.posY / image.height * height;
 
-                let el = document.getElementById(image2._id + "1235alo");
-                if (el) {
-                    el.style.width = newImgWidth * scale + "px";
-                    el.style.height = newImgHeight * scale + "px";
-                    el.style.transform = `translate(${newPosX * scale}px, ${newPosY * scale}px)`;
+                if (image2.type == TemplateType.Image) {
+                    let el = document.getElementById(image2._id + "1235alo");
+                    if (el) {
+                        el.style.width = newImgWidth * scale + "px";
+                        el.style.height = newImgHeight * scale + "px";
+                        el.style.transform = `translate(${newPosX * scale}px, ${newPosY * scale}px)`;
+                    }
                 }
 
                 let elVideo = document.getElementById(image2._id + "1238alo");
@@ -2483,6 +2486,12 @@ class CanvaEditor extends Component<IProps, IState> {
                         el2.style.height = `calc(100%/${newScaleY})`;
                         el2.style.transform = `scaleX(${newScaleX}) scaleY(${newScaleY})`;
                     }
+                }
+
+                if (image2.type == TemplateType.ClipImage) {
+                    let el = document.getElementById(image2._id + "hihi4alo");
+                    console.log('quynfic', newImgWidth * scale/image2.clipWidth)
+                    el.style.transform = `scale(${newImgWidth * scale/image2.clipWidth})`;
                 }
 
                 window.selectionsAngle[image2._id] = {
