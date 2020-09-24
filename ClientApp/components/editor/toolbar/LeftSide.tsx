@@ -204,6 +204,7 @@ class LeftSide extends Component<IProps, IState> {
                         (
                             image.type === TemplateType.Image ||
                             image.type === TemplateType.Video ||
+                            image.type === TemplateType.ClipImage ||
                             (image.type === TemplateType.BackgroundImage &&
                                 image.src)
                         )

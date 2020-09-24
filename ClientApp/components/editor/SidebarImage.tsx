@@ -4,7 +4,7 @@ import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
-
+import { toJS } from "mobx";
 export interface IProps {
     scale: number;
     translate: any;
@@ -165,19 +165,25 @@ export default class SidebarImage extends Component<IProps, IState> {
                 image2.posX = 0;
                 image2.posY = 0;
                 window.oldTransform = "translate(0px, 0px)";
-                if (ratio < 1) {
-                    image2.imgWidth = image2.width;
-                    image2.imgHeight = image2.width / ratio;
-                    window.oldWidth = 500 + "px";
-                    window.oldHeight = 500 / ratio + "px";
-                } else {
+
+                let clipScale = image2.width / image2.clipWidth;
+
+                image2.imgWidth = image2.width;
+                image2.imgHeight = image2.width / ratio;
+                window.oldWidth = image2.imgWidth / clipScale + "px";
+                window.oldHeight = image2.imgHeight / clipScale + "px";
+
+                if (image2.imgHeight < image2.height)
+                {
                     image2.imgWidth = image2.height * ratio;;
                     image2.imgHeight = image2.height;
-                    window.oldWidth = 500 * ratio + "px";
-                    window.oldHeight = 500 + "px";
+                    window.oldWidth = image2.imgWidth / clipScale + "px";
+                    window.oldHeight = image2.imgHeight / clipScale + "px";
                 }
-                this.props.updateImages(id, image2.page, image2, true);
 
+                console.log('image2 ', toJS(image2))
+                this.props.updateImages(id, image2.page, image2, true);
+                editorStore.images2.set(id, image2);
                 return;
             }
 

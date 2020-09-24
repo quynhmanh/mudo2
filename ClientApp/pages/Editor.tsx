@@ -1633,7 +1633,7 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image.document_object = window.document_object;
 
         if (window.image.type == TemplateType.ClipImage) {
-            window.image.clipScale = window.imageWidth * this.state.scale / 500;
+            window.image.clipScale = window.imageWidth * this.state.scale / window.image.clipWidth;
         }
 
         if (window.image.type == TemplateType.TextTemplate) {
@@ -2193,10 +2193,13 @@ class CanvaEditor extends Component<IProps, IState> {
 
         if (objectType == TemplateType.ClipImage) {
             let el = document.getElementById(_id + "hihi4alo");
-            el.style.transform = `scale(${width * scale/500})`;
+            el.style.transform = `scale(${width * scale/image.clipWidth})`;
 
-            posX = image.posX / (image.width * scale / 500 / (width * scale / 500));
-            posY = image.posY / (image.height * scale / 500 / (width * scale / 500));
+            if (image.posX != 0) posX = image.posX * width / image.width;
+            if (image.posY != 0) posY = image.posY * width / image.width;
+
+            console.log('posX posY ', width, image.posX, image.posY, posX, posY);
+            console.log('posX posY ', image.width, scale, image.clipWidth);
         }
 
         window.imageTop = top;
@@ -3315,7 +3318,7 @@ class CanvaEditor extends Component<IProps, IState> {
         el = document.getElementsByClassName(_id + "1239");
         for (let i = 0; i < el.length; ++i) {
             let tempEl = el[i] as HTMLElement;
-            tempEl.style.transform = `translate(${newPosX * scale / (img.width * scale/500)}px, ${newPosY * scale / (img.width * scale/500)}px)`;
+            tempEl.style.transform = `translate(${newPosX * scale / (img.width * scale/img.clipWidth)}px, ${newPosY * scale / (img.width * scale/img.clipWidth)}px)`;
         }
     };
 

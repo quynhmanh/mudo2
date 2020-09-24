@@ -394,8 +394,12 @@ export default class Rect extends Component<IProps, IState> {
 				clipScale,
 				path,
 				clipId,
+				clipWidth,
+				clipHeight,
 			}
 		} = this.state;
+
+		console.log('clipWidth ', width, imgWidth2)
 
 		let zIndex = this.state.image.zIndex;
 		if (type == TemplateType.BackgroundImage) zIndex = 0;
@@ -536,21 +540,25 @@ export default class Rect extends Component<IProps, IState> {
 
 									let rec2 = window.imgDragging.getBoundingClientRect();
 
-									let imgWidth = rec2.width;
-									let imgHeight = rec2.height;
-									let ratio = imgWidth / imgHeight;
+									let ratio = rec2.width / rec2.height;
 									window.oldWidth = el.style.width;
 									window.oldHeight = el.style.height;
 									window.oldTransform = el.style.transform;
 									console.log('window.oldWidth ', window.oldWidth, window.oldHeight)
 									el.style.transform = '';
-									if (ratio < 1) {
-										el.style.width = 500 + "px";
-										el.style.height = 500 / ratio + "px";
-									} else {
-										el.style.width = 500 * ratio + "px";
-										el.style.height = 500 + "px";
+
+									let clipScale = width / clipWidth;
+
+									let imgWidth2 = width;
+									let imgHeight2 = width / ratio;
+									
+									if (imgHeight2 < height) {
+										imgWidth2 = height * ratio;
+										imgHeight2 = height;
 									}
+
+									el.style.width = imgWidth2 / clipScale + "px";
+									el.style.height = imgHeight2 / clipScale + "px";
 								}
 							}}
 							onMouseLeave={e => {
@@ -692,7 +700,7 @@ export default class Rect extends Component<IProps, IState> {
 												position: "absolute",
 												overflow: !this.props.bleed && "hidden",
 												opacity,
-												transform: `scale(${width * scale/500})`,
+												transform: `scale(${width * scale / clipWidth})`,
 												transformOrigin: '0 0',
 											}}
 											onDoubleClick={e => {
@@ -719,6 +727,8 @@ export default class Rect extends Component<IProps, IState> {
 												srcThumnail={srcThumnail}
 												path={path}
 												clipId={clipId}
+												clipWidth={clipWidth}
+												clipHeight={clipHeight}
 											/>
 										</div>}
 										{selected && cropMode && (
