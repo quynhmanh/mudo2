@@ -162,6 +162,9 @@ export default class SidebarImage extends Component<IProps, IState> {
                 image2.src = target.src;
                 image2.selected = false;
                 image2.hovered = false;
+                image2.posX = 0;
+                image2.posY = 0;
+                window.oldTransform = "translate(0px, 0px)";
                 if (ratio < 1) {
                     image2.imgWidth = image2.width;
                     image2.imgHeight = image2.width / ratio;

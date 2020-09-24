@@ -85,12 +85,12 @@ export default class Image extends Component<IProps, IState> {
                 {/* } */}
                 <img
                     id={_id + "1235" + canvas}
-                    className={`${_id}1236`}
+                    className={`${_id}1239`}
                     style={{
                         zIndex: 9999999,
                         width: (imgWidth / (width / 500)) + "px",
                         height: (imgHeight / (width / 500)) + "px",
-                        transform: `translate(${posX}px, ${posY}px)`,
+                        transform: `translate(${posX / (width / 500)}px, ${posY / (width / 500)}px)`,
                         opacity: 1,
                         transformOrigin: "0 0",
                         backgroundColor: backgroundColor

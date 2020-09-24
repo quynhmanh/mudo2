@@ -455,6 +455,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleCropBtnClick = (id: string) => {
 
+        console.log('handleCropBtnClick')
+
         let image = editorStore.getImageSelected();
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
@@ -2192,6 +2194,9 @@ class CanvaEditor extends Component<IProps, IState> {
         if (objectType == TemplateType.ClipImage) {
             let el = document.getElementById(_id + "hihi4alo");
             el.style.transform = `scale(${width * scale/500})`;
+
+            posX = image.posX / (image.width * scale / 500 / (width * scale / 500));
+            posY = image.posY / (image.height * scale / 500 / (width * scale / 500));
         }
 
         window.imageTop = top;
@@ -3305,6 +3310,12 @@ class CanvaEditor extends Component<IProps, IState> {
             let tempEl = el[i] as HTMLElement;
             tempEl.style.transform = `translate(${newPosX * scale}px, ${newPosY *
                 scale}px)`;
+        }
+
+        el = document.getElementsByClassName(_id + "1239");
+        for (let i = 0; i < el.length; ++i) {
+            let tempEl = el[i] as HTMLElement;
+            tempEl.style.transform = `translate(${newPosX * scale / (img.width * scale/500)}px, ${newPosY * scale / (img.width * scale/500)}px)`;
         }
     };
 

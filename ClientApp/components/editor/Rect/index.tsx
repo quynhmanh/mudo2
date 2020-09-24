@@ -539,7 +539,9 @@ export default class Rect extends Component<IProps, IState> {
 									let ratio = imgWidth / imgHeight;
 									window.oldWidth = el.style.width;
 									window.oldHeight = el.style.height;
+									window.oldTransform = el.style.transform;
 									console.log('window.oldWidth ', window.oldWidth, window.oldHeight)
+									el.style.transform = '';
 									if (ratio < 1) {
 										el.style.width = 500 + "px";
 										el.style.height = 500 / ratio + "px";
@@ -554,13 +556,18 @@ export default class Rect extends Component<IProps, IState> {
 									window.imgDragging.style.opacity = 1;
 									let el = document.getElementById(_id + "1235alo");
 									el.src = src;
-									if (window.oldWidht) {
+									console.log('oldWidth', window.oldWidth)
+									if (window.oldWidth) {
 										el.style.width = window.oldWidth;
 										window.oldWidth = null;
 									}
 									if (window.oldHeight) {
 										el.style.height = window.oldHeight;
 										window.oldHeight = null;
+									}
+									if (window.oldTransform) {
+										el.style.transform = window.oldTransform;
+										window.oldTransform = null;
 									}
 									console.log('window.oldWidth ', window.oldWidth, window.oldHeight)
 									window.imageselected = null;
@@ -744,7 +751,7 @@ export default class Rect extends Component<IProps, IState> {
 														}}>
 
 													</div>}
-													{(type === TemplateType.Image || type === TemplateType.BackgroundImage) && (
+													{name == CanvasType.HoverLayer && (type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.ClipImage) && (
 														<img
 															style={{
 																width: "100%",
@@ -1387,6 +1394,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{cropMode &&
 								(selected && name == CanvasType.HoverLayer) &&
+								type !== TemplateType.ClipImage && 
 								type !== TemplateType.BackgroundImage && (
 									<div
 										style={{
@@ -1485,7 +1493,7 @@ export default class Rect extends Component<IProps, IState> {
 									backgroundPosition: 'top,100%,bottom,0',
 									backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
 									backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-									opacity: ((hovered || selected) && !cropMode) || (cropMode && type != TemplateType.BackgroundImage) ? 1 : 0,
+									opacity: ((hovered || selected) && !cropMode) || (cropMode && type != TemplateType.BackgroundImage && type != TemplateType.ClipImage) ? 1 : 0,
 									pointerEvents: "none",
 								}}>
 
