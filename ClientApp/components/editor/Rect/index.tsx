@@ -399,8 +399,8 @@ export default class Rect extends Component<IProps, IState> {
 			}
 		} = this.state;
 
-		console.log('clipWidth ', width, imgWidth2)
-
+		console.log('clipWidth ', imgWidth2 / (width * scale / clipWidth));
+		console.log('asd', imgWidth2, width, clipWidth, scale)
 		let zIndex = this.state.image.zIndex;
 		if (type == TemplateType.BackgroundImage) zIndex = 0;
 
@@ -422,7 +422,7 @@ export default class Rect extends Component<IProps, IState> {
 			imgDirections = textResizeDirection;
 		}
 
-		if (type == TemplateType.GroupedItem) {
+		if (type == TemplateType.GroupedItem || type == TemplateType.ClipImage) {
 			imgDirections = groupedItemResizeDirection;
 		}
 
@@ -656,7 +656,7 @@ export default class Rect extends Component<IProps, IState> {
 									<div
 										id={_id}
 										style={{
-											zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage ? 1 : 0,
+											zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage && type !== TemplateType.ClipImage ? 1 : 0,
 											transformOrigin: "0 0",
 											position: "absolute",
 											width: "100%",
@@ -1348,7 +1348,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{
 								(cropMode &&
-									(type === TemplateType.Image || type == TemplateType.BackgroundImage || type === TemplateType.Video)) &&
+									(type === TemplateType.Image || type == TemplateType.BackgroundImage || type === TemplateType.Video || type == TemplateType.ClipImage)) &&
 								(name != CanvasType.Preview) &&
 								<div
 									id={_id + "6543" + canvas}
@@ -1378,7 +1378,7 @@ export default class Rect extends Component<IProps, IState> {
 													? cropImageResizeDirection
 														.map(d => {
 															let cursor = getCursorStyleForResizer(rotateAngle, d);
-															let visibility = type === TemplateType.BackgroundImage ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
+															let visibility = (type == TemplateType.BackgroundImage || type == TemplateType.ClipImage) ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
 															return (
 																<div
 																	key={d}

@@ -1633,7 +1633,9 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image.document_object = window.document_object;
 
         if (window.image.type == TemplateType.ClipImage) {
-            window.image.clipScale = window.imageWidth * this.state.scale / window.image.clipWidth;
+            // window.image.clipScale = window.imageWidth * this.state.scale / window.image.clipWidth;
+
+            console.log('ahahha asd13', window.image.imgWidth / (window.image.width * this.state.scale / window.image.clipWidth))
         }
 
         if (window.image.type == TemplateType.TextTemplate) {
@@ -2197,10 +2199,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
             if (image.posX != 0) posX = image.posX * width / image.width;
             if (image.posY != 0) posY = image.posY * width / image.width;
-
-            console.log('posX posY ', width, image.posX, image.posY, posX, posY);
-            console.log('posX posY ', image.width, scale, image.clipWidth);
         }
+        
 
         window.imageTop = top;
         window.imageLeft = left;
@@ -2906,6 +2906,19 @@ class CanvaEditor extends Component<IProps, IState> {
             tempEl.style.transform = `translate(${posX * scale}px, ${posY * scale}px)`;
             tempEl.style.width = imageimgWidth * scale + "px";
             tempEl.style.height = imageimgHeight * scale + "px";
+        }
+
+        let els = document.getElementsByClassName(_id + "1239");
+        for (let i = 0; i < els.length; ++i) {
+            console.log('ahahha', imageimgWidth, image.imgWidth, (image.width * scale / image.clipWidth))
+            console.log('ahahha', image.imgWidth / (image.width * scale / image.clipWidth))
+            console.log('ahahha', imageimgWidth / (image.width * scale / image.clipWidth))
+
+            let tempEl = els[i] as HTMLElement;
+            tempEl.style.width = imageimgWidth / (image.width / image.clipWidth) + "px";
+            tempEl.style.height = imageimgHeight / (image.width / image.clipWidth) + "px";
+            tempEl.style.transform =  `translate(${posX / (image.width / image.clipWidth)}px, ${posY / (image.width / image.clipWidth)}px)`;
+
         }
 
         if (switching) {
