@@ -396,6 +396,7 @@ export default class Rect extends Component<IProps, IState> {
 				clipId,
 				clipWidth,
 				clipHeight,
+				path2,
 			}
 		} = this.state;
 
@@ -696,6 +697,8 @@ export default class Rect extends Component<IProps, IState> {
 												opacity,
 												transform: `scale(${width * scale / clipWidth})`,
 												transformOrigin: '0 0',
+												width: `${1 / (width * scale / clipWidth) * 100}%`,
+												height: `${1 / (width * scale / clipWidth) * 100}%`,
 											}}
 											onDoubleClick={e => {
 												e.preventDefault();
@@ -723,6 +726,7 @@ export default class Rect extends Component<IProps, IState> {
 												clipId={clipId}
 												clipWidth={clipWidth}
 												clipHeight={clipHeight}
+												path2={path2}
 											/>
 										</div>}
 										{selected && cropMode && (

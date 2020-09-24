@@ -178,6 +178,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         clipId: img.clipId,
                         clipWidth: img.clipWidth,
                         clipHeight: img.clipHeight,
+                        path2: img.path2,
                     };
 
                     this.props.setSavingState(SavingState.UnsavedChanges, true);
@@ -321,7 +322,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         <div
                             style={{
                                 width: "350px",
-                                marginRight: "10px"
                             }}
                         >
                             <img
@@ -333,7 +333,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     width: "160px",
                                     height: imgWidth + "px",
-                                    backgroundColor: "#019fb6"
+                                    backgroundColor: "#019fb6",
+                                    marginRight: "8px",
+                                    marginBottom: "8px",
                                 }}
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                             />
@@ -349,6 +351,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     width: "162px",
                                     height: imgWidth + "px",
+                                    marginRight: "8px",
+                                    marginBottom: "8px",
                                 }}
                                 src="https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png"
                             />
@@ -365,6 +369,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     width: "162px",
                                     height: imgWidth + "px",
+                                    marginRight: "8px",
+                                    marginBottom: "8px",
                                 }}
                                 src="https://template.canva.com/EADX7r0xmN0/1/0/800w-KJddcbuAC3c.png"
                             />
@@ -381,6 +387,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     width: "162px",
                                     height: 111.3 + "px",
+                                    marginRight: "8px",
+                                    marginBottom: "8px",
                                 }}
                                 src="https://template.canva.com/EADX7QrTMRE/1/0/800w-9JSF7RR-P-c.png"
                             />
@@ -396,8 +404,31 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     width: "162px",
                                     height: 186 + "px",
+                                    marginRight: "8px",
+                                    marginBottom: "8px",
                                 }}
                                 src="https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png"
+                            />
+                            <img
+                                onMouseDown={this.imgOnMouseDown.bind(this, {
+                                    representative:
+                                        "https://template.canva.com/EADfCquREdE/1/0/404w-eJxIhDu9uEM.png",
+                                    clipId: "__id1_12",
+                                    clipWidth: 206.3,
+                                    clipHeight: 408.2,
+                                    path: "m175.3 12.3h-21.4v4.5c0 5.1-4.2 9.3-9.3 9.3h-82.6c-5.1 0-9.3-4.2-9.3-9.3v-4.5h-21.6c-9.1 0-16.5 7.4-16.5 16.5v351c0 9.1 7.4 16.5 16.5 16.5h144.2c9.1 0 16.5-7.4 16.5-16.5v-351c0.1-9.1-7.3-16.5-16.5-16.5z",
+                                    path2: [{
+                                        path: "m174.2 2h-142.1c-15.4 0-27.9 12.5-27.9 27.9v348.3c0 15.4 12.5 27.9 27.9 27.9h142.1c15.4 0 27.9-12.5 27.9-27.9v-348.3c0-15.4-12.5-27.9-27.9-27.9zm-47.3 12.8c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5 1.2-2.5 2.5-2.5zm-36.9 0.8h24c0.9 0 1.7 0.7 1.7 1.7s-0.8 1.7-1.7 1.7h-24c-0.9 0-1.7-0.7-1.7-1.7s0.8-1.7 1.7-1.7zm101.9 364.2c0 9.1-7.4 16.5-16.5 16.5h-144.3c-9.1 0-16.5-7.4-16.5-16.5v-351c0-9.1 7.4-16.5 16.5-16.5h21.5v4.5c0 5.1 4.2 9.3 9.3 9.3h82.7c5.1 0 9.3-4.2 9.3-9.3v-4.5h21.4c9.1 0 16.5 7.4 16.5 16.5v351z",
+                                        fill: "#000000",
+                                    }],
+                                })}
+                                style={{
+                                    width: "162px",
+                                    height: 320.5 + "px",
+                                    marginRight: "8px",
+                                    marginBottom: "8px",
+                                }}
+                                src="https://template.canva.com/EADfCquREdE/1/0/404w-eJxIhDu9uEM.png"
                             />
                         </div>
                     </div>
