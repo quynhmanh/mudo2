@@ -160,7 +160,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         // src: !img.representative.startsWith("data")
                         //     ? window.location.origin + "/" + img.representative
                         //     : img.representative,
-                        src: "https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png",
+                        src: img.representative,
                         srcThumnail: img.representativeThumbnail,
                         backgroundColor: target.style.backgroundColor,
                         selected: true,
@@ -173,7 +173,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         imgHeight: rec2.height / scale,
                         page: editorStore.pages[i],
                         zIndex: editorStore.upperZIndex + 1,
-                        freeStyle: img.freeStyle
+                        freeStyle: img.freeStyle,
+                        path: img.path,
+                        clipId: img.clipId,
                     };
 
                     this.props.setSavingState(SavingState.UnsavedChanges, true);
@@ -324,13 +326,28 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 onMouseDown={this.imgOnMouseDown.bind(this, {
                                     representative:
                                         "https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png",
-                                    freeStyle: true
+                                    clipId: "__id1_0",
+                                    path: "M500 250.002c0 138.065-111.931 249.996-250 249.996-138.071 0-250-111.931-250-249.996C0 111.93 111.929 0 250 0s250 111.93 250 250.002z"
                                 })}
                                 style={{
                                     width: "160px",
                                     height: imgWidth + "px",
                                 }}
                                 src="https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png"
+                            />
+
+                            <img
+                                onMouseDown={this.imgOnMouseDown.bind(this, {
+                                    representative:
+                                        "https://template.canva.com/EADX7r0xmN0/1/0/800w-KJddcbuAC3c.png",
+                                    clipId: "__id1_9",
+                                    path: "M440.102 79.27c-9.778-16.932-27.509-26.405-45.749-26.418l.003-.003c-18.24-.016-35.974-9.488-45.749-26.418-14.586-25.267-46.892-33.922-72.159-19.333l-.004.003v-.016c-15.693 9.041-35.609 9.757-52.466.198A52.578 52.578 0 0 0 197.201 0c-19.551 0-36.619 10.623-45.755 26.412v-.003c-9.133 15.786-26.205 26.409-45.753 26.409-29.175 0-52.824 23.649-52.824 52.824v.006l-.016-.006c-.016 18.101-9.345 35.698-26.03 45.521a52.552 52.552 0 0 0-19.722 19.559c-9.776 16.934-9.111 37.025-.003 52.83h-.003c9.101 15.802 9.766 35.895-.01 52.827-14.585 25.264-5.931 57.57 19.336 72.159l.003.003-.01.007c15.789 9.129 26.407 26.201 26.407 45.752 0 29.175 23.649 52.824 52.823 52.824 19.552 0 36.617 10.621 45.756 26.41 9.133 15.782 26.204 26.41 45.753 26.41a52.61 52.61 0 0 0 26.777-7.284c16.853-9.557 36.774-8.841 52.466.203v-.019l.003.006c25.267 14.586 57.573 5.928 72.163-19.336 9.775-16.929 27.506-26.403 45.746-26.416l-.004-.007c18.24-.013 35.974-9.487 45.746-26.416 4.813-8.335 7.097-17.439 7.087-26.417l.007.006c.016-17.594 8.832-34.719 24.652-44.682 8.528-4.484 15.929-11.355 21.1-20.312 9.779-16.938 9.114-37.031.007-52.833h.003c-9.104-15.802-9.77-35.895.007-52.828 14.589-25.267 5.931-57.57-19.336-72.159l-.004-.004.01-.003c-15.662-9.062-26.236-25.935-26.403-45.291.092-9.134-2.185-18.404-7.078-26.882"
+                                })}
+                                style={{
+                                    width: "160px",
+                                    height: imgWidth + "px",
+                                }}
+                                src="https://template.canva.com/EADX7r0xmN0/1/0/800w-KJddcbuAC3c.png"
                             />
                         </div>
                     </div>

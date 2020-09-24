@@ -392,6 +392,8 @@ export default class Rect extends Component<IProps, IState> {
 				top,
 				hollowThickness,
 				clipScale,
+				path,
+				clipId,
 			}
 		} = this.state;
 
@@ -715,6 +717,8 @@ export default class Rect extends Component<IProps, IState> {
 												src={src}
 												enableCropMode={null}
 												srcThumnail={srcThumnail}
+												path={path}
+												clipId={clipId}
 											/>
 										</div>}
 										{selected && cropMode && (
