@@ -89,6 +89,7 @@ export default class SidebarImage extends Component<IProps, IState> {
         document.body.appendChild(target);
         let self = this;
         let imgDragging = target;
+        window.imgDragging = imgDragging;
         let posX = e.pageX - e.target.getBoundingClientRect().left;
         let dragging = true;
         let posY = e.pageY - e.target.getBoundingClientRect().top;
@@ -149,8 +150,9 @@ export default class SidebarImage extends Component<IProps, IState> {
 
             console.log('window.imageselected', window.imageselected)
 
+            let rec2 = imgDragging.getBoundingClientRect();
             if (window.imageselected) {
-
+                let ratio = rec2.width / rec2.height;
                 imgDragging.remove();
                 image.style.opacity = 1;
 
@@ -160,14 +162,14 @@ export default class SidebarImage extends Component<IProps, IState> {
                 image2.src = target.src;
                 image2.selected = false;
                 image2.hovered = false;
-
+                image2.imgWidth = image2.width;
+                image2.imgHeight = image2.imgWidth / ratio;
                 this.props.updateImages(id, image2.page, image2, true);
 
                 return;
             }
 
             let recs = document.getElementsByClassName("alo");
-            let rec2 = imgDragging.getBoundingClientRect();
             for (let i = 0; i < recs.length; ++i) {
                 console.log('asd', rec2)
                 let rec = recs[i].getBoundingClientRect();

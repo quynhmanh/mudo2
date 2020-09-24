@@ -49,10 +49,6 @@ export default class Image extends Component<IProps, IState> {
             height,
         } = this.props;
 
-        let clipScale = width / 500;
-
-        console.log('scaleX' , clipScale, imgWidth, imgHeight)
-
         src = src && src.replace("http://167.99.73.132:64099", "https://draft.vn");
         srcThumnail = srcThumnail && srcThumnail.replace("http://167.99.73.132:64099", "https://draft.vn");
 
@@ -92,8 +88,8 @@ export default class Image extends Component<IProps, IState> {
                     className={`${_id}1236`}
                     style={{
                         zIndex: 9999999,
-                        width: (width / clipScale) + "px",
-                        height: (height / clipScale) + "px",
+                        width: (imgWidth / (width / 500)) + "px",
+                        height: (imgHeight / (width / 500)) + "px",
                         transform: `translate(${posX}px, ${posY}px)`,
                         opacity: 1,
                         transformOrigin: "0 0",

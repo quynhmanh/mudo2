@@ -530,6 +530,14 @@ export default class Rect extends Component<IProps, IState> {
 									let el = document.getElementById(_id + "1235alo");
 									el.src = window.imagesrc;
 									window.imageselected = _id;
+
+									let rec2 = window.imgDragging.getBoundingClientRect();
+
+									let imgWidth = rec2.width;
+									let imgHeight = rec2.height;
+									let ratio = imgWidth / imgHeight;
+									el.style.width = 500 + "px";
+									el.style.height = 500 / ratio + "px";
 								}
 							}}
 							onMouseLeave={e => {
