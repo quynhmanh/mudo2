@@ -162,8 +162,17 @@ export default class SidebarImage extends Component<IProps, IState> {
                 image2.src = target.src;
                 image2.selected = false;
                 image2.hovered = false;
-                image2.imgWidth = image2.width;
-                image2.imgHeight = image2.imgWidth / ratio;
+                if (ratio < 1) {
+                    image2.imgWidth = image2.width;
+                    image2.imgHeight = image2.width / ratio;
+                    window.oldWidth = 500 + "px";
+                    window.oldHeight = 500 / ratio + "px";
+                } else {
+                    image2.imgWidth = image2.height * ratio;;
+                    image2.imgHeight = image2.height;
+                    window.oldWidth = 500 * ratio + "px";
+                    window.oldHeight = 500 + "px";
+                }
                 this.props.updateImages(id, image2.page, image2, true);
 
                 return;

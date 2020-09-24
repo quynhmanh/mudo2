@@ -527,6 +527,7 @@ export default class Rect extends Component<IProps, IState> {
 							onMouseEnter={e => {
 								console.log('mouseEnter')
 								if (window.imagedragging && type == TemplateType.ClipImage) {
+									window.imgDragging.style.opacity = 0;
 									let el = document.getElementById(_id + "1235alo");
 									el.src = window.imagesrc;
 									window.imageselected = _id;
@@ -536,14 +537,32 @@ export default class Rect extends Component<IProps, IState> {
 									let imgWidth = rec2.width;
 									let imgHeight = rec2.height;
 									let ratio = imgWidth / imgHeight;
-									el.style.width = 500 + "px";
-									el.style.height = 500 / ratio + "px";
+									window.oldWidth = el.style.width;
+									window.oldHeight = el.style.height;
+									console.log('window.oldWidth ', window.oldWidth, window.oldHeight)
+									if (ratio < 1) {
+										el.style.width = 500 + "px";
+										el.style.height = 500 / ratio + "px";
+									} else {
+										el.style.width = 500 * ratio + "px";
+										el.style.height = 500 + "px";
+									}
 								}
 							}}
 							onMouseLeave={e => {
 								if (type == TemplateType.ClipImage) {
+									window.imgDragging.style.opacity = 1;
 									let el = document.getElementById(_id + "1235alo");
 									el.src = src;
+									if (window.oldWidht) {
+										el.style.width = window.oldWidth;
+										window.oldWidth = null;
+									}
+									if (window.oldHeight) {
+										el.style.height = window.oldHeight;
+										window.oldHeight = null;
+									}
+									console.log('window.oldWidth ', window.oldWidth, window.oldHeight)
 									window.imageselected = null;
 								}
 							}}
