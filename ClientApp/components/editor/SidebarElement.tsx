@@ -390,7 +390,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 onMouseDown={this.imgOnMouseDown.bind(this, {
                                     representative:
                                         "https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png",
-                                    clipId: "__id1_10",
+                                    clipId: "__id1_11",
                                     clipWidth: 229.6,
                                     clipHeight: 264.2,
                                     path: "M75.6 215.7h75.7l14.7 48.6h63.6L147.2 0H82.6L0 264.2h61.3l14.3-48.5zm38-128.2l20.4 70H92.9l20.7-70z"
