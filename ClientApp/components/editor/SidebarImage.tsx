@@ -148,15 +148,12 @@ export default class SidebarImage extends Component<IProps, IState> {
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
 
-            console.log('window.imageselected', window.imageselected)
-
             let rec2 = imgDragging.getBoundingClientRect();
             if (window.imageselected) {
                 let ratio = rec2.width / rec2.height;
                 imgDragging.remove();
                 image.style.opacity = 1;
 
-                console.log('window.imageselected', window.imageselected)
                 let id = window.imageselected;
                 let image2 = editorStore.images2.get(id);
                 image2.src = target.src;
@@ -181,7 +178,6 @@ export default class SidebarImage extends Component<IProps, IState> {
                     window.oldHeight = image2.imgHeight / clipScale + "px";
                 }
 
-                console.log('image2 ', toJS(image2))
                 this.props.updateImages(id, image2.page, image2, true);
                 editorStore.images2.set(id, image2);
                 return;
@@ -189,7 +185,6 @@ export default class SidebarImage extends Component<IProps, IState> {
 
             let recs = document.getElementsByClassName("alo");
             for (let i = 0; i < recs.length; ++i) {
-                console.log('asd', rec2)
                 let rec = recs[i].getBoundingClientRect();
                 if (
                     rec.left < rec2.right &&
@@ -224,7 +219,6 @@ export default class SidebarImage extends Component<IProps, IState> {
                         freeStyle: img.freeStyle
                     };
 
-                    console.log('asd')
                     this.props.setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();

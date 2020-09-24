@@ -455,7 +455,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleCropBtnClick = (id: string) => {
 
-        console.log('handleCropBtnClick')
 
         let image = editorStore.getImageSelected();
         if (image.type == TemplateType.BackgroundImage && !image.src) {
@@ -1635,7 +1634,6 @@ class CanvaEditor extends Component<IProps, IState> {
         if (window.image.type == TemplateType.ClipImage) {
             // window.image.clipScale = window.imageWidth * this.state.scale / window.image.clipWidth;
 
-            console.log('ahahha asd13', window.image.imgWidth / (window.image.width * this.state.scale / window.image.clipWidth))
         }
 
         if (window.image.type == TemplateType.TextTemplate) {
@@ -2179,7 +2177,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
             el = document.getElementById(_id + "1238alo");
             if (el) {
-                console.log('quynh')
                 el.style.width = imgWidth * scale + "px";
                 el.style.height = imgHeight * scale + "px";
             }
@@ -2918,9 +2915,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
         let els = document.getElementsByClassName(_id + "1239");
         for (let i = 0; i < els.length; ++i) {
-            console.log('ahahha', imageimgWidth, image.imgWidth, (image.width * scale / image.clipWidth))
-            console.log('ahahha', image.imgWidth / (image.width * scale / image.clipWidth))
-            console.log('ahahha', imageimgWidth / (image.width * scale / image.clipWidth))
 
             let tempEl = els[i] as HTMLElement;
             tempEl.style.width = imageimgWidth / (image.width / image.clipWidth) + "px";

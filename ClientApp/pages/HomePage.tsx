@@ -291,8 +291,6 @@ class HomePage extends React.Component<IProps, IState> {
     }
 
     render() {
-
-        console.log('rerender')
         if (this.props.i18n.language === undefined)
             return null;
 

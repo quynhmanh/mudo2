@@ -180,8 +180,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         clipHeight: img.clipHeight,
                     };
 
-                    console.log('newImg', newImg)
-
                     this.props.setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();

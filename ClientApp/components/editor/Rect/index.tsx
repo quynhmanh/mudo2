@@ -399,8 +399,6 @@ export default class Rect extends Component<IProps, IState> {
 			}
 		} = this.state;
 
-		console.log('clipWidth ', imgWidth2 / (width * scale / clipWidth));
-		console.log('asd', imgWidth2, width, clipWidth, scale)
 		let zIndex = this.state.image.zIndex;
 		if (type == TemplateType.BackgroundImage) zIndex = 0;
 
@@ -531,7 +529,6 @@ export default class Rect extends Component<IProps, IState> {
 								this.props.handleCropBtnClick(_id);
 							}}
 							onMouseEnter={e => {
-								console.log('mouseEnter')
 								if (window.imagedragging && type == TemplateType.ClipImage) {
 									window.imgDragging.style.opacity = 0;
 									let el = document.getElementById(_id + "1235alo");
@@ -544,7 +541,6 @@ export default class Rect extends Component<IProps, IState> {
 									window.oldWidth = el.style.width;
 									window.oldHeight = el.style.height;
 									window.oldTransform = el.style.transform;
-									console.log('window.oldWidth ', window.oldWidth, window.oldHeight)
 									el.style.transform = '';
 
 									let clipScale = width / clipWidth;
@@ -566,7 +562,6 @@ export default class Rect extends Component<IProps, IState> {
 									window.imgDragging.style.opacity = 1;
 									let el = document.getElementById(_id + "1235alo");
 									el.src = src;
-									console.log('oldWidth', window.oldWidth)
 									if (window.oldWidth) {
 										el.style.width = window.oldWidth;
 										window.oldWidth = null;
@@ -579,7 +574,6 @@ export default class Rect extends Component<IProps, IState> {
 										el.style.transform = window.oldTransform;
 										window.oldTransform = null;
 									}
-									console.log('window.oldWidth ', window.oldWidth, window.oldHeight)
 									window.imageselected = null;
 								}
 							}}

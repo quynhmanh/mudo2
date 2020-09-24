@@ -83,7 +83,6 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     }
 
     checkWindowScroll = () => {
-        console.log('checkWindowScroll')
         if (this.props.isLoading) {
             return;
         }

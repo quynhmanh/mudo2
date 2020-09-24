@@ -61,8 +61,6 @@ export default class Image extends Component<IProps, IState> {
 
         let clipScale = width / clipWidth;
 
-        console.log('imgWidth / clipScale', imgWidth, imgHeight)
-
         return (
             <div
                 style={{

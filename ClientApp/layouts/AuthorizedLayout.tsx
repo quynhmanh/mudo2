@@ -118,8 +118,6 @@ class AuthorizedLayout extends React.Component<Props, {}> {
     constructor(props) {
         super(props);
 
-        console.log('props ', props)
-
         this.state = {
 
         }
@@ -251,8 +249,6 @@ class AuthorizedLayout extends React.Component<Props, {}> {
     }
 
     public render() {
-        console.log('state', this.state)
-
         const childrenWithProps = React.Children.map(this.props.children, child => {
             // checking isValidElement is the safe way and avoids a typescript error too
             if (React.isValidElement(child)) {
