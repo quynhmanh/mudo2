@@ -300,6 +300,26 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             overflow: "scroll"
                         }}
                     >
+                        {/* <div
+                            style={{
+                                width: "350px",
+                                marginRight: "10px"
+                            }}
+                        >
+                            <img
+                                onMouseDown={this.imgOnMouseDown.bind(this, {
+                                    representative:
+                                        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+                                    freeStyle: true
+                                })}
+                                style={{
+                                    width: "160px",
+                                    height: imgWidth + "px",
+                                    backgroundColor: "#019fb6"
+                                }}
+                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                            />
+                        </div> */}
                         <div
                             style={{
                                 width: "350px",
@@ -319,13 +339,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 }}
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                             />
-                        </div>
-                        <div
-                            style={{
-                                width: "350px",
-                                marginRight: "10px"
-                            }}
-                        >
                             <img
                                 onMouseDown={this.imgOnMouseDown.bind(this, {
                                     representative:
@@ -372,6 +385,21 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     height: 111.3 + "px",
                                 }}
                                 src="https://template.canva.com/EADX7QrTMRE/1/0/800w-9JSF7RR-P-c.png"
+                            />
+                            <img
+                                onMouseDown={this.imgOnMouseDown.bind(this, {
+                                    representative:
+                                        "https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png",
+                                    clipId: "__id1_10",
+                                    clipWidth: 229.6,
+                                    clipHeight: 264.2,
+                                    path: "M75.6 215.7h75.7l14.7 48.6h63.6L147.2 0H82.6L0 264.2h61.3l14.3-48.5zm38-128.2l20.4 70H92.9l20.7-70z"
+                                })}
+                                style={{
+                                    width: "162px",
+                                    height: 186 + "px",
+                                }}
+                                src="https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png"
                             />
                         </div>
                     </div>
