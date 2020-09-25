@@ -5012,7 +5012,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
         this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
 
-        let align, effectId, bold, italic, fontId, fontColor;
+        let align, effectId, bold, italic, fontId, fontColor, fontText;
         let currentOpacity, currentLineHeight, currentLetterSpacing;
         let fontSize;
         let image = editorStore.getImageSelected();
@@ -5024,7 +5024,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 effectId = doc.effectId;
                 bold = doc.bold;
                 italic = doc.italic;
-                fontId = doc.fontFace;
+                fontId = doc.fontId;
+                fontText = doc.fontText;
                 fontColor = doc.color;
                 currentLineHeight = doc.lineHeight;
                 currentOpacity = doc.opacity;
@@ -5040,6 +5041,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         editorStore.fontId = fontId;
         editorStore.fontFace = fontId;
+        editorStore.fontText = fontText;
         editorStore.currentFontSize = fontSize;
         editorStore.currentLetterSpacing = currentLetterSpacing;
         editorStore.childId = childId;
