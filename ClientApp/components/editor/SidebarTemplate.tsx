@@ -243,7 +243,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                     isLoading={this.state.isLoading}
                     hasMore={this.state.hasMore}
                     onLoadMore={this.loadMore.bind(this, false)}
-                    marginTop={45}
+                    marginTop={42}
                     refId="sentinel-template"
                 >
                     <div
@@ -298,7 +298,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                 <input
                     style={{
                         zIndex: 11,
-                        width: "calc(100% - 13px)",
+                        width: "calc(100% - 15px)",
                         marginBottom: "8px",
                         border: "none",
                         height: "37px",

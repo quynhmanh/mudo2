@@ -329,7 +329,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                         hasMore={this.state.hasMoreImage}
                         onLoadMore={this.loadMore.bind(this, false)}
                         refId="sentinel-image"
-                        marginTop={45}
+                        marginTop={42}
                     >
                         <div
                             id="image-container-picker"
@@ -427,7 +427,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                     <input
                         style={{
                             zIndex: 11,
-                            width: "calc(100% - 13px)",
+                            width: "calc(100% - 15px)",
                             marginBottom: "8px",
                             border: "none",
                             height: "37px",
