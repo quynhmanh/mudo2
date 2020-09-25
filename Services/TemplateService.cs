@@ -673,9 +673,12 @@ namespace RCB.TypeScript.Services
                 }
             }
 
+            double scale = 1.0 * 320/width;
+            height = (int)(320 / (1.0 * width / height));
+            width = 320;
 
             string template = AppSettings.templateDownload
-                .Replace("[ADDITIONAL_STYLE]", "")
+                .Replace("[ADDITIONAL_STYLE]", $"body {{ transform-origin: 0 0; transform: scale({scale})}}")
                 .Replace("[FONT_FACE]", style)
                 .Replace("[RECT_WIDTH]", width.ToString())
                 .Replace("[RECT_HEIGHT]", height.ToString());
@@ -697,7 +700,7 @@ namespace RCB.TypeScript.Services
                     try
                     {
                         byte[] bytes = Encoding.ASCII.GetBytes(html);
-                        using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
+                        using (var htmlFile = new FileStream("C:/Users/llaug/Downloads/quynh2.html", FileMode.Create))
                         {
                             htmlFile.Write(bytes, 0, bytes.Length);
                             htmlFile.Flush();
