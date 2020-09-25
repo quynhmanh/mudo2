@@ -423,14 +423,21 @@ export default class SidebarColor extends Component<IProps, IState> {
                             </div>
                         ))}
 
-                        <ColorPicker
-                            setSelectionColor={this.setSelectionColor}
-                            translate={this.props.translate}
-                            forceUpdate={() => {
-                                this.forceUpdate();
+                        <div
+                            style={{
+                                display: 'inline-block',
+                                marginLeft: "13px",
+                                marginTop: "13px",
                             }}
-                        />
-
+                        >
+                            <ColorPicker
+                                setSelectionColor={this.setSelectionColor}
+                                translate={this.props.translate}
+                                forceUpdate={() => {
+                                    this.forceUpdate();
+                                }}
+                            />
+                        </div>
                     </ul>
                 </div>
             </div>
