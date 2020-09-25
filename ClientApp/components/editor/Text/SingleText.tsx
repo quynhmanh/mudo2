@@ -114,6 +114,8 @@ export default class SingleText extends PureComponent<IProps, IState> {
                 letterSpacing,
                 rotateAngle,
                 blur,
+                textShadow,
+                shadowColor,
             }
         } = this.props;
 
@@ -139,10 +141,10 @@ export default class SingleText extends PureComponent<IProps, IState> {
                         opacity: opacity,
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
                         color: (effectId == 3 || effectId == 4) ? "transparent" : color,
-                        textShadow: effectId == 1 ? `rgba(25, 25, 25, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
+                        textShadow: effectId == 1 ? textShadow: effectId == 1 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
                             effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` :
-                                effectId == 4 ? `rgb(128, 128, 128) ${21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
-                                    effectId == 5 ? `rgba(0, 0, 0, 0.5) ${21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+                            effectId == 4 ? `rgb(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}) ${21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+                            effectId == 5 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.5) ${21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
                                         effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI))}px 0px`,
                         filter: filter,
                         lineHeight: `${lineHeight * fontSize}px`,
