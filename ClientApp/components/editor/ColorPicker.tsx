@@ -108,23 +108,26 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                         document.getElementById(editorStore.idObjectSelected + editorStore.childId + "text-container2alo").style.color = color.toRGBA();
                     } else if (image.type == TemplateType.BackgroundImage) { }
                 } else if (editorStore.selectedTab == SidebarTab.Effect) {
+                    let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+                    if (image.type == TemplateType.TextTemplate) {
+                        el = document.getElementById(editorStore.idObjectSelected + editorStore.childId + "text-container2alo");
+                        image = image.document_object.find(text => text._id == editorStore.childId) || {};
+                    }
+                    const colors = color.toRGBA();
+
+                    console.log('el ', el)
+
                     if (editorStore.effectId == 1) {
-                        let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-                        const colors = color.toRGBA();
                         el.style.textShadow = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px`;
 
                         this.props.setSelectionColor(colors)
                         return;
                     } else if (editorStore.effectId == 4) {
-                        let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-                        const colors = color.toRGBA();
                         el.style.textShadow = `rgb(${colors[0]}, ${colors[1]}, ${colors[2]}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px`;
 
                         this.props.setSelectionColor(colors)
                         return;
                     } else if (editorStore.effectId == 5) {
-                        let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-                        const colors = color.toRGBA();
                         el.style.textShadow = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.5) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.3) ${41.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px`;
 
                         this.props.setSelectionColor(colors)

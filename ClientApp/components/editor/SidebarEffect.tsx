@@ -14,6 +14,7 @@ export interface IProps {
     updateImages: any;
     effectId: any;
     idImageSelected: string;
+    childIdSelected: string;
 }
 
 export interface IState {
@@ -45,6 +46,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
     constructor(props) {
         super(props);
+
+        this.updateShadowColor = this.updateShadowColor.bind(this);
     }
 
     componentDidMount() {
@@ -60,6 +63,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
             return true;
         }
         if (nextProps.selectedTab == SidebarTab.Effect && this.props.idImageSelected != nextProps.idImageSelected) {
+            return true;
+        }
+        if (nextProps.selectedTab == SidebarTab.Effect && this.props.childIdSelected != nextProps.childIdSelected) {
             return true;
         }
         return false;
@@ -309,9 +315,25 @@ export default class SidebarEffect extends Component<IProps, IState> {
         this.updateText(image);
     }
 
+    updateShadowColor = (color) => {
+        let image = editorStore.getImageSelected();
+        if (editorStore.childId && image.document_object) {
+            image.document_object = image.document_object.map(text => {
+                if (text._id == editorStore.childId) {
+                    text.shadowColor = color;
+                }
+                return text;
+            })
+        } else {
+            image.shadowColor = color;
+        }
+        editorStore.images2.set(image._id, image);
+        this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    }
+
     render() {
         let image = editorStore.getImageSelected() || {};
-        if (editorStore.childId) {
+        if (editorStore.childId && image.document_object) {
             image = image.document_object.find(doc => doc._id == editorStore.childId);
         }
 
@@ -467,12 +489,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     <p>Color</p>
                                     <ColorPicker
                                         color={image.shadowColor}
-                                        setSelectionColor={(color) => {
-                                            let image = editorStore.getImageSelected();
-                                            image.shadowColor = color;
-                                            editorStore.images2.set(image._id, image);
-                                            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-                                        }}
+                                        setSelectionColor={this.updateShadowColor}
                                         translate={this.props.translate}
                                         forceUpdate={() => {
                                             this.forceUpdate();
@@ -624,12 +641,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 >
                                     <p>Color</p>
                                     <ColorPicker
-                                        setSelectionColor={(color) => {
-                                            let image = editorStore.getImageSelected();
-                                            image.shadowColor = color;
-                                            editorStore.images2.set(image._id, image);
-                                            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-                                        }}
+                                        color={image.shadowColor}
+                                        setSelectionColor={this.updateShadowColor}
                                         translate={this.props.translate}
                                         forceUpdate={() => {
                                             this.forceUpdate();
@@ -664,12 +677,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 >
                                     <p>Color</p>
                                     <ColorPicker
-                                        setSelectionColor={(color) => {
-                                            let image = editorStore.getImageSelected();
-                                            image.shadowColor = color;
-                                            editorStore.images2.set(image._id, image);
-                                            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-                                        }}
+                                        color={image.shadowColor}
+                                        setSelectionColor={this.updateShadowColor}
                                         translate={this.props.translate}
                                         forceUpdate={() => {
                                             this.forceUpdate();

@@ -559,6 +559,7 @@ class LeftSide extends Component<IProps, IState> {
                             handleImageSelected={this.props.handleImageSelected}
                             effectId={editorStore.effectId}
                             idImageSelected={editorStore.idObjectSelected}
+                            childIdSelected={editorStore.childId}
                         />
                         <SidebarColor
                             updateImages={this.props.updateImages}
