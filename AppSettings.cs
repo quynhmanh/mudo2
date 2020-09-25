@@ -270,6 +270,7 @@ body {
           width: [RECT_WIDTH]px;
           height: [RECT_HEIGHT]px;
           line-height: 1.42857143;
+          overflow: hidden;
         }
         </style>
         <body style = ""margin: 0;"" >
