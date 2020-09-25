@@ -23,6 +23,7 @@ export interface IProps {
     setSelectionColor: any;
     translate: any;
     forceUpdate: any;
+    color: any;
 }
 
 export interface IState {
@@ -40,9 +41,11 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     }
 
     componentDidMount = () => {
+        const colors = this.props.color;
         const pickr = Pickr.create({
-            default: null,
+            default: colors ? `rgb(${colors[0]},${colors[1]},${colors[2]})` : null,
             el: '.color-picker',
+            useAsButton: true,
             theme: 'nano', // or 'monolith', or 'nano'
             defaultRepresentation: 'HEX',
             components: {
@@ -144,6 +147,9 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     }
 
     render() {
+        const colors = this.props.color;
+        console.log('colors', colors)
+        if (colors) console.log(`rgb(${colors[0]},${colors[1]},${colors[2]})`);
         return (
             <a
                 href="#"
@@ -172,7 +178,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                             top: 0,
                             bottom: 0,
                             position: 'absolute',
-                            backgroundColor: 'currentColor',
+                            backgroundColor: colors && `rgb(${colors[0]},${colors[1]},${colors[2]})`,
                             borderRadius: '.15em',
                             border: 'none',
                             boxShadow: 'inset 0 0 0 1px rgba(14,19,24,.15)',

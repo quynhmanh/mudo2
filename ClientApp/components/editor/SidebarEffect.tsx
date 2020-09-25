@@ -466,6 +466,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 >
                                     <p>Color</p>
                                     <ColorPicker
+                                        color={image.shadowColor}
                                         setSelectionColor={(color) => {
                                             let image = editorStore.getImageSelected();
                                             image.shadowColor = color;
