@@ -13,6 +13,7 @@ export interface IProps {
     handleImageSelected: any;
     updateImages: any;
     effectId: any;
+    idImageSelected: string;
 }
 
 export interface IState {
@@ -56,6 +57,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
             return true;
         }
         if (this.props.effectId != nextProps.effectId) {
+            return true;
+        }
+        if (nextProps.selectedTab == SidebarTab.Effect && this.props.idImageSelected != nextProps.idImageSelected) {
             return true;
         }
         return false;
