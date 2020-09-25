@@ -1049,6 +1049,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectHeight = 1920;
                     rectWidth = 1080;
                     break;
+                case 12: // Instagram Story
+                rectHeight = 320;
+                rectWidth = 320;
+                    break;
             }
 
             scaleX = (width - 50) / rectWidth;
