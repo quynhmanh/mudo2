@@ -2225,7 +2225,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(image.fontSize * window.scaleY)}`;
             } else if (objectType === TemplateType.TextTemplate && childId) {
                 let text = image.document_object.find(text => text._id === childId);
-                (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(text.fontSize * text.scaleY * window.scaleY)}`;
+                if (text)
+                    (document.getElementById("fontSizeButton") as HTMLInputElement).value = `${Math.round(text.fontSize * text.scaleY * window.scaleY)}`;
             }
 
             if (objectType == TemplateType.Heading || objectType == TemplateType.TextTemplate) {
