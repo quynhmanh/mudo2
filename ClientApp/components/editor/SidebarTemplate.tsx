@@ -30,7 +30,7 @@ export interface IState {
     total: number;
 }
 
-const imgWidth = 162;
+let imgWidth = 162;
 
 let getRem = (rem) => Array(rem).fill(0).map(i => {
     return {
@@ -64,6 +64,10 @@ export default class SidebarTemplate extends Component<IProps, IState> {
 
         this.state.items = getRem(props.rem);
 
+        if (props.subtype == 7) {
+            imgWidth = 332;
+        }
+
         this.loadMore = this.loadMore.bind(this);
         this.templateOnMouseDown = this.templateOnMouseDown.bind(this);
     }
@@ -91,6 +95,9 @@ export default class SidebarTemplate extends Component<IProps, IState> {
             return true;
         }
         if (this.props.subtype != nextProps.subtype) {
+            if (nextProps.subtype == 7) {
+                imgWidth = 332;
+            }
             return true;
         }
         return false;
