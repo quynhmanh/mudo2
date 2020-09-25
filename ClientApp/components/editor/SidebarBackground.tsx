@@ -227,7 +227,6 @@ export default class SidebarBackground extends Component<IProps, IState> {
                         <div
                             style={{
                                 width: "350px",
-                                marginRight: "8px"
                             }}
                         >
                             {this.state.items.map((item, key) => (
@@ -269,7 +268,6 @@ export default class SidebarBackground extends Component<IProps, IState> {
                         <div
                             style={{
                                 width: "350px",
-                                marginRight: "8px"
                             }}
                         >
                             {this.state.items2.map((item, key) => (

@@ -430,7 +430,6 @@ export default class SidebarText extends Component<IProps, IState> {
                                     <div
                                         style={{
                                             width: "350px",
-                                            marginRight: "10px"
                                         }}
                                     >
                                         {this.state.items.map((item, key) => (
