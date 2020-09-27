@@ -33,7 +33,7 @@ export interface IState {
 const imgWidth = 105;
 const backgroundWidth = 105;
 
-const elements = [
+let elements = [
     {
         representative: "https://template.canva.com/EADX7bJQMIQ/1/0/800w-Ida3rjkyPN8.png",
         clipId: "__id1_0",
@@ -461,13 +461,15 @@ export default class SidebarEffect extends Component<IProps, IState> {
             count = 15;
         }
         this.setState({ isLoading: true, error: undefined });
-        const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
+        const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${count}&terms=${initialload ? "Frame" : this.state.query}`;
         console.log('loadmore ', url)
         fetch(url)
             .then(res => res.json())
             .then(
                 res => {
                     var result = res.value.key;
+                    elements =  result;
+                    console.log('elements ', elements)
                     this.setState(state => ({
                         items: [...state.items, ...result],
                         isLoading: false,
