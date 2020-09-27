@@ -127,7 +127,7 @@ const elements = [
         clipHeight: 500,
         path: "m250 2.51c-136.68 0-247.49 110.81-247.49 247.49s110.81 247.49 247.49 247.49 247.49-110.81 247.49-247.49-110.81-247.49-247.49-247.49zm0 370.19c-67.77 0-122.7-54.94-122.7-122.7s54.93-122.7 122.7-122.7 122.7 54.93 122.7 122.7-54.93 122.7-122.7 122.7z",
         path2: [
-            
+
         ],
     },
     {
@@ -186,7 +186,7 @@ const elements = [
         representative:
             "https://template.canva.com/EADmppDBwos/1/0/674w-auPcEAzqTMc.png",
         clipId: "__id1_21",
-        clipWidth: 877.8 ,
+        clipWidth: 877.8,
         clipHeight: 976.4,
         path: `M-54.1,-19.5m779.7,137.4c-34.8,-41.3 -77.2,-77.9 -127.9,-98 -36.1,-14.3 -75.4,-19.9 -114.3,-19.4 -164.2,2.4 -313.5,116.9 -381.9,263 -60,128.4 -101.5,350.1 -47.9,481.2 53.5,131.1 143.2,200.6 280.9,206.6 216.8,25.1 381.1,-124.3 462.2,-297s52.3,-389.6 -71.1,-536.4Z`,
     },
@@ -210,7 +210,7 @@ const elements = [
         representative:
             "https://template.canva.com/EADmpra_oxY/1/0/790w-BvFn5lKv6fU.png",
         clipId: "__id1_24",
-        clipWidth: 1002.9 ,
+        clipWidth: 1002.9,
         clipHeight: 965.3,
         path: `M-2.4,-46.6m941.4,382.9c-87.1,-169.3 -262.6,-293.4 -449.6,-312.9 -152.6,-23.4 -253,48.5 -335,147.5s-125.6,225.2 -143.2,352.5c-9.3,67.2 -11.2,138.5 17.3,200.1 36.1,78.1 115,127.8 195.3,158.7 216,83.1 481.2,50.9 649.3,-108.3 52.6,-49.8 95.7,-112.2 111.1,-183 18.7,-85.9 -5,-176.4 -45.2,-254.6Z`,
     },
@@ -218,7 +218,7 @@ const elements = [
         representative:
             "https://template.canva.com/EADisCZzfMc/1/0/800w-xL53EtyMw-w.png",
         clipId: "__id1_25",
-        clipWidth: 500 ,
+        clipWidth: 500,
         clipHeight: 500,
         path: `m250 1.26c-137.38 0-248.74 111.36-248.74 248.74s111.36 248.74 248.74 248.74 248.74-111.36 248.74-248.74-111.36-248.74-248.74-248.74zm0 286.68c-20.96 0-37.94-16.99-37.94-37.94s16.99-37.94 37.94-37.94 37.94 16.99 37.94 37.94-16.98 37.94-37.94 37.94z`,
     },
@@ -226,7 +226,7 @@ const elements = [
         representative:
             "https://template.canva.com/EADisHeBoeM/1/0/800w-vcZYoDx5-pY.png",
         clipId: "__id1_26",
-        clipWidth: 500 ,
+        clipWidth: 500,
         clipHeight: 500,
         path: `m250 0.92c-137.56 0-249.08 111.52-249.08 249.08s111.52 249.08 249.08 249.08 249.08-111.52 249.08-249.08-111.52-249.08-249.08-249.08zm0 329.98c-44.68 0-80.9-36.22-80.9-80.9s36.22-80.9 80.9-80.9 80.9 36.22 80.9 80.9-36.22 80.9-80.9 80.9z`,
     },
@@ -234,7 +234,7 @@ const elements = [
         representative:
             "https://template.canva.com/EADX7p5xi6U/1/0/746w-d4499I580BM.png",
         clipId: "__id1_26",
-        clipWidth: 193.4  ,
+        clipWidth: 193.4,
         clipHeight: 207.2,
         path: `M177.8 40.6c-.5-.1-.9-.2-1.4-.4.6.2 1.1.3 1.4.4zM15.1 61.7c2.2 1.3 4.6 2.6 6.8 3.6s4.3 1.7 5.7 1.9c3 .9 1.2 4.1 1.9 6.6 2.3-1.5 4.2.6 6.5-.9.1.4 2.1.2 4.5 0s5.3-.7 7.2-1.1c0 0 .3-.3 1-.7s2-.9 3.9-1.2c1.3-.2 1.1-1.1.9-1.9.2.8.2.8.3 1.7.9-1.9 3.8-.7 4.9-1.8.2.8.2.8.3 1.7.6-.5 1.2-.9 1.8-1.1s1.3-.3 1.9-.3c1.3-.1 2.6-.1 3.8-.7.1.8.1.8.3 1.7 1.3-.2 2.5-.4 2.6.5.1.8.1.8.2 1.7.7.3 1.6 0 2.4-.3.8-.2 1.4-.3 1.5.6-.1-.8-.1-.8-.2-1.7 5.1-.5 8.9-.2 12.8.4 2.6.7 5.3 1 8 1.2 2.8.2 5.6.2 8.5 0 5.8-.2 11.7-1.1 17.5-1.5 1.3.1 2.6-1.6 1.5-3.3 1.3.1 2.6.1 3.8.2 2.5.2 1.5-2.4 4-2.2 10.5-1.3 20.9.4 31.1 2.6l7.6 1.8c2.5.6 5 1.4 7.6 2 1.3.3 2.5.6 3.8.9l3.8 1c2.5.6 5.1 1.2 7.7 1.6-2.4-1.2-4.4-2.4-6.5-3.5-1-.5-2.1-1-3.2-1.4s-2.4-.6-3.7-.8c.2-.8.7-2.5-.6-2.8-1.9-.7-3.9-1.3-5.9-1.8s-4-.9-5.9-1.3c-1.9-.5-3.6-1-5-1.6-1.5-.7-2.7-1.4-3.5-2.4-1.2-1.1-2-3.8-6-4.5l4 .7c.1-.8.4-2.5.4-2.5-5.2-1.9-11.9-3.6-17.3-5.1 0 0 .2-1.7.3-2.5l-2.8-.3c-.5-1.6 0-2.6 1.2-3.2.6-.3 1.4-.6 2.3-.7s2-.2 3.1-.2c2.2 0 4.8.2 7.2.3.6 0 1.2.1 1.8.1.6.1 1.1.1 1.7.2 1.1.1 2.1.2 3 .3.1-.8.4-2.5.6-3.4l-2.8-.5.3-1.7c2.1.4 4.2.7 6.2 1.1s4 .7 5.9 1.1 3.9.8 5.9 1.3c.8.2 1.6.4 2.5.5-.8-.2-1.5-.3-2-.4.2-.8.4-1.7-1-2 1.4.3 2.9.7 4.5 1.1 1.5.4 3.1.9 4.7 1.3 3.2.8 6.4 1.4 9.4 1.4 1.6-.4 1-3.4-3.1-5.3-2.1-.6-3.9-1-5.7-1.5s-3.6-.9-5.7-1.4l.4-1.7c.7.2 1.5.4 2.4.6.8.3 1.7.6 2.6.9 1.8.6 3.6 1 5.1 1 1.7-.5-2.2-3.2-.6-3.7 1.5.4 2.9.8 4.6.3-2.2-.6-4.8-1-7.3-1.6-1.3-.3-2.6-.6-3.8-.9s-2.4-.7-3.5-1.1c-1.3-1.2-2.6-2.3-2.2-4-1.9-.2-3.7-.6-5.3-1.1s-3.2-1.1-4.6-1.9c-2.8-1.6-5.2-3.7-7.1-6.2-.9-1.4-5.6-1.9-9.8-2.3l-4.2-1.2c-1.6-.4-3.3-.7-4.9-1.1-1.7-.3-3.3-.7-5-1-.8-.2-1.7-.3-2.5-.5l-2.5-.3c-3.4-.4-6.8-.9-10.1-1.2-3.4-.3-6.8-.5-10.2-.8S100 5.1 96.6 5c-3.4-.2-6.7-.4-10.1-.5-3.5-.5-6.8-.7-10.1-1-3.3-.2-6.6-.4-9.8-.8-.8-.3-2.1-.8-3.4-1.3S60.6.5 59.8.2c-13.2-.9-29 3.4-40.9 8.3-3 1.3-5 4.5-6.2 7.4s-1.6 5.5-1.6 5.5c-1 2.1-1.4 5.8.5 7 .8 0 1.8-.2 3-.4 1.1-.1 2.4-.3 3.6-.3 2.3-.1 4.4.2 4.8 1.9.2.8-1.2 1.2-2.7 1.6.9 3.3-1.5 11-2.8 11.5-.4 1-2.4 3.4-4.2 5.8-1.9 2.4-3.7 4.8-4.1 5.8-1.7 1.8 1.6 4.7 5.9 7.4zm159.1-21.9c.7.2 1.5.3 2.3.5-.8-.2-1.6-.4-2.3-.5zm8.9 105.6c-3.2-.9-6.2-2-8.5-3.8-1.7-.5 2.9-3.9 1.7-6.6-1.8-.5-5.3-1.4-7-1.8-.9-3.7 3.4-6.2 2.5-9.9-1-3.7-8.7-3.3-10-5.9-2.5-1.7-1.4-2.3 1-2.4 2.4 0 6.1.6 8.8 1.3-1.3-2.6 3.6.9 4.2-1.3 1.1-4.4 2.3-8.8-4.3-13.9-1.6-1.6 1.1-4.4 1.6-6.6-22.5-5.5-47.4-10.1-70.9-8.5-4.9.3-9.9 0-15.1-.4s-10.4-1.1-15.7-1.7c-2.6-.3-5.3-.6-7.9-.8s-5.2-.3-7.8-.4c-5.2-.2-10.2.1-15 .9-2.9.4-6.7-.4-10.3-.7s-7-.1-8.9 2.8h5.7c-2.9 1.6-5.7 1.7-8.6 1.5s-5.7-.8-8.6-.2c.1 2.3.1 3.4-1.8 4.6 3.8-.2 9.4-1.3 13.2-.2v3.4C17.7 96 12 93.7 8.2 95c0 1.1.1 3.4.1 4.5s-1.8 1.2-3.7 1.3c1.9-.1 5.6-.2 7.4-.2 0 1.1.1 3.4.1 4.5s-1.8 1.2-3.7 1.3c.1 2.3-1.7 4.6.2 5.7 1.8-.1 3.7-.1 5.5-.1-7.3 1.3-10.7 7.1-10.6 10.5 1.8-1.2 1.9 2.2 3.6 1-5.3 3.6-10.3 8.3-3.2 9.2 30.9.5 62 1.7 93.2 4.8 18.3 1.8 36.7 4.2 54.8 7.5-15.1-.2-29.9 1.2-45.3 1.2-6.9 3.1-53.3 4.4-65.2 3.1-.4 0-.7.1-1.1.1-6.5-.4-14.4.1-19.9 2.8-2.5 1.6-5.1 3.6-7.6 5.5 1.2 1.1 2.3 2.3 3.2 3.4-2.6-.1-5.2-.3-6.2 1-5.5 3-2.4 6.4-.3 11.1 1.5 2.1-.5 5.2 1.9 7.3-1.7-.1-2.6-.1-4.3-.3-.2 2 5.3-1 4.1 2.2-1.7-.8-3.5.4-5.3.3.6 2.7 6 1 5.7 3.6-.9.6-4.9-3.6-5.2-.3-.1.7 1.7.8 2.5.8-5.3 1-8.3 4.1-3.4 7.7-1.7-.1-4.1-1.5-5.9-1v.1c.9.1 2.4.8 3.3.8-1-.1-2-.1-3-.2.2.5.3.9.5 1.4.8.4 1.5.7 2.3.8-.7 0-1.3-.1-2-.1.5 1.1 1.1 2.1 1.7 3.1 2.4 2.1 4.7 5.2 6 5.3 10.5 1.5 21 2.6 31.5 2.9 0-1.2-.5-2.4.3-3 2.7-1.1 4.9 2.9 7.7 1.8.1-.7.1-1.3.2-2 2.1.8 4.3 1.9 6.6 2.8 4.1-.3 8.3-.7 12.4-1.4-.1-.7-.2-1.4.3-1.6 1.7-.5 4.1.2 6.5.4.4-.1.7-.2 1.1-.3.3-.4.4-1.1.4-1.5 1.1.1 2.1.3 3 .5 12-3.9 24.3-8.4 37.5-12.9 2.8-1.8 5.6-3.6 8.3-4.4 4-.8 9.1.5 13 .8-.6-6.9 8.9-10.3 7-17.3 2.6.1 6.5.4 6.7-1.6.6-5.9 2.6-12.6 9.5-16.2 2.7-.8 6.9 1.6 7.8.5 1-1.2-.9-2.7-1.8-4 7.8 1.6 15.6 3.4 23.2 5.4 1.9-.1 2.6-.7 2.8-1.7.3-1 .2-2.2.5-3.3-3-1.5-6.5-2.3-9.8-3.2z`,
     },
@@ -242,7 +242,7 @@ const elements = [
         representative:
             "https://template.canva.com/EADX7RoDfBU/1/0/800w-adUc9caubdk.png",
         clipId: "__id1_27",
-        clipWidth: 337.2  ,
+        clipWidth: 337.2,
         clipHeight: 292,
         path: `M252.9 0H84.3L0 146l84.3 146h168.6l84.3-146z`,
     },
@@ -533,8 +533,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     <div
                         style={{
                             display: "flex",
-                            marginTop: "10px",
-                            height: "calc(100% - 35px)",
+                            margin: "20px 0px",
                         }}
                     >
                         <div
@@ -542,7 +541,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 width: "340px",
                                 height: "73px",
                                 position: 'relative',
-                                margin: "0 20px 0px 5px",
+                                margin: "0px 10px 0px 0px",
                             }}
                         >
                             <InfiniteXScroll
@@ -557,63 +556,64 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 buttonSize={30}
                                 buttonColor="transparent"
                                 buttonHeight="100%"
-                                svgColor= "white"
+                                svgColor="white"
                                 hideBackgroundBefore={false}
                             >
-                            {elements.map(el =>
-                                <div
-                                    style={{
-                                        display: "inline-flex",
-                                        height: "70px",
-                                        width: "70px",
-                                        justifyContent: "center",
-                                        marginRight: "10px",
-                                        marginBottom: "10px",
-                                    }}
-                                >
-                                <img
-                                    onMouseDown={this.imgOnMouseDown.bind(this, el)}
-                                    style={{
-                                        // width: "100px",
-                                        maxWidth: "100%",
-                                        // height: 100 / (el.clipWidth / el.clipHeight) + "px",
-                                        maxHeight: "100%",
-                                        cursor: 'pointer',
-                                        objectFit: "contain"
-                                    }}
-                                    src={el.representative}
-                                />
-                                </div>
-                            )}
-                             </InfiniteXScroll>
+                                {elements.map(el =>
+                                    <div
+                                        style={{
+                                            display: "inline-flex",
+                                            height: "70px",
+                                            width: "70px",
+                                            justifyContent: "center",
+                                            marginRight: "10px",
+                                            marginBottom: "10px",
+                                        }}
+                                    >
+                                        <img
+                                            onMouseDown={this.imgOnMouseDown.bind(this, el)}
+                                            style={{
+                                                // width: "100px",
+                                                maxWidth: "100%",
+                                                // height: 100 / (el.clipWidth / el.clipHeight) + "px",
+                                                maxHeight: "100%",
+                                                cursor: 'pointer',
+                                                objectFit: "contain"
+                                            }}
+                                            src={el.representative}
+                                        />
+                                    </div>
+                                )}
+                            </InfiniteXScroll>
                             <div
-                                    style={{
-                                        display: "inline-flex",
-                                        height: "100px",
-                                        width: "100px",
-                                        justifyContent: "center",
-                                        marginRight: "10px",
-                                        marginBottom: "10px",
-                                    }}
-                                >
-                            <img
-                                onMouseDown={this.imgOnMouseDown.bind(this, {
-                                    representative:
-                                        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
-                                    freeStyle: true
-                                })}
                                 style={{
+                                    display: "inline-flex",
+                                    height: "100px",
                                     width: "100px",
-                                    height: 100 + "px",
-                                    backgroundColor: "#019fb6",
-                                    marginRight: "8px",
-                                    marginBottom: "8px",
+                                    justifyContent: "center",
+                                    marginRight: "10px",
+                                    marginBottom: "10px",
                                 }}
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            />
+                            >
+
                             </div>
                         </div>
                     </div>
+                    <img
+                        onMouseDown={this.imgOnMouseDown.bind(this, {
+                            representative:
+                                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+                            freeStyle: true
+                        })}
+                        style={{
+                            width: "100px",
+                            height: 100 + "px",
+                            backgroundColor: "#019fb6",
+                            marginRight: "8px",
+                            marginBottom: "8px",
+                        }}
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    />
                 </div>
             </div>
         )
