@@ -644,7 +644,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             style={{
                                 display: "inline-flex",
                                 width: imgWidth + "px",
-                                height: imgWidth + "px",
                                 justifyContent: "center",
                                 marginRight: "5px",
                                 marginBottom: "8px",
