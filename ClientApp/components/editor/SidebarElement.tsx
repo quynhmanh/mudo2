@@ -529,17 +529,22 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     overflow: "visible",
                 }}
             >
+                <p
+                    style={{
+                        marginTop: "10px",
+                    }}
+                >Elements</p>
                 <div style={{ display: "inline-block", width: "100%" }}>
                     <div
                         style={{
                             display: "flex",
-                            margin: "20px 0px",
+                            margin: "0px 0px",
                         }}
                     >
                         <div
                             style={{
                                 width: "340px",
-                                height: "73px",
+                                height: "83px",
                                 position: 'relative',
                                 margin: "0px 10px 0px 0px",
                             }}
@@ -564,8 +569,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     <div
                                         style={{
                                             display: "inline-flex",
-                                            height: "70px",
-                                            width: "70px",
+                                            height: "80px",
+                                            width: "80px",
                                             justifyContent: "center",
                                             marginRight: "10px",
                                             marginBottom: "10px",
