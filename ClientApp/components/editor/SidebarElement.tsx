@@ -600,7 +600,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             </div>
                         </div>
                     </div>
-                    <img
+                    {/* <img
                         onMouseDown={this.imgOnMouseDown.bind(this, {
                             representative:
                                 "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
@@ -614,7 +614,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             marginBottom: "8px",
                         }}
                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    />
+                    /> */}
                 </div>
             </div>
         )
