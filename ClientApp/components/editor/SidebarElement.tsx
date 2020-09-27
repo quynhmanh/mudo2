@@ -547,7 +547,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     }}
                     // value={this.state.query}
                 />
-                <div style={{ display: "inline-block", width: "100%" }}>
+                <div style={{ display: "inline-block", width: "100%", height: "calc(100% - 65px)" }}>
                     {!this.state.query && <div>
                         <p
                             style={{
