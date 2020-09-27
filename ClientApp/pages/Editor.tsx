@@ -4619,7 +4619,7 @@ class CanvaEditor extends Component<IProps, IState> {
             FirstName: "Untilted",
             Pages: toJS(editorStore.pages),
             PrintType: editorStore.subtype,
-            Representative: `images/${uuidv4()}.png`,
+            Representative: `images/${uuidv4()}.jpeg`,
             Representative2: `images/${_id}_2.jpeg`,
             VideoRepresentative: `videos/${_id}.mp4`,
             IsVideo: isVideo,

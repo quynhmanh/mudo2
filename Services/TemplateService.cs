@@ -544,10 +544,16 @@ namespace RCB.TypeScript.Services
                 }
             }
 
-            string additionalStyle = "";
+            const int scaledWidth = 500;
+
+            double scale = 1.0 * scaledWidth/width;
+            height = (int)(scaledWidth / (1.0 * width / height));
+            width = scaledWidth;
+
+            string additionalStyle = $"body {{ transform-origin: 0 0; transform: scale({scale})}} ";
             if (omitBackground)
             {
-                additionalStyle = $".alo2 {{background-color: transparent !important; }}";
+                additionalStyle += $".alo2 {{background-color: transparent !important; }} ";
             }
 
             var template = AppSettings.templateDownload.Replace("[ADDITIONAL_STYLE]", additionalStyle);
@@ -557,7 +563,8 @@ namespace RCB.TypeScript.Services
                 template = template.Replace("https://localhost:64099", "http://167.99.73.132:64099");
             }
 
-            template = template.Replace("[FONT_FACE]", style);
+            template = template
+                .Replace("[FONT_FACE]", style);
             byte[] data = null;
             using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
             {
@@ -630,7 +637,6 @@ namespace RCB.TypeScript.Services
                             Height = (decimal)height,
                         },
                         Type = ScreenshotType.Png,
-                        // Quality = 90,
                         OmitBackground = true,
                     });
 
