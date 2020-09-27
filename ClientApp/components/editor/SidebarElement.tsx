@@ -406,7 +406,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         // src: !img.representative.startsWith("data")
                         //     ? window.location.origin + "/" + img.representative
                         //     : img.representative,
-                        src: img.representative,
+                        src: !img.representative.startsWith("data")
+                            ? window.location.origin + "/" + img.representative
+                            : img.representative,
                         srcThumnail: img.representativeThumbnail,
                         backgroundColor: target.style.backgroundColor,
                         selected: true,
