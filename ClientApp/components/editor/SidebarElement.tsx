@@ -558,6 +558,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 buttonHeight="100%"
                                 svgColor="white"
                                 hideBackgroundBefore={false}
+                                hover={false}
                             >
                                 {elements.map(el =>
                                     <div

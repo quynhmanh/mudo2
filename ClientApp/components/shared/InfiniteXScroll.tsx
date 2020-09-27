@@ -3,6 +3,10 @@ import { throttle } from 'lodash';
 import styled from 'styled-components'
 
 const Button = styled.button`
+    :hover {
+        background: ${props => props.hover ? '#56aaff !important' : ''};
+    }
+
     :before {
         background: ${props => props.hideBackgroundBefore ? "transparent" :
         props.left ? "linear-gradient(270deg,rgba(41,48,57,0),#293039)" : "linear-gradient(90deg,rgba(41,48,57,0),#293039)"}
@@ -74,6 +78,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
         buttonHeight: "40px",
         svgColor: "black",
         hideBackgroundBefore: true,
+        hover: true,
     };
     private sentinel: HTMLElement;
     private containerSroll: HTMLDivElement;
@@ -199,6 +204,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                     <Button
                         hideBackgroundBefore={this.props.hideBackgroundBefore}
                         left={true}
+                        hover={this.props.hover}
                         style={{
                             position: 'absolute',
                             top: 0,
@@ -240,6 +246,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                     <Button
                         hideBackgroundBefore={this.props.hideBackgroundBefore}
                         left={false}
+                        hover={this.props.hover}
                         style={{
                             position: 'absolute',
                             top: 0,
