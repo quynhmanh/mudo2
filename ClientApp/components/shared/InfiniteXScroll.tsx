@@ -172,7 +172,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                     document.addEventListener("mousemove", onMove);
                 }}
                 style={{
-                    height: "calc(100% + 53px)",
+                    height: "calc(100% + 30px)",
                     overflowX: "scroll",
                     paddingTop: "3px",
                 }}>
