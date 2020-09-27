@@ -57,14 +57,6 @@ const elements = [
     },
     {
         representative:
-            "https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png",
-        clipId: "__id1_11",
-        clipWidth: 229.6,
-        clipHeight: 264.2,
-        path: "M75.6 215.7h75.7l14.7 48.6h63.6L147.2 0H82.6L0 264.2h61.3l14.3-48.5zm38-128.2l20.4 70H92.9l20.7-70z"
-    },
-    {
-        representative:
             "https://template.canva.com/EADfCquREdE/1/0/404w-eJxIhDu9uEM.png",
         clipId: "__id1_12",
         clipWidth: 206.3,
@@ -74,6 +66,14 @@ const elements = [
             path: "m174.2 2h-142.1c-15.4 0-27.9 12.5-27.9 27.9v348.3c0 15.4 12.5 27.9 27.9 27.9h142.1c15.4 0 27.9-12.5 27.9-27.9v-348.3c0-15.4-12.5-27.9-27.9-27.9zm-47.3 12.8c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5 1.2-2.5 2.5-2.5zm-36.9 0.8h24c0.9 0 1.7 0.7 1.7 1.7s-0.8 1.7-1.7 1.7h-24c-0.9 0-1.7-0.7-1.7-1.7s0.8-1.7 1.7-1.7zm101.9 364.2c0 9.1-7.4 16.5-16.5 16.5h-144.3c-9.1 0-16.5-7.4-16.5-16.5v-351c0-9.1 7.4-16.5 16.5-16.5h21.5v4.5c0 5.1 4.2 9.3 9.3 9.3h82.7c5.1 0 9.3-4.2 9.3-9.3v-4.5h21.4c9.1 0 16.5 7.4 16.5 16.5v351z",
             fill: "#000000",
         }],
+    },
+    {
+        representative:
+            "https://template.canva.com/EADX7Asmx5Q/1/0/698w-u9NeGBksRvE.png",
+        clipId: "__id1_11",
+        clipWidth: 229.6,
+        clipHeight: 264.2,
+        path: "M75.6 215.7h75.7l14.7 48.6h63.6L147.2 0H82.6L0 264.2h61.3l14.3-48.5zm38-128.2l20.4 70H92.9l20.7-70z"
     },
     {
         representative:
@@ -540,7 +540,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         <div
                             style={{
                                 width: "340px",
-                                height: "126px",
+                                height: "73px",
                                 position: 'relative',
                                 margin: "0 20px 0px 5px",
                             }}
@@ -555,6 +555,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 refId="sentinel-image2"
                                 marginTop={45}
                                 buttonSize={30}
+                                buttonColor="transparent"
+                                buttonHeight="100%"
+                                svgColor= "white"
+                                hideBackgroundBefore={false}
                             >
                             {elements.map(el =>
                                 <div

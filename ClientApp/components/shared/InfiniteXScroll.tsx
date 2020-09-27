@@ -1,5 +1,13 @@
 import * as React from 'react';
 import { throttle } from 'lodash';
+import styled from 'styled-components'
+
+const Button = styled.button`
+    :before {
+        background: ${props => props.hideBackgroundBefore ? "transparent" :
+        props.left ? "linear-gradient(270deg,rgba(41,48,57,0),#293039)" : "linear-gradient(90deg,rgba(41,48,57,0),#293039)"}
+    }
+`;
 
 export interface InfiniteScrollProps {
     /**
@@ -57,11 +65,15 @@ interface IState {
 }
 
 export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, IState> {
-    public static defaultProps: Pick<InfiniteScrollProps, 'threshold' | 'throttle' | 'loaderBlack' | 'buttonSize'> = {
+    public static defaultProps: Pick<InfiniteScrollProps, 'threshold' | 'throttle' | 'loaderBlack' | 'buttonSize' | 'buttonColor'> = {
         threshold: 100,
         throttle: 64,
         loaderBlack: false,
         buttonSize: 40,
+        buttonColor: 'white',
+        buttonHeight: "40px",
+        svgColor: "black",
+        hideBackgroundBefore: true,
     };
     private sentinel: HTMLElement;
     private containerSroll: HTMLDivElement;
@@ -112,6 +124,8 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
             this.sentinel = document.getElementById(this.props.refId);
         }
 
+        // alert(window.innerWidth - 80 - this.sentinel.getBoundingClientRect().left)
+        this.sentinel.getBoundingClientRect();
         if (
             this.props.hasMore &&
             this.sentinel &&
@@ -141,115 +155,128 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
 
         return (
             <div>
-            <div
-                id="object-container"
-                ref={i => this.containerSroll = i}
-                onMouseDown={e => {
-                    window.dragging = false;
-                    let pos = {
-                        left: this.containerSroll.scrollLeft,
-                        top: this.containerSroll.scrollTop,
-                        x: e.clientX,
-                        y: e.clientY,
-                    };
-                    e.preventDefault();
-                    let onMove = e => {
-                        window.dragging = true;
-                        const dx = e.clientX - pos.x;
-                        this.containerSroll.scrollLeft = pos.left - dx;
-                    }
+                <div
+                    id="object-container"
+                    ref={i => this.containerSroll = i}
+                    // onMouseDown={e => {
+                    //     window.dragging = false;
+                    //     let pos = {
+                    //         left: this.containerSroll.scrollLeft,
+                    //         top: this.containerSroll.scrollTop,
+                    //         x: e.clientX,
+                    //         y: e.clientY,
+                    //     };
+                    //     e.preventDefault();
+                    //     let onMove = e => {
+                    //         window.dragging = true;
+                    //         const dx = e.clientX - pos.x;
+                    //         this.containerSroll.scrollLeft = pos.left - dx;
+                    //     }
 
-                    let onUp = e => {
-                        setTimeout(() => {
-                            window.dragging = false;
-                        }, 3000);
-                        e.stopPropagation();
-                        document.removeEventListener("mouseup", onUp);
-                        document.removeEventListener("mousemove", onMove);
-                    }
+                    //     let onUp = e => {
+                    //         setTimeout(() => {
+                    //             window.dragging = false;
+                    //         }, 3000);
+                    //         e.stopPropagation();
+                    //         document.removeEventListener("mouseup", onUp);
+                    //         document.removeEventListener("mousemove", onMove);
+                    //     }
 
-                    document.addEventListener("mouseup", onUp);
-                    document.addEventListener("mousemove", onMove);
-                }}
-                style={{
-                    height: "calc(100% + 30px)",
-                    overflowX: "scroll",
-                    paddingTop: "3px",
-                    display: "flex",
-                    flexFlow: "column wrap",
-                }}>
-                {this.props.children}
-            </div>
-            {this.state.showLeft && <button
+                    //     document.addEventListener("mouseup", onUp);
+                    //     document.addEventListener("mousemove", onMove);
+                    // }}
                     style={{
-                        position: 'absolute',
-                        top: '0',
-                        bottom: '55px',
-                        margin: 'auto',
-                        zIndex: 100,
-                        width: this.props.buttonSize + "px",
-                        height: this.props.buttonSize + "px",
-                        borderRadius: '50%',
-                        left: '-21px',
-                        border: 'none',
-                        background: 'white',
-                    }}
-                    onClick={(e) => {
-                        this.containerSroll.style.scrollBehavior = "smooth";
-                        this.containerSroll.scrollLeft -= 700;
-                        this.containerSroll.style.scrollBehavior = "";
-                        this.setState({ yLocation: this.state.yLocation - 700 });
-                    }}
-                    className="arrowWrapper___rLMf7 arrowLeft___2lAV4"
-                    data-categ="popularTemplates"
-                    data-value="btn_sliderLeft"
-                >
-                    <svg
-                        style={{ transform: 'rotate(180deg)' }}
-                        viewBox="0 0 16 16"
-                        width="16"
-                        height="16"
-                        className="arrow___2yMKk"
-                    >
-                        <path d="M12.2339 8.7917L5.35411 15.6711C4.91648 16.109 4.20692 16.109 3.7695 15.6711C3.33204 15.2337 3.33204 14.5242 3.7695 14.0868L9.85703 7.99952L3.76968 1.91249C3.33222 1.47486 3.33222 0.765428 3.76968 0.327977C4.20714 -0.109651 4.91665 -0.109651 5.35429 0.327977L12.234 7.20751C12.4528 7.42634 12.562 7.71284 12.562 7.99948C12.562 8.28627 12.4526 8.57298 12.2339 8.7917Z"></path>
-                    </svg>
-                </button>}
-                {this.state.showRight && <button
-                    style={{
-                        position: 'absolute',
-                        top: '0',
-                        bottom: '55px',
-                        margin: 'auto',
-                        zIndex: 100,
-                        width: this.props.buttonSize + "px",
-                        height: this.props.buttonSize + "px",
-                        borderRadius: '50%',
-                        right: '-21px',
-                        border: 'none',
-                        background: 'white',
-                    }}
-                    onClick={(e) => {
-                        this.containerSroll.style.scrollBehavior = "smooth";
-                        this.containerSroll.scrollLeft += 700;
-                        this.containerSroll.style.scrollBehavior = "";
-                        this.setState({ yLocation: this.state.yLocation + 700 });
-                    }}
-                    className="arrowWrapper___rLMf7 arrowLeft___2lAV4"
-                    data-categ="popularTemplates"
-                    data-value="btn_sliderLeft"
-                >
-                    <svg
+                        height: "calc(100%)",
+                        overflowX: "scroll",
+                        paddingTop: "3px",
+                        display: "flex",
+                        flexFlow: "column wrap",
+                        overflowY: "hidden",
+                    }}>
+                    {this.props.children}
+                </div>
+                {this.state.showLeft &&
+                    <Button
+                        hideBackgroundBefore={this.props.hideBackgroundBefore}
+                        left={true}
                         style={{
-                            // transform: 'rotate(180deg)',
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            margin: 'auto',
+                            zIndex: 100,
+                            width: this.props.buttonSize + "px",
+                            borderRadius: '50%',
+                            left: '-21px',
+                            height: this.props.buttonHeight,
+                            border: 'none',
+                            background: this.props.buttonColor,
                         }}
-                        viewBox="0 0 16 16"
-                        width="16"
-                        height="16"
-                        className="arrow___2yMKk"
+                        onClick={(e) => {
+                            this.containerSroll.style.scrollBehavior = "smooth";
+                            let width = this.containerSroll.getBoundingClientRect().width;
+                            this.containerSroll.scrollLeft -= width - 50;
+                            this.containerSroll.style.scrollBehavior = "";
+                            this.setState({ yLocation: this.state.yLocation - width + 50 });
+                        }}
+                        className="arrowWrapper___rLMf7 arrowLeft___2lAV4"
+                        data-categ="popularTemplates"
+                        data-value="btn_sliderLeft"
                     >
-                        <path d="M12.2339 8.7917L5.35411 15.6711C4.91648 16.109 4.20692 16.109 3.7695 15.6711C3.33204 15.2337 3.33204 14.5242 3.7695 14.0868L9.85703 7.99952L3.76968 1.91249C3.33222 1.47486 3.33222 0.765428 3.76968 0.327977C4.20714 -0.109651 4.91665 -0.109651 5.35429 0.327977L12.234 7.20751C12.4528 7.42634 12.562 7.71284 12.562 7.99948C12.562 8.28627 12.4526 8.57298 12.2339 8.7917Z"></path>
-                    </svg>
-                </button>}
+                        <svg
+                            style={{
+                                fill: this.props.svgColor,
+                                transform: 'rotate(180deg)',
+                                // marginLeft: "6px",
+                                height: "16px",
+                            }}
+                            viewBox="0 0 16 16"
+                            className="arrow___2yMKk"
+                        >
+                            <path d="M12.2339 8.7917L5.35411 15.6711C4.91648 16.109 4.20692 16.109 3.7695 15.6711C3.33204 15.2337 3.33204 14.5242 3.7695 14.0868L9.85703 7.99952L3.76968 1.91249C3.33222 1.47486 3.33222 0.765428 3.76968 0.327977C4.20714 -0.109651 4.91665 -0.109651 5.35429 0.327977L12.234 7.20751C12.4528 7.42634 12.562 7.71284 12.562 7.99948C12.562 8.28627 12.4526 8.57298 12.2339 8.7917Z"></path>
+                        </svg>
+                    </Button>}
+                {this.state.showRight &&
+                    <Button
+                        hideBackgroundBefore={this.props.hideBackgroundBefore}
+                        left={false}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            margin: 'auto',
+                            zIndex: 100,
+                            width: this.props.buttonSize + "px",
+                            borderRadius: '50%',
+                            right: '-15px',
+                            height: this.props.buttonHeight,
+                            border: 'none',
+                            background: this.props.buttonColor,
+                        }}
+                        onClick={(e) => {
+                            this.containerSroll.style.scrollBehavior = "smooth";
+                            let width = this.containerSroll.getBoundingClientRect().width;
+                            this.containerSroll.scrollLeft += width - 50;
+                            this.containerSroll.style.scrollBehavior = "";
+                            this.setState({ yLocation: this.state.yLocation + width - 50 });
+                        }}
+                        className="arrowWrapper___rLMf7 arrowRight___2lAV4"
+                        data-categ="popularTemplates"
+                        data-value="btn_sliderLeft"
+                    >
+                        <svg
+                            style={{
+                                fill: this.props.svgColor,
+                                // marginLeft: "6px",
+                                transform: 'rotate(0deg)',
+                                height: "16px",
+                            }}
+                            viewBox="0 0 16 16"
+                            className="arrow___2yMKk"
+                        >
+                            <path d="M12.2339 8.7917L5.35411 15.6711C4.91648 16.109 4.20692 16.109 3.7695 15.6711C3.33204 15.2337 3.33204 14.5242 3.7695 14.0868L9.85703 7.99952L3.76968 1.91249C3.33222 1.47486 3.33222 0.765428 3.76968 0.327977C4.20714 -0.109651 4.91665 -0.109651 5.35429 0.327977L12.234 7.20751C12.4528 7.42634 12.562 7.71284 12.562 7.99948C12.562 8.28627 12.4526 8.57298 12.2339 8.7917Z"></path>
+                        </svg>
+                    </Button>}
             </div>
         );
     }

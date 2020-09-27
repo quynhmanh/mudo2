@@ -1242,3 +1242,25 @@ button {
   height: 100%;
   pointer-events: none;
 }
+
+.arrowLeft___2lAV4::before {
+  top: 0px;
+  right: -15px;
+  background: linear-gradient(270deg,rgba(41,48,57,0),#293039);
+  content: "";
+    position: absolute;
+    width: 24px;
+    height: 100%;
+    pointer-events: none;
+}
+
+.arrowRight___2lAV4::before {
+  top: 0px;
+  right: 15px;
+  background: linear-gradient(90deg,rgba(41,48,57,0),#293039);
+  content: "";
+    position: absolute;
+    width: 24px;
+    height: 100%;
+    pointer-events: none;
+}
