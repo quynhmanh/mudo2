@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { SidebarTab, TemplateType, SavingState, } from "./enums";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
-import InfiniteScroll from "@Components/shared/InfiniteScroll";
-import ImagePicker from "@Components/shared/ImagePicker";
-import { toJS } from "mobx";
+import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
 
 export interface IProps {
     scale: number;
@@ -518,7 +516,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     position: "absolute",
                     width: "347px",
                     color: "white",
-                    overflow: "scroll",
                     transition:
                         "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
                     transform:
@@ -529,6 +526,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     zIndex: editorStore.selectedTab !== SidebarTab.Element && -1,
                     height: "100%",
                     left: '19px',
+                    overflow: "visible",
                 }}
             >
                 <div style={{ display: "inline-block", width: "100%" }}>
@@ -537,40 +535,33 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             display: "flex",
                             marginTop: "10px",
                             height: "calc(100% - 35px)",
-                            overflow: "scroll"
                         }}
                     >
-                        {/* <div
-                            style={{
-                                width: "350px",
-                                marginRight: "10px"
-                            }}
-                        >
-                            <img
-                                onMouseDown={this.imgOnMouseDown.bind(this, {
-                                    representative:
-                                        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
-                                    freeStyle: true
-                                })}
-                                style={{
-                                    width: "160px",
-                                    height: imgWidth + "px",
-                                    backgroundColor: "#019fb6"
-                                }}
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            />
-                        </div> */}
                         <div
                             style={{
-                                width: "350px",
+                                width: "340px",
+                                height: "126px",
+                                position: 'relative',
+                                margin: "0 20px 0px 5px",
                             }}
                         >
+                            <InfiniteXScroll
+                                scroll={true}
+                                throttle={1000}
+                                threshold={300}
+                                isLoading={false}
+                                hasMore={this.state.hasMore}
+                                onLoadMore={this.loadMore.bind(this, false)}
+                                refId="sentinel-image2"
+                                marginTop={45}
+                                buttonSize={30}
+                            >
                             {elements.map(el =>
                                 <div
                                     style={{
                                         display: "inline-flex",
-                                        height: "105px",
-                                        width: "105px",
+                                        height: "70px",
+                                        width: "70px",
                                         justifyContent: "center",
                                         marginRight: "10px",
                                         marginBottom: "10px",
@@ -590,6 +581,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 />
                                 </div>
                             )}
+                             </InfiniteXScroll>
                             <div
                                     style={{
                                         display: "inline-flex",

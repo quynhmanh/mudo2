@@ -1,8 +1,5 @@
 import * as React from 'react';
-import Loader from '@Components/shared/Loader';
 import { throttle } from 'lodash';
-import clonePseudoElements from 'htmltoimage/clonePseudoElements';
-import ReactDOM from 'react-dom';
 
 export interface InfiniteScrollProps {
     /**
@@ -50,6 +47,7 @@ export interface InfiniteScrollProps {
     refId: string;
 
     marginTop: number;
+    buttonSize: number;
 }
 
 interface IState {
@@ -59,10 +57,11 @@ interface IState {
 }
 
 export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, IState> {
-    public static defaultProps: Pick<InfiniteScrollProps, 'threshold' | 'throttle' | 'loaderBlack'> = {
+    public static defaultProps: Pick<InfiniteScrollProps, 'threshold' | 'throttle' | 'loaderBlack' | 'buttonSize'> = {
         threshold: 100,
         throttle: 64,
         loaderBlack: false,
+        buttonSize: 40,
     };
     private sentinel: HTMLElement;
     private containerSroll: HTMLDivElement;
@@ -141,6 +140,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
         }
 
         return (
+            <div>
             <div
                 id="object-container"
                 ref={i => this.containerSroll = i}
@@ -175,16 +175,20 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                     height: "calc(100% + 30px)",
                     overflowX: "scroll",
                     paddingTop: "3px",
+                    display: "flex",
+                    flexFlow: "column wrap",
                 }}>
-                {this.state.showLeft && <button
+                {this.props.children}
+            </div>
+            {this.state.showLeft && <button
                     style={{
                         position: 'absolute',
                         top: '0',
                         bottom: '55px',
                         margin: 'auto',
                         zIndex: 100,
-                        width: '40px',
-                        height: '40px',
+                        width: this.props.buttonSize + "px",
+                        height: this.props.buttonSize + "px",
                         borderRadius: '50%',
                         left: '-21px',
                         border: 'none',
@@ -210,7 +214,6 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                         <path d="M12.2339 8.7917L5.35411 15.6711C4.91648 16.109 4.20692 16.109 3.7695 15.6711C3.33204 15.2337 3.33204 14.5242 3.7695 14.0868L9.85703 7.99952L3.76968 1.91249C3.33222 1.47486 3.33222 0.765428 3.76968 0.327977C4.20714 -0.109651 4.91665 -0.109651 5.35429 0.327977L12.234 7.20751C12.4528 7.42634 12.562 7.71284 12.562 7.99948C12.562 8.28627 12.4526 8.57298 12.2339 8.7917Z"></path>
                     </svg>
                 </button>}
-                {this.props.children}
                 {this.state.showRight && <button
                     style={{
                         position: 'absolute',
@@ -218,8 +221,8 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                         bottom: '55px',
                         margin: 'auto',
                         zIndex: 100,
-                        width: '40px',
-                        height: '40px',
+                        width: this.props.buttonSize + "px",
+                        height: this.props.buttonSize + "px",
                         borderRadius: '50%',
                         right: '-21px',
                         border: 'none',
