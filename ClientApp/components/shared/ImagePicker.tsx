@@ -118,7 +118,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     className={this.props.className}
                     style={loaded ? {
                         width: '100%',
-                        marginBottom: '10px',
+                        marginBottom: '8px',
                     } : { display: 'none' }}
                     onLoad={(e) => {
                         this.handleImageLoaded();
