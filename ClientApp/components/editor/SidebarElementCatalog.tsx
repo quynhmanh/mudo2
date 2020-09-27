@@ -335,7 +335,11 @@ export default class SidebarEffect extends Component<IProps, IState> {
     render() {
 
         return (
-            <div>
+            <div
+                style={{
+                    marginBottom: '30px',
+                }}
+            >
                 <p
                     style={{
                         marginTop: "10px",
