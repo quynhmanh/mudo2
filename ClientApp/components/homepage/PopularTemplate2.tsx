@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import loadable from '@loadable/component';
 import uuidv4 from "uuid/v4";
 import axios from "axios";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
@@ -51,33 +50,14 @@ export default class PopularTemplate2 extends Component<IProps, IState> {
     loadImage(counter) {
         let self = this;
         let newRecentDesign = this.state.recentDesign;
-        // Break out if no more images
         if (counter==newRecentDesign.length) { return; }
         
         if (newRecentDesign[counter].isVideo) {
-        // Grab an image obj
             var I = document.getElementById("video-"+counter);
         } else {
             var I = document.getElementById("image-2-"+counter);
         }
         
-        if (newRecentDesign[counter].isVideo) {
-            // // Monitor load or error events, moving on to next image in either case
-            // I.onloadeddata = I.onerror = function() { 
-            //     setTimeout(() => {
-            //         self.loadImage(counter+1); 
-            //     }, 100);
-            // }
-        } else {
-            // I.onload = I.onerror = function() { 
-            //     setTimeout(() => {
-            //         self.loadImage(counter+1); 
-            //     }, 100);
-            // }
-        }
-        
-        
-        //Change source (then wait for event)
         if (newRecentDesign[counter].isVideo) {
             I.src = newRecentDesign[counter].videoRepresentative;
         } else {

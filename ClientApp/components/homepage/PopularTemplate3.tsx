@@ -153,12 +153,21 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                 <h3
                     style={{
                         marginBottom: '20px',
-                        marginTop: '20px',
+                        marginTop: '0px',
                         fontFamily: "AvenirNextRoundedPro",
                         fontWeight: 600,
                         fontSize: "23px",
+                        display: "inline-block",
                     }}
                 >Letter header</h3>
+                <a
+                    href="/templates/10/"
+                    target="_blank"
+                    style={{
+                        float: "right",
+                        color: "black",
+                    }}
+                >{this.props.translate("viewAll")}</a>
                 <div
                     style={{
                         height: "220px",
