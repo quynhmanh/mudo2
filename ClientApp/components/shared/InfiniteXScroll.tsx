@@ -79,6 +79,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
         svgColor: "black",
         hideBackgroundBefore: true,
         hover: true,
+        height: "calc(100% + 10px)",
     };
     private sentinel: HTMLElement;
     private containerSroll: HTMLDivElement;
@@ -191,7 +192,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                     //     document.addEventListener("mousemove", onMove);
                     // }}
                     style={{
-                        height: "calc(100%)",
+                        height: this.props.height,
                         overflowX: "scroll",
                         paddingTop: "3px",
                         display: "flex",
