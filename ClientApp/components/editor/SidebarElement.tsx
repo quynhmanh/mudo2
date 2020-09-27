@@ -457,14 +457,20 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     <SidebarElement 
                         term="Frame"
                         handleQuery={this.handleQuery}
+                        handleImageSelected={this.props.handleImageSelected}
+                        scale={this.props.scale}
                     />
                     <SidebarElement 
                         term="Lines"
                         handleQuery={this.handleQuery}
+                        handleImageSelected={this.props.handleImageSelected}
+                        scale={this.props.scale}
                     />
                     <SidebarElement 
                         term="Shapes"
                         handleQuery={this.handleQuery}
+                        handleImageSelected={this.props.handleImageSelected}
+                        scale={this.props.scale}
                     />
                 </div>}
                     {this.state.query && this.state.items.map((item, key) => {
