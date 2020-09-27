@@ -19,6 +19,7 @@ export interface IProps {
     backgroundColor: string;
     backgroundColorLoaded: string;
     marginRight: number;
+    marginAuto: boolean;
 }
 
 export interface IState {
@@ -87,13 +88,18 @@ export default class ImagePicker extends Component<IProps, IState> {
                     width: `${this.state.loaded ? this.state.width : this.props.width}px`,
                     height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
                     marginBottom: '8px',
-                    marginRight: `${this.props.marginRight}px`,
                     opacity: this.state.loaded ? 1 : 0.07,
                     animationName: 'XhtCamN749DcvC-ecDUzp',
                     animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: this.props.delay + 'ms',
                     backgroundColor: this.state.loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#fff"),
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
+                    position: this.props.marginAuto ? "absolute" : "relative",
+                    margin: this.props.marginAuto ? 'auto' : `0 ${this.props.marginRight}px ${this.props.marginRight}px 0px`,
+                    bottom: '0',
+                    top: '0',
+                    left: '0',
+                    right: '0',
                 }}
                 delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
                 {this.props.showButton && editorStore.isAdmin &&
