@@ -52,3 +52,13 @@ http://localhost:9200/template
         }
   }
 }
+
+{
+  "mappings": {
+        "properties": {
+            "Keywords": {
+                "type": "keyword"
+            }
+        }
+  }
+}

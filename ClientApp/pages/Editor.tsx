@@ -1525,7 +1525,7 @@ class CanvaEditor extends Component<IProps, IState> {
             ratio = image.width / image.height;
         }
 
-        if ((image.type == TemplateType.Image || image.type == TemplateType.Video || image.type == TemplateType.GroupedItem || image.type == TemplateType.ClipImage) &&
+        if ((image.type == TemplateType.Image || image.type == TemplateType.Video || image.type == TemplateType.GroupedItem || image.type == TemplateType.Element) &&
             (type == "tl" || type == "tr" || type == "bl" || type == "br")) {
             ratio = image.width / image.height;
         } else if ((image.type == TemplateType.Heading || image.type == TemplateType.TextTemplate) &&
@@ -1635,7 +1635,7 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image.origin_height = window.origin_height;
         window.image.document_object = window.document_object;
 
-        if (window.image.type == TemplateType.ClipImage) {
+        if (window.image.type == TemplateType.Element) {
             // window.image.clipScale = window.imageWidth * this.state.scale / window.image.clipWidth;
 
         }
@@ -2195,7 +2195,7 @@ class CanvaEditor extends Component<IProps, IState> {
             }
         }
 
-        if (objectType == TemplateType.ClipImage) {
+        if (objectType == TemplateType.Element) {
             let el = document.getElementById(_id + "hihi4alo");
             el.style.transform = `scale(${width * scale/image.clipWidth})`;
             el.style.width = `${1 / (width * scale / image.clipWidth) * 100}%`;
@@ -2492,7 +2492,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                 }
 
-                if (image2.type == TemplateType.ClipImage) {
+                if (image2.type == TemplateType.Element) {
                     let el = document.getElementById(image2._id + "hihi4alo");
                     el.style.transform = `scale(${newWidth * scale/image2.clipWidth})`;
                     el.style.width = `${1 / (newWidth * scale / image2.clipWidth) * 100}%`;

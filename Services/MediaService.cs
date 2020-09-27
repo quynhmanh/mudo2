@@ -71,9 +71,13 @@ namespace RCB.TypeScript.Services
 
             page.FirstName = model.FirstName;
             page.Keywords = model.Keywords;
+            page.ClipId = model.ClipId;
+            page.ClipWidth = model.ClipWidth;
+            page.ClipHeight = model.ClipHeight;
+            page.Path = model.Path;
+            page.Path2 = model.Path2;
 
             var updateResponse = client.Update<MediaModel>(page, u => u.Doc(page));
-
 
             return Ok(1);
         }

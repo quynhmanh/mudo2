@@ -18,6 +18,11 @@
         public string Ext { get; set; }
         public string RepresentativeRemoveBackgroundSVG { get; set; }
         public float Duration { get; set; }
+        public string ClipId { get; set; }
+        public float ClipWidth { get; set; }
+        public float ClipHeight { get; set; }
+        public string Path { get; set; }
+        public string Path2 { get; set; }
 
         public MediaModel(string id, string firstName, string lastName, string representative)
         {

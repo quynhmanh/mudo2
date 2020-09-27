@@ -63,10 +63,17 @@ export default class Image extends Component<IProps, IState> {
 
         let clipScale = width / clipWidth;
 
+        try {
+            path2 = JSON.parse(path2);
+            path2 = path2 ? path2.path2 : null;
+        } catch (e) {
+            path2 = [];
+        }
+
         return (
             <div>
                 <div>
-                    {path2 && path2.map(p => 
+                    {Array.isArray(path2) && path2.map(p => 
                     <svg style={{
                         overflow: 'visible',
                         display: 'block',

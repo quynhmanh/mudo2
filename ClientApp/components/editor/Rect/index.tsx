@@ -422,7 +422,7 @@ export default class Rect extends Component<IProps, IState> {
 			imgDirections = textResizeDirection;
 		}
 
-		if (type == TemplateType.GroupedItem || type == TemplateType.ClipImage) {
+		if (type == TemplateType.GroupedItem || type == TemplateType.Element) {
 			imgDirections = groupedItemResizeDirection;
 		}
 
@@ -531,7 +531,7 @@ export default class Rect extends Component<IProps, IState> {
 								this.props.handleCropBtnClick(_id);
 							}}
 							onMouseEnter={e => {
-								if (window.imagedragging && type == TemplateType.ClipImage) {
+								if (window.imagedragging && type == TemplateType.Element) {
 									window.imgDragging.style.opacity = 0;
 									let el = document.getElementById(_id + "1235alo");
 									el.src = window.imagesrc;
@@ -560,7 +560,7 @@ export default class Rect extends Component<IProps, IState> {
 								}
 							}}
 							onMouseLeave={e => {
-								if (type == TemplateType.ClipImage) {
+								if (type == TemplateType.Element) {
 									window.imgDragging.style.opacity = 1;
 									let el = document.getElementById(_id + "1235alo");
 									el.src = src;
@@ -648,11 +648,11 @@ export default class Rect extends Component<IProps, IState> {
 								(cropMode && name == CanvasType.HoverLayer) ||
 								name == CanvasType.Download) &&
 								src &&
-								(type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.ClipImage) && (
+								(type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.Element) && (
 									<div
 										id={_id}
 										style={{
-											zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage && type !== TemplateType.ClipImage ? 1 : 0,
+											zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage && type !== TemplateType.Element ? 1 : 0,
 											transformOrigin: "0 0",
 											position: "absolute",
 											width: "100%",
@@ -690,7 +690,7 @@ export default class Rect extends Component<IProps, IState> {
 												srcThumnail={srcThumnail}
 											/>
 										</div>}
-										{(type === TemplateType.ClipImage) && <div
+										{(type === TemplateType.Element) && <div
 											id={_id + "hihi4" + canvas}
 											style={{
 												position: "absolute",
@@ -764,7 +764,7 @@ export default class Rect extends Component<IProps, IState> {
 														}}>
 
 													</div>}
-													{name == CanvasType.HoverLayer && (type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.ClipImage) && (
+													{name == CanvasType.HoverLayer && (type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.Element) && (
 														<img
 															style={{
 																width: "100%",
@@ -1347,7 +1347,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{
 								(cropMode &&
-									(type === TemplateType.Image || type == TemplateType.BackgroundImage || type === TemplateType.Video || type == TemplateType.ClipImage)) &&
+									(type === TemplateType.Image || type == TemplateType.BackgroundImage || type === TemplateType.Video || type == TemplateType.Element)) &&
 								(name != CanvasType.Preview) &&
 								<div
 									id={_id + "6543" + canvas}
@@ -1377,7 +1377,7 @@ export default class Rect extends Component<IProps, IState> {
 													? cropImageResizeDirection
 														.map(d => {
 															let cursor = getCursorStyleForResizer(rotateAngle, d);
-															let visibility = (type == TemplateType.BackgroundImage || type == TemplateType.ClipImage) ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
+															let visibility = (type == TemplateType.BackgroundImage || type == TemplateType.Element) ? "visible" : getImageResizerVisibility(this.state.image, scale, d);
 															return (
 																<div
 																	key={d}
@@ -1407,7 +1407,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{cropMode &&
 								(selected && name == CanvasType.HoverLayer) &&
-								type !== TemplateType.ClipImage && 
+								type !== TemplateType.Element && 
 								type !== TemplateType.BackgroundImage && (
 									<div
 										style={{
@@ -1506,7 +1506,7 @@ export default class Rect extends Component<IProps, IState> {
 									backgroundPosition: 'top,100%,bottom,0',
 									backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
 									backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-									opacity: ((hovered || selected) && !cropMode) || (cropMode && type != TemplateType.BackgroundImage && type != TemplateType.ClipImage) ? 1 : 0,
+									opacity: ((hovered || selected) && !cropMode) || (cropMode && type != TemplateType.BackgroundImage && type != TemplateType.Element) ? 1 : 0,
 									pointerEvents: "none",
 								}}>
 

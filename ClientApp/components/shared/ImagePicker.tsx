@@ -18,6 +18,7 @@ export interface IProps {
     padding: number;
     backgroundColor: string;
     backgroundColorLoaded: string;
+    marginRight: number;
 }
 
 export interface IState {
@@ -53,6 +54,7 @@ export default class ImagePicker extends Component<IProps, IState> {
         padding: 0,
         backgroundColor: null,
         backgroundColorLoaded: "rgba(255, 255, 255, 0.07)",
+        marginRight: 8,
     }
 
     componentDidMount() {
@@ -85,7 +87,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     width: `${this.state.loaded ? this.state.width : this.props.width}px`,
                     height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
                     marginBottom: '8px',
-                    marginRight: '8px',
+                    marginRight: `${this.props.marginRight}px`,
                     opacity: this.state.loaded ? 1 : 0.07,
                     animationName: 'XhtCamN749DcvC-ecDUzp',
                     animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",

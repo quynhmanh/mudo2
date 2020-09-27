@@ -4,7 +4,6 @@ import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
-import { toJS } from "mobx";
 export interface IProps {
     scale: number;
     translate: any;
@@ -26,12 +25,14 @@ export interface IState {
     cursor: any;
     total: number;
     loaded: boolean;
+    query: string;
 }
 
 const imgWidth = 162;
 
 export default class SidebarImage extends Component<IProps, IState> {
     state = {
+        query: "",
         total: 0,
         isLoading: false,
         items: [],
@@ -50,6 +51,7 @@ export default class SidebarImage extends Component<IProps, IState> {
 
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
         this.loadMore = this.loadMore.bind(this);
+        this.handleQuery = this.handleQuery.bind(this);
     }
 
     componentDidMount() {
@@ -244,7 +246,7 @@ export default class SidebarImage extends Component<IProps, IState> {
             pageId = (this.state.items.length + this.state.items2.length) / 16 + 1;
         }
         this.setState({ isLoading: true, error: undefined, loaded: true, });
-        const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${PER_PAGE}`; //&terms=${this.state.query}`;
+        const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${PER_PAGE}&terms=${this.state.query}`;
         fetch(url)
             .then(res => res.json())
             .then(
@@ -286,6 +288,14 @@ export default class SidebarImage extends Component<IProps, IState> {
                 }
             );
     };
+
+    handleQuery = e => {
+        if (e.key === "Enter") {
+          this.setState({items: [], items2: [] }, () => {
+            this.loadMore(true);
+          });
+        }
+      };
 
     render() {
 
@@ -439,10 +449,10 @@ export default class SidebarImage extends Component<IProps, IState> {
                             position: "absolute",
                             top: "6px"
                         }}
-                        // onKeyDown={this.handleQuery}
+                        onKeyDown={this.handleQuery}
                         type="text"
                         onChange={e => {
-                            // this.setState({ query: e.target.value });
+                            this.setState({ query: e.target.value });
                         }}
                     // value={this.state.query}
                     />

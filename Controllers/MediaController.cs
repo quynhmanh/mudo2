@@ -75,7 +75,21 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "duration")]
             public float duration;
+
+            [JsonProperty(PropertyName = "clipId")]
+            public string clipId;
+
+            [JsonProperty(PropertyName = "clipWidth")]
+            public float clipWidth { get; set; }
+
+            [JsonProperty(PropertyName = "clipHeight")]
+            public float clipHeight { get; set; }
+
+            [JsonProperty(PropertyName = "path")]
+            public string path { get; set; }
             
+            [JsonProperty(PropertyName = "path2")]
+            public string path2 { get; set; }
         }
 
         [HttpPost("[action]")]
@@ -392,6 +406,11 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Type = oDownloadBody.type;
                 mediaModel.Keywords = oDownloadBody.keywords;
                 mediaModel.FirstName = oDownloadBody.title;
+                mediaModel.ClipId = oDownloadBody.clipId;
+                mediaModel.ClipWidth = oDownloadBody.clipWidth;
+                mediaModel.ClipHeight = oDownloadBody.clipHeight;
+                mediaModel.Path = oDownloadBody.path;
+                mediaModel.Path2 = oDownloadBody.path2;
 
                 MediaService.Edit(mediaModel);
             }

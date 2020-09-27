@@ -43,6 +43,7 @@ export enum TemplateType {
     Video = 9,
     GroupedItem = 10,
     ClipImage = 11,
+    Element = 12,
 }
 
 export enum SavingState {

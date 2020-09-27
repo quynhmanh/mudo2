@@ -3,6 +3,7 @@ import { SidebarTab, TemplateType, SavingState, } from "./enums";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
+import ImagePicker from "@Components/shared/ImagePicker";
 
 export interface IProps {
     scale: number;
@@ -26,9 +27,10 @@ export interface IState {
     error: any;
     hasMore: boolean;
     cursor: any;
+    query: string;
 }
 
-const imgWidth = 162;
+const imgWidth = 105;
 const backgroundWidth = 105;
 
 const elements = [
@@ -284,10 +286,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
         error: null,
         hasMore: true,
         cursor: null,
+        query: "",
     }
 
     constructor(props) {
         super(props);
+
+        this.handleQuery = this.handleQuery.bind(this);
     }
 
     componentDidMount() {
@@ -305,6 +310,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     imgOnMouseDown(img, e) {
+
+        console.log('img ', img)
 
         e.preventDefault();
 
@@ -388,7 +395,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 ) {
                     let newImg = {
                         _id: uuidv4(),
-                        type: TemplateType.ClipImage,
+                        type: TemplateType.Element,
                         width: rec2.width / scale,
                         height: rec2.height / scale,
                         origin_width: rec2.width / scale,
@@ -452,47 +459,15 @@ export default class SidebarEffect extends Component<IProps, IState> {
             count = 15;
         }
         this.setState({ isLoading: true, error: undefined });
-        const url = `/api/Media/Search?type=${TemplateType.BackgroundImage}&page=${pageId}&perPage=${count}`;
+        const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${count}&terms=${this.state.query}`;
+        console.log('loadmore ', url)
         fetch(url)
             .then(res => res.json())
             .then(
                 res => {
                     var result = res.value.key;
-                    var currentItemsHeight = this.state.currentItemsHeight;
-                    var currentItems2Height = this.state.currentItems2Height;
-                    var currentItems3Height = this.state.currentItems3Height;
-                    var res1 = [];
-                    var res2 = [];
-                    var res3 = [];
-                    for (var i = 0; i < result.length; ++i) {
-                        var currentItem = result[i];
-                        if (
-                            currentItemsHeight <= currentItems2Height &&
-                            currentItemsHeight <= currentItems3Height
-                        ) {
-                            res1.push(currentItem);
-                            currentItemsHeight +=
-                                backgroundWidth / (currentItem.width / currentItem.height);
-                        } else if (
-                            currentItems2Height <= currentItemsHeight &&
-                            currentItems2Height <= currentItems3Height
-                        ) {
-                            res2.push(currentItem);
-                            currentItems2Height +=
-                                backgroundWidth / (currentItem.width / currentItem.height);
-                        } else {
-                            res3.push(currentItem);
-                            currentItems3Height +=
-                                backgroundWidth / (currentItem.width / currentItem.height);
-                        }
-                    }
                     this.setState(state => ({
-                        items: [...state.items, ...res1],
-                        items2: [...state.items2, ...res2],
-                        items3: [...state.items3, ...res3],
-                        currentItemsHeight,
-                        currentItems2Height,
-                        currentItems3Height,
+                        items: [...state.items, ...result],
                         isLoading: false,
                         hasMore:
                             res.value.value >
@@ -505,6 +480,12 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     this.setState({ isLoading: false, error });
                 }
             );
+    };
+
+    handleQuery = e => {
+        this.setState({ items: [], items2: [], currentItemsHeight: 0, currentItems2Height: 0, }, () => {
+            this.loadMore(true);
+        });
     };
 
     render() {
@@ -529,98 +510,164 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     overflow: "visible",
                 }}
             >
-                <p
+                <input
+                    id="queryInput"
                     style={{
+                        zIndex: 11,
+                        width: "calc(100% - 15px)",
+                        marginBottom: "15px",
                         marginTop: "10px",
+                        border: "none",
+                        height: "37px",
+                        borderRadius: "3px",
+                        padding: "5px 10px",
+                        fontSize: "13px",
+                        boxShadow:
+                            "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+                        top: "6px",
+                        color: "black",
                     }}
-                >Elements</p>
+                    onKeyDown={e => {
+                        if (e.key === "Enter") {
+                            this.handleQuery();
+                        }
+                    }}
+                    type="text"
+                    onChange={e => {
+                        this.setState({ query: e.target.value });
+                    }}
+                    // value={this.state.query}
+                />
                 <div style={{ display: "inline-block", width: "100%" }}>
-                    <div
-                        style={{
-                            display: "flex",
-                            margin: "0px 0px",
-                        }}
-                    >
+                    {!this.state.query && <div>
+                        <p
+                            style={{
+                                marginTop: "10px",
+                                display: "inline-block",
+                            }}
+                        >Elements</p>
+                        <button
+                            onClick={e => {
+                                this.setState({ query: "Frame" });
+                                document.getElementById("queryInput").value = "Frame";
+                                this.handleQuery();
+                            }}
+                            style={{
+                                float: 'right',
+                                marginTop: '7px',
+                                border: 'none',
+                                marginRight: '12px',
+                            }}
+                        >See all</button>
                         <div
                             style={{
-                                width: "340px",
-                                height: "83px",
-                                position: 'relative',
-                                margin: "0px 10px 0px 0px",
+                                display: "flex",
+                                margin: "0px 0px",
                             }}
                         >
-                            <InfiniteXScroll
-                                scroll={true}
-                                throttle={1000}
-                                threshold={300}
-                                isLoading={false}
-                                hasMore={this.state.hasMore}
-                                onLoadMore={this.loadMore.bind(this, false)}
-                                refId="sentinel-image2"
-                                marginTop={45}
-                                buttonSize={30}
-                                buttonColor="transparent"
-                                buttonHeight="100%"
-                                svgColor="white"
-                                hideBackgroundBefore={false}
-                                hover={false}
-                                height="100%"
-                            >
-                                {elements.map(el =>
-                                    <div
-                                        style={{
-                                            display: "inline-flex",
-                                            height: "80px",
-                                            width: "80px",
-                                            justifyContent: "center",
-                                            marginRight: "10px",
-                                            marginBottom: "10px",
-                                        }}
-                                    >
-                                        <img
-                                            onMouseDown={this.imgOnMouseDown.bind(this, el)}
-                                            style={{
-                                                // width: "100px",
-                                                maxWidth: "100%",
-                                                // height: 100 / (el.clipWidth / el.clipHeight) + "px",
-                                                maxHeight: "100%",
-                                                cursor: 'pointer',
-                                                objectFit: "contain"
-                                            }}
-                                            src={el.representative}
-                                        />
-                                    </div>
-                                )}
-                            </InfiniteXScroll>
                             <div
                                 style={{
-                                    display: "inline-flex",
-                                    height: "100px",
-                                    width: "100px",
-                                    justifyContent: "center",
-                                    marginRight: "10px",
-                                    marginBottom: "10px",
+                                    width: "340px",
+                                    height: "83px",
+                                    position: 'relative',
+                                    margin: "0px 10px 0px 0px",
                                 }}
                             >
+                                <InfiniteXScroll
+                                    scroll={true}
+                                    throttle={1000}
+                                    threshold={300}
+                                    isLoading={false}
+                                    hasMore={this.state.hasMore}
+                                    onLoadMore={this.loadMore.bind(this, false)}
+                                    refId="sentinel-image2"
+                                    marginTop={45}
+                                    buttonSize={30}
+                                    buttonColor="transparent"
+                                    buttonHeight="100%"
+                                    svgColor="white"
+                                    hideBackgroundBefore={false}
+                                    hover={false}
+                                    height="100%"
+                                >
+                                    {elements.map(el =>
+                                        <div
+                                            style={{
+                                                display: "inline-flex",
+                                                height: "80px",
+                                                width: "80px",
+                                                justifyContent: "center",
+                                                marginRight: "10px",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            <img
+                                                onMouseDown={this.imgOnMouseDown.bind(this, el)}
+                                                style={{
+                                                    // width: "100px",
+                                                    maxWidth: "100%",
+                                                    // height: 100 / (el.clipWidth / el.clipHeight) + "px",
+                                                    maxHeight: "100%",
+                                                    cursor: 'pointer',
+                                                    objectFit: "contain"
+                                                }}
+                                                src={el.representative}
+                                            />
+                                        </div>
+                                    )}
+                                </InfiniteXScroll>
+                                <div
+                                    style={{
+                                        display: "inline-flex",
+                                        height: "100px",
+                                        width: "100px",
+                                        justifyContent: "center",
+                                        marginRight: "10px",
+                                        marginBottom: "10px",
+                                    }}
+                                >
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {/* <img
-                        onMouseDown={this.imgOnMouseDown.bind(this, {
-                            representative:
-                                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
-                            freeStyle: true
-                        })}
-                        style={{
-                            width: "100px",
-                            height: 100 + "px",
-                            backgroundColor: "#019fb6",
-                            marginRight: "8px",
-                            marginBottom: "8px",
-                        }}
-                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    /> */}
+                    </div>}
+                    {this.state.query && this.state.items.map((item, key) => {
+                        let width, height;
+                        if (item.width > item.height) {
+                            width = imgWidth;
+                            height = imgWidth / (item.width / item.height);
+                        } else {
+                            height = imgWidth;
+                            width = imgWidth * (item.width / item.height);
+                        }
+                        return <div
+                            style={{
+                                display: "inline-flex",
+                                width: imgWidth + "px",
+                                height: imgWidth + "px",
+                                justifyContent: "center",
+                                marginRight: "5px",
+                                marginBottom: "8px",
+                            }}
+                        >
+                            <ImagePicker
+                                id=""
+                                key={key + "1"}
+                                color={item.color}
+                                src={item.representativeThumbnail}
+                                height={height}
+                                defaultHeight={imgWidth}
+                                width={width}
+                                className="image-picker"
+                                onPick={this.imgOnMouseDown.bind(this, item)}
+                                onEdit={this.props.handleEditmedia.bind(this, item)}
+                                delay={0}
+                                showButton={true}
+                                backgroundColorLoaded="transparent"
+                                marginRight={0}
+                            />
+                        </div>
+                    })}
                 </div>
             </div>
         )

@@ -258,7 +258,24 @@ class LeftSide extends Component<IProps, IState> {
         };
     };
 
-    uploadImage = (type, removeBackground, e) => {
+    uploadImage = (removeBackground, e) => {
+
+        let type;
+        switch (editorStore.selectedTab) {
+            case SidebarTab.Image:
+                type = TemplateType.Image;
+                break;
+            case SidebarTab.Upload:
+                type = TemplateType.UserUpload;
+                break;
+            case SidebarTab.Background:
+                type = TemplateType.BackgroundImage;
+                break;
+            case SidebarTab.Element:
+                type = TemplateType.Element;
+                break;
+        }
+
         var self = this;
         var fileUploader = document.getElementById(
             "image-file"
@@ -389,20 +406,7 @@ class LeftSide extends Component<IProps, IState> {
                                 ? this.uploadVideo()
                                 : editorStore.selectedTab === SidebarTab.Font
                                     ? this.uploadFont(e)
-                                    : this.uploadImage(
-                                        editorStore.selectedTab === SidebarTab.Image
-                                            ? TemplateType.Image
-                                            : editorStore.selectedTab === SidebarTab.Upload
-                                                ? TemplateType.UserUpload
-                                                : editorStore.selectedTab === SidebarTab.Background
-                                                    ? TemplateType.BackgroundImage
-                                                    : editorStore.selectedTab ===
-                                                        SidebarTab.RemovedBackgroundImage
-                                                        ? TemplateType.RemovedBackgroundImage
-                                                        : TemplateType.RemovedBackgroundImage,
-                                        false,
-                                        e
-                                    );
+                                    : this.uploadImage(false, e );
                         }}
                         style={{
                             bottom: 0
@@ -417,11 +421,6 @@ class LeftSide extends Component<IProps, IState> {
                             if (editorStore.selectedTab == SidebarTab.Font)
                                 this.uploadFont(e);
                             else this.uploadImage.bind(
-                                    this,
-                                    editorStore.selectedTab === SidebarTab.Image
-                                        ? TemplateType.Image : 
-                                        editorStore.selectedTab === SidebarTab.Upload ? TemplateType.UserUpload 
-                                        : TemplateType.BackgroundImage,
                                     false
                             )
                         }}
