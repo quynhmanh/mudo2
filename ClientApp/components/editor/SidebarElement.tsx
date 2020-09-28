@@ -408,15 +408,19 @@ export default class SidebarEffect extends Component<IProps, IState> {
     };
 
     handleQuery = term => {
-        this.setState({ query: term });
-        document.getElementById("queryInput").value = term;
-
-        this.setState({ items: getRem(this.left), items2: [], currentItemsHeight: 0, currentItems2Height: 0, }, () => {
+        this.left = this.props.rem;
+        this.setState({ query: term, items: getRem(this.left) }, () => {
             this.loadMore(false);
         });
+        document.getElementById("queryInput").value = term;
+        this.forceUpdate();
+        // this.setState({ query: term, items: getRem(this.left) }, () => {
+        //     this.loadMore(false);
+        // });
     };
 
     render() {
+        console.log('render')
 
         return (
             <div
