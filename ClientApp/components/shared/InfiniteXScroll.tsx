@@ -236,6 +236,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                                 transform: 'rotate(180deg)',
                                 // marginLeft: "6px",
                                 height: "16px",
+                                marginLeft: "-19px",
                             }}
                             viewBox="0 0 16 16"
                             className="arrow___2yMKk"
@@ -278,6 +279,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                                 // marginLeft: "6px",
                                 transform: 'rotate(0deg)',
                                 height: "16px",
+                                marginLeft: "-19px",
                             }}
                             viewBox="0 0 16 16"
                             className="arrow___2yMKk"
