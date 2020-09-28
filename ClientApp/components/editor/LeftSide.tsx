@@ -592,14 +592,16 @@ class LeftSide extends Component<IProps, IState> {
                             setSavingState={this.props.setSavingState}
                             handleEditmedia={this.props.handleEditmedia}
                         />
-                        <SidebarUserUpload
-                            scale={this.props.scale}
-                            handleImageSelected={this.props.handleImageSelected}
-                            translate={this.props.translate}
-                            selectedTab={editorStore.selectedTab}
-                            handleEditmedia={this.props.handleEditmedia}
-                            setSavingState={this.props.setSavingState}
-                        />
+                        {Globals.serviceUser &&
+                            <SidebarUserUpload
+                                scale={this.props.scale}
+                                handleImageSelected={this.props.handleImageSelected}
+                                translate={this.props.translate}
+                                selectedTab={editorStore.selectedTab}
+                                handleEditmedia={this.props.handleEditmedia}
+                                setSavingState={this.props.setSavingState}
+                            />
+                        }
                     </div>
                 {/* )} */}
             </div>
