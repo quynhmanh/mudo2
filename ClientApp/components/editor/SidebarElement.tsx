@@ -562,7 +562,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     this.frameOnMouseDownload.bind(this, item) : 
                                         this.imgOnMouseDown.bind(this, item)}
                                     onEdit={this.props.handleEditmedia.bind(this, item)}
-                                    delay={0}
+                                    delay={250 * key}
                                     showButton={true}
                                     backgroundColorLoaded="transparent"
                                     marginRight={0}
