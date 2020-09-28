@@ -5,6 +5,7 @@ import editorStore from "@Store/EditorStore";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import SidebarElement from "@Components/editor/SidebarElementCatalog";
+import InfiniteScroll from "@Components/shared/InfiniteScroll";
 
 export interface IProps {
     scale: number;
@@ -29,6 +30,7 @@ export interface IState {
     hasMore: boolean;
     cursor: any;
     query: string;
+    total: number;
 }
 
 const imgWidth = 105;
@@ -36,7 +38,19 @@ const backgroundWidth = 105;
 
 let elements = {};
 
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: imgWidth,
+        height: imgWidth,
+        id: "sentinel-element",
+    }
+});
+
+
 export default class SidebarEffect extends Component<IProps, IState> {
+
+    rem = 10;
+
     state = {
         isLoading: false,
         items: [],
@@ -49,18 +63,20 @@ export default class SidebarEffect extends Component<IProps, IState> {
         hasMore: true,
         cursor: null,
         query: "",
+        total: 10,
     }
 
     constructor(props) {
         super(props);
 
+        this.state.items = getRem(10);
+        this.left = 10;
+
         this.handleQuery = this.handleQuery.bind(this);
     }
 
     componentDidMount() {
-        this.loadMore.bind(this)(true, "Frame");
-        this.loadMore.bind(this)(true, "Lines");
-        this.loadMore.bind(this)(true, "Shapes");
+        console.log('this.state.items' , this.state.items)
         this.forceUpdate();
     }
 
@@ -346,20 +362,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     loadMore = (initialload, term) => {
-        let pageId;
-        let count;
-        if (initialload) {
-            pageId = 1;
-            count = 30;
-        } else {
-            pageId =
-                (this.state.items.length +
-                    this.state.items2.length +
-                    this.state.items3.length) /
-                5 +
-                1;
-            count = 15;
-        }
+        console.log('items ', this.state.items)
+        console.log('this.left ', (this.state.items.length - this.left))
+        let pageId = Math.round((this.state.items.length - this.left) / 15) + 1;
+        const count = 15;
         this.setState({ isLoading: true, error: undefined });
         const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${count}&terms=${initialload ? term : this.state.query}`;
         console.log('loadmore ', url)
@@ -367,18 +373,33 @@ export default class SidebarEffect extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
-                    var result = res.value.key;
-                    if (initialload) {
-                        elements[term] =  result;
+                    let result = res.value.key;
+                    let items = this.state.items.filter(item => item.id != "sentinel-element");
+                    items = [...items, ...result];
+                    let hasMore = res.value.value > items.length;
+                    if (hasMore) {
+                        let left = Math.min(this.rem, res.value.value - items.length);
+                        this.left = left;
+                        items = [...items, ...getRem(left)];
                     }
-                    console.log('elements ', elements)
+
                     this.setState(state => ({
-                        items: [...state.items, ...result],
+                        items,
                         isLoading: false,
-                        hasMore:
-                            res.value.value >
-                            state.items.length + state.items2.length + res.value.key.length
+                        total: res.value.value,
+                        hasMore,
                     }));
+
+                    // var result = res.value.key;
+                    // if (initialload) {
+                    //     elements[term] =  result;
+                    // }
+                    // console.log('elements ', result)
+                    // this.setState(state => ({
+                    //     items: [...state.items, ...result],
+                    //     isLoading: false,
+                    //     hasMore: res.value.value > state.items.length,
+                    // }));
 
                     this.forceUpdate();
                 },
@@ -392,7 +413,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         this.setState({ query: term });
         document.getElementById("queryInput").value = term;
 
-        this.setState({ items: [], items2: [], currentItemsHeight: 0, currentItems2Height: 0, }, () => {
+        this.setState({ items: getRem(this.left), items2: [], currentItemsHeight: 0, currentItems2Height: 0, }, () => {
             this.loadMore(false);
         });
     };
@@ -422,10 +443,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 <input
                     id="queryInput"
                     style={{
+                        position: "absolute",
                         zIndex: 11,
                         width: "calc(100% - 15px)",
                         marginBottom: "15px",
-                        marginTop: "10px",
                         border: "none",
                         height: "37px",
                         borderRadius: "3px",
@@ -450,78 +471,97 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     onChange={e => {
                         this.setState({ query: e.target.value });
                     }}
-                    // value={this.state.query}
+                // value={this.state.query}
                 />
-                <button 
+                <button
                     onClick={e => this.handleQuery("")}
                     style={{
                         position: 'absolute',
                         right: '15px',
-                        top: '15px',
+                        top: '11px',
                         border: 'none',
+                        zIndex: 123,
                     }}
-                type="button"><span class="TcNIhA"><span aria-hidden="true" class="NA_Img dkWypw"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
-                <div style={{ display: "inline-block", width: "100%", height: "calc(100% - 65px)" }}>
-                {!this.state.query && <div>
-                    <SidebarElement 
-                        term="Frame"
-                        handleQuery={this.handleQuery}
-                        handleImageSelected={this.props.handleImageSelected}
-                        scale={this.props.scale}
-                    />
-                    <SidebarElement 
-                        term="Lines"
-                        handleQuery={this.handleQuery}
-                        handleImageSelected={this.props.handleImageSelected}
-                        scale={this.props.scale}
-                    />
-                    <SidebarElement 
-                        term="Shapes"
-                        handleQuery={this.handleQuery}
-                        handleImageSelected={this.props.handleImageSelected}
-                        scale={this.props.scale}
-                    />
-                </div>}
-                    {this.state.query && this.state.items.map((item, key) => {
-                        let width, height;
-                        if (item.width > item.height) {
-                            width = imgWidth;
-                            height = imgWidth / (item.width / item.height);
-                        } else {
-                            height = imgWidth;
-                            width = imgWidth * (item.width / item.height);
-                        }
-                        return <div
-                            style={{
-                                display: "inline-flex",
-                                width: imgWidth + "px",
-                                height: imgWidth + "px",
-                                justifyContent: "center",
-                                marginRight: "9px",
-                                marginBottom: "8px",
-                                position: "relative",
-                            }}
-                        >
-                            <ImagePicker
-                                id=""
-                                key={key + "1"}
-                                color={item.color}
-                                src={item.representativeThumbnail}
-                                height={height}
-                                defaultHeight={imgWidth}
-                                width={width}
-                                className="image-picker"
-                                onPick={this.imgOnMouseDown.bind(this, item)}
-                                onEdit={this.props.handleEditmedia.bind(this, item)}
-                                delay={0}
-                                showButton={true}
-                                backgroundColorLoaded="transparent"
-                                marginRight={0}
-                                marginAuto={true}
+                    type="button"><span class="TcNIhA"><span aria-hidden="true" class="NA_Img dkWypw"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
+                <InfiniteScroll
+                    scroll={true}
+                    throttle={500}
+                    threshold={300}
+                    isLoading={this.state.isLoading}
+                    hasMore={this.state.hasMore}
+                    onLoadMore={this.loadMore.bind(this, false)}
+                    marginTop={40}
+                    refId="sentinel-element"
+                >
+                    <div
+                        style={{
+                            display: "inline-block",
+                            width: "100%",
+                            marginTop: "18px",
+                        }}>
+                        {!this.state.query && <div>
+                            <SidebarElement
+                                term="Frame"
+                                handleQuery={this.handleQuery}
+                                handleImageSelected={this.props.handleImageSelected}
+                                scale={this.props.scale}
                             />
-                        </div>
-                    })}
-                </div>
+                            <SidebarElement
+                                term="Lines"
+                                handleQuery={this.handleQuery}
+                                handleImageSelected={this.props.handleImageSelected}
+                                scale={this.props.scale}
+                            />
+                            <SidebarElement
+                                term="Shapes"
+                                handleQuery={this.handleQuery}
+                                handleImageSelected={this.props.handleImageSelected}
+                                scale={this.props.scale}
+                            />
+                        </div>}
+                        {this.state.query && this.state.items.map((item, key) => {
+                            let width, height;
+                            if (item.width > item.height) {
+                                width = imgWidth;
+                                height = imgWidth / (item.width / item.height);
+                            } else {
+                                height = imgWidth;
+                                width = imgWidth * (item.width / item.height);
+                            }
+                            return <div
+                                style={{
+                                    display: "inline-flex",
+                                    width: imgWidth + "px",
+                                    height: imgWidth + "px",
+                                    justifyContent: "center",
+                                    marginRight: "9px",
+                                    marginBottom: "8px",
+                                    position: "relative",
+                                }}
+                            >
+                                <ImagePicker
+                                    id={item.id}
+                                    key={key + "1"}
+                                    color={item.color}
+                                    src={item.representativeThumbnail}
+                                    height={height}
+                                    defaultHeight={imgWidth}
+                                    width={width}
+                                    className="image-picker"
+                                    onPick={item.keywords && item.keywords[0] == "Frame" ? 
+                                    this.frameOnMouseDownload.bind(this, item) : 
+                                        this.imgOnMouseDown.bind(this, item)}
+                                    onEdit={this.props.handleEditmedia.bind(this, item)}
+                                    delay={0}
+                                    showButton={true}
+                                    backgroundColorLoaded="transparent"
+                                    marginRight={0}
+                                    marginAuto={true}
+                                />
+                            </div>
+                        })}
+                    </div>
+                </InfiniteScroll>
             </div>
         )
     }

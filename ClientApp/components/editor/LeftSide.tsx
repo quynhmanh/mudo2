@@ -302,7 +302,7 @@ class LeftSide extends Component<IProps, IState> {
                         width: i.width,
                         height: i.height,
                         type,
-                        keywords: ["123", "123"],
+                        keywords: ["Frame", "123"],
                         title: "Manh quynh"
                     })
                     .then((res) => {
