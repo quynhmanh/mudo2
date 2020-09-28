@@ -5,6 +5,7 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import { toJS } from "mobx";
 import VideoPicker from "@Components/shared/VideoPicker2";
+import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     scale: number;
@@ -225,23 +226,9 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         let t = Math.min(5, Math.round((left - 1) / 2));
 
         return (
-            <div
-                ref={i => this.container = i}
-                style={{
-                    opacity: editorStore.selectedTab === SidebarTab.Template ? 1 : 0,
-                    position: "absolute",
-                    width: "347px",
-                    transition:
-                        "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                    transform:
-                        editorStore.selectedTab !== SidebarTab.Template &&
-                        `translate3d(0px, calc(${editorStore.selectedTab < SidebarTab.Template ? 40 : -40
-                        }px), 0px)`,
-                    top: "10px",
-                    zIndex: editorStore.selectedTab !== SidebarTab.Template && -1,
-                    height: "100%",
-                    left: '19px',
-                }}
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Template}
             >
                 <InfiniteScroll
                     scroll={true}
@@ -311,7 +298,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         height: "37px",
                         borderRadius: "3px",
                         padding: "5px",
-                        fontSize: "13px",
+                        fontSize: "14px",
                         boxShadow:
                             "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
                         position: "absolute",
@@ -330,7 +317,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                     }}
                 // value={this.state.query}
                 />
-            </div>
+            </Sidebar>
         )
     }
 }

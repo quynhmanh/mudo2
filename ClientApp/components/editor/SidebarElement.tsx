@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { SidebarTab, TemplateType, SavingState, } from "./enums";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
-import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import SidebarElement from "@Components/editor/SidebarElementCatalog";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
+import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     scale: number;
@@ -414,33 +414,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
         });
         document.getElementById("queryInput").value = term;
         this.forceUpdate();
-        // this.setState({ query: term, items: getRem(this.left) }, () => {
-        //     this.loadMore(false);
-        // });
     };
 
     render() {
-        console.log('render')
-
         return (
-            <div
-                style={{
-                    opacity: editorStore.selectedTab === SidebarTab.Element ? 1 : 0,
-                    position: "absolute",
-                    width: "347px",
-                    color: "white",
-                    transition:
-                        "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                    transform:
-                        editorStore.selectedTab !== SidebarTab.Element &&
-                        `translate3d(0px, calc(${editorStore.selectedTab < SidebarTab.Element ? 40 : -40
-                        }px), 0px)`,
-                    top: "10px",
-                    zIndex: editorStore.selectedTab !== SidebarTab.Element && -1,
-                    height: "100%",
-                    left: '19px',
-                    overflow: "visible",
-                }}
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Element}
             >
                 <input
                     id="queryInput"
@@ -478,6 +458,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 />
                 <button
                     onClick={e => this.handleQuery("")}
+                    className="clear"
                     style={{
                         position: 'absolute',
                         right: '15px',
@@ -572,7 +553,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         })}
                     </div>
                 </InfiniteScroll>
-            </div>
+            </Sidebar>
         )
     }
 }

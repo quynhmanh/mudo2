@@ -497,8 +497,6 @@ class LeftSide extends Component<IProps, IState> {
                                     : 0
                                 }px)`,
                             width: "370px",
-                            transitionDuration: "10s, 10s",
-                            // backgroundColor: editorStore.selectedTab === SidebarTab.Effect ? "white" : "#293039",
                         }}
                     >
                         <SidebarImage

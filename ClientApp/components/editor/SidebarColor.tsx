@@ -7,6 +7,7 @@ import ImagePicker from "@Components/shared/ImagePicker";
 import { toJS } from "mobx";
 import Slider from "@Components/editor/Slider";
 import ColorPicker from "@Components/editor/ColorPicker";
+import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     scale: number;
@@ -359,23 +360,23 @@ export default class SidebarColor extends Component<IProps, IState> {
         let image = editorStore.getImageSelected() || {};
 
         return (
-            <div
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Color}
                 style={{
-                    opacity: editorStore.selectedTab === SidebarTab.Color ? 1 : 0,
-                    position: "absolute",
-                    width: "100%",
-                    color: "white",
-                    overflow: "scroll",
-                    zIndex: editorStore.selectedTab !== SidebarTab.Color && -1,
-                    height: "100%",
-                    backgroundColor: "white",
+                    left: 0,
+                    top: 0,
+                    background: "white",
+                    width: "370px",
+                    transition: "none",
+                    transform: "none",
                 }}
             >
                 <div style={{ display: "inline-block" }}>
                     <ul
                         style={{
                             listStyle: "none",
-                            padding: "0 23px"
+                            padding: "23px 20px"
                         }}
                     >
                         {editorStore.fontColors.map(font => (
@@ -387,6 +388,7 @@ export default class SidebarColor extends Component<IProps, IState> {
                                 }}
                                 style={{
                                     display: 'inline-block',
+                                    marginRight: "5px",
                                 }}
                             >
                                 <li
@@ -394,8 +396,6 @@ export default class SidebarColor extends Component<IProps, IState> {
                                         width: "50px",
                                         height: "50px",
                                         float: "left",
-                                        marginLeft: "13px",
-                                        marginTop: "13px",
                                         borderRadius: '3px',
                                         position: 'relative',
                                     }}
@@ -426,8 +426,6 @@ export default class SidebarColor extends Component<IProps, IState> {
                         <div
                             style={{
                                 display: 'inline-block',
-                                marginLeft: "13px",
-                                marginTop: "13px",
                             }}
                         >
                             <ColorPicker
@@ -440,7 +438,7 @@ export default class SidebarColor extends Component<IProps, IState> {
                         </div>
                     </ul>
                 </div>
-            </div>
+            </Sidebar>
 
         )
     }

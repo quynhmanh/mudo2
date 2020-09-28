@@ -4,6 +4,8 @@ import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
+import Sidebar from "@Components/editor/SidebarStyled";
+
 export interface IProps {
     scale: number;
     translate: any;
@@ -308,23 +310,9 @@ export default class SidebarImage extends Component<IProps, IState> {
         }
 
         return (
-            <div
-                style={{
-                    opacity: editorStore.selectedTab === SidebarTab.Image ? 1 : 0,
-                    position: "absolute",
-                    width: "347px",
-                    transition:
-                        "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                    transform:
-                        editorStore.selectedTab !== SidebarTab.Image &&
-                        `translate3d(0px, calc(-${
-                        editorStore.selectedTab > SidebarTab.Image ? 40 : -40
-                        }px), 0px)`,
-                    zIndex: editorStore.selectedTab !== SidebarTab.Image && -1,
-                    top: "10px",
-                    height: "100%",
-                    left: '19px',
-                }}
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Image}
             >
                 <div
                     style={{
@@ -443,7 +431,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                             height: "37px",
                             borderRadius: "3px",
                             padding: "5px",
-                            fontSize: "13px",
+                            fontSize: "14px",
                             boxShadow:
                                 "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
                             position: "absolute",
@@ -463,7 +451,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                     // value={this.state.query}
                     />
                 </div>
-            </div>
+            </Sidebar>
         )
     }
 }

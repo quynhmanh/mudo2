@@ -3,6 +3,7 @@ import { throttle } from 'lodash';
 import styled from 'styled-components'
 
 const Button = styled.button`
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.16) 0px 0px 1px;
     :hover {
         background: ${props => props.hover ? '#56aaff !important' : ''};
     }
@@ -80,6 +81,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
         hideBackgroundBefore: true,
         hover: true,
         height: "calc(100% + 10px)",
+        svgMargin: false,
     };
     private sentinel: HTMLElement;
     private containerSroll: HTMLDivElement;
@@ -236,6 +238,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                                 transform: 'rotate(180deg)',
                                 // marginLeft: "6px",
                                 height: "16px",
+                                marginLeft: this.props.svgMargin && "13px",
                             }}
                             viewBox="0 0 16 16"
                             className="arrow___2yMKk"
@@ -278,6 +281,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                                 // marginLeft: "6px",
                                 transform: 'rotate(0deg)',
                                 height: "16px",
+                                marginLeft: this.props.svgMargin && "-19px",
                             }}
                             viewBox="0 0 16 16"
                             className="arrow___2yMKk"
