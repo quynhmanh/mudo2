@@ -32,6 +32,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         document.getElementById("clipHeight").value = this.props.item.clipHeight;
         document.getElementById("path").value = this.props.item.path;
         document.getElementById("path2").value = this.props.item.path2;
+        document.getElementById("popularity2").value = this.props.item.popularity;
     }
 
     handleAddNewKeyword = () => {
@@ -45,6 +46,8 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         const clipHeight = document.getElementById("clipHeight").value;
         const path = document.getElementById("path").value;
         const path2 = document.getElementById("path2").value;
+        const popularity = document.getElementById("popularity2").value;
+        console.log('popularity', popularity)
         var url = `/api/Media/Edit`;
         axios.post(url, 
         { 
@@ -56,6 +59,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
             clipHeight,
             path,
             path2,
+            popularity,
         })
             .then(res => {
                 if (res.status === 200) {
@@ -160,6 +164,8 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <input className='unblurred' id="path" type="text" />
                     <p className='unblurred'>path2</p>
                     <input className='unblurred' id="path2" type="text" />
+                    <p className='unblurred'>popularity</p>
+                    <input className='unblurred' id="popularity2" type="text" />
                     {/* clipWidth: 628.5,
         clipHeight: 360.5,
         path: "M75.8 21.8H552.6V320.2H75.8z", */}

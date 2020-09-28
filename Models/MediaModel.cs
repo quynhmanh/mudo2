@@ -23,6 +23,7 @@
         public float ClipHeight { get; set; }
         public string Path { get; set; }
         public string Path2 { get; set; }
+        public long  Popularity { get; set; }
 
         public MediaModel(string id, string firstName, string lastName, string representative)
         {

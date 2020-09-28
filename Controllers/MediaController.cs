@@ -90,6 +90,9 @@ namespace RCB.TypeScript.Controllers
             
             [JsonProperty(PropertyName = "path2")]
             public string path2 { get; set; }
+
+            [JsonProperty(PropertyName = "popularity")]
+            public long popularity { get; set; }
         }
 
         [HttpPost("[action]")]
@@ -411,6 +414,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.ClipHeight = oDownloadBody.clipHeight;
                 mediaModel.Path = oDownloadBody.path;
                 mediaModel.Path2 = oDownloadBody.path2;
+                mediaModel.Popularity = oDownloadBody.popularity;
 
                 MediaService.Edit(mediaModel);
             }

@@ -13,6 +13,9 @@ namespace RCB.TypeScript.Services
 {
     public class MediaService : ServiceBase
     {
+
+        const string DefaultIndex = "media-02";
+
         private MediaContext _mediaContext;
 
         public MediaService(MediaContext mediaContext)
@@ -29,14 +32,14 @@ namespace RCB.TypeScript.Services
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 
-            var response2 = client.Indices.Create("media", c => c
+            var response2 = client.Indices.Create(DefaultIndex, c => c
                 .Settings(s => s.Analysis(a => a.Analyzers(ar => ar.Custom("custom_path_tree", ac => ac.Tokenizer("custom_hierarchy")))))
                 .Map<TemplateModel>(mm => mm.Properties(props => props
                     .Keyword(t => t.Name(p => p.SubType))
                     .Text(pt => pt.Name(ptp => ptp.FilePath).Fields(ptf => ptf.Text(ptft => ptft.Name("tree").Analyzer("custom_path_tree")))))));
 
 
-            var response = client.Index(model, idx => idx.Index("media")); //or specify index via settings.DefaultIndex("mytweetindex");
+            var response = client.Index(model, idx => idx.Index(DefaultIndex)); //or specify index via settings.DefaultIndex("mytweetindex");
 
             return Ok(1);
         }
@@ -44,7 +47,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<int> RemoveAll()
         {
             var node = new Uri(elasticsearchAddress);
-            var settings = new ConnectionSettings(node).DefaultIndex("media");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var res = client.DeleteByQuery<MediaModel>(q => q.MatchAll());
@@ -62,7 +65,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<int> Edit(MediaModel model)
         {
             var node = new Uri(elasticsearchAddress);
-            var settings = new ConnectionSettings(node).DefaultIndex("media");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var getResponse = client.Get<MediaModel>(model.Id);
@@ -76,6 +79,7 @@ namespace RCB.TypeScript.Services
             page.ClipHeight = model.ClipHeight;
             page.Path = model.Path;
             page.Path2 = model.Path2;
+            page.Popularity = model.Popularity;
 
             var updateResponse = client.Update<MediaModel>(page, u => u.Doc(page));
 
@@ -85,7 +89,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<int> Delete(string id)
         {
             var node = new Uri(elasticsearchAddress);
-            var settings = new ConnectionSettings(node).DefaultIndex("media");
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
             var client = new ElasticClient(settings);
 
             var getResponse = client.Delete<MediaModel>(id);
@@ -96,7 +100,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<KeyValuePair<List<MediaModel>, long>> Search(int type, int page, int perPage, string terms = "", string userEmail = "")
         {
             var node = new Uri(elasticsearchAddress);
-            var settings = new ConnectionSettings(node).DefaultIndex("media").DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
             var client = new ElasticClient(settings);
 
             string query = $"type:{type}";
@@ -118,10 +122,10 @@ namespace RCB.TypeScript.Services
                             )
                             )
                         )
-                    ).
-                From((page - 1) * perPage).
-                Size(perPage)
-                );
+                    )
+                    .Sort(f => f.Descending(ff => ff.Popularity))
+                .From((page - 1) * perPage)
+                .Size(perPage));
 
             var res2 = new KeyValuePair<List<MediaModel>, long>(res4.Documents.ToList(), res4.Total);
 
