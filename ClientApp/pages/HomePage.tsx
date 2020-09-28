@@ -446,12 +446,4 @@ class HomePage extends React.Component<IProps, IState> {
     }
 }
 
-
-var CC = styled.li`
-    position: relative;
-    height: 160px;
-    margin-right: 16px;
-    transition: .3s;
-`;
-
 export default withTranslation(NAMESPACE)(HomePage);
