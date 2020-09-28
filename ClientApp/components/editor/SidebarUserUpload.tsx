@@ -4,6 +4,7 @@ import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
+import Globals from '@Globals';
 
 export interface IProps {
     scale: number;
@@ -204,7 +205,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             pageId = (this.state.items.length + this.state.items2.length) / 16 + 1;
         }
         this.setState({ isLoading: true, error: undefined, loaded: true, });
-        const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${PER_PAGE}`; //&terms=${this.state.query}`;
+        const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${PER_PAGE}&userEmail=${Globals.serviceUser.username}`; //&terms=${this.state.query}`;
         fetch(url)
             .then(res => res.json())
             .then(

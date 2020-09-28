@@ -166,9 +166,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <input className='unblurred' id="path2" type="text" />
                     <p className='unblurred'>popularity</p>
                     <input className='unblurred' id="popularity2" type="text" />
-                    {/* clipWidth: 628.5,
-        clipHeight: 360.5,
-        path: "M75.8 21.8H552.6V320.2H75.8z", */}
                     <div
                         className='unblurred'
                         style={{
