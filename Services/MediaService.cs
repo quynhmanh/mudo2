@@ -14,7 +14,7 @@ namespace RCB.TypeScript.Services
     public class MediaService : ServiceBase
     {
 
-        const string DefaultIndex = "media-02";
+        const string DefaultIndex = "media-01";
 
         private MediaContext _mediaContext;
 
