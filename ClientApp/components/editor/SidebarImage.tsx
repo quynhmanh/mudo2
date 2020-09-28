@@ -443,7 +443,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                             height: "37px",
                             borderRadius: "3px",
                             padding: "5px",
-                            fontSize: "13px",
+                            fontSize: "14px",
                             boxShadow:
                                 "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
                             position: "absolute",
