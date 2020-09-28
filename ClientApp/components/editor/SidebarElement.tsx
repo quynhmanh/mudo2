@@ -520,6 +520,12 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 handleImageSelected={this.props.handleImageSelected}
                                 scale={this.props.scale}
                             />
+                            <SidebarElement
+                                term="Stickers"
+                                handleQuery={this.handleQuery}
+                                handleImageSelected={this.props.handleImageSelected}
+                                scale={this.props.scale}
+                            />
                         </div>}
                         {this.state.query && this.state.items.map((item, key) => {
                             let width, height;
@@ -530,6 +536,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 height = imgWidth;
                                 width = imgWidth * (item.width / item.height);
                             }
+                            console.log('item ', item)
                             return <div
                                 style={{
                                     display: "inline-flex",
@@ -545,7 +552,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     id={item.id}
                                     key={key + "1"}
                                     color={item.color}
-                                    src={item.representativeThumbnail}
+                                    src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
                                     height={height}
                                     defaultHeight={imgWidth}
                                     width={width}
