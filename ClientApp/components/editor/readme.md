@@ -53,11 +53,19 @@ http://localhost:9200/template
   }
 }
 
+PUT 
+http://localhost:9200/media
 {
+  "settings": {
+    "index": {
+      "sort.field": [ "popularity"], 
+      "sort.order": [ "desc" ]       
+    }
+  },
   "mappings": {
         "properties": {
-            "Keywords": {
-                "type": "keyword"
+            "popularity": {
+              "type": "integer"
             }
         }
   }
