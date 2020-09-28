@@ -3,8 +3,7 @@ import { SidebarTab, TemplateType, SavingState, } from "./enums";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
-import ImagePicker from "@Components/shared/ImagePicker";
-import { init } from 'i18next';
+import styled from "styled-components";
 
 export interface IProps {
     term: string;
@@ -335,11 +334,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
     render() {
 
         return (
-            <div
-                style={{
-                    marginBottom: '30px',
-                }}
-            >
+            <Catalog>
                 <p
                     style={{
                         marginTop: "10px",
@@ -420,7 +415,15 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         </InfiniteXScroll>
                     </div>
                 </div>
-            </div>
+            </Catalog>
         )
     }
 }
+
+const Catalog = styled.div`
+    margin-bottom: 30px;
+    p {
+        font-family: AvenirNextRoundedPro-Bold;
+        font-size: 16px;
+    }
+`;

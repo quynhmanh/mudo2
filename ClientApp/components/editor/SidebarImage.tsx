@@ -456,6 +456,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                         }}
                         onKeyDown={this.handleQuery}
                         type="text"
+                        placeholder="Search photos"
                         onChange={e => {
                             this.setState({ query: e.target.value });
                         }}

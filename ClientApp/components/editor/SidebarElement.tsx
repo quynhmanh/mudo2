@@ -470,6 +470,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         }
                     }}
                     type="text"
+                    placeholder="Search icons and shapes"
                     onChange={e => {
                         this.setState({ query: e.target.value });
                     }}

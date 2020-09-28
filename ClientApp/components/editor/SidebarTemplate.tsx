@@ -324,6 +324,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                     }}
                     // onKeyDown={this.handleQuery}
                     type="text"
+                    placeholder="Search templates"
                     onChange={e => {
                         // this.setState({ query: e.target.value });
                     }}
