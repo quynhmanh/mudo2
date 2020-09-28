@@ -5,6 +5,7 @@ import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import { toJS } from "mobx";
+import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     translate: any;
@@ -320,24 +321,9 @@ export default class SidebarText extends Component<IProps, IState> {
         }
 
         return (
-            <div
-                style={{
-                    opacity: editorStore.selectedTab === SidebarTab.Text ? 1 : 0,
-                    position: "absolute",
-                    width: "347px",
-                    transition:
-                        "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                    transform:
-                        editorStore.selectedTab !== SidebarTab.Text &&
-                        `translate3d(0px, calc(${
-                        editorStore.selectedTab < SidebarTab.Text ? 40 : -40
-                        }px), 0px)`,
-                    top: "20px",
-                    zIndex: editorStore.selectedTab !== SidebarTab.Text && -1,
-                    height: "100%",
-                    left: '19px',
-                    overflow: "scroll",
-                }}
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Text}
             >
                 <div style={{ color: "white" }}>
                     {
@@ -523,7 +509,7 @@ export default class SidebarText extends Component<IProps, IState> {
                         </div>
                     }
                 </div>
-            </div>
+            </Sidebar>
         )
     }
 }

@@ -5,6 +5,7 @@ import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import Globals from '@Globals';
+import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     scale: number;
@@ -259,26 +260,10 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         }
 
         return (
-            <div
-            style={{
-                opacity: editorStore.selectedTab === SidebarTab.Upload ? 1 : 0,
-                position: "absolute",
-                width: "347px",
-                color: "white",
-                overflow: "scroll",
-                transition:
-                    "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                transform:
-                    editorStore.selectedTab !== SidebarTab.Upload &&
-                    `translate3d(0px, calc(${
-                    editorStore.selectedTab < SidebarTab.Upload ? 40 : -40
-                    }px), 0px)`,
-                top: "10px",
-                zIndex: editorStore.selectedTab !== SidebarTab.Upload && -1,
-                height: "100%",
-                left: '19px',
-            }}
-        >
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Upload}
+            >
             <InfiniteScroll
                 scroll={true}
                 throttle={100}
@@ -413,7 +398,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                 {/* Tải lên một ảnh */}
                 {this.props.translate("uploadAnImage")}
             </button>
-        </div>
+        </Sidebar>
         )
     }
 }

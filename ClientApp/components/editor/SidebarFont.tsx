@@ -6,6 +6,7 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import { toJS } from "mobx";
 import Tooltip from "@Components/shared/Tooltip";
 import FontPicker from "@Components/editor/FontPicker";
+import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     scale: number;
@@ -177,23 +178,16 @@ export default class SidebarFont extends Component<IProps, IState> {
 
     render() {
         return (
-            <div
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Font}
                 style={{
-                    opacity: editorStore.selectedTab === SidebarTab.Font ? 1 : 0,
-                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    background: "white",
                     width: "370px",
-                    color: "white",
-                    overflow: "scroll",
-                    transition:
-                        "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                    transform:
-                        editorStore.selectedTab !== SidebarTab.Font &&
-                        `translate3d(0px, calc(${editorStore.selectedTab < SidebarTab.Font ? 40 : -40
-                        }px), 0px)`,
-                    zIndex: editorStore.selectedTab !== SidebarTab.Font && -1,
-                    height: "100%",
-                    left: "0px",
-                    backgroundColor: "white",
+                    transition: "none",
+                    transform: "none",
                 }}
             >
                 <div>
@@ -352,7 +346,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                         </InfiniteScroll>
                     </div>
                 </div>
-            </div>
+            </Sidebar>
         )
     }
 }

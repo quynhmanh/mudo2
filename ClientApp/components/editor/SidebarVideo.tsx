@@ -4,6 +4,7 @@ import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import { toJS } from "mobx";
 import VideoPicker from "@Components/shared/VideoPicker2";
+import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     videoOnMouseDown: any;
@@ -205,25 +206,9 @@ export default class SidebarVideo extends Component<IProps, IState> {
     render() {
 
         return (
-            <div
-                style={{
-                    opacity: this.props.selectedTab === SidebarTab.Video ? 1 : 0,
-                    position: "absolute",
-                    width: "347px",
-                    color: "white",
-                    transition:
-                        "transform .25s ease-in-out,opacity .25s ease-in-out,-webkit-transform .25s ease-in-out",
-                    transform:
-                        this.props.selectedTab !== SidebarTab.Video &&
-                        `translate3d(0px, calc(${
-                        this.props.selectedTab < SidebarTab.Video ? 40 : -40
-                        }px), 0px)`,
-                    top: "10px",
-                    zIndex: this.props.selectedTab !== SidebarTab.Video && -1,
-                    height: "100%",
-                    left: '19px',
-                }
-                }
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Video}
             >
                 <div style={{ display: "inline-block", width: "100%" }}>
                     <button
@@ -290,7 +275,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                         ))}
                     </ul>
                 </div>
-            </div >
+            </Sidebar>
         )
     }
 }

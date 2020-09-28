@@ -3,6 +3,7 @@ import { SidebarTab, } from "./enums";
 import editorStore from "@Store/EditorStore";
 import Slider from "@Components/editor/Slider";
 import ColorPicker from "@Components/editor/ColorPicker";
+import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     scale: number;
@@ -339,16 +340,17 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
 
         return (
-            <div
+            <Sidebar
+                selectedTab={editorStore.selectedTab}
+                sidebar={SidebarTab.Effect}
+                color="black"
                 style={{
-                    opacity: editorStore.selectedTab === SidebarTab.Effect ? 1 : 0,
-                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    background: "white",
                     width: "370px",
-                    overflow: "scroll",
-                    zIndex: editorStore.selectedTab !== SidebarTab.Effect && -1,
-                    height: "100%",
-                    left: "0px",
-                    backgroundColor: "white",
+                    transition: "none",
+                    transform: "none",
                 }}
             >
                 <div>
@@ -777,7 +779,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             </div>}
                     </div>
                 </div>
-            </div>
+            </Sidebar>
         )
     }
 }
