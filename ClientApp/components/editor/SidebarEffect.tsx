@@ -356,8 +356,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 <div>
                     <div
                         style={{
-                            height: "calc(100% - 10px)",
+                            height: "100%",
                             padding: "22px",
+                            overflow: "scroll",
                         }}
                     >
                         <div
