@@ -69,8 +69,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
     constructor(props) {
         super(props);
 
-        this.state.items = getRem(10);
-        this.left = 10;
+        this.state.items = getRem(props.rem);
+        this.left = props.rem;
 
         this.handleQuery = this.handleQuery.bind(this);
     }
@@ -362,12 +362,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     loadMore = (initialload, term) => {
-        console.log('items ', this.state.items)
-        console.log('this.left ', (this.state.items.length - this.left))
-        let pageId = Math.round((this.state.items.length - this.left) / 15) + 1;
+        let pageId = Math.round((this.state.items.length - this.left) / this.props.rem) + 1;
         const count = 15;
         this.setState({ isLoading: true, error: undefined });
-        const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${count}&terms=${initialload ? term : this.state.query}`;
+        const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${this.props.rem}&terms=${initialload ? term : this.state.query}`;
         console.log('loadmore ', url)
         fetch(url)
             .then(res => res.json())
