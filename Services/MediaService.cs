@@ -100,7 +100,7 @@ namespace RCB.TypeScript.Services
         public virtual Result<KeyValuePair<List<MediaModel>, long>> Search(int type, int page, int perPage, string terms = "", string userEmail = "")
         {
             var node = new Uri(elasticsearchAddress);
-            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 1));
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 3));
             var client = new ElasticClient(settings);
 
             string query = $"type:{type}";
