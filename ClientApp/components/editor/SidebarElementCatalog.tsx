@@ -410,8 +410,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             height="100%"
                             svgMargin={true}
                         >
-                            {this.elements && this.elements.map((item, key) =>
-                                <div
+                            {this.elements && this.elements.map((item, key) => {
+                                let width = 80;
+                                let height = 80 / (item.width / item.height);
+                                if (height > 80) {
+                                    height = 80;
+                                    width = 80 * (item.width / item.height);
+                                }
+                                return  <div
                                     style={{
                                         display: "inline-flex",
                                         height: "80px",
@@ -442,9 +448,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         key={key + "1"}
                                         color={item.color}
                                         src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
-                                        height={80}
+                                        height={height}
                                         defaultHeight={imgWidth}
-                                        width={80}
+                                        width={width}
                                         className="image-picker"
                                         onPick={item.keywords && item.keywords[0] == "Frame" ? 
                                         this.frameOnMouseDownload.bind(this, item) : 
@@ -456,7 +462,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         marginRight={0}
                                         marginAuto={true}
                                     />
-                                </div>
+                                </div>}
                             )}
                         </InfiniteXScroll>
                     </div>
