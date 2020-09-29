@@ -441,7 +441,27 @@ p.single-text:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  display: none;
+  // display: none;
+}
+
+#screen-container-parent::-webkit-scrollbar {
+  display: block;
+}
+
+#screen-container-parent::-webkit-scrollbar-thumb {
+  display: block;
+  background: #ccc;
+  // &:hover {
+  //   color: black;
+  // }
+}
+
+#screen-container-parent::-webkit-scrollbar-thumb:hover {
+  display: block;
+  background: #999;
+  // &:hover {
+  //   color: black;
+  // }
 }
 
 ::-webkit-scrollbar-track { 
