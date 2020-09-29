@@ -261,7 +261,7 @@ class LeftSide extends Component<IProps, IState> {
     };
 
     uploadImage = (removeBackground, e) => {
-
+        console.log('uploadImage')
         let type;
         switch (editorStore.selectedTab) {
             case SidebarTab.Image:
@@ -282,46 +282,53 @@ class LeftSide extends Component<IProps, IState> {
         var fileUploader = document.getElementById(
             "image-file"
         ) as HTMLInputElement;
-        var file = fileUploader.files[0];
-        var fr = new FileReader();
-        fr.readAsDataURL(file);
-        fr.onload = () => {
-            var url = `/api/Media/Add`;
-            if (type === TemplateType.RemovedBackgroundImage) {
-                url = `/api/Media/Add2`;
-            }
-            var i = new Image();
+        for (let i = 0; i < fileUploader.files.length; ++i) {
+            console.log('i', i)
+            let file = fileUploader.files[i];
+            let fr = new FileReader();
+            fr.readAsDataURL(file);
+            fr.onload = () => {
+                console.log('onload ', file.name)
+                var url = `/api/Media/Add`;
+                if (type === TemplateType.RemovedBackgroundImage) {
+                    url = `/api/Media/Add2`;
+                }
+                var img = new Image();
 
-            i.onload = function () {
-                var prominentColor = getMostProminentColor(i);
-                axios
-                    .post(url, {
-                        id: uuidv4(),
-                        ext: file.name.split(".")[1],
-                        userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
-                        color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
-                        data: fr.result,
-                        width: i.width,
-                        height: i.height,
-                        type,
-                        keywords: ["Frame", "123"],
-                        title: "Manh quynh"
-                    })
-                    .then((res) => {
-                        if (self.state.userUpload1.length <= self.state.userUpload2.length) {
-                            self.setState({
-                                userUpload1: [res.data, ...self.state.userUpload1]
-                            });
-                        } else {
-                            self.setState({
-                                userUpload2: [res.data, ...self.state.userUpload1]
-                            });
-                        }
-                    });
+                img.onload = function () {
+                    console.log('onload2 ', i)
+                    // var prominentColor = getMostProminentColor(i);
+                    axios
+                        .post(url, {
+                            id: uuidv4(),
+                            ext: file.name.split(".")[1],
+                            userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
+                            // color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
+                            data: fr.result,
+                            width: img.width,
+                            height: img.height,
+                            type,
+                            keywords: [(document.getElementById("keywords") as HTMLInputElement).value],
+                            title: "Manh quynh"
+                        })
+                        .then((res) => {
+                            console.log('res ', res)
+                            if (self.state.userUpload1.length <= self.state.userUpload2.length) {
+                                self.setState({
+                                    userUpload1: [res.data, ...self.state.userUpload1]
+                                });
+                            } else {
+                                self.setState({
+                                    userUpload2: [res.data, ...self.state.userUpload1]
+                                });
+                            }
+                        });
+                };
+                
+                console.log('iii ', i, fr.result.toString())
+                img.src = fr.result.toString();
             };
-
-            i.src = fr.result.toString();
-        };
+        }
 
         this.forceUpdate();
     };
@@ -401,7 +408,7 @@ class LeftSide extends Component<IProps, IState> {
                     <input
                         id="image-file"
                         type="file"
-                        onLoad={data => { }}
+                        multiple
                         onLoadedData={data => { }}
                         onChange={e => {
                             editorStore.selectedTab === SidebarTab.Video
@@ -437,7 +444,7 @@ class LeftSide extends Component<IProps, IState> {
                     <input type="checkbox" id="vehicle1" checked={editorStore.isPopular} onChange={e => {
                         editorStore.isPopular = !editorStore.isPopular;
                     }}/>
-                    <input id="popularity" type="text" value={editorStore.popularity} onChange={e => {
+                    <input id="popularity" type="text" placeholder="popularity" value={editorStore.popularity} onChange={e => {
                         editorStore.popularity = parseInt(e.target.value);
                     }} />
                     <button
@@ -449,8 +456,9 @@ class LeftSide extends Component<IProps, IState> {
                     >
                         RemoveAll
                     </button>
-                    <input id="fontNameInp" type="text" />
-                    <input id="fontId" type="text" />
+                    <input id="fontNameInp" placeholder="fontNameInp" type="text" />
+                    <input id="fontId" type="text" placeholder="fontId" />
+                    <input id="keywords" type="text" placeholder="keywords" />
                     <button
                         style={{
                             bottom: 0,
