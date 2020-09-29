@@ -11,6 +11,7 @@ import { isClickOutside } from '@Functions/shared/common';
 import languages from "@Locales/languages";
 const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
 import uuidv4 from "uuid/v4";
+import Footer from "@Components/shared/Footer";
 
 interface IProps {
     children?: React.ReactNode;
@@ -486,14 +487,14 @@ class AuthorizedLayout extends React.Component<Props, {}> {
                 <div className="container container-content">
                     <Breadcrumbs />
                 </div>} */}
-                <div style={{}} id="">
+                <div style={{}} id="main-component">
 
 
 
                     {childrenWithProps}
                 </div>
                 {/* <ToastContainer /> */}
-                {/* <Footer /> */}
+                {!isNode() && <Footer />}
             </div>
         );
     }
