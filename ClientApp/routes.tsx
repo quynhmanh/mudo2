@@ -34,6 +34,7 @@ export const routes = <Switch>
         <AppRoute authorizedRequired={false} layout={GuestLayout} exact path="/login" component={LoginPage} />
         <AppRoute authorizedRequired={false} layout={AuthorizedLayout} exact path="/" component={HomePage} />
         <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/home" component={HomePage} />
+        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/about-us" component={AboutPage} />
         <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/editor" component={TemplatesPage}/>
         <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:template_id" component={EditorContainer}/>
         <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/design/:template_id" component={EditorContainer} />

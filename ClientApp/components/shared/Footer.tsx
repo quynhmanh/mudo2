@@ -24,6 +24,14 @@ export default class Footer extends React.Component<{}, {}> {
                                     </ul>
                                 </div>
                             </div>
+                            <div className="jsx-104637934 col-md-2 col-4 contact">
+                                <h4 style={{marginTop: 0,}} className="jsx-104637934 title">Công ty</h4>
+                                <div className="jsx-104637934 body">
+                                    <ul className="jsx-104637934 list-unstyled">
+                                        <li className="jsx-104637934"><a href="/about-us" className="jsx-104637934">Về chúng tôi</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="jsx-104637934 lower">
