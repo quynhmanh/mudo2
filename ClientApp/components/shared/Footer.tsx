@@ -24,31 +24,6 @@ export default class Footer extends React.Component<{}, {}> {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="jsx-104637934 col-md-2 col-4 company">
-                                <h4 className="jsx-104637934 title">Doanh nghiệp</h4>
-                                <div className="jsx-104637934 body">
-                                    <ul className="jsx-104637934 list-unstyled">
-                                        <li className="jsx-104637934"><a href="https://pages.draft.vn/about-us" className="jsx-104637934">Về draft</a></li>
-                                        <li className="jsx-104637934"><a href="https://styleguide.draft.vn/" className="jsx-104637934">Style Guide</a></li>
-                                        <li className="jsx-104637934"><a href="https://pages.draft.vn/partners" className="jsx-104637934">Hợp tác</a></li>
-                                        <li className="jsx-104637934"><a href="https://pages.draft.vn/genuine-guarantee" className="jsx-104637934">Chính hãng</a></li>
-                                        <li className="jsx-104637934"><a href="https://careers.draft.vn" className="jsx-104637934">Tuyển dụng</a></li>
-                                        <li className="jsx-104637934"><a className="jsx-104637934" href="https://careers.draft.vn/vn/brands">Thương hiệu</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="jsx-104637934 col-md-4 col-4 customer-service">
-                                <h4 className="jsx-104637934 title">Chăm sóc khách hàng</h4>
-                                <div className="jsx-104637934 body">
-                                    <ul className="jsx-104637934 list-unstyled">
-                                        <li className="jsx-104637934"><a target="_blank" href="https://support.draft.vn/hc/vi" className="jsx-104637934">Hỏi đáp</a></li>
-                                        <li className="jsx-104637934"><a target="_blank" href="https://support.draft.vn/hc/vi/articles/214167448-Ch%C3%ADnh-s%C3%A1ch-tr%E1%BA%A3-h%C3%A0ng-v%C3%A0-ho%C3%A0n-ti%E1%BB%81n" className="jsx-104637934">Đổi trả</a></li>
-                                        <li className="jsx-104637934"><a target="_blank" href="https://support.draft.vn/hc/vi/articles/214857097-%C4%90i%E1%BB%81u-kho%E1%BA%A3n-v%C3%A0-quy-%C4%91%E1%BB%8Bnh-chung" className="jsx-104637934">Điều khoản &amp; quy định</a></li>
-                                        <li className="jsx-104637934"><a target="_blank" href="https://support.draft.vn/hc/vi/articles/214167378-Ch%C3%ADnh-s%C3%A1ch-giao-v%C3%A0-nh%E1%BA%ADn-h%C3%A0ng" className="jsx-104637934">Giao hàng</a></li>
-                                        <li className="jsx-104637934"><a target="_blank" href="https://support.draft.vn/hc/vi/articles/214113678-T%C3%B4i-c%C3%B3-nh%E1%BA%ADn-%C4%91%C6%B0%E1%BB%A3c-h%C3%B3a-%C4%91%C6%A1n-GTGT-trong-b%C6%B0u-ki%E1%BB%87n-kh%C3%B4ng-" className="jsx-104637934">Thuế</a></li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div className="jsx-104637934 lower">
