@@ -2,6 +2,7 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
+import { isNode } from "@Utils";
 
 type Props = RouteComponentProps<{}>;
 
@@ -27,7 +28,7 @@ export default class PrintPage extends React.Component<IProps, IState> {
                 <Helmet>
                     <title>About us</title>
                 </Helmet>
-
+                {!isNode() && 
                 <div className="container">
                     <div className="row">
                         <div className="col-xs-12  col-md-12" role="main">
@@ -68,7 +69,7 @@ export default class PrintPage extends React.Component<IProps, IState> {
                             </article>
                         </div>
                     </div>
-                </div>
+                </div>}
             </div>
         );
     }
