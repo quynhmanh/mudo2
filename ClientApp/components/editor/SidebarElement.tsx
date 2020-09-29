@@ -92,28 +92,24 @@ export default class SidebarEffect extends Component<IProps, IState> {
         return false;
     }
 
-    frameOnMouseDownload(img, e) {
-
-        console.log('img ', img)
-
-        e.preventDefault();
+    frameOnMouseDownload(img, el, e) {
 
         let scale = this.props.scale;
 
-        let target = e.target.cloneNode(true);
+        let target = el.cloneNode(true);
         target.style.zIndex = "11111111111";
         target.src = img.representativeThumbnail
             ? img.representativeThumbnail
-            : e.target.src;
-        target.style.width = e.target.getBoundingClientRect().width + "px";
-        target.style.backgroundColor = e.target.style.backgroundColor;
+            : el.src;
+        target.style.width = el.getBoundingClientRect().width + "px";
+        target.style.backgroundColor = el.style.backgroundColor;
         document.body.appendChild(target);
         let self = this;
         let imgDragging = target;
-        let posX = e.pageX - e.target.getBoundingClientRect().left;
+        let posX = e.pageX - el.getBoundingClientRect().left;
         let dragging = true;
-        let posY = e.pageY - e.target.getBoundingClientRect().top;
-        let image = e.target;
+        let posY = e.pageY - el.getBoundingClientRect().top;
+        let image = el;
         let recScreenContainer = document
             .getElementById("screen-container-parent")
             .getBoundingClientRect();
@@ -228,28 +224,25 @@ export default class SidebarEffect extends Component<IProps, IState> {
         document.addEventListener("mouseup", onUp);
     }
 
-    imgOnMouseDown(img, e) {
-
-        console.log('img ', img)
-
-        e.preventDefault();
+    imgOnMouseDown(img, el, e) {
+        console.log('arguments ', arguments)
 
         let scale = this.props.scale;
 
-        let target = e.target.cloneNode(true);
+        let target = el.cloneNode(true);
         target.style.zIndex = "11111111111";
         target.src = img.representativeThumbnail
             ? img.representativeThumbnail
-            : e.target.src;
-        target.style.width = e.target.getBoundingClientRect().width + "px";
-        target.style.backgroundColor = e.target.style.backgroundColor;
+            : el.src;
+        target.style.width = el.getBoundingClientRect().width + "px";
+        target.style.backgroundColor = el.style.backgroundColor;
         document.body.appendChild(target);
         let self = this;
         let imgDragging = target;
-        let posX = e.pageX - e.target.getBoundingClientRect().left;
+        let posX = e.pageX - el.getBoundingClientRect().left;
         let dragging = true;
-        let posY = e.pageY - e.target.getBoundingClientRect().top;
-        let image = e.target;
+        let posY = e.pageY - el.getBoundingClientRect().top;
+        let image = el;
         let recScreenContainer = document
             .getElementById("screen-container-parent")
             .getBoundingClientRect();

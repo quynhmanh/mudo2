@@ -50,7 +50,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         }
         return false;
     }
-    
+
     loadMore = (initialload, term) => {
         console.log('loadmore')
         let pageId;
@@ -68,9 +68,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 res => {
                     var result = res.value.key;
                     if (initialload) {
-                        this.elements =  result;
+                        this.elements = result;
                     }
-                    
+
                     this.forceUpdate();
                 },
                 error => {
@@ -143,14 +143,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     height = 80;
                                     width = 80 * (item.width / item.height);
                                 }
-                                return  <div
-                                    style={{
-                                        display: "inline-flex",
-                                        height: "80px",
-                                        width: "80px",
-                                        justifyContent: "center",
-                                        marginRight: "10px",
-                                        position: "relative",
+                                return <ImageContainer
+                                    onMouseDown={e => {
+                                        e.preventDefault();
+                                        let el = e.currentTarget.getElementsByTagName("img")[0];
+                                        if (item.keywords && item.keywords[0] == "Frame")
+                                            this.props.frameOnMouseDownload(item, el, e)
+                                        else
+                                            this.props.imgOnMouseDown(item, el, e)
                                     }}
                                 >
                                     <ImagePicker
@@ -161,12 +161,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         height={height}
                                         defaultHeight={imgWidth}
                                         width={width}
-                                        onPick={e => {
-                                            if (item.keywords && item.keywords[0] == "Frame") 
-                                                this.props.frameOnMouseDownload(item, e)
-                                            else 
-                                                this.props.imgOnMouseDown(item, e)
-                                        }}
+                                        onPick={null}
                                         onEdit={null}
                                         delay={250 * key}
                                         showButton={true}
@@ -174,7 +169,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         marginRight={0}
                                         marginAuto={true}
                                     />
-                                </div>}
+                                </ImageContainer>
+                            }
                             )}
                         </InfiniteXScroll>
                     </div>
@@ -190,4 +186,15 @@ const Catalog = styled.div`
         font-family: AvenirNextRoundedPro-Bold;
         font-size: 16px;
     }
+`;
+
+const ImageContainer = styled.div`
+    display: inline-flex;
+    height: 80px;
+    width: 80px;
+    justify-content: center;
+    margin-right: 10px;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
 `;

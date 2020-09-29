@@ -27,6 +27,7 @@ export interface IState {
 }
 
 const Container = styled.div`
+    cursor: pointer;
     bottom: 0;
     top: 0;
     left: 0;
