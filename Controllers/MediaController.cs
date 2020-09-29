@@ -191,7 +191,6 @@ namespace RCB.TypeScript.Controllers
                     fontFile.Flush();
                 }
 
-
                 MediaModel mediaModel = new MediaModel();
                 mediaModel.Id = id.ToString();
                 mediaModel.Representative = file2;
@@ -212,7 +211,7 @@ namespace RCB.TypeScript.Controllers
                         var svgDocument = Svg.SvgDocument.Open(filePath);  // Replace with correct FileName
                         svgDocument.ShapeRendering = SvgShapeRendering.Auto;
 
-                        Bitmap bmp = svgDocument.Draw(200, 200);                          // Draw Bitmap in any Size you need - for example 12px x 12px
+                        Bitmap bmp = svgDocument.Draw((int)oDownloadBody.width, (int)oDownloadBody.height);
                         bmp.Save(filePath3, ImageFormat.Png); 				// save Bitmap as PNG-File
                         mediaModel.RepresentativeThumbnail = file3;
                     }
