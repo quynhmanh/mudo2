@@ -510,7 +510,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 width = imgWidth * (item.width / item.height);
                             }
                             return <ImagePickerContainer
-                                imgWidth={imgWidth}
+                                onMouseDown={e => {
+                                    e.preventDefault();
+                                    let el = e.currentTarget.getElementsByTagName("img")[0];
+                                    if (item.keywords && item.keywords[0] == "Frame")
+                                        this.frameOnMouseDownload(item, el, e)
+                                    else
+                                        this.imgOnMouseDown(item, el, e)
+                                }}
                             >
                                 <ImagePicker
                                     id={item.id}
@@ -520,9 +527,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     height={height}
                                     defaultHeight={imgWidth}
                                     width={width}
-                                    onPick={item.keywords && item.keywords[0] == "Frame" ?
-                                        this.frameOnMouseDownload.bind(this, item) :
-                                        this.imgOnMouseDown.bind(this, item)}
+                                    onPick={null}
                                     onEdit={this.props.handleEditmedia.bind(this, item)}
                                     delay={250 * key}
                                     showButton={true}
@@ -540,11 +545,12 @@ export default class SidebarEffect extends Component<IProps, IState> {
 }
 
 const ImagePickerContainer = styled.div`
-    width: ${props => props.imgWidth}px;
-    height: ${props => props.imgWidth}px;
+    width: ${imgWidth}px;
+    height: ${imgWidth}px;
     display: inline-flex;
     justify-content: center;
     margin-right: 9px;
     margin-bottom: 8px;
     position: relative;
+    cursor: pointer;
 `;
