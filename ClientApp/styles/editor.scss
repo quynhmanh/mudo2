@@ -119,27 +119,11 @@ body {
   cursor: auto;
 }
 
-.image-picker, .text-picker, .template-picker {
-  width: 150px;
-  // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px 0px;
-  cursor: pointer;
-}
-
-.text-picker {
-  // background-color:#00000082 !important;
-  // border-radius: 4px;
-  // box-shadow: 0 3px 6px rgba(0, 0, 0, 0), 0 3px 6px rgba(0, 0, 0, 0.09);
-}
-
 .text-picker-container {
   border-radius: 4px;
 }
 .text-picker-container:hover {
   background: rgba(255, 255, 255, 0.17) !important;
-}
-
-.template-picker {
-  background-color: white;
 }
 
 .image-picker:hover {

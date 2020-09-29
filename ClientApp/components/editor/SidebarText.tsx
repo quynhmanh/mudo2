@@ -428,7 +428,6 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 defaultHeight={imgWidth}
                                                 width={imgWidth}
                                                 delay={0}
-                                                className="text-picker"
                                                 classNameContainer="text-picker-container"
                                                 onPick={this.textOnMouseDown.bind(this, item.id)}
                                                 onEdit={() => {
@@ -451,7 +450,6 @@ export default class SidebarText extends Component<IProps, IState> {
                                                         height={imgWidth}
                                                         width={imgWidth}
                                                         defaultHeight={imgWidth}
-                                                        className=""
                                                         onPick={null}
                                                         onEdit={this.props.handleEditmedia.bind(this, null)}
                                                         delay={0}
@@ -472,7 +470,6 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 width={imgWidth}
                                                 key={key}
                                                 color={item.color}
-                                                className="text-picker"
                                                 classNameContainer="text-picker-container"
                                                 height={imgWidth / (item.width / item.height)}
                                                 src={item.representative}
@@ -496,7 +493,6 @@ export default class SidebarText extends Component<IProps, IState> {
                                                         height={imgWidth}
                                                         width={imgWidth}
                                                         defaultHeight={imgWidth}
-                                                        className=""
                                                         onPick={null}
                                                         onEdit={this.props.handleEditmedia.bind(this, null)}
                                                         delay={150}

@@ -6,7 +6,6 @@ export interface IProps {
     src: string;
     onPick: any;
     onEdit: any;
-    className: string;
     classNameContainer: string;
     height: number;
     defaultHeight: number;
@@ -113,14 +112,10 @@ export default class ImagePicker extends Component<IProps, IState> {
                         </span>
                     </button>
                 }
-                <img
+                <Image
                     id={this.props.id}
                     ref={i => this.image = i}
-                    className={this.props.className}
-                    style={loaded ? {
-                        width: '100%',
-                        marginBottom: '8px',
-                    } : { display: 'none' }}
+                    loaded={loaded}
 
                     onLoad={(e) => {
                         this.handleImageLoaded();
@@ -138,3 +133,10 @@ export default class ImagePicker extends Component<IProps, IState> {
         );
     }
 }
+
+const Image = styled.img`
+    width: 100%;
+    margin-bottom: 8px;
+    cursor: pointer;
+    display: ${props => props.loaded ? 'block' : 'none'}
+`;

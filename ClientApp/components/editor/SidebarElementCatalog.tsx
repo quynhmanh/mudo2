@@ -161,7 +161,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         height={height}
                                         defaultHeight={imgWidth}
                                         width={width}
-                                        className="image-picker"
                                         onPick={e => {
                                             if (item.keywords && item.keywords[0] == "Frame") 
                                                 this.props.frameOnMouseDownload(item, e)
