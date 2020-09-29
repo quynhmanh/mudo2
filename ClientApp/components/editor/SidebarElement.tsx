@@ -76,8 +76,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        console.log('this.state.items' , this.state.items)
-        this.forceUpdate();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -483,32 +481,41 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             width: "100%",
                             marginTop: "18px",
                         }}>
-                        {!this.state.query && <div>
+                        <div
+                            style={{
+                                display: this.state.query ? 'none' : 'block',
+                                height: this.state.query ? '0px' : 'auto',
+                            }}
+                        >
                             <SidebarElement
                                 term="Frame"
                                 handleQuery={this.handleQuery}
                                 handleImageSelected={this.props.handleImageSelected}
                                 scale={this.props.scale}
+                                selectedTab={this.props.selectedTab}
                             />
                             <SidebarElement
                                 term="Lines"
                                 handleQuery={this.handleQuery}
                                 handleImageSelected={this.props.handleImageSelected}
                                 scale={this.props.scale}
+                                selectedTab={this.props.selectedTab}
                             />
                             <SidebarElement
                                 term="Shapes"
                                 handleQuery={this.handleQuery}
                                 handleImageSelected={this.props.handleImageSelected}
                                 scale={this.props.scale}
+                                selectedTab={this.props.selectedTab}
                             />
                             <SidebarElement
                                 term="Stickers"
                                 handleQuery={this.handleQuery}
                                 handleImageSelected={this.props.handleImageSelected}
                                 scale={this.props.scale}
+                                selectedTab={this.props.selectedTab}
                             />
-                        </div>}
+                        </div>
                         {this.state.query && this.state.items.map((item, key) => {
                             let width, height;
                             if (item.width > item.height) {

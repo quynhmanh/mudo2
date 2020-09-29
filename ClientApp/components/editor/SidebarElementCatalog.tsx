@@ -4,34 +4,54 @@ import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
 import styled from "styled-components";
+import ImagePicker from "@Components/shared/ImagePicker";
 
 export interface IProps {
     term: string;
+    selectedTab: SidebarTab;
 }
 
 export interface IState {
 
 }
 
-const imgWidth = 105;
+const imgWidth = 80;
+
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: imgWidth,
+        height: imgWidth,
+        id: "sentinel-element",
+    }
+});
+
 const backgroundWidth = 105;
 
 export default class SidebarEffect extends Component<IProps, IState> {
 
     elements = [];
+    left = 5;
 
     constructor(props) {
         super(props);
 
-        this.state = {}
+        this.elements = getRem(this.left);
+
+        this.state = {};
     }
 
-    componentDidMount() {
-        this.loadMore.bind(this)(true, this.props.term);
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.selectedTab != nextProps.selectedTab
+            && (nextProps.selectedTab == SidebarTab.Element || this.props.selectedTab == SidebarTab.Element)
+        ) {
+            this.loadMore(true, nextProps.term)
+            return true;
+        }
+        return false;
     }
-
     
     loadMore = (initialload, term) => {
+        console.log('loadmore')
         let pageId;
         let count;
         if (initialload) {
@@ -333,6 +353,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
     render() {
 
+        console.log('this.elements ', this.elements)
+
         return (
             <Catalog>
                 <p
@@ -349,9 +371,11 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     }}
                     style={{
                         float: 'right',
-                        marginTop: '7px',
+                        marginTop: '14px',
                         border: 'none',
                         marginRight: '12px',
+                        color: '#ccc',
+                        fontSize: '13px',
                     }}
                 >See all</button>
                 <div
@@ -386,7 +410,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             height="100%"
                             svgMargin={true}
                         >
-                            {this.elements && this.elements.map(el =>
+                            {this.elements && this.elements.map((item, key) =>
                                 <div
                                     style={{
                                         display: "inline-flex",
@@ -395,9 +419,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         justifyContent: "center",
                                         marginRight: "10px",
                                         marginBottom: "10px",
+                                        position: "relative",
                                     }}
                                 >
-                                    <img
+                                    {/* <img
                                         onMouseDown={this.props.term == "Frame" ? 
                                         this.frameOnMouseDownload.bind(this, el) : 
                                         this.imgOnMouseDown.bind(this, el)}
@@ -410,6 +435,26 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                             margin: "auto",
                                         }}
                                         src={el.representative}
+                                    /> */}
+
+                                    <ImagePicker
+                                        id={item.id}
+                                        key={key + "1"}
+                                        color={item.color}
+                                        src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
+                                        height={80}
+                                        defaultHeight={imgWidth}
+                                        width={80}
+                                        className="image-picker"
+                                        onPick={item.keywords && item.keywords[0] == "Frame" ? 
+                                        this.frameOnMouseDownload.bind(this, item) : 
+                                            this.imgOnMouseDown.bind(this, item)}
+                                        onEdit={null}
+                                        delay={250 * key}
+                                        showButton={true}
+                                        backgroundColorLoaded="transparent"
+                                        marginRight={0}
+                                        marginAuto={true}
                                     />
                                 </div>
                             )}
