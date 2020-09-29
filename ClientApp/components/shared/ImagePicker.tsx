@@ -28,20 +28,20 @@ export interface IState {
 }
 
 const Container = styled.div`
-  position: relative;
-  background-size: 300% 300%;
-  position: relative;
-  width: ${props => props.width}px;
-  height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
-  margin-bottom: 8px;
-  button {
-    visibility: hidden;
-  }
-  opacity ${props => props.loaded ? 1 : 0.15};
-  display: inline-block;
-  :hover button {
-    visibility: visible;
-  }
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    animation-name: XhtCamN749DcvC-ecDUzp;
+    background-size: 300% 300%;
+    margin-bottom: 8px;
+    button {
+        visibility: hidden;
+    }
+    display: inline-block;
+    :hover button {
+        visibility: visible;
+    }
 `
 
 export default class ImagePicker extends Component<IProps, IState> {
@@ -56,6 +56,7 @@ export default class ImagePicker extends Component<IProps, IState> {
         backgroundColor: null,
         backgroundColorLoaded: "rgba(255, 255, 255, 0.07)",
         marginRight: 8,
+        marginAuto: false,
     }
 
     componentDidMount() {
@@ -81,27 +82,19 @@ export default class ImagePicker extends Component<IProps, IState> {
         let { loaded } = this.state;
         return (
             <Container
+                id={this.props.id}
                 className={this.props.classNameContainer}
                 style={{
-                    position: 'relative',
-                    backgroundSize: '300% 300%',
                     width: `${this.state.loaded ? this.state.width : this.props.width}px`,
                     height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
-                    marginBottom: '8px',
                     opacity: this.state.loaded ? 1 : 0.07,
-                    animationName: 'XhtCamN749DcvC-ecDUzp',
                     animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: this.props.delay + 'ms',
                     backgroundColor: this.state.loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#fff"),
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
                     position: this.props.marginAuto ? "absolute" : "relative",
                     margin: this.props.marginAuto ? 'auto' : `0 ${this.props.marginRight}px ${this.props.marginRight}px 0px`,
-                    bottom: '0',
-                    top: '0',
-                    left: '0',
-                    right: '0',
-                }}
-                delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
+                }}>
                 {this.props.showButton && editorStore.isAdmin &&
                     <button
                         style={{
@@ -128,6 +121,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                         width: '100%',
                         marginBottom: '8px',
                     } : { display: 'none' }}
+
                     onLoad={(e) => {
                         this.handleImageLoaded();
                     }
@@ -137,10 +131,6 @@ export default class ImagePicker extends Component<IProps, IState> {
                         this.handleImageLoaded();
                     }
                     }
-
-                    onError={(e) => {
-                    }}
-
                     src={this.props.src}
                     onMouseDown={this.props.onPick}
                 />

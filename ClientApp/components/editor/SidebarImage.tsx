@@ -75,9 +75,9 @@ export default class SidebarImage extends Component<IProps, IState> {
         return false;
     }
 
-    
+
     imgOnMouseDown(img, e) {
-        
+
         e.preventDefault();
 
         let scale = this.props.scale;
@@ -110,8 +110,8 @@ export default class SidebarImage extends Component<IProps, IState> {
             if (dragging) {
                 let rec2 = imgDragging.getBoundingClientRect();
                 if (
-            
-                    
+
+
                     recScreenContainer.left < rec2.left &&
                     recScreenContainer.right > rec2.right &&
                     recScreenContainer.top < rec2.top &&
@@ -174,8 +174,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                 window.oldWidth = image2.imgWidth / clipScale + "px";
                 window.oldHeight = image2.imgHeight / clipScale + "px";
 
-                if (image2.imgHeight < image2.height)
-                {
+                if (image2.imgHeight < image2.height) {
                     image2.imgWidth = image2.height * ratio;;
                     image2.imgHeight = image2.height;
                     window.oldWidth = image2.imgWidth / clipScale + "px";
@@ -293,16 +292,16 @@ export default class SidebarImage extends Component<IProps, IState> {
 
     handleQuery = e => {
         if (e.key === "Enter") {
-          this.setState({items: [], items2: [] }, () => {
-            this.loadMore(true);
-          });
+            this.setState({ items: [], items2: [] }, () => {
+                this.loadMore(true);
+            });
         }
-      };
+    };
 
     render() {
 
         let left = this.state.total - this.state.items.length - this.state.items2.length;
-        let t = Math.round(Math.min(left/2, 8));
+        let t = Math.round(Math.min(left / 2, 8));
 
         if (!this.state.loaded) {
             left = 8;
@@ -402,7 +401,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                                 ))}
                                 {left > 0 && this.state.hasMoreImage &&
                                     Array(t)
-                                    .fill(0)
+                                        .fill(0)
                                         .map((item, i) => (
                                             <ImagePicker
                                                 showButton={false}
@@ -448,7 +447,6 @@ export default class SidebarImage extends Component<IProps, IState> {
                         onChange={e => {
                             this.setState({ query: e.target.value });
                         }}
-                    // value={this.state.query}
                     />
                 </div>
             </Sidebar>

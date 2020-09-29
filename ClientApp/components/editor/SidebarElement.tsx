@@ -6,6 +6,7 @@ import ImagePicker from "@Components/shared/ImagePicker";
 import SidebarElement from "@Components/editor/SidebarElementCatalog";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import Sidebar from "@Components/editor/SidebarStyled";
+import styled from "styled-components";
 
 export interface IProps {
     scale: number;
@@ -16,6 +17,7 @@ export interface IProps {
     rectWidth: number;
     rectHeight: number;
     setSavingState: any;
+    rem: number;
 }
 
 export interface IState {
@@ -50,6 +52,7 @@ let getRem = (rem) => Array(rem).fill(0).map(i => {
 export default class SidebarEffect extends Component<IProps, IState> {
 
     rem = 10;
+    left = 10;
 
     state = {
         isLoading: false,
@@ -73,6 +76,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
         this.left = props.rem;
 
         this.handleQuery = this.handleQuery.bind(this);
+        this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
+        this.frameOnMouseDownload = this.frameOnMouseDownload.bind(this);
     }
 
     componentDidMount() {
@@ -317,9 +322,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         left: (rec2.left - rec.left) / scale,
                         top: (rec2.top - rec.top) / scale,
                         rotateAngle: 0.0,
-                        // src: !img.representative.startsWith("data")
-                        //     ? window.location.origin + "/" + img.representative
-                        //     : img.representative,
                         src: !img.representative.startsWith("data")
                             ? window.location.origin + "/" + img.representative
                             : img.representative,
@@ -359,9 +361,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
         document.addEventListener("mouseup", onUp);
     }
 
-    loadMore = (initialload, term) => {
+    loadMore = (initialload, term = null) => {
         let pageId = Math.round((this.state.items.length - this.left) / this.props.rem) + 1;
-        const count = 15;
         this.setState({ isLoading: true, error: undefined });
         const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${this.props.rem}&terms=${initialload ? term : this.state.query}`;
         console.log('loadmore ', url)
@@ -386,17 +387,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         hasMore,
                     }));
 
-                    // var result = res.value.key;
-                    // if (initialload) {
-                    //     elements[term] =  result;
-                    // }
-                    // console.log('elements ', result)
-                    // this.setState(state => ({
-                    //     items: [...state.items, ...result],
-                    //     isLoading: false,
-                    //     hasMore: res.value.value > state.items.length,
-                    // }));
-
                     this.forceUpdate();
                 },
                 error => {
@@ -410,7 +400,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
         this.setState({ query: term, items: getRem(this.left) }, () => {
             this.loadMore(false);
         });
-        document.getElementById("queryInput").value = term;
+        let el = document.getElementById("queryInput") as HTMLInputElement;
+        el.value = term;
         this.forceUpdate();
     };
 
@@ -444,7 +435,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     }}
                     onKeyDown={e => {
                         if (e.key === "Enter") {
-                            this.handleQuery(e.target.value);
+                            let el = e.target as HTMLInputElement;
+                            this.handleQuery(el.value);
                         }
                     }}
                     type="text"
@@ -452,7 +444,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     onChange={e => {
                         this.setState({ query: e.target.value });
                     }}
-                // value={this.state.query}
                 />
                 <button
                     onClick={e => this.handleQuery("")}
@@ -464,7 +455,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         border: 'none',
                         zIndex: 123,
                     }}
-                    type="button"><span class="TcNIhA"><span aria-hidden="true" class="NA_Img dkWypw"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
+                    type="button"><span className="TcNIhA"><span aria-hidden="true" className="NA_Img dkWypw"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
                 <InfiniteScroll
                     scroll={true}
                     throttle={500}
@@ -490,30 +481,30 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <SidebarElement
                                 term="Frame"
                                 handleQuery={this.handleQuery}
-                                handleImageSelected={this.props.handleImageSelected}
-                                scale={this.props.scale}
                                 selectedTab={this.props.selectedTab}
+                                imgOnMouseDown={this.imgOnMouseDown}
+                                frameOnMouseDownload={this.frameOnMouseDownload}
                             />
                             <SidebarElement
                                 term="Lines"
                                 handleQuery={this.handleQuery}
-                                handleImageSelected={this.props.handleImageSelected}
-                                scale={this.props.scale}
                                 selectedTab={this.props.selectedTab}
+                                imgOnMouseDown={this.imgOnMouseDown}
+                                frameOnMouseDownload={this.frameOnMouseDownload}
                             />
                             <SidebarElement
                                 term="Shapes"
                                 handleQuery={this.handleQuery}
-                                handleImageSelected={this.props.handleImageSelected}
-                                scale={this.props.scale}
                                 selectedTab={this.props.selectedTab}
+                                imgOnMouseDown={this.imgOnMouseDown}
+                                frameOnMouseDownload={this.frameOnMouseDownload}
                             />
                             <SidebarElement
                                 term="Stickers"
                                 handleQuery={this.handleQuery}
-                                handleImageSelected={this.props.handleImageSelected}
-                                scale={this.props.scale}
                                 selectedTab={this.props.selectedTab}
+                                imgOnMouseDown={this.imgOnMouseDown}
+                                frameOnMouseDownload={this.frameOnMouseDownload}
                             />
                         </div>
                         {this.state.query && this.state.items.map((item, key) => {
@@ -525,17 +516,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 height = imgWidth;
                                 width = imgWidth * (item.width / item.height);
                             }
-                            console.log('item ', item)
-                            return <div
-                                style={{
-                                    display: "inline-flex",
-                                    width: imgWidth + "px",
-                                    height: imgWidth + "px",
-                                    justifyContent: "center",
-                                    marginRight: "9px",
-                                    marginBottom: "8px",
-                                    position: "relative",
-                                }}
+                            return <ImagePickerContainer
+                                imgWidth={imgWidth}
                             >
                                 <ImagePicker
                                     id={item.id}
@@ -546,8 +528,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     defaultHeight={imgWidth}
                                     width={width}
                                     className="image-picker"
-                                    onPick={item.keywords && item.keywords[0] == "Frame" ? 
-                                    this.frameOnMouseDownload.bind(this, item) : 
+                                    onPick={item.keywords && item.keywords[0] == "Frame" ?
+                                        this.frameOnMouseDownload.bind(this, item) :
                                         this.imgOnMouseDown.bind(this, item)}
                                     onEdit={this.props.handleEditmedia.bind(this, item)}
                                     delay={250 * key}
@@ -556,7 +538,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     marginRight={0}
                                     marginAuto={true}
                                 />
-                            </div>
+                            </ImagePickerContainer>
                         })}
                     </div>
                 </InfiniteScroll>
@@ -564,3 +546,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
         )
     }
 }
+
+const ImagePickerContainer = styled.div`
+    width: ${props => props.imgWidth}px;
+    height: ${props => props.imgWidth}px;
+    display: inline-flex;
+    justify-content: center;
+    margin-right: 9px;
+    margin-bottom: 8px;
+    position: relative;
+`;

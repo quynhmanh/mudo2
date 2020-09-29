@@ -533,7 +533,7 @@ export default class Rect extends Component<IProps, IState> {
 							onMouseEnter={e => {
 								if (window.imagedragging && type == TemplateType.Element) {
 									window.imgDragging.style.opacity = 0;
-									let el = document.getElementById(_id + "1235alo");
+									let el = document.getElementById(_id + "1235alo") as HTMLImageElement;
 									el.src = window.imagesrc;
 									window.imageselected = _id;
 
@@ -562,7 +562,7 @@ export default class Rect extends Component<IProps, IState> {
 							onMouseLeave={e => {
 								if (type == TemplateType.Element) {
 									window.imgDragging.style.opacity = 1;
-									let el = document.getElementById(_id + "1235alo");
+									let el = document.getElementById(_id + "1235alo") as HTMLImageElement;
 									el.src = src;
 									if (window.oldWidth) {
 										el.style.width = window.oldWidth;
@@ -667,7 +667,7 @@ export default class Rect extends Component<IProps, IState> {
 												width: '100%',
     											height: '100%',
 												position: "absolute",
-												overflow: !this.props.bleed && "hidden",
+												overflow: "hidden",
 												opacity,
 											}}
 											onDoubleClick={e => {

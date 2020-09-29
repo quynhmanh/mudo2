@@ -61,6 +61,13 @@ export interface InfiniteScrollProps {
 
     marginTop: number;
     buttonSize: number;
+    buttonHeight: any;
+    svgColor: any;
+    hideBackgroundBefore: any;
+    buttonColor: any;
+    hover: any;
+    height: any;
+    svgMargin: any;
 }
 
 interface IState {
@@ -70,7 +77,7 @@ interface IState {
 }
 
 export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, IState> {
-    public static defaultProps: Pick<InfiniteScrollProps, 'threshold' | 'throttle' | 'loaderBlack' | 'buttonSize' | 'buttonColor'> = {
+    public static defaultProps: Partial<InfiniteScrollProps> = {
         threshold: 100,
         throttle: 64,
         loaderBlack: false,

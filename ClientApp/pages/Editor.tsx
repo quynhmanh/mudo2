@@ -164,6 +164,13 @@ declare global {
         selectionStart: boolean;
         rs: any;
         selectionIDs: any;
+        imagedragging: boolean;
+        imgDragging: any;
+        oldWidth: any;
+        oldHeight: any;
+        oldTransform: any;
+        imageselected: any;
+        imagesrc: any;
     }
 }
 
