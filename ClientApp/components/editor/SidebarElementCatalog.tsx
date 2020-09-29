@@ -424,7 +424,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         width: "80px",
                                         justifyContent: "center",
                                         marginRight: "10px",
-                                        marginBottom: "10px",
                                         position: "relative",
                                     }}
                                 >
