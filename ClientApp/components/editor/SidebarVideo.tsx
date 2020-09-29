@@ -221,6 +221,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                             borderRadius: "5px",
                             height: "37px",
                             marginTop: "6px",
+                            lineHeight: "15px",
                         }}
                         onClick={() => {
                             document.getElementById("image-file").click();
