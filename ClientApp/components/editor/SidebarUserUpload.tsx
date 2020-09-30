@@ -6,6 +6,7 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import Globals from '@Globals';
 import Sidebar from "@Components/editor/SidebarStyled";
+import axios from "axios";
 
 export interface IProps {
     scale: number;
@@ -50,6 +51,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
         this.loadMore = this.loadMore.bind(this);
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
     }
 
     componentDidMount() {
@@ -249,6 +251,81 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             );
     };
 
+    uploadImage = (removeBackground, e) => {
+        console.log('uploadImage')
+        let type;
+        switch (editorStore.selectedTab) {
+            case SidebarTab.Image:
+                type = TemplateType.Image;
+                break;
+            case SidebarTab.Upload:
+                type = TemplateType.UserUpload;
+                break;
+            case SidebarTab.Background:
+                type = TemplateType.BackgroundImage;
+                break;
+            case SidebarTab.Element:
+                type = TemplateType.Element;
+                break;
+        }
+
+        var self = this;
+        var fileUploader = document.getElementById(
+            "image-file2"
+        ) as HTMLInputElement;
+        for (let i = 0; i < fileUploader.files.length; ++i) {
+            console.log('i', i)
+            let file = fileUploader.files[i];
+            let fr = new FileReader();
+            fr.readAsDataURL(file);
+            fr.onload = () => {
+                console.log('onload ', file.name)
+                var url = `/api/Media/Add`;
+                if (type === TemplateType.RemovedBackgroundImage) {
+                    url = `/api/Media/Add2`;
+                }
+                var img = new Image();
+                console.log('url ', url)
+                img.onload = function () {
+                    console.log('onload2 ', i)
+                    // var prominentColor = getMostProminentColor(i);
+                    axios
+                        .post(url, {
+                            id: uuidv4(),
+                            ext: file.name.split(".")[1],
+                            userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
+                            // color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
+                            data: fr.result,
+                            width: img.width,
+                            height: img.height,
+                            type,
+                            keywords: [(document.getElementById("keywords") as HTMLInputElement).value],
+                            title: "Manh quynh"
+                        })
+                        .then((res) => {
+                            console.log('res ', res)
+                            if (self.state.items.length <= self.state.items2.length) {
+                                self.setState({
+                                    items: [res.data, ...self.state.items2]
+                                });
+                            } else {
+                                self.setState({
+                                    items2: [res.data, ...self.state.items2]
+                                });
+                            }
+
+                            self.forceUpdate();
+                        });
+                };
+
+                console.log('iii ', i, fr.result.toString())
+                img.src = fr.result.toString();
+            };
+        }
+
+        this.forceUpdate();
+    };
+
     render() {
 
         let left = this.state.total - this.state.items.length - this.state.items2.length;
@@ -392,12 +469,23 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                     lineHeight: "15px",
                 }}
                 onClick={() => {
-                    document.getElementById("image-file").click();
+                    document.getElementById("image-file2").click();
                 }}
             >
                 {/* Tải lên một ảnh */}
                 {this.props.translate("uploadAnImage")}
             </button>
+            <input
+                id="image-file2"
+                type="file"
+                multiple
+                onLoadedData={data => { }}
+                onChange={e => { this.uploadImage(false, e);
+                }}
+                style={{
+                    bottom: 0
+                }}
+            />
         </Sidebar>
         )
     }
