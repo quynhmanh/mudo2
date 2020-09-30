@@ -44,6 +44,7 @@ export enum TemplateType {
     GroupedItem = 10,
     ClipImage = 11,
     Element = 12,
+    Gradient = 13,
 }
 
 export enum SavingState {

@@ -339,7 +339,23 @@ export default class SidebarColor extends Component<IProps, IState> {
             editorStore.images2.set(image._id, image);
             this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         }
-        else if (editorStore.idObjectSelected) {
+        if (image.type == TemplateType.Gradient) {
+            image[editorStore.colorField] = color;
+            image.colors = [
+                {
+                    field: 'stopColor1',
+                    value: image.stopColor1,
+                },
+                {
+                    field: 'stopColor2',
+                    value: image.stopColor2,
+                }
+            ]
+
+            editorStore.colors = image.colors;
+            editorStore.images2.set(image._id, image);
+            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+        } else if (editorStore.idObjectSelected) {
             image.color = color;
             image.backgroundColor = color;
             if (editorStore.childId) {

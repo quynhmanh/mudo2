@@ -10,6 +10,7 @@ import editorStore from "@Store/EditorStore";
 import { clone } from "lodash";
 import { secondToMinutes, degToRadian, } from "@Utils";
 import { getLetterSpacing } from "@Utils";
+import {camelCase} from "lodash";
 
 const zoomableMap = {
 	n: "t",
@@ -397,9 +398,24 @@ export default class Rect extends Component<IProps, IState> {
 				clipId,
 				clipWidth,
 				clipHeight,
+				clipWidth0,
+				clipHeight0,
 				path2,
+				x1, x2, y1, y2, stopColor1, stopColor2,
+				gradientTransform,
 			}
 		} = this.state;
+
+		let ABC;
+		if (type == TemplateType.Gradient) {
+			console.log('stop color ', this.props.image)
+			const xml = path ? path.replace('[SVG_ID]', clipId + name) : "";
+
+			const parser = new DOMParser();
+			const xmlDoc = parser.parseFromString(xml, 'text/xml');
+
+			ABC = processChildren(Array.from(xmlDoc.childNodes));
+		}
 
 		let zIndex = this.state.image.zIndex;
 		if (type == TemplateType.BackgroundImage) zIndex = 0;
@@ -549,7 +565,7 @@ export default class Rect extends Component<IProps, IState> {
 
 									let imgWidth2 = width;
 									let imgHeight2 = width / ratio;
-									
+
 									if (imgHeight2 < height) {
 										imgWidth2 = height * ratio;
 										imgHeight2 = height;
@@ -661,35 +677,35 @@ export default class Rect extends Component<IProps, IState> {
 										}}
 									>
 										{(type === TemplateType.Image || type === TemplateType.BackgroundImage) &&
-										<div
-											id={_id + "hihi4" + canvas}
-											style={{
-												width: '100%',
-    											height: '100%',
-												position: "absolute",
-												overflow: "hidden",
-												opacity,
-											}}
-											onDoubleClick={e => {
-												e.preventDefault();
-												this.props.handleCropBtnClick(_id);
-											}}
-										>
-											<Image
-												canvas={canvas}
-												_id={_id}
-												imgWidth={imgWidth}
-												imgHeight={imgHeight}
-												posX={posX}
-												posY={posY}
-												selected={selected}
-												cropMode={cropMode}
-												backgroundColor={backgroundColor}
-												src={src}
-												enableCropMode={null}
-												srcThumnail={srcThumnail}
-											/>
-										</div>}
+											<div
+												id={_id + "hihi4" + canvas}
+												style={{
+													width: '100%',
+													height: '100%',
+													position: "absolute",
+													overflow: "hidden",
+													opacity,
+												}}
+												onDoubleClick={e => {
+													e.preventDefault();
+													this.props.handleCropBtnClick(_id);
+												}}
+											>
+												<Image
+													canvas={canvas}
+													_id={_id}
+													imgWidth={imgWidth}
+													imgHeight={imgHeight}
+													posX={posX}
+													posY={posY}
+													selected={selected}
+													cropMode={cropMode}
+													backgroundColor={backgroundColor}
+													src={src}
+													enableCropMode={null}
+													srcThumnail={srcThumnail}
+												/>
+											</div>}
 										{(type === TemplateType.Element) && <div
 											id={_id + "hihi4" + canvas}
 											style={{
@@ -780,6 +796,26 @@ export default class Rect extends Component<IProps, IState> {
 										)}
 									</div>
 								)}
+							{(name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) && type == TemplateType.Gradient &&
+								<div>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										xmlnsXlink="http://www.w3.org/1999/xlink"
+										preserveAspectRatio="xMidYMidmeet"
+										version="1.0"
+										viewBox={`${clipWidth0} ${clipHeight0} ${clipWidth} ${clipHeight}`}
+										zoomAndPan="magnify"
+									>
+										<defs>
+											<linearGradient gradientTransform={gradientTransform} gradientUnits="userSpaceOnUse" id={clipId + name} x1={x1} x2={x2} y1={y1} y2={y2}>
+												<stop offset={0} style={{ stopColor: stopColor1, }} />
+												<stop offset={1} style={{ stopColor: stopColor2, }} />
+											</linearGradient>
+										</defs>
+										{ABC}
+									</svg>
+								</div>
+							}
 							{
 								(type === TemplateType.Video &&
 									name != CanvasType.Preview) &&
@@ -1407,7 +1443,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{cropMode &&
 								(selected && name == CanvasType.HoverLayer) &&
-								type !== TemplateType.Element && 
+								type !== TemplateType.Element &&
 								type !== TemplateType.BackgroundImage && (
 									<div
 										style={{
@@ -1516,4 +1552,55 @@ export default class Rect extends Component<IProps, IState> {
 			</div>
 		);
 	}
+}
+
+function processChildren(children) {
+	console.log('children', children)
+	return Array.from(children.length ? children : []).map(
+		(node, i) => {
+			// return if text node
+			if (node.nodeType === 3) return node.nodeValue;
+
+			// collect all attributes
+			let attributes = Array.from(node.attributes).reduce((attrs, attr) => {
+				if (attr.name == "style") {
+					attrs[attr.name] = createStyleJsonFromString(attr.value);
+					console.log('hehe', attr.value, attrs[attr.name])
+				} else {
+					attrs[attr.name] = attr.value;
+				}
+				return attrs;
+			}, {});
+
+			// create React component
+			return React.createElement(node.nodeName, {
+				...attributes,
+				key: i
+			}, processChildren(node.childNodes));
+		});
+}
+
+function createStyleJsonFromString(styleString) {
+	styleString = styleString || '';
+	var styles = styleString.split(/;(?!base64)/);
+	console.log('styles ', styles)
+	var singleStyle, key, value, jsonStyles = {};
+	for (var i = 0; i < styles.length; ++i) {
+		singleStyle = styles[i].split(':');
+		if (singleStyle.length > 2) {
+			singleStyle[1] = singleStyle.slice(1).join(':');
+		}
+
+		key = singleStyle[0];
+		value = singleStyle[1];
+		if (typeof value === 'string') {
+			value = value.trim();
+		}
+
+		if (key != null && value != null && key.length > 0 && value.length > 0) {
+			jsonStyles[camelCase(key)] = value;
+		  }
+	}
+
+	return jsonStyles;
 }

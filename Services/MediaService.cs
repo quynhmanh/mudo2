@@ -14,7 +14,7 @@ namespace RCB.TypeScript.Services
     public class MediaService : ServiceBase
     {
 
-        const string DefaultIndex = "media-02";
+        const string DefaultIndex = "media-03";
 
         private MediaContext _mediaContext;
 
@@ -75,11 +75,20 @@ namespace RCB.TypeScript.Services
             page.FirstName = model.FirstName;
             page.Keywords = model.Keywords;
             page.ClipId = model.ClipId;
+            page.ClipWidth0 = model.ClipWidth0;
+            page.ClipHeight0 = model.ClipHeight0;
             page.ClipWidth = model.ClipWidth;
             page.ClipHeight = model.ClipHeight;
             page.Path = model.Path;
             page.Path2 = model.Path2;
             page.Popularity = model.Popularity;
+            page.x1 = model.x1;
+            page.y1 = model.y1;
+            page.x2 = model.x2;
+            page.y2 = model.y2;
+            page.StopColor1 = model.StopColor1;
+            page.StopColor2 = model.StopColor2;
+            page.GradientTransform = model.GradientTransform;
 
             var updateResponse = client.Update<MediaModel>(page, u => u.Doc(page));
 

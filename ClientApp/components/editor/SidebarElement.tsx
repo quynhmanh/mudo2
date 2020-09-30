@@ -74,6 +74,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         this.handleQuery = this.handleQuery.bind(this);
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
         this.frameOnMouseDownload = this.frameOnMouseDownload.bind(this);
+        this.gradientOnMouseDown = this.gradientOnMouseDown.bind(this);
     }
 
     componentDidMount() {
@@ -86,6 +87,153 @@ export default class SidebarEffect extends Component<IProps, IState> {
             return true;
         }
         return false;
+    }
+
+    gradientOnMouseDown(img, el, e) {
+        let scale = this.props.scale;
+
+        let target = el.cloneNode(true);
+        target.style.zIndex = "11111111111";
+        target.src = img.representativeThumbnail
+            ? img.representativeThumbnail
+            : el.src;
+        target.style.width = el.getBoundingClientRect().width + "px";
+        target.style.backgroundColor = el.style.backgroundColor;
+        document.body.appendChild(target);
+        let self = this;
+        let imgDragging = target;
+        let posX = e.pageX - el.getBoundingClientRect().left;
+        let dragging = true;
+        let posY = e.pageY - el.getBoundingClientRect().top;
+        let image = el;
+        let recScreenContainer = document
+            .getElementById("screen-container-parent")
+            .getBoundingClientRect();
+        let beingInScreenContainer = false;
+
+        const onMove = e => {
+            window.imagedragging = true;
+            image.style.opacity = 0;
+            if (dragging) {
+                let rec2 = imgDragging.getBoundingClientRect();
+                if (
+                    beingInScreenContainer === false &&
+                    recScreenContainer.left < rec2.left &&
+                    recScreenContainer.right > rec2.right &&
+                    recScreenContainer.top < rec2.top &&
+                    recScreenContainer.bottom > rec2.bottom
+                ) {
+                    beingInScreenContainer = true;
+
+                    setTimeout(() => {
+                        target.style.transitionDuration = "";
+                    }, 50);
+                }
+
+                if (
+                    beingInScreenContainer === true &&
+                    !(
+                        recScreenContainer.left < rec2.left &&
+                        recScreenContainer.right > rec2.right &&
+                        recScreenContainer.top < rec2.top &&
+                        recScreenContainer.bottom > rec2.bottom
+                    )
+                ) {
+                    beingInScreenContainer = false;
+
+                    setTimeout(() => {
+                        target.style.transitionDuration = "";
+                    }, 50);
+                }
+
+                target.style.left = e.pageX - posX + "px";
+                target.style.top = e.pageY - posY + "px";
+                target.style.position = "absolute";
+            }
+        };
+
+        const onUp = evt => {
+            window.imagedragging = false;
+            dragging = false;
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
+
+            let recs = document.getElementsByClassName("alo");
+            let rec2 = imgDragging.getBoundingClientRect();
+            for (let i = 0; i < recs.length; ++i) {
+                let rec = recs[i].getBoundingClientRect();
+                if (
+                    rec.left < rec2.right &&
+                    rec.right > rec2.left &&
+                    rec.top < rec2.bottom &&
+                    rec.bottom > rec2.top
+                ) {
+                    let newImg = {
+                        _id: uuidv4(),
+                        type: TemplateType.Gradient,
+                        width: rec2.width / scale,
+                        height: rec2.height / scale,
+                        origin_width: rec2.width / scale,
+                        origin_height: rec2.height / scale,
+                        left: (rec2.left - rec.left) / scale,
+                        top: (rec2.top - rec.top) / scale,
+                        rotateAngle: 0.0,
+                        src: !img.representative.startsWith("data")
+                            ? window.location.origin + "/" + img.representative
+                            : img.representative,
+                        srcThumnail: img.representativeThumbnail,
+                        backgroundColor: target.style.backgroundColor,
+                        selected: true,
+                        scaleX: 1,
+                        scaleY: 1,
+                        clipScale: (rec2.width) / img.clipWidth,
+                        posX: 0,
+                        posY: 0,
+                        imgWidth: rec2.width / scale,
+                        imgHeight: rec2.height / scale,
+                        page: editorStore.pages[i],
+                        zIndex: editorStore.upperZIndex + 1,
+                        freeStyle: img.freeStyle,
+                        path: img.path,
+                        clipId: img.clipId,
+                        clipWidth: img.clipWidth,
+                        clipHeight: img.clipHeight,
+                        clipWidth0: img.clipWidth0,
+                        clipHeight0: img.clipHeight0,
+                        path2: img.path2,
+                        x1: img.x1,
+                        y1: img.y1,
+                        x2: img.x2,
+                        y2: img.y2,
+                        stopColor1: img.stopColor1,
+                        stopColor2: img.stopColor2,
+                        gradientTransform: img.gradientTransform,
+                        colors: [
+                            {
+                                'field': 'stopColor1',
+                                'value': img.stopColor1,
+                            },
+                            {
+                                'field': 'stopColor2',
+                                'value': img.stopColor2,
+                            },
+                        ]
+                    };
+
+                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    editorStore.addItem2(newImg, false);
+                    editorStore.increaseUpperzIndex();
+
+                    this.props.handleImageSelected(newImg._id, editorStore.pages[i], false, true, false);
+                }
+            }
+
+            imgDragging.remove();
+
+            image.style.opacity = 1;
+        };
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onUp);
     }
 
     frameOnMouseDownload(img, el, e) {
@@ -221,8 +369,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     imgOnMouseDown(img, el, e) {
-        console.log('arguments ', arguments)
-
         let scale = this.props.scale;
 
         let target = el.cloneNode(true);
@@ -495,6 +641,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 imgOnMouseDown={this.imgOnMouseDown}
                                 frameOnMouseDownload={this.frameOnMouseDownload}
                             />
+                            <SidebarElement
+                                term="Gradients"
+                                handleQuery={this.handleQuery}
+                                selectedTab={this.props.selectedTab}
+                                imgOnMouseDown={this.gradientOnMouseDown}
+                                // frameOnMouseDownload={this.frameOnMouseDownload}
+                            />
                         </div>
                         {this.state.query && this.state.items.map((item, key) => {
                             let width, height;
@@ -510,9 +663,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     e.preventDefault();
                                     let el = e.currentTarget.getElementsByTagName("img")[0];
                                     if (item.keywords && item.keywords[0] == "Frame")
-                                        this.frameOnMouseDownload(item, el, e)
-                                    else
-                                        this.imgOnMouseDown(item, el, e)
+                                        this.frameOnMouseDownload(item, el, e);
+                                    else if (item.keywords && item.keywords[0] == "Gradients")
+                                        this.gradientOnMouseDown(item, el, e);
+                                    else this.imgOnMouseDown(item, el, e)
                                 }}
                             >
                                 <ImagePicker

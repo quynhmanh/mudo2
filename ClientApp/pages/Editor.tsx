@@ -1532,7 +1532,7 @@ class CanvaEditor extends Component<IProps, IState> {
             ratio = image.width / image.height;
         }
 
-        if ((image.type == TemplateType.Image || image.type == TemplateType.Video || image.type == TemplateType.GroupedItem || image.type == TemplateType.Element) &&
+        if ((image.type == TemplateType.Image || image.type == TemplateType.Video || image.type == TemplateType.GroupedItem || image.type == TemplateType.Element || image.type == TemplateType.Gradient) &&
             (type == "tl" || type == "tr" || type == "bl" || type == "br")) {
             ratio = image.width / image.height;
         } else if ((image.type == TemplateType.Heading || image.type == TemplateType.TextTemplate) &&
@@ -4217,6 +4217,7 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.pageId = pageId;
         editorStore.effectId = image.effectId;
         editorStore.currentOpacity = image.opacity ? image.opacity : 100;
+        editorStore.colors = image.colors;
         if (!editorStore.childId) {
             editorStore.currentFontSize = image.fontSize * image.scaleY;
             editorStore.fontId = image.fontId;

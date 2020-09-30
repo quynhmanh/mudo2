@@ -312,6 +312,21 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     handleCancelBtnClick={props.handleCancelBtnClick}
                 />
+                {editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map(color => 
+                    <button 
+                        style={{
+                            backgroundColor: color.value,
+                            width: '30px',
+                            border: 'none',
+                            marginRight: '7px',
+                        }}
+                        onClick={e => {
+                            editorStore.selectedTab = SidebarTab.Color;
+                            editorStore.colorField = color.field;
+                        }}    
+                    >
+
+                    </button>)}
             </React.Fragment>
         )
     }

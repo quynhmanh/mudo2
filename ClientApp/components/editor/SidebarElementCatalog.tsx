@@ -147,10 +147,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     onMouseDown={e => {
                                         e.preventDefault();
                                         let el = e.currentTarget.getElementsByTagName("img")[0];
-                                        if (item.keywords && item.keywords[0] == "Frame")
-                                            this.props.frameOnMouseDownload(item, el, e)
-                                        else
-                                            this.props.imgOnMouseDown(item, el, e)
+                                        this.props.imgOnMouseDown(item, el, e);
                                     }}
                                 >
                                     <ImagePicker

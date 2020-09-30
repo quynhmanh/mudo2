@@ -79,6 +79,12 @@ namespace RCB.TypeScript.Controllers
             [JsonProperty(PropertyName = "clipId")]
             public string clipId;
 
+            [JsonProperty(PropertyName = "clipWidth0")]
+            public float clipWidth0 { get; set; }
+
+            [JsonProperty(PropertyName = "clipHeight0")]
+            public float clipHeight0 { get; set; }
+
             [JsonProperty(PropertyName = "clipWidth")]
             public float clipWidth { get; set; }
 
@@ -93,6 +99,26 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "popularity")]
             public long popularity { get; set; }
+
+            [JsonProperty(PropertyName = "x1")]
+            public string x1 { get; set; }
+
+            [JsonProperty(PropertyName = "y1")]
+            public string y1 { get; set; }
+
+            [JsonProperty(PropertyName = "x2")]
+            public string x2 { get; set; }
+
+            [JsonProperty(PropertyName = "y2")]
+            public string y2 { get; set; }
+            [JsonProperty(PropertyName = "stopColor1")]
+            public string stopColor1 { get; set; }
+            
+            [JsonProperty(PropertyName = "stopColor2")]
+            public string stopColor2 { get; set; }
+
+            [JsonProperty(PropertyName = "gradientTransform")]
+            public string GradientTransform { get; set; }
         }
 
         [HttpPost("[action]")]
@@ -411,9 +437,18 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.ClipId = oDownloadBody.clipId;
                 mediaModel.ClipWidth = oDownloadBody.clipWidth;
                 mediaModel.ClipHeight = oDownloadBody.clipHeight;
+                mediaModel.ClipWidth0 = oDownloadBody.clipWidth0;
+                mediaModel.ClipHeight0 = oDownloadBody.clipHeight0;
                 mediaModel.Path = oDownloadBody.path;
                 mediaModel.Path2 = oDownloadBody.path2;
                 mediaModel.Popularity = oDownloadBody.popularity;
+                mediaModel.x1 = oDownloadBody.x1;
+                mediaModel.y1 = oDownloadBody.y1;
+                mediaModel.x2 = oDownloadBody.x2;
+                mediaModel.y2 = oDownloadBody.y2;
+                mediaModel.StopColor1 = oDownloadBody.stopColor1;
+                mediaModel.StopColor2 = oDownloadBody.stopColor2;
+                mediaModel.GradientTransform = oDownloadBody.GradientTransform;
 
                 MediaService.Edit(mediaModel);
             }

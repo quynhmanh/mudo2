@@ -30,9 +30,18 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         document.getElementById("clipId").value = this.props.item.clipId;
         document.getElementById("clipWidth").value = this.props.item.clipWidth;
         document.getElementById("clipHeight").value = this.props.item.clipHeight;
+        document.getElementById("clipWidth0").value = this.props.item.clipWidth0;
+        document.getElementById("clipHeight0").value = this.props.item.clipHeight0;
         document.getElementById("path").value = this.props.item.path;
         document.getElementById("path2").value = this.props.item.path2;
         document.getElementById("popularity2").value = this.props.item.popularity;
+        document.getElementById("x1").value = this.props.item.x1;
+        document.getElementById("x2").value = this.props.item.x2;
+        document.getElementById("y1").value = this.props.item.y1;
+        document.getElementById("y2").value = this.props.item.x2;
+        document.getElementById("stopColor1").value = this.props.item.stopColor1;
+        document.getElementById("stopColor2").value = this.props.item.stopColor2;
+        document.getElementById("gradientTransform").value = this.props.item.gradientTransform;
     }
 
     handleAddNewKeyword = () => {
@@ -44,9 +53,18 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         const clipId = document.getElementById("clipId").value;
         const clipWidth = document.getElementById("clipWidth").value;
         const clipHeight = document.getElementById("clipHeight").value;
+        const clipWidth0 = document.getElementById("clipWidth0").value;
+        const clipHeight0 = document.getElementById("clipHeight0").value;
         const path = document.getElementById("path").value;
         const path2 = document.getElementById("path2").value;
         const popularity = document.getElementById("popularity2").value;
+        const x1 = document.getElementById("x1").value;
+        const x2 = document.getElementById("x2").value;
+        const y1 = document.getElementById("y1").value;
+        const y2 = document.getElementById("y2").value;
+        const stopColor1 = document.getElementById("stopColor1").value;
+        const stopColor2 = document.getElementById("stopColor2").value;
+        const gradientTransform = document.getElementById("gradientTransform").value;
         console.log('popularity', popularity)
         var url = `/api/Media/Edit`;
         axios.post(url, 
@@ -57,9 +75,18 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
             clipId,
             clipWidth,
             clipHeight,
+            clipWidth0,
+            clipHeight0,
             path,
             path2,
             popularity,
+            x1,
+            x2,
+            y1,
+            y2,
+            stopColor1,
+            stopColor2,
+            gradientTransform,
         })
             .then(res => {
                 if (res.status === 200) {
@@ -154,18 +181,22 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                         <input onChange={this.handleKeywordChanged.bind(this, index)} className='unblurred' type="text" value={kw} />
                         <button className='unblurred' onClick={this.handleRemove.bind(this, index)} value={kw}>Remove</button>
                     </div>)}
-                    <p className='unblurred'>clip id</p>
-                    <input className='unblurred' id="clipId" type="text" />
-                    <p className='unblurred'>clip width</p>
-                    <input className='unblurred' id="clipWidth" type="text" />
-                    <p className='unblurred'>clip height</p>
-                    <input className='unblurred' id="clipHeight" type="text" />
-                    <p className='unblurred'>path</p>
-                    <input className='unblurred' id="path" type="text" />
-                    <p className='unblurred'>path2</p>
-                    <input className='unblurred' id="path2" type="text" />
-                    <p className='unblurred'>popularity</p>
-                    <input className='unblurred' id="popularity2" type="text" />
+                    <input className='unblurred' id="clipId" type="text" placeholder="clip id" />
+                    <input className='unblurred' id="clipWidth" type="text" placeholder="clip width" />
+                    <input className='unblurred' id="clipHeight" type="text" placeholder="clip height"/>
+                    <input className='unblurred' id="clipWidth0" type="text" placeholder="clip width 0" />
+                    <input className='unblurred' id="clipHeight0" type="text" placeholder="clip height 0"/>
+                    <input className='unblurred' id="path" type="text" placeholder="path"/>
+                    <input className='unblurred' id="path2" type="text" placeholder="path2"/>
+                    <input className='unblurred' id="popularity2" type="text" placeholder="popularity2"/>
+                    <input className='unblurred' id="x1" type="text" placeholder="x1"/>
+                    <input className='unblurred' id="y1" type="text" placeholder="y1"/>
+                    <input className='unblurred' id="x2" type="text" placeholder="x2"/>
+                    <input className='unblurred' id="y2" type="text" placeholder="y2"/>
+                    <input className='unblurred' id="stopColor1" type="text" placeholder="stop color 1"/>
+                    <input className='unblurred' id="stopColor2" type="text" placeholder="stop color 2"/>
+                    <input className='unblurred' id="xml" type="text" placeholder="xml"/>
+                    <input className='unblurred' id="gradientTransform" type="text" placeholder="gradientTransform"/>
                     <div
                         className='unblurred'
                         style={{
