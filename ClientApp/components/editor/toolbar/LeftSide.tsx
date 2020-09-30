@@ -334,7 +334,7 @@ const ColorButton = styled.div`
     width: 33px;
     height: 33px;
     border: none;
-    margin-left: 7px;
+    margin-left: 2px;
     margin-top: -2px;
     padding: 4px;
     border-radius: 5px;
