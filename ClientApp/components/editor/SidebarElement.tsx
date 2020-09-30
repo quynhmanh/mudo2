@@ -648,7 +648,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.imgOnMouseDown}
-                                frameOnMouseDownload={this.frameOnMouseDownload}
+                                frameOnMouseDownload={this.gradientOnMouseDown}
                             />
                             <SidebarElement
                                 term="Stickers"
@@ -681,6 +681,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     if (item.keywords && item.keywords[0] == "Frame")
                                         this.frameOnMouseDownload(item, el, e);
                                     else if (item.keywords && item.keywords[0] == "Gradients")
+                                        this.gradientOnMouseDown(item, el, e);
+                                    else if (item.keywords && item.keywords[0] == "Shapes")
                                         this.gradientOnMouseDown(item, el, e);
                                     else this.imgOnMouseDown(item, el, e)
                                 }}
