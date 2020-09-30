@@ -10,7 +10,7 @@ import editorStore from "@Store/EditorStore";
 import { clone } from "lodash";
 import { secondToMinutes, degToRadian, } from "@Utils";
 import { getLetterSpacing } from "@Utils";
-import {camelCase} from "lodash";
+import { camelCase } from "lodash";
 
 const zoomableMap = {
 	n: "t",
@@ -409,7 +409,7 @@ export default class Rect extends Component<IProps, IState> {
 		let ABC;
 		if (type == TemplateType.Gradient) {
 			console.log('stop color ', this.props.image)
-			const xml = path ? path.replace('[SVG_ID]', _id+ clipId + name) : "";
+			const xml = path ? path.replace('[SVG_ID]', _id + clipId + name) : "";
 
 			const parser = new DOMParser();
 			const xmlDoc = parser.parseFromString(xml, 'text/xml');
@@ -664,7 +664,7 @@ export default class Rect extends Component<IProps, IState> {
 								(cropMode && name == CanvasType.HoverLayer) ||
 								name == CanvasType.Download) &&
 								src &&
-								(type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.Element) && (
+								(type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.Element || type == TemplateType.Gradient) && (
 									<div
 										id={_id}
 										style={{
@@ -791,14 +791,59 @@ export default class Rect extends Component<IProps, IState> {
 															src={src}
 														/>
 													)}
+													{name == CanvasType.HoverLayer && (type === TemplateType.Gradient) && (
+														<svg
+														style={{
+															width: "100%",
+															height: "100%",
+															opacity: 0.5,
+															transformOrigin: "0 0",
+														}}
+														xmlns="http://www.w3.org/2000/svg"
+														xmlnsXlink="http://www.w3.org/1999/xlink"
+														preserveAspectRatio="xMidYMidmeet"
+														version="1.0"
+														viewBox={`${clipWidth0} ${clipHeight0} ${clipWidth} ${clipHeight}`}
+														zoomAndPan="magnify"
+													>
+														<defs>
+															<linearGradient gradientTransform={gradientTransform} gradientUnits="userSpaceOnUse" id={_id + clipId + name} x1={x1} x2={x2} y1={y1} y2={y2}>
+																<stop offset={0} style={{ stopColor: stopColor1, }} />
+																<stop offset={1} style={{ stopColor: stopColor2, }} />
+															</linearGradient>
+														</defs>
+														{ABC}
+													</svg>
+													)}
 												</div>
 											</div>
 										)}
 									</div>
 								)}
 							{(name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) && type == TemplateType.Gradient &&
-								<div>
+								<div
+									id={_id}
+									style={{
+										zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage && type !== TemplateType.Element ? 1 : 0,
+										transformOrigin: "0 0",
+										position: "absolute",
+										width: "100%",
+										height: "100%",
+										pointerEvents: "none",
+										overflow: type == TemplateType.Gradient ? 'hidden' : 'auto',
+									}}
+								>
 									<svg
+										id={_id + "1235" + canvas}
+										className={`${_id}1236`}
+										style={{
+											zIndex: 9999999,
+											width: imgWidth + "px",
+											height: imgHeight + "px",
+											transform: `translate(${posX}px, ${posY}px)`,
+											opacity: 1,
+											transformOrigin: "0 0",
+										}}
 										xmlns="http://www.w3.org/2000/svg"
 										xmlnsXlink="http://www.w3.org/1999/xlink"
 										preserveAspectRatio="xMidYMidmeet"
@@ -1383,7 +1428,11 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{
 								(cropMode &&
-									(type === TemplateType.Image || type == TemplateType.BackgroundImage || type === TemplateType.Video || type == TemplateType.Element)) &&
+									(type === TemplateType.Image ||
+										type == TemplateType.BackgroundImage ||
+										type === TemplateType.Video ||
+										type == TemplateType.Element ||
+										type == TemplateType.Gradient)) &&
 								(name != CanvasType.Preview) &&
 								<div
 									id={_id + "6543" + canvas}
@@ -1394,6 +1443,7 @@ export default class Rect extends Component<IProps, IState> {
 										position: "absolute",
 										width: '100%',
 										height: '100%',
+										zIndex: 1,
 										background: type == TemplateType.Video && selected && name != CanvasType.Download && !cropMode &&
 											'linear-gradient(0deg, rgba(0,0,0,0.7147233893557423) 0%, rgba(13,1,1,0) 34%)',
 									}}
@@ -1599,7 +1649,7 @@ function createStyleJsonFromString(styleString) {
 
 		if (key != null && value != null && key.length > 0 && value.length > 0) {
 			jsonStyles[camelCase(key)] = value;
-		  }
+		}
 	}
 
 	return jsonStyles;

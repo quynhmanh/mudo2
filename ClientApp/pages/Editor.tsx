@@ -1698,6 +1698,7 @@ class CanvaEditor extends Component<IProps, IState> {
         objectType,
         ratio,
     ) => {
+        console.log('handleResize')
         const {
             scale,
             cropMode,
@@ -2132,7 +2133,7 @@ class CanvaEditor extends Component<IProps, IState> {
             });
         }
 
-        if ((objectType === TemplateType.Image || objectType === TemplateType.Video) && !cropMode) {
+        if ((objectType === TemplateType.Image || objectType === TemplateType.Video || objectType == TemplateType.Gradient) && !cropMode) {
             const scaleLeft = image.posX / image.imgWidth;
             const scaleTop = image.posY / image.imgHeight;
             const ratio = image.imgWidth / image.imgHeight;
@@ -2193,7 +2194,7 @@ class CanvaEditor extends Component<IProps, IState> {
             }
         }
 
-        if ((objectType === TemplateType.Image || objectType == TemplateType.Video) && cropMode) {
+        if ((objectType === TemplateType.Image || objectType == TemplateType.Video || objectType == TemplateType.Gradient) && cropMode) {
             if (type == "tl" || type == "bl") {
                 posX += width - image.width;
             }
@@ -2468,7 +2469,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 let newPosX = image2.posX / image.width * width;
                 let newPosY = image2.posY / image.height * height;
 
-                if (image2.type == TemplateType.Image) {
+                if (image2.type == TemplateType.Image || image2.type == TemplateType.Gradient) {
+                    console.log('asd')
                     let el = document.getElementById(image2._id + "1235alo");
                     if (el) {
                         el.style.width = newImgWidth * scale + "px";
@@ -2920,6 +2922,8 @@ class CanvaEditor extends Component<IProps, IState> {
         window.scaleY = image.scaleY;
         window.origin_width = image.origin_width;
         window.origin_height = image.origin_height;
+
+        console.log('asd')
 
         let el = document.getElementsByClassName(_id + "1236");
         for (let i = 0; i < el.length; ++i) {
