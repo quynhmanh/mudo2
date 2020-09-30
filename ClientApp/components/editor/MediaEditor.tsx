@@ -38,7 +38,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         document.getElementById("x1").value = this.props.item.x1;
         document.getElementById("x2").value = this.props.item.x2;
         document.getElementById("y1").value = this.props.item.y1;
-        document.getElementById("y2").value = this.props.item.x2;
+        document.getElementById("y2").value = this.props.item.y2;
         document.getElementById("stopColor1").value = this.props.item.stopColor1;
         document.getElementById("stopColor2").value = this.props.item.stopColor2;
         document.getElementById("gradientTransform").value = this.props.item.gradientTransform;
