@@ -175,10 +175,11 @@ class LeftSide extends Component<IProps, IState> {
 
     componentDidMount() {
         let height = imgWidth / editorStore.templateRatio + 10;
+        console.log('document.getElementById(sidebar-content).getBoundingClientRect().height', document.getElementById('sidebar-content').getBoundingClientRect().height)
         this.rem = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / height) + 1) * 2;
         this.elRem = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / 105) + 1) * 3;
 
-        this.setState({mounted: true,})
+        this.setState({ mounted: true, })
     }
 
     handleMakeAsPopular = () => {
@@ -324,7 +325,7 @@ class LeftSide extends Component<IProps, IState> {
                             }
                         });
                 };
-                
+
                 console.log('iii ', i, fr.result.toString())
                 img.src = fr.result.toString();
             };
@@ -415,7 +416,7 @@ class LeftSide extends Component<IProps, IState> {
                                 ? this.uploadVideo()
                                 : editorStore.selectedTab === SidebarTab.Font
                                     ? this.uploadFont(e)
-                                    : this.uploadImage(false, e );
+                                    : this.uploadImage(false, e);
                         }}
                         style={{
                             bottom: 0
@@ -426,11 +427,11 @@ class LeftSide extends Component<IProps, IState> {
                             bottom: 0
                         }}
                         type="submit"
-                        onClick={ e => {
+                        onClick={e => {
                             if (editorStore.selectedTab == SidebarTab.Font)
                                 this.uploadFont(e);
                             else this.uploadImage.bind(
-                                    false
+                                false
                             )
                         }}
                     >
@@ -439,11 +440,11 @@ class LeftSide extends Component<IProps, IState> {
                     <span>IsVideo</span>
                     <input type="checkbox" id="vehicle1" checked={editorStore.isVideo} onChange={e => {
                         editorStore.isVideo = !editorStore.isVideo;
-                    }}/>
+                    }} />
                     <span>Ispopular</span>
                     <input type="checkbox" id="vehicle1" checked={editorStore.isPopular} onChange={e => {
                         editorStore.isPopular = !editorStore.isPopular;
-                    }}/>
+                    }} />
                     <input id="popularity" type="text" placeholder="popularity" value={editorStore.popularity} onChange={e => {
                         editorStore.popularity = parseInt(e.target.value);
                     }} />
@@ -488,25 +489,25 @@ class LeftSide extends Component<IProps, IState> {
                     </button>
                     <button
                         onClick={e => {
-                            this.props.saveImages(null, false, true)}
+                            this.props.saveImages(null, false, true)
+                        }
                         }
                     >
                         Save
                         </button>
                 </div>
-                {/* {this.props.mounted && this.props.toolbarOpened && editorStore.tReady && ( */}
-                    <div
-                        id="sidebar-content"
-                        style={{
-                            position: "relative",
-                            height: `calc(100% - ${
-                                editorStore.isAdmin
-                                       ? 78
-                                    : 0
-                                }px)`,
-                            width: "370px",
-                        }}
-                    >
+                <div
+                    id="sidebar-content"
+                    style={{
+                        position: "relative",
+                        height: `calc(100% - ${editorStore.isAdmin
+                                ? 78
+                                : 0
+                            }px)`,
+                        width: "370px",
+                    }}
+                >
+                    {this.state.mounted && <div>
                         <SidebarImage
                             scale={this.props.scale}
                             handleImageSelected={this.props.handleImageSelected}
@@ -524,18 +525,18 @@ class LeftSide extends Component<IProps, IState> {
                             scale={this.props.scale}
                             setSavingState={this.props.setSavingState}
                         />
-                        {editorStore.templateRatio && this.state.mounted && this.props.mounted && editorStore.tReady && 
-                        <SidebarTemplate
-                            handleEditmedia={this.props.handleEditmedia}
-                            scale={this.props.scale}
-                            translate={this.props.translate}
-                            selectedTab={editorStore.selectedTab}
-                            subtype={editorStore.subtype}
-                            rectWidth={this.props.rectWidth}
-                            rectHeight={this.props.rectHeight}
-                            forceEditorUpdate={this.props.forceEditorUpdate}
-                            rem={this.rem}
-                        />}
+                        {editorStore.templateRatio && this.state.mounted && this.props.mounted && editorStore.tReady &&
+                            <SidebarTemplate
+                                handleEditmedia={this.props.handleEditmedia}
+                                scale={this.props.scale}
+                                translate={this.props.translate}
+                                selectedTab={editorStore.selectedTab}
+                                subtype={editorStore.subtype}
+                                rectWidth={this.props.rectWidth}
+                                rectHeight={this.props.rectHeight}
+                                forceEditorUpdate={this.props.forceEditorUpdate}
+                                rem={this.rem}
+                            />}
                         <SidebarBackground
                             handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
@@ -545,6 +546,7 @@ class LeftSide extends Component<IProps, IState> {
                             rectHeight={this.props.rectHeight}
                             handleImageSelected={this.props.handleImageSelected}
                             updateImages={this.props.updateImages}
+                            rem={this.elRem}
                         />
                         <SidebarFont
                             updateImages={this.props.updateImages}
@@ -608,8 +610,8 @@ class LeftSide extends Component<IProps, IState> {
                                 setSavingState={this.props.setSavingState}
                             />
                         }
-                    </div>
-                {/* )} */}
+                    </div>}
+                </div>
             </div>
         );
     }

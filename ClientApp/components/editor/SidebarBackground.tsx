@@ -33,6 +33,16 @@ export interface IState {
 }
 
 const backgroundWidth = 105;
+const imgWidth = 105;
+
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: imgWidth,
+        height: imgWidth,
+        id: "sentinel-background",
+    }
+});
+
 
 export default class SidebarBackground extends Component<IProps, IState> {
     state = {
@@ -50,8 +60,14 @@ export default class SidebarBackground extends Component<IProps, IState> {
         loaded: false,
     }
 
+    rem = 10;
+    left = 10;
+
     constructor(props) {
         super(props);
+
+        this.state.items = getRem(props.rem);
+        this.left = props.rem;
 
         this.loadMore = this.loadMore.bind(this);
         this.backgroundOnMouseDown = this.backgroundOnMouseDown.bind(this);
@@ -125,44 +141,18 @@ export default class SidebarBackground extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
-                    var result = res.value.key;
-                    var currentItemsHeight = this.state.currentItemsHeight;
-                    var currentItems2Height = this.state.currentItems2Height;
-                    var currentItems3Height = this.state.currentItems3Height;
-                    var res1 = [];
-                    var res2 = [];
-                    var res3 = [];
-                    for (var i = 0; i < result.length; ++i) {
-                        var currentItem = result[i];
-                        if (
-                            currentItemsHeight <= currentItems2Height &&
-                            currentItemsHeight <= currentItems3Height
-                        ) {
-                            res1.push(currentItem);
-                            currentItemsHeight +=
-                                backgroundWidth / (currentItem.width / currentItem.height);
-                        } else if (
-                            currentItems2Height <= currentItemsHeight &&
-                            currentItems2Height <= currentItems3Height
-                        ) {
-                            res2.push(currentItem);
-                            currentItems2Height +=
-                                backgroundWidth / (currentItem.width / currentItem.height);
-                        } else {
-                            res3.push(currentItem);
-                            currentItems3Height +=
-                                backgroundWidth / (currentItem.width / currentItem.height);
-                        }
+                    let result = res.value.key;
+                    let items = this.state.items.filter(item => item.id != "sentinel-background");
+                    items = [...items, ...result];
+                    let hasMore = res.value.value > items.length;
+                    if (hasMore) {
+                        let left = Math.min(this.rem, res.value.value - items.length);
+                        this.left = left;
+                        items = [...items, ...getRem(left)];
                     }
 
-
                     this.setState(state => ({
-                        items: [...state.items, ...res1],
-                        items2: [...state.items2, ...res2],
-                        items3: [...state.items3, ...res3],
-                        currentItemsHeight,
-                        currentItems2Height,
-                        currentItems3Height,
+                        items,
                         isLoading: false,
                         total: res.value.value,
                         hasMore: res.value.value > state.items.length + state.items2.length + state.items3.length + res.value.key.length
@@ -177,15 +167,6 @@ export default class SidebarBackground extends Component<IProps, IState> {
     };
 
     render() {
-
-        let left = this.state.total - this.state.items.length - this.state.items2.length - this.state.items3.length;
-        let t = Math.round(Math.min(left/3, 5));
-
-        if (!this.state.loaded) {
-            t = 5;
-            left = 1;
-        }
-
         return (
             <Sidebar
                 selectedTab={editorStore.selectedTab}
@@ -205,19 +186,14 @@ export default class SidebarBackground extends Component<IProps, IState> {
                         id="image-container-picker"
                         style={{
                             display: "flex",
-                            padding: "10px 13px 10px 0px"
+                            padding: "10px 0px 10px 0px"
                         }}
                     >
-                        <div
-                            style={{
-                                width: "350px",
-                            }}
-                        >
+                        <div>
                             {this.state.items.map((item, key) => (
                                 <ImagePicker
                                     showButton={true}
-                                    className="image-picker"
-                                    id=""
+                                    id={item.id}
                                     delay={0}
                                     width={backgroundWidth}
                                     key={key}
@@ -229,107 +205,6 @@ export default class SidebarBackground extends Component<IProps, IState> {
                                     onEdit={this.props.handleEditmedia.bind(this, item)}
                                 />
                             ))}
-                            {this.state.hasMore &&
-                                Array(t)
-                                    .fill(0)
-                                    .map((item, i) => (
-                                        <ImagePicker
-                                            showButton={false}
-                                            key={i}
-                                            id="sentinel-background"
-                                            color="black"
-                                            src={""}
-                                            height={backgroundWidth}
-                                            width={backgroundWidth}
-                                            defaultHeight={backgroundWidth}
-                                            className=""
-                                            onPick={null}
-                                            onEdit={this.props.handleEditmedia.bind(this, null)}
-                                            delay={0}
-                                        />
-                                    ))}
-                        </div>
-                        <div
-                            style={{
-                                width: "350px",
-                            }}
-                        >
-                            {this.state.items2.map((item, key) => (
-                                <ImagePicker
-                                    showButton={true}
-                                    className="image-picker"
-                                    width={backgroundWidth}
-                                    id=""
-                                    key={key}
-                                    color={item.color}
-                                    src={item.representativeThumbnail}
-                                    height={backgroundWidth / (item.width / item.height)}
-                                    defaultHeight={backgroundWidth}
-                                    onPick={this.backgroundOnMouseDown.bind(this, item)}
-                                    onEdit={this.props.handleEditmedia.bind(this, item)}
-                                    delay={150}
-                                />
-                            ))}
-                            {this.state.hasMore &&
-                                Array(t)
-                                    .fill(0)
-                                    .map((item, i) => (
-                                        <ImagePicker
-                                            showButton={false}
-                                            key={i}
-                                            id="sentinel-background"
-                                            color="black"
-                                            src={""}
-                                            height={backgroundWidth}
-                                            defaultHeight={backgroundWidth}
-                                            className=""
-                                            width={backgroundWidth}
-                                            onPick={null}
-                                            onEdit={this.props.handleEditmedia.bind(this, null)}
-                                            delay={150}
-                                        />
-                                    ))}
-                        </div>
-                        <div
-                            style={{
-                                width: "350px"
-                            }}
-                        >
-                            {this.state.items3.map((item, key) => (
-                                <ImagePicker
-                                    showButton={true}
-                                    id=""
-                                    className="image-picker"
-                                    key={key}
-                                    color={item.color}
-                                    src={item.representativeThumbnail}
-                                    height={backgroundWidth / (item.width / item.height)}
-                                    width={backgroundWidth}
-                                    defaultHeight={backgroundWidth}
-                                    onPick={this.backgroundOnMouseDown.bind(this, item)}
-                                    onEdit={this.props.handleEditmedia.bind(this, item)}
-                                    delay={300}
-                                />
-                            ))}
-                            {this.state.hasMore &&
-                                Array(t)
-                                    .fill(0)
-                                    .map((item, i) => (
-                                        <ImagePicker
-                                            showButton={false}
-                                            key={i}
-                                            id="sentinel"
-                                            color="black"
-                                            src={""}
-                                            height={backgroundWidth}
-                                            defaultHeight={backgroundWidth}
-                                            width={backgroundWidth}
-                                            className=""
-                                            onPick={null}
-                                            onEdit={this.props.handleEditmedia.bind(this, null)}
-                                            delay={300}
-                                        />
-                                    ))}
                         </div>
                     </div>
                 </InfiniteScroll>

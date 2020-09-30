@@ -36,9 +36,6 @@ export interface IState {
 }
 
 const imgWidth = 105;
-const backgroundWidth = 105;
-
-let elements = {};
 
 let getRem = (rem) => Array(rem).fill(0).map(i => {
     return {
@@ -71,7 +68,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
     constructor(props) {
         super(props);
-
         this.state.items = getRem(props.rem);
         this.left = props.rem;
 
