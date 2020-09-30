@@ -809,6 +809,13 @@ export default class Rect extends Component<IProps, IState> {
 															src={src}
 														/>
 													)}
+													<div
+														style={{
+															opacity: 0.5,
+														}}
+													>
+													{ABC}
+													</div>
 													{/* {name == CanvasType.HoverLayer && (type === TemplateType.Gradient) && (
 														<svg
 														style={{
