@@ -241,7 +241,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     frameOnMouseDownload(img, el, e) {
-
+        console.log('frameOnMouseDownload')
         let scale = this.props.scale;
 
         let target = el.cloneNode(true);
@@ -633,15 +633,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 term="Frame"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
-                                imgOnMouseDown={this.imgOnMouseDown}
-                                frameOnMouseDownload={this.frameOnMouseDownload}
+                                imgOnMouseDown={this.frameOnMouseDownload}
                             />
                             <SidebarElement
                                 term="Lines"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.imgOnMouseDown}
-                                frameOnMouseDownload={this.frameOnMouseDownload}
                             />
                             <SidebarElement
                                 term="Shapes"
@@ -654,7 +652,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.imgOnMouseDown}
-                                frameOnMouseDownload={this.frameOnMouseDownload}
                             />
                             <SidebarElement
                                 term="Gradients"

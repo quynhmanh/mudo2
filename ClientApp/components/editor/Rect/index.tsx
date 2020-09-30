@@ -565,7 +565,9 @@ export default class Rect extends Component<IProps, IState> {
 								this.props.handleCropBtnClick(_id);
 							}}
 							onMouseEnter={e => {
+								console.log('asd', type, window.imgDragging)
 								if (window.imagedragging && type == TemplateType.Element) {
+									console.log('asd2')
 									window.imgDragging.style.opacity = 0;
 									let el = document.getElementById(_id + "1235alo") as HTMLImageElement;
 									el.src = window.imagesrc;
