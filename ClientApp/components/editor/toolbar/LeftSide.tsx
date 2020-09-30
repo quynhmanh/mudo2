@@ -347,5 +347,7 @@ const ColorButton = styled.div`
         width: 25px;
         height: 25px;
         border: none;
+        box-shadow: inset 0 0 0 1px rgba(57,76,96,.15); 
+        border-radius: 2px; 
     }
 `;
