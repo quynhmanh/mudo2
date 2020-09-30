@@ -409,7 +409,7 @@ export default class Rect extends Component<IProps, IState> {
 		let ABC;
 		if (type == TemplateType.Gradient) {
 			console.log('stop color ', this.props.image)
-			const xml = path ? path.replace('[SVG_ID]', clipId + name) : "";
+			const xml = path ? path.replace('[SVG_ID]', _id+ clipId + name) : "";
 
 			const parser = new DOMParser();
 			const xmlDoc = parser.parseFromString(xml, 'text/xml');
@@ -807,7 +807,7 @@ export default class Rect extends Component<IProps, IState> {
 										zoomAndPan="magnify"
 									>
 										<defs>
-											<linearGradient gradientTransform={gradientTransform} gradientUnits="userSpaceOnUse" id={clipId + name} x1={x1} x2={x2} y1={y1} y2={y2}>
+											<linearGradient gradientTransform={gradientTransform} gradientUnits="userSpaceOnUse" id={_id + clipId + name} x1={x1} x2={x2} y1={y1} y2={y2}>
 												<stop offset={0} style={{ stopColor: stopColor1, }} />
 												<stop offset={1} style={{ stopColor: stopColor2, }} />
 											</linearGradient>
