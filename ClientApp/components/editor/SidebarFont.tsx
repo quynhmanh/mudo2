@@ -7,6 +7,7 @@ import { toJS } from "mobx";
 import Tooltip from "@Components/shared/Tooltip";
 import FontPicker from "@Components/editor/FontPicker";
 import Sidebar from "@Components/editor/SidebarStyled";
+import styled from "styled-components";
 
 export interface IProps {
     scale: number;
@@ -191,11 +192,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                 }}
             >
                 <div>
-                    <div
-                        style={{
-                            height: "calc(100% - 10px)"
-                        }}
-                    >
+                    <ScrollContainer>
                         <InfiniteScroll
                             scroll={true}
                             throttle={500}
@@ -344,9 +341,20 @@ export default class SidebarFont extends Component<IProps, IState> {
                                 </div>
                             </div>
                         </InfiniteScroll>
-                    </div>
+                    </ScrollContainer>
                 </div>
             </Sidebar>
         )
     }
 }
+
+const ScrollContainer = styled.div`
+    height: calc(100% - 10px);
+    #object-container::-webkit-scrollbar-thumb {
+        background-color: #ddd;
+    }
+
+    #object-container::-webkit-scrollbar-track {
+        background-color: white;
+    }
+`;
