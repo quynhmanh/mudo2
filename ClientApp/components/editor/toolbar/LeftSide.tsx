@@ -4,10 +4,7 @@ import Color from "@Components/editor/toolbar/left/Color";
 import Italic from "@Components/editor/toolbar/left/Italic";
 import Bold from "@Components/editor/toolbar/left/Bold";
 import FontFamily from "@Components/editor/toolbar/left/FontFamily";
-import Filter from "@Components/editor/toolbar/left/Filter";
-import Adjust from "@Components/editor/toolbar/left/Adjust";
 import Crop from "@Components/editor/toolbar/left/Crop";
-import Flip from "@Components/editor/toolbar/left/Flip";
 import ImageBackgroundColor from "@Components/editor/toolbar/left/ImageBackgroundColor";
 import FontSizeWrapper from "@Components/editor/toolbar/left/FontSizeWrapper";
 import Align from "@Components/editor/toolbar/left/Align";
@@ -18,6 +15,7 @@ import Spacing from "@Components/editor/toolbar/left/Spacing";
 import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
 import { toJS } from "mobx";
+import styled from 'styled-components';
 
 interface IProps {
     childId: string;
@@ -312,13 +310,11 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     handleCancelBtnClick={props.handleCancelBtnClick}
                 />
-                {editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map(color => 
+                {editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map(color =>
+                <ColorButton>
                     <button 
                         style={{
                             backgroundColor: color.value,
-                            width: '30px',
-                            border: 'none',
-                            marginRight: '7px',
                         }}
                         onClick={e => {
                             editorStore.selectedTab = SidebarTab.Color;
@@ -326,10 +322,30 @@ class LeftSide extends Component<IProps, IState> {
                         }}    
                     >
 
-                    </button>)}
+                    </button></ColorButton>)}
             </React.Fragment>
         )
     }
 }
 
 export default LeftSide;
+
+const ColorButton = styled.div`
+    width: 33px;
+    height: 33px;
+    border: none;
+    margin-left: 7px;
+    margin-top: -2px;
+    padding: 4px;
+    border-radius: 5px;
+
+    :hover { 
+        background-color: rgba(75, 102, 129, 0.15) !important;
+    }
+
+    button {
+        width: 25px;
+        height: 25px;
+        border: none;
+    }
+`;
