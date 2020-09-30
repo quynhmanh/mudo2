@@ -35,13 +35,10 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         document.getElementById("path").value = this.props.item.path;
         document.getElementById("path2").value = this.props.item.path2;
         document.getElementById("popularity2").value = this.props.item.popularity;
-        document.getElementById("x1").value = this.props.item.x1;
-        document.getElementById("x2").value = this.props.item.x2;
-        document.getElementById("y1").value = this.props.item.y1;
-        document.getElementById("y2").value = this.props.item.y2;
         document.getElementById("stopColor1").value = this.props.item.stopColor1;
         document.getElementById("stopColor2").value = this.props.item.stopColor2;
-        document.getElementById("gradientTransform").value = this.props.item.gradientTransform;
+        document.getElementById("stopColor3").value = this.props.item.stopColor3;
+        document.getElementById("stopColor4").value = this.props.item.stopColor4;
     }
 
     handleAddNewKeyword = () => {
@@ -58,14 +55,10 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         const path = document.getElementById("path").value;
         const path2 = document.getElementById("path2").value;
         const popularity = document.getElementById("popularity2").value;
-        const x1 = document.getElementById("x1").value;
-        const x2 = document.getElementById("x2").value;
-        const y1 = document.getElementById("y1").value;
-        const y2 = document.getElementById("y2").value;
         const stopColor1 = document.getElementById("stopColor1").value;
         const stopColor2 = document.getElementById("stopColor2").value;
-        const gradientTransform = document.getElementById("gradientTransform").value;
-        console.log('popularity', popularity)
+        const stopColor3 = document.getElementById("stopColor3").value;
+        const stopColor4 = document.getElementById("stopColor4").value;
         var url = `/api/Media/Edit`;
         axios.post(url, 
         { 
@@ -80,13 +73,10 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
             path,
             path2,
             popularity,
-            x1,
-            x2,
-            y1,
-            y2,
             stopColor1,
             stopColor2,
-            gradientTransform,
+            stopColor3,
+            stopColor4,
         })
             .then(res => {
                 if (res.status === 200) {
@@ -189,14 +179,11 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <input className='unblurred' id="path" type="text" placeholder="path"/>
                     <input className='unblurred' id="path2" type="text" placeholder="path2"/>
                     <input className='unblurred' id="popularity2" type="text" placeholder="popularity2"/>
-                    <input className='unblurred' id="x1" type="text" placeholder="x1"/>
-                    <input className='unblurred' id="y1" type="text" placeholder="y1"/>
-                    <input className='unblurred' id="x2" type="text" placeholder="x2"/>
-                    <input className='unblurred' id="y2" type="text" placeholder="y2"/>
                     <input className='unblurred' id="stopColor1" type="text" placeholder="stop color 1"/>
                     <input className='unblurred' id="stopColor2" type="text" placeholder="stop color 2"/>
-                    <input className='unblurred' id="xml" type="text" placeholder="xml"/>
-                    <input className='unblurred' id="gradientTransform" type="text" placeholder="gradientTransform"/>
+                    <input className='unblurred' id="stopColor3" type="text" placeholder="stop color 3"/>
+                    <input className='unblurred' id="stopColor4" type="text" placeholder="stop color 4"/>
+                    
                     <div
                         className='unblurred'
                         style={{

@@ -26,13 +26,10 @@
         public string Path { get; set; }
         public string Path2 { get; set; }
         public long  Popularity { get; set; }
-        public string x1 { get; set; }
-        public string y1 { get; set; }
-        public string x2 { get; set; }
-        public string y2 { get; set; }
         public string StopColor1 { get; set; }
         public string StopColor2 { get; set; }
-        public string GradientTransform { get; set; }
+        public string StopColor3 { get; set; }
+        public string StopColor4 { get; set; }
 
         public MediaModel(string id, string firstName, string lastName, string representative)
         {

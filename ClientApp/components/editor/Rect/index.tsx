@@ -117,6 +117,24 @@ export default class Rect extends Component<IProps, IState> {
 		if (innerHTML && this.$textEle2) {
 			this.$textEle2.innerHTML = innerHTML;
 		}
+
+		if (this.props.image.type == TemplateType.Gradient) {
+			let el = document.getElementById(this.props.image._id + "1235" + this.props.canvas);
+
+			if (el) {
+				for (let j = 0; j < this.props.image.colors.length; ++j) {
+					let elColors = el.getElementsByClassName("color-" + (j + 1));
+					for (let i = 0; i < elColors.length; ++i) {
+						let ell = elColors[i];
+						if (ell.tagName == "stop") {
+							ell.style.stopColor = this.props.image.colors[j];
+						} else if (ell.tagName == "path" || ell.tagName == "circle") {
+							ell.style.fill = this.props.image.colors[j];
+						}
+					}
+				}
+			}
+		}
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -409,7 +427,7 @@ export default class Rect extends Component<IProps, IState> {
 		let ABC;
 		if (type == TemplateType.Gradient) {
 			console.log('stop color ', this.props.image)
-			const xml = path ? path.replace('[SVG_ID]', _id + clipId + name) : "";
+			const xml = path ? path.replaceAll('[SVG_ID]', _id + clipId + name) : "";
 
 			const parser = new DOMParser();
 			const xmlDoc = parser.parseFromString(xml, 'text/xml');
@@ -791,7 +809,7 @@ export default class Rect extends Component<IProps, IState> {
 															src={src}
 														/>
 													)}
-													{name == CanvasType.HoverLayer && (type === TemplateType.Gradient) && (
+													{/* {name == CanvasType.HoverLayer && (type === TemplateType.Gradient) && (
 														<svg
 														style={{
 															width: "100%",
@@ -813,8 +831,8 @@ export default class Rect extends Component<IProps, IState> {
 															</linearGradient>
 														</defs>
 														{ABC}
-													</svg>
-													)}
+														</svg>
+													)} */}
 												</div>
 											</div>
 										)}
@@ -833,7 +851,7 @@ export default class Rect extends Component<IProps, IState> {
 										overflow: type == TemplateType.Gradient ? 'hidden' : 'auto',
 									}}
 								>
-									<svg
+									<div
 										id={_id + "1235" + canvas}
 										className={`${_id}1236`}
 										style={{
@@ -844,21 +862,9 @@ export default class Rect extends Component<IProps, IState> {
 											opacity: 1,
 											transformOrigin: "0 0",
 										}}
-										xmlns="http://www.w3.org/2000/svg"
-										xmlnsXlink="http://www.w3.org/1999/xlink"
-										preserveAspectRatio="xMidYMidmeet"
-										version="1.0"
-										viewBox={`${clipWidth0} ${clipHeight0} ${clipWidth} ${clipHeight}`}
-										zoomAndPan="magnify"
 									>
-										<defs>
-											<linearGradient gradientTransform={gradientTransform} gradientUnits="userSpaceOnUse" id={_id + clipId + name} x1={x1} x2={x2} y1={y1} y2={y2}>
-												<stop offset={0} style={{ stopColor: stopColor1, }} />
-												<stop offset={1} style={{ stopColor: stopColor2, }} />
-											</linearGradient>
-										</defs>
 										{ABC}
-									</svg>
+									</div>
 								</div>
 							}
 							{

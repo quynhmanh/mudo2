@@ -168,6 +168,19 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     rec.top < rec2.bottom &&
                     rec.bottom > rec2.top
                 ) {
+                    let colors = [];
+                    if (img.stopColor1) {
+                        colors.push(img.stopColor1);
+                    }
+                    if (img.stopColor2) {
+                        colors.push(img.stopColor2);
+                    }
+                    if (img.stopColor3) {
+                        colors.push(img.stopColor3);
+                    }
+                    if (img.stopColor4) {
+                        colors.push(img.stopColor4);
+                    }
                     let newImg = {
                         _id: uuidv4(),
                         type: TemplateType.Gradient,
@@ -208,16 +221,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         stopColor1: img.stopColor1,
                         stopColor2: img.stopColor2,
                         gradientTransform: img.gradientTransform,
-                        colors: [
-                            {
-                                'field': 'stopColor1',
-                                'value': img.stopColor1,
-                            },
-                            {
-                                'field': 'stopColor2',
-                                'value': img.stopColor2,
-                            },
-                        ]
+                        colors: colors,
                     };
 
                     this.props.setSavingState(SavingState.UnsavedChanges, true);

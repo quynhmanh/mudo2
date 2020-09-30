@@ -82,13 +82,10 @@ namespace RCB.TypeScript.Services
             page.Path = model.Path;
             page.Path2 = model.Path2;
             page.Popularity = model.Popularity;
-            page.x1 = model.x1;
-            page.y1 = model.y1;
-            page.x2 = model.x2;
-            page.y2 = model.y2;
             page.StopColor1 = model.StopColor1;
             page.StopColor2 = model.StopColor2;
-            page.GradientTransform = model.GradientTransform;
+            page.StopColor3 = model.StopColor3;
+            page.StopColor4 = model.StopColor4;
 
             var updateResponse = client.Update<MediaModel>(page, u => u.Doc(page));
 

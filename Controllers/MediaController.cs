@@ -111,14 +111,18 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "y2")]
             public string y2 { get; set; }
+
             [JsonProperty(PropertyName = "stopColor1")]
             public string stopColor1 { get; set; }
             
             [JsonProperty(PropertyName = "stopColor2")]
             public string stopColor2 { get; set; }
 
-            [JsonProperty(PropertyName = "gradientTransform")]
-            public string GradientTransform { get; set; }
+            [JsonProperty(PropertyName = "stopColor3")]
+            public string stopColor3 { get; set; }
+            
+            [JsonProperty(PropertyName = "stopColor4")]
+            public string stopColor4 { get; set; }
         }
 
         [HttpPost("[action]")]
@@ -442,13 +446,10 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Path = oDownloadBody.path;
                 mediaModel.Path2 = oDownloadBody.path2;
                 mediaModel.Popularity = oDownloadBody.popularity;
-                mediaModel.x1 = oDownloadBody.x1;
-                mediaModel.y1 = oDownloadBody.y1;
-                mediaModel.x2 = oDownloadBody.x2;
-                mediaModel.y2 = oDownloadBody.y2;
                 mediaModel.StopColor1 = oDownloadBody.stopColor1;
                 mediaModel.StopColor2 = oDownloadBody.stopColor2;
-                mediaModel.GradientTransform = oDownloadBody.GradientTransform;
+                mediaModel.StopColor3 = oDownloadBody.stopColor3;
+                mediaModel.StopColor4 = oDownloadBody.stopColor4;
 
                 MediaService.Edit(mediaModel);
             }

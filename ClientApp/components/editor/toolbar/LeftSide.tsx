@@ -310,15 +310,15 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     handleCancelBtnClick={props.handleCancelBtnClick}
                 />
-                {editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map(color =>
+                {editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
                 <ColorButton>
                     <button 
                         style={{
-                            backgroundColor: color.value,
+                            backgroundColor: color,
                         }}
                         onClick={e => {
                             editorStore.selectedTab = SidebarTab.Color;
-                            editorStore.colorField = color.field;
+                            editorStore.colorField = key + 1;
                         }}    
                     >
 

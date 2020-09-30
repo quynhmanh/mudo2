@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SidebarTab, TemplateType, } from "./enums";
+import { CanvasType, SidebarTab, TemplateType, } from "./enums";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
@@ -340,21 +340,39 @@ export default class SidebarColor extends Component<IProps, IState> {
             this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         }
         if (image.type == TemplateType.Gradient) {
-            image[editorStore.colorField] = color;
-            image.colors = [
-                {
-                    field: 'stopColor1',
-                    value: image.stopColor1,
-                },
-                {
-                    field: 'stopColor2',
-                    value: image.stopColor2,
+            for (let i = 0; i <= CanvasType.Preview; ++i) {
+                let el = document.getElementById(editorStore.idObjectSelected + "1235alo" + (i == 0 ? "" : i));
+                console.log('el ', "1235alo" + (i == 0 ? "" : i), el)
+                if (el) {
+                    let elColors = el.getElementsByClassName("color-" + editorStore.colorField);
+                    for (let i = 0; i < elColors.length; ++i) {
+                        let ell = elColors[i];
+                        if (ell.tagName == "stop") {
+                            ell.style.stopColor = color;
+                        } else if (ell.tagName == "path" || ell.tagName == "circle") {
+                            ell.style.fill = color;
+                        }
+                    }
                 }
-            ]
+            }
+
+            image.colors[editorStore.colorField - 1] = color;
+
+            // image[editorStore.colorField] = color;
+            // image.colors = [
+            //     {
+            //         field: 'stopColor1',
+            //         value: image.stopColor1,
+            //     },
+            //     {
+            //         field: 'stopColor2',
+            //         value: image.stopColor2,
+            //     }
+            // ]
 
             editorStore.colors = image.colors;
             editorStore.images2.set(image._id, image);
-            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+            // this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, false);
         } else if (editorStore.idObjectSelected) {
             image.color = color;
             image.backgroundColor = color;
