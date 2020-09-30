@@ -578,17 +578,29 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     placeholder="Search icons and shapes"
                     onChange={e => {
                         this.setState({ query: e.target.value });
+
+                        let el = document.getElementById('clearBtn');
+                        console.log('el ', el)
+                        if (e.target.value) {
+                            el.style.display = "block";
+                        } else {
+                            console.log('el2 ', el)
+                            el.style.display = "none";
+                        }
                     }}
                 />
+
                 <button
                     onClick={e => this.handleQuery("")}
                     className="clear"
+                    id="clearBtn"
                     style={{
                         position: 'absolute',
                         right: '15px',
                         top: '11px',
                         border: 'none',
                         zIndex: 123,
+                        display: this.state.query ? "block" : "none",
                     }}
                     type="button"><span className="TcNIhA"><span aria-hidden="true" className="NA_Img dkWypw"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
                 <InfiniteScroll
