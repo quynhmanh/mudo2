@@ -73,12 +73,12 @@ export default class ImagePicker extends Component<IProps, IState> {
         }
     }
 
-    componentDidUpdate() {
-        console.log('showProgressBar', this.props.showProgressBar)
+    componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.showProgressBar) {
             let btn = document.getElementById("progress-bar-start-btn" + this.state._id);
-            console.log('btn ', btn)
             if (btn) btn.click();
+        } else if (prevProps.showProgressBar) {
+            clearInterval(this.interval);
         }
     }
 
@@ -95,7 +95,6 @@ export default class ImagePicker extends Component<IProps, IState> {
     }
 
     render() {
-        console.log('showProgressBar ', this.props.showProgressBar)
         let { loaded } = this.state;
         let id = this.state._id;
         return (
@@ -166,7 +165,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                         id={"progress-bar-start-btn" + id}
                         onClick={e => {
                             let self = this;
-                            let interval = setInterval(function() {
+                            this.interval = setInterval(function() {
                                 self.current_progress += self.step;
                                 let progress = Math.round(Math.atan(self.current_progress) / (Math.PI / 2) * 100 * 1000) / 1000
                                 document.getElementById("progress-bar" + id).style.width = progress + "%";
