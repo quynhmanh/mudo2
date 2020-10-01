@@ -185,6 +185,8 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                             borderRadius: '.15em',
                             border: 'none',
                             boxShadow: 'inset 0 0 0 1px rgba(14,19,24,.15)',
+                            backgroundImage: (!colors || colors.length < 3) ? 'url(web_images/test.png)' : '',
+                            backgroundSize: "100% 100%",
                         }}
                     >
                     </button>
