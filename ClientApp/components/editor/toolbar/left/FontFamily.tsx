@@ -34,7 +34,7 @@ const FontFamily = (props: IProps) => {
                     color: "black",
                     position: "relative",
                     backgroundColor: props.selectedTab === SidebarTab.Font ? "#f2f5f7 " : "white",
-                    width: "160px",
+                    width: "177px",
                 }}
             >
                 {/* <img
@@ -51,7 +51,7 @@ const FontFamily = (props: IProps) => {
                         width: '150px',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
-                        fontSize: "14px",
+                        fontSize: "15px",
                     }}
                 >{fontName}</span>
                 <img
