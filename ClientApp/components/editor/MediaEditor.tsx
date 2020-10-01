@@ -35,6 +35,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         document.getElementById("path").value = this.props.item.path;
         document.getElementById("path2").value = this.props.item.path2;
         document.getElementById("popularity2").value = this.props.item.popularity;
+        document.getElementById("popularity3").value = this.props.item.popularity2;
         document.getElementById("stopColor1").value = this.props.item.stopColor1;
         document.getElementById("stopColor2").value = this.props.item.stopColor2;
         document.getElementById("stopColor3").value = this.props.item.stopColor3;
@@ -55,6 +56,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         const path = document.getElementById("path").value;
         const path2 = document.getElementById("path2").value;
         const popularity = document.getElementById("popularity2").value;
+        const popularity2 = document.getElementById("popularity3").value;
         const stopColor1 = document.getElementById("stopColor1").value;
         const stopColor2 = document.getElementById("stopColor2").value;
         const stopColor3 = document.getElementById("stopColor3").value;
@@ -73,6 +75,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
             path,
             path2,
             popularity,
+            popularity2,
             stopColor1,
             stopColor2,
             stopColor3,
@@ -179,6 +182,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <input className='unblurred' id="path" type="text" placeholder="path"/>
                     <input className='unblurred' id="path2" type="text" placeholder="path2"/>
                     <input className='unblurred' id="popularity2" type="text" placeholder="popularity2"/>
+                    <input className='unblurred' id="popularity3" type="text" placeholder="popularity3"/>
                     <input className='unblurred' id="stopColor1" type="text" placeholder="stop color 1"/>
                     <input className='unblurred' id="stopColor2" type="text" placeholder="stop color 2"/>
                     <input className='unblurred' id="stopColor3" type="text" placeholder="stop color 3"/>
