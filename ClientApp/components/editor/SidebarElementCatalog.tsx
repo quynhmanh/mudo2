@@ -184,25 +184,16 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     width: '80px',
                                 }}
                             >
-                            <button
+                            <SeeAllButton
                                 onClick={e => {
                                     this.setState({ query: this.props.term });
                                     let el = document.getElementById("queryInput") as HTMLInputElement;
                                     if (el) el.value = this.props.term;
                                     this.props.handleQuery(this.props.term);
                                 }}
-                                style={{
-                                    float: 'right',
-                                    color: '#ccc',
-                                    fontSize: '13px',
-                                    height: "38px",
-                                    border: '1px solid white',
-                                    borderRadius: '50%',
-                                    margin: 'auto',
-                                }}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M17.1 13.004H5.504a.75.75 0 0 1 0-1.5H17.1l-4.377-4.377a.75.75 0 0 1 1.061-1.06l4.95 4.95a1.75 1.75 0 0 1 0 2.474l-4.95 4.95a.75.75 0 1 1-1.06-1.06l4.376-4.377z" fill="currentColor"></path></svg>
-                            </button>
+                            </SeeAllButton>
                             </div>
                         </InfiniteXScroll>
                     </div>
@@ -229,4 +220,18 @@ const ImageContainer = styled.div`
     position: relative;
     cursor: pointer;
     user-select: none;
+`;
+
+const SeeAllButton = styled.button`
+    float: right;
+    color: #ccc;
+    font-size: 13px;
+    height: 38px;
+    border: 1px solid hsla(0,0%,100%,.15);
+    border-radius: 50%;
+    margin: auto;
+
+    :hover {
+        border-color: white;
+    }
 `;
