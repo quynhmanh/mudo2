@@ -34,6 +34,7 @@ export default class FontPicker extends Component<IProps, IState> {
             <div
                 style={{
                     height: this.props.height + "px",
+                    width: "100%",
                     backgroundColor: this.state.loaded ? 'transparent' : '#80808026',
                     // width: "200px",
                 }}>
