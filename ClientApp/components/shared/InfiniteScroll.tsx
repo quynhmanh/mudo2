@@ -83,20 +83,20 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     }
 
     checkWindowScroll = () => {
-        console.log('asd')
+        console.log('asd', this.props.isLoading)
         if (this.props.isLoading) {
             return;
         }
 
+        console.log('asd', this.sentinel, this.props.refId)
         if (!this.sentinel) {
             this.sentinel = document.getElementById(this.props.refId);
         }
-
+        console.log('asd', this.props.refId, this.sentinel.getBoundingClientRect().top - window.innerHeight, this.props.threshold)
         if (
             this.props.hasMore &&
             this.sentinel &&
-            this.sentinel.getBoundingClientRect().top - window.innerHeight <
-            this.props.threshold
+            this.sentinel.getBoundingClientRect().top - window.innerHeight < this.props.threshold
         ) {
             this.loadMore();
         }

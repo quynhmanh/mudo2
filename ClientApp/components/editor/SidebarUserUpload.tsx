@@ -19,35 +19,39 @@ export interface IProps {
 
 export interface IState {
     items: any;
-    items2: any;
     isLoading: boolean;
-    currentItemsHeight: number;
-    currentItems2Height: number;
     error: any;
     hasMore: boolean;
-    cursor: any;
     total: number;
     loaded: boolean;
 }
 
-const imgWidth = 162;
+const imgWidth = 163;
+const imgHeight = 80;
+
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: imgWidth,
+        height: imgHeight,
+        id: "sentinel-userupload",
+    }
+});
 
 export default class SidebarUserUpload extends Component<IProps, IState> {
     state = {
         isLoading: false,
         items: [],
-        items2: [],
-        currentItemsHeight: 0,
-        currentItems2Height: 0,
         error: null,
         hasMore: true,
-        cursor: null,
         total: 0,
         loaded: false,
     }
 
     constructor(props) {
         super(props);
+
+        this.left = 10;
+        this.state.items = getRem(this.left);
 
         this.loadMore = this.loadMore.bind(this);
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
@@ -71,9 +75,9 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         return false;
     }
 
-    
+
     imgOnMouseDown(img, e) {
-        
+
         e.preventDefault();
 
         let scale = this.props.scale;
@@ -140,7 +144,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         };
 
         const onUp = evt => {
-            
+
             dragging = false;
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
@@ -199,14 +203,13 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         document.addEventListener("mouseup", onUp);
     }
 
+    tmp = [];
+    sum = 0;
+    left = 10;
+
     loadMore = (initialLoad: Boolean) => {
-        let pageId;
         const PER_PAGE = 16;
-        if (initialLoad) {
-            pageId = 1;
-        } else {
-            pageId = (this.state.items.length + this.state.items2.length) / 16 + 1;
-        }
+        const pageId = (this.state.items.length - this.left + this.tmp.length) / 16 + 1;
         this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${PER_PAGE}&userEmail=${Globals.serviceUser ? Globals.serviceUser.username : ""}`;
         fetch(url)
@@ -214,33 +217,34 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             .then(
                 res => {
                     var result = res.value.key;
-                    var currentItemsHeight = this.state.currentItemsHeight;
-                    var currentItems2Height = this.state.currentItems2Height;
-                    var res1 = [];
-                    var res2 = [];
-                    for (var i = 0; i < result.length; ++i) {
-                        var currentItem = result[i];
-                        if (currentItemsHeight <= currentItems2Height) {
-                            res1.push(currentItem);
-                            currentItemsHeight +=
-                                imgWidth / (currentItem.width / currentItem.height);
-                        } else {
-                            res2.push(currentItem);
-                            currentItems2Height +=
-                                imgWidth / (currentItem.width / currentItem.height);
+                    let items = [];
+                    
+                    for (let i = 0; i < result.length; ++i) {
+                        this.sum += 1.0 * result[i].width / result[i].height;
+                        this.tmp.push(result[i]);
+                        let height = (334 - (this.tmp.length - 1) * 8) / this.sum;
+                        if (height < 160 && this.tmp.length > 1) {
+                            this.sum = 0;
+                            for (let j = 0; j < this.tmp.length; ++j) {
+                                this.tmp[j].width = this.tmp[j].width / this.tmp[j].height * height;
+                                this.tmp[j].height = height;
+                            }
+                            items.push(...this.tmp);
+                            this.tmp = [];
                         }
                     }
+
+                    let newItems = [...this.state.items.filter(item => item.id != "sentinel-userupload"), ...items];
+                    let hasMore = newItems.length + this.tmp.length < res.value.value;
+                    if (hasMore) {
+                        newItems = [...newItems, ...getRem(this.left)];
+                    }
+
                     this.setState(state => ({
-                        items: [...state.items, ...res1],
-                        items2: [...state.items2, ...res2],
-                        currentItemsHeight,
-                        currentItems2Height,
-                        cursor: res.cursor,
+                        items: newItems,
                         isLoading: false,
                         total: res.value.value,
-                        hasMore:
-                            res.value.value >
-                            state.items.length + state.items2.length + res.value.key.length
+                        hasMore: hasMore,
                     }));
 
                     this.forceUpdate();
@@ -294,18 +298,35 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         showProgressBar: true,
                     }
 
-                    if (self.state.items.length <= self.state.items2.length) {
-                        self.setState({
-                            items: [item, ...self.state.items]
-                        });
-                    } else {
-                        self.setState({
-                            items2: [item, ...self.state.items2]
-                        });
+                    let newItems = [item, ...self.state.items];
+                    let sum = 0;
+                    let tmp = [];
+                    let items = [];
+                    for (let i = 0; i < newItems.length; ++i) {
+                        sum += 1.0 * newItems[i].width / newItems[i].height;
+                        tmp.push(newItems[i]);
+                        let height = (334 - (tmp.length - 1) * 8) / sum;
+                        if (height < 160 && tmp.length > 1) {
+                            console.log('height', height, tmp)
+                            sum = 0;
+                            for (let j = 0; j < tmp.length; ++j) {
+                                tmp[j].width = tmp[j].width / tmp[j].height * height;
+                                tmp[j].height = height;
+                            }
+                            console.log('height2', height, tmp)
+                            items.push(...tmp);
+                            tmp = [];
+                        }
                     }
 
+                    console.log('item ', items)
+
+                    self.setState({
+                        items,
+                    });
+
                     self.forceUpdate();
-                    
+
                     axios
                         .post(url, {
                             id: uuidv4(),
@@ -320,17 +341,12 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         })
                         .then((res) => {
                             res.data.showProgressBar = false;
-                            if (self.state.items[0].id == item.id) {
-                                let items = [...self.state.items];
-                                items[0] = res.data;
+                            let items = [...self.state.items];
+                            res.data.width = items[0].width;
+                            res.data.height = items[0].height;
+                            items[0] = res.data;
 
-                                self.setState({items})
-                            } else {
-                                let items = [...self.state.items2];
-                                items[0] = res.data;
-
-                                self.setState({items2: items})
-                            }
+                            self.setState({ items })
 
                             self.forceUpdate();
                         });
@@ -345,167 +361,93 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
     render() {
 
-        let left = this.state.total - this.state.items.length - this.state.items2.length;
-        let t = Math.round(Math.min(left/2, 5));
-
-        if (!this.state.loaded) {
-            t = 5;
-            left = 1;
-        }
-
         return (
             <Sidebar
                 selectedTab={editorStore.selectedTab}
                 sidebar={SidebarTab.Upload}
             >
-            <InfiniteScroll
-                scroll={true}
-                throttle={100}
-                threshold={0}
-                isLoading={this.state.isLoading}
-                marginTop={45}
-                hasMore={this.state.hasMore}
-                onLoadMore={this.loadMore.bind(this, false)}
-                refId="sentinel-userupload"
-            >
-                <div
-                    style={{
-                        color: "white",
-                        // overflow: "scroll",
-                        width: "100%"
-                    }}
+                <InfiniteScroll
+                    scroll={true}
+                    throttle={100}
+                    threshold={0}
+                    isLoading={this.state.isLoading}
+                    marginTop={45}
+                    hasMore={this.state.hasMore}
+                    onLoadMore={this.loadMore.bind(this, false)}
+                    refId="sentinel-userupload"
                 >
                     <div
-                        id="image-container-picker"
-                        style={{ display: "flex", padding: "16px 13px 10px 0px" }}
+                        style={{
+                            color: "white",
+                            width: "100%"
+                        }}
                     >
                         <div
-                            style={{
-                                height: "calc(100% - 170px)",
-                                width: "350px",
-                            }}
+                            id="image-container-picker"
+                            style={{ display: "flex", padding: "16px 0px 10px 0px" }}
                         >
-                            {this.state.items.map((item, key) => (
-                                <ImagePicker
-                                    id=""
-                                    className="image-picker"
-                                    height={imgWidth / (item.width / item.height)}
-                                    defaultHeight={imgWidth}
-                                    color=""
-                                    delay={0}
-                                    width={imgWidth}
-                                    key={key}
-                                    src={item.representative}
-                                    onPick={e => {
-                                        this.imgOnMouseDown(item, e);
-                                    }}
-                                    onEdit={this.props.handleEditmedia.bind(this, item)}
-                                    showButton={false}
-                                    showProgressBar={item.showProgressBar}
-                                />
-                            ))}
-                            {this.state.hasMore &&
-                                Array(t)
-                                    .fill(0)
-                                    .map((item, i) => (
-                                        <ImagePicker
-                                            key={i}
-                                            id="sentinel-userupload"
-                                            color="black"
-                                            src={""}
-                                            height={imgWidth}
-                                            defaultHeight={imgWidth}
-                                            width={imgWidth}
-                                            className=""
-                                            onPick={null}
-                                            onEdit={this.props.handleEditmedia.bind(this, null)}
-                                            delay={0}
-                                            showButton={false}
-                                        />
-                                    ))}
-                        </div>
-                        <div
-                            style={{
-                                width: "350px"
-                            }}
-                        >
-                            {this.state.items2.map((item, key) => (
-                                <ImagePicker
-                                    id=""
-                                    className="image-picker"
-                                    height={imgWidth / (item.width / item.height)}
-                                    defaultHeight={imgWidth}
-                                    color=""
-                                    width={imgWidth}
-                                    delay={0}
-                                    key={key}
-                                    src={item.representative}
-                                    onPick={this.imgOnMouseDown.bind(this, item)}
-                                    onEdit={this.props.handleEditmedia.bind(this, item)}
-                                    showButton={false}
-                                    showProgressBar={item.showProgressBar}
-                                />
-                            ))}
-                            {this.state.hasMore &&
-                                Array(t)
-                                    .fill(0)
-                                    .map((item, i) => (
-                                        <ImagePicker
-                                            key={i}
-                                            id="sentinel-userupload"
-                                            color="black"
-                                            src={""}
-                                            height={imgWidth}
-                                            defaultHeight={imgWidth}
-                                            width={imgWidth}
-                                            className=""
-                                            onPick={this.imgOnMouseDown.bind(
-                                                this,
-                                                null
-                                            )}
-                                            onEdit={this.props.handleEditmedia.bind(this, null)}
-                                            delay={-1}
-                                            showButton={false}
-                                        />
-                                    ))}
+                            <div
+                                style={{
+                                    height: "calc(100% - 170px)",
+                                    width: "calc(100% + 8px)",
+                                }}
+                            >
+                                {this.state.items.map((item, key) => (
+                                    <ImagePicker
+                                        id={item.id}
+                                        height={item.height}
+                                        defaultHeight={item.height}
+                                        color=""
+                                        delay={0}
+                                        width={item.width}
+                                        key={key}
+                                        src={item.representative}
+                                        onPick={e => {
+                                            this.imgOnMouseDown(item, e);
+                                        }}
+                                        onEdit={this.props.handleEditmedia.bind(this, item)}
+                                        showButton={true}
+                                        showProgressBar={item.showProgressBar}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </InfiniteScroll>
-            <button
-                style={{
-                    width: "calc(100% - 13px)",
-                    backgroundColor: "white",
-                    border: "none",
-                    color: "black",
-                    padding: "10px",
-                    borderRadius: "3px",
-                    height: "37px",
-                    marginBottom: "10px",
-                    position: "absolute",
-                    top: "6px",
-                    boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
-                    lineHeight: "15px",
-                }}
-                onClick={() => {
-                    document.getElementById("image-file2").click();
-                }}
-            >
-                {/* Tải lên một ảnh */}
-                {this.props.translate("uploadAnImage")}
-            </button>
-            <input
-                id="image-file2"
-                type="file"
-                multiple
-                onLoadedData={data => { }}
-                onChange={e => { this.uploadImage(false, e);
-                }}
-                style={{
-                    bottom: 0
-                }}
-            />
-        </Sidebar>
+                </InfiniteScroll>
+                <button
+                    style={{
+                        width: "calc(100% - 13px)",
+                        backgroundColor: "white",
+                        border: "none",
+                        color: "black",
+                        padding: "10px",
+                        borderRadius: "3px",
+                        height: "37px",
+                        marginBottom: "10px",
+                        position: "absolute",
+                        top: "6px",
+                        boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+                        lineHeight: "15px",
+                    }}
+                    onClick={() => {
+                        document.getElementById("image-file2").click();
+                    }}
+                >
+                    {this.props.translate("uploadAnImage")}
+                </button>
+                <input
+                    id="image-file2"
+                    type="file"
+                    multiple
+                    onLoadedData={data => { }}
+                    onChange={e => {
+                        this.uploadImage(false, e);
+                    }}
+                    style={{
+                        bottom: 0
+                    }}
+                />
+            </Sidebar>
         )
     }
 }

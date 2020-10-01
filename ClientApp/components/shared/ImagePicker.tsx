@@ -102,7 +102,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                 id={this.props.id}
                 className={this.props.classNameContainer}
                 style={{
-                    width: `${this.state.loaded ? this.state.width : this.props.width}px`,
+                    width: `${this.state.loaded ? this.props.width : this.props.width}px`,
                     height: `${this.state.loaded ? this.props.height : this.props.defaultHeight + "px"}`,
                     opacity: this.state.loaded ? 1 : 0.07,
                     animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
