@@ -368,7 +368,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             >
                 <InfiniteScroll
                     scroll={true}
-                    throttle={100}
+                    throttle={1000}
                     threshold={0}
                     isLoading={this.state.isLoading}
                     marginTop={45}

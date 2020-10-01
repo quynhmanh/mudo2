@@ -332,7 +332,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                 >
                     <InfiniteScroll
                         scroll={true}
-                        throttle={500}
+                        throttle={1000}
                         threshold={300}
                         isLoading={this.state.isLoading}
                         hasMore={this.state.hasMoreImage}
