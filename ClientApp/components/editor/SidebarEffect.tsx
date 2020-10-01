@@ -500,7 +500,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         justifyContent: "space-between",
                                     }}
                                 >
-                                    <p>Color</p>
+                                    <p
+                                        style={{
+                                            display: 'inline-block',
+                                            margin: '0px',
+                                            lineHeight: '30px',
+                                            fontSize: '12px',
+                                        }}
+                                    >Color</p>
                                     <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
@@ -653,7 +660,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         justifyContent: "space-between",
                                     }}
                                 >
-                                    <p>Color</p>
+                                    <p
+                                        style={{
+                                            display: 'inline-block',
+                                            margin: '0px',
+                                            lineHeight: '30px',
+                                            fontSize: '12px',
+                                        }}
+                                    >Color</p>
                                     <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
@@ -689,7 +703,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         justifyContent: "space-between",
                                     }}
                                 >
-                                    <p>Color</p>
+                                    <p
+                                        style={{
+                                            display: 'inline-block',
+                                            margin: '0px',
+                                            lineHeight: '30px',
+                                            fontSize: '12px',
+                                        }}
+                                    >Color</p>
                                     <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
