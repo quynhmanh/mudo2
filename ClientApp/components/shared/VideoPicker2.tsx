@@ -188,7 +188,7 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                     src={this.props.src}
                     onMouseDown={this.props.onPick}
                 />
-                {this.props.showDuration && this.props.duration && this.state.loaded && 
+                {(this.props.showDuration && this.props.duration && this.state.loaded) ? 
                     <span
                         style={{
                             position: "absolute",
@@ -199,7 +199,7 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                             fontSize: "12px",
                             borderRadius: "6px",
                         }}
-                    >{secondToMinutes(this.props.duration)}</span>}
+                    >{secondToMinutes(this.props.duration)}</span> : null}
             </Container>
         );
     }
