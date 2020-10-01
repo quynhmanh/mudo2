@@ -91,7 +91,7 @@ export default class Slider extends Component<IProps, IState> {
 
         window.scale = scale;
 
-        this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
+        this.$input.value = Math.floor(scale * (this.props.multiplier ? this.props.multiplier : 1));
         this.$leftSLide.style.width = scale + "%";
         this.$grabSlider.style.left = `calc(${scale}% - 7.5px)`;
         this.props.onChange(scale);
@@ -134,7 +134,7 @@ export default class Slider extends Component<IProps, IState> {
                             var val = parseInt((e.target as HTMLInputElement).value) / (this.props.multiplier ? this.props.multiplier : 1);
                             this.setState({ currentValue: val });
 
-                            this.$input.value = (e.target as HTMLInputElement).value;
+                            this.$input.value = Math.floor((e.target as HTMLInputElement).value);
                             this.props.onChange(val);
                             this.props.onChangeEnd(val);
                             window.getSelection().removeAllRanges();
@@ -149,7 +149,8 @@ export default class Slider extends Component<IProps, IState> {
                         right: 0,
                         borderRadius: "3px",
                         border: "1px solid #dbdcdc",
-                        fontSize: "13px",
+                        fontSize: "11px",
+                        height: "22px",
                         width: "40px",
                     }} type="number" max="100" min="0" defaultValue={(this.state.currentValue * (this.props.multiplier ? this.props.multiplier : 1)).toString()} ></input>
             </div>
@@ -173,7 +174,7 @@ export default class Slider extends Component<IProps, IState> {
 
                     this.setState({ currentValue: scale });
 
-                    this.$input.value = scale * (this.props.multiplier ? this.props.multiplier : 1);
+                    this.$input.value = Math.floor(scale * (this.props.multiplier ? this.props.multiplier : 1));
                     this.$leftSLide.style.width = scale + "%";
                     this.props.onChange(scale);
                     this.props.onChangeEnd(scale);
