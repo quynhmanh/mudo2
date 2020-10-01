@@ -296,7 +296,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
                     if (self.state.items.length <= self.state.items2.length) {
                         self.setState({
-                            items: [item, ...self.state.items2]
+                            items: [item, ...self.state.items]
                         });
                     } else {
                         self.setState({
