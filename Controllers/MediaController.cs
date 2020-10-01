@@ -100,6 +100,9 @@ namespace RCB.TypeScript.Controllers
             [JsonProperty(PropertyName = "popularity")]
             public long popularity { get; set; }
 
+            [JsonProperty(PropertyName = "popularity2")]
+            public long popularity2 { get; set; }
+
             [JsonProperty(PropertyName = "x1")]
             public string x1 { get; set; }
 
@@ -446,6 +449,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Path = oDownloadBody.path;
                 mediaModel.Path2 = oDownloadBody.path2;
                 mediaModel.Popularity = oDownloadBody.popularity;
+                mediaModel.Popularity2 = oDownloadBody.popularity2;
                 mediaModel.StopColor1 = oDownloadBody.stopColor1;
                 mediaModel.StopColor2 = oDownloadBody.stopColor2;
                 mediaModel.StopColor3 = oDownloadBody.stopColor3;

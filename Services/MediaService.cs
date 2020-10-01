@@ -14,7 +14,7 @@ namespace RCB.TypeScript.Services
     public class MediaService : ServiceBase
     {
 
-        const string DefaultIndex = "media-02";
+        const string DefaultIndex = "media-03";
 
         private MediaContext _mediaContext;
 
@@ -82,6 +82,7 @@ namespace RCB.TypeScript.Services
             page.Path = model.Path;
             page.Path2 = model.Path2;
             page.Popularity = model.Popularity;
+            page.Popularity2 = model.Popularity2;
             page.StopColor1 = model.StopColor1;
             page.StopColor2 = model.StopColor2;
             page.StopColor3 = model.StopColor3;

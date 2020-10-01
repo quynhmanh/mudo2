@@ -26,6 +26,7 @@
         public string Path { get; set; }
         public string Path2 { get; set; }
         public long  Popularity { get; set; }
+        public long  Popularity2 { get; set; }
         public string StopColor1 { get; set; }
         public string StopColor2 { get; set; }
         public string StopColor3 { get; set; }
