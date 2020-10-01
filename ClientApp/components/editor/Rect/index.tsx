@@ -816,7 +816,7 @@ export default class Rect extends Component<IProps, IState> {
 															opacity: 0.5,
 														}}
 													>
-													{ABC}
+														{ABC}
 													</div>
 													{/* {name == CanvasType.HoverLayer && (type === TemplateType.Gradient) && (
 														<svg
@@ -1339,28 +1339,27 @@ export default class Rect extends Component<IProps, IState> {
 												})}
 											</div>
 										)}
-									{type == TemplateType.Heading && (
-										<div style={{
-											pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
-										}}>
-											<div
-												id={_id + "hihi5" + canvas}
-												className={_id + "hihi5"}
-												style={{
-													position: "absolute",
-													width: width * scale / scaleX + "px",
-													height: height * scale / scaleY + "px",
-													transformOrigin: "0 0",
-													zIndex: selected ? 1 : 0,
-													WebkitTextStroke: (effectId == 3 || effectId == 4) && (`${1.0 * hollowThickness / 100 * 4 + 0.1}px ${(effectId == 3 || effectId == 4) ? color : "black"}`),
-													pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
-												}}
-											>
+									{((selected && name == CanvasType.HoverLayer) || name == CanvasType.Preview ||
+										(!selected && (name == CanvasType.All)) ||
+										name == CanvasType.Download) &&
+										type === TemplateType.Heading && (
+											<div style={{
+												pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
+											}}>
+												<div
+													id={_id + "hihi5" + canvas}
+													className={_id + "hihi5"}
+													style={{
+														position: "absolute",
+														width: width * scale / scaleX + "px",
+														height: height * scale / scaleY + "px",
+														transformOrigin: "0 0",
+														zIndex: selected ? 1 : 0,
+														WebkitTextStroke: (effectId == 3 || effectId == 4) && (`${1.0 * hollowThickness / 100 * 4 + 0.1}px ${(effectId == 3 || effectId == 4) ? color : "black"}`),
+														pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
+													}}
+												>
 
-												{((selected && name == CanvasType.HoverLayer) || name == CanvasType.Preview ||
-													(!selected && (name == CanvasType.All)) ||
-													name == CanvasType.Download) &&
-													type === TemplateType.Heading &&
 													<span
 														id={_id + "hihi4" + canvas}
 														spellCheck={false}
@@ -1394,10 +1393,9 @@ export default class Rect extends Component<IProps, IState> {
 															fontSize: fontSize + "px",
 														}}
 													></span>
-												}
+												</div>
 											</div>
-										</div>
-									)}
+										)}
 
 								</div>
 							}

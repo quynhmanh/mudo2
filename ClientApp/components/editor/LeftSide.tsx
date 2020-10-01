@@ -501,7 +501,7 @@ class LeftSide extends Component<IProps, IState> {
                     style={{
                         position: "relative",
                         height: `calc(100% - ${editorStore.isAdmin
-                                ? 78
+                                ? 125
                                 : 0
                             }px)`,
                         width: "370px",
