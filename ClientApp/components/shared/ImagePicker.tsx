@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from 'styled-components';
 import editorStore from "@Store/EditorStore";
+import uuidv4 from "uuid/v4";
 
 export interface IProps {
     src: string;
@@ -19,6 +20,7 @@ export interface IProps {
     backgroundColorLoaded: string;
     marginRight: number;
     marginAuto: boolean;
+    showProgressBar: boolean;
 }
 
 export interface IState {
@@ -48,6 +50,7 @@ export default class ImagePicker extends Component<IProps, IState> {
     state = {
         loaded: false,
         width: 200,
+        _id: uuidv4(),
     };
 
     static defaultProps = {
@@ -57,12 +60,25 @@ export default class ImagePicker extends Component<IProps, IState> {
         backgroundColorLoaded: "rgba(255, 255, 255, 0.07)",
         marginRight: 8,
         marginAuto: false,
+        showProgressBar: false,
     }
+
+    current_progress = 0;
+    step = 0.5;
 
     componentDidMount() {
         const img = this.image;
         if (img && img.complete) {
             this.handleImageLoaded();
+        }
+    }
+
+    componentDidUpdate() {
+        console.log('showProgressBar', this.props.showProgressBar)
+        if (this.props.showProgressBar) {
+            let btn = document.getElementById("progress-bar-start-btn" + this.state._id);
+            console.log('btn ', btn)
+            if (btn) btn.click();
         }
     }
 
@@ -79,7 +95,9 @@ export default class ImagePicker extends Component<IProps, IState> {
     }
 
     render() {
+        console.log('showProgressBar ', this.props.showProgressBar)
         let { loaded } = this.state;
+        let id = this.state._id;
         return (
             <Container
                 id={this.props.id}
@@ -130,6 +148,42 @@ export default class ImagePicker extends Component<IProps, IState> {
                     src={this.props.src}
                     onMouseDown={this.props.onPick}
                 />
+                    {this.props.showProgressBar && 
+                    <div 
+                        style={{
+                            width: "100%",
+                            position: "absolute",
+                            bottom: 0,
+                        }}
+                        className="container">
+
+                    <div className="progress">
+                    <div id={"progress-bar" + id} className="progress-bar progress-bar-striped" role="progressbar" 
+                        style={{width: "0%",}} 
+                        ariaValuenow="0" ariaValuemin="0" ariaValuemax="100"></div>
+                    </div>
+                    <button 
+                        id={"progress-bar-start-btn" + id}
+                        onClick={e => {
+                            let self = this;
+                            let interval = setInterval(function() {
+                                self.current_progress += self.step;
+                                let progress = Math.round(Math.atan(self.current_progress) / (Math.PI / 2) * 100 * 1000) / 1000
+                                document.getElementById("progress-bar" + id).style.width = progress + "%";
+                                if (progress >= 100){
+                                    clearInterval(interval);
+                                }else if(progress >= 70) {
+                                    this.step = 0.1
+                                }
+                            }, 100);
+                        }}
+                        style={{
+                            display: "none",
+                        }}
+                        type="button" 
+                        className="btn btn-light">Start</button>
+                        
+                </div> }
             </Container>
         );
     }

@@ -279,22 +279,38 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             let fr = new FileReader();
             fr.readAsDataURL(file);
             fr.onload = () => {
-                console.log('onload ', file.name)
                 var url = `/api/Media/Add`;
                 if (type === TemplateType.RemovedBackgroundImage) {
                     url = `/api/Media/Add2`;
                 }
                 var img = new Image();
-                console.log('url ', url)
                 img.onload = function () {
-                    console.log('onload2 ', i)
-                    // var prominentColor = getMostProminentColor(i);
+
+                    let item = {
+                        id: uuidv4(),
+                        representative: fr.result,
+                        width: img.width,
+                        height: img.height,
+                        showProgressBar: true,
+                    }
+
+                    if (self.state.items.length <= self.state.items2.length) {
+                        self.setState({
+                            items: [item, ...self.state.items2]
+                        });
+                    } else {
+                        self.setState({
+                            items2: [item, ...self.state.items2]
+                        });
+                    }
+
+                    self.forceUpdate();
+                    
                     axios
                         .post(url, {
                             id: uuidv4(),
                             ext: file.name.split(".")[1],
                             userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
-                            // color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
                             data: fr.result,
                             width: img.width,
                             height: img.height,
@@ -303,22 +319,23 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                             title: "Manh quynh"
                         })
                         .then((res) => {
-                            console.log('res ', res)
-                            if (self.state.items.length <= self.state.items2.length) {
-                                self.setState({
-                                    items: [res.data, ...self.state.items2]
-                                });
+                            res.data.showProgressBar = false;
+                            if (self.state.items[0].id == item.id) {
+                                let items = [...self.state.items];
+                                items[0] = res.data;
+
+                                self.setState({items})
                             } else {
-                                self.setState({
-                                    items2: [res.data, ...self.state.items2]
-                                });
+                                let items = [...self.state.items2];
+                                items[0] = res.data;
+
+                                self.setState({items2: items})
                             }
 
                             self.forceUpdate();
                         });
                 };
 
-                console.log('iii ', i, fr.result.toString())
                 img.src = fr.result.toString();
             };
         }
@@ -384,6 +401,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                     }}
                                     onEdit={this.props.handleEditmedia.bind(this, item)}
                                     showButton={false}
+                                    showProgressBar={item.showProgressBar}
                                 />
                             ))}
                             {this.state.hasMore &&
@@ -425,6 +443,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                     onPick={this.imgOnMouseDown.bind(this, item)}
                                     onEdit={this.props.handleEditmedia.bind(this, item)}
                                     showButton={false}
+                                    showProgressBar={item.showProgressBar}
                                 />
                             ))}
                             {this.state.hasMore &&
