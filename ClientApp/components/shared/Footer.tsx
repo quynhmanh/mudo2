@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default class Footer extends React.Component<{}, {}> {
+export default class Footer extends React.Component<{translate}, {}> {
     constructor(props) {
         super(props);
     }
@@ -16,7 +16,7 @@ export default class Footer extends React.Component<{}, {}> {
                     <div className="jsx-104637934 upper">
                         <div className="jsx-104637934 row">
                             <div className="jsx-104637934 col-md-2 col-4 contact">
-                                <h4 style={{marginTop: 0,}} className="jsx-104637934 title">Liên hệ</h4>
+                                <h4 style={{marginTop: 0,}} className="jsx-104637934 title">{this.props.translate("contact")}</h4>
                                 <div className="jsx-104637934 body">
                                     <ul className="jsx-104637934 list-unstyled">
                                         <li className="jsx-104637934"><a href="mailto:19006710" className="jsx-104637934">0766145165</a></li>
@@ -25,10 +25,10 @@ export default class Footer extends React.Component<{}, {}> {
                                 </div>
                             </div>
                             <div className="jsx-104637934 col-md-2 col-4 contact">
-                                <h4 style={{marginTop: 0,}} className="jsx-104637934 title">Công ty</h4>
+                                {/* <h4 style={{marginTop: 0,}} className="jsx-104637934 title">Công ty</h4> */}
                                 <div className="jsx-104637934 body">
                                     <ul className="jsx-104637934 list-unstyled">
-                                        <li className="jsx-104637934"><a href="/about-us" className="jsx-104637934">Về chúng tôi</a></li>
+                                        <li className="jsx-104637934"><a href="/about-us" className="jsx-104637934">{this.props.translate("aboutUs")}</a></li>
                                     </ul>
                                 </div>
                             </div>

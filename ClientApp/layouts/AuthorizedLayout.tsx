@@ -12,6 +12,7 @@ import languages from "@Locales/languages";
 const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
 import uuidv4 from "uuid/v4";
 import Footer from "@Components/shared/Footer";
+import homePageTranslation from "@Locales/default/homePage";
 
 interface IProps {
     children?: React.ReactNode;
@@ -494,7 +495,11 @@ class AuthorizedLayout extends React.Component<Props, {}> {
                     {childrenWithProps}
                 </div>
                 {/* <ToastContainer /> */}
-                {!isNode() && <Footer />}
+                {!isNode() && 
+                    <Footer 
+                        translate={this.translate}
+                    />
+                }
             </div>
         );
     }
