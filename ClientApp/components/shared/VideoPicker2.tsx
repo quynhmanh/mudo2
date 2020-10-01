@@ -25,22 +25,23 @@ export interface IState {
 }
 
 const Container = styled.div`
-  position: relative;
-  background-size: 300% 300%;
-  position: relative;
-  width: ${props => props.width}px;
-  height: ${props =>
-        props.loaded ? props.height : props.defaultHeight + "px"};
-  margin-bottom: 8px;
-  margin-right: 8px;
-  button {
-    visibility: hidden;
-  }
-  opacity ${props => (props.loaded ? 1 : 0.15)};
-  display: inline-block;
-  :hover button {
-    visibility: visible;
-  }
+    cursor: pointer;
+    position: relative;
+    background-size: 300% 300%;
+    position: relative;
+    width: ${props => props.width}px;
+    height: ${props =>
+            props.loaded ? props.height : props.defaultHeight + "px"};
+    margin-bottom: 8px;
+    margin-right: 8px;
+    button {
+        visibility: hidden;
+    }
+    opacity ${props => (props.loaded ? 1 : 0.15)};
+    display: inline-block;
+    :hover button {
+        visibility: visible;
+    }
 `;
 
 export default class VideoPicker2 extends Component<IProps, IState> {
