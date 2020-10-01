@@ -398,7 +398,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                         height={item.height}
                                         defaultHeight={item.height}
                                         color=""
-                                        delay={0}
+                                        delay={250 * key}
                                         width={item.width}
                                         key={key}
                                         src={item.representative}

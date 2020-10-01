@@ -31,7 +31,7 @@ export interface IState {
 }
 
 const imgWidth = 163;
-const imgHeight = 80;
+const imgHeight = 100;
 
 let getRem = (rem) => Array(rem).fill(0).map(i => {
     return {
@@ -361,7 +361,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                                         width={item.width}
                                         onPick={this.imgOnMouseDown.bind(this, item)}
                                         onEdit={this.props.handleEditmedia.bind(this, item)}
-                                        delay={0}
+                                        delay={250 * key}
                                         showButton={true}
                                         backgroundColorLoaded="transparent"
                                     />
