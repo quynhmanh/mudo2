@@ -66,7 +66,7 @@ const Color = (props: IProps) => {
                 <div
                     style={{
                         position: "absolute",
-                        bottom: "3px",
+                        bottom: "5px",
                         left: "5px",
                         borderRadius: "14px",
                         width: "72%",
