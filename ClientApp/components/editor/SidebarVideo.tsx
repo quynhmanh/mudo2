@@ -247,7 +247,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                 sidebar={SidebarTab.Video}
             >
                 <div style={{ display: "inline-block", width: "100%" }}>
-                    <button
+                    {/* <button
                         style={{
                             width: "calc(100% - 13px)",
                             backgroundColor: "white",
@@ -263,15 +263,14 @@ export default class SidebarVideo extends Component<IProps, IState> {
                             document.getElementById("image-file").click();
                         }}
                     >
-                        {/* Tải lên một video */}
                         {this.props.translate("uploadAVideo")}
-                    </button>
+                    </button> */}
                     <ul
                         style={{
                             listStyle: "none",
                             padding: "0px 0px 10px 0px",
                             width: "100%",
-                            marginTop: "18px",
+                            marginTop: "10px",
                             overflow: "scroll",
                             height: "calc(100% - 60px)"
                         }}
