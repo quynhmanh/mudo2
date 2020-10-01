@@ -45,6 +45,13 @@ let getRem = (rem) => Array(rem).fill(0).map(i => {
     }
 });
 
+let elements = {
+    "Frame": [],
+    "Lines": [],
+    "Shapes": [],
+    "Stickers": [],
+    "Gradients": [],
+};
 
 export default class SidebarEffect extends Component<IProps, IState> {
 
@@ -81,12 +88,35 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.selectedTab == SidebarTab.Element && elements["Frame"].length == 0) {
+            this.loadInitSearch();
+        }
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Element || this.props.selectedTab == SidebarTab.Element)
         ) {
             return true;
         }
         return false;
+    }
+
+    loadInitSearch() {
+        const url = `/api/Media/InitSearch`;
+        fetch(url)
+            .then(res => res.json())
+            .then(
+                res => {
+                    console.log('res ', res)
+                    for (let i = 0; i < 50; ++i) {
+                        if (i >= res.value.key.length) break;
+                        let doc = res.value.key[i];
+                        if (doc.keywords.length > 0 && elements[doc.keywords[0]]) {
+                            elements[doc.keywords[0]].push(doc);
+                        }
+                    }
+
+                    this.forceUpdate();
+                    console.log('elements ', elements);
+                });
     }
 
     gradientOnMouseDown(img, el, e) {
@@ -504,7 +534,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
         let pageId = Math.round((this.state.items.length - this.left) / this.props.rem) + 1;
         this.setState({ isLoading: true, error: undefined });
         const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${this.props.rem}&terms=${initialload ? term : this.state.query}`;
-        console.log('loadmore ', url)
         fetch(url)
             .then(res => res.json())
             .then(
@@ -630,30 +659,35 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             }}
                         >
                             <SidebarElement
+                                elements={elements["Frame"]}
                                 term="Frame"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.frameOnMouseDownload}
                             />
                             <SidebarElement
+                                elements={elements["Lines"]}
                                 term="Lines"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.imgOnMouseDown}
                             />
                             <SidebarElement
+                                elements={elements["Shapes"]}
                                 term="Shapes"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.gradientOnMouseDown}
                             />
                             <SidebarElement
+                                elements={elements["Stickers"]}
                                 term="Stickers"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.imgOnMouseDown}
                             />
                             <SidebarElement
+                                elements={elements["Gradients"]}
                                 term="Gradients"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}

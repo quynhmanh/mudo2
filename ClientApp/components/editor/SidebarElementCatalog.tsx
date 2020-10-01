@@ -12,6 +12,7 @@ export interface IProps {
     handleQuery: any;
     frameOnMouseDownload: any;
     imgOnMouseDown: any;
+    elements: any;
 }
 
 export interface IState {
@@ -42,17 +43,24 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        console.log('nextProps.elements ', nextProps.elements)
+        if (nextProps.elements.length > 0) {
+            this.elements = nextProps.elements;
+            console.log('this.elements ', this.elements)
+            return true;
+        }
+
         if (this.props.selectedTab != nextProps.selectedTab
             && (nextProps.selectedTab == SidebarTab.Element || this.props.selectedTab == SidebarTab.Element)
         ) {
-            this.loadMore(true, nextProps.term)
+            // this.loadMore(true, nextProps.term)
             return true;
         }
+
         return false;
     }
 
     loadMore = (initialload, term) => {
-        console.log('loadmore')
         let pageId;
         let count;
         if (initialload) {

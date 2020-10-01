@@ -109,15 +109,7 @@ namespace RCB.TypeScript.Services
             var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 10));
             var client = new ElasticClient(settings);
-
-            string query = $"type:{type}";
-            if (userEmail != "")
-            {
-                query = query + $" AND userEmail:{userEmail}";
-            }
-
-            var res = client.Search<MediaModel>(s => s.Query(q => q.QueryString(d => d.Query(query))));
-            var res3 = client.Search<MediaModel>(s => s.Query(q => q.Match(d => d.Query(query))));
+            
             var res4 = client.Search<MediaModel>(s => s.
                 Query(q => q.
                     Bool(d => d.
@@ -139,6 +131,23 @@ namespace RCB.TypeScript.Services
             return Ok(res2);
         }
 
+        public virtual Result<KeyValuePair<List<MediaModel>, long>> InitSearch(int type, int page, int perPage, string terms = "", string userEmail = "")
+        {
+            var node = new Uri(elasticsearchAddress);
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 10));
+            var client = new ElasticClient(settings);
 
+            var res4 = client.Search<MediaModel>(s => s.
+                Query(q => q.MatchAll())
+                .Sort(f => f.Descending(ff => ff.Popularity2))
+                .From(0)
+                .Size(50));
+
+            var res2 = new KeyValuePair<List<MediaModel>, long>(res4.Documents.ToList(), res4.Total);
+
+            return Ok(res2);
+        }
+
+        
     }
 }
