@@ -179,17 +179,15 @@ export default class Spacing extends Component<IProps, IState> {
                         }}
                         style={{
                             borderRadius: "4px",
-                            padding: "3px",
+                            padding: "4px 4px 0px",
+                            height: "32px",
+                            width: "32px",
                             display: "inline-block",
                             cursor: "pointer",
                             color: "black",
-                            height: "100%",
                         }}
                     >
                         <img
-                            style={{
-                                height: "100%",
-                            }}
                             src={require("@Components/shared/svgs/editor/toolbar/spacing.svg")}
                             alt={content} />
                     </a>

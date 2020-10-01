@@ -23,7 +23,7 @@ const Position = (props: IProps) => {
                 style={{
                     display: "flex",
                     fontSize: "15px",
-                    height: "100%",
+                    height: "32px",
                     lineHeight: "30px",
                 }}
             >

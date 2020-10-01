@@ -24,12 +24,12 @@ const Italic = (props: IProps) => {
                 href="#"
                 className="toolbar-btn"
                 style={{
-                    padding: "3px",
-                    paddingBottom: "0px",
+                    padding: "4px 4px 0px",
+                    height: "32px",
+                    width: "32px",
                     display: "inline-block",
                     cursor: "pointer",
                     color: "black",
-                    height: "100%",
                     backgroundColor: props.checked ? "#f2f5f7 " : "white",
                 }}
                 onClick={handleItalicBtnClick}
