@@ -636,6 +636,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         display: this.state.query ? "block" : "none",
                     }}
                     type="button"><span className="TcNIhA"><span aria-hidden="true" className="NA_Img dkWypw"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
+
                 <InfiniteScroll
                     scroll={true}
                     throttle={500}
@@ -652,11 +653,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             width: "100%",
                             marginTop: "18px",
                         }}>
+                        {!this.state.query &&
                         <div
-                            style={{
-                                display: this.state.query ? 'none' : 'block',
-                                height: this.state.query ? '0px' : 'auto',
-                            }}
                         >
                             <SidebarElement
                                 elements={elements["Frame"]}
@@ -694,7 +692,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 imgOnMouseDown={this.gradientOnMouseDown}
                                 // frameOnMouseDownload={this.frameOnMouseDownload}
                             />
-                        </div>
+                        </div>}
                         {this.state.query && this.state.items.map((item, key) => {
                             let width, height;
                             if (item.width > item.height) {
