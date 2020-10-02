@@ -26,7 +26,11 @@ const Crop = (props: IProps) => {
                     className="dropbtn-font dropbtn-font-size toolbar-btn"
                     onClick={handleCropBtnClick}
                 >
-                    <span>{content}</span>
+                    <span
+                        style={{
+                            lineHeight: "28px",
+                        }}
+                    >{content}</span>
                 </button>
             )}
         </div>
