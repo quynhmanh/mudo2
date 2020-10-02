@@ -50,7 +50,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
     constructor(props) {
         super(props);
 
-        this.left = 10;
+        this.left = 30;
         this.state.items = getRem(this.left);
 
         this.loadMore = this.loadMore.bind(this);
