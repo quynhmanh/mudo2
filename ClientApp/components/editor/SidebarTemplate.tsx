@@ -36,7 +36,7 @@ let imgWidth = 162;
 let getRem = (rem) => Array(rem).fill(0).map(i => {
     return {
         width: imgWidth,
-        height: imgWidth,
+        height: imgWidth / editorStore.templateRatio,
         id: "sentinel-template",
     }
 });
@@ -61,13 +61,14 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     constructor(props) {
         super(props);
 
-        this.left = props.rem;
-
-        this.state.items = getRem(props.rem);
 
         if (props.subtype == 7) {
             imgWidth = 332;
         }
+
+        this.left = props.rem;
+
+        this.state.items = getRem(props.rem);
 
         this.loadMore = this.loadMore.bind(this);
         this.templateOnMouseDown = this.templateOnMouseDown.bind(this);
@@ -79,7 +80,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     componentDidMount() {
         if (this.props.selectedTab == SidebarTab.Template) {
             if (!this.state.loaded) {
-                this.loadMore(true);
+                // this.loadMore(true);
             }
         }
     }
