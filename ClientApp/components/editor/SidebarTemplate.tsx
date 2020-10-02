@@ -80,7 +80,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     componentDidMount() {
         if (this.props.selectedTab == SidebarTab.Template) {
             if (!this.state.loaded) {
-                // this.loadMore(true);
+                this.loadMore(true);
             }
         }
     }
