@@ -5676,7 +5676,10 @@ class CanvaEditor extends Component<IProps, IState> {
                                     zIndex: 1,
                                 }}
                             >
-                                {this.state.mounted && this.props.tReady && (
+                                {this.state.mounted && 
+                                this.props.tReady && 
+                                (this.state.rectWidth > 0) && 
+                                (
                                     <div
                                         id="screen-container"
                                         className="screen-container"
