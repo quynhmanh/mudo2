@@ -165,6 +165,17 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 image.effectId == 4 ? `rgb(${colors[0]}, ${colors[1]}, ${colors[2]}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
                     image.effectId == 5 ? `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, 0.5) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(0, 0, 0, 0.3) ${41.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px` :
                         image.effectId == 6 && `rgb(0, 255, 255) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI))}px 0px`;
+
+        if (editorStore.childId) {
+            el = this.getSingleTextHTMLElement();
+        } else {
+            el = document.getElementById(editorStore.idObjectSelected + "hihi5alo");
+        }
+
+        if (image.effectId == 3 || image.effectId == 4) {
+            console.log('asd', image.hollowThickness)
+            el.style.WebkitTextStroke = `${1.0 * image.hollowThickness / 100 * 4 + 0.1}px ${(image.effectId == 3 || image.effectId == 4) ? image.color : "black"}`;
+        }
     }
 
     handleChangeOffset = val => {
@@ -489,7 +500,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         justifyContent: "space-between",
                                     }}
                                 >
-                                    <p>Color</p>
+                                    <p
+                                        style={{
+                                            display: 'inline-block',
+                                            margin: '0px',
+                                            lineHeight: '30px',
+                                            fontSize: '12px',
+                                        }}
+                                    >Color</p>
                                     <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
@@ -642,7 +660,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         justifyContent: "space-between",
                                     }}
                                 >
-                                    <p>Color</p>
+                                    <p
+                                        style={{
+                                            display: 'inline-block',
+                                            margin: '0px',
+                                            lineHeight: '30px',
+                                            fontSize: '12px',
+                                        }}
+                                    >Color</p>
                                     <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
@@ -678,7 +703,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         justifyContent: "space-between",
                                     }}
                                 >
-                                    <p>Color</p>
+                                    <p
+                                        style={{
+                                            display: 'inline-block',
+                                            margin: '0px',
+                                            lineHeight: '30px',
+                                            fontSize: '12px',
+                                        }}
+                                    >Color</p>
                                     <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
@@ -729,7 +761,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     boxShadow: editorStore.effectId == 7 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
                                 }}
                                 onClick={e => {
-                                    this.handleApplyEffect(7, null, null, null, null, null, null, "white", "drop-shadow(rgb(255, 82, 188) 0px 0px 5.93333px) drop-shadow(rgba(255, 82, 188, 0.95) 0px 0px 35.6px) drop-shadow(rgba(255, 82, 188, 0.54) 0px 0px 118.667px)");
+                                    this.handleApplyEffect(7, null, null, null, null, null, null, "white", "drop-shadow(rgba(26, 24, 24, 0.95) 0px 0px 2.73317px) drop-shadow(rgba(26, 26, 26, 0.75) 0px 0px 13.6658px) drop-shadow(rgba(26, 26, 26, 0.44) 0px 0px 40.9975px)");
                                 }}
                                 className="effect-btn"
                                 id="effect-btn-7"

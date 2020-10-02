@@ -194,7 +194,7 @@ export default class SidebarBackground extends Component<IProps, IState> {
                                 <ImagePicker
                                     showButton={true}
                                     id={item.id}
-                                    delay={0}
+                                    delay={250 * key}
                                     width={backgroundWidth}
                                     key={key}
                                     color={item.color}

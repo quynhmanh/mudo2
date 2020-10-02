@@ -37,15 +37,7 @@ const FontSizeWrapper = (props: IProps) => {
             <div
                 style={{
                     position: "relative",
-                    // display:
-                    //     childId ||
-                    //         (
-                    //             selectedImage &&
-                    //             selectedImage.type === TemplateType.Heading
-                    //         )
-                    //         ? "block"
-                    //         : "none",
-                    width: "80px",
+                    width: "70px",
                 }}
                 className="toolbar-btn"
             >

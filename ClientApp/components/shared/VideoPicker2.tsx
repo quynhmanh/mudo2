@@ -91,10 +91,7 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                     position: "relative",
                     backgroundSize: "300% 300%",
                     width: `${this.props.width}px`,
-                    height: `${this.state.loaded
-                            ? this.props.height
-                            : this.props.defaultHeight + "px"
-                        }`,
+                    height: this.props.height + "px",
                     marginBottom: "8px",
                     opacity: this.state.loaded ? 1 : 0.07,
                     animationName: "XhtCamN749DcvC-ecDUzp",
@@ -188,19 +185,19 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                     src={this.props.src}
                     onMouseDown={this.props.onPick}
                 />
-                {this.props.showDuration && this.props.duration && this.state.loaded && 
-                    <span
-                        style={{
-                            position: "absolute",
-                            left: "3px",
-                            bottom: "3px",
-                            background: "#0000007d",
-                            padding: "2px 5px",
-                            fontSize: "12px",
-                            borderRadius: "6px",
-                        }}
-                    >{secondToMinutes(this.props.duration)}</span>}
+                {(this.props.showDuration && this.props.duration && this.state.loaded) ? 
+                    <Duration>{secondToMinutes(this.props.duration)}</Duration> : null}
             </Container>
         );
     }
 }
+
+const Duration = styled.span`
+    position: absolute;
+    left: 3px;
+    bottom: 3px;
+    background: #0000007d;
+    padding: 2px 5px;
+    font-size: 10px;
+    border-radius: 6px;
+`;

@@ -14,7 +14,7 @@ namespace RCB.TypeScript.Services
     public class MediaService : ServiceBase
     {
 
-        const string DefaultIndex = "media-02";
+        const string DefaultIndex = "media-03";
 
         private MediaContext _mediaContext;
 
@@ -82,6 +82,7 @@ namespace RCB.TypeScript.Services
             page.Path = model.Path;
             page.Path2 = model.Path2;
             page.Popularity = model.Popularity;
+            page.Popularity2 = model.Popularity2;
             page.StopColor1 = model.StopColor1;
             page.StopColor2 = model.StopColor2;
             page.StopColor3 = model.StopColor3;
@@ -108,15 +109,7 @@ namespace RCB.TypeScript.Services
             var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 10));
             var client = new ElasticClient(settings);
-
-            string query = $"type:{type}";
-            if (userEmail != "")
-            {
-                query = query + $" AND userEmail:{userEmail}";
-            }
-
-            var res = client.Search<MediaModel>(s => s.Query(q => q.QueryString(d => d.Query(query))));
-            var res3 = client.Search<MediaModel>(s => s.Query(q => q.Match(d => d.Query(query))));
+            
             var res4 = client.Search<MediaModel>(s => s.
                 Query(q => q.
                     Bool(d => d.
@@ -138,6 +131,23 @@ namespace RCB.TypeScript.Services
             return Ok(res2);
         }
 
+        public virtual Result<KeyValuePair<List<MediaModel>, long>> InitSearch(int type, int page, int perPage, string terms = "", string userEmail = "")
+        {
+            var node = new Uri(elasticsearchAddress);
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex).DisableDirectStreaming().RequestTimeout(new TimeSpan(0, 0, 10));
+            var client = new ElasticClient(settings);
 
+            var res4 = client.Search<MediaModel>(s => s.
+                Query(q => q.MatchAll())
+                .Sort(f => f.Descending(ff => ff.Popularity2))
+                .From(0)
+                .Size(50));
+
+            var res2 = new KeyValuePair<List<MediaModel>, long>(res4.Documents.ToList(), res4.Total);
+
+            return Ok(res2);
+        }
+
+        
     }
 }

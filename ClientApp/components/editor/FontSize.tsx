@@ -88,7 +88,7 @@ export default class FontSize extends Component<IProps, IState> {
                 height: '100%',
                 backgroundColor: "transparent",
                 padding: "0 10px",
-                fontSize: "14px",
+                fontSize: "15px",
               }}
               className="dropbtn-font dropbtn-font-size"
               defaultValue={Math.round(this.props.fontSize).toString()}

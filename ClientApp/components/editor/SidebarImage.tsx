@@ -30,7 +30,16 @@ export interface IState {
     query: string;
 }
 
-const imgWidth = 162;
+const imgWidth = 163;
+const imgHeight = 100;
+
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: imgWidth,
+        height: imgHeight,
+        id: "sentinel-image",
+    }
+});
 
 export default class SidebarImage extends Component<IProps, IState> {
     state = {
@@ -50,6 +59,9 @@ export default class SidebarImage extends Component<IProps, IState> {
 
     constructor(props) {
         super(props);
+
+        this.left = 30;
+        this.state.items = getRem(this.left);
 
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
         this.loadMore = this.loadMore.bind(this);
@@ -238,14 +250,13 @@ export default class SidebarImage extends Component<IProps, IState> {
         document.addEventListener("mouseup", onUp);
     }
 
+    tmp = [];
+    sum = 0;
+    left = 10;
+
     loadMore = (initialLoad: Boolean) => {
-        let pageId;
         const PER_PAGE = 16;
-        if (initialLoad) {
-            pageId = 1;
-        } else {
-            pageId = (this.state.items.length + this.state.items2.length) / 16 + 1;
-        }
+        const pageId = (this.state.items.length - this.left + this.tmp.length) / 16 + 1;
         this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Media/Search?type=${TemplateType.Image}&page=${pageId}&perPage=${PER_PAGE}&terms=${this.state.query}`;
         fetch(url)
@@ -253,33 +264,34 @@ export default class SidebarImage extends Component<IProps, IState> {
             .then(
                 res => {
                     var result = res.value.key;
-                    var currentItemsHeight = this.state.currentItemsHeight;
-                    var currentItems2Height = this.state.currentItems2Height;
-                    var res1 = [];
-                    var res2 = [];
-                    for (var i = 0; i < result.length; ++i) {
-                        var currentItem = result[i];
-                        if (currentItemsHeight <= currentItems2Height) {
-                            res1.push(currentItem);
-                            currentItemsHeight +=
-                                imgWidth / (currentItem.width / currentItem.height);
-                        } else {
-                            res2.push(currentItem);
-                            currentItems2Height +=
-                                imgWidth / (currentItem.width / currentItem.height);
+                    let items = [];
+                    
+                    for (let i = 0; i < result.length; ++i) {
+                        this.sum += 1.0 * result[i].width / result[i].height;
+                        this.tmp.push(result[i]);
+                        let height = (334 - (this.tmp.length - 1) * 8) / this.sum;
+                        if (height < 160 && this.tmp.length > 1) {
+                            this.sum = 0;
+                            for (let j = 0; j < this.tmp.length; ++j) {
+                                this.tmp[j].width = this.tmp[j].width / this.tmp[j].height * height;
+                                this.tmp[j].height = height;
+                            }
+                            items.push(...this.tmp);
+                            this.tmp = [];
                         }
                     }
+
+                    let newItems = [...this.state.items.filter(item => item.id != "sentinel-image"), ...items];
+                    let hasMore = newItems.length + this.tmp.length < res.value.value;
+                    if (hasMore) {
+                        newItems = [...newItems, ...getRem(this.left)];
+                    }
+
                     this.setState(state => ({
-                        items: [...state.items, ...res1],
-                        items2: [...state.items2, ...res2],
-                        currentItemsHeight,
-                        currentItems2Height,
-                        cursor: res.cursor,
+                        items: newItems,
                         isLoading: false,
                         total: res.value.value,
-                        hasMoreImage:
-                            res.value.value >
-                            state.items.length + state.items2.length + res.value.key.length
+                        hasMoreImage: hasMore,
                     }));
 
                     this.forceUpdate();
@@ -320,7 +332,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                 >
                     <InfiniteScroll
                         scroll={true}
-                        throttle={500}
+                        throttle={1000}
                         threshold={300}
                         isLoading={this.state.isLoading}
                         hasMore={this.state.hasMoreImage}
@@ -330,98 +342,37 @@ export default class SidebarImage extends Component<IProps, IState> {
                     >
                         <div
                             id="image-container-picker"
-                            style={{ display: "flex", padding: "16px 13px 10px 0px" }}
+                            style={{ display: "flex", padding: "16px 0px 10px 0px" }}
                         >
                             <div
                                 style={{
                                     height: "calc(100% - 170px)",
-                                    width: "350px",
+                                    width: "calc(100% + 8px)",
                                 }}
                             >
                                 {this.state.items.map((item, key) => (
                                     <ImagePicker
-                                        id=""
+                                        id={item.id}
                                         key={key + "1"}
                                         color={item.color}
                                         src={item.representativeThumbnail}
-                                        height={imgWidth / (item.width / item.height)}
+                                        height={item.height}
                                         defaultHeight={imgWidth}
-                                        width={imgWidth}
-                                        className="image-picker"
+                                        width={item.width}
                                         onPick={this.imgOnMouseDown.bind(this, item)}
                                         onEdit={this.props.handleEditmedia.bind(this, item)}
-                                        delay={0}
+                                        delay={250 * key}
                                         showButton={true}
                                         backgroundColorLoaded="transparent"
                                     />
                                 ))}
-                                {left > 0 && this.state.hasMoreImage &&
-                                    Array(t)
-                                        .fill(0)
-                                        .map((item, i) => (
-                                            <ImagePicker
-                                                showButton={false}
-                                                key={i + "11"}
-                                                id="sentinel-image"
-                                                color="black"
-                                                src={""}
-                                                height={imgWidth}
-                                                defaultHeight={imgWidth}
-                                                width={imgWidth}
-                                                onPick={null}
-                                                onEdit={this.props.handleEditmedia.bind(this, null)}
-                                                delay={0}
-                                                backgroundColorLoaded="transparent"
-                                            />
-                                        ))}
-                            </div>
-                            <div
-                                style={{
-                                    height: "calc(100% - 170px)",
-                                    width: "350px"
-                                }}
-                            >
-                                {this.state.items2.map((item, key) => (
-                                    <ImagePicker
-                                        showButton={true}
-                                        id=""
-                                        key={key + "2"}
-                                        color={item.color}
-                                        src={item.representativeThumbnail}
-                                        height={imgWidth / (item.width / item.height)}
-                                        defaultHeight={imgWidth}
-                                        width={imgWidth}
-                                        onPick={this.imgOnMouseDown.bind(this, item)}
-                                        onEdit={this.props.handleEditmedia.bind(this, item)}
-                                        delay={-1}
-                                        backgroundColorLoaded="transparent"
-                                    />
-                                ))}
-                                {left > 0 && this.state.hasMoreImage &&
-                                    Array(t)
-                                        .fill(0)
-                                        .map((item, i) => (
-                                            <ImagePicker
-                                                showButton={false}
-                                                key={i + "22"}
-                                                id="sentinel-image"
-                                                color="black"
-                                                src={""}
-                                                height={imgWidth}
-                                                defaultHeight={imgWidth}
-                                                width={imgWidth}
-                                                onPick={null}
-                                                onEdit={this.props.handleEditmedia.bind(this, null)}
-                                                delay={150}
-                                            />
-                                        ))}
                             </div>
                         </div>
                     </InfiniteScroll>
                     <input
                         style={{
                             zIndex: 11,
-                            width: "calc(100% - 15px)",
+                            width: "334px",
                             marginBottom: "8px",
                             border: "none",
                             height: "37px",

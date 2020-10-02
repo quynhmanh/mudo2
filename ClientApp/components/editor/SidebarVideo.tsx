@@ -21,7 +21,16 @@ export interface IState {
     loaded: boolean;
 }
 
-const imgWidth = 334;
+const imgWidth = 162;
+const imgHeight = 80;
+let getRem = (rem) => Array(rem).fill(0).map(i => {
+    return {
+        width: imgWidth,
+        height: imgHeight,
+        id: "sentinel-video",
+    }
+});
+
 
 export default class SidebarVideo extends Component<IProps, IState> {
     state = {
@@ -55,6 +64,10 @@ export default class SidebarVideo extends Component<IProps, IState> {
         return false;
     }
 
+    tmp = [];
+    sum = 0;
+    left = 10;
+
     loadMoreVideo = initialLoad => {
         let pageId;
         let count;
@@ -72,8 +85,31 @@ export default class SidebarVideo extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
+                    let result = res.value.key;
+                    let items = [];
+                    
+                    for (let i = 0; i < result.length; ++i) {
+                        this.sum += 1.0 * result[i].width / result[i].height;
+                        this.tmp.push(result[i]);
+                        let height = (334 - (this.tmp.length - 1) * 8) / this.sum;
+                        if (height < 160 && this.tmp.length > 1) {
+                            this.sum = 0;
+                            for (let j = 0; j < this.tmp.length; ++j) {
+                                this.tmp[j].width = this.tmp[j].width / this.tmp[j].height * height;
+                                this.tmp[j].height = height;
+                            }
+                            items.push(...this.tmp);
+                            this.tmp = [];
+                        }
+                    }
+
+                    let newItems = [...this.state.videos.filter(item => item.id != "sentinel-image"), ...items];
+                    let hasMore = newItems.length + this.tmp.length < res.value.value;
+                    if (hasMore) {
+                        newItems = [...newItems, ...getRem(this.left)];
+                    }
                     this.setState(state => ({
-                        videos: [...state.videos, ...res.value.key],
+                        videos: newItems,
                         hasMoreVideos: res.value.value > state.videos.length + res.value.key.length,
                         loaded: true,
                     }));
@@ -211,7 +247,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                 sidebar={SidebarTab.Video}
             >
                 <div style={{ display: "inline-block", width: "100%" }}>
-                    <button
+                    {/* <button
                         style={{
                             width: "calc(100% - 13px)",
                             backgroundColor: "white",
@@ -227,45 +263,28 @@ export default class SidebarVideo extends Component<IProps, IState> {
                             document.getElementById("image-file").click();
                         }}
                     >
-                        {/* Tải lên một video */}
                         {this.props.translate("uploadAVideo")}
-                    </button>
+                    </button> */}
                     <ul
                         style={{
                             listStyle: "none",
-                            padding: "0px 13px 10px 0px",
+                            padding: "0px 0px 10px 0px",
                             width: "100%",
-                            marginTop: "18px",
+                            marginTop: "10px",
                             overflow: "scroll",
                             height: "calc(100% - 60px)"
                         }}
                     >
                         {this.state.videos.map((item, key) => (
-                            // <video
-                            //     key={uuidv4()}
-                            //     style={{
-                            //         width: "100%",
-                            //         marginBottom: "10px"
-                            //     }}
-                            //     onMouseDown={this.videoOnMouseDown}
-                            //     muted
-                            // // autoPlay={true} preload="none"
-                            // >
-                            //     <source
-                            //         src={video.representative}
-                            //         type="video/webm"
-                            //     ></source>
-                            // </video>
-
                             <VideoPicker
                                 id=""
                                 defaultHeight={imgWidth}
                                 delay={0}
-                                width={imgWidth}
+                                width={item.width}
                                 key={key}
                                 color={item.color}
                                 src={item.representative}
-                                height={imgWidth / (item.width / item.height)}
+                                height={item.height}
                                 className="template-picker"
                                 onPick={this.videoOnMouseDown}
                                 onEdit={this.props.handleEditmedia.bind(this, item)}
