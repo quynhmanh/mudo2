@@ -203,6 +203,7 @@ class LeftSide extends Component<IProps, IState> {
                             image.type === TemplateType.Image ||
                             image.type === TemplateType.Video ||
                             image.type === TemplateType.Element ||
+                            image.type === TemplateType.Gradient ||
                             (image.type === TemplateType.BackgroundImage &&
                                 image.src)
                         )
@@ -310,7 +311,7 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     handleCancelBtnClick={props.handleCancelBtnClick}
                 />
-                {editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
+                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
                 <ColorButton>
                     <button 
                         style={{
