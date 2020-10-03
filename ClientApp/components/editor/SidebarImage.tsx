@@ -375,8 +375,8 @@ export default class SidebarImage extends Component<IProps, IState> {
                             width: "334px",
                             marginBottom: "8px",
                             border: "none",
-                            height: "37px",
-                            borderRadius: "3px",
+                            height: "40px",
+                            borderRadius: "5px",
                             padding: "5px",
                             fontSize: "14px",
                             boxShadow:

@@ -247,24 +247,6 @@ export default class SidebarVideo extends Component<IProps, IState> {
                 sidebar={SidebarTab.Video}
             >
                 <div style={{ display: "inline-block", width: "100%" }}>
-                    {/* <button
-                        style={{
-                            width: "calc(100% - 13px)",
-                            backgroundColor: "white",
-                            border: "none",
-                            color: "black",
-                            padding: "10px",
-                            borderRadius: "5px",
-                            height: "37px",
-                            marginTop: "6px",
-                            lineHeight: "15px",
-                        }}
-                        onClick={() => {
-                            document.getElementById("image-file").click();
-                        }}
-                    >
-                        {this.props.translate("uploadAVideo")}
-                    </button> */}
                     <ul
                         style={{
                             listStyle: "none",

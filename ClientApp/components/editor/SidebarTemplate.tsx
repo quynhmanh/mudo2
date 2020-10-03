@@ -296,8 +296,8 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         width: "calc(100% - 15px)",
                         marginBottom: "8px",
                         border: "none",
-                        height: "37px",
-                        borderRadius: "3px",
+                        height: "40px",
+                        borderRadius: "5px",
                         padding: "5px",
                         fontSize: "14px",
                         boxShadow:

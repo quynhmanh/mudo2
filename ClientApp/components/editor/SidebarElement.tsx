@@ -588,8 +588,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         width: "calc(100% - 15px)",
                         marginBottom: "15px",
                         border: "none",
-                        height: "37px",
-                        borderRadius: "3px",
+                        height: "40px",
+                        borderRadius: "5px",
                         padding: "5px 10px",
                         fontSize: "14px",
                         boxShadow:
