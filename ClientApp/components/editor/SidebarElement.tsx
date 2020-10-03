@@ -107,7 +107,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
             .then(
                 res => {
                     console.log('res ', res)
-                    for (let i = 0; i < 50; ++i) {
+                    for (let i = 0; i < 60; ++i) {
                         if (i >= res.value.key.length) break;
                         let doc = res.value.key[i];
                         if (doc.keywords.length > 0 && elements[doc.keywords[0]]) {
@@ -692,6 +692,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <SidebarElement
                                 elements={elements["Gradients"]}
                                 term="Gradients"
+                                handleQuery={this.handleQuery}
+                                selectedTab={this.props.selectedTab}
+                                imgOnMouseDown={this.gradientOnMouseDown}
+                                // frameOnMouseDownload={this.frameOnMouseDownload}
+                            />
+                            <SidebarElement
+                                elements={elements["Animals"]}
+                                term="Animals"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.gradientOnMouseDown}
