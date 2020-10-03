@@ -125,11 +125,14 @@ export default class Rect extends Component<IProps, IState> {
 				for (let j = 0; j < this.props.image.colors.length; ++j) {
 					let elColors = el.getElementsByClassName("color-" + (j + 1));
 					for (let i = 0; i < elColors.length; ++i) {
-						let ell = elColors[i];
+						let ell = elColors[i] as HTMLElement;
+						let field = ell.getAttribute("field");
 						if (ell.tagName == "stop") {
-							ell.style.stopColor = this.props.image.colors[j];
+							if (!field) field = "stopColor";
+							ell.style[field] = this.props.image.colors[j];
 						} else if (ell.tagName == "path" || ell.tagName == "circle") {
-							ell.style.fill = this.props.image.colors[j];
+							if (!field) field = "fill";
+							ell.style[field] = this.props.image.colors[j];
 						}
 					}
 				}
@@ -1620,12 +1623,12 @@ export default class Rect extends Component<IProps, IState> {
 function processChildren(children) {
 	console.log('children', children)
 	return Array.from(children.length ? children : []).map(
-		(node, i) => {
+		(node:any, i) => {
 			// return if text node
 			if (node.nodeType === 3) return node.nodeValue;
 
 			// collect all attributes
-			let attributes = Array.from(node.attributes).reduce((attrs, attr) => {
+			let attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
 				if (attr.name == "style") {
 					attrs[attr.name] = createStyleJsonFromString(attr.value);
 					console.log('hehe', attr.value, attrs[attr.name])

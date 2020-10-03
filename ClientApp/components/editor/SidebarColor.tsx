@@ -346,11 +346,14 @@ export default class SidebarColor extends Component<IProps, IState> {
                 if (el) {
                     let elColors = el.getElementsByClassName("color-" + editorStore.colorField);
                     for (let i = 0; i < elColors.length; ++i) {
-                        let ell = elColors[i];
+                        let ell = elColors[i] as HTMLElement;
+                        let field = ell.getAttribute("field");
                         if (ell.tagName == "stop") {
-                            ell.style.stopColor = color;
+                            if (!field) field = "stopColor";
+                            ell.style[field] = color;
                         } else if (ell.tagName == "path" || ell.tagName == "circle") {
-                            ell.style.fill = color;
+                            if (!field) field = "fill";
+                            ell.style[field] = color;
                         }
                     }
                 }
