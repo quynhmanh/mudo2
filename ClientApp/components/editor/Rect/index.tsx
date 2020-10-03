@@ -1634,6 +1634,10 @@ function processChildren(children) {
 			// collect all attributes
 			if (node.attributes) {
 				attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
+					if (node.tagName == "svg" && (attr.name == "width" || attr.name == "height")) {
+						attrs[attr.name] = "100%";
+					}
+					
 					if (attr.name == "style") {
 						let style = createStyleJsonFromString(attr.value);
 						if (node.tagName == "svg") {
