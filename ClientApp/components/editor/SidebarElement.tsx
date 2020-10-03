@@ -77,6 +77,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         super(props);
         this.state.items = getRem(props.rem);
         this.left = props.rem;
+        this.prefix = 1;
 
         this.handleQuery = this.handleQuery.bind(this);
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
@@ -565,7 +566,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
     };
 
     handleQuery = term => {
+        console.log("asd", this.state.query, term)
+        console.log('asd')
         this.left = this.props.rem;
+        this.prefix = this.prefix + 1;
         this.setState({ query: term, items: getRem(this.left) }, () => {
             this.loadMore(false);
         });
@@ -716,7 +720,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             >
                                 <ImagePicker
                                     id={item.id}
-                                    key={key + "1"}
+                                    key={this.prefix + key}
                                     color={item.color}
                                     src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
                                     height={height}
