@@ -342,6 +342,15 @@ class LeftSide extends Component<IProps, IState> {
                                                 }
                                                 attrs['class'] = colorsMapping[attr.value];
                                             }
+                                            
+                                            if (node.tagName == "g" && attr.name == "fill") {
+                                                if (!colorsMapping[attr.value]) {
+                                                    colorsMapping[attr.value] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(attr.value);
+                                                }
+                                                attrs['class'] = colorsMapping[attr.value];
+                                            }
                                             attrs[attr.name] = attr.value;
                                         }
                                         return attrs;
