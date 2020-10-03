@@ -326,6 +326,22 @@ class LeftSide extends Component<IProps, IState> {
                                             }
                                             attrs[attr.name] = style;
                                         } else {
+                                            if (node.tagName == "stop" && attr.name == "stop-color") {
+                                                if (!colorsMapping[attr.value]) {
+                                                    colorsMapping[attr.value] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(attr.value);
+                                                }
+                                                attrs['class'] = colorsMapping[attr.value];
+                                            }
+                                            if (node.tagName == "path" && attr.name == "fill" && attr.value.startsWith("#")) {
+                                                if (!colorsMapping[attr.value]) {
+                                                    colorsMapping[attr.value] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(attr.value);
+                                                }
+                                                attrs['class'] = colorsMapping[attr.value];
+                                            }
                                             attrs[attr.name] = attr.value;
                                         }
                                         return attrs;

@@ -11,6 +11,7 @@ import { clone } from "lodash";
 import { secondToMinutes, degToRadian, } from "@Utils";
 import { getLetterSpacing } from "@Utils";
 import { camelCase } from "lodash";
+import styled from "styled-components";
 
 const zoomableMap = {
 	n: "t",
@@ -429,7 +430,13 @@ export default class Rect extends Component<IProps, IState> {
 
 		let ABC;
 		if (type == TemplateType.Gradient) {
-			const xml = path ? path.replaceAll('[SVG_ID]', _id + clipId + name) : "";
+			let cnt = 1;
+			let xml = path ? path : "";
+			while (cnt < 10 && xml) {
+				let newXml = xml.replaceAll('SVGID_' + cnt + '_', _id + cnt + name);
+				xml = newXml;
+				++cnt;
+			}
 
 			const parser = new DOMParser();
 			const xmlDoc = parser.parseFromString(xml, 'text/xml');
@@ -862,20 +869,17 @@ export default class Rect extends Component<IProps, IState> {
 										overflow: type == TemplateType.Gradient ? 'hidden' : 'auto',
 									}}
 								>
-									<div
+									<GradientContainer
 										id={_id + "1235" + canvas}
 										className={`${_id}1236`}
 										style={{
-											zIndex: 9999999,
 											width: imgWidth + "px",
 											height: imgHeight + "px",
 											transform: `translate(${posX}px, ${posY}px)`,
-											opacity: 1,
-											transformOrigin: "0 0",
 										}}
 									>
 										{ABC}
-									</div>
+									</GradientContainer>
 								</div>
 							}
 							{
@@ -1670,3 +1674,15 @@ function createStyleJsonFromString(styleString) {
 
 	return jsonStyles;
 }
+
+
+const GradientContainer = styled.div`
+	z-index: 9999999;
+	opacity: 1;
+	transform-origin: 0 0;
+	
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+`;
