@@ -51,6 +51,7 @@ let elements = {
     "Shapes": [],
     "Stickers": [],
     "Gradients": [],
+    "Animals": [],
 };
 
 export default class SidebarEffect extends Component<IProps, IState> {
