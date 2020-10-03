@@ -391,7 +391,14 @@ class LeftSide extends Component<IProps, IState> {
                     }
 
                     const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(fr2.result.toString(), 'text/xml');
+                    let elXML: any = fr2.result.toString();
+                    for (let i = 0; i < 26; ++i) {
+                        let c = String.fromCharCode(97 + i);
+                        console.log('c', `url=(#${c})`, `url=(#SVGID_${i+1})`)
+                        elXML = elXML.replaceAll(`id="${c}"`, `id="SVGID_${i+1}_"`);
+                        elXML = elXML.replaceAll(`url(#${c})`, `url(#SVGID_${i+1}_)`);
+                    }
+                    const xmlDoc = parser.parseFromString(elXML, 'text/xml');
 
                     let ABC = processChildren(Array.from(xmlDoc.childNodes));
                     console.log('React.renderToStaticMarkup(ABC)', ReactDOMServer.renderToString(ABC));
