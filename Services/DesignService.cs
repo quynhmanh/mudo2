@@ -12,7 +12,7 @@ namespace RCB.TypeScript.Services
 {
     public class DesignService : ServiceBase
     {
-        const string DefaultIndex = "design-02";
+        const string DefaultIndex = "design-06";
         private DesignContext _designContext;
 
         public DesignService(DesignContext designContext)

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOMServer from 'react-dom/server';
 import TopMenu from "@Components/editor/Sidebar";
 import Globals from "@Globals";
 import axios from "axios";
@@ -17,6 +18,7 @@ import SidebarColor from "@Components/editor/SidebarColor";
 import SidebarElement from "@Components/editor/SidebarElement";
 import SidebarUserUpload from "@Components/editor/SidebarUserUpload";
 import { SidebarTab, TemplateType } from "./enums";
+import { camelCase } from "lodash";
 
 import { observer } from "mobx-react";
 
@@ -287,7 +289,10 @@ class LeftSide extends Component<IProps, IState> {
             console.log('i', i)
             let file = fileUploader.files[i];
             let fr = new FileReader();
+            let fr2 = new FileReader();
             fr.readAsDataURL(file);
+            fr2.readAsText(file);
+            // fr2.onload = () => {
             fr.onload = () => {
                 console.log('onload ', file.name)
                 var url = `/api/Media/Add`;
@@ -297,14 +302,84 @@ class LeftSide extends Component<IProps, IState> {
                 var img = new Image();
 
                 img.onload = function () {
-                    console.log('onload2 ', i)
-                    // var prominentColor = getMostProminentColor(i);
+                    let colorsMapping = {};
+                    let cnt = 1;
+                    let stopColor = [];
+                    function processChildren(children) {
+                        return Array.from(children.length ? children : []).map(
+                            (node:any, i) => {
+                                // return if text node
+                                if (node.nodeType == 8) return null;
+                                if (node.nodeType === 3) return node.nodeValue;
+                                // collect all attributes
+                                if (node.attributes) {
+                                    let attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
+                                        if (attr.name == "style") {
+                                            let style = createStyleJsonFromString(attr.value);
+                                            if (style.fill && node.tagName != "svg") {
+                                                console.log('node123 ,', node.tagName)
+                                                if (!colorsMapping[style.fill]) {
+                                                    colorsMapping[style.fill] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(style.fill);
+                                                }
+                                                attrs['class'] = colorsMapping[style.fill];
+                                            }
+                                            attrs[attr.name] = style;
+                                        } else {
+                                            attrs[attr.name] = attr.value;
+                                        }
+                                        return attrs;
+                                    }, {});
+                                }
+
+                                // create React component
+                                return React.createElement(node.nodeName, {
+                                    ...attributes,
+                                    key: i
+                                }, processChildren(node.childNodes));
+                            });
+                    }
+
+                    function createStyleJsonFromString(styleString) {
+                        styleString = styleString || '';
+                        var styles = styleString.split(/;(?!base64)/);
+                        console.log('styles ', styles)
+                        var singleStyle, key, value, jsonStyles = {};
+                        for (var i = 0; i < styles.length; ++i) {
+                            singleStyle = styles[i].split(':');
+                            if (singleStyle.length > 2) {
+                                singleStyle[1] = singleStyle.slice(1).join(':');
+                            }
+
+                            key = singleStyle[0];
+                            value = singleStyle[1];
+                            if (typeof value === 'string') {
+                                value = value.trim();
+                            }
+
+                            if (key != null && value != null && key.length > 0 && value.length > 0) {
+                                jsonStyles[camelCase(key)] = value;
+                            }
+                        }
+
+                        return jsonStyles;
+                    }
+
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(fr2.result.toString(), 'text/xml');
+
+                    let ABC = processChildren(Array.from(xmlDoc.childNodes));
+                    console.log('React.renderToStaticMarkup(ABC)', ReactDOMServer.renderToString(ABC));
+
                     axios
                         .post(url, {
                             id: uuidv4(),
                             ext: file.name.split(".")[1],
                             userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
                             // color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
+                            stopColor,
+                            path: ReactDOMServer.renderToString(ABC),
                             data: fr.result,
                             width: img.width,
                             height: img.height,

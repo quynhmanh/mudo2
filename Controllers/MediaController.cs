@@ -67,6 +67,9 @@ namespace RCB.TypeScript.Controllers
             [JsonProperty(PropertyName = "color")]
             public string color;
 
+            [JsonProperty(PropertyName = "path")]
+            public string path;
+
             [JsonProperty(PropertyName = "userEmail")]
             public string userEmail;
 
@@ -91,9 +94,6 @@ namespace RCB.TypeScript.Controllers
             [JsonProperty(PropertyName = "clipHeight")]
             public float clipHeight { get; set; }
 
-            [JsonProperty(PropertyName = "path")]
-            public string path { get; set; }
-            
             [JsonProperty(PropertyName = "path2")]
             public string path2 { get; set; }
 
@@ -114,6 +114,9 @@ namespace RCB.TypeScript.Controllers
 
             [JsonProperty(PropertyName = "y2")]
             public string y2 { get; set; }
+
+            [JsonProperty(PropertyName = "stopColor")]
+            public string[] stopColor { get; set; }
 
             [JsonProperty(PropertyName = "stopColor1")]
             public string stopColor1 { get; set; }
@@ -235,14 +238,15 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Color = oDownloadBody.color;
                 mediaModel.UserEmail = oDownloadBody.userEmail;
                 mediaModel.Ext = oDownloadBody.ext;
-
+                mediaModel.Path = oDownloadBody.path;
+                mediaModel.StopColor = oDownloadBody.stopColor;
+                
                 try
                 {
                     if (oDownloadBody.ext == "svg")
                     {
                         // Create PNG Image from SVG-File
-                        var svgDocument = Svg.SvgDocument.Open(filePath);  // Replace with correct FileName
-                        svgDocument.ShapeRendering = SvgShapeRendering.Auto;
+                        var svgDocument = SvgDocument.Open<SvgDocument>(filePath, null);
 
                         Bitmap bmp = svgDocument.Draw((int)oDownloadBody.width, (int)oDownloadBody.height);
                         bmp.Save(filePath3, ImageFormat.Png); 				// save Bitmap as PNG-File

@@ -429,7 +429,6 @@ export default class Rect extends Component<IProps, IState> {
 
 		let ABC;
 		if (type == TemplateType.Gradient) {
-			console.log('stop color ', this.props.image)
 			const xml = path ? path.replaceAll('[SVG_ID]', _id + clipId + name) : "";
 
 			const parser = new DOMParser();
@@ -1621,22 +1620,23 @@ export default class Rect extends Component<IProps, IState> {
 }
 
 function processChildren(children) {
-	console.log('children', children)
 	return Array.from(children.length ? children : []).map(
 		(node:any, i) => {
 			// return if text node
+			if (node.nodeType == 8) return null;
 			if (node.nodeType === 3) return node.nodeValue;
 
 			// collect all attributes
-			let attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
-				if (attr.name == "style") {
-					attrs[attr.name] = createStyleJsonFromString(attr.value);
-					console.log('hehe', attr.value, attrs[attr.name])
-				} else {
-					attrs[attr.name] = attr.value;
-				}
-				return attrs;
-			}, {});
+			if (node.attributes) {
+				let attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
+					if (attr.name == "style") {
+						attrs[attr.name] = createStyleJsonFromString(attr.value);
+					} else {
+						attrs[attr.name] = attr.value;
+					}
+					return attrs;
+				}, {});
+			}
 
 			// create React component
 			return React.createElement(node.nodeName, {

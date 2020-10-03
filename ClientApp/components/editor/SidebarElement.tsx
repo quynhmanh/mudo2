@@ -248,10 +248,11 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         y1: img.y1,
                         x2: img.x2,
                         y2: img.y2,
+                        stopColor: img.stopColor,
                         stopColor1: img.stopColor1,
                         stopColor2: img.stopColor2,
                         gradientTransform: img.gradientTransform,
-                        colors: colors,
+                        colors: img.stopColor,
                     };
 
                     this.props.setSavingState(SavingState.UnsavedChanges, true);
@@ -708,9 +709,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     let el = e.currentTarget.getElementsByTagName("img")[0];
                                     if (item.keywords && item.keywords[0] == "Frame")
                                         this.frameOnMouseDownload(item, el, e);
-                                    else if (item.keywords && item.keywords[0] == "Gradients")
-                                        this.gradientOnMouseDown(item, el, e);
-                                    else if (item.keywords && item.keywords[0] == "Shapes")
+                                    else if (item.ext == "svg")
                                         this.gradientOnMouseDown(item, el, e);
                                     else this.imgOnMouseDown(item, el, e)
                                 }}

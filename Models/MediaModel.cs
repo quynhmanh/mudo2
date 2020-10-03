@@ -28,6 +28,7 @@
         public long  Popularity { get; set; }
         public long  Popularity2 { get; set; }
         public string StopColor1 { get; set; }
+        public string[] StopColor { get; set; }
         public string StopColor2 { get; set; }
         public string StopColor3 { get; set; }
         public string StopColor4 { get; set; }
