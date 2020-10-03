@@ -316,8 +316,7 @@ class LeftSide extends Component<IProps, IState> {
                                     let attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
                                         if (attr.name == "style") {
                                             let style = createStyleJsonFromString(attr.value);
-                                            if (style.fill && node.tagName != "svg") {
-                                                console.log('node123 ,', node.tagName)
+                                            if (style.fill && style.fill != 'inherit' && node.tagName != "svg") {
                                                 if (!colorsMapping[style.fill]) {
                                                     colorsMapping[style.fill] = "color-" + cnt;
                                                     ++cnt;

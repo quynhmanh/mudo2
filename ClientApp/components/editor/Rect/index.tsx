@@ -121,7 +121,7 @@ export default class Rect extends Component<IProps, IState> {
 		if (this.props.image.type == TemplateType.Gradient) {
 			let el = document.getElementById(this.props.image._id + "1235" + this.props.canvas);
 
-			if (el) {
+			if (el && this.props.image.colors) {
 				for (let j = 0; j < this.props.image.colors.length; ++j) {
 					let elColors = el.getElementsByClassName("color-" + (j + 1));
 					for (let i = 0; i < elColors.length; ++i) {
@@ -130,7 +130,7 @@ export default class Rect extends Component<IProps, IState> {
 						if (ell.tagName == "stop") {
 							if (!field) field = "stopColor";
 							ell.style[field] = this.props.image.colors[j];
-						} else if (ell.tagName == "path" || ell.tagName == "circle") {
+						} else if (ell.tagName == "path" || ell.tagName == "circle" || ell.tagName == "g") {
 							if (!field) field = "fill";
 							ell.style[field] = this.props.image.colors[j];
 						}
