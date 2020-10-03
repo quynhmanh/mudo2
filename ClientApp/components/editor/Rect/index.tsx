@@ -432,7 +432,7 @@ export default class Rect extends Component<IProps, IState> {
 		if (type == TemplateType.Gradient) {
 			let cnt = 1;
 			let xml = path ? path : "";
-			while (cnt < 10 && xml) {
+			while (cnt < 15 && xml) {
 				let newXml = xml.replaceAll('SVGID_' + cnt + '_', _id + cnt + name);
 				xml = newXml;
 				++cnt;
