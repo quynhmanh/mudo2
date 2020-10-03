@@ -636,7 +636,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     style={{
                         position: 'absolute',
                         right: '15px',
-                        top: '11px',
+                        top: '13px',
                         border: 'none',
                         zIndex: 123,
                         display: this.state.query ? "block" : "none",
