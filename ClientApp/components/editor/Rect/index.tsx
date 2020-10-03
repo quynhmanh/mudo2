@@ -1630,11 +1630,18 @@ function processChildren(children) {
 			if (node.nodeType == 8) return null;
 			if (node.nodeType === 3) return node.nodeValue;
 
+			let attributes;
 			// collect all attributes
 			if (node.attributes) {
-				let attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
+				attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
 					if (attr.name == "style") {
-						attrs[attr.name] = createStyleJsonFromString(attr.value);
+						let style = createStyleJsonFromString(attr.value);
+						if (node.tagName == "svg") {
+							style.width = "100%";
+							style.height = "100%";
+						}
+			
+						attrs[attr.name] = style;
 					} else {
 						attrs[attr.name] = attr.value;
 					}
