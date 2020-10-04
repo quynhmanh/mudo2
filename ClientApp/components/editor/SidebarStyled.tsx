@@ -13,4 +13,12 @@ export default styled.div`
     height: 100%;
     left: 19px;
     overflow: visible;
+
+    .clear {
+        color: rgba(30,41,51,.45);
+    }
+
+    .clear:hover {
+        color: rgba(14,19,24,.7);
+    }
 `;
