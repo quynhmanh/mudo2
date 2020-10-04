@@ -248,7 +248,7 @@ namespace RCB.TypeScript.Controllers
                         // Create PNG Image from SVG-File
                         var svgDocument = SvgDocument.Open<SvgDocument>(filePath, null);
 
-                        Bitmap bmp = svgDocument.Draw(0, 105);
+                        Bitmap bmp = svgDocument.Draw(0, 320);
                         bmp.Save(filePath3, ImageFormat.Png); 				// save Bitmap as PNG-File
                         mediaModel.RepresentativeThumbnail = file3;
                     }
