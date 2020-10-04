@@ -587,6 +587,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
             >
                 <input
                     id="queryInput"
+                    autoComplete="off"
                     style={{
                         position: "absolute",
                         zIndex: 11,
