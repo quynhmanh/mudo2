@@ -151,7 +151,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
 
     render() {
         const colors = this.props.color;
-        console.log('colors', colors)
         if (colors) console.log(`rgb(${colors[0]},${colors[1]},${colors[2]})`);
         return (
             <a
