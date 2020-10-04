@@ -309,7 +309,8 @@ class LeftSide extends Component<IProps, IState> {
                         return Array.from(children.length ? children : []).map(
                             (node:any, i) => {
                                 // return if text node
-                                if (node.nodeType == 8) return null;
+                                console.log('node ', node.nodeType, node)
+                                if (node.nodeType == 8 || node.nodeType == 10) return null;
                                 if (node.nodeType === 3) return node.nodeValue;
                                 // collect all attributes
                                 if (node.attributes) {
