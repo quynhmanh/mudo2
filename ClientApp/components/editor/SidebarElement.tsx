@@ -108,8 +108,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
-                    console.log('res ', res)
-                    for (let i = 0; i < 60; ++i) {
+                    for (let i = 0; i < 70; ++i) {
                         if (i >= res.value.key.length) break;
                         let doc = res.value.key[i];
                         if (doc.keywords.length > 0 && elements[doc.keywords[0]]) {
@@ -118,7 +117,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     }
 
                     this.forceUpdate();
-                    console.log('elements ', elements);
                 });
     }
 
@@ -275,7 +273,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     frameOnMouseDownload(img, el, e) {
-        console.log('frameOnMouseDownload')
         let scale = this.props.scale;
 
         let target = el.cloneNode(true);
@@ -569,7 +566,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
     handleQuery = term => {
         console.log("asd", this.state.query, term)
-        console.log('asd')
         this.left = this.props.rem;
         this.prefix = this.prefix + 1;
         this.setState({ query: term, items: getRem(this.left) }, () => {
@@ -621,11 +617,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         this.setState({ query: e.target.value });
 
                         let el = document.getElementById('clearBtn');
-                        console.log('el ', el)
                         if (e.target.value) {
                             el.style.display = "block";
                         } else {
-                            console.log('el2 ', el)
                             el.style.display = "none";
                         }
                     }}
