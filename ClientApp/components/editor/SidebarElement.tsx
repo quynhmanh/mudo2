@@ -673,6 +673,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     handleQuery={this.handleQuery}
                                     selectedTab={this.props.selectedTab}
                                     imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
                                 />
                                 {/* <SidebarElement
                                 elements={elements["Shapes"]}
@@ -687,13 +688,15 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     handleQuery={this.handleQuery}
                                     selectedTab={this.props.selectedTab}
                                     imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
                                 />
                                 <SidebarElement
                                     elements={elements["Gradients"]}
                                     term="Gradients"
                                     handleQuery={this.handleQuery}
                                     selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.gradientOnMouseDown}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
                                 // frameOnMouseDownload={this.frameOnMouseDownload}
                                 />
                                 <SidebarElement
@@ -701,7 +704,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     term="Animals"
                                     handleQuery={this.handleQuery}
                                     selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.gradientOnMouseDown}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
                                 // frameOnMouseDownload={this.frameOnMouseDownload}
                                 />
                                 <SidebarElement
@@ -709,7 +713,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     term="Coronavirus"
                                     handleQuery={this.handleQuery}
                                     selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.gradientOnMouseDown}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
                                 // frameOnMouseDownload={this.frameOnMouseDownload}
                                 />
                             </div>}
