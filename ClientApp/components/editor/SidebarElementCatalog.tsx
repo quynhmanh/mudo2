@@ -157,9 +157,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         e.preventDefault();
                                         let el = e.currentTarget.getElementsByTagName("img")[0];
                                         if (item.ext == "svg")
-                                            this.props.imgOnMouseDown(item, el, e);
-                                        else 
                                             this.props.gradientOnMouseDown(item, el, e);
+                                        else 
+                                            this.props.imgOnMouseDown(item, el, e);
                                     }}
                                 >
                                     <ImagePicker
