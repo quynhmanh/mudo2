@@ -52,6 +52,7 @@ let elements = {
     "Stickers": [],
     "Gradients": [],
     "Animals": [],
+    "Coronavirus": [],
 };
 
 export default class SidebarEffect extends Component<IProps, IState> {
@@ -702,6 +703,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <SidebarElement
                                 elements={elements["Animals"]}
                                 term="Animals"
+                                handleQuery={this.handleQuery}
+                                selectedTab={this.props.selectedTab}
+                                imgOnMouseDown={this.gradientOnMouseDown}
+                                // frameOnMouseDownload={this.frameOnMouseDownload}
+                            />
+                            <SidebarElement
+                                elements={elements["Coronavirus"]}
+                                term="Coronavirus"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.gradientOnMouseDown}
