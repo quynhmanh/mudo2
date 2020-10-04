@@ -351,7 +351,7 @@ export default class SidebarColor extends Component<IProps, IState> {
                         if (ell.tagName == "stop") {
                             if (!field) field = "stopColor";
                             ell.style[field] = color;
-                        } else if (ell.tagName == "path" || ell.tagName == "circle" || ell.tagName == "g") {
+                        } else if (ell.tagName == "path" || ell.tagName == "circle" || ell.tagName == "g" || ell.tagName == "polygon") {
                             if (!field) field = "fill";
                             ell.style[field] = color;
                         }
