@@ -12,6 +12,7 @@ export interface IProps {
     handleQuery: any;
     frameOnMouseDownload: any;
     imgOnMouseDown: any;
+    gradientOnMouseDown: any;
     elements: any;
 }
 
@@ -155,7 +156,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     onMouseDown={e => {
                                         e.preventDefault();
                                         let el = e.currentTarget.getElementsByTagName("img")[0];
-                                        this.props.imgOnMouseDown(item, el, e);
+                                        if (item.ext == "svg")
+                                            this.props.imgOnMouseDown(item, el, e);
+                                        else 
+                                            this.props.gradientOnMouseDown(item, el, e);
                                     }}
                                 >
                                     <ImagePicker
