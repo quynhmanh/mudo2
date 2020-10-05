@@ -38,7 +38,7 @@ function startRecording(videoId, width, height) {
         try {
             var options = {
                 mimeType: 'video/webm; codecs=vp9',
-                videoBitsPerSecond : 250000000,
+                videoBitsPerSecond : 500000000,
             };
             recorder = new MediaRecorder(stream, options);
         } catch (err) {
