@@ -353,7 +353,10 @@ class LeftSide extends Component<IProps, IState> {
                                                 attrs['class'] = colorsMapping[attr.value];
                                             }
 
-                                            if ((node.tagName == "circle" || node.tagName == "polygon") && attr.name == "fill") {
+                                            if ((node.tagName == "circle" || 
+                                                node.tagName == "polygon") && 
+                                                attr.name == "fill" && 
+                                                !attr.value.startsWith(`url(#SVGID_`) ) {
                                                 if (!colorsMapping[attr.value]) {
                                                     colorsMapping[attr.value] = "color-" + cnt;
                                                     ++cnt;
