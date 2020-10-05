@@ -114,9 +114,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                         image = image.document_object.find(text => text._id == editorStore.childId) || {};
                     }
                     const colors = color.toRGBA();
-
-                    console.log('el ', el)
-
                     if (editorStore.effectId == 1) {
                         el.style.textShadow = `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, ${1.0 * image.textShadowTransparent / 100}) ${21.0 * image.offSet / 100 * Math.sin(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * image.offSet / 100 * Math.cos(image.direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * image.blur / 100}px`;
 
@@ -151,8 +148,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
 
     render() {
         const colors = this.props.color;
-        console.log('colors', colors)
-        if (colors) console.log(`rgb(${colors[0]},${colors[1]},${colors[2]})`);
         return (
             <a
                 href="#"

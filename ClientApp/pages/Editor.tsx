@@ -1698,7 +1698,6 @@ class CanvaEditor extends Component<IProps, IState> {
         objectType,
         ratio,
     ) => {
-        console.log('handleResize')
         const {
             scale,
             cropMode,
@@ -2470,7 +2469,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 let newPosY = image2.posY / image.height * height;
 
                 if (image2.type == TemplateType.Image || image2.type == TemplateType.Gradient) {
-                    console.log('asd')
                     let el = document.getElementById(image2._id + "1235alo");
                     if (el) {
                         el.style.width = newImgWidth * scale + "px";
@@ -2922,8 +2920,6 @@ class CanvaEditor extends Component<IProps, IState> {
         window.scaleY = image.scaleY;
         window.origin_width = image.origin_width;
         window.origin_height = image.origin_height;
-
-        console.log('asd')
 
         let el = document.getElementsByClassName(_id + "1236");
         for (let i = 0; i < el.length; ++i) {

@@ -32,6 +32,7 @@ export interface IState {
     hasMore: boolean;
     cursor: any;
     query: string;
+    currentQuery: string;
     total: number;
 }
 
@@ -52,6 +53,7 @@ let elements = {
     "Stickers": [],
     "Gradients": [],
     "Animals": [],
+    "Coronavirus": [],
 };
 
 export default class SidebarEffect extends Component<IProps, IState> {
@@ -71,6 +73,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         hasMore: true,
         cursor: null,
         query: "",
+        currentQuery: "",
         total: 10,
     }
 
@@ -107,8 +110,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
-                    console.log('res ', res)
-                    for (let i = 0; i < 60; ++i) {
+                    for (let i = 0; i < 70; ++i) {
                         if (i >= res.value.key.length) break;
                         let doc = res.value.key[i];
                         if (doc.keywords.length > 0 && elements[doc.keywords[0]]) {
@@ -117,7 +119,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     }
 
                     this.forceUpdate();
-                    console.log('elements ', elements);
                 });
     }
 
@@ -274,7 +275,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     frameOnMouseDownload(img, el, e) {
-        console.log('frameOnMouseDownload')
         let scale = this.props.scale;
 
         let target = el.cloneNode(true);
@@ -567,11 +567,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
     };
 
     handleQuery = term => {
-        console.log("asd", this.state.query, term)
-        console.log('asd')
         this.left = this.props.rem;
         this.prefix = this.prefix + 1;
-        this.setState({ query: term, items: getRem(this.left) }, () => {
+        this.setState({ query: term, currentQuery: term, items: getRem(this.left) }, () => {
             this.loadMore(false);
         });
         let el = document.getElementById("queryInput") as HTMLInputElement;
@@ -587,9 +585,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
             >
                 <input
                     id="queryInput"
+                    autoComplete="off"
                     style={{
                         position: "absolute",
-                        zIndex: 11,
+                        zIndex: 123,
                         width: "calc(100% - 15px)",
                         marginBottom: "15px",
                         border: "none",
@@ -616,32 +615,33 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     type="text"
                     placeholder="Search icons and shapes"
                     onChange={e => {
-                        this.setState({ query: e.target.value });
+                        this.setState({ currentQuery: e.target.value });
 
                         let el = document.getElementById('clearBtn');
-                        console.log('el ', el)
                         if (e.target.value) {
                             el.style.display = "block";
                         } else {
-                            console.log('el2 ', el)
                             el.style.display = "none";
                         }
                     }}
                 />
-
                 <button
-                    onClick={e => this.handleQuery("")}
+                    onClick={e => {
+                        e.currentTarget.style.display = "none";
+                        this.handleQuery("");
+                    }}
                     className="clear"
                     id="clearBtn"
                     style={{
                         position: 'absolute',
-                        right: '15px',
+                        right: '20px',
                         top: '13px',
                         border: 'none',
                         zIndex: 123,
                         display: this.state.query ? "block" : "none",
                     }}
-                    type="button"><span className="TcNIhA"><span aria-hidden="true" className="NA_Img dkWypw"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
+                    type="button"><span className="TcNIhA"><span aria-hidden="true" className="NA_Img dkWypw">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
 
                 <InfiniteScroll
                     scroll={true}
@@ -660,53 +660,66 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             marginTop: "18px",
                         }}>
                         {!this.state.query &&
-                        <div
-                        >
-                            <SidebarElement
-                                elements={elements["Frame"]}
-                                term="Frame"
-                                handleQuery={this.handleQuery}
-                                selectedTab={this.props.selectedTab}
-                                imgOnMouseDown={this.frameOnMouseDownload}
-                            />
-                            <SidebarElement
-                                elements={elements["Lines"]}
-                                term="Lines"
-                                handleQuery={this.handleQuery}
-                                selectedTab={this.props.selectedTab}
-                                imgOnMouseDown={this.imgOnMouseDown}
-                            />
-                            {/* <SidebarElement
+                            <div
+                            >
+                                <SidebarElement
+                                    elements={elements["Frame"]}
+                                    term="Frame"
+                                    handleQuery={this.handleQuery}
+                                    selectedTab={this.props.selectedTab}
+                                    imgOnMouseDown={this.frameOnMouseDownload}
+                                />
+                                <SidebarElement
+                                    elements={elements["Lines"]}
+                                    term="Lines"
+                                    handleQuery={this.handleQuery}
+                                    selectedTab={this.props.selectedTab}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
+                                />
+                                {/* <SidebarElement
                                 elements={elements["Shapes"]}
                                 term="Shapes"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.gradientOnMouseDown}
                             /> */}
-                            <SidebarElement
-                                elements={elements["Stickers"]}
-                                term="Stickers"
-                                handleQuery={this.handleQuery}
-                                selectedTab={this.props.selectedTab}
-                                imgOnMouseDown={this.imgOnMouseDown}
-                            />
-                            <SidebarElement
-                                elements={elements["Gradients"]}
-                                term="Gradients"
-                                handleQuery={this.handleQuery}
-                                selectedTab={this.props.selectedTab}
-                                imgOnMouseDown={this.gradientOnMouseDown}
+                                <SidebarElement
+                                    elements={elements["Stickers"]}
+                                    term="Stickers"
+                                    handleQuery={this.handleQuery}
+                                    selectedTab={this.props.selectedTab}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
+                                />
+                                <SidebarElement
+                                    elements={elements["Gradients"]}
+                                    term="Gradients"
+                                    handleQuery={this.handleQuery}
+                                    selectedTab={this.props.selectedTab}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
                                 // frameOnMouseDownload={this.frameOnMouseDownload}
-                            />
-                            <SidebarElement
-                                elements={elements["Animals"]}
-                                term="Animals"
-                                handleQuery={this.handleQuery}
-                                selectedTab={this.props.selectedTab}
-                                imgOnMouseDown={this.gradientOnMouseDown}
+                                />
+                                <SidebarElement
+                                    elements={elements["Animals"]}
+                                    term="Animals"
+                                    handleQuery={this.handleQuery}
+                                    selectedTab={this.props.selectedTab}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
                                 // frameOnMouseDownload={this.frameOnMouseDownload}
-                            />
-                        </div>}
+                                />
+                                <SidebarElement
+                                    elements={elements["Coronavirus"]}
+                                    term="Coronavirus"
+                                    handleQuery={this.handleQuery}
+                                    selectedTab={this.props.selectedTab}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
+                                // frameOnMouseDownload={this.frameOnMouseDownload}
+                                />
+                            </div>}
                         {this.state.query && this.state.items.map((item, key) => {
                             let width, height;
                             if (item.width > item.height) {

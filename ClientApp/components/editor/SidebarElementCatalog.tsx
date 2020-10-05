@@ -12,6 +12,7 @@ export interface IProps {
     handleQuery: any;
     frameOnMouseDownload: any;
     imgOnMouseDown: any;
+    gradientOnMouseDown: any;
     elements: any;
 }
 
@@ -43,10 +44,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('nextProps.elements ', nextProps.elements)
         if (nextProps.elements.length > 0) {
             this.elements = nextProps.elements;
-            console.log('this.elements ', this.elements)
             return true;
         }
 
@@ -69,7 +68,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
         };
         this.setState({ isLoading: true, error: undefined });
         const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${count}&terms=${term}`;
-        console.log('loadmore ', url)
         fetch(url)
             .then(res => res.json())
             .then(
@@ -155,7 +153,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     onMouseDown={e => {
                                         e.preventDefault();
                                         let el = e.currentTarget.getElementsByTagName("img")[0];
-                                        this.props.imgOnMouseDown(item, el, e);
+                                        if (item.ext == "svg")
+                                            this.props.gradientOnMouseDown(item, el, e);
+                                        else 
+                                            this.props.imgOnMouseDown(item, el, e);
                                     }}
                                 >
                                     <ImagePicker

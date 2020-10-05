@@ -574,9 +574,7 @@ export default class Rect extends Component<IProps, IState> {
 								this.props.handleCropBtnClick(_id);
 							}}
 							onMouseEnter={e => {
-								console.log('asd', type, window.imgDragging)
 								if (window.imagedragging && type == TemplateType.Element) {
-									console.log('asd2')
 									window.imgDragging.style.opacity = 0;
 									let el = document.getElementById(_id + "1235alo") as HTMLImageElement;
 									el.src = window.imagesrc;
@@ -1657,7 +1655,6 @@ function processChildren(children) {
 function createStyleJsonFromString(styleString) {
 	styleString = styleString || '';
 	var styles = styleString.split(/;(?!base64)/);
-	console.log('styles ', styles)
 	var singleStyle, key, value, jsonStyles = {};
 	for (var i = 0; i < styles.length; ++i) {
 		singleStyle = styles[i].split(':');
