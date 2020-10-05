@@ -589,7 +589,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     autoComplete="off"
                     style={{
                         position: "absolute",
-                        zIndex: 11,
+                        zIndex: 123,
                         width: "calc(100% - 15px)",
                         marginBottom: "15px",
                         border: "none",
