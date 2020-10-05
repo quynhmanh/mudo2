@@ -191,6 +191,6 @@ var CC = styled.li`
     position: relative;
     height: 100%;
     margin-right: 16px;
-    border: 1px solid rgb(0 0 0 / 12%);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 7px;
 `;
