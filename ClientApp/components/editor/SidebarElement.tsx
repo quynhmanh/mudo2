@@ -627,7 +627,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     }}
                 />
                 <button
-                    onClick={e => this.handleQuery("")}
+                    onClick={e => {
+                        e.currentTarget.style.display = "none";
+                        this.handleQuery("");
+                    }}
                     className="clear"
                     id="clearBtn"
                     style={{
