@@ -155,5 +155,5 @@ let CC = styled.li`
     margin-right: 16px;
     transition: .3s;
     width: 200px;
-    border: 1px solid rgb(0 0 0 / 12%);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 `;
