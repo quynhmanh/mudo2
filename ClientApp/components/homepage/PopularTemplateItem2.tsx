@@ -190,6 +190,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
 
 var CC = styled.li`
     position: relative;
-    height: ${HEIGHT}px;
+    height: 100%;
     margin-right: 16px;
+    border: 1px solid rgb(0 0 0 / 12%);
 `;
