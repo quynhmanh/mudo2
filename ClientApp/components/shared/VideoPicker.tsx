@@ -165,16 +165,18 @@ export default class VideoPicker extends Component<IProps, IState> {
                     src={this.props.startPoint == this.props.keys ? this.props.src : ""}
                     onMouseDown={this.props.onPick}
                 />
-                <svg 
+                
+                <svg className="playIcon___2MyHG" viewBox="0 0 16 16" width="16" height="16" 
+                    // style="/* transform:translateX(-6px) translateY(-6px); */position: absolute;bottom: 5px;right: 4px;width: 20px;height: 20px;"
                     style={{
                         position: 'absolute',
-                        top: '3px',
-                        left: '6px',
-                        width: '26px',
-                        height: '28px',
-                        fill: 'white',
+                        bottom: '5px',
+                        right: '4px',
+                        width: '20px',
+                        height: '20px',
                     }}
-                xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512"><path d="m226 208.07v95.86l76.699-47.93z"/><path d="m75 451h362c41.353 0 75-33.647 75-75v-240c0-41.353-33.647-75-75-75h-362c-41.353 0-75 33.647-75 75v240c0 41.353 33.647 75 75 75zm121-270c0-5.449 2.959-10.474 7.734-13.125 4.717-2.637 10.591-2.505 15.22.41l120 75c4.38 2.739 7.046 7.544 7.046 12.715s-2.666 9.976-7.046 12.715l-120 75c-2.432 1.523-5.185 2.285-7.954 2.285-2.505 0-5.01-.63-7.266-1.875-4.775-2.651-7.734-7.676-7.734-13.125z"/></svg>
+                >
+                <g opacity="0.94"><rect width="16" height="16" rx="4" fill="white"></rect><path d="M6.53 12.0438C5.86395 12.46 5 11.9812 5 11.1958V4.80425C5 4.01881 5.86395 3.53997 6.53 3.95625L11.6432 7.152C12.2699 7.54367 12.2699 8.45633 11.6432 8.848L6.53 12.0438Z" fill="#121316"></path></g></svg>
             </Container>
         );
     }
