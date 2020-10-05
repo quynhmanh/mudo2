@@ -142,7 +142,6 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                     animation: "TB8Ekw 1.4s infinite",
                     background: 'black',
                     animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
-                    borderRadius: "4px",
                     opacity: 0.7,
                 }}
                 className="templateWrapper___3Fitk"
@@ -193,4 +192,5 @@ var CC = styled.li`
     height: 100%;
     margin-right: 16px;
     border: 1px solid rgb(0 0 0 / 12%);
+    border-radius: 7px;
 `;
