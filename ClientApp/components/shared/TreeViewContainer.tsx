@@ -935,18 +935,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
             })
         }
     }
-
-//   loadTemplate = (filePath : string) => {
-//     var self = this;
-//     const url = `/api/Template/SearchAngAggregate?type=1&filePath=${filePath ? filePath : this.props.filePath}`;
-//     self.setState({isLoading: true,})
-//     axios.get(url).
-//       then(res => {
-//           console.log('res ', res);
-//           self.setState({templates: res.data.value.documents, isLoading: false,})
-//       })
-//   }
-
+    
   loadMore = (initialLoad, filePath) => {
     let pageId;
     let count;

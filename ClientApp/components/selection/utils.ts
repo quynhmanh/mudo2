@@ -128,7 +128,6 @@ function doPolygonsIntersect (a, b) {
             // if there is no overlap between the projects, the edge we are looking at separates the two
             // polygons, and we know there is no overlap
             if (maxA < minB || maxB < minA) {
-                // console.log("polygons don't intersect!");
                 return false;
             }
         }

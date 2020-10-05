@@ -173,7 +173,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
         }
 
         if (image.effectId == 3 || image.effectId == 4) {
-            console.log('asd', image.hollowThickness)
             el.style.WebkitTextStroke = `${1.0 * image.hollowThickness / 100 * 4 + 0.1}px ${(image.effectId == 3 || image.effectId == 4) ? image.color : "black"}`;
         }
     }

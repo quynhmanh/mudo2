@@ -256,7 +256,6 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
     };
 
     uploadImage = (removeBackground, e) => {
-        console.log('uploadImage')
         let type;
         switch (editorStore.selectedTab) {
             case SidebarTab.Image:
@@ -278,7 +277,6 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             "image-file2"
         ) as HTMLInputElement;
         for (let i = 0; i < fileUploader.files.length; ++i) {
-            console.log('i', i)
             let file = fileUploader.files[i];
             let fr = new FileReader();
             fr.readAsDataURL(file);
@@ -307,19 +305,16 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         tmp.push(newItems[i]);
                         let height = (334 - (tmp.length - 1) * 8) / sum;
                         if (height < 160 && tmp.length > 1) {
-                            console.log('height', height, tmp)
                             sum = 0;
                             for (let j = 0; j < tmp.length; ++j) {
                                 tmp[j].width = tmp[j].width / tmp[j].height * height;
                                 tmp[j].height = height;
                             }
-                            console.log('height2', height, tmp)
                             items.push(...tmp);
                             tmp = [];
                         }
                     }
 
-                    console.log('item ', items)
 
                     self.setState({
                         items,

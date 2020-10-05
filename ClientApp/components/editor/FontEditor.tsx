@@ -61,17 +61,6 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
     axios.delete(url);
   };
 
-  handleKeywordChanged = (index, e) => {
-    // console.log('index value', index, e.target.value);
-    // var keywords = this.state.keywords.map((kw, id) => {
-    //     if (id === index) {
-    //         return e.target.value;
-    //     }
-    //     return kw;
-    // });
-    // this.setState({keywords});
-  };
-
   handleRemove = (index, e) => {
     var keywords = this.state.keywords.filter((kw, id) => id !== index);
     this.setState({ keywords });

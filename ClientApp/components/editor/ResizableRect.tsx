@@ -44,28 +44,9 @@ export interface IState {
 export default class ResizableRect extends Component<IProps, IState> {
 
   shouldComponentUpdate(nextProps, nextState) {
-    // if (this.props.selected || nextProps.selected) {
-    //   return true;
-    // }
     if (this.props.scale != nextProps.scale) {
       return true;
     }
-
-    // if (this.props.name == "downloadImages") {
-    //   return true;
-    // }
-
-    // if (this.props.image.type != TemplateType.BackgroundImage) {
-    //   // console.log('this.props.image.hovered ', this.props.name, this.props.image, this.props.hovered, nextProps.hovered)
-    // }
-    // if (this.props.image.rotateAngle != nextProps.image.rotateAngle) {
-    //   return true;
-    // }
-    // if (this.props.hovered || nextProps.hovered) {
-    //   return true;
-    // }
-    // return false;
-
     return false;
   }
   

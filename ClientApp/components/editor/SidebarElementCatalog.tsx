@@ -44,10 +44,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('nextProps.elements ', nextProps.elements)
         if (nextProps.elements.length > 0) {
             this.elements = nextProps.elements;
-            console.log('this.elements ', this.elements)
             return true;
         }
 
@@ -70,7 +68,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
         };
         this.setState({ isLoading: true, error: undefined });
         const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${count}&terms=${term}`;
-        console.log('loadmore ', url)
         fetch(url)
             .then(res => res.json())
             .then(

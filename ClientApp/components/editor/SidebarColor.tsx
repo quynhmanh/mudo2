@@ -342,7 +342,6 @@ export default class SidebarColor extends Component<IProps, IState> {
         if (image.type == TemplateType.Gradient) {
             for (let i = 0; i <= CanvasType.Preview; ++i) {
                 let el = document.getElementById(editorStore.idObjectSelected + "1235alo" + (i == 0 ? "" : i));
-                console.log('el ', "1235alo" + (i == 0 ? "" : i), el)
                 if (el) {
                     let elColors = el.getElementsByClassName("color-" + editorStore.colorField);
                     for (let i = 0; i < elColors.length; ++i) {

@@ -567,7 +567,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
     };
 
     handleQuery = term => {
-        console.log("asd", this.state.query, term)
         this.left = this.props.rem;
         this.prefix = this.prefix + 1;
         this.setState({ query: term, currentQuery: term, items: getRem(this.left) }, () => {

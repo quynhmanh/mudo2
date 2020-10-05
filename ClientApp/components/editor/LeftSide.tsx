@@ -177,7 +177,6 @@ class LeftSide extends Component<IProps, IState> {
 
     componentDidMount() {
         let height = imgWidth / editorStore.templateRatio + 10;
-        console.log('document.getElementById(sidebar-content).getBoundingClientRect().height', document.getElementById('sidebar-content').getBoundingClientRect().height)
         this.rem = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / height) + 1) * 2;
         this.elRem = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / 105) + 1) * 3;
 
@@ -264,7 +263,6 @@ class LeftSide extends Component<IProps, IState> {
     };
 
     uploadImage = (removeBackground, e) => {
-        console.log('uploadImage')
         let type;
         switch (editorStore.selectedTab) {
             case SidebarTab.Image:
@@ -286,7 +284,6 @@ class LeftSide extends Component<IProps, IState> {
             "image-file"
         ) as HTMLInputElement;
         for (let i = 0; i < fileUploader.files.length; ++i) {
-            console.log('i', i)
             let file = fileUploader.files[i];
             let fr = new FileReader();
             let fr2 = new FileReader();
@@ -294,7 +291,6 @@ class LeftSide extends Component<IProps, IState> {
             fr2.readAsText(file);
             // fr2.onload = () => {
             fr.onload = () => {
-                console.log('onload ', file.name)
                 var url = `/api/Media/Add`;
                 if (type === TemplateType.RemovedBackgroundImage) {
                     url = `/api/Media/Add2`;
@@ -309,7 +305,6 @@ class LeftSide extends Component<IProps, IState> {
                         return Array.from(children.length ? children : []).map(
                             (node:any, i) => {
                                 // return if text node
-                                console.log('node ', node.nodeType, node)
                                 if (node.nodeType == 8 || node.nodeType == 10) return null;
                                 if (node.nodeType === 3) return node.nodeValue;
                                 // collect all attributes
@@ -381,7 +376,6 @@ class LeftSide extends Component<IProps, IState> {
                     function createStyleJsonFromString(styleString) {
                         styleString = styleString || '';
                         var styles = styleString.split(/;(?!base64)/);
-                        console.log('styles ', styles)
                         var singleStyle, key, value, jsonStyles = {};
                         for (var i = 0; i < styles.length; ++i) {
                             singleStyle = styles[i].split(':');
@@ -407,14 +401,12 @@ class LeftSide extends Component<IProps, IState> {
                     let elXML: any = fr2.result.toString();
                     for (let i = 0; i < 26; ++i) {
                         let c = String.fromCharCode(97 + i);
-                        console.log('c', `url=(#${c})`, `url=(#SVGID_${i+1})`)
                         elXML = elXML.replaceAll(`id="${c}"`, `id="SVGID_${i+1}_"`);
                         elXML = elXML.replaceAll(`url(#${c})`, `url(#SVGID_${i+1}_)`);
                     }
                     const xmlDoc = parser.parseFromString(elXML, 'text/xml');
 
                     let ABC = processChildren(Array.from(xmlDoc.childNodes));
-                    console.log('React.renderToStaticMarkup(ABC)', ReactDOMServer.renderToString(ABC));
 
                     axios
                         .post(url, {
@@ -432,7 +424,6 @@ class LeftSide extends Component<IProps, IState> {
                             title: "Manh quynh"
                         })
                         .then((res) => {
-                            console.log('res ', res)
                             if (self.state.userUpload1.length <= self.state.userUpload2.length) {
                                 self.setState({
                                     userUpload1: [res.data, ...self.state.userUpload1]
@@ -445,7 +436,6 @@ class LeftSide extends Component<IProps, IState> {
                         });
                 };
 
-                console.log('iii ', i, fr.result.toString())
                 img.src = fr.result.toString();
             };
         }
