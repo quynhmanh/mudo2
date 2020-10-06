@@ -679,8 +679,8 @@ namespace RCB.TypeScript.Services
                 }
             }
 
-            double scale = 1.0 * 321/width;
-            height = (int)(321 / (1.0 * width / height));
+            double scale = 1.0 * 320/width;
+            height = (int)(320 / (1.0 * width / height));
             width = 320;
 
             string template = AppSettings.templateDownload
