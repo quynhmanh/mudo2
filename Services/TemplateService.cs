@@ -544,7 +544,7 @@ namespace RCB.TypeScript.Services
                 }
             }
 
-            const int scaledWidth = 500;
+            const int scaledWidth = 400;
 
             double scale = 1.0 * scaledWidth/width;
             height = (int)(scaledWidth / (1.0 * width / height));
@@ -636,8 +636,8 @@ namespace RCB.TypeScript.Services
                             Width = (decimal)width,
                             Height = (decimal)height,
                         },
-                        Type = ScreenshotType.Png,
-                        OmitBackground = true,
+                        Type = ScreenshotType.Jpeg,
+                        Quality = 50,
                     });
 
                     using (var memoryStream = new MemoryStream())

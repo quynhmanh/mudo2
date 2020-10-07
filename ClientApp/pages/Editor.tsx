@@ -4222,6 +4222,7 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.effectId = image.effectId;
         editorStore.currentOpacity = image.opacity ? image.opacity : 100;
         editorStore.colors = image.colors;
+        editorStore.colorField = null;
         if (!editorStore.childId) {
             editorStore.currentFontSize = image.fontSize * image.scaleY;
             editorStore.fontId = image.fontId;

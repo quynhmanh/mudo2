@@ -53,6 +53,8 @@ class Images {
     @observable isVideo = false;
     @observable isPopular = false;
     @observable templateRatio = 0;
+    @observable colors = [];
+    @observable colorField = null;
     
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));

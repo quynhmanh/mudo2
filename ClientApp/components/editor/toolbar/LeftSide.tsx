@@ -312,7 +312,11 @@ class LeftSide extends Component<IProps, IState> {
                     handleCancelBtnClick={props.handleCancelBtnClick}
                 />
                 {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
-                <ColorButton>
+                <ColorButton
+                    style={{
+                        backgroundColor: editorStore.colorField == key + 1 ? 'rgba(75, 102, 129, 0.15)' : null,
+                    }}
+                >
                     <button 
                         style={{
                             backgroundColor: color,

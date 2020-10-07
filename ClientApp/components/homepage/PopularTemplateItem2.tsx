@@ -52,12 +52,10 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
             this.cc.style.background = "transparent";
             this.cc.style.opacity = 1;
             this.picker.image.style.opacity = 1;
-                this.transitioned = true;
-            // if (this.props.keys == this.props.startPoint) {
-                setTimeout(() => {
-                    this.props.loadImage(this.props.keys + 1);
-                }, 100);
-            // }
+            this.transitioned = true;
+            setTimeout(() => {
+                this.props.loadImage(this.props.keys + 1);
+            }, 50);
         }
     }
 
@@ -169,7 +167,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                             style={{ 
                                 paddingTop: 0,
                                 width: `${width}px`,
-                                transitionDuration: '0.25s',
+                                transitionDuration: '0.15s',
                                 transitionProperty: 'opacity, width',
                             }}>
                             {picker}
