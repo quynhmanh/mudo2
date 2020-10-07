@@ -76,6 +76,18 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
             case 14:
                 title = "Instagram Post";
                 break;
+            case 15: // Business Card
+                title = "Business Card";
+                break;
+            case 16: // Facebook Cover
+                title = "Facebook Cover";
+                break;
+            case 17: // Facebook Post
+                title = "Facebook Post";
+                break;
+            case 18: // Facebook ad
+                title = "Facebook Ad";
+                break;
         }
 
         return <div>
