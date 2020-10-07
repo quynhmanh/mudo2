@@ -658,6 +658,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             display: "inline-block",
                             width: "100%",
                             marginTop: "18px",
+                            userSelect: "none",
                         }}>
                         {!this.state.query &&
                             <div

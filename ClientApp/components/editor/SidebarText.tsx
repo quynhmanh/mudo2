@@ -122,7 +122,7 @@ export default class SidebarText extends Component<IProps, IState> {
 
 
     loadMore = initalLoad => {
-        
+
         let pageId;
         let count;
         if (initalLoad) {
@@ -313,7 +313,7 @@ export default class SidebarText extends Component<IProps, IState> {
     render() {
 
         let left = this.state.total - this.state.items.length - this.state.items2.length;
-        let t = Math.round(Math.min(left/2, 5));
+        let t = Math.round(Math.min(left / 2, 5));
 
         if (!this.state.loaded) {
             t = 3;
@@ -325,185 +325,186 @@ export default class SidebarText extends Component<IProps, IState> {
                 selectedTab={editorStore.selectedTab}
                 sidebar={SidebarTab.Text}
             >
-                <div style={{ color: "white" }}>
-                    {
-                        <div style={{ height: "100%" }}>
-                            <InfiniteScroll
-                                scroll={true}
-                                throttle={500}
-                                threshold={300}
-                                isLoading={this.state.isLoading}
-                                hasMore={this.state.hasMore}
-                                onLoadMore={this.loadMore.bind(this, false)}
-                                refId="sentinel-texttemplate"
-                                marginTop={0}
-                            >
-                                {editorStore.tReady &&
-                                    <div style={{ marginBottom: "10px" }}>
-                                        <p>
-                                            {this.props.translate("clickTextToAddToPage")}
-                                        </p>
-                                        <div
-                                            className="add-heading-btn"
-                                            style={{
-                                                fontSize: "28px",
-                                                cursor: "pointer",
-                                                background: "hsla(0,0%,100%,.07)",
-                                                borderRadius: "4px",
-                                                padding: "10px",
-                                                width: "334px",
-                                                fontFamily: "Open-Sans-Extra-Bold",
-                                            }}
-                                            onMouseDown={e => {
-                                                e.preventDefault();
-                                                const text = this.props.translate("addAHeading");
-                                                this.addText(text, 56, 'Open-Sans-Extra-Bold', 'Open-Sans-Extra-Bold', "Open Sans Extra Bold", 500, 78);
-                                            }}
-                                        >
-                                            {/* Thêm tiêu đề */}
-                                            {this.props.translate("addAHeading")}
-                                        </div>
-                                        <div
-                                            className="add-heading-btn"
-                                            style={{
-                                                fontSize: "22px",
-                                                cursor: "pointer",
-                                                marginTop: "10px",
-                                                background: "hsla(0,0%,100%,.07)",
-                                                borderRadius: "4px",
-                                                padding: "10px",
-                                                width: "334px",
-                                                fontFamily: "Open-Sans-Regular",
-                                            }}
-                                            onMouseDown={e => {
-                                                e.preventDefault();
-                                                const text = this.props.translate("addASubHeading");
-                                                this.addText(text, 32, "Open-Sans-Regular", "Open-Sans-Regular", "Open Sans Regular", 300, 44);
-                                            }}
-                                        >
-                                            {this.props.translate("addASubHeading")}
-                                        </div>
-                                        <div
-                                            className="add-heading-btn"
-                                            style={{
-                                                fontSize: "16px",
-                                                cursor: "pointer",
-                                                marginTop: "10px",
-                                                marginBottom: "18px",
-                                                background: "hsla(0,0%,100%,.07)",
-                                                borderRadius: "4px",
-                                                padding: "10px",
-                                                width: "334px",
-                                                fontFamily: "Open-Sans-Light",
-                                            }}
-                                            onMouseDown={e => {
-                                                e.preventDefault();
-                                                const text = this.props.translate("addABodyText");
-                                                this.addText(text, 22, "Open-Sans-Light", "Open-Sans-Light", "Open Sans Light", 300, 30);
-                                            }}
-                                        >
-                                            {this.props.translate("addABodyText")}
-                                        </div>
-                                    </div>
-                                }
+                <div 
+                    style={{ 
+                        color: "white", 
+                        height: "100%",
+                        userSelect: "none",
+                    }}>
+                    <InfiniteScroll
+                        scroll={true}
+                        throttle={500}
+                        threshold={300}
+                        isLoading={this.state.isLoading}
+                        hasMore={this.state.hasMore}
+                        onLoadMore={this.loadMore.bind(this, false)}
+                        refId="sentinel-texttemplate"
+                        marginTop={0}
+                    >
+                        {editorStore.tReady &&
+                            <div style={{ marginBottom: "10px" }}>
+                                <p>
+                                    {this.props.translate("clickTextToAddToPage")}
+                                </p>
                                 <div
-                                    id="image-container-picker"
+                                    className="add-heading-btn"
                                     style={{
-                                        display: "flex",
-                                        padding: "0px 13px 10px 0px"
+                                        fontSize: "28px",
+                                        cursor: "pointer",
+                                        background: "hsla(0,0%,100%,.07)",
+                                        borderRadius: "4px",
+                                        padding: "10px",
+                                        width: "334px",
+                                        fontFamily: "Open-Sans-Extra-Bold",
+                                    }}
+                                    onMouseDown={e => {
+                                        e.preventDefault();
+                                        const text = this.props.translate("addAHeading");
+                                        this.addText(text, 56, 'Open-Sans-Extra-Bold', 'Open-Sans-Extra-Bold', "Open Sans Extra Bold", 500, 78);
                                     }}
                                 >
-                                    <div
-                                        style={{
-                                            width: "350px",
-                                        }}
-                                    >
-                                        {this.state.items.map((item, key) => (
-                                            <ImagePicker
-                                                id=""
-                                                key={key}
-                                                color={item.color}
-                                                src={item.representative}
-                                                height={imgWidth / (item.width / item.height)}
-                                                defaultHeight={imgWidth}
-                                                width={imgWidth}
-                                                delay={0}
-                                                classNameContainer="text-picker-container"
-                                                onPick={this.textOnMouseDown.bind(this, item.id)}
-                                                onEdit={() => {
-                                                    window.open(`/editor/template/${item.id}`);
-                                                }}
-                                                padding={10}
-                                                showButton={true}
-                                            />
-                                        ))}
-                                        {left > 0 && this.state.hasMore &&
-                                            Array(t)
-                                                .fill(0)
-                                                .map((item, i) => (
-                                                    <ImagePicker
-                                                        padding={10}
-                                                        key={i}
-                                                        id="sentinel-texttemplate"
-                                                        color="black"
-                                                        src={""}
-                                                        height={imgWidth}
-                                                        width={imgWidth}
-                                                        defaultHeight={imgWidth}
-                                                        onPick={null}
-                                                        onEdit={this.props.handleEditmedia.bind(this, null)}
-                                                        delay={0}
-                                                        showButton={false}
-                                                    />
-                                                ))}
-                                    </div>
-                                    <div
-                                        style={{
-                                            width: "350px"
-                                        }}
-                                    >
-                                        {this.state.items2.map((item, key) => (
-                                            <ImagePicker
-                                                id=""
-                                                defaultHeight={imgWidth}
-                                                delay={0}
-                                                width={imgWidth}
-                                                key={key}
-                                                color={item.color}
-                                                classNameContainer="text-picker-container"
-                                                height={imgWidth / (item.width / item.height)}
-                                                src={item.representative}
-                                                onPick={this.textOnMouseDown.bind(this, item.id)}
-                                                onEdit={() => {
-                                                    window.open(`/editor/template/${item.id}`);
-                                                }}
-                                                padding={10}
-                                                showButton={true}
-                                            />
-                                        ))}
-                                        {left > 0 && this.state.hasMore &&
-                                            Array(t)
-                                                .fill(0)
-                                                .map((item, i) => (
-                                                    <ImagePicker
-                                                        key={i}
-                                                        id="sentinel-texttemplate"
-                                                        color="black"
-                                                        src={""}
-                                                        height={imgWidth}
-                                                        width={imgWidth}
-                                                        defaultHeight={imgWidth}
-                                                        onPick={null}
-                                                        onEdit={this.props.handleEditmedia.bind(this, null)}
-                                                        delay={150}
-                                                        showButton={false}
-                                                    />
-                                                ))}
-                                    </div>
+                                    {/* Thêm tiêu đề */}
+                                    {this.props.translate("addAHeading")}
                                 </div>
-                            </InfiniteScroll>
+                                <div
+                                    className="add-heading-btn"
+                                    style={{
+                                        fontSize: "22px",
+                                        cursor: "pointer",
+                                        marginTop: "10px",
+                                        background: "hsla(0,0%,100%,.07)",
+                                        borderRadius: "4px",
+                                        padding: "10px",
+                                        width: "334px",
+                                        fontFamily: "Open-Sans-Regular",
+                                    }}
+                                    onMouseDown={e => {
+                                        e.preventDefault();
+                                        const text = this.props.translate("addASubHeading");
+                                        this.addText(text, 32, "Open-Sans-Regular", "Open-Sans-Regular", "Open Sans Regular", 300, 44);
+                                    }}
+                                >
+                                    {this.props.translate("addASubHeading")}
+                                </div>
+                                <div
+                                    className="add-heading-btn"
+                                    style={{
+                                        fontSize: "16px",
+                                        cursor: "pointer",
+                                        marginTop: "10px",
+                                        marginBottom: "18px",
+                                        background: "hsla(0,0%,100%,.07)",
+                                        borderRadius: "4px",
+                                        padding: "10px",
+                                        width: "334px",
+                                        fontFamily: "Open-Sans-Light",
+                                    }}
+                                    onMouseDown={e => {
+                                        e.preventDefault();
+                                        const text = this.props.translate("addABodyText");
+                                        this.addText(text, 22, "Open-Sans-Light", "Open-Sans-Light", "Open Sans Light", 300, 30);
+                                    }}
+                                >
+                                    {this.props.translate("addABodyText")}
+                                </div>
+                            </div>
+                        }
+                        <div
+                            id="image-container-picker"
+                            style={{
+                                display: "flex",
+                                padding: "0px 13px 10px 0px"
+                            }}
+                        >
+                            <div
+                                style={{
+                                    width: "350px",
+                                }}
+                            >
+                                {this.state.items.map((item, key) => (
+                                    <ImagePicker
+                                        id=""
+                                        key={key}
+                                        color={item.color}
+                                        src={item.representative}
+                                        height={imgWidth / (item.width / item.height)}
+                                        defaultHeight={imgWidth}
+                                        width={imgWidth}
+                                        delay={0}
+                                        classNameContainer="text-picker-container"
+                                        onPick={this.textOnMouseDown.bind(this, item.id)}
+                                        onEdit={() => {
+                                            window.open(`/editor/template/${item.id}`);
+                                        }}
+                                        padding={10}
+                                        showButton={true}
+                                    />
+                                ))}
+                                {left > 0 && this.state.hasMore &&
+                                    Array(t)
+                                        .fill(0)
+                                        .map((item, i) => (
+                                            <ImagePicker
+                                                padding={10}
+                                                key={i}
+                                                id="sentinel-texttemplate"
+                                                color="black"
+                                                src={""}
+                                                height={imgWidth}
+                                                width={imgWidth}
+                                                defaultHeight={imgWidth}
+                                                onPick={null}
+                                                onEdit={this.props.handleEditmedia.bind(this, null)}
+                                                delay={0}
+                                                showButton={false}
+                                            />
+                                        ))}
+                            </div>
+                            <div
+                                style={{
+                                    width: "350px"
+                                }}
+                            >
+                                {this.state.items2.map((item, key) => (
+                                    <ImagePicker
+                                        id=""
+                                        defaultHeight={imgWidth}
+                                        delay={0}
+                                        width={imgWidth}
+                                        key={key}
+                                        color={item.color}
+                                        classNameContainer="text-picker-container"
+                                        height={imgWidth / (item.width / item.height)}
+                                        src={item.representative}
+                                        onPick={this.textOnMouseDown.bind(this, item.id)}
+                                        onEdit={() => {
+                                            window.open(`/editor/template/${item.id}`);
+                                        }}
+                                        padding={10}
+                                        showButton={true}
+                                    />
+                                ))}
+                                {left > 0 && this.state.hasMore &&
+                                    Array(t)
+                                        .fill(0)
+                                        .map((item, i) => (
+                                            <ImagePicker
+                                                key={i}
+                                                id="sentinel-texttemplate"
+                                                color="black"
+                                                src={""}
+                                                height={imgWidth}
+                                                width={imgWidth}
+                                                defaultHeight={imgWidth}
+                                                onPick={null}
+                                                onEdit={this.props.handleEditmedia.bind(this, null)}
+                                                delay={150}
+                                                showButton={false}
+                                            />
+                                        ))}
+                            </div>
                         </div>
-                    }
+                    </InfiniteScroll>
                 </div>
             </Sidebar>
         )

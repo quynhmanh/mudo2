@@ -218,7 +218,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                 res => {
                     var result = res.value.key;
                     let items = [];
-                    
+
                     for (let i = 0; i < result.length; ++i) {
                         this.sum += 1.0 * result[i].width / result[i].height;
                         this.tmp.push(result[i]);
@@ -372,41 +372,34 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                     refId="sentinel-userupload"
                 >
                     <div
+                        id="image-container-picker"
                         style={{
                             color: "white",
-                            width: "100%"
+                            width: "calc(100% + 8px)",
+                            display: "flex",
+                            padding: "16px 0px 10px 0px",
+                            userSelect: "none",
+                            height: "calc(100% - 170px)",
                         }}
                     >
-                        <div
-                            id="image-container-picker"
-                            style={{ display: "flex", padding: "16px 0px 10px 0px" }}
-                        >
-                            <div
-                                style={{
-                                    height: "calc(100% - 170px)",
-                                    width: "calc(100% + 8px)",
+                        {this.state.items.map((item, key) => (
+                            <ImagePicker
+                                id={item.id}
+                                height={item.height}
+                                defaultHeight={item.height}
+                                color=""
+                                delay={250 * key}
+                                width={item.width}
+                                key={key}
+                                src={item.representative}
+                                onPick={e => {
+                                    this.imgOnMouseDown(item, e);
                                 }}
-                            >
-                                {this.state.items.map((item, key) => (
-                                    <ImagePicker
-                                        id={item.id}
-                                        height={item.height}
-                                        defaultHeight={item.height}
-                                        color=""
-                                        delay={250 * key}
-                                        width={item.width}
-                                        key={key}
-                                        src={item.representative}
-                                        onPick={e => {
-                                            this.imgOnMouseDown(item, e);
-                                        }}
-                                        onEdit={this.props.handleEditmedia.bind(this, item)}
-                                        showButton={true}
-                                        showProgressBar={item.showProgressBar}
-                                    />
-                                ))}
-                            </div>
-                        </div>
+                                onEdit={this.props.handleEditmedia.bind(this, item)}
+                                showButton={true}
+                                showProgressBar={item.showProgressBar}
+                            />
+                        ))}
                     </div>
                 </InfiniteScroll>
                 <button

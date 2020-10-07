@@ -348,6 +348,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                                 style={{
                                     height: "calc(100% - 170px)",
                                     width: "calc(100% + 8px)",
+                                    userSelect: "none",
                                 }}
                             >
                                 {this.state.items.map((item, key) => (

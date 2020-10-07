@@ -23,7 +23,6 @@ const FontFamily = (props: IProps) => {
             position="top"
         >
             <div
-                href="#"
                 className="toolbar-btn"
                 onClick={onClickDropDownFontList}
                 style={{
@@ -38,13 +37,6 @@ const FontFamily = (props: IProps) => {
                     border: '1px solid rgba(57,76,96,.15)',
                 }}
             >
-                {/* <img
-                    style={{
-                        height: "18px",
-                        margin: "auto",
-                    }}
-                    src={fontName}
-                /> */}
                 <span
                     style={{
                         lineHeight: '30px',

@@ -187,7 +187,8 @@ export default class SidebarBackground extends Component<IProps, IState> {
                         id="image-container-picker"
                         style={{
                             display: "flex",
-                            padding: "10px 0px 10px 0px"
+                            padding: "10px 0px 10px 0px",
+                            userSelect: "none",
                         }}
                     >
                         <div>
