@@ -130,7 +130,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                         transition: 'opacity 0.1s linear',
                     }}
 
-                    onLoadedMetadata={e => {
+                    onLoad={e => {
                         this.handleImageLoaded();
                     }}
 
