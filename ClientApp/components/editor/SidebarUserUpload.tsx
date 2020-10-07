@@ -376,7 +376,6 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         style={{
                             color: "white",
                             width: "calc(100% + 8px)",
-                            display: "flex",
                             padding: "16px 0px 10px 0px",
                             userSelect: "none",
                             height: "calc(100% - 170px)",
