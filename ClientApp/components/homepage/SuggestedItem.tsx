@@ -12,8 +12,8 @@ const SuggestedItem = (props: IProps) => {
     return (
         <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
             <div>
-                <button 
-                    onClick={() => window.open(props.url)} 
+                <a 
+                    href={props.url}
                     type="button" 
                     className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1 gfcUZM2lrsYeWQPoFQxBj"
                 >
@@ -28,7 +28,7 @@ const SuggestedItem = (props: IProps) => {
                             </div>
                         </span>
                     </div>
-                </button>
+                </a>
             </div>
         </li>
     );
