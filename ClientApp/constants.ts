@@ -331,38 +331,38 @@ export const SUGGESTED_LIST = [
   {
     url: "/templates/14",
     src: "web_images/Logo-01.svg",
-    title: "instagram post",
+    title: "instagramPost",
     size: "1080px × 1080px"
   },
   {
-    url: "/editor/7/0",
-    src: "web_images/brochures.svg",
-    title: "brochures",
-    size: "1920 × 1080 px"
-  },
-  {
-    url: "/editor/7/0",
-    src: "web_images/flyer.svg",
-    title: "flyer",
-    size: "210 × 297 mm"
-  },
-  {
-    url: "/templates/business-cards",
+    url: "/templates/15",
     src: "web_images/business-card.svg",
-    title: "business-card",
-    size: "8.5 × 5 cm"
+    title: "businessCard",
+    size: "8.5 × 5cm"
   },
   {
-    url: "/templates/postcards",
-    src: "web_images/card.svg",
-    title: "post-card",
-    size: "148 × 105 mm"
+    url: "/templates/16",
+    src: "web_images/facebook-cover.svg",
+    title: "facebookCover",
+    size: "851px × 315px"
   },
   {
-    url: "/templates/resume",
-    src: "web_images/resume.svg",
-    title: "resume",
-    size: "148 × 105 mm"
+    url: "/templates/17",
+    src: "web_images/facebook-post.svg",
+    title: "facebookPost",
+    size: "940px × 788px"
+  },
+  {
+    url: "/templates/9",
+    src: "web_images/square-video-post.svg",
+    title: "squareVideoPost",
+    size: "1080px × 1080px"
+  },
+  {
+    url: "/templates/18",
+    src: "web_images/facebook-ad.svg",
+    title: "facebookAd",
+    size: "1200px × 628px"
   }
 ];
 

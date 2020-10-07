@@ -1064,6 +1064,22 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectWidth = 1080;
                     rectHeight = 1080;
                     break;
+                case 15: // Business Card
+                    rectWidth = 1050;
+                    rectHeight = 600;
+                    break;
+                case 16: // Facebook Cover
+                    rectWidth = 851;
+                    rectHeight = 315;
+                    break;
+                case 17: // Facebook Post
+                    rectWidth = 940;
+                    rectHeight = 788;
+                    break;
+                case 18: // Facebook ad
+                    rectWidth = 1200;
+                    rectHeight = 628;
+                    break;
             }
 
             scaleX = (width - 50) / rectWidth;
