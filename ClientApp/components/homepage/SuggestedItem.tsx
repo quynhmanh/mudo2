@@ -14,6 +14,9 @@ const SuggestedItem = (props: IProps) => {
             <div>
                 <a 
                     href={props.url}
+                    style={{
+                        color: "black",
+                    }}
                     type="button" 
                     className="_2uHN4spVhhwLkZOp3_KMfh _1WAnEU6mBaV9wjYeHOx--- _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88 _2V7dcFfzBz3OPZn8AM3J__ _1LZdP7ackANSqIXYWhI-b1 gfcUZM2lrsYeWQPoFQxBj"
                 >
