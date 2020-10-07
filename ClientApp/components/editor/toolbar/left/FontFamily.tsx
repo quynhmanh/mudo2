@@ -35,6 +35,7 @@ const FontFamily = (props: IProps) => {
                     position: "relative",
                     backgroundColor: props.selectedTab === SidebarTab.Font ? "#f2f5f7 " : "white",
                     width: "177px",
+                    border: '1px solid rgba(57,76,96,.15)',
                 }}
             >
                 {/* <img

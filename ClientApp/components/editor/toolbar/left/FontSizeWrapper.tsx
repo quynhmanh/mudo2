@@ -38,6 +38,7 @@ const FontSizeWrapper = (props: IProps) => {
                 style={{
                     position: "relative",
                     width: "70px",
+                    border: '1px solid rgba(57,76,96,.15)',
                 }}
                 className="toolbar-btn"
             >
