@@ -167,7 +167,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
                             style={{ 
                                 paddingTop: 0,
                                 width: `${width}px`,
-                                transitionDuration: '0.25s',
+                                transitionDuration: '0.15s',
                                 transitionProperty: 'opacity, width',
                             }}>
                             {picker}
