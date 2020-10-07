@@ -348,7 +348,7 @@ export const SUGGESTED_LIST = [
   },
   {
     url: "/templates/17",
-    src: "web_images/facebook-post.svg",
+    src: "web_images/facebook-cover.svg",
     title: "facebookPost",
     size: "940px × 788px"
   },
@@ -360,7 +360,7 @@ export const SUGGESTED_LIST = [
   },
   {
     url: "/templates/18",
-    src: "web_images/facebook-ad.svg",
+    src: "web_images/facebook-cover.svg",
     title: "facebookAd",
     size: "1200px × 628px"
   }
