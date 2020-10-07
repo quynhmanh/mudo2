@@ -1060,6 +1060,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectHeight = 320;
                     rectWidth = 320;
                     break;
+                case 14: // Instagram Post
+                    rectWidth = 1080;
+                    rectHeight = 1080;
+                    break;
             }
 
             scaleX = (width - 50) / rectWidth;

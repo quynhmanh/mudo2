@@ -323,16 +323,16 @@ export const CATALOG_LIST = [
 
 export const SUGGESTED_LIST = [
   {
-    url: "/editor/3/0",
+    url: "/editor/templates/1",
     src: "web_images/poster.svg",
     title: "poster",
     size: "42 × 59.4 cm"
   },
   {
-    url: "/editor/4/0",
+    url: "/editor/templates/14",
     src: "web_images/Logo-01.svg",
-    title: "logo",
-    size: "500 × 500 px"
+    title: "instagram post",
+    size: "1080px × 1080px"
   },
   {
     url: "/editor/7/0",

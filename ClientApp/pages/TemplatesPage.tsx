@@ -45,6 +45,7 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
             case 0:
                 break;
             case 1:
+                title = "Poster";
                 break;
             case 2:
                 break;
@@ -71,6 +72,9 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
                 break;
             case 12: // Instagram Story
                 title = "Instagram Story";
+                break;
+            case 14:
+                title = "Instagram Post";
                 break;
         }
 
