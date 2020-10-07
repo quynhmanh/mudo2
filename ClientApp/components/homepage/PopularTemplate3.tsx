@@ -68,22 +68,6 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
             var I = document.getElementById("image-3-"+counter);
         }
         
-        if (newRecentDesign[counter].isVideo) {
-            // // Monitor load or error events, moving on to next image in either case
-            // I.onloadeddata = I.onerror = function() { 
-            //     setTimeout(() => {
-            //         self.loadImage(counter+1); 
-            //     }, 100);
-            // }
-        } else {
-            // I.onload = I.onerror = function() { 
-            //     setTimeout(() => {
-            //         self.loadImage(counter+1); 
-            //     }, 100);
-            // }
-        }
-        
-        
         //Change source (then wait for event)
         if (newRecentDesign[counter].isVideo) {
             I.src = newRecentDesign[counter].videoRepresentative;
