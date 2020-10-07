@@ -15,6 +15,7 @@ export interface IProps {
     rectWidth: number;
     rectHeight: number;
     updateImages: any;
+    rem: number;
 }
 
 export interface IState {

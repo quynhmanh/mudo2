@@ -17,35 +17,22 @@ export interface IProps {
     handleEditmedia: any;
     handleEditFont: any;
     updateImages: any;
+    rem: number;
 }
 
 export interface IState {
-    items: any;
-    items2: any;
-    items3: any;
     isLoading: boolean;
-    currentItemsHeight: number;
-    currentItems2Height: number;
-    currentItems3Height: number;
+    items: any;
     error: any;
     hasMore: boolean;
     cursor: any;
     loaded: boolean;
 }
 
-const imgWidth = 162;
-const backgroundWidth = 105;
-const adminEmail = "llaugusty@gmail.com";
-
 export default class SidebarFont extends Component<IProps, IState> {
     state = {
         isLoading: false,
         items: [],
-        items2: [],
-        items3: [],
-        currentItemsHeight: 0,
-        currentItems2Height: 0,
-        currentItems3Height: 0,
         error: null,
         hasMore: true,
         cursor: null,
@@ -314,7 +301,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                             </button>
                                         </div>
                                     ))}
-                                    {this.state.hasMore && Array(10)
+                                    {this.state.hasMore && Array(this.props.rem)
                                         .fill(0)
                                         .map((font, key) => (
                                             <div

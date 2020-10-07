@@ -174,11 +174,13 @@ class LeftSide extends Component<IProps, IState> {
 
     rem = 0;
     elRem = 0;
+    elRemFont = 0;
 
     componentDidMount() {
         let height = imgWidth / editorStore.templateRatio + 10;
         this.rem = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / height) + 1) * 2;
         this.elRem = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height - 50) / 105) + 1) * 3;
+        this.elRemFont = (Math.floor((document.getElementById('sidebar-content').getBoundingClientRect().height) / 40) + 1);
 
         this.setState({ mounted: true, })
     }
@@ -291,6 +293,7 @@ class LeftSide extends Component<IProps, IState> {
             fr2.readAsText(file);
             // fr2.onload = () => {
             fr.onload = () => {
+                console.log('uploadImage');
                 var url = `/api/Media/Add`;
                 if (type === TemplateType.RemovedBackgroundImage) {
                     url = `/api/Media/Add2`;
@@ -665,6 +668,7 @@ class LeftSide extends Component<IProps, IState> {
                             selectedTab={editorStore.selectedTab}
                             handleEditFont={this.handleEditFont}
                             fontId={editorStore.fontId}
+                            rem={this.elRemFont}
                         />
 
                         <SidebarEffect
