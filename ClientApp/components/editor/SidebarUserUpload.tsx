@@ -390,7 +390,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                 delay={250 * key}
                                 width={item.width}
                                 key={key}
-                                src={item.representative}
+                                src={item.representativeThumbnail}
                                 onPick={e => {
                                     this.imgOnMouseDown(item, e);
                                 }}

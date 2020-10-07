@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Serilog;
+using System.Drawing.Drawing2D;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -202,6 +203,19 @@ namespace RCB.TypeScript.Controllers
 
         }
 
+        private ImageCodecInfo GetEncoder(ImageFormat format)  
+        {  
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();  
+            foreach (ImageCodecInfo codec in codecs)  
+            {  
+                if (codec.FormatID == format.Guid)  
+                {  
+                    return codec;  
+                }  
+            }  
+            return null;  
+        }  
+
         [HttpPost("[action]")]
         public IActionResult Add()
         {
@@ -263,9 +277,26 @@ namespace RCB.TypeScript.Controllers
                         int newWidth = Convert.ToInt32(imgWidth / x);
                         int newHeight = Convert.ToInt32(imgHeight / x);
 
-                        //----------        Creating Small Image
-                        System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
-                        myThumbnail.Save(filePath3);
+                        ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);  
+
+                        // Create an Encoder object based on the GUID  
+                        // for the Quality parameter category.  
+                        System.Drawing.Imaging.Encoder myEncoder =  
+                            System.Drawing.Imaging.Encoder.Quality;  
+            
+                        // Create an EncoderParameters object.  
+                        // An EncoderParameters object has an array of EncoderParameter  
+                        // objects. In this case, there is only one  
+                        // EncoderParameter object in the array.  
+                        EncoderParameters myEncoderParameters = new EncoderParameters(1);  
+            
+                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);  
+                        myEncoderParameters.Param[0] = myEncoderParameter;  
+
+                        var img2 = (Image)(new Bitmap(img, new Size(newWidth,newHeight)));
+                        img2.Save(filePath3, jpgEncoder, myEncoderParameters);
+
+                        // img.Save(filePath3, ImageFormat.Jpeg, 
                         mediaModel.RepresentativeThumbnail = file3;
                     }
 
