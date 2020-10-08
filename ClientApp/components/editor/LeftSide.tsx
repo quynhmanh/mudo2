@@ -301,6 +301,8 @@ class LeftSide extends Component<IProps, IState> {
                 var img = new Image();
 
                 img.onload = function () {
+                    document.body.appendChild(img);
+                    console.log('img.width img.height', img.width, img.height, img.offsetWidth, img.offsetHeight);
                     let colorsMapping = {};
                     let cnt = 1;
                     let stopColor = [];
@@ -411,6 +413,7 @@ class LeftSide extends Component<IProps, IState> {
 
                     let ABC = processChildren(Array.from(xmlDoc.childNodes));
 
+                    console.log('img width img height', img.width, img.height)
                     axios
                         .post(url, {
                             id: uuidv4(),

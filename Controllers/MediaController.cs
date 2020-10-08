@@ -262,7 +262,19 @@ namespace RCB.TypeScript.Controllers
                         // Create PNG Image from SVG-File
                         var svgDocument = SvgDocument.Open<SvgDocument>(filePath, null);
 
-                        Bitmap bmp = svgDocument.Draw(0, 320);
+                        var svgHeight = 0;
+                        var svgWidth = 0;
+                        double ratio = (double)oDownloadBody.width / (double)oDownloadBody.height;
+                        if (oDownloadBody.height > oDownloadBody.width) {
+                            svgHeight = 320;
+                            svgWidth = (int)(320 * ratio);
+                        } else {
+                            svgWidth = 320;
+                            svgHeight = (int)(320 / ratio);
+                        }
+                        svgDocument.Width = new SvgUnit(SvgUnitType.Pixel, svgWidth);
+                        svgDocument.Height = new SvgUnit(SvgUnitType.Pixel, svgHeight);
+                        Bitmap bmp = svgDocument.Draw();
                         bmp.Save(filePath3, ImageFormat.Png); 				// save Bitmap as PNG-File
                         mediaModel.RepresentativeThumbnail = file3;
                     }
