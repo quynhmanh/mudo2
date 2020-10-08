@@ -68,6 +68,11 @@ export default class TemplateList extends Component<IProps, IState> {
             this.width = (el.width - 100) / 3 - 100;
         }
 
+        if (props.type == 15) {
+            let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
+            this.width = (el.width - 100) / 3 - 100;
+        }
+
         let width = 200;
         let rectWidth, rectHeight;
 
@@ -137,6 +142,7 @@ export default class TemplateList extends Component<IProps, IState> {
             case 15: // Business Card
                 rectWidth = 1050;
                 rectHeight = 600;
+                width = this.width;
                 break;
             case 16: // Facebook Cover
                 rectWidth = 851;
@@ -156,6 +162,8 @@ export default class TemplateList extends Component<IProps, IState> {
 
         this.width = width;
         this.height = height;
+
+        console.log('width height', width, height);
     }
 
     loadImage(counter) {
@@ -201,6 +209,7 @@ export default class TemplateList extends Component<IProps, IState> {
         axios
             .get(url)
             .then(res => {
+                console.log('res.data.value.key ', res.data.value.key)
                 let recentDesign = res.data.value.key.map(design => {
                     design.href = `/editor/design/${uuidv4()}/${design.id}`;
                     return design;
