@@ -107,6 +107,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 <p
                     style={{
                         marginTop: "10px",
+                        marginBottom: "8px",
                         display: "inline-block",
                     }}
                 >{this.props.term}</p> : 
@@ -114,11 +115,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     style={{
                         height: "22.73px",
                         marginTop: "10px",
+                        marginBottom: "8px",
                         display: "inline-block",
                         opacity: 0.07,
                         animation: '1.4s ease 0ms infinite normal none running LuuT-RWT7fXcJFhRfuaKV',
                         backgroundColor: 'rgb(255, 255, 255)',
                         animationDelay: '0.2s',
+                        borderRadius: "10px",
                     }}
                 >{this.props.term}</p>}
                 <button
