@@ -124,7 +124,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         borderRadius: "10px",
                     }}
                 >{this.props.term}</p>}
-                <button
+                {this.loaded && <button
                     onClick={e => {
                         this.setState({ query: this.props.term });
                         let el = document.getElementById("queryInput") as HTMLInputElement;
@@ -139,7 +139,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         color: '#ccc',
                         fontSize: '13px',
                     }}
-                >See all</button>
+                >See all</button>}
                 <div
                     style={{
                         display: "flex",
