@@ -400,7 +400,8 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                 selectedTab={editorStore.selectedTab}
                 sidebar={SidebarTab.Upload}
             >
-                <InfiniteScroll
+                {!Globals.serviceUser && <p>Please sign in</p>}
+                {Globals.serviceUser && <div><InfiniteScroll
                     scroll={true}
                     throttle={1000}
                     threshold={0}
@@ -439,7 +440,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                             />
                         ))}
                     </div>
-                </InfiniteScroll>
+                </InfiniteScroll>}
                 <button
                     style={{
                         width: "calc(100% - 13px)",
@@ -473,6 +474,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         bottom: 0
                     }}
                 />
+                </div>}
             </Sidebar>
         )
     }

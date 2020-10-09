@@ -716,7 +716,7 @@ class LeftSide extends Component<IProps, IState> {
                             setSavingState={this.props.setSavingState}
                             handleEditmedia={this.props.handleEditmedia}
                         />
-                        {Globals.serviceUser &&
+                        {/* {Globals.serviceUser && */}
                             <SidebarUserUpload
                                 scale={this.props.scale}
                                 handleImageSelected={this.props.handleImageSelected}
@@ -726,7 +726,7 @@ class LeftSide extends Component<IProps, IState> {
                                 setSavingState={this.props.setSavingState}
                                 updateImages={this.props.updateImages}
                             />
-                        }
+                        {/* } */}
                     </div>}
                 </div>
             </div>
