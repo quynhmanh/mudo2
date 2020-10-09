@@ -573,7 +573,7 @@ class CanvaEditor extends Component<IProps, IState> {
             image.scaleX = 1;
             image.scaleY = 1;
             // image.width = width2;
-            image.origin_width = width2;
+            image.origin_width = image.width;
             image.height = height2;
             image.origin_height = height2;
             image.fontSize = fontSize;
