@@ -169,6 +169,23 @@ class LeftSide extends Component<IProps, IState> {
                     handleBoldBtnClick={props.handleBoldBtnClick}
                     checked={image && image.bold}
                 />
+                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
+                <ColorButton
+                    style={{
+                        backgroundColor: editorStore.colorField == key + 1 ? 'rgba(75, 102, 129, 0.15)' : null,
+                    }}
+                >
+                    <button 
+                        style={{
+                            backgroundColor: color,
+                        }}
+                        onClick={e => {
+                            editorStore.selectedTab = SidebarTab.Color;
+                            editorStore.colorField = key + 1;
+                        }}    
+                    >
+
+                    </button></ColorButton>)}
                 {/* <Filter
                     show=
                     {
@@ -311,23 +328,6 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     handleCancelBtnClick={props.handleCancelBtnClick}
                 />
-                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
-                <ColorButton
-                    style={{
-                        backgroundColor: editorStore.colorField == key + 1 ? 'rgba(75, 102, 129, 0.15)' : null,
-                    }}
-                >
-                    <button 
-                        style={{
-                            backgroundColor: color,
-                        }}
-                        onClick={e => {
-                            editorStore.selectedTab = SidebarTab.Color;
-                            editorStore.colorField = key + 1;
-                        }}    
-                    >
-
-                    </button></ColorButton>)}
             </React.Fragment>
         )
     }
