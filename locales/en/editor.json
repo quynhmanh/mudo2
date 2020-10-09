@@ -54,5 +54,10 @@
     "allChangesSaved": "All changes saved",
     "savingChanges": "Saving changes...",
     "unsavedChanges": "Unsaved changes",
-    "vietnameseSupport": "Vietnamese supported"
+    "vietnameseSupport": "Vietnamese supported",
+    "designWithEase": "The easiest way to design",
+    "doNotHaveAccount": "Do not have an account ?",
+    "createAFreeAccount": "Create a free account",
+    "loginWithGoogle": "Login with Google",
+    "loginWithFacebook": "Login with Facebook"
 }

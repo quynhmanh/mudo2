@@ -178,13 +178,13 @@ class AuthorizedLayout extends React.Component<Props, {}> {
     }
 
     handleLogin = () => {
-        const downloadPopup = document.getElementById("downloadPopup");
-        const downloadPopupLeft = document.getElementById("downloadPopupLeft");
-        const downloadPopupRight = document.getElementById("downloadPopupRight");
-        downloadPopup.style.display = "block";
+        const logInPopup = document.getElementById("logInPopup");
+        const logInPopupLeft = document.getElementById("logInPopupLeft");
+        const logInPopupRight = document.getElementById("logInPopupRight");
+        logInPopup.style.display = "block";
         const onDown = e => {
-            if (isClickOutside(e, downloadPopupLeft) && isClickOutside(e, downloadPopupRight)) {
-                downloadPopup.style.display = "none";
+            if (isClickOutside(e, logInPopupLeft) && isClickOutside(e, logInPopupRight)) {
+                logInPopup.style.display = "none";
                 document.removeEventListener("mouseup", onDown);
             }
         };

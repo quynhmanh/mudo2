@@ -54,5 +54,10 @@
     "allChangesSaved": "Thay đổi đã được lưu",
     "savingChanges": "Đang lưu những thay đổi...",
     "unsavedChanges": "Thay đổi chưa được lưu",
-    "vietnameseSupport": "Hỗ trợ tiếng Việt"
+    "vietnameseSupport": "Hỗ trợ tiếng Việt",
+    "designWithEase": "Thiết kế một cách dễ dàng nhất",
+    "doNotHaveAccount": "Bạn chưa có tài khoản ?",
+    "createAFreeAccount": "Miễn phí tạo ngay",
+    "loginWithGoogle": "Đăng nhập với Google",
+    "loginWithFacebook": "Đăng nhập với Facebook"
 }

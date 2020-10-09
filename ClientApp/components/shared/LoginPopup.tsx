@@ -144,7 +144,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
   }
 
   onLoginSuccess = user => {
-    document.getElementById("downloadPopup").style.display = "none";
+    document.getElementById("logInPopup").style.display = "none";
     this.props.onLoginSuccess(user);
   };
 
@@ -170,7 +170,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
     return (
       <PopupWrapper
         style={{ display: "none", zIndex: 12312312312 }}
-        id="downloadPopup"
+        id="logInPopup"
         className="popup unblurred"
       >
         <PopupWrapperBody />
@@ -183,7 +183,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
           }}
         >
           <div
-            id="downloadPopupLeft"
+            id="logInPopupLeft"
             style={{
               width: "400px",
               backgroundColor: "#638efc",
@@ -310,7 +310,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
               </div> */}
             </div>
           </div>
-          <div style={{ position: "relative", width: "400px" }} id="downloadPopupRight">
+          <div style={{ position: "relative", width: "400px" }} id="logInPopupRight">
             {/* {!this.props.externalProviderCompleted ? ( */}
               <div 
               style={{
@@ -338,7 +338,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                     border: "none"
                   }}
                   onClick={e => {
-                    document.getElementById("downloadPopup").style.display =
+                    document.getElementById("logInPopup").style.display =
                       "none";
                   }}
                   className="closeButton___3_ryt closeButtonNew___3gFHf"

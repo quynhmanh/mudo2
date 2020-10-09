@@ -7,6 +7,9 @@ import ImagePicker from "@Components/shared/ImagePicker";
 import Globals from '@Globals';
 import Sidebar from "@Components/editor/SidebarStyled";
 import axios from "axios";
+import { isClickOutside } from '@Functions/shared/common';
+import loadable from '@loadable/component';
+const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
 
 export interface IProps {
     scale: number;
@@ -393,6 +396,29 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         this.forceUpdate();
     };
 
+    handleLogin = () => {
+        const logInPopup = document.getElementById("logInPopup");
+        const logInPopupLeft = document.getElementById("logInPopupLeft");
+        const logInPopupRight = document.getElementById("logInPopupRight");
+        logInPopup.style.display = "block";
+        const onDown = e => {
+            if (isClickOutside(e, logInPopupLeft) && isClickOutside(e, logInPopupRight)) {
+                logInPopup.style.display = "none";
+                document.removeEventListener("mouseup", onDown);
+            }
+        };
+
+        document.addEventListener("mouseup", onDown);
+        // document.getElementById("editor").classList.add("popup");
+    }
+
+    handleLoginSuccess = (user) => {
+        window['publicSession'] = { serviceUser: user, locale: this.state.locale };
+        Globals.reset();
+        Globals.init({ public: window['publicSession'] });
+        this.loadMore(true);
+    }
+
     render() {
 
         return (
@@ -400,7 +426,27 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                 selectedTab={editorStore.selectedTab}
                 sidebar={SidebarTab.Upload}
             >
-                {!Globals.serviceUser && <p>Please sign in</p>}
+                {!Globals.serviceUser && <div>
+                    <p>Please sign in</p>
+                    <button
+                        id="login-btn"
+                        style={{
+                            height: '30px',
+                            lineHeight: '30px',
+                            border: 'none',
+                            fontSize: '13px',
+                            borderRadius: '4px',
+                            color: '#555',
+                            display: 'block',
+                            padding: '0 10px',
+                            backgroundColor: "white",
+                        }}
+                        onClick={this.handleLogin}
+                    >{this.props.translate("login")}</button>
+                    <LoginPopup
+                        translate={this.props.translate}
+                        handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={this.handleLoginSuccess} />
+                </div>}
                 {Globals.serviceUser && <div><InfiniteScroll
                     scroll={true}
                     throttle={1000}
@@ -440,7 +486,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                             />
                         ))}
                     </div>
-                </InfiniteScroll>}
+                </InfiniteScroll>
                 <button
                     style={{
                         width: "calc(100% - 13px)",
