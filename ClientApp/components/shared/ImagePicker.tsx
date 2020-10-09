@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from 'styled-components';
 import editorStore from "@Store/EditorStore";
 import uuidv4 from "uuid/v4";
+import ImagePickerContainer from "@Components/shared/ImagePickerContainer";
 
 export interface IProps {
     src: string;
@@ -27,24 +28,6 @@ export interface IState {
     loaded: boolean;
     width: number;
 }
-
-const Container = styled.div`
-    cursor: pointer;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    animation-name: XhtCamN749DcvC-ecDUzp;
-    background-size: 300% 300%;
-    margin-bottom: 8px;
-    button {
-        visibility: hidden;
-    }
-    display: inline-block;
-    :hover button {
-        visibility: visible;
-    }
-`
 
 export default class ImagePicker extends Component<IProps, IState> {
     state = {
@@ -98,14 +81,13 @@ export default class ImagePicker extends Component<IProps, IState> {
         let { loaded } = this.state;
         let id = this.state._id;
         return (
-            <Container
+            <ImagePickerContainer
                 id={this.props.id}
                 className={this.props.classNameContainer}
+                loaded={this.state.loaded}
+                height={this.props.height}
+                width={this.props.width}
                 style={{
-                    width: `${this.state.loaded ? this.props.width : this.props.width}px`,
-                    height: this.props.height + "px",
-                    opacity: this.state.loaded ? 1 : 0.07,
-                    animation: this.state.loaded ? "none" : "LuuT-RWT7fXcJFhRfuaKV 1.4s infinite",
                     animationDelay: this.props.delay + 'ms',
                     backgroundColor: this.state.loaded ? this.props.backgroundColorLoaded : (this.props.backgroundColor ? this.props.backgroundColor : "#fff"),
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
@@ -183,7 +165,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                         className="btn btn-light">Start</button>
                         
                 </div> }
-            </Container>
+            </ImagePickerContainer>
         );
     }
 }
