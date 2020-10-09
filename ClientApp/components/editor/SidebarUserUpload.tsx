@@ -15,6 +15,7 @@ export interface IProps {
     handleEditmedia: any;
     handleImageSelected: any;
     setSavingState: any;
+    updateImages: any;
 }
 
 export interface IState {
@@ -87,11 +88,12 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         target.src = img.representativeThumbnail
             ? img.representativeThumbnail
             : e.target.src;
+        window.imagesrc = target.src;
         target.style.width = e.target.getBoundingClientRect().width + "px";
         target.style.backgroundColor = e.target.style.backgroundColor;
         document.body.appendChild(target);
-        let self = this;
         let imgDragging = target;
+        window.imgDragging = imgDragging;
         let posX = e.pageX - e.target.getBoundingClientRect().left;
         let dragging = true;
         let posY = e.pageY - e.target.getBoundingClientRect().top;
@@ -102,11 +104,14 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         let beingInScreenContainer = false;
 
         const onMove = e => {
+            window.imagedragging = true;
             image.style.opacity = 0;
             image.parentNode.style.opacity = 0;
+            target.style.pointerEvents = "none";
 
             if (dragging) {
                 let rec2 = imgDragging.getBoundingClientRect();
+                
                 if (
                     beingInScreenContainer === false &&
                     recScreenContainer.left < rec2.left &&
@@ -144,13 +149,47 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         };
 
         const onUp = evt => {
-
+            window.imagedragging = false;
             dragging = false;
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
 
-            let recs = document.getElementsByClassName("alo");
             let rec2 = imgDragging.getBoundingClientRect();
+            if (window.imageselected) {
+                let ratio = rec2.width / rec2.height;
+                imgDragging.remove();
+                image.style.opacity = 1;
+                image.parentNode.style.opacity = 1;
+
+                let id = window.imageselected;
+                let image2 = editorStore.images2.get(id);
+                image2.src = target.src;
+                image2.selected = false;
+                image2.hovered = false;
+                image2.posX = 0;
+                image2.posY = 0;
+                window.oldTransform = "translate(0px, 0px)";
+
+                let clipScale = image2.width / image2.clipWidth;
+
+                image2.imgWidth = image2.width;
+                image2.imgHeight = image2.width / ratio;
+                window.oldWidth = image2.imgWidth / clipScale + "px";
+                window.oldHeight = image2.imgHeight / clipScale + "px";
+
+                if (image2.imgHeight < image2.height) {
+                    image2.imgWidth = image2.height * ratio;;
+                    image2.imgHeight = image2.height;
+                    window.oldWidth = image2.imgWidth / clipScale + "px";
+                    window.oldHeight = image2.imgHeight / clipScale + "px";
+                }
+
+                this.props.updateImages(id, image2.page, image2, true);
+                editorStore.images2.set(id, image2);
+                return;
+            }
+
+            let recs = document.getElementsByClassName("alo");
             for (let i = 0; i < recs.length; ++i) {
                 let rec = recs[i].getBoundingClientRect();
                 if (

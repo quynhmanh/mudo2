@@ -724,6 +724,7 @@ class LeftSide extends Component<IProps, IState> {
                                 selectedTab={editorStore.selectedTab}
                                 handleEditmedia={this.props.handleEditmedia}
                                 setSavingState={this.props.setSavingState}
+                                updateImages={this.props.updateImages}
                             />
                         }
                     </div>}

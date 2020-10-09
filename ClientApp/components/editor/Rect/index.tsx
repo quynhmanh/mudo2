@@ -575,6 +575,7 @@ export default class Rect extends Component<IProps, IState> {
 							}}
 							onMouseEnter={e => {
 								if (window.imagedragging && type == TemplateType.Element) {
+									console.log('onMouseEnter123 ', window.imagedragging);
 									window.imgDragging.style.opacity = 0;
 									let el = document.getElementById(_id + "1235alo") as HTMLImageElement;
 									el.src = window.imagesrc;
@@ -604,6 +605,7 @@ export default class Rect extends Component<IProps, IState> {
 							}}
 							onMouseLeave={e => {
 								if (type == TemplateType.Element) {
+									console.log('onMouseLeave123 ', window.imagedragging);
 									window.imgDragging.style.opacity = 1;
 									let el = document.getElementById(_id + "1235alo") as HTMLImageElement;
 									el.src = src;

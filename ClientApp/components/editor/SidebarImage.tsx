@@ -103,7 +103,6 @@ export default class SidebarImage extends Component<IProps, IState> {
         target.style.width = e.target.getBoundingClientRect().width + "px";
         target.style.backgroundColor = e.target.style.backgroundColor;
         document.body.appendChild(target);
-        let self = this;
         let imgDragging = target;
         window.imgDragging = imgDragging;
         let posX = e.pageX - e.target.getBoundingClientRect().left;
@@ -122,8 +121,6 @@ export default class SidebarImage extends Component<IProps, IState> {
             if (dragging) {
                 let rec2 = imgDragging.getBoundingClientRect();
                 if (
-
-
                     recScreenContainer.left < rec2.left &&
                     recScreenContainer.right > rec2.right &&
                     recScreenContainer.top < rec2.top &&
