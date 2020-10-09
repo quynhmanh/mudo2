@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { SidebarTab, TemplateType, SavingState, } from "./enums";
-import uuidv4 from "uuid/v4";
-import editorStore from "@Store/EditorStore";
+import { SidebarTab, TemplateType, } from "./enums";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
 import styled from "styled-components";
 import ImagePicker from "@Components/shared/ImagePicker";
@@ -34,6 +32,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
     elements = [];
     left = 5;
+    loaded = false;
 
     constructor(props) {
         super(props);
@@ -41,11 +40,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
         this.elements = getRem(this.left);
 
         this.state = {};
+
+        this.getTextWidth = this.getTextWidth.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.elements.length > 0) {
             this.elements = nextProps.elements;
+            this.loaded = true;
             return true;
         }
 
@@ -85,15 +87,40 @@ export default class SidebarEffect extends Component<IProps, IState> {
             );
     };
 
+    canvas = null;
+
+    getTextWidth(text, font) {
+        // re-use canvas object for better performance
+        var canvas = this.canvas || (this.canvas = document.createElement("canvas"));
+        var context = canvas.getContext("2d");
+        context.font = font;
+        var metrics = context.measureText(text);
+        return metrics.width;
+    }
+
     render() {
+        console.log('this.elements ', this.elements)
+        let width = this.getTextWidth(this.props.term, "bold 16pt arial");
         return (
             <Catalog>
+                {this.loaded ? 
                 <p
                     style={{
                         marginTop: "10px",
                         display: "inline-block",
                     }}
-                >{this.props.term}</p>
+                >{this.props.term}</p> : 
+                <p
+                    style={{
+                        height: "22.73px",
+                        marginTop: "10px",
+                        display: "inline-block",
+                        opacity: 0.07,
+                        animation: '1.4s ease 0ms infinite normal none running LuuT-RWT7fXcJFhRfuaKV',
+                        backgroundColor: 'rgb(255, 255, 255)',
+                        animationDelay: '0.2s',
+                    }}
+                >{this.props.term}</p>}
                 <button
                     onClick={e => {
                         this.setState({ query: this.props.term });
