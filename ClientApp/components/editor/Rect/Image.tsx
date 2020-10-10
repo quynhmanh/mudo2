@@ -61,7 +61,7 @@ export default class Image extends Component<IProps, IState> {
                 }
                 <img
                     id={_id + "1235" + canvas}
-                    className={`${_id}1236`}
+                    className={`${_id}1236` + canvas}
                     style={{
                         zIndex: 9999999,
                         width: imgWidth + "px",

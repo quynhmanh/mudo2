@@ -2390,7 +2390,7 @@ class CanvaEditor extends Component<IProps, IState> {
             tempEl.style.transform = `translate(${left * scale}px, ${top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
         }
 
-        let b = document.getElementsByClassName(_id + "1236");
+        let b = document.getElementsByClassName(_id + "1236alo");
         for (let i = 0; i < b.length; ++i) {
             let tempEl = b[i] as HTMLElement;
             tempEl.style.transform = `translate(${posX * scale}px, ${posY * scale}px)`;
@@ -2941,7 +2941,7 @@ class CanvaEditor extends Component<IProps, IState> {
         window.origin_width = image.origin_width;
         window.origin_height = image.origin_height;
 
-        let el = document.getElementsByClassName(_id + "1236");
+        let el = document.getElementsByClassName(_id + "1236alo");
         for (let i = 0; i < el.length; ++i) {
             let tempEl = el[i] as HTMLElement;
             tempEl.style.transform = `translate(${posX * scale}px, ${posY * scale}px)`;
@@ -3359,7 +3359,7 @@ class CanvaEditor extends Component<IProps, IState> {
         img.posX = newPosX;
         img.posY = newPosY;
 
-        let el = document.getElementsByClassName(_id + "1236");
+        let el = document.getElementsByClassName(_id + "1236alo");
         for (let i = 0; i < el.length; ++i) {
             let tempEl = el[i] as HTMLElement;
             tempEl.style.transform = `translate(${newPosX * scale}px, ${newPosY *

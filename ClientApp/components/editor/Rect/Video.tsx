@@ -66,7 +66,7 @@ export default class Video extends Component<IProps, IState> {
         return (
             <div
                 id={_id + "1238" + canvas}
-                className={_id + "1236"}
+                className={_id + "1236" + canvas}
                 style={{
                     transform: `translate(${posX}px, ${posY}px)`,
                     width: imgWidth + "px",

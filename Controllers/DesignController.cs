@@ -508,7 +508,7 @@ namespace RCB.TypeScript.Controllers
                         try
                         {
                             byte[] bytes = Encoding.ASCII.GetBytes(html);
-                            using (var htmlFile = new FileStream("/Users/quynhnguyen/Downloads/quynh2.html", FileMode.Create))
+                            using (var htmlFile = new FileStream("C:/Users/llaug/quynh2.html", FileMode.Create))
                             {
                                 htmlFile.Write(bytes, 0, bytes.Length);
                                 htmlFile.Flush();

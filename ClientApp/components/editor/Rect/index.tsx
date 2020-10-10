@@ -784,7 +784,7 @@ export default class Rect extends Component<IProps, IState> {
 												}}
 											>
 												<div
-													className={`${_id}1236`}
+													className={`${_id}1236` + canvas}
 													style={{
 														width: imgWidth + "px",
 														height: imgHeight + "px",
@@ -871,7 +871,7 @@ export default class Rect extends Component<IProps, IState> {
 								>
 									<GradientContainer
 										id={_id + "1235" + canvas}
-										className={`${_id}1236`}
+										className={`${_id}1236` + canvas}
 										style={{
 											width: imgWidth + "px",
 											height: imgHeight + "px",
@@ -1211,7 +1211,7 @@ export default class Rect extends Component<IProps, IState> {
 									{cropMode &&
 										selected && name == CanvasType.HoverLayer && (
 											<div
-												className={`${_id}1236`}
+												className={`${_id}1236` + canvas}
 												style={{
 													transform: `translate(${posX}px, ${posY}px)`,
 													width: imgWidth + "px",
@@ -1407,7 +1407,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{type === TemplateType.Video && name == CanvasType.HoverLayer &&
 								<div
-									className={`${_id}1236`}
+									className={`${_id}1236` + canvas}
 									style={{
 										transform: `translate(${posX}px, ${posY}px)`,
 										width: imgWidth + "px",
@@ -1470,7 +1470,7 @@ export default class Rect extends Component<IProps, IState> {
 									{cropMode &&
 										selected && name == CanvasType.HoverLayer && (
 											<div
-												className={`${_id}1236`}
+												className={`${_id}1236` + canvas}
 												style={{
 													transform: `translate(${posX}px, ${posY}px)`,
 													width: imgWidth + "px",
