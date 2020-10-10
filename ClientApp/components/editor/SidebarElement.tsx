@@ -643,7 +643,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
                 <InfiniteScroll
                     scroll={true}
-                    throttle={500}
+                    throttle={200}
                     threshold={300}
                     isLoading={this.state.isLoading}
                     hasMore={this.state.hasMore}
