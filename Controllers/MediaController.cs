@@ -174,19 +174,28 @@ namespace RCB.TypeScript.Controllers
 
                 try
                 {
+                    var exePath = "/usr/bin/ffmpeg";
+                    if (HostingEnvironment.IsDevelopment())
+                    {
+                        exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
+                    }
 
-                    img = System.Drawing.Image.FromFile(filePath);
+                    var process = new Process
+                    {
+                        StartInfo =
+                        {
+                            FileName = exePath,
+                            Arguments = $"-i {filePath} -vcodec libx264 -crf 45 {filePath3}",
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                            RedirectStandardInput = true
+                        }
+                    };
 
-                    double imgHeight = img.Size.Height;
-                    double imgWidth = img.Size.Width;
-
-                    double x = imgWidth / 300;
-                    int newWidth = Convert.ToInt32(imgWidth / x);
-                    int newHeight = Convert.ToInt32(imgHeight / x);
-
-                    //----------        Creating Small Image
-                    System.Drawing.Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
-                    myThumbnail.Save(filePath3);
+                    process.Start();
+                    process.WaitForExit();
+                    process.Close();
+                    
                     mediaModel.RepresentativeThumbnail = file3;
 
                 }

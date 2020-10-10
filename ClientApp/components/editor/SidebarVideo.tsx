@@ -121,7 +121,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
             );
     };
 
-    videoOnMouseDown(e) {
+    videoOnMouseDown(e, item) {
         const { scale } = this.props;
         e.preventDefault();
 
@@ -210,7 +210,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                         left: (rec2.left - rec.left) / scale,
                         top: (rec2.top - rec.top) / scale,
                         rotateAngle: 0.0,
-                        src: target.src,
+                        src: item.representative,
                         selected: false,
                         scaleX: 1,
                         scaleY: 1,
@@ -265,10 +265,12 @@ export default class SidebarVideo extends Component<IProps, IState> {
                                 width={item.width}
                                 key={key}
                                 color={item.color}
-                                src={item.representative}
+                                src={item.representativeThumbnail}
                                 height={item.height}
                                 className="template-picker"
-                                onPick={this.videoOnMouseDown}
+                                onPick={e => {
+                                    this.videoOnMouseDown(e, item);
+                                }}
                                 onEdit={this.props.handleEditmedia.bind(this, item)}
                                 showButton={true}
                                 duration={item.duration}
