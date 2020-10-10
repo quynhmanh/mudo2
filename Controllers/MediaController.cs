@@ -185,7 +185,7 @@ namespace RCB.TypeScript.Controllers
                         StartInfo =
                         {
                             FileName = exePath,
-                            Arguments = $"-i {filePath} -vcodec libx264 -crf 45 {filePath3}",
+                            Arguments = $"-i {filePath} -vcodec libx264 -vf scale=200:-2 -crf 25 {filePath3}",
                             UseShellExecute = false,
                             CreateNoWindow = true,
                             RedirectStandardInput = true
