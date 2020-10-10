@@ -259,7 +259,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
     loadMore = (initialLoad: Boolean) => {
         const PER_PAGE = 25;
-        const pageId = (this.state.items.length - this.left + this.tmp.length) / 25 + 1;
+        const pageId = Math.floor((this.state.items.length - this.left + this.tmp.length) / PER_PAGE) + 1;
         this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${PER_PAGE}&userEmail=${Globals.serviceUser ? Globals.serviceUser.username : ""}`;
         fetch(url)
