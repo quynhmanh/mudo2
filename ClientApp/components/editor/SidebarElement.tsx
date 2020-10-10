@@ -410,9 +410,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
         let target = el.cloneNode(true);
         target.style.zIndex = "11111111111";
-        target.src = img.representativeThumbnail
-            ? img.representativeThumbnail
-            : el.src;
+        target.src = img.ext == "gif" ? el.src : img.representativeThumbnail;
         target.style.width = el.getBoundingClientRect().width + "px";
         target.style.backgroundColor = el.style.backgroundColor;
         document.body.appendChild(target);
