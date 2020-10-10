@@ -372,6 +372,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
                     let item = {
                         id: uuidv4(),
+                        representativeThumbnail: fr.result,
                         representative: fr.result,
                         width: img.width,
                         height: img.height,
