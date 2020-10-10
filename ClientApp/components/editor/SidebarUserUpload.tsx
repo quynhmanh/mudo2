@@ -740,6 +740,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                 transform: `translateX(calc(${this.state.tabSelected == 0 ? 40 : 0}px))`,
                                 position: "absolute",
                                 zIndex: this.state.tabSelected == 1 ? 1 : 0,
+                                height: "calc(100% - 110px)",
                             }}
                         >
                             <ul
@@ -781,7 +782,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                 transform: `translateX(calc(${this.state.tabSelected == 1 ? -40 : 0}px))`,
                                 position: "absolute",
                                 zIndex: this.state.tabSelected == 0 ? 1 : 0,
-                                height: "100%",
+                                height: "calc(100% - 110px)",
                             }}
                         >
                             <InfiniteScroll
