@@ -253,6 +253,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                         height: "100%",
                     }}>
                     <ul
+                        id="object-container"
                         style={{
                             listStyle: "none",
                             padding: "0px 0px 10px 0px",
