@@ -293,7 +293,6 @@ class LeftSide extends Component<IProps, IState> {
             fr2.readAsText(file);
             // fr2.onload = () => {
             fr.onload = () => {
-                console.log('uploadImage');
                 var url = `/api/Media/Add`;
                 if (type === TemplateType.RemovedBackgroundImage) {
                     url = `/api/Media/Add2`;
@@ -302,7 +301,6 @@ class LeftSide extends Component<IProps, IState> {
 
                 img.onload = function () {
                     document.body.appendChild(img);
-                    console.log('img.width img.height', img.width, img.height, img.offsetWidth, img.offsetHeight);
                     let colorsMapping = {};
                     let cnt = 1;
                     let stopColor = [];
@@ -413,7 +411,6 @@ class LeftSide extends Component<IProps, IState> {
 
                     let ABC = processChildren(Array.from(xmlDoc.childNodes));
 
-                    console.log('img width img height', img.width, img.height)
                     axios
                         .post(url, {
                             id: uuidv4(),
