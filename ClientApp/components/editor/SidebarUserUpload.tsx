@@ -741,6 +741,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                 position: "absolute",
                                 zIndex: this.state.tabSelected == 1 ? 1 : 0,
                                 height: "calc(100% - 110px)",
+                                width: "100%",
                             }}
                         >
                             <ul
