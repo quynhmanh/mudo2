@@ -10,6 +10,7 @@ import axios from "axios";
 import { isClickOutside } from '@Functions/shared/common';
 import loadable from '@loadable/component';
 const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
+import VideoPicker from "@Components/shared/VideoPicker2";
 
 export interface IProps {
     scale: number;
@@ -28,6 +29,9 @@ export interface IState {
     hasMore: boolean;
     total: number;
     loaded: boolean;
+    tabSelected: number;
+    videos: any;
+    hasMoreVideos: boolean;
 }
 
 const imgWidth = 163;
@@ -49,6 +53,9 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         hasMore: true,
         total: 0,
         loaded: false,
+        tabSelected: 0,
+        videos: [],
+        hasMoreVideos: true,
     }
 
     constructor(props) {
@@ -60,6 +67,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         this.loadMore = this.loadMore.bind(this);
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
+        this.videoOnMouseDown = this.videoOnMouseDown.bind(this);
     }
 
     componentDidMount() {
@@ -114,7 +122,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
             if (dragging) {
                 let rec2 = imgDragging.getBoundingClientRect();
-                
+
                 if (
                     beingInScreenContainer === false &&
                     recScreenContainer.left < rec2.left &&
@@ -297,6 +305,38 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             );
     };
 
+    uploadVideo = () => {
+        console.log('uploadVideo')
+        var self = this;
+        ``;
+        var fileUploader = document.getElementById(
+            "image-file2"
+        ) as HTMLInputElement;
+        var file = fileUploader.files[0];
+        var fr = new FileReader();
+        fr.readAsDataURL(file);
+
+        var vid = document.createElement("video");
+
+        fr.onload = () => {
+            var vid = document.createElement("video");
+            vid.src = URL.createObjectURL(file);
+            vid.onloadedmetadata = () => {
+                var url = `/api/Media/AddVideo`;
+                axios.post(url, {
+                    id: uuidv4(),
+                    data: fr.result,
+                    type: TemplateType.UserUploadVideo,
+                    ext: file.name.split(".")[1],
+                    width: vid.videoWidth,
+                    height: vid.videoHeight,
+                    duration: vid.duration == Infinity ? 0 : vid.duration,
+                    userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
+                });
+            }
+        };
+    };
+
     uploadImage = (removeBackground, e) => {
         let type;
         switch (editorStore.selectedTab) {
@@ -419,6 +459,178 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         this.loadMore(true);
     }
 
+    
+    videoOnMouseDown(e) {
+        const { scale } = this.props;
+        e.preventDefault();
+
+        let target = e.target.cloneNode(true);
+
+        target.style.zIndex = "11111111111";
+        target.src = e.target.getAttribute("src");
+        target.style.width = e.target.getBoundingClientRect().width + "px";
+        document.body.appendChild(target);
+        let self = this;
+        let imgDragging = target;
+        let posX = e.pageX - e.target.getBoundingClientRect().left;
+        let dragging = true;
+        let posY = e.pageY - e.target.getBoundingClientRect().top;
+
+        let recScreenContainer = document
+            .getElementById("screen-container-parent")
+            .getBoundingClientRect();
+        let beingInScreenContainer = false;
+
+        const onMove = e => {
+            if (dragging) {
+                let rec2 = imgDragging.getBoundingClientRect();
+                if (
+                    beingInScreenContainer === false &&
+                    recScreenContainer.left < rec2.left &&
+                    recScreenContainer.right > rec2.right &&
+                    recScreenContainer.top < rec2.top &&
+                    recScreenContainer.bottom > rec2.bottom
+                ) {
+                    beingInScreenContainer = true;
+                    setTimeout(() => {
+                        target.style.transitionDuration = "";
+                    }, 50);
+                }
+
+                if (
+                    beingInScreenContainer === true &&
+                    !(
+                        recScreenContainer.left < rec2.left &&
+                        recScreenContainer.right > rec2.right &&
+                        recScreenContainer.top < rec2.top &&
+                        recScreenContainer.bottom > rec2.bottom
+                    )
+                ) {
+                    beingInScreenContainer = false;
+
+                    // target.style.width = (rec2.width / self.state.scale) + 'px';
+                    // target.style.height = (rec2.height / self.state.scale) + 'px';
+                    // target.style.transitionDuration = '0.05s';
+
+                    setTimeout(() => {
+                        target.style.transitionDuration = "";
+                    }, 50);
+                }
+
+                target.style.left = e.pageX - posX + "px";
+                target.style.top = e.pageY - posY + "px";
+                target.style.position = "absolute";
+            }
+        };
+
+        const onUp = e => {
+            dragging = false;
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
+
+            let recs = document.getElementsByClassName("alo");
+            let rec2 = imgDragging.getBoundingClientRect();
+            let pages = editorStore.pages;
+            for (let i = 0; i < recs.length; ++i) {
+                let rec = recs[i].getBoundingClientRect();
+                if (
+                    rec.left < rec2.right &&
+                    rec.right > rec2.left &&
+                    rec.top < rec2.bottom &&
+                    rec.bottom > rec2.top
+                ) {
+                    let newItem = {
+                        _id: uuidv4(),
+                        type: TemplateType.Video,
+                        width: rec2.width / scale,
+                        height: rec2.height / scale,
+                        origin_width: rec2.width / scale,
+                        origin_height: rec2.height / scale,
+                        left: (rec2.left - rec.left) / scale,
+                        top: (rec2.top - rec.top) / scale,
+                        rotateAngle: 0.0,
+                        src: target.src,
+                        selected: false,
+                        scaleX: 1,
+                        scaleY: 1,
+                        posX: 0,
+                        posY: 0,
+                        imgWidth: rec2.width / scale,
+                        imgHeight: rec2.height / scale,
+                        page: pages[i],
+                        zIndex: editorStore.upperZIndex + 1,
+                        paused: true,
+                    };
+
+                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    editorStore.addItem2(newItem, false);
+                    editorStore.increaseUpperzIndex();
+
+                    this.props.handleImageSelected(newItem._id, newItem.page, false, true, false);
+
+                }
+            }
+
+            imgDragging.remove();
+        };
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onUp);
+    }
+
+    
+    loadMoreVideo = initialLoad => {
+        let pageId;
+        let count;
+        if (initialLoad) {
+            pageId = 1;
+            count = 30;
+        } else {
+            pageId = editorStore.fontsList.length / 30 + 1;
+            count = 30;
+        }
+        // this.setState({ isLoading: true, error: undefined });
+        this.setState({loaded: true,})
+        const url = `/api/Media/Search?page=${pageId}&perPage=${count}&type=${TemplateType.UserUploadVideo}&userEmail=${Globals.serviceUser ? Globals.serviceUser.username : ""}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(
+                res => {
+                    let result = res.value.key;
+                    let items = [];
+                    
+                    for (let i = 0; i < result.length; ++i) {
+                        this.sum += 1.0 * result[i].width / result[i].height;
+                        this.tmp.push(result[i]);
+                        let height = (334 - (this.tmp.length - 1) * 8) / this.sum;
+                        if (height < 160 && this.tmp.length > 1) {
+                            this.sum = 0;
+                            for (let j = 0; j < this.tmp.length; ++j) {
+                                this.tmp[j].width = this.tmp[j].width / this.tmp[j].height * height;
+                                this.tmp[j].height = height;
+                            }
+                            items.push(...this.tmp);
+                            this.tmp = [];
+                        }
+                    }
+
+                    let newItems = [...this.state.videos.filter(item => item.id != "sentinel-image"), ...items];
+                    let hasMore = newItems.length + this.tmp.length < res.value.value;
+                    if (hasMore) {
+                        newItems = [...newItems, ...getRem(this.left)];
+                    }
+                    this.setState(state => ({
+                        videos: newItems,
+                        hasMoreVideos: res.value.value > state.videos.length + res.value.key.length,
+                        loaded: true,
+                    }));
+                    this.forceUpdate();
+                },
+                error => {
+                    // this.setState({ isLoading: false, error })
+                }
+            );
+    };
+
     render() {
 
         return (
@@ -447,80 +659,170 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         translate={this.props.translate}
                         handleUpdateCompleted={this.handleUpdateCompleted} externalProviderCompleted={this.state.externalProviderCompleted} onLoginSuccess={this.handleLoginSuccess} />
                 </div>}
-                {Globals.serviceUser && <div><InfiniteScroll
-                    scroll={true}
-                    throttle={1000}
-                    threshold={0}
-                    isLoading={this.state.isLoading}
-                    marginTop={45}
-                    hasMore={this.state.hasMore}
-                    onLoadMore={this.loadMore.bind(this, false)}
-                    refId="sentinel-userupload"
-                >
-                    <div
-                        id="image-container-picker"
-                        style={{
-                            color: "white",
-                            width: "calc(100% + 8px)",
-                            padding: "16px 0px 10px 0px",
-                            userSelect: "none",
-                            height: "calc(100% - 170px)",
-                        }}
-                    >
-                        {this.state.items.map((item, key) => (
-                            <ImagePicker
-                                id={item.id}
-                                height={item.height}
-                                defaultHeight={item.height}
-                                color=""
-                                delay={250 * key}
-                                width={item.width}
-                                key={key}
-                                src={item.representativeThumbnail}
-                                onPick={e => {
-                                    this.imgOnMouseDown(item, e);
+                {Globals.serviceUser &&
+                    <div>
+                        <button
+                                style={{
+                                    width: "calc(100% - 13px)",
+                                    backgroundColor: "white",
+                                    border: "none",
+                                    color: "black",
+                                    padding: "10px",
+                                    height: "40px",
+                                    borderRadius: "5px",
+                                    marginBottom: "10px",
+                                    marginTop: "6px",
+                                    boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+                                    lineHeight: "15px",
                                 }}
-                                onEdit={this.props.handleEditmedia.bind(this, item)}
-                                showButton={true}
-                                showProgressBar={item.showProgressBar}
+                                onClick={() => {
+                                    document.getElementById("image-file2").click();
+                                }}
+                            >
+                                {this.state.tabSelected == 0 ? this.props.translate("uploadAnImage") : this.props.translate("uploadAVideo")}
+                            </button>
+                            <input
+                                id="image-file2"
+                                type="file"
+                                multiple
+                                onLoadedData={data => { }}
+                                onChange={e => {
+                                    if (this.state.tabSelected == 0)
+                                        this.uploadImage(false, e);
+                                    else 
+                                        this.uploadVideo();
+                                }}
+                                style={{
+                                    display: "none",
+                                }}
                             />
-                        ))}
-                    </div>
-                </InfiniteScroll>
-                <button
-                    style={{
-                        width: "calc(100% - 13px)",
-                        backgroundColor: "white",
-                        border: "none",
-                        color: "black",
-                        padding: "10px",
-                        height: "40px",
-                        borderRadius: "5px",
-                        marginBottom: "10px",
-                        position: "absolute",
-                        top: "6px",
-                        boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
-                        lineHeight: "15px",
-                    }}
-                    onClick={() => {
-                        document.getElementById("image-file2").click();
-                    }}
-                >
-                    {this.props.translate("uploadAnImage")}
-                </button>
-                <input
-                    id="image-file2"
-                    type="file"
-                    multiple
-                    onLoadedData={data => { }}
-                    onChange={e => {
-                        this.uploadImage(false, e);
-                    }}
-                    style={{
-                        bottom: 0
-                    }}
-                />
-                </div>}
+                            <button
+                                onClick={e => {
+                                    this.setState({tabSelected: 0,});
+                                    this.forceUpdate();
+                                }}
+                                style={{
+                                    border: "none",
+                                    width: "48%",
+                                    color: this.state.tabSelected == 0 ? 'white' : 'hsla(0,0%,100%,.65)',
+                                }}
+                            >Image</button>
+                            <button
+                                onClick={e => {
+                                    this.setState({tabSelected: 1,});
+                                    if (this.state.videos.length == 0) {
+                                        this.loadMoreVideo(true);
+                                    } else {
+                                        this.forceUpdate();
+                                    }
+                                }}
+                                style={{
+                                    border: "none",
+                                    width: "48%",
+                                    color: this.state.tabSelected == 1 ? 'white' : 'hsla(0,0%,100%,.65)',
+                                }}
+                            >Video</button>
+                            <div
+                                style={{
+                                    height: '2px',
+                                    background: 'white',
+                                    width: '48%',
+                                    margin: '10px 0px',
+                                    transform: `translateX(${this.state.tabSelected == 0 ? 0 : 166}px)`,
+                                    transition: `transform .3s ease-in-out,-webkit-transform .3s ease-in-out`,
+                                }}
+                            ></div>
+                        <div
+                            style={{
+                                opacity: this.state.tabSelected == 1 ? 1 : 0,
+                                transition: 'transform .3s ease-in-out,opacity .3s ease-in-out,-webkit-transform .3s ease-in-out',
+                                transform: `translateX(calc(${this.state.tabSelected == 0 ? 40 : 0}px))`,
+                                position: "absolute",
+                                zIndex: this.state.tabSelected == 1 ? 1 : 0,
+                            }}
+                        >
+                            <ul
+                                style={{
+                                    listStyle: "none",
+                                    padding: "0px 0px 10px 0px",
+                                    width: "100%",
+                                    marginTop: "10px",
+                                    overflow: "scroll",
+                                    height: "calc(100% - 60px)"
+                                }}
+                            >
+                                {this.state.videos.map((item, key) => (
+                                    <VideoPicker
+                                        id=""
+                                        defaultHeight={imgWidth}
+                                        delay={0}
+                                        width={item.width}
+                                        key={key}
+                                        color={item.color}
+                                        src={item.representative}
+                                        height={item.height}
+                                        className="template-picker"
+                                        onPick={this.videoOnMouseDown}
+                                        onEdit={this.props.handleEditmedia.bind(this, item)}
+                                        showButton={true}
+                                        duration={item.duration}
+                                        showDuration={true}
+                                    />
+                                ))}
+                            </ul>
+                        </div>
+                        <div
+                            style={{
+                                opacity: this.state.tabSelected == 0 ? 1 : 0,
+                                transition: 'transform .3s ease-in-out,opacity .3s ease-in-out,-webkit-transform .3s ease-in-out',
+                                transform: `translateX(calc(${this.state.tabSelected == 1 ? -40 : 0}px))`,
+                                position: "absolute",
+                                zIndex: this.state.tabSelected == 0 ? 1 : 0,
+                                height: "100%",
+                            }}
+                        >
+                            <InfiniteScroll
+                                scroll={true}
+                                throttle={1000}
+                                threshold={0}
+                                isLoading={this.state.isLoading}
+                                marginTop={0}
+                                hasMore={this.state.hasMore}
+                                onLoadMore={this.loadMore.bind(this, false)}
+                                refId="sentinel-userupload"
+                            >
+                                <div
+                                    id="image-container-picker"
+                                    style={{
+                                        color: "white",
+                                        width: "calc(100% + 8px)",
+                                        padding: "0px 0px 10px 0px",
+                                        userSelect: "none",
+                                        height: "calc(100% - 170px)",
+                                    }}
+                                >
+                                    {this.state.items.map((item, key) => (
+                                        <ImagePicker
+                                            id={item.id}
+                                            height={item.height}
+                                            defaultHeight={item.height}
+                                            color=""
+                                            delay={250 * key}
+                                            width={item.width}
+                                            key={key}
+                                            src={item.representativeThumbnail}
+                                            onPick={e => {
+                                                this.imgOnMouseDown(item, e);
+                                            }}
+                                            onEdit={this.props.handleEditmedia.bind(this, item)}
+                                            showButton={true}
+                                            showProgressBar={item.showProgressBar}
+                                        />
+                                    ))}
+                                </div>
+                            </InfiniteScroll>
+                        </div>
+                    </div>}
             </Sidebar>
         )
     }

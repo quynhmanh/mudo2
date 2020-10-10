@@ -45,6 +45,7 @@ export enum TemplateType {
     ClipImage = 11,
     Element = 12,
     Gradient = 13,
+    UserUploadVideo = 14,
 }
 
 export enum SavingState {
