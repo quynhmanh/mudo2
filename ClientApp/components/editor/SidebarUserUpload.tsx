@@ -549,7 +549,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         left: (rec2.left - rec.left) / scale,
                         top: (rec2.top - rec.top) / scale,
                         rotateAngle: 0.0,
-                        src: item.representative,
+                        src: window.location.origin + "/" + item.representative,                        
                         selected: false,
                         scaleX: 1,
                         scaleY: 1,
