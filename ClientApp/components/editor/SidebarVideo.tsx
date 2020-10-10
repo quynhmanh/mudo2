@@ -257,7 +257,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                         style={{
                             listStyle: "none",
                             padding: "0px 0px 10px 0px",
-                            width: "100%",
+                            width: "101%",
                             marginTop: "10px",
                             overflow: "scroll",
                             height: "100%",
