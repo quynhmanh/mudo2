@@ -68,7 +68,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
         this.resizeHandler = debounce(this.checkWindowScroll.bind(this), this.props.throttle);
         this.loadMore = debounce(this.props.onLoadMore, this.props.throttle);
 
-        // document.addEventListener('scroll', this.scrollHandler);
+        document.addEventListener('scroll', this.scrollHandler);
         // window.addEventListener('resize', this.resizeHandler);
         this.containerSroll.addEventListener('scroll', this.scrollHandler);
 
