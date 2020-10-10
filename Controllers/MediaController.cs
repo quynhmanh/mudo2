@@ -278,8 +278,10 @@ namespace RCB.TypeScript.Controllers
                         bmp.Save(filePath3, ImageFormat.Png); 				// save Bitmap as PNG-File
                         mediaModel.RepresentativeThumbnail = file3;
                     }
-                    else
+                    if (oDownloadBody.ext == "gif")
                     {
+                        mediaModel.RepresentativeThumbnail = file2;
+                    } else {
                         img = System.Drawing.Image.FromFile(filePath);
 
                         double imgHeight = img.Size.Height;
