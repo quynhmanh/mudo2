@@ -971,6 +971,7 @@ export default class Rect extends Component<IProps, IState> {
 																width: g.imgWidth,
 																height: g.imgHeight,
 																pointerEvents: "none",
+																backgroundImage: `url(https://static.canva.com/web/images/87e22a62965f141aa08e93699b0b3527.jpg)`,
 															}}
 														>
 															<img 

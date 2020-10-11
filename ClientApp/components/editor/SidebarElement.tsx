@@ -7,6 +7,7 @@ import SidebarElement from "@Components/editor/SidebarElementCatalog";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import Sidebar from "@Components/editor/SidebarStyled";
 import styled from "styled-components";
+import GridPicker from '@Components/shared/GridPicker';
 
 export interface IProps {
     scale: number;
@@ -345,13 +346,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
 
-            let grids;
-			try {
-				grids = JSON.parse(img.grids);
-			} catch (e) {
-				console.log(e)
-            }
-            
+            let grids = img.grids;
+
             const width = window.rectWidth;
             const height = window.rectHeight;
 
@@ -840,7 +836,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.gradientOnMouseDown}
                             /> */}
-                            <SidebarElement
+                                <SidebarElement
                                     elements={elements["Grids"]}
                                     term="Grids"
                                     handleQuery={this.handleQuery}
@@ -894,6 +890,18 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 height = imgWidth;
                                 width = imgWidth * (item.width / item.height);
                             }
+
+                            if (item.keywords && item.keywords[0] == "Grids") {
+                                try {
+                                    item.grids = JSON.parse(item.grids);
+                                    console.log('alo', item.type)
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                            }
+
+                            console.log('item.grids ', item.type, item.grids)
+
                             return <ImagePickerContainer
                                 onMouseDown={e => {
                                     e.preventDefault();
@@ -901,6 +909,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     if (item.keywords && item.keywords[0] == "Frame")
                                         this.frameOnMouseDownload(item, el, e);
                                     else if (item.keywords && item.keywords[0] == "Grids") {
+                                        el = e.currentTarget;
                                         this.gridOnMouseDown(item, el, e);
                                     }
                                     else if (item.ext == "svg")
@@ -908,7 +917,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     else this.imgOnMouseDown(item, el, e)
                                 }}
                             >
-                                <ImagePicker
+                                {(item.keywords && item.keywords[0] == "Grids") ?
+                                    <GridPicker
                                     id={item.id}
                                     key={this.prefix + key}
                                     color={item.color}
@@ -923,7 +933,25 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     backgroundColorLoaded="transparent"
                                     marginRight={0}
                                     marginAuto={true}
+                                    item={item}
                                 />
+                                    :
+                                    <ImagePicker
+                                        id={item.id}
+                                        key={this.prefix + key}
+                                        color={item.color}
+                                        src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
+                                        height={height}
+                                        defaultHeight={imgWidth}
+                                        width={width}
+                                        onPick={null}
+                                        onEdit={this.props.handleEditmedia.bind(this, item)}
+                                        delay={250 * key}
+                                        showButton={true}
+                                        backgroundColorLoaded="transparent"
+                                        marginRight={0}
+                                        marginAuto={true}
+                                    />}
                             </ImagePickerContainer>
                         })}
                     </div>
