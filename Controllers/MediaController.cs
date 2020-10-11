@@ -145,6 +145,9 @@ namespace RCB.TypeScript.Controllers
             
             [JsonProperty(PropertyName = "grids")]
             public string grids { get; set; }
+
+            [JsonProperty(PropertyName = "quality")]
+            public int? quality { get; set; }
         }
 
         [HttpPost("[action]")]
@@ -328,7 +331,7 @@ namespace RCB.TypeScript.Controllers
                         // EncoderParameter object in the array.  
                         EncoderParameters myEncoderParameters = new EncoderParameters(1);  
             
-                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);  
+                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, oDownloadBody.quality ?? 50);  
                         myEncoderParameters.Param[0] = myEncoderParameter;  
 
                         var img2 = (Image)(new Bitmap(img, new Size(newWidth,newHeight)));

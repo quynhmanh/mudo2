@@ -411,6 +411,8 @@ class LeftSide extends Component<IProps, IState> {
 
                     let ABC = processChildren(Array.from(xmlDoc.childNodes));
 
+                    let keyword = (document.getElementById("keywords") as HTMLInputElement).value;
+
                     axios
                         .post(url, {
                             id: uuidv4(),
@@ -423,8 +425,9 @@ class LeftSide extends Component<IProps, IState> {
                             width: img.width,
                             height: img.height,
                             type,
-                            keywords: [(document.getElementById("keywords") as HTMLInputElement).value],
-                            title: "Manh quynh"
+                            keywords: [keyword],
+                            title: "Manh quynh",
+                            quality: keyword == "Grids" ? 100 : 50,
                         })
                         .then((res) => {
                             if (self.state.userUpload1.length <= self.state.userUpload2.length) {
