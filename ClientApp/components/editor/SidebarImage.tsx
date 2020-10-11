@@ -170,7 +170,9 @@ export default class SidebarImage extends Component<IProps, IState> {
                 let id = window.imageselected;
                 let image2 = editorStore.images2.get(id);
                 if (isNaN(window.gridIndex)) {
-                    image2.src = target.src;
+                    image2.src = !img.representative.startsWith("data")
+                        ? window.location.origin + "/" + img.representative
+                        : img.representative;
                     image2.selected = false;
                     image2.hovered = false;
                     image2.posX = 0;
