@@ -182,7 +182,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                     <ScrollContainer>
                         <InfiniteScroll
                             scroll={true}
-                            throttle={500}
+                            throttle={200}
                             threshold={300}
                             isLoading={this.state.isLoading}
                             hasMore={this.state.hasMore}

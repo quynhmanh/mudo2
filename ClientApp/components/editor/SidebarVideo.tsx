@@ -246,15 +246,21 @@ export default class SidebarVideo extends Component<IProps, IState> {
                 selectedTab={editorStore.selectedTab}
                 sidebar={SidebarTab.Video}
             >
-                <div style={{ display: "inline-block", width: "100%" }}>
+                <div 
+                    style={{ 
+                        display: "inline-block", 
+                        width: "100%", 
+                        height: "100%",
+                    }}>
                     <ul
+                        id="object-container"
                         style={{
                             listStyle: "none",
                             padding: "0px 0px 10px 0px",
-                            width: "100%",
+                            width: "101%",
                             marginTop: "10px",
                             overflow: "scroll",
-                            height: "calc(100% - 60px)"
+                            height: "100%",
                         }}
                     >
                         {this.state.videos.map((item, key) => (

@@ -16,6 +16,7 @@ export interface IProps {
     rectHeight: number;
     rectWidth: number;
     forceEditorUpdate: any;
+    rem: number;
 }
 
 export interface IState {
@@ -44,7 +45,7 @@ let getRem = (rem) => Array(rem).fill(0).map(i => {
 
 export default class SidebarTemplate extends Component<IProps, IState> {
     container = null;
-    rem = 10;
+    left = 10;
     state = {
         isLoading: false,
         items: [],
@@ -201,9 +202,8 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                     items = [...items, ...result];
                     let hasMore = res.value.value > items.length;
                     if (hasMore) {
-                        let left = Math.min(this.rem, res.value.value - items.length);
-                        this.left = left;
-                        items = [...items, ...getRem(left)];
+                        this.left = Math.min(this.props.rem, res.value.value - items.length);
+                        items = [...items, ...getRem(this.left)];
                     }
 
                     this.setState(state => ({
@@ -233,7 +233,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
             >
                 <InfiniteScroll
                     scroll={true}
-                    throttle={500}
+                    throttle={200}
                     threshold={300}
                     isLoading={this.state.isLoading}
                     hasMore={this.state.hasMore}
@@ -278,7 +278,6 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                             color={item.color}
                                             src={item.representative}
                                             height={imgWidth / (item.width / item.height)}
-                                            className="template-picker"
                                             onPick={this.templateOnMouseDown.bind(this, item.id)}
                                             onEdit={() => {
                                                 window.open(`/editor/template/${item.id}`);

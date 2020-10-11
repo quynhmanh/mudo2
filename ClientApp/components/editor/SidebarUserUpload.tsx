@@ -259,7 +259,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
     loadMore = (initialLoad: Boolean) => {
         const PER_PAGE = 25;
-        const pageId = (this.state.items.length - this.left + this.tmp.length) / 25 + 1;
+        const pageId = Math.floor((this.state.items.length - this.left + this.tmp.length) / PER_PAGE) + 1;
         this.setState({ isLoading: true, error: undefined, loaded: true, });
         const url = `/api/Media/Search?type=${TemplateType.UserUpload}&page=${pageId}&perPage=${PER_PAGE}&userEmail=${Globals.serviceUser ? Globals.serviceUser.username : ""}`;
         fetch(url)
@@ -372,6 +372,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
                     let item = {
                         id: uuidv4(),
+                        representativeThumbnail: fr.result,
                         representative: fr.result,
                         width: img.width,
                         height: img.height,
@@ -739,6 +740,8 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                 transform: `translateX(calc(${this.state.tabSelected == 0 ? 40 : 0}px))`,
                                 position: "absolute",
                                 zIndex: this.state.tabSelected == 1 ? 1 : 0,
+                                height: "calc(100% - 110px)",
+                                width: "100%",
                             }}
                         >
                             <ul
@@ -780,12 +783,12 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                 transform: `translateX(calc(${this.state.tabSelected == 1 ? -40 : 0}px))`,
                                 position: "absolute",
                                 zIndex: this.state.tabSelected == 0 ? 1 : 0,
-                                height: "100%",
+                                height: "calc(100% - 110px)",
                             }}
                         >
                             <InfiniteScroll
                                 scroll={true}
-                                throttle={1000}
+                                throttle={200}
                                 threshold={0}
                                 isLoading={this.state.isLoading}
                                 marginTop={0}

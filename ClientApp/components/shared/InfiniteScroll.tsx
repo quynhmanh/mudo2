@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Loader from '@Components/shared/Loader';
-import { throttle } from 'lodash';
+import { throttle, delay, debounce, } from 'lodash';
 import clonePseudoElements from 'htmltoimage/clonePseudoElements';
 
 export interface InfiniteScrollProps {
@@ -64,15 +64,13 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
     private loadMore: () => void;
 
     componentDidMount() {
-        this.scrollHandler = throttle(this.checkWindowScroll.bind(this), this.props.throttle);
-        this.resizeHandler = throttle(this.checkWindowScroll.bind(this), this.props.throttle);
-        this.loadMore = throttle(this.props.onLoadMore, this.props.throttle);
+        this.scrollHandler = debounce(this.checkWindowScroll.bind(this), this.props.throttle);
+        this.resizeHandler = debounce(this.checkWindowScroll.bind(this), this.props.throttle);
+        this.loadMore = debounce(this.props.onLoadMore, this.props.throttle);
 
         document.addEventListener('scroll', this.scrollHandler);
-        window.addEventListener('resize', this.resizeHandler);
+        // window.addEventListener('resize', this.resizeHandler);
         this.containerSroll.addEventListener('scroll', this.scrollHandler);
-
-        // this.checkWindowScroll();
 
         this.sentinel = document.getElementById(this.props.refId);
     }

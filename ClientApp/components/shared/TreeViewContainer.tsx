@@ -1020,7 +1020,7 @@ class TreeViewContainer extends AppComponent<IProps, IState> {
             >
             {/* <InfiniteScroll
                 scroll={false}
-                    throttle={500}
+                    throttle={200}
                     threshold={300}
                     isLoading={this.state.isLoading}
                     hasMore={this.state.hasMoreImage}
