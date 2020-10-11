@@ -195,7 +195,6 @@ export default class SidebarImage extends Component<IProps, IState> {
                     image2.hovered = false;
                     let grid = image2.grids;
                     let g = grid[window.gridIndex];
-                    grid[window.gridIndex].src=target.src;
                     let boxWidth = (image2.width - g.gapWidth) * g.width / 100;
                     let boxHeight = (image2.height - g.gapHeight) * g.height / 100;
                     let ratio = rec2.width / rec2.height;
@@ -206,7 +205,8 @@ export default class SidebarImage extends Component<IProps, IState> {
                         imgHeight = boxHeight;
                         imgWidth = imgHeight * ratio;
                     }
-        
+
+                    grid[window.gridIndex].src=img.representative;
                     grid[window.gridIndex].imgWidth = imgWidth;
                     grid[window.gridIndex].imgHeight = imgHeight;
                     grid[window.gridIndex].ratio = ratio;
