@@ -840,6 +840,15 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.gradientOnMouseDown}
                             /> */}
+                            <SidebarElement
+                                    elements={elements["Grids"]}
+                                    term="Grids"
+                                    handleQuery={this.handleQuery}
+                                    selectedTab={this.props.selectedTab}
+                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    gradientOnMouseDown={this.gradientOnMouseDown}
+                                // frameOnMouseDownload={this.frameOnMouseDownload}
+                                />
                                 <SidebarElement
                                     elements={elements["Stickers"]}
                                     term="Stickers"
@@ -869,15 +878,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <SidebarElement
                                     elements={elements["Coronavirus"]}
                                     term="Coronavirus"
-                                    handleQuery={this.handleQuery}
-                                    selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.imgOnMouseDown}
-                                    gradientOnMouseDown={this.gradientOnMouseDown}
-                                // frameOnMouseDownload={this.frameOnMouseDownload}
-                                />
-                                <SidebarElement
-                                    elements={elements["Grids"]}
-                                    term="Grids"
                                     handleQuery={this.handleQuery}
                                     selectedTab={this.props.selectedTab}
                                     imgOnMouseDown={this.imgOnMouseDown}
