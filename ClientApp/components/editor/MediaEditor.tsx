@@ -44,7 +44,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         document.getElementById("gridTemplateColumns").value = this.props.item.gridTemplateColumns;
         document.getElementById("gridTemplateRows").value = this.props.item.gridTemplateRows;
         document.getElementById("gap").value = this.props.item.gap;
-        document.getElementById("grids").value = this.props.item.grids;
+        document.getElementById("grids").value = JSON.stringify(this.props.item.grids);
     }
 
     handleAddNewKeyword = () => {
@@ -206,7 +206,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <input className='unblurred' id="gridTemplateColumns" type="text" placeholder="Grid template columns"/>
                     <input className='unblurred' id="gridTemplateRows" type="text" placeholder="Grid template Rows"/>
                     <input className='unblurred' id="gap" type="text" placeholder="gap"/>
-                    <input className='unblurred' id="grids" type="text" placeholder="grids"/>
+                    <input style={{width: "500px",}} className='unblurred' id="grids" type="text" placeholder="grids"/>
                     
                     <div
                         className='unblurred'

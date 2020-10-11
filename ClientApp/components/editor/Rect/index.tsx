@@ -915,6 +915,7 @@ export default class Rect extends Component<IProps, IState> {
 																	window.imgDragging.style.opacity = 0;
 																	let el = e.currentTarget;
 																	el.children[0].children[0].src = window.imagesrc;
+																	el.children[0].children[0].style.display = "block";
 
 																	let rec2 = window.imgDragging.getBoundingClientRect();
 
@@ -944,6 +945,7 @@ export default class Rect extends Component<IProps, IState> {
 																	console.log('onmouseEnter')
 																	let el = e.currentTarget;
 																	el.children[0].children[0].src = g.src;
+																	if (!g.src) el.children[0].children[0].style.display = "none";
 
 																	window.imageselected = null;
 																	window.gridIndex = null;
@@ -971,13 +973,15 @@ export default class Rect extends Component<IProps, IState> {
 																width: g.imgWidth,
 																height: g.imgHeight,
 																pointerEvents: "none",
+																backgroundImage: `url(https://static.canva.com/web/images/87e22a62965f141aa08e93699b0b3527.jpg)`,
 															}}
 														>
-															<img 
-																style={{
-																	height: "100%",
-																}}
-																id="iXmWi6SMfU6PrsUqZLRXQ" src={g.src}></img>
+																<img 
+																	style={{
+																		height: "100%",
+																		display: g.src ? "block" : "none",
+																	}}
+																	id="iXmWi6SMfU6PrsUqZLRXQ" src={g.src}/>
 														</div>
 													</div>
 													)}
