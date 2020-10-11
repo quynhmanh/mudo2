@@ -845,7 +845,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     term="Grids"
                                     handleQuery={this.handleQuery}
                                     selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.imgOnMouseDown}
+                                    imgOnMouseDown={this.gridOnMouseDown}
                                     gradientOnMouseDown={this.gradientOnMouseDown}
                                 // frameOnMouseDownload={this.frameOnMouseDownload}
                                 />
