@@ -169,25 +169,49 @@ export default class SidebarImage extends Component<IProps, IState> {
 
                 let id = window.imageselected;
                 let image2 = editorStore.images2.get(id);
-                image2.src = target.src;
-                image2.selected = false;
-                image2.hovered = false;
-                image2.posX = 0;
-                image2.posY = 0;
-                window.oldTransform = "translate(0px, 0px)";
+                if (isNaN(window.gridIndex)) {
+                    image2.src = target.src;
+                    image2.selected = false;
+                    image2.hovered = false;
+                    image2.posX = 0;
+                    image2.posY = 0;
+                    window.oldTransform = "translate(0px, 0px)";
 
-                let clipScale = image2.width / image2.clipWidth;
+                    let clipScale = image2.width / image2.clipWidth;
 
-                image2.imgWidth = image2.width;
-                image2.imgHeight = image2.width / ratio;
-                window.oldWidth = image2.imgWidth / clipScale + "px";
-                window.oldHeight = image2.imgHeight / clipScale + "px";
-
-                if (image2.imgHeight < image2.height) {
-                    image2.imgWidth = image2.height * ratio;;
-                    image2.imgHeight = image2.height;
+                    image2.imgWidth = image2.width;
+                    image2.imgHeight = image2.width / ratio;
                     window.oldWidth = image2.imgWidth / clipScale + "px";
                     window.oldHeight = image2.imgHeight / clipScale + "px";
+
+                    if (image2.imgHeight < image2.height) {
+                        image2.imgWidth = image2.height * ratio;;
+                        image2.imgHeight = image2.height;
+                        window.oldWidth = image2.imgWidth / clipScale + "px";
+                        window.oldHeight = image2.imgHeight / clipScale + "px";
+                    }
+                } else {
+                    image2.selected = false;
+                    image2.hovered = false;
+                    let grid = image2.grids;
+                    let g = grid[window.gridIndex];
+                    grid[window.gridIndex].src=target.src;
+                    let boxWidth = (image2.width - g.gapWidth) * g.width / 100;
+                    let boxHeight = (image2.height - g.gapHeight) * g.height / 100;
+                    let ratio = rec2.width / rec2.height;
+        
+                    let imgWidth = boxWidth;
+                    let imgHeight = imgWidth / ratio;
+                    if (imgHeight < boxHeight) {
+                        imgHeight = boxHeight;
+                        imgWidth = imgHeight * ratio;
+                    }
+        
+                    grid[window.gridIndex].imgWidth = imgWidth;
+                    grid[window.gridIndex].imgHeight = imgHeight;
+                    grid[window.gridIndex].ratio = ratio;
+                    image2.grids = grid;
+                    window.gridIndex = null;
                 }
 
                 this.props.updateImages(id, image2.page, image2, true);

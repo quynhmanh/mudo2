@@ -1131,6 +1131,9 @@ class CanvaEditor extends Component<IProps, IState> {
                 }, false
             );
 
+            window.rectWidth = rectWidth;
+            window.rectHeight = rectHeight;
+
             self.setState({
                 staticGuides,
                 rectWidth,
@@ -2232,6 +2235,28 @@ class CanvaEditor extends Component<IProps, IState> {
             if (image.posY != 0) posY = image.posY * width / image.width;
         }
         
+        if (objectType == TemplateType.Grids) {
+            let grids = image.grids;
+            grids.forEach((g, index) => {
+                let boxWidth = (width - g.gapWidth) * g.width / 100;
+                let boxHeight = (height - g.gapHeight) * g.height / 100;
+                const ratio = g.ratio ? g.ratio : 1;
+
+                let imgWidth = boxWidth;
+                let imgHeight = imgWidth / ratio;
+                if (imgHeight < boxHeight) {
+                    imgHeight = boxHeight;
+                    imgWidth = imgHeight * ratio;
+                }
+
+                g.imgWidth = imgWidth;
+                g.imgHeight = imgHeight;
+
+                const el = document.getElementById(_id + index + "alo" + "grid");
+                el.style.width = imgWidth + "px";
+                el.style.height = imgHeight + "px";
+            });
+        }
 
         window.imageTop = top;
         window.imageLeft = left;
@@ -2388,6 +2413,13 @@ class CanvaEditor extends Component<IProps, IState> {
             tempEl.style.width = width * scale + "px";
             tempEl.style.height = height * scale + "px";
             tempEl.style.transform = `translate(${left * scale}px, ${top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
+        }
+
+        let a = document.getElementsByClassName(_id + "aaaa2alo");
+        for (let i = 0; i < a.length; ++i) {
+            let tempEl = a[i] as HTMLElement;
+            tempEl.style.width = width  + "px";
+            tempEl.style.height = height  + "px";
         }
 
         let b = document.getElementsByClassName(_id + "1236alo");

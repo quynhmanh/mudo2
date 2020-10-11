@@ -40,6 +40,11 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         document.getElementById("stopColor2").value = this.props.item.stopColor2;
         document.getElementById("stopColor3").value = this.props.item.stopColor3;
         document.getElementById("stopColor4").value = this.props.item.stopColor4;
+        document.getElementById("gridTemplateAreas").value = this.props.item.gridTemplateAreas;
+        document.getElementById("gridTemplateColumns").value = this.props.item.gridTemplateColumns;
+        document.getElementById("gridTemplateRows").value = this.props.item.gridTemplateRows;
+        document.getElementById("gap").value = this.props.item.gap;
+        document.getElementById("grids").value = this.props.item.grids;
     }
 
     handleAddNewKeyword = () => {
@@ -61,6 +66,11 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         const stopColor2 = document.getElementById("stopColor2").value;
         const stopColor3 = document.getElementById("stopColor3").value;
         const stopColor4 = document.getElementById("stopColor4").value;
+        const gridTemplateAreas = document.getElementById("gridTemplateAreas").value;
+        const gridTemplateColumns = document.getElementById("gridTemplateColumns").value;
+        const gridTemplateRows = document.getElementById("gridTemplateRows").value;
+        const gap = document.getElementById("gap").value;
+        const grids = document.getElementById("grids").value;
         var url = `/api/Media/Edit`;
         axios.post(url, 
         { 
@@ -80,6 +90,11 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
             stopColor2,
             stopColor3,
             stopColor4,
+            gridTemplateAreas,
+            gridTemplateColumns,
+            gridTemplateRows,
+            gap,
+            grids,
         })
             .then(res => {
                 if (res.status === 200) {
@@ -187,6 +202,11 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <input className='unblurred' id="stopColor2" type="text" placeholder="stop color 2"/>
                     <input className='unblurred' id="stopColor3" type="text" placeholder="stop color 3"/>
                     <input className='unblurred' id="stopColor4" type="text" placeholder="stop color 4"/>
+                    <input className='unblurred' id="gridTemplateAreas" type="text" placeholder="Grid template areas"/>
+                    <input className='unblurred' id="gridTemplateColumns" type="text" placeholder="Grid template columns"/>
+                    <input className='unblurred' id="gridTemplateRows" type="text" placeholder="Grid template Rows"/>
+                    <input className='unblurred' id="gap" type="text" placeholder="gap"/>
+                    <input className='unblurred' id="grids" type="text" placeholder="grids"/>
                     
                     <div
                         className='unblurred'

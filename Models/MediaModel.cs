@@ -32,6 +32,11 @@
         public string StopColor2 { get; set; }
         public string StopColor3 { get; set; }
         public string StopColor4 { get; set; }
+        public string GridTemplateAreas{ get; set; }
+        public string GridTemplateColumns{ get; set; }
+        public string GridTemplateRows{ get; set; }
+        public string Gap { get; set; }
+        public string Grids { get; set; }
 
         public MediaModel(string id, string firstName, string lastName, string representative)
         {

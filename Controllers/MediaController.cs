@@ -130,6 +130,21 @@ namespace RCB.TypeScript.Controllers
             
             [JsonProperty(PropertyName = "stopColor4")]
             public string stopColor4 { get; set; }
+
+            [JsonProperty(PropertyName = "gridTemplateAreas")]
+            public string gridTemplateAreas { get; set; }
+            
+            [JsonProperty(PropertyName = "gridTemplateColumns")]
+            public string gridTemplateColumns { get; set; }
+
+            [JsonProperty(PropertyName = "gridTemplateRows")]
+            public string gridTemplateRows { get; set; }
+
+            [JsonProperty(PropertyName = "gap")]
+            public string gap { get; set; }
+            
+            [JsonProperty(PropertyName = "grids")]
+            public string grids { get; set; }
         }
 
         [HttpPost("[action]")]
@@ -518,6 +533,11 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.StopColor2 = oDownloadBody.stopColor2;
                 mediaModel.StopColor3 = oDownloadBody.stopColor3;
                 mediaModel.StopColor4 = oDownloadBody.stopColor4;
+                mediaModel.GridTemplateAreas = oDownloadBody.gridTemplateAreas;
+                mediaModel.GridTemplateColumns = oDownloadBody.gridTemplateColumns;
+                mediaModel.GridTemplateRows = oDownloadBody.gridTemplateRows;
+                mediaModel.Gap = oDownloadBody.gap;
+                mediaModel.Grids = oDownloadBody.grids;
 
                 MediaService.Edit(mediaModel);
             }

@@ -87,6 +87,11 @@ namespace RCB.TypeScript.Services
             page.StopColor2 = model.StopColor2;
             page.StopColor3 = model.StopColor3;
             page.StopColor4 = model.StopColor4;
+            page.GridTemplateAreas = model.GridTemplateAreas;
+            page.GridTemplateColumns = model.GridTemplateColumns;
+            page.GridTemplateRows = model.GridTemplateRows;
+            page.Gap = model.Gap;
+            page.Grids = model.Grids;
 
             var updateResponse = client.Update<MediaModel>(page, u => u.Doc(page));
 

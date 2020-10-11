@@ -420,13 +420,25 @@ export default class Rect extends Component<IProps, IState> {
 				clipId,
 				clipWidth,
 				clipHeight,
-				clipWidth0,
-				clipHeight0,
 				path2,
-				x1, x2, y1, y2, stopColor1, stopColor2,
-				gradientTransform,
+				grids,
+				gridTemplateAreas,
+				gridTemplateColumns,
+				gridTemplateRows,
+				gap,
 			}
 		} = this.state;
+
+		let grid = grids;
+		// if (type == TemplateType.Grids) {
+		// 	try {
+		// 		grid = JSON.parse(grids);
+		// 	} catch (e) {
+		// 		console.log(e)
+		// 	}
+		// }
+
+		// console.log('grid ', grid)
 
 		let ABC;
 		if (type == TemplateType.Gradient) {
@@ -856,6 +868,175 @@ export default class Rect extends Component<IProps, IState> {
 										)}
 									</div>
 								)}
+							{(name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) && type == TemplateType.Grids &&
+								<div
+									id={_id}
+									style={{
+										zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage && type !== TemplateType.Element ? 1 : 0,
+										transformOrigin: "0 0",
+										position: "absolute",
+										width: "100%",
+										height: "100%",
+										overflow: type == TemplateType.Gradient ? 'hidden' : 'auto',
+									}}
+								>
+									<div
+										className={_id + "aaaa2" + canvas}
+										style={{
+											width: width + "px",
+											height: height + "px",
+											transform: `scale(${scale})`,
+											transformOrigin: '0 0',
+										}}
+									>
+										<div
+											className={_id + "aaaa2" + canvas}
+											style={{
+												width: width + "px",
+												height: height + "px",
+											}}
+										>
+											<div
+												style={{
+													display: 'grid',
+													width: `100%`,
+													height: `100%`,
+													gridTemplateAreas: gridTemplateAreas,
+													gridTemplateColumns: gridTemplateColumns,
+													gridTemplateRows: gridTemplateRows,
+													gap: `${gap}px`,
+												}}>
+													{grid && grid.map((g, index) => 
+														<div
+															onMouseEnter={e => {
+																if (window.imagedragging && type == TemplateType.Grids) {
+																	window.imageselected = _id;
+																	window.gridIndex = index;
+																	window.imgDragging.style.opacity = 0;
+																	let el = e.currentTarget;
+																	el.children[0].children[0].src = window.imagesrc;
+
+																	let rec2 = window.imgDragging.getBoundingClientRect();
+
+																	let boxWidth = (width - g.gapWidth) * g.width / 100;
+                    												let boxHeight = (height - g.gapHeight) * g.height / 100;
+																	let ratio = rec2.width / rec2.height;
+
+																	let imgWidth = boxWidth;
+																	let imgHeight = imgWidth / ratio;
+																	if (imgHeight < boxHeight) {
+																		imgHeight = boxHeight;
+																		imgWidth = imgHeight * ratio;
+																	}
+
+																	window.oldWidth = el.children[0].style.width;
+																	window.oldHeight = el.children[0].style.height;
+
+																	el.children[0].style.width = imgWidth + "px";
+																	el.children[0].style.height = imgHeight + "px";
+																}
+															}}
+															onMouseLeave={e => {
+																if (window.imagedragging && type == TemplateType.Grids) {
+																	console.log('onMouseEnter123 ', window.imagedragging);
+																	window.imgDragging.style.opacity = 1;
+
+																	console.log('onmouseEnter')
+																	let el = e.currentTarget;
+																	el.children[0].children[0].src = g.src;
+
+																	window.imageselected = null;
+																	window.gridIndex = null;
+																	
+
+																	if (window.oldWidth) {
+																		el.children[0].style.width = window.oldWidth;
+																		window.oldWidth = null;
+																	}
+																	if (window.oldHeight) {
+																		el.children[0].style.height = window.oldHeight;
+																		window.oldHeight = null;
+																	}
+																}
+															}}
+															style={{
+																gridArea: g.gridArea,
+																overflow: "hidden",
+															}}>
+														<div
+															id={_id + index + canvas + "grid"}
+															style={{
+																backgroundSize: 'auto 100%',
+																backgroundPosition: '50%',
+																width: g.imgWidth,
+																height: g.imgHeight,
+																pointerEvents: "none",
+															}}
+														>
+															<img 
+																style={{
+																	height: "100%",
+																}}
+																id="iXmWi6SMfU6PrsUqZLRXQ" src={g.src}></img>
+														</div>
+													</div>
+													)}
+												{/* <div
+													onMouseEnter={e => {
+														console.log('onMouseEnter');
+													}}
+													style={{
+														gridArea: "a / a / a / a",
+														overflow: "hidden",
+													}}>
+													<div
+														style={{
+															backgroundSize: 'auto 100%',
+															backgroundPosition: '50%',
+															width: '1500px',
+															height: '500px',
+														}}
+													>
+														<img 
+															style={{
+																width: "100%",
+															}}
+															id="iXmWi6SMfU6PrsUqZLRXQ" src="images\iXmWi6SMfU6PrsUqZLRXQ_thumbnail.png"></img>
+													</div>
+												</div>
+												<div
+													style={{
+														gridArea: "b / b / b / b",
+													}}>
+													<div
+														style={{
+															backgroundSize: 'auto 100%',
+															backgroundPosition: '50%',
+															backgroundImage: 'url(images/fSUc85RKkEqCSeHAWXzgzw_thumbnail.png)',
+															width: '100%',
+															height: '100%',
+														}}
+													></div>
+												</div>
+												<div
+													style={{
+														gridArea: "c / c / c / c",
+													}}>
+													<div
+														style={{
+															backgroundSize: 'auto 100%',
+															backgroundPosition: '50%',
+															backgroundImage: 'url(images/fSUc85RKkEqCSeHAWXzgzw_thumbnail.png)',
+															width: '100%',
+															height: '100%',
+														}}
+													></div>
+												</div> */}
+											</div>
+										</div>
+									</div>
+								</div>
+							}
 							{(name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) && type == TemplateType.Gradient &&
 								<div
 									id={_id}
@@ -1625,7 +1806,7 @@ export default class Rect extends Component<IProps, IState> {
 
 function processChildren(children) {
 	return Array.from(children.length ? children : []).map(
-		(node:any, i) => {
+		(node: any, i) => {
 			// return if text node
 			if (node.nodeType == 8) return null;
 			if (node.nodeType === 3) return node.nodeValue;
@@ -1633,7 +1814,7 @@ function processChildren(children) {
 			let attributes;
 			// collect all attributes
 			if (node.attributes) {
-				attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
+				attributes = Array.from(node.attributes).reduce((attrs, attr: any) => {
 					if (node.tagName == "svg" && (attr.name == "width" || attr.name == "height")) {
 						attrs[attr.name] = "100%";
 					} else if (attr.name == "style") {
