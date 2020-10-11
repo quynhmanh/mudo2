@@ -973,6 +973,9 @@ class CanvaEditor extends Component<IProps, IState> {
                         designTitle: image.value.title,
                     });
 
+                    window.rectWidth = document.width;
+                    window.rectHeight = document.height;
+
                     editorStore.templateRatio = document.width / document.height;
 
                     let zIndexMax = 0;
