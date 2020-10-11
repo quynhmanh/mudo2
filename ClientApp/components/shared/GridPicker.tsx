@@ -141,42 +141,6 @@ export default class GridPicker extends Component<IProps, IState> {
                                 }} />)}
                     </div>
                 </div>
-                {this.props.showProgressBar &&
-                    <div
-                        style={{
-                            width: "100%",
-                            position: "absolute",
-                            bottom: 0,
-                        }}
-                        className="container">
-
-                        <div className="progress">
-                            <div id={"progress-bar" + id} className="progress-bar progress-bar-striped" role="progressbar"
-                                style={{ width: "0%", }}
-                                ariaValuenow="0" ariaValuemin="0" ariaValuemax="100"></div>
-                        </div>
-                        <button
-                            id={"progress-bar-start-btn" + id}
-                            onClick={e => {
-                                let self = this;
-                                this.interval = setInterval(function () {
-                                    self.current_progress += self.step;
-                                    let progress = Math.round(Math.atan(self.current_progress) / (Math.PI / 2) * 100 * 1000) / 1000
-                                    document.getElementById("progress-bar" + id).style.width = progress + "%";
-                                    if (progress >= 100) {
-                                        clearInterval(interval);
-                                    } else if (progress >= 70) {
-                                        this.step = 0.1
-                                    }
-                                }, 100);
-                            }}
-                            style={{
-                                display: "none",
-                            }}
-                            type="button"
-                            className="btn btn-light">Start</button>
-
-                    </div>}
             </div>
         );
     }

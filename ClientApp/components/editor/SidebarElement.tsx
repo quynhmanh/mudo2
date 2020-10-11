@@ -900,8 +900,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 }
                             }
 
-                            console.log('item.grids ', item.type, item.grids)
-
                             return <ImagePickerContainer
                                 onMouseDown={e => {
                                     e.preventDefault();

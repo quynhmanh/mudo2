@@ -3,6 +3,7 @@ import { SidebarTab, TemplateType, } from "./enums";
 import InfiniteXScroll from "@Components/shared/InfiniteXScroll";
 import styled from "styled-components";
 import ImagePicker from "@Components/shared/ImagePicker";
+import GridPicker from '@Components/shared/GridPicker';
 
 export interface IProps {
     term: string;
@@ -179,16 +180,49 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     height = 80;
                                     width = 80 * (item.width / item.height);
                                 }
+
+                                if (item.keywords && item.keywords[0] == "Grids") {
+                                    try {
+                                        item.grids = JSON.parse(item.grids);
+                                        console.log('alo', item.type)
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
+                                }
+
                                 return <ImageContainer
                                     onMouseDown={e => {
                                         e.preventDefault();
                                         let el = e.currentTarget.getElementsByTagName("img")[0];
                                         if (item.ext == "svg")
                                             this.props.gradientOnMouseDown(item, el, e);
+                                        if (item.keywords && item.keywords[0] == "Grids") {
+                                            el = e.currentTarget;
+                                            this.props.imgOnMouseDown(item, el, e);
+                                        }
                                         else 
                                             this.props.imgOnMouseDown(item, el, e);
                                     }}
                                 >
+                                    {(item.keywords && item.keywords[0] == "Grids") ?
+                                    <GridPicker
+                                    id={item.id}
+                                    key={this.prefix + key}
+                                    color={item.color}
+                                    src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
+                                    height={height}
+                                    defaultHeight={imgWidth}
+                                    width={width}
+                                    onPick={null}
+                                    onEdit={null}
+                                    delay={250 * key}
+                                    showButton={true}
+                                    backgroundColorLoaded="transparent"
+                                    marginRight={0}
+                                    marginAuto={true}
+                                    item={item}
+                                />
+                                    :
                                     <ImagePicker
                                         id={item.id}
                                         key={key + "1"}
@@ -204,7 +238,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         backgroundColorLoaded="transparent"
                                         marginRight={0}
                                         marginAuto={true}
-                                    />
+                                    />}
                                 </ImageContainer>
                             }
                             )}
