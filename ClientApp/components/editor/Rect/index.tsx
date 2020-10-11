@@ -974,11 +974,12 @@ export default class Rect extends Component<IProps, IState> {
 																backgroundImage: `url(https://static.canva.com/web/images/87e22a62965f141aa08e93699b0b3527.jpg)`,
 															}}
 														>
-															<img 
-																style={{
-																	height: "100%",
-																}}
-																id="iXmWi6SMfU6PrsUqZLRXQ" src={g.src}></img>
+															{g.src && 
+																<img 
+																	style={{
+																		height: "100%",
+																	}}
+																	id="iXmWi6SMfU6PrsUqZLRXQ" src={g.src}></img>}
 														</div>
 													</div>
 													)}
