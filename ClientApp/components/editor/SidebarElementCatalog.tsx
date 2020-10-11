@@ -100,7 +100,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     render() {
-        console.log('this.elements ', this.elements)
         let width = this.getTextWidth(this.props.term, "bold 16pt arial");
         return (
             <Catalog>
@@ -184,9 +183,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 if (item.keywords && item.keywords[0] == "Grids") {
                                     try {
                                         item.grids = JSON.parse(item.grids);
-                                        console.log('alo', item.type)
                                     } catch (e) {
-                                        console.log(e);
                                     }
                                 }
 
@@ -194,12 +191,15 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     onMouseDown={e => {
                                         e.preventDefault();
                                         let el = e.currentTarget.getElementsByTagName("img")[0];
+
                                         if (item.ext == "svg")
                                             this.props.gradientOnMouseDown(item, el, e);
-                                        if (item.keywords && item.keywords[0] == "Grids") {
+
+                                        else if (item.keywords && item.keywords[0] == "Grids") {
                                             el = e.currentTarget;
                                             this.props.imgOnMouseDown(item, el, e);
                                         }
+
                                         else 
                                             this.props.imgOnMouseDown(item, el, e);
                                     }}

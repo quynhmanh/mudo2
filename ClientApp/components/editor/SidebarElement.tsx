@@ -125,6 +125,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     gradientOnMouseDown(img, el, e) {
+        console.log('gradientOnMouseDown')
         let scale = this.props.scale;
 
         let target = el.cloneNode(true);
@@ -188,6 +189,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
         };
 
         const onUp = evt => {
+            console.log('onUp')
             window.imagedragging = false;
             dragging = false;
             document.removeEventListener("mousemove", onMove);
@@ -559,6 +561,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     imgOnMouseDown(img, el, e) {
+        console.log('imgOnMouseDown')
         let scale = this.props.scale;
 
         let target = el.cloneNode(true);
