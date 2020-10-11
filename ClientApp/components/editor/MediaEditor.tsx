@@ -206,7 +206,7 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <input className='unblurred' id="gridTemplateColumns" type="text" placeholder="Grid template columns"/>
                     <input className='unblurred' id="gridTemplateRows" type="text" placeholder="Grid template Rows"/>
                     <input className='unblurred' id="gap" type="text" placeholder="gap"/>
-                    <input className='unblurred' id="grids" type="text" placeholder="grids"/>
+                    <input style={{width: "500px",}} className='unblurred' id="grids" type="text" placeholder="grids"/>
                     
                     <div
                         className='unblurred'
