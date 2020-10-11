@@ -99,7 +99,7 @@ export default class SidebarImage extends Component<IProps, IState> {
         target.src = img.representativeThumbnail
             ? img.representativeThumbnail
             : e.target.src;
-        window.imagesrc = target.src;
+        window.imagesrc = img.representative;
         target.style.width = e.target.getBoundingClientRect().width + "px";
         target.style.backgroundColor = e.target.style.backgroundColor;
         document.body.appendChild(target);
