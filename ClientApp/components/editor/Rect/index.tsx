@@ -948,7 +948,7 @@ export default class Rect extends Component<IProps, IState> {
 																	if (!g.src) el.children[0].children[0].style.display = "none";
 
 																	window.imageselected = null;
-																	window.gridIndex = null;
+																	window.gridIndex = undefined;
 																	
 
 																	if (window.oldWidth) {
