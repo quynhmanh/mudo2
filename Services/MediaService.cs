@@ -146,7 +146,7 @@ namespace RCB.TypeScript.Services
                 Query(q => q.MatchAll())
                 .Sort(f => f.Descending(ff => ff.Popularity2))
                 .From(0)
-                .Size(70));
+                .Size(80));
 
             var res2 = new KeyValuePair<List<MediaModel>, long>(res4.Documents.ToList(), res4.Total);
 

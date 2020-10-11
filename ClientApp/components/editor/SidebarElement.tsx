@@ -112,8 +112,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
-                    for (let i = 0; i < 70; ++i) {
-                        if (i >= res.value.key.length) break;
+                    for (let i = 0; i < res.value.key.length; ++i) {
                         let doc = res.value.key[i];
                         if (doc.keywords.length > 0 && elements[doc.keywords[0]]) {
                             elements[doc.keywords[0]].push(doc);
