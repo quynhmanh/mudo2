@@ -985,6 +985,22 @@ export default class Rect extends Component<IProps, IState> {
 														</div>
 													</div>
 													)}
+													{/* {grid && grid.map((g, index) => 
+														<div
+															style={{
+																gridArea: g.gridArea,
+																overflow: "hidden",
+																backgroundImage:
+																	(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+																		: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+																backgroundPosition: 'top,100%,bottom,0',
+																backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
+																backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+																opacity: (hovered || selected) ? 1 : 0,
+																pointerEvents: "none",
+															}}>
+													</div>
+													)} */}
 												{/* <div
 													onMouseEnter={e => {
 														console.log('onMouseEnter');
@@ -1786,12 +1802,12 @@ export default class Rect extends Component<IProps, IState> {
 								ref={i => this.hideWhenDownload = i}
 								style={{
 									position: "absolute",
-									top: "-2px",
-									left: "-2px",
-									right: "-2px",
-									bottom: "-2px",
+									top: "-1px",
+									left: "-1px",
+									right: "-1px",
+									bottom: "-1px",
 									backgroundImage:
-										(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
+										(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem || type == TemplateType.Grids) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 											: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
 									backgroundPosition: 'top,100%,bottom,0',
 									backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',

@@ -206,7 +206,9 @@ export default class SidebarImage extends Component<IProps, IState> {
                         imgWidth = imgHeight * ratio;
                     }
 
-                    grid[window.gridIndex].src=img.representative;
+                    grid[window.gridIndex].src = !img.representative.startsWith("data")
+                    ? window.location.origin + "/" + img.representative
+                    : img.representative;
                     grid[window.gridIndex].imgWidth = imgWidth;
                     grid[window.gridIndex].imgHeight = imgHeight;
                     grid[window.gridIndex].ratio = ratio;
@@ -214,6 +216,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                     window.gridIndex = null;
                 }
 
+                window.imageselected = null;
                 this.props.updateImages(id, image2.page, image2, true);
                 editorStore.images2.set(id, image2);
                 return;
