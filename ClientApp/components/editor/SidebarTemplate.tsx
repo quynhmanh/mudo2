@@ -283,6 +283,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                                 window.open(`/editor/template/${item.id}`);
                                             }}
                                             showButton={true}
+                                            backgroundColorLoaded="transparent"
                                         />
                                     )
                             )}
