@@ -60,7 +60,7 @@ let elements = {
 
 export default class SidebarEffect extends Component<IProps, IState> {
 
-    rem = 10;
+    prefix = 1;
     left = 10;
 
     state = {
@@ -83,7 +83,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
         super(props);
         this.state.items = getRem(props.rem);
         this.left = props.rem;
-        this.prefix = 1;
 
         this.handleQuery = this.handleQuery.bind(this);
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
@@ -688,6 +687,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
     }
 
     loadMore = (initialload, term = null) => {
+        console.log('this.props.rem ', this.props.rem)
         let pageId = Math.round((this.state.items.length - this.left) / this.props.rem) + 1;
         this.setState({ isLoading: true, error: undefined });
         const url = `/api/Media/Search?type=${TemplateType.Element}&page=${pageId}&perPage=${this.props.rem}&terms=${initialload ? term : this.state.query}`;
@@ -700,7 +700,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     items = [...items, ...result];
                     let hasMore = res.value.value > items.length;
                     if (hasMore) {
-                        let left = Math.min(this.rem, res.value.value - items.length);
+                        let left = Math.min(this.props.rem, res.value.value - items.length);
                         this.left = left;
                         items = [...items, ...getRem(left)];
                     }
