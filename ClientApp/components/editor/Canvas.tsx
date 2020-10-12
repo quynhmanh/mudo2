@@ -54,6 +54,7 @@ export interface IProps {
     active: boolean;
     toggleVideo: any;
     handleCropBtnClick: any;
+    handleGridCrop: any;
 }
 
 export interface IState {
@@ -449,6 +450,7 @@ export default class Canvas extends Component<IProps, IState> {
                                 {images
                                     .map(img => (
                                         <ResizableRect
+                                            handleGridCrop={this.props.handleGridCrop}
                                             handleCropBtnClick={this.props.handleCropBtnClick}
                                             doNoObjectSelected={this.props.doNoObjectSelected}
                                             handleDragStart={this.props.handleDragStart}
@@ -515,6 +517,7 @@ export default class Canvas extends Component<IProps, IState> {
                                     {images
                                         .map(imgHovered =>
                                             <ResizableRect
+                                                handleGridCrop={this.props.handleGridCrop}
                                                 handleCropBtnClick={this.props.handleCropBtnClick}
                                                 handleDragStart={this.props.handleDragStart}
                                                 ref={i => this.canvas[CanvasType.HoverLayer][imgHovered._id] = i}

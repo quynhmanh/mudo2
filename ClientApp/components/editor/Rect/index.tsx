@@ -64,6 +64,7 @@ export interface IProps {
 	handleDragStart: any;
 	doNoObjectSelected: any;
 	handleCropBtnClick: any;
+	handleGridCrop: any;
 }
 
 export interface IState {
@@ -92,7 +93,7 @@ export default class Rect extends Component<IProps, IState> {
 			selectionScaleX: null,
 			selectionScaleY: null,
 			image: clone(props.image),
-			cropMode: false,
+			cropMode: props.cropMode,
 			paused: props.image.paused,
 			max: 0,
 			currentTime: 0,
@@ -139,6 +140,35 @@ export default class Rect extends Component<IProps, IState> {
 				}
 			}
 		}
+
+		const {
+			image: {
+				selected,
+			},
+		} = this.state;
+
+		const cropMode = editorStore.cropMode;
+
+
+		if (cropMode && selected) {
+			let aloEL = document.getElementById('screen-container-parent');
+			let canvas = document.getElementsByClassName('canvas-' + this.props.image.page)[0];
+			console.log('quynh', this.cropLayer, aloEL, canvas)
+			if (this.cropLayer && aloEL && canvas) {
+				let rectAloEL = aloEL.getBoundingClientRect();
+				let rectCanvas = canvas.getBoundingClientRect();
+				let left = rectAloEL.left - rectCanvas.left;
+				let top = rectAloEL.top - rectCanvas.top - aloEL.scrollTop;
+				let width = rectAloEL.right - rectAloEL.left;
+				let height = aloEL.scrollHeight;
+				this.cropLayer.style.left = left + "px";
+				this.cropLayer.style.top = top + "px";
+				this.cropLayer.style.width = width + "px";
+				this.cropLayer.style.height = height + "px";
+
+				console.log('quynh3', this.props.name, left, top, width, height, this.cropLayer)
+			}
+		}
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -162,9 +192,9 @@ export default class Rect extends Component<IProps, IState> {
 				selected,
 				innerHTML,
 			},
-			cropMode,
 		} = this.state;
 
+		const cropMode = editorStore.cropMode;
 
 		if (
 			type === TemplateType.Heading &&
@@ -174,9 +204,10 @@ export default class Rect extends Component<IProps, IState> {
 			this.$textEle2.innerHTML = innerHTML;
 		}
 
-		if (cropMode) {
+		if (cropMode && selected) {
 			let aloEL = document.getElementById('screen-container-parent');
 			let canvas = document.getElementsByClassName('canvas-' + this.props.image.page)[0];
+			console.log('quynh', this.cropLayer, aloEL, canvas)
 			if (this.cropLayer && aloEL && canvas) {
 				let rectAloEL = aloEL.getBoundingClientRect();
 				let rectCanvas = canvas.getBoundingClientRect();
@@ -188,6 +219,8 @@ export default class Rect extends Component<IProps, IState> {
 				this.cropLayer.style.top = top + "px";
 				this.cropLayer.style.width = width + "px";
 				this.cropLayer.style.height = height + "px";
+
+				console.log('quynh3', this.props.name, left, top, width, height, this.cropLayer)
 			}
 		}
 	}
@@ -343,6 +376,7 @@ export default class Rect extends Component<IProps, IState> {
 	}
 
 	enableCropMode() {
+		console.log('enableCropMode')
 		this.setState({ cropMode: true });
 		this.forceUpdate();
 	}
@@ -374,8 +408,10 @@ export default class Rect extends Component<IProps, IState> {
 			canvas,
 		} = this.props;
 
+		const cropMode = editorStore.cropMode;
+
 		const {
-			cropMode,
+			// cropMode,
 			image: {
 				page,
 				hovered,
@@ -497,9 +533,10 @@ export default class Rect extends Component<IProps, IState> {
 			page: page,
 		};
 
+		console.log('cropMode', cropMode, selected, name)
+
 		return (
 			<div>
-				{cropMode && name == CanvasType.HoverLayer &&
 					<div
 						ref={i => this.cropLayer = i}
 						style={{
@@ -507,13 +544,13 @@ export default class Rect extends Component<IProps, IState> {
 							backgroundColor: 'rgba(53,71,90,.2)',
 							zIndex: 999999,
 							pointerEvents: "auto",
+							display: cropMode && selected && name == CanvasType.HoverLayer ? "block" : "none",
 						}}
 						onClick={e => {
 							this.props.disableCropMode();
 						}}
 					>
 					</div>
-				}
 				<div
 					className={_id + `aaaa${canvas}`}
 					id={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : `_${canvas}`)}
@@ -544,7 +581,7 @@ export default class Rect extends Component<IProps, IState> {
 										this.props.handleImageSelected(_id, page, name == CanvasType.HoverLayer ? CanvasType.All : CanvasType.HoverLayer);
 									}
 									this.props.handleDragStart(e, _id);
-								} else if (this.state.cropMode) {
+								} else if (cropMode) {
 									this.props.handleDragStart(e, _id);
 								} else {
 									this.props.doNoObjectSelected();
@@ -553,12 +590,12 @@ export default class Rect extends Component<IProps, IState> {
 						}}
 						onClick={e => {
 							if (type == TemplateType.BackgroundImage && !window.selectionStart && name == CanvasType.All && !editorStore.cropMode) {
-								if (!editorStore.cropMode) {
+								if (!cropMode) {
 									if (!selected) {
 										this.handleImageSelected();
 										this.props.handleImageSelected(_id, page, CanvasType.HoverLayer);
 									}
-								} else if (this.state.cropMode) {
+								} else if (cropMode) {
 									this.props.handleDragStart(e, _id);
 								} else {
 									this.props.doNoObjectSelected();
@@ -583,7 +620,7 @@ export default class Rect extends Component<IProps, IState> {
 						<StyledRect
 							onDoubleClick={e => {
 								e.preventDefault();
-								this.props.handleCropBtnClick(_id);
+								if (!cropMode) this.props.handleCropBtnClick(_id);
 							}}
 							onMouseEnter={e => {
 								if (window.imagedragging && type == TemplateType.Element) {
@@ -877,7 +914,7 @@ export default class Rect extends Component<IProps, IState> {
 										position: "absolute",
 										width: "100%",
 										height: "100%",
-										overflow: type == TemplateType.Gradient ? 'hidden' : 'auto',
+										overflow: (type == TemplateType.Gradient || type == TemplateType.Grids) ? 'hidden' : 'auto',
 									}}
 								>
 									<div
@@ -961,6 +998,13 @@ export default class Rect extends Component<IProps, IState> {
 																	}
 																}
 															}}
+															onDoubleClick={e => {
+																console.log('onDoubleClick');
+
+																e.preventDefault();
+																e.stopPropagation();
+																this.props.handleGridCrop(g, index);
+															}}
 															style={{
 																gridArea: g.gridArea,
 																overflow: "hidden",
@@ -972,6 +1016,7 @@ export default class Rect extends Component<IProps, IState> {
 																backgroundPosition: '50%',
 																width: g.imgWidth,
 																height: g.imgHeight,
+																transform: `translate(${g.posX}px, ${g.posY}px)`,
 																pointerEvents: "none",
 																backgroundImage: `url(https://static.canva.com/web/images/87e22a62965f141aa08e93699b0b3527.jpg)`,
 															}}
@@ -985,57 +1030,6 @@ export default class Rect extends Component<IProps, IState> {
 														</div>
 													</div>
 													)}
-												{/* <div
-													onMouseEnter={e => {
-														console.log('onMouseEnter');
-													}}
-													style={{
-														gridArea: "a / a / a / a",
-														overflow: "hidden",
-													}}>
-													<div
-														style={{
-															backgroundSize: 'auto 100%',
-															backgroundPosition: '50%',
-															width: '1500px',
-															height: '500px',
-														}}
-													>
-														<img 
-															style={{
-																width: "100%",
-															}}
-															id="iXmWi6SMfU6PrsUqZLRXQ" src="images\iXmWi6SMfU6PrsUqZLRXQ_thumbnail.png"></img>
-													</div>
-												</div>
-												<div
-													style={{
-														gridArea: "b / b / b / b",
-													}}>
-													<div
-														style={{
-															backgroundSize: 'auto 100%',
-															backgroundPosition: '50%',
-															backgroundImage: 'url(images/fSUc85RKkEqCSeHAWXzgzw_thumbnail.png)',
-															width: '100%',
-															height: '100%',
-														}}
-													></div>
-												</div>
-												<div
-													style={{
-														gridArea: "c / c / c / c",
-													}}>
-													<div
-														style={{
-															backgroundSize: 'auto 100%',
-															backgroundPosition: '50%',
-															backgroundImage: 'url(images/fSUc85RKkEqCSeHAWXzgzw_thumbnail.png)',
-															width: '100%',
-															height: '100%',
-														}}
-													></div>
-												</div> */}
 											</div>
 										</div>
 									</div>
@@ -1796,7 +1790,7 @@ export default class Rect extends Component<IProps, IState> {
 									backgroundPosition: 'top,100%,bottom,0',
 									backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
 									backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-									opacity: ((hovered || selected) && !cropMode) || (cropMode && type != TemplateType.BackgroundImage && type != TemplateType.Element) ? 1 : 0,
+									opacity: ((hovered || selected) && !cropMode) || (cropMode && selected && type != TemplateType.BackgroundImage && type != TemplateType.Element) ? 1 : 0,
 									pointerEvents: "none",
 								}}>
 

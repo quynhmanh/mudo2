@@ -460,6 +460,50 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ cropMode: true });
     }
 
+    handleGridCrop = (g, index) => {
+        let image = this.getImageSelected();
+        const scale = this.state.scale;
+
+        let boxWidth = (image.width - g.gapWidth) * g.width / 100;
+        let boxHeight = (image.height - g.gapHeight) * g.height / 100;
+
+
+        let offsetLeft = (image.width * scale - g.gapLeft * scale) * g.left / 100 + g.gapLeft * scale;
+        let offsetTop = (image.height * scale - g.gapTop * scale) * g.top / 100 + g.gapTop * scale;
+
+        let newImg = {
+            _id: uuidv4(),
+            type: TemplateType.BackgroundImage,
+            width: boxWidth,
+            height: boxHeight,
+            origin_width: boxWidth,
+            origin_height: boxHeight,
+            left: image.left + offsetLeft / scale,
+            top: image.top + offsetTop / scale,
+            rotateAngle: 0.0,
+            src: g.src,
+            selected: true,
+            scaleX: 1,
+            scaleY: 1,
+            posX: g.posX ? g.posX : 0,
+            posY: g.posY ? g.posY : 0,
+            imgWidth: g.imgWidth,
+            imgHeight: g.imgHeight,
+            page: image.page,
+            zIndex: editorStore.upperZIndex + 1,
+            deleteAfterCrop: true,
+            parentImageId: image._id,
+            gridIndex: index,
+        };
+
+
+        editorStore.addItem2(newImg, false);
+        editorStore.increaseUpperzIndex();
+
+        this.handleImageSelected(newImg._id, newImg.page, false, true, false);
+        editorStore.cropMode = true;
+    }
+
     handleCropBtnClick = (id: string) => {
 
 
@@ -467,7 +511,10 @@ class CanvaEditor extends Component<IProps, IState> {
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
         }
-        if (image.type == TemplateType.GroupedItem || image.type == TemplateType.TextTemplate || image.type == TemplateType.Heading) {
+        if (image.type == TemplateType.GroupedItem || 
+            image.type == TemplateType.TextTemplate || 
+            image.type == TemplateType.Heading || 
+            image.type == TemplateType.Grids) {
             return;
         }
 
@@ -3285,7 +3332,7 @@ class CanvaEditor extends Component<IProps, IState> {
             )
             .subscribe(
                 ({ moveElLocation }) => {
-                    if (this.state.cropMode) {
+                    if (editorStore.cropMode) {
                         this.handleImageDrag(
                             editorStore.idObjectSelected,
                             moveElLocation[0],
@@ -4252,7 +4299,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleImageSelected = (id, pageId, updateCanvas, forceUpdate, updateImage) => {
-        if (this.state.cropMode) {
+        if (editorStore.cropMode) {
             this.disableCropMode();
         }
         let oldImage = editorStore.getImageSelected();
@@ -5177,6 +5224,32 @@ class CanvaEditor extends Component<IProps, IState> {
             this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.disableCropMode();
             this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.disableCropMode();
         }
+
+        let image = this.getImageSelected();
+        if (image.type == TemplateType.BackgroundImage && image.deleteAfterCrop) {
+            let parentImage = editorStore.images2.get(image.parentImageId);
+            parentImage.hovered = false;
+            parentImage.selected = false;
+            parentImage.grids = parentImage.grids.map((g, i) => {
+                if (i == image.gridIndex) {
+                    console.log('asd')
+                    g.imgWidth = image.imgWidth;
+                    g.imgHeight = image.imgHeight;
+                    g.posX = image.posX;
+                    g.posY = image.posY;
+                }
+                return g;
+            });
+
+            this.updateImages(parentImage._id, parentImage.page, parentImage, true);
+
+            editorStore.images2.delete(editorStore.idObjectSelected);
+            this.doNoObjectSelected();
+            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
+            editorStore.keys[index] = editorStore.keys[index] + 1;
+
+            this.forceUpdate();
+        }
     }
 
     toggleImageResizing = e => {
@@ -5290,6 +5363,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         }
                     }}
                     handleCropBtnClick={this.handleCropBtnClick}
+                    handleGridCrop={this.handleGridCrop}
                     toggleVideo={this.toggleVideo}
                     uiKey={pages[i] + keys[i]}
                     selected={

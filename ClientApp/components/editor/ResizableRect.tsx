@@ -35,6 +35,7 @@ export interface IProps {
   handleDragStart: any;
   doNoObjectSelected: any;
   handleCropBtnClick: any;
+  handleGridCrop: any;
 }
 
 export interface IState {
@@ -91,10 +92,12 @@ export default class ResizableRect extends Component<IProps, IState> {
       doNoObjectSelected,
       handleCropBtnClick,
       disableCropMode,
+      handleGridCrop,
     } = this.props;
 
     return (
       <Rect
+        handleGridCrop={handleGridCrop}
         handleCropBtnClick={handleCropBtnClick}
         doNoObjectSelected={doNoObjectSelected}
         handleDragStart={handleDragStart}
