@@ -1066,7 +1066,7 @@ export default class Rect extends Component<IProps, IState> {
 
 															e.preventDefault();
 															e.stopPropagation();
-															this.props.handleGridCrop(g, index);
+															this.props.handleGridCrop(index);
 														}}
 														onClick={e => {
 															e.preventDefault();

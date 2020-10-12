@@ -89,6 +89,8 @@ class LeftSide extends Component<IProps, IState> {
             let found = image.document_object.find(doc => doc._id == editorStore.childId);
             image = found;
         }
+        if (image)
+        console.log('image.type ', image.type, editorStore.gridIndex);
         const props = this.props;
         return (
             <React.Fragment>
@@ -125,7 +127,7 @@ class LeftSide extends Component<IProps, IState> {
                 <Color
                     show=
                     {
-                        image &&
+                        !editorStore.cropMode && image &&
                         (
                             image.type === TemplateType.Heading ||
                             image.type === TemplateType.Latex ||
@@ -222,7 +224,8 @@ class LeftSide extends Component<IProps, IState> {
                             image.type === TemplateType.Element ||
                             image.type === TemplateType.Gradient ||
                             (image.type === TemplateType.BackgroundImage &&
-                                image.src)
+                                image.src) ||
+                            (image.type == TemplateType.Grids && editorStore.gridIndex != null)
                         )
                     }
                     translate={props.translate}

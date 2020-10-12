@@ -55,6 +55,7 @@ class Images {
     @observable templateRatio = 0;
     @observable colors = [];
     @observable colorField = null;
+    @observable gridIndex = null;
     
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));

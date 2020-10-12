@@ -460,9 +460,11 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ cropMode: true });
     }
 
-    handleGridCrop = (g, index) => {
+    handleGridCrop = (index) => {
         let image = this.getImageSelected();
         const scale = this.state.scale;
+        let g = image.grids[index];
+        if (!g.src) return;
 
         let boxWidth = (image.width - g.gapWidth) * g.width / 100;
         let boxHeight = (image.height - g.gapHeight) * g.height / 100;
@@ -505,11 +507,14 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (id: string) => {
-
-
+        console.log('handleCropBtnClick')
         let image = editorStore.getImageSelected();
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
+        }
+        if (image.type == TemplateType.Grids && editorStore.gridIndex != null) {
+            console.log('handleCropBtnClick2')
+            this.handleGridCrop(editorStore.gridIndex);
         }
         if (image.type == TemplateType.GroupedItem || 
             image.type == TemplateType.TextTemplate || 
@@ -5129,6 +5134,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleGridSelected = childId => {
+        editorStore.gridIndex = childId;
         this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleGridSelected(childId);
         this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleGridSelected(childId);
     }
