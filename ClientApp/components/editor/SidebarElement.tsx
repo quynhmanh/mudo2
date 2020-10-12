@@ -795,171 +795,177 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     }}
                     type="button"><span className="TcNIhA"><span aria-hidden="true" className="NA_Img dkWypw">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
-                
-                        {!this.state.query &&
-                            <div
-                                id="object-container"
-                                style={{
-                                    height: "calc(100% - 70px)",
-                                    overflow: "scroll",
-                                }}
-                            >
-                                <SidebarElement
-                                    elements={elements["Frame"]}
-                                    term="Frame"
-                                    handleQuery={this.handleQuery}
-                                    selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.frameOnMouseDownload}
-                                />
-                                <SidebarElement
-                                    elements={elements["Lines"]}
-                                    term="Lines"
-                                    handleQuery={this.handleQuery}
-                                    selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.imgOnMouseDown}
-                                    gradientOnMouseDown={this.gradientOnMouseDown}
-                                />
-                                {/* <SidebarElement
+
+                {!this.state.query &&
+                    <div
+                        id="object-container"
+                        style={{
+                            height: "calc(100% - 70px)",
+                            overflow: "scroll",
+                        }}
+                    >
+                        <SidebarElement
+                            elements={elements["Frame"]}
+                            term="Frame"
+                            handleQuery={this.handleQuery}
+                            selectedTab={this.props.selectedTab}
+                            imgOnMouseDown={this.frameOnMouseDownload}
+                        />
+                        <SidebarElement
+                            elements={elements["Lines"]}
+                            term="Lines"
+                            handleQuery={this.handleQuery}
+                            selectedTab={this.props.selectedTab}
+                            imgOnMouseDown={this.imgOnMouseDown}
+                            gradientOnMouseDown={this.gradientOnMouseDown}
+                        />
+                        {/* <SidebarElement
                                 elements={elements["Shapes"]}
                                 term="Shapes"
                                 handleQuery={this.handleQuery}
                                 selectedTab={this.props.selectedTab}
                                 imgOnMouseDown={this.gradientOnMouseDown}
                             /> */}
-                                <SidebarElement
-                                    elements={elements["Grids"]}
-                                    term="Grids"
-                                    handleQuery={this.handleQuery}
-                                    selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.gridOnMouseDown}
-                                    gradientOnMouseDown={this.gradientOnMouseDown}
-                                // frameOnMouseDownload={this.frameOnMouseDownload}
-                                />
-                                <SidebarElement
-                                    elements={elements["Stickers"]}
-                                    term="Stickers"
-                                    handleQuery={this.handleQuery}
-                                    selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.imgOnMouseDown}
-                                    gradientOnMouseDown={this.gradientOnMouseDown}
-                                />
-                                <SidebarElement
-                                    elements={elements["Gradients"]}
-                                    term="Gradients"
-                                    handleQuery={this.handleQuery}
-                                    selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.imgOnMouseDown}
-                                    gradientOnMouseDown={this.gradientOnMouseDown}
-                                // frameOnMouseDownload={this.frameOnMouseDownload}
-                                />
-                                <SidebarElement
-                                    elements={elements["Animals"]}
-                                    term="Animals"
-                                    handleQuery={this.handleQuery}
-                                    selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.imgOnMouseDown}
-                                    gradientOnMouseDown={this.gradientOnMouseDown}
-                                // frameOnMouseDownload={this.frameOnMouseDownload}
-                                />
-                                <SidebarElement
-                                    elements={elements["Coronavirus"]}
-                                    term="Coronavirus"
-                                    handleQuery={this.handleQuery}
-                                    selectedTab={this.props.selectedTab}
-                                    imgOnMouseDown={this.imgOnMouseDown}
-                                    gradientOnMouseDown={this.gradientOnMouseDown}
-                                // frameOnMouseDownload={this.frameOnMouseDownload}
-                                />
-                            </div>}
-                <InfiniteScroll
-                    scroll={true}
-                    throttle={200}
-                    threshold={300}
-                    isLoading={this.state.isLoading}
-                    hasMore={this.state.hasMore}
-                    onLoadMore={this.loadMore.bind(this, false)}
-                    marginTop={0}
-                    refId="sentinel-element"
+                        <SidebarElement
+                            elements={elements["Grids"]}
+                            term="Grids"
+                            handleQuery={this.handleQuery}
+                            selectedTab={this.props.selectedTab}
+                            imgOnMouseDown={this.gridOnMouseDown}
+                            gradientOnMouseDown={this.gradientOnMouseDown}
+                        // frameOnMouseDownload={this.frameOnMouseDownload}
+                        />
+                        <SidebarElement
+                            elements={elements["Stickers"]}
+                            term="Stickers"
+                            handleQuery={this.handleQuery}
+                            selectedTab={this.props.selectedTab}
+                            imgOnMouseDown={this.imgOnMouseDown}
+                            gradientOnMouseDown={this.gradientOnMouseDown}
+                        />
+                        <SidebarElement
+                            elements={elements["Gradients"]}
+                            term="Gradients"
+                            handleQuery={this.handleQuery}
+                            selectedTab={this.props.selectedTab}
+                            imgOnMouseDown={this.imgOnMouseDown}
+                            gradientOnMouseDown={this.gradientOnMouseDown}
+                        // frameOnMouseDownload={this.frameOnMouseDownload}
+                        />
+                        <SidebarElement
+                            elements={elements["Animals"]}
+                            term="Animals"
+                            handleQuery={this.handleQuery}
+                            selectedTab={this.props.selectedTab}
+                            imgOnMouseDown={this.imgOnMouseDown}
+                            gradientOnMouseDown={this.gradientOnMouseDown}
+                        // frameOnMouseDownload={this.frameOnMouseDownload}
+                        />
+                        <SidebarElement
+                            elements={elements["Coronavirus"]}
+                            term="Coronavirus"
+                            handleQuery={this.handleQuery}
+                            selectedTab={this.props.selectedTab}
+                            imgOnMouseDown={this.imgOnMouseDown}
+                            gradientOnMouseDown={this.gradientOnMouseDown}
+                        // frameOnMouseDownload={this.frameOnMouseDownload}
+                        />
+                    </div>}
+                <div
+                    style={{
+                        height: "calc(100% - 70px)"
+                    }}
                 >
-                    <div
-                        style={{
-                            display: "inline-block",
-                            width: "100%",
-                            userSelect: "none",
-                        }}>
-                        {this.state.query && this.state.items.map((item, key) => {
-                            let width, height;
-                            if (item.width > item.height) {
-                                width = imgWidth;
-                                height = imgWidth / (item.width / item.height);
-                            } else {
-                                height = imgWidth;
-                                width = imgWidth * (item.width / item.height);
-                            }
-
-                            if (item.keywords && item.keywords[0] == "Grids") {
-                                try {
-                                    item.grids = JSON.parse(item.grids);
-                                    console.log('alo', item.type)
-                                } catch (e) {
-                                    console.log(e);
+                    <InfiniteScroll
+                        scroll={true}
+                        throttle={200}
+                        threshold={300}
+                        isLoading={this.state.isLoading}
+                        hasMore={this.state.hasMore}
+                        onLoadMore={this.loadMore.bind(this, false)}
+                        marginTop={0}
+                        refId="sentinel-element"
+                    >
+                        <div
+                            style={{
+                                display: "inline-block",
+                                width: "100%",
+                                userSelect: "none",
+                            }}>
+                            {this.state.query && this.state.items.map((item, key) => {
+                                let width, height;
+                                if (item.width > item.height) {
+                                    width = imgWidth;
+                                    height = imgWidth / (item.width / item.height);
+                                } else {
+                                    height = imgWidth;
+                                    width = imgWidth * (item.width / item.height);
                                 }
-                            }
 
-                            return <ImagePickerContainer
-                                onMouseDown={e => {
-                                    e.preventDefault();
-                                    let el = e.currentTarget.getElementsByTagName("img")[0];
-                                    if (item.keywords && item.keywords[0] == "Frame")
-                                        this.frameOnMouseDownload(item, el, e);
-                                    else if (item.keywords && item.keywords[0] == "Grids") {
-                                        el = e.currentTarget;
-                                        this.gridOnMouseDown(item, el, e);
+                                if (item.keywords && item.keywords[0] == "Grids") {
+                                    try {
+                                        item.grids = JSON.parse(item.grids);
+                                        console.log('alo', item.type)
+                                    } catch (e) {
+                                        console.log(e);
                                     }
-                                    else if (item.ext == "svg")
-                                        this.gradientOnMouseDown(item, el, e);
-                                    else this.imgOnMouseDown(item, el, e)
-                                }}
-                            >
-                                {(item.keywords && item.keywords[0] == "Grids") ?
-                                    <GridPicker
-                                    id={item.id}
-                                    key={this.prefix + key}
-                                    color={item.color}
-                                    src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
-                                    height={height}
-                                    defaultHeight={imgWidth}
-                                    width={width}
-                                    onPick={null}
-                                    onEdit={this.props.handleEditmedia.bind(this, item)}
-                                    delay={250 * key}
-                                    showButton={true}
-                                    backgroundColorLoaded="transparent"
-                                    marginRight={0}
-                                    marginAuto={true}
-                                    item={item}
-                                />
-                                    :
-                                    <ImagePicker
-                                        id={item.id}
-                                        key={this.prefix + key}
-                                        color={item.color}
-                                        src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
-                                        height={height}
-                                        defaultHeight={imgWidth}
-                                        width={width}
-                                        onPick={null}
-                                        onEdit={this.props.handleEditmedia.bind(this, item)}
-                                        delay={250 * key}
-                                        showButton={true}
-                                        backgroundColorLoaded="transparent"
-                                        marginRight={0}
-                                        marginAuto={true}
-                                    />}
-                            </ImagePickerContainer>
-                        })}
-                    </div>
-                </InfiniteScroll>
+                                }
+
+                                return <ImagePickerContainer
+                                    onMouseDown={e => {
+                                        e.preventDefault();
+                                        let el = e.currentTarget.getElementsByTagName("img")[0];
+                                        if (item.keywords && item.keywords[0] == "Frame")
+                                            this.frameOnMouseDownload(item, el, e);
+                                        else if (item.keywords && item.keywords[0] == "Grids") {
+                                            el = e.currentTarget;
+                                            this.gridOnMouseDown(item, el, e);
+                                        }
+                                        else if (item.ext == "svg")
+                                            this.gradientOnMouseDown(item, el, e);
+                                        else this.imgOnMouseDown(item, el, e)
+                                    }}
+                                >
+                                    {(item.keywords && item.keywords[0] == "Grids") ?
+                                        <GridPicker
+                                            id={item.id}
+                                            key={this.prefix + key}
+                                            color={item.color}
+                                            src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
+                                            height={height}
+                                            defaultHeight={imgWidth}
+                                            width={width}
+                                            onPick={null}
+                                            onEdit={this.props.handleEditmedia.bind(this, item)}
+                                            delay={250 * key}
+                                            showButton={true}
+                                            backgroundColorLoaded="transparent"
+                                            marginRight={0}
+                                            marginAuto={true}
+                                            item={item}
+                                        />
+                                        :
+                                        <ImagePicker
+                                            id={item.id}
+                                            key={this.prefix + key}
+                                            color={item.color}
+                                            src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
+                                            height={height}
+                                            defaultHeight={imgWidth}
+                                            width={width}
+                                            onPick={null}
+                                            onEdit={this.props.handleEditmedia.bind(this, item)}
+                                            delay={250 * key}
+                                            showButton={true}
+                                            backgroundColorLoaded="transparent"
+                                            marginRight={0}
+                                            marginAuto={true}
+                                        />}
+                                </ImagePickerContainer>
+                            })}
+                        </div>
+                    </InfiniteScroll>
+                </div>
             </Sidebar>
         )
     }
