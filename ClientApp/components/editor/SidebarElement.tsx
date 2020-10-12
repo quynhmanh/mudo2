@@ -741,7 +741,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     id="queryInput"
                     autoComplete="off"
                     style={{
-                        position: "absolute",
                         zIndex: 123,
                         width: "calc(100% - 15px)",
                         marginBottom: "15px",
@@ -752,7 +751,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         fontSize: "14px",
                         boxShadow:
                             "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
-                        top: "6px",
+                        marginTop: "6px",
                         color: "black",
                         backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath fill='black' d='M15.2 16.34a7.5 7.5 0 1 1 1.38-1.45l4.2 4.2a1 1 0 1 1-1.42 1.41l-4.16-4.16zm-4.7.16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z'/%3E%3C/svg%3E")`,
                         backgroundSize: '24px',
@@ -796,26 +795,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     }}
                     type="button"><span className="TcNIhA"><span aria-hidden="true" className="NA_Img dkWypw">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z"></path></svg></span></span></button>
-
-                <InfiniteScroll
-                    scroll={true}
-                    throttle={200}
-                    threshold={300}
-                    isLoading={this.state.isLoading}
-                    hasMore={this.state.hasMore}
-                    onLoadMore={this.loadMore.bind(this, false)}
-                    marginTop={40}
-                    refId="sentinel-element"
-                >
-                    <div
-                        style={{
-                            display: "inline-block",
-                            width: "100%",
-                            marginTop: "18px",
-                            userSelect: "none",
-                        }}>
+                
                         {!this.state.query &&
                             <div
+                                id="object-container"
+                                style={{
+                                    height: "calc(100% - 70px)",
+                                    overflow: "scroll",
+                                }}
                             >
                                 <SidebarElement
                                     elements={elements["Frame"]}
@@ -884,6 +871,22 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 // frameOnMouseDownload={this.frameOnMouseDownload}
                                 />
                             </div>}
+                <InfiniteScroll
+                    scroll={true}
+                    throttle={200}
+                    threshold={300}
+                    isLoading={this.state.isLoading}
+                    hasMore={this.state.hasMore}
+                    onLoadMore={this.loadMore.bind(this, false)}
+                    marginTop={0}
+                    refId="sentinel-element"
+                >
+                    <div
+                        style={{
+                            display: "inline-block",
+                            width: "100%",
+                            userSelect: "none",
+                        }}>
                         {this.state.query && this.state.items.map((item, key) => {
                             let width, height;
                             if (item.width > item.height) {
