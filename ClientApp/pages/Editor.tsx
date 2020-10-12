@@ -1509,6 +1509,12 @@ class CanvaEditor extends Component<IProps, IState> {
                 let cur: any = rotators[i];
                 cur.style.opacity = opacity;
             }
+
+            let hideWhenResize = el.getElementsByClassName("hide-when-resize");
+            for (let i = 0; i < hideWhenResize.length; ++i) {
+                let cur: any = hideWhenResize[i];
+                cur.style.opacity = opacity;
+            }
         }
     };
 
