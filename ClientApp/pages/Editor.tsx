@@ -5122,6 +5122,11 @@ class CanvaEditor extends Component<IProps, IState> {
         return result;
     }
 
+    handleGridSelected = childId => {
+        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleGridSelected(childId);
+        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleGridSelected(childId);
+    }
+
     handleChildIdSelected = childId => {
         editorStore.childId = childId;
         this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
@@ -5362,6 +5367,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             this.canvas2[pageId] = ref;
                         }
                     }}
+                    handleGridSelected={this.handleGridSelected}
                     handleCropBtnClick={this.handleCropBtnClick}
                     handleGridCrop={this.handleGridCrop}
                     toggleVideo={this.toggleVideo}

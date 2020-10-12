@@ -93,10 +93,12 @@ export default class ResizableRect extends Component<IProps, IState> {
       handleCropBtnClick,
       disableCropMode,
       handleGridCrop,
+      handleGridSelected,
     } = this.props;
 
     return (
       <Rect
+        handleGridSelected={handleGridSelected}
         handleGridCrop={handleGridCrop}
         handleCropBtnClick={handleCropBtnClick}
         doNoObjectSelected={doNoObjectSelected}

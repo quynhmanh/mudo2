@@ -65,6 +65,7 @@ export interface IProps {
 	doNoObjectSelected: any;
 	handleCropBtnClick: any;
 	handleGridCrop: any;
+	handleGridSelected: any;
 }
 
 export interface IState {
@@ -77,6 +78,7 @@ export interface IState {
 	cropMode: boolean;
 	max: any;
 	currentTime: any;
+	gridSelected: number;
 }
 
 export default class Rect extends Component<IProps, IState> {
@@ -375,6 +377,12 @@ export default class Rect extends Component<IProps, IState> {
 		this.forceUpdate();
 	}
 
+	handleGridSelected(id) {
+		this.setState({ gridSelected: id });
+
+		this.forceUpdate();
+	}
+
 	enableCropMode() {
 		console.log('enableCropMode')
 		this.setState({ cropMode: true });
@@ -537,20 +545,20 @@ export default class Rect extends Component<IProps, IState> {
 
 		return (
 			<div>
-					<div
-						ref={i => this.cropLayer = i}
-						style={{
-							position: 'absolute',
-							backgroundColor: 'rgba(53,71,90,.2)',
-							zIndex: 999999,
-							pointerEvents: "auto",
-							display: cropMode && selected && name == CanvasType.HoverLayer ? "block" : "none",
-						}}
-						onClick={e => {
-							this.props.disableCropMode();
-						}}
-					>
-					</div>
+				<div
+					ref={i => this.cropLayer = i}
+					style={{
+						position: 'absolute',
+						backgroundColor: 'rgba(53,71,90,.2)',
+						zIndex: 999999,
+						pointerEvents: "auto",
+						display: cropMode && selected && name == CanvasType.HoverLayer ? "block" : "none",
+					}}
+					onClick={e => {
+						this.props.disableCropMode();
+					}}
+				>
+				</div>
 				<div
 					className={_id + `aaaa${canvas}`}
 					id={_id + (name == CanvasType.HoverLayer ? `__${canvas}` : `_${canvas}`)}
@@ -905,6 +913,60 @@ export default class Rect extends Component<IProps, IState> {
 										)}
 									</div>
 								)}
+							{selected && (name == CanvasType.HoverLayer) && type == TemplateType.Grids &&
+								<div
+									id={_id}
+									className="aloalo"
+									style={{
+										zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage && type !== TemplateType.Element ? 1 : 0,
+										transformOrigin: "0 0",
+										width: "100%",
+										height: "100%",
+									}}
+								>
+									{grid && grid.map((g, id) => {
+										if (id == this.state.gridSelected) {
+											let boxWidth = (width - g.gapWidth) * g.width / 100;
+											let boxHeight = (height - g.gapHeight) * g.height / 100;
+											let width2 = boxWidth;
+											let height2 = boxHeight;
+											let offsetLeft = (width * scale - g.gapLeft * scale) * g.left / 100 + g.gapLeft * scale;
+											let offsetTop = (height * scale - g.gapTop * scale) * g.top / 100 + g.gapTop * scale;
+											let left2 = offsetLeft / scale;
+											let top2 = offsetTop / scale;
+
+											return <div
+												style={{
+													zIndex: 1,
+													position: "relative",
+													transform: `translate(${left2 * scale}px, ${top2 * scale}px)`,
+													width: width2 * scale + "px",
+													height: height2 * scale + "px",
+												}}
+											>
+												<div
+													style={{
+														zIndex: 1,
+														position: "absolute",
+														backgroundImage: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
+														backgroundPosition: 'top,100%,bottom,0',
+														backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
+														backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
+														pointerEvents: "none",
+														left: '-1px',
+														bottom: '-1px',
+														top: '-1px',
+														right: '-1px',
+													}}
+												>
+
+												</div>
+											</div>;
+										}
+										return null;
+									})}
+								</div>
+							}
 							{(name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) && type == TemplateType.Grids &&
 								<div
 									id={_id}
@@ -943,72 +1005,77 @@ export default class Rect extends Component<IProps, IState> {
 													gridTemplateRows: gridTemplateRows,
 													gap: `${gap}px`,
 												}}>
-													{grid && grid.map((g, index) => 
-														<div
-															onMouseEnter={e => {
-																if (window.imagedragging && type == TemplateType.Grids) {
-																	window.imageselected = _id;
-																	window.gridIndex = index;
-																	window.imgDragging.style.opacity = 0;
-																	let el = e.currentTarget;
-																	el.children[0].children[0].src = window.imagesrc;
-																	el.children[0].children[0].style.display = "block";
+												{grid && grid.map((g, index) =>
+													<div
+														onMouseEnter={e => {
+															if (window.imagedragging && type == TemplateType.Grids) {
+																window.imageselected = _id;
+																window.gridIndex = index;
+																window.imgDragging.style.opacity = 0;
+																let el = e.currentTarget;
+																el.children[0].children[0].src = window.imagesrc;
+																el.children[0].children[0].style.display = "block";
 
-																	let rec2 = window.imgDragging.getBoundingClientRect();
+																let rec2 = window.imgDragging.getBoundingClientRect();
 
-																	let boxWidth = (width - g.gapWidth) * g.width / 100;
-                    												let boxHeight = (height - g.gapHeight) * g.height / 100;
-																	let ratio = rec2.width / rec2.height;
+																let boxWidth = (width - g.gapWidth) * g.width / 100;
+																let boxHeight = (height - g.gapHeight) * g.height / 100;
+																let ratio = rec2.width / rec2.height;
 
-																	let imgWidth = boxWidth;
-																	let imgHeight = imgWidth / ratio;
-																	if (imgHeight < boxHeight) {
-																		imgHeight = boxHeight;
-																		imgWidth = imgHeight * ratio;
-																	}
-
-																	window.oldWidth = el.children[0].style.width;
-																	window.oldHeight = el.children[0].style.height;
-
-																	el.children[0].style.width = imgWidth + "px";
-																	el.children[0].style.height = imgHeight + "px";
+																let imgWidth = boxWidth;
+																let imgHeight = imgWidth / ratio;
+																if (imgHeight < boxHeight) {
+																	imgHeight = boxHeight;
+																	imgWidth = imgHeight * ratio;
 																}
-															}}
-															onMouseLeave={e => {
-																if (window.imagedragging && type == TemplateType.Grids) {
-																	console.log('onMouseEnter123 ', window.imagedragging);
-																	window.imgDragging.style.opacity = 1;
 
-																	console.log('onmouseEnter')
-																	let el = e.currentTarget;
-																	el.children[0].children[0].src = g.src;
-																	if (!g.src) el.children[0].children[0].style.display = "none";
+																window.oldWidth = el.children[0].style.width;
+																window.oldHeight = el.children[0].style.height;
 
-																	window.imageselected = null;
-																	window.gridIndex = undefined;
-																	
+																el.children[0].style.width = imgWidth + "px";
+																el.children[0].style.height = imgHeight + "px";
+															}
+														}}
+														onMouseLeave={e => {
+															if (window.imagedragging && type == TemplateType.Grids) {
+																console.log('onMouseEnter123 ', window.imagedragging);
+																window.imgDragging.style.opacity = 1;
 
-																	if (window.oldWidth) {
-																		el.children[0].style.width = window.oldWidth;
-																		window.oldWidth = null;
-																	}
-																	if (window.oldHeight) {
-																		el.children[0].style.height = window.oldHeight;
-																		window.oldHeight = null;
-																	}
+																console.log('onmouseEnter')
+																let el = e.currentTarget;
+																el.children[0].children[0].src = g.src;
+																if (!g.src) el.children[0].children[0].style.display = "none";
+
+																window.imageselected = null;
+																window.gridIndex = undefined;
+
+
+																if (window.oldWidth) {
+																	el.children[0].style.width = window.oldWidth;
+																	window.oldWidth = null;
 																}
-															}}
-															onDoubleClick={e => {
-																console.log('onDoubleClick');
+																if (window.oldHeight) {
+																	el.children[0].style.height = window.oldHeight;
+																	window.oldHeight = null;
+																}
+															}
+														}}
+														onDoubleClick={e => {
+															console.log('onDoubleClick');
 
-																e.preventDefault();
-																e.stopPropagation();
-																this.props.handleGridCrop(g, index);
-															}}
-															style={{
-																gridArea: g.gridArea,
-																overflow: "hidden",
-															}}>
+															e.preventDefault();
+															e.stopPropagation();
+															this.props.handleGridCrop(g, index);
+														}}
+														onClick={e => {
+															e.preventDefault();
+															e.stopPropagation();
+															this.props.handleGridSelected(index);
+														}}
+														style={{
+															gridArea: g.gridArea,
+															overflow: "hidden",
+														}}>
 														<div
 															id={_id + index + canvas + "grid"}
 															style={{
@@ -1021,82 +1088,16 @@ export default class Rect extends Component<IProps, IState> {
 																backgroundImage: `url(https://static.canva.com/web/images/87e22a62965f141aa08e93699b0b3527.jpg)`,
 															}}
 														>
-																<img 
-																	style={{
-																		height: "100%",
-																		display: g.src ? "block" : "none",
-																	}}
-																	id="iXmWi6SMfU6PrsUqZLRXQ" src={g.src}/>
+															<img
+																style={{
+																	height: "100%",
+																	display: g.src ? "block" : "none",
+																}}
+																id="iXmWi6SMfU6PrsUqZLRXQ" src={g.src} />
 														</div>
 													</div>
-													)}
-													{/* {grid && grid.map((g, index) => 
-														<div
-															style={{
-																gridArea: g.gridArea,
-																overflow: "hidden",
-																backgroundImage:
-																	(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
-																		: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
-																backgroundPosition: 'top,100%,bottom,0',
-																backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
-																backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
-																opacity: (hovered || selected) ? 1 : 0,
-																pointerEvents: "none",
-															}}>
-													</div>
-													)} */}
-												{/* <div
-													onMouseEnter={e => {
-														console.log('onMouseEnter');
-													}}
-													style={{
-														gridArea: "a / a / a / a",
-														overflow: "hidden",
-													}}>
-													<div
-														style={{
-															backgroundSize: 'auto 100%',
-															backgroundPosition: '50%',
-															width: '1500px',
-															height: '500px',
-														}}
-													>
-														<img 
-															style={{
-																width: "100%",
-															}}
-															id="iXmWi6SMfU6PrsUqZLRXQ" src="images\iXmWi6SMfU6PrsUqZLRXQ_thumbnail.png"></img>
-													</div>
-												</div>
-												<div
-													style={{
-														gridArea: "b / b / b / b",
-													}}>
-													<div
-														style={{
-															backgroundSize: 'auto 100%',
-															backgroundPosition: '50%',
-															backgroundImage: 'url(images/fSUc85RKkEqCSeHAWXzgzw_thumbnail.png)',
-															width: '100%',
-															height: '100%',
-														}}
-													></div>
-												</div>
-												<div
-													style={{
-														gridArea: "c / c / c / c",
-													}}>
-													<div
-														style={{
-															backgroundSize: 'auto 100%',
-															backgroundPosition: '50%',
-															backgroundImage: 'url(images/fSUc85RKkEqCSeHAWXzgzw_thumbnail.png)',
-															width: '100%',
-															height: '100%',
-														}}
-													></div>
-												</div> */}
+												)}
+
 											</div>
 										</div>
 									</div>
