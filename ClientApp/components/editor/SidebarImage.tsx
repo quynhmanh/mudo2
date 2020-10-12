@@ -99,7 +99,7 @@ export default class SidebarImage extends Component<IProps, IState> {
         target.src = img.representativeThumbnail
             ? img.representativeThumbnail
             : e.target.src;
-        window.imagesrc = target.src;
+        window.imagesrc = img.representative;
         target.style.width = e.target.getBoundingClientRect().width + "px";
         target.style.backgroundColor = e.target.style.backgroundColor;
         document.body.appendChild(target);
@@ -160,6 +160,10 @@ export default class SidebarImage extends Component<IProps, IState> {
             dragging = false;
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
+            
+            let src = !img.representative.startsWith("data")
+            ? window.location.origin + "/" + img.representative
+            : img.representative;
 
             let rec2 = imgDragging.getBoundingClientRect();
             if (window.imageselected) {
@@ -170,7 +174,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                 let id = window.imageselected;
                 let image2 = editorStore.images2.get(id);
                 if (isNaN(window.gridIndex)) {
-                    image2.src = target.src;
+                    image2.src = src;
                     image2.selected = false;
                     image2.hovered = false;
                     image2.posX = 0;
@@ -206,14 +210,15 @@ export default class SidebarImage extends Component<IProps, IState> {
                         imgWidth = imgHeight * ratio;
                     }
 
-                    grid[window.gridIndex].src=img.representative;
+                    grid[window.gridIndex].src = src;
                     grid[window.gridIndex].imgWidth = imgWidth;
                     grid[window.gridIndex].imgHeight = imgHeight;
                     grid[window.gridIndex].ratio = ratio;
                     image2.grids = grid;
-                    window.gridIndex = null;
+                    window.gridIndex = undefined;
                 }
 
+                window.imageselected = null;
                 this.props.updateImages(id, image2.page, image2, true);
                 editorStore.images2.set(id, image2);
                 return;
@@ -238,9 +243,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                         left: (rec2.left - rec.left) / scale,
                         top: (rec2.top - rec.top) / scale,
                         rotateAngle: 0.0,
-                        src: !img.representative.startsWith("data")
-                            ? window.location.origin + "/" + img.representative
-                            : img.representative,
+                        src,
                         srcThumnail: img.representativeThumbnail,
                         backgroundColor: target.style.backgroundColor,
                         selected: true,
