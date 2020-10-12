@@ -225,7 +225,7 @@ class LeftSide extends Component<IProps, IState> {
                             image.type === TemplateType.Gradient ||
                             (image.type === TemplateType.BackgroundImage &&
                                 image.src) ||
-                            (image.type == TemplateType.Grids && editorStore.gridIndex != null)
+                            (image.type == TemplateType.Grids && editorStore.gridIndex != null && editorStore.croppable)
                         )
                     }
                     translate={props.translate}

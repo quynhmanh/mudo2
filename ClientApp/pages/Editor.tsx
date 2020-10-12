@@ -5134,6 +5134,9 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleGridSelected = childId => {
+        let image = this.getImageSelected();
+        if (image.grids[childId].src) editorStore.croppable = true;
+        else editorStore.croppable = false;
         editorStore.gridIndex = childId;
         this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleGridSelected(childId);
         this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleGridSelected(childId);

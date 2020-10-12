@@ -56,6 +56,7 @@ class Images {
     @observable colors = [];
     @observable colorField = null;
     @observable gridIndex = null;
+    @observable croppable = false;
     
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));
