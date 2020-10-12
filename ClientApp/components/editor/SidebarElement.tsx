@@ -874,13 +874,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         // frameOnMouseDownload={this.frameOnMouseDownload}
                         />
                     </div>}
-                <div
-                    style={{
-                        height: "calc(100% - 30px)",
-                        marginTop: "30px",
-                        paddingTop: "20px",
-                    }}
-                >
+                
                     <InfiniteScroll
                         scroll={true}
                         throttle={200}
@@ -888,9 +882,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         isLoading={this.state.isLoading}
                         hasMore={this.state.hasMore}
                         onLoadMore={this.loadMore.bind(this, false)}
-                        marginTop={0}
+                        marginTop={42}
                         refId="sentinel-element"
                     >
+                        <div
+                            id="image-container-picker"
+                            style={{ display: "flex", padding: "16px 0px 10px 0px" }}
+                        >
                         <div
                             style={{
                                 display: "inline-block",
@@ -969,8 +967,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 </ImagePickerContainer>
                             })}
                         </div>
+                        </div>
                     </InfiniteScroll>
-                </div>
             </Sidebar>
         )
     }
