@@ -100,10 +100,15 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             <CC
                 style={{ 
                     marginRight: '24px', 
-                    overflow: 'hidden', 
                 }}
                 className="templateWrapper___3Fitk"
             >
+                <div
+                    style={{
+                        height: "100%",
+                        overflow: "hidden",
+                    }}
+                >
                 <a
                     target="_blank"
                     data-categ="popularTemplates"
@@ -137,6 +142,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                         </div>
                     </div>
                 </a>
+                </div>
                 <div
                     className="templateInfo___2YZSg"
                 // style={{ opacity: 0 }}
