@@ -1091,6 +1091,7 @@ export default class Rect extends Component<IProps, IState> {
 															<img
 																style={{
 																	height: "100%",
+																	width: "100%",
 																	display: g.src ? "block" : "none",
 																}}
 																id="iXmWi6SMfU6PrsUqZLRXQ" src={g.src} />
