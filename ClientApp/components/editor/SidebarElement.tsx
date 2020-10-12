@@ -758,6 +758,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         backgroundRepeat: 'no-repeat',
                         paddingLeft: '40px',
                         backgroundPosition: 'left 8px center',
+                        position: "absolute",
                     }}
                     onKeyDown={e => {
                         if (e.key === "Enter") {
@@ -800,8 +801,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     <div
                         id="object-container"
                         style={{
-                            height: "calc(100% - 70px)",
+                            height: "calc(100% - 30px)",
                             overflow: "scroll",
+                            marginTop: "30px",
+                            paddingTop: "20px",
                         }}
                     >
                         <SidebarElement
@@ -873,7 +876,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     </div>}
                 <div
                     style={{
-                        height: "calc(100% - 70px)"
+                        height: "calc(100% - 30px)",
+                        marginTop: "30px",
+                        paddingTop: "20px",
                     }}
                 >
                     <InfiniteScroll
