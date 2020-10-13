@@ -472,6 +472,40 @@ class CanvaEditor extends Component<IProps, IState> {
 
         let offsetLeft = (image.width * scale - g.gapLeft * scale) * g.left / 100 + g.gapLeft * scale;
         let offsetTop = (image.height * scale - g.gapTop * scale) * g.top / 100 + g.gapTop * scale;
+        let left = image.left + offsetLeft / scale;
+        let top = image.top + offsetTop / scale;
+
+        let newL = left;
+        let newR = left + boxWidth;
+        let newT = top;
+        let newB = top + boxHeight;
+        let centerX = image.left + image.width / 2;
+        let centerY = image.top + image.height / 2;
+        let rotateAngle = image.rotateAngle / 180 * Math.PI;
+
+        let bb = [
+            {
+                x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+            },
+            {
+                x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+            }
+        ]
+
+        let centerX1 = (bb[0].x + bb[2].x) / 2;
+        let centerY1 = (bb[0].y + bb[2].y) / 2;
+        let left1 = centerX1 - boxWidth / 2;
+        let top1 = centerY1 - boxHeight / 2;
 
         let newImg = {
             _id: uuidv4(),
@@ -480,9 +514,9 @@ class CanvaEditor extends Component<IProps, IState> {
             height: boxHeight,
             origin_width: boxWidth,
             origin_height: boxHeight,
-            left: image.left + offsetLeft / scale,
-            top: image.top + offsetTop / scale,
-            rotateAngle: 0.0,
+            left: left1,
+            top: top1,
+            rotateAngle: image.rotateAngle,
             src: g.src,
             selected: true,
             scaleX: 1,
