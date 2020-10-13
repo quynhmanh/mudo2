@@ -851,10 +851,10 @@ export default class Rect extends Component<IProps, IState> {
 													{<div
 														style={{
 															position: "absolute",
-															top: "-2px",
-															left: "-2px",
-															right: "-2px",
-															bottom: "-2px",
+															top: "-1px",
+															left: "-1px",
+															right: "-1px",
+															bottom: "-1px",
 															backgroundImage:
 																(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 																	: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
@@ -954,10 +954,10 @@ export default class Rect extends Component<IProps, IState> {
 														backgroundSize: '12px 2px,2px 12px,12px 2px,2px 12px',
 														backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
 														pointerEvents: "none",
-														left: '-2px',
-														bottom: '-2px',
-														top: '-2px',
-														right: '-2px',
+														left: '-1px',
+														bottom: '-1px',
+														top: '-1px',
+														right: '-1px',
 													}}
 												>
 
@@ -1076,17 +1076,17 @@ export default class Rect extends Component<IProps, IState> {
 														style={{
 															gridArea: g.gridArea,
 															overflow: "hidden",
+															backgroundImage: !g.src && `url(https://static.canva.com/web/images/87e22a62965f141aa08e93699b0b3527.jpg)`,
+															backgroundSize: 'auto 100%',
+															backgroundPosition: '50%',
 														}}>
 														<div
 															id={_id + index + canvas + "grid"}
 															style={{
-																backgroundSize: 'auto 100%',
-																backgroundPosition: '50%',
 																width: g.imgWidth,
 																height: g.imgHeight,
 																transform: `translate(${g.posX}px, ${g.posY}px)`,
 																pointerEvents: "none",
-																backgroundImage: `url(https://static.canva.com/web/images/87e22a62965f141aa08e93699b0b3527.jpg)`,
 															}}
 														>
 															<img
@@ -1668,10 +1668,10 @@ export default class Rect extends Component<IProps, IState> {
 									{cropMode && <div
 										style={{
 											position: "absolute",
-											top: "-2px",
-											left: "-2px",
-											right: "-2px",
-											bottom: "-2px",
+											top: "-1px",
+											left: "-1px",
+											right: "-1px",
+											bottom: "-1px",
 											backgroundImage:
 												(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 													: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
@@ -1850,10 +1850,10 @@ export default class Rect extends Component<IProps, IState> {
 								ref={i => this.hideWhenDownload = i}
 								style={{
 									position: "absolute",
-									top: "-2px",
-									left: "-2px",
-									right: "-2px",
-									bottom: "-2px",
+									top: "-1px",
+									left: "-1px",
+									right: "-1px",
+									bottom: "-1px",
 									backgroundImage:
 										(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem || type == TemplateType.Grids) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 											: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
