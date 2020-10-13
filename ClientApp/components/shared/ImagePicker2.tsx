@@ -35,7 +35,6 @@ const Container = styled.div`
   position: relative;
   background-size: 300% 300%;
   position: relative;
-  border-radius: 5px;
   width: ${props => props.width}px;
   button {
     visibility: hidden;
@@ -99,7 +98,6 @@ export default class ImagePicker extends Component<IProps, IState> {
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
-                    border: this.props.hasBorder ? "1px solid rgba(0, 0, 0, 0.1)" : "none",
                 }}
                 delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
                 {this.props.showButton && Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com") &&
@@ -126,12 +124,10 @@ export default class ImagePicker extends Component<IProps, IState> {
                     className={`${this.props.className} fadeInRight`}
                     style={{
                         width: '100%',
-                        // margin: 'auto',
                         borderRadius: "4px",
-                        // boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
                         opacity: loaded && this.props.transitionEnd ? 1 : 0,
-                        // backgroundColor: '#ededed',
                         transition: 'opacity 0.1s linear',
+                        border: this.props.hasBorder ? "1px solid rgba(0, 0, 0, 0.1)" : "none",
                     }}
 
                     onLoad={e => {
