@@ -36,7 +36,7 @@ const Container = styled.div`
   margin-bottom: 0px;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  width: auto;
+  width: ${props => props.width + 2}px;
   transition-duration: 0.4s;
   transition-property: opacity, left, top, width;
 
@@ -87,6 +87,7 @@ export default class VideoPicker extends Component<IProps, IState> {
 
         return (
             <Container 
+                width={width}
                 delay={this.props.delay} 
                 id={this.props.id}
                 loaded={loaded}
