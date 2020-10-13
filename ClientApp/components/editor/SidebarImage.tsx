@@ -213,6 +213,8 @@ export default class SidebarImage extends Component<IProps, IState> {
                     grid[window.gridIndex].src = src;
                     grid[window.gridIndex].imgWidth = imgWidth;
                     grid[window.gridIndex].imgHeight = imgHeight;
+                    grid[window.gridIndex].posX = 0;
+                    grid[window.gridIndex].posY = 0;
                     grid[window.gridIndex].ratio = ratio;
                     image2.grids = grid;
                     window.gridIndex = undefined;

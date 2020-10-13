@@ -1032,9 +1032,11 @@ export default class Rect extends Component<IProps, IState> {
 
 																window.oldWidth = el.children[0].style.width;
 																window.oldHeight = el.children[0].style.height;
+																window.oldTransform = el.children[0].style.transform;
 
 																el.children[0].style.width = imgWidth + "px";
 																el.children[0].style.height = imgHeight + "px";
+																el.children[0].style.transform = `translate(0px, 0px)`;
 															}
 														}}
 														onMouseLeave={e => {
@@ -1058,6 +1060,10 @@ export default class Rect extends Component<IProps, IState> {
 																if (window.oldHeight) {
 																	el.children[0].style.height = window.oldHeight;
 																	window.oldHeight = null;
+																}
+																if (window.oldTransform) {
+																	el.children[0].style.transform = window.oldTransform;
+																	window.oldTransform = null;
 																}
 															}
 														}}
