@@ -35,6 +35,7 @@ const Container = styled.div`
   background-size: 300% 300%;
   position: relative;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   width: ${props => props.width}px;
   button {
     visibility: hidden;
