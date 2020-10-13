@@ -11,6 +11,7 @@ import { isClickOutside } from '@Functions/shared/common';
 import loadable from '@loadable/component';
 const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
 import VideoPicker from "@Components/shared/VideoPicker2";
+import ReactDOMServer from 'react-dom/server';
 
 export interface IProps {
     scale: number;
@@ -66,7 +67,9 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
         this.loadMore = this.loadMore.bind(this);
         this.imgOnMouseDown = this.imgOnMouseDown.bind(this);
+        this.gradientOnMouseDown = this.gradientOnMouseDown.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
+        this.uploadImage2 = this.uploadImage2.bind(this);
         this.videoOnMouseDown = this.videoOnMouseDown.bind(this);
     }
 
@@ -337,6 +340,225 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         };
     };
 
+    uploadImage2 = (removeBackground, e) => {
+        let type;
+        switch (editorStore.selectedTab) {
+            case SidebarTab.Image:
+                type = TemplateType.Image;
+                break;
+            case SidebarTab.Upload:
+                type = TemplateType.UserUpload;
+                break;
+            case SidebarTab.Background:
+                type = TemplateType.BackgroundImage;
+                break;
+            case SidebarTab.Element:
+                type = TemplateType.Element;
+                break;
+        }
+
+        var self = this;
+        var fileUploader = document.getElementById(
+            "image-file2"
+        ) as HTMLInputElement;
+        for (let i = 0; i < fileUploader.files.length; ++i) {
+            let file = fileUploader.files[i];
+            let fr = new FileReader();
+            let fr2 = new FileReader();
+            fr.readAsDataURL(file);
+            fr2.readAsText(file);
+            // fr2.onload = () => {
+            fr.onload = () => {
+                var url = `/api/Media/Add`;
+                if (type === TemplateType.RemovedBackgroundImage) {
+                    url = `/api/Media/Add2`;
+                }
+                var img = new Image();
+
+                img.onload = function () {
+                    document.body.appendChild(img);
+                    let colorsMapping = {};
+                    let cnt = 1;
+                    let stopColor = [];
+                    function processChildren(children) {
+                        return Array.from(children.length ? children : []).map(
+                            (node:any, i) => {
+                                // return if text node
+                                if (node.nodeType == 8 || node.nodeType == 10) return null;
+                                if (node.nodeType === 3) return node.nodeValue;
+                                // collect all attributes
+                                if (node.attributes) {
+                                    let attributes = Array.from(node.attributes).reduce((attrs, attr:any) => {
+                                        if (attr.name == "style") {
+                                            let style = createStyleJsonFromString(attr.value);
+                                            if (style.fill && style.fill != 'inherit' && node.tagName != "svg") {
+                                                if (!colorsMapping[style.fill]) {
+                                                    colorsMapping[style.fill] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(style.fill);
+                                                }
+                                                attrs['class'] = colorsMapping[style.fill];
+                                            }
+                                            attrs[attr.name] = style;
+                                        } else {
+                                            if (node.tagName == "stop" && attr.name == "stop-color") {
+                                                if (!colorsMapping[attr.value]) {
+                                                    colorsMapping[attr.value] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(attr.value);
+                                                }
+                                                attrs['class'] = colorsMapping[attr.value];
+                                            }
+                                            if (node.tagName == "path" && attr.name == "fill" && attr.value.startsWith("#")) {
+                                                if (!colorsMapping[attr.value]) {
+                                                    colorsMapping[attr.value] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(attr.value);
+                                                }
+                                                attrs['class'] = colorsMapping[attr.value];
+                                            }
+                                            
+                                            if (node.tagName == "g" && attr.name == "fill") {
+                                                if (!colorsMapping[attr.value]) {
+                                                    colorsMapping[attr.value] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(attr.value);
+                                                }
+                                                attrs['class'] = colorsMapping[attr.value];
+                                            }
+
+                                            if ((node.tagName == "circle" || 
+                                                node.tagName == "polygon") && 
+                                                attr.name == "fill" && 
+                                                !attr.value.startsWith(`url(#SVGID_`) ) {
+                                                if (!colorsMapping[attr.value]) {
+                                                    colorsMapping[attr.value] = "color-" + cnt;
+                                                    ++cnt;
+                                                    stopColor.push(attr.value);
+                                                }
+                                                attrs['class'] = colorsMapping[attr.value];
+                                            }
+                                            attrs[attr.name] = attr.value;
+                                        }
+                                        return attrs;
+                                    }, {});
+                                }
+
+                                // create React component
+                                return React.createElement(node.nodeName, {
+                                    ...attributes,
+                                    key: i
+                                }, processChildren(node.childNodes));
+                            });
+                    }
+
+                    function createStyleJsonFromString(styleString) {
+                        styleString = styleString || '';
+                        var styles = styleString.split(/;(?!base64)/);
+                        var singleStyle, key, value, jsonStyles = {};
+                        for (var i = 0; i < styles.length; ++i) {
+                            singleStyle = styles[i].split(':');
+                            if (singleStyle.length > 2) {
+                                singleStyle[1] = singleStyle.slice(1).join(':');
+                            }
+
+                            key = singleStyle[0];
+                            value = singleStyle[1];
+                            if (typeof value === 'string') {
+                                value = value.trim();
+                            }
+
+                            if (key != null && value != null && key.length > 0 && value.length > 0) {
+                                jsonStyles[camelCase(key)] = value;
+                            }
+                        }
+
+                        return jsonStyles;
+                    }
+
+                    let item = {
+                        id: uuidv4(),
+                        representativeThumbnail: fr.result,
+                        representative: fr.result,
+                        width: img.width,
+                        height: img.height,
+                        showProgressBar: true,
+                    }
+
+                    let newItems = [item, ...self.state.items];
+                    let sum = 0;
+                    let tmp = [];
+                    let items = [];
+                    for (let i = 0; i < newItems.length; ++i) {
+                        sum += 1.0 * newItems[i].width / newItems[i].height;
+                        tmp.push(newItems[i]);
+                        let height = (334 - (tmp.length - 1) * 8) / sum;
+                        if (height < 160 && tmp.length > 1) {
+                            sum = 0;
+                            for (let j = 0; j < tmp.length; ++j) {
+                                tmp[j].width = tmp[j].width / tmp[j].height * height;
+                                tmp[j].height = height;
+                            }
+                            items.push(...tmp);
+                            tmp = [];
+                        }
+                    }
+
+
+                    self.setState({
+                        items,
+                    });
+
+                    self.forceUpdate();
+
+                    const parser = new DOMParser();
+                    let elXML: any = fr2.result.toString();
+                    for (let i = 0; i < 26; ++i) {
+                        let c = String.fromCharCode(97 + i);
+                        elXML = elXML.replaceAll(`id="${c}"`, `id="SVGID_${i+1}_"`);
+                        elXML = elXML.replaceAll(`url(#${c})`, `url(#SVGID_${i+1}_)`);
+                    }
+                    const xmlDoc = parser.parseFromString(elXML, 'text/xml');
+
+                    let ABC = processChildren(Array.from(xmlDoc.childNodes));
+
+                    let keyword = (document.getElementById("keywords") as HTMLInputElement).value;
+
+                    axios
+                        .post(url, {
+                            id: uuidv4(),
+                            ext: file.name.split(".")[1],
+                            userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
+                            // color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
+                            stopColor,
+                            path: ReactDOMServer.renderToString(ABC),
+                            data: fr.result,
+                            width: img.width,
+                            height: img.height,
+                            type,
+                            keywords: [keyword],
+                            title: "Manh quynh",
+                            quality: keyword == "Grids" ? 100 : 50,
+                        }).then((res) => {
+                            res.data.showProgressBar = false;
+                            let items = [...self.state.items];
+                            res.data.width = items[0].width;
+                            res.data.height = items[0].height;
+                            items[0] = res.data;
+
+                            self.setState({ items })
+
+                            self.forceUpdate();
+                        });
+                };
+
+                img.src = fr.result.toString();
+            };
+        }
+
+        this.forceUpdate();
+    };
+
     uploadImage = (removeBackground, e) => {
         let type;
         switch (editorStore.selectedTab) {
@@ -361,7 +583,9 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         for (let i = 0; i < fileUploader.files.length; ++i) {
             let file = fileUploader.files[i];
             let fr = new FileReader();
+            let fr2 = new FileReader();
             fr.readAsDataURL(file);
+            fr2.readAsText(file);
             fr.onload = () => {
                 var url = `/api/Media/Add`;
                 if (type === TemplateType.RemovedBackgroundImage) {
@@ -578,6 +802,159 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
         document.addEventListener("mouseup", onUp);
     }
 
+    gradientOnMouseDown(img, el, e) {
+        console.log('gradientOnMouseDown', el)
+        let scale = this.props.scale;
+
+        let target = el.cloneNode(true);
+        target.style.zIndex = "11111111111";
+        target.src = img.representativeThumbnail
+            ? img.representativeThumbnail
+            : el.src;
+        target.style.width = el.getBoundingClientRect().width + "px";
+        target.style.backgroundColor = el.style.backgroundColor;
+        document.body.appendChild(target);
+        let imgDragging = target;
+        let posX = e.pageX - el.getBoundingClientRect().left;
+        let dragging = true;
+        let posY = e.pageY - el.getBoundingClientRect().top;
+        let image = el;
+        let recScreenContainer = document
+            .getElementById("screen-container-parent")
+            .getBoundingClientRect();
+        let beingInScreenContainer = false;
+
+        const onMove = e => {
+            console.log('onMove')
+            window.imagedragging = true;
+            image.style.opacity = 0;
+            if (dragging) {
+                let rec2 = imgDragging.getBoundingClientRect();
+                // if (
+                //     beingInScreenContainer === false &&
+                //     recScreenContainer.left < rec2.left &&
+                //     recScreenContainer.right > rec2.right &&
+                //     recScreenContainer.top < rec2.top &&
+                //     recScreenContainer.bottom > rec2.bottom
+                // ) {
+                //     beingInScreenContainer = true;
+
+                //     setTimeout(() => {
+                //         target.style.transitionDuration = "";
+                //     }, 50);
+                // }
+
+                // if (
+                //     beingInScreenContainer === true &&
+                //     !(
+                //         recScreenContainer.left < rec2.left &&
+                //         recScreenContainer.right > rec2.right &&
+                //         recScreenContainer.top < rec2.top &&
+                //         recScreenContainer.bottom > rec2.bottom
+                //     )
+                // ) {
+                //     beingInScreenContainer = false;
+
+                //     setTimeout(() => {
+                //         target.style.transitionDuration = "";
+                //     }, 50);
+                // }
+
+                target.style.left = e.pageX - posX + "px";
+                target.style.top = e.pageY - posY + "px";
+                target.style.position = "absolute";
+            }
+        };
+
+        const onUp = evt => {
+            console.log('onUp')
+            window.imagedragging = false;
+            dragging = false;
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
+
+            let recs = document.getElementsByClassName("alo");
+            let rec2 = imgDragging.getBoundingClientRect();
+            for (let i = 0; i < recs.length; ++i) {
+                let rec = recs[i].getBoundingClientRect();
+                if (
+                    rec.left < rec2.right &&
+                    rec.right > rec2.left &&
+                    rec.top < rec2.bottom &&
+                    rec.bottom > rec2.top
+                ) {
+                    let colors = [];
+                    if (img.stopColor1) {
+                        colors.push(img.stopColor1);
+                    }
+                    if (img.stopColor2) {
+                        colors.push(img.stopColor2);
+                    }
+                    if (img.stopColor3) {
+                        colors.push(img.stopColor3);
+                    }
+                    if (img.stopColor4) {
+                        colors.push(img.stopColor4);
+                    }
+                    let newImg = {
+                        _id: uuidv4(),
+                        type: TemplateType.Gradient,
+                        width: rec2.width / scale,
+                        height: rec2.height / scale,
+                        origin_width: rec2.width / scale,
+                        origin_height: rec2.height / scale,
+                        left: (rec2.left - rec.left) / scale,
+                        top: (rec2.top - rec.top) / scale,
+                        rotateAngle: 0.0,
+                        src: !img.representative.startsWith("data")
+                            ? window.location.origin + "/" + img.representative
+                            : img.representative,
+                        srcThumnail: img.representativeThumbnail,
+                        backgroundColor: target.style.backgroundColor,
+                        selected: true,
+                        scaleX: 1,
+                        scaleY: 1,
+                        clipScale: (rec2.width) / img.clipWidth,
+                        posX: 0,
+                        posY: 0,
+                        imgWidth: rec2.width / scale,
+                        imgHeight: rec2.height / scale,
+                        page: editorStore.pages[i],
+                        zIndex: editorStore.upperZIndex + 1,
+                        freeStyle: img.freeStyle,
+                        path: img.path,
+                        clipId: img.clipId,
+                        clipWidth: img.clipWidth,
+                        clipHeight: img.clipHeight,
+                        clipWidth0: img.clipWidth0,
+                        clipHeight0: img.clipHeight0,
+                        path2: img.path2,
+                        x1: img.x1,
+                        y1: img.y1,
+                        x2: img.x2,
+                        y2: img.y2,
+                        stopColor: img.stopColor,
+                        stopColor1: img.stopColor1,
+                        stopColor2: img.stopColor2,
+                        gradientTransform: img.gradientTransform,
+                        colors: img.stopColor,
+                    };
+
+                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    editorStore.addItem2(newImg, false);
+                    editorStore.increaseUpperzIndex();
+
+                    this.props.handleImageSelected(newImg._id, editorStore.pages[i], false, true, false);
+                }
+            }
+
+            imgDragging.remove();
+
+            image.style.opacity = 1;
+        };
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onUp);
+    }
     
     loadMoreVideo = initialLoad => {
         let pageId;
@@ -689,7 +1066,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                 onLoadedData={data => { }}
                                 onChange={e => {
                                     if (this.state.tabSelected == 0)
-                                        this.uploadImage(false, e);
+                                        this.uploadImage2(false, e);
                                     else 
                                         this.uploadVideo();
                                 }}
@@ -817,7 +1194,12 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                             key={key}
                                             src={item.representativeThumbnail}
                                             onPick={e => {
-                                                this.imgOnMouseDown(item, e);
+                                                e.preventDefault();
+                                                let el = e.currentTarget;
+                                                if (item.ext == "svg")
+                                                    this.gradientOnMouseDown(item, el, e);
+                                                else 
+                                                    this.imgOnMouseDown(item, e);
                                             }}
                                             onEdit={this.props.handleEditmedia.bind(this, item)}
                                             showButton={true}

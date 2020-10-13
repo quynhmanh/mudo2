@@ -428,17 +428,6 @@ class LeftSide extends Component<IProps, IState> {
                             keywords: [keyword],
                             title: "Manh quynh",
                             quality: keyword == "Grids" ? 100 : 50,
-                        })
-                        .then((res) => {
-                            if (self.state.userUpload1.length <= self.state.userUpload2.length) {
-                                self.setState({
-                                    userUpload1: [res.data, ...self.state.userUpload1]
-                                });
-                            } else {
-                                self.setState({
-                                    userUpload2: [res.data, ...self.state.userUpload1]
-                                });
-                            }
                         });
                 };
 
