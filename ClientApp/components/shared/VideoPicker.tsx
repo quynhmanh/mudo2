@@ -34,6 +34,7 @@ const Container = styled.div`
   position: relative;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
   margin-bottom: 0px;
+  border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   width: auto;
   transition-duration: 0.4s;
