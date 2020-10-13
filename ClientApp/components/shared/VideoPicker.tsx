@@ -36,7 +36,7 @@ const Container = styled.div`
   margin-bottom: 0px;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  width: ${props => props.width + 2}px;
+  width: auto;
   transition-duration: 0.4s;
   transition-property: opacity, left, top, width;
 
@@ -92,7 +92,6 @@ export default class VideoPicker extends Component<IProps, IState> {
                 id={this.props.id}
                 loaded={loaded}
                 height={this.props.height}
-                width={loaded ? width : this.props.width}
                 defaultHeight={this.props.defaultHeight}
             >
                 {this.props.showButton && editorStore.isAdmin &&
