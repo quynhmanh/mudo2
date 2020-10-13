@@ -32,9 +32,13 @@ const Container = styled.div`
   position: relative;
   background-size: 300% 300%;
   position: relative;
-  width: ${props => props.width}px;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
-  margin-bottom: 8px;
+  margin-bottom: 0px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: auto;
+  transition-duration: 0.4s;
+  transition-property: opacity, left, top, width;
+
   button {
     visibility: hidden;
   }
@@ -82,16 +86,6 @@ export default class VideoPicker extends Component<IProps, IState> {
 
         return (
             <Container 
-                style={{
-                    position: 'relative',
-                    backgroundSize: '300% 300%',
-                    // height: `200px`,
-                    width: 'auto',
-                    marginBottom: '0px',
-                    transitionDuration: '0.4s',
-                    transitionProperty: 'opacity, left, top, width',
-                    // backgroundColor: '#eee',
-                }} 
                 delay={this.props.delay} 
                 id={this.props.id}
                 loaded={loaded}
