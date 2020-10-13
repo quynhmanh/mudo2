@@ -97,12 +97,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
         />
 
         return (
-            <CC
-                style={{ 
-                    marginRight: '24px', 
-                }}
-                className="templateWrapper___3Fitk"
-            >
+            <CC>
                 <div
                     style={{
                         height: "100%",
@@ -119,33 +114,19 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                         if (window.dragging) e.preventDefault();
                     }}
                 >
-                    <div
-                        style={{
-                            width: '200px',
-                            minHeight: '200px',
-                            display: 'flex',
-                            boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
-                        }}
-                        className="previewWrapper___mbAh5">
-                        <div
+                    <PreviewWrapper>
+                        <PickerContainer
                             ref={i => this.cc = i}
                             style={{
-                                paddingTop: 0,
-                                margin: 'auto',
-                                boxShadow: "0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02)",
-                                animation: "TB8Ekw 1.4s infinite",
-                                backgroundColor: 'black',
                                 animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
                             }}>
                             {picker}
-                            {/* {showPlayIcon === true ? playIcon : null} */}
-                        </div>
-                    </div>
+                        </PickerContainer>
+                    </PreviewWrapper>
                 </a>
                 </div>
                 <div
                     className="templateInfo___2YZSg"
-                // style={{ opacity: 0 }}
                 >
                     <p className="small___1Vvfz geometria-medium___3wRqs format___3qx4a">{props.title}</p>
                     <p className="x-small___1lJKy size___1sVBg">{props.size}</p>
@@ -158,8 +139,30 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 let CC = styled.li`
     position: relative;
     height: 200px;
-    margin-right: 16px;
+    margin-right: 24px;
     transition: .3s;
     width: 200px;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+`;
+
+let PickerContainer = styled.div`
+    padding-top: 0;
+    margin: auto;
+    box-shadow: 0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02);
+    animation: TB8Ekw 1.4s infinite;
+    background-color: black;
+    border-radius: 5px;
+`;
+
+let PreviewWrapper = styled.div`
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 20px;
+    background-color: #eee;
+    width: 200px;
+    min-height: 200px;
+    display: flex;
+    box-shadow: 0 2px 12px rgba(53,71,90,.2), 0 0 0 rgba(68,92,116,.02);
 `;
