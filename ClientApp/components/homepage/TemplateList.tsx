@@ -58,12 +58,12 @@ export default class TemplateList extends Component<IProps, IState> {
 
         this.loadImage = this.loadImage.bind(this);
 
-        if (props.type == 7 || props.type == 16) {
+        if (props.type == 7) {
             let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
             this.width = (el.width - 100) / 2 - 100;
         }
 
-        if (props.type == 9 || props.type == 15) {
+        if (props.type == 9 || props.type == 15 || props.type == 16) {
             let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
             this.width = (el.width - 100) / 3 - 100;
         }
