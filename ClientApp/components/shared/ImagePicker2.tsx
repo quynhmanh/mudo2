@@ -23,6 +23,7 @@ export interface IProps {
     mediaLoaded: any;
     keys: number;
     startPoint: number;
+    hasBorder: boolean;
 }
 
 export interface IState {
@@ -34,7 +35,6 @@ const Container = styled.div`
   position: relative;
   background-size: 300% 300%;
   position: relative;
-  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   width: ${props => props.width}px;
   button {
@@ -55,6 +55,7 @@ export default class ImagePicker extends Component<IProps, IState> {
         classNameContainer: "",
         padding: 0,
         backgroundColor: null,
+        hasBorder: true,
     }
 
     constructor(props) {
@@ -98,6 +99,7 @@ export default class ImagePicker extends Component<IProps, IState> {
                     transitionDuration: '0.4s',
                     transitionProperty: 'opacity, left, top, width',
                     padding: this.props.padding ? `${this.props.padding}px` : 0,
+                    border: this.props.hasBorder ? "1px solid rgba(0, 0, 0, 0.1)" : "none",
                 }}
                 delay={this.props.delay} id={this.props.id} loaded={loaded} height={this.props.height} width={this.state.loaded ? this.state.width : this.props.width} defaultHeight={this.props.defaultHeight}>
                 {this.props.showButton && Globals.serviceUser && Globals.serviceUser.username && (Globals.serviceUser.username === "llaugusty@gmail.com" || Globals.serviceUser.username === "hoangson1024@gmail.com") &&
