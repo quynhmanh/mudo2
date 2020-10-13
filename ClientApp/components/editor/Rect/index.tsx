@@ -1036,7 +1036,9 @@ export default class Rect extends Component<IProps, IState> {
 
 																el.children[0].style.width = imgWidth + "px";
 																el.children[0].style.height = imgHeight + "px";
-																el.children[0].style.transform = `translate(0px, 0px)`;
+																let posX = (boxWidth - imgWidth) / 2;
+																let posY = (boxHeight - imgHeight) / 2;
+																el.children[0].style.transform = `translate(${posX}px, ${posY}px)`;
 															}
 														}}
 														onMouseLeave={e => {
