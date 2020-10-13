@@ -58,17 +58,12 @@ export default class TemplateList extends Component<IProps, IState> {
 
         this.loadImage = this.loadImage.bind(this);
 
-        if (props.type == 7) {
+        if (props.type == 7 || props.type == 16) {
             let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
             this.width = (el.width - 100) / 2 - 100;
         }
 
-        if (props.type == 9) {
-            let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
-            this.width = (el.width - 100) / 3 - 100;
-        }
-
-        if (props.type == 15) {
+        if (props.type == 9 || props.type == 15) {
             let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
             this.width = (el.width - 100) / 3 - 100;
         }
@@ -147,6 +142,7 @@ export default class TemplateList extends Component<IProps, IState> {
             case 16: // Facebook Cover
                 rectWidth = 851;
                 rectHeight = 315;
+                width = this.width;
                 break;
             case 17: // Facebook Post
                 rectWidth = 940;

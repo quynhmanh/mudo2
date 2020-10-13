@@ -63,7 +63,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         super(props);
 
 
-        if (props.subtype == 7) {
+        if (props.subtype == 7 ||  props.subtype == 16) {
             imgWidth = 332;
         }
 
