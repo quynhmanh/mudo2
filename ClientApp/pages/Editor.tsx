@@ -1741,6 +1741,7 @@ class CanvaEditor extends Component<IProps, IState> {
         window.image.origin_width = window.origin_width;
         window.image.origin_height = window.origin_height;
         window.image.document_object = window.document_object;
+        window.image.grids = window.grids;
 
         if (window.image.type == TemplateType.Element) {
             // window.image.clipScale = window.imageWidth * this.state.scale / window.image.clipWidth;
@@ -2311,28 +2312,49 @@ class CanvaEditor extends Component<IProps, IState> {
             if (image.posX != 0) posX = image.posX * width / image.width;
             if (image.posY != 0) posY = image.posY * width / image.width;
         }
-        
+
         if (objectType == TemplateType.Grids) {
-            // let grids = image.grids;
-            // grids.forEach((g, index) => {
-            //     let boxWidth = (width - g.gapWidth) * g.width / 100;
-            //     let boxHeight = (height - g.gapHeight) * g.height / 100;
-            //     const ratio = g.ratio ? g.ratio : 1;
+            let grids = [];
+            image.grids.forEach((g, index) => {
+                if (g.posX == undefined) g.posX = 0;
+                if (g.posY == undefined) g.posY = 0;
 
-            //     let imgWidth = boxWidth;
-            //     let imgHeight = imgWidth / ratio;
-            //     if (imgHeight < boxHeight) {
-            //         imgHeight = boxHeight;
-            //         imgWidth = imgHeight * ratio;
-            //     }
+                let ratioWidth = 1.0 * g.imgWidth / image.width;
+                let ratioHeight = 1.0 * g.imgHeight / image.height;
+                let ratio = 1.0 * g.imgWidth / g.imgHeight;
 
-            //     g.imgWidth = imgWidth;
-            //     g.imgHeight = imgHeight;
+                let boxWidth = (width - g.gapWidth) * g.width / 100;
+                let boxHeight = (height - g.gapHeight) * g.height / 100;
 
-            //     const el = document.getElementById(_id + index + "alo" + "grid");
-            //     el.style.width = imgWidth + "px";
-            //     el.style.height = imgHeight + "px";
-            // });
+                let imgWidth = ratioWidth * width;
+                let imgHeight = imgWidth / ratio;
+                let posXRatio = 1.0 * g.posX / g.imgWidth;
+                let posYRatio = 1.0 * g.posY / g.imgHeight;
+                let posX = imgWidth * posXRatio;
+                let posY = imgHeight * posYRatio;
+
+                if (imgHeight + posY < boxHeight) {
+                    let delta = boxHeight - imgHeight - posY;
+                    imgHeight = boxHeight - posY;
+                    imgWidth += delta * ratio;
+                    // posX = imgWidth * posXRatio;
+                    // posY = imgHeight * posYRatio;
+                }
+
+                const el = document.getElementById(_id + index + "alo" + "grid");
+                el.style.width = imgWidth + "px";
+                el.style.height = imgHeight + "px";
+                el.style.transform = `translate(${posX}px, ${posY}px)`;
+
+                let newG = clone(g);
+                newG.imgWidth = imgWidth;
+                newG.imgHeight = imgHeight;
+                newG.posX = posX;
+                newG.posY = posY;
+                grids.push(newG);
+            });
+
+            window.grids = grids;
         }
 
         window.imageTop = top;

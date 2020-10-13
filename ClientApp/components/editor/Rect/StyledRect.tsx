@@ -156,22 +156,22 @@ export default styled.div`
   .t,
   .tl,
   .tr {
-    top: -10px;
+    top: -9px;
   }
   .b,
   .bl,
   .br {
-    bottom: -10px;
+    bottom: -9px;
   }
   .r,
   .tr,
   .br {
-    right: -10px;
+    right: -9px;
   }
   .tl,
   .l,
   .bl {
-    left: -10px;
+    left: -9px;
   }
   .l,
   .r {
