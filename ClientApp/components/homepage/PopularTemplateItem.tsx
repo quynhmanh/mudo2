@@ -94,6 +94,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
             ref={i => this.picker = i}
             mediaLoaded={this.mediaLoaded}
             backgroundColor="rgb(0 0 0 / 4%)"
+            hasBorder={false}
         />
 
         return (
