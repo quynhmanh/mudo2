@@ -34,8 +34,6 @@ const Container = styled.div`
   position: relative;
   height: ${props => props.loaded ? props.height : props.defaultHeight + "px"};
   margin-bottom: 0px;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
   width: auto;
   transition-duration: 0.4s;
   transition-property: opacity, left, top, width;
@@ -138,7 +136,8 @@ export default class VideoPicker extends Component<IProps, IState> {
                         pointerEvents: "all",
                         opacity: 0,
                         transition: 'opacity 0.1s linear',
-                        borderRadius: '4px',
+                        borderRadius: '5px',
+                        border: "1px solid rgba(0, 0, 0, 0.1)",
                     }}
 
                     onLoadedMetadata={e => {
