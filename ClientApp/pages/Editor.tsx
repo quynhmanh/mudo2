@@ -22,7 +22,7 @@ const Narbar = loadable(() => import("@Components/editor/Navbar"));
 const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
 
 import {
-    isNode,
+    isNode, transformPoint,
 } from "@Utils";
 
 import {
@@ -482,28 +482,10 @@ class CanvaEditor extends Component<IProps, IState> {
         let centerX = image.left + image.width / 2;
         let centerY = image.top + image.height / 2;
         let rotateAngle = image.rotateAngle / 180 * Math.PI;
-
-        let bb = [
-            {
-                x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
-                y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
-            },
-            {
-                x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
-                y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
-            },
-            {
-                x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
-                y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
-            },
-            {
-                x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
-                y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
-            }
-        ]
-
-        let centerX1 = (bb[0].x + bb[2].x) / 2;
-        let centerY1 = (bb[0].y + bb[2].y) / 2;
+        let topLeft = transformPoint(newL, newT, rotateAngle, centerX, centerY);
+        let bottomRight = transformPoint(newR, newB, rotateAngle, centerX, centerY);
+        let centerX1 = (topLeft.x + bottomRight.x) / 2;
+        let centerY1 = (topLeft.y + bottomRight.y) / 2;
         let left1 = centerX1 - boxWidth / 2;
         let top1 = centerY1 - boxHeight / 2;
 

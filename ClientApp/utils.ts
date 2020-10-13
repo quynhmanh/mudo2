@@ -700,6 +700,13 @@ export const getImageResizerVisibility = (img, scale, d): VisibilityProperty => 
     return result;
 }
 
+export const transformPoint = (x, y, rotateAngle, centerX, centerY) => {
+    return {
+        x: (x - centerX) * Math.cos(rotateAngle) - (y - centerY) * Math.sin(rotateAngle) + centerX,
+        y: (x - centerX) * Math.sin(rotateAngle) + (y - centerY) * Math.cos(rotateAngle) + centerY,
+    }
+}
+
 export const transformImage = image => {
     let newL = image.left;
     let newR = image.left + image.width;
@@ -710,23 +717,12 @@ export const transformImage = image => {
     let rotateAngle = image.rotateAngle / 180 * Math.PI;
 
     let bb = [
-        {
-            x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
-            y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
-        },
-        {
-            x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
-            y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
-        },
-        {
-            x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
-            y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
-        },
-        {
-            x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
-            y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
-        }
+        transformPoint(newL, newT, rotateAngle, centerX, centerY),
+        transformPoint(newR, newT, rotateAngle, centerX, centerY),
+        transformPoint(newR, newB, rotateAngle, centerX, centerY),
+        transformPoint(newL, newB, rotateAngle, centerX, centerY),
     ]
+
     let top = 999999, right = 0, bottom = 0, left = 999999;
 
     left = Math.min(left, bb[0].x);
