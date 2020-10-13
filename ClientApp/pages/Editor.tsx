@@ -2313,26 +2313,26 @@ class CanvaEditor extends Component<IProps, IState> {
         }
         
         if (objectType == TemplateType.Grids) {
-            let grids = image.grids;
-            grids.forEach((g, index) => {
-                let boxWidth = (width - g.gapWidth) * g.width / 100;
-                let boxHeight = (height - g.gapHeight) * g.height / 100;
-                const ratio = g.ratio ? g.ratio : 1;
+            // let grids = image.grids;
+            // grids.forEach((g, index) => {
+            //     let boxWidth = (width - g.gapWidth) * g.width / 100;
+            //     let boxHeight = (height - g.gapHeight) * g.height / 100;
+            //     const ratio = g.ratio ? g.ratio : 1;
 
-                let imgWidth = boxWidth;
-                let imgHeight = imgWidth / ratio;
-                if (imgHeight < boxHeight) {
-                    imgHeight = boxHeight;
-                    imgWidth = imgHeight * ratio;
-                }
+            //     let imgWidth = boxWidth;
+            //     let imgHeight = imgWidth / ratio;
+            //     if (imgHeight < boxHeight) {
+            //         imgHeight = boxHeight;
+            //         imgWidth = imgHeight * ratio;
+            //     }
 
-                g.imgWidth = imgWidth;
-                g.imgHeight = imgHeight;
+            //     g.imgWidth = imgWidth;
+            //     g.imgHeight = imgHeight;
 
-                const el = document.getElementById(_id + index + "alo" + "grid");
-                el.style.width = imgWidth + "px";
-                el.style.height = imgHeight + "px";
-            });
+            //     const el = document.getElementById(_id + index + "alo" + "grid");
+            //     el.style.width = imgWidth + "px";
+            //     el.style.height = imgHeight + "px";
+            // });
         }
 
         window.imageTop = top;
@@ -5871,9 +5871,8 @@ class CanvaEditor extends Component<IProps, IState> {
                                 <div
                                     style={{
                                         position: "fixed",
-                                        bottom: "5px",
-                                        right: `${5 +
-                                            (this.state.showPrintingSidebar ? 330 : 0)}px`,
+                                        bottom: "15px",
+                                        right: "15px",
                                         zIndex: 99999999
                                     }}
                                 >
