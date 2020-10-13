@@ -46,7 +46,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
 
         if (this.loaded && this.transitionEnd && !this.transitioned) {
             this.cc.style.backgroundColor = "transparent";
-            this.cc.style.animation = "";
+            this.cc.style.animation = "none";
             this.picker.image.style.opacity = 1;
             this.picker.image.parentNode.style.height = "";
 
@@ -119,6 +119,7 @@ export default class PopularTemplateItem extends Component<IProps, IState> {
                             ref={i => this.cc = i}
                             style={{
                                 animationDelay: (-1200 + (this.props.keys - this.props.startPoint) * 120) + "ms",
+                                animation: this.loaded ? "none" : "TB8Ekw 1.4s infinite",
                             }}>
                             {picker}
                         </PickerContainer>
