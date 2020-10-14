@@ -117,71 +117,79 @@ export default class SidebarTemplate extends Component<IProps, IState> {
 
         e.preventDefault();
 
-        var doc = this.state.items.find(doc => doc.id == id);
-        if (!doc) {
-            doc = this.state.items2.find(doc => doc.id == id);
-        }
+        const url = `/api/Template/Get?id=${id}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(
+                res => {
+                    console.log('res', res)
+                    var doc = res.value;
+                    
+                    this.forceUpdate();
 
-        editorStore.doNoObjectSelected();
-        let ce = document.createElement.bind(document);
-        let ca = document.createAttribute.bind(document);
-        let ge = document.getElementsByTagName.bind(document);
 
-        const { rectWidth, rectHeight } = this.props;
+                    editorStore.doNoObjectSelected();
+                    let ce = document.createElement.bind(document);
+                    let ca = document.createAttribute.bind(document);
+                    let ge = document.getElementsByTagName.bind(document);
 
-        let template = JSON.parse(doc.document);
-        let scaleX = rectWidth / template.width;
-        let scaleY = rectHeight / template.height;
+                    const { rectWidth, rectHeight } = this.props;
 
-        template.document_object = template.document_object.map(doc => {
-            doc.width = doc.width * scaleX;
-            doc.height = doc.height * scaleY;
-            doc.top = doc.top * scaleY;
-            doc.left = doc.left * scaleX;
-            doc.scaleX = doc.scaleX * scaleX;
-            doc.scaleY = doc.scaleY * scaleY;
-            doc.page = editorStore.activePageId;
-            doc.imgWidth = doc.imgWidth * scaleX;
-            doc.imgHeight = doc.imgHeight * scaleY;
+                    let template = JSON.parse(doc.document);
+                    let scaleX = rectWidth / template.width;
+                    let scaleY = rectHeight / template.height;
 
-            return doc;
-        });
+                    template.document_object = template.document_object.map(doc => {
+                        doc.width = doc.width * scaleX;
+                        doc.height = doc.height * scaleY;
+                        doc.top = doc.top * scaleY;
+                        doc.left = doc.left * scaleX;
+                        doc.scaleX = doc.scaleX * scaleX;
+                        doc.scaleY = doc.scaleY * scaleY;
+                        doc.page = editorStore.activePageId;
+                        doc.imgWidth = doc.imgWidth * scaleX;
+                        doc.imgHeight = doc.imgHeight * scaleY;
 
-        if (doc.fontList) {
-            doc.fontList.forEach(id => {
-                let style = `@font-face {
-                        font-family: '${id}';
-                        src: url('/fonts/${id}.ttf');
-                    }`;
-                let styleEle = ce("style");
-                let type = ca("type");
-                type.value = "text/css";
-                styleEle.attributes.setNamedItem(type);
-                styleEle.innerHTML = style;
-                let head = document.head || ge("head")[0];
-                head.appendChild(styleEle);
+                        return doc;
+                    });
 
-                let link = ce("link");
-                link.id = id;
-                link.rel = "preload";
-                link.href = `/fonts/${id}.ttf`;
-                link.media = "all";
-                link.as = "font";
-                link.crossOrigin = "anonymous";
-                head.appendChild(link);
-                return {
-                    id: id
-                };
-            });
-        }
+                    if (doc.fontList) {
+                        doc.fontList.forEach(id => {
+                            let style = `@font-face {
+                                    font-family: '${id}';
+                                    src: url('/fonts/${id}.ttf');
+                                }`;
+                            let styleEle = ce("style");
+                            let type = ca("type");
+                            type.value = "text/css";
+                            styleEle.attributes.setNamedItem(type);
+                            styleEle.innerHTML = style;
+                            let head = document.head || ge("head")[0];
+                            head.appendChild(styleEle);
 
-        editorStore.applyTemplate(template.document_object);
+                            let link = ce("link");
+                            link.id = id;
+                            link.rel = "preload";
+                            link.href = `/fonts/${id}.ttf`;
+                            link.media = "all";
+                            link.as = "font";
+                            link.crossOrigin = "anonymous";
+                            head.appendChild(link);
+                            return {
+                                id: id
+                            };
+                        });
+                    }
 
-        let fonts = toJS(editorStore.fonts);
-        let tempFonts = [...fonts, ...doc.fontList];
-        editorStore.fonts.replace(tempFonts);
+                    editorStore.applyTemplate(template.document_object);
 
-        this.props.forceEditorUpdate();
+                    let fonts = toJS(editorStore.fonts);
+                    let tempFonts = [...fonts, ...doc.fontList];
+                    editorStore.fonts.replace(tempFonts);
+
+                    this.props.forceEditorUpdate();
+                }
+            );
     }
 
     loadMore = (initalLoad) => {
