@@ -103,7 +103,7 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
                             <h1
                                 style={{
                                     marginTop: '30px',
-                                    fontFamily: "AvenirNextRoundedPro",
+                                    fontFamily: "AvenirNextRoundedPro-Bold",
                                     fontWeight: 600,
                                     fontSize: "35px",
                                     textAlign: 'center',
