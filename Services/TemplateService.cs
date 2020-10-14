@@ -55,7 +55,10 @@ namespace RCB.TypeScript.Services
                 query = query + $" AND printType:{printType}";
             }
 
-            var res = client.Search<TemplateModel>(s =>
+            ISearchResponse<TemplateModel> res;
+            
+            if (type == "2") {
+            res = client.Search<TemplateModel>(s =>
                 s.Query(t => t.Bool(b => b.Must(
                     q => q.Match(c => c.Field(p => p.Type).Query(type)),
                     q => q.Match(c => c.Field(p => p.PrintType).Query(printType)),
@@ -67,11 +70,32 @@ namespace RCB.TypeScript.Services
                     p => p.Id,
                     p => p.Title,
                     p => p.IsVideo,
-                    p => p.VideoRepresentative
+                    p => p.VideoRepresentative,
+                    p => p.Document
                 )))
                 .From((page - 1) * perPage)
                 .Size(perPage)
                 .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
+            } else {
+
+                res = client.Search<TemplateModel>(s =>
+                    s.Query(t => t.Bool(b => b.Must(
+                        q => q.Match(c => c.Field(p => p.Type).Query(type)),
+                        q => q.Match(c => c.Field(p => p.PrintType).Query(printType)),
+                        q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
+                    .Source(f => f.Includes(ff => ff.Fields(
+                        p => p.Width, 
+                        p => p.Height, 
+                        p => p.Representative, 
+                        p => p.Id,
+                        p => p.Title,
+                        p => p.IsVideo,
+                        p => p.VideoRepresentative
+                    )))
+                    .From((page - 1) * perPage)
+                    .Size(perPage)
+                    .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
+            }
 
             var res2 = new KeyValuePair<List<TemplateModel>, long>(res.Documents.ToList(), res.Total);
 
