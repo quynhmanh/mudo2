@@ -822,6 +822,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let doNoObjectSelected$ = fromEvent(screenContainerParent, "mouseup");
 
         this.pauser = new BehaviorSubject(false);
+        window.pauser = this.pauser;
 
         const pausable = this.pauser.pipe(
             switchMap(paused => {

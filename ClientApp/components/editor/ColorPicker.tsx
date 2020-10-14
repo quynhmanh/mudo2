@@ -109,6 +109,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                 // this.props.colorPickerShown()
                 // editorStore.toggleColorPickerVisibility();
                 editorStore.setToggleColorPickerVisibility(true);
+                window.pauser.next(true);
             })
             .on("change", (color, instance) => {
                 let image = editorStore.getImageSelected();
@@ -153,6 +154,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                 this.props.setSelectionColor(colorCode)
             })
             .on("hide", instance => {
+                window.pauser.next(false);
                 // let colorCode = instance.getColor().toRGBA().toString();
                 setTimeout(() => { editorStore.setToggleColorPickerVisibility(false); }, 100);
                 // instance.setColor(null);
