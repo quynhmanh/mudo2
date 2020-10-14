@@ -287,7 +287,6 @@ class LeftSide extends Component<IProps, IState> {
                                 image.type === TemplateType.Heading) ||
                             !!editorStore.childId
                         }
-                        pauser={props.pauser}
                         currentLineHeight={editorStore.currentLineHeight}
                         currentLetterSpacing={editorStore.currentLetterSpacing}
                         translate={props.translate}

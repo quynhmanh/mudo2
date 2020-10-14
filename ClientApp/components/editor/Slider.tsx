@@ -51,7 +51,7 @@ export default class Slider extends Component<IProps, IState> {
         if (this.props.onChangeStart) {
             this.props.onChangeStart();
         }
-        if (this.props.pauser) this.props.pauser.next(true);
+        window.pauser.next(true);
         document.addEventListener("mousemove", this.onMove);
         document.addEventListener("mouseup", this.onUp);
 
@@ -64,7 +64,7 @@ export default class Slider extends Component<IProps, IState> {
         e.stopPropagation();
         document.removeEventListener("mousemove", this.onMove);
         document.removeEventListener("mouseup", this.onUp);
-        if (this.props.pauser) this.props.pauser.next(false);
+        window.pauser.next(false);
         if (this.$grabSlider) {
             this.$grabSlider.style.boxShadow = '';
             this.$grabSlider.style.border = '1px solid rgba(14, 19, 24, 0.2)';
@@ -134,7 +134,7 @@ export default class Slider extends Component<IProps, IState> {
                             var val = parseInt((e.target as HTMLInputElement).value) / (this.props.multiplier ? this.props.multiplier : 1);
                             this.setState({ currentValue: val });
 
-                            this.$input.value = Math.floor((e.target as HTMLInputElement).value);
+                            this.$input.value = Math.floor(parseFloat((e.target as HTMLInputElement).value));
                             this.props.onChange(val);
                             this.props.onChangeEnd(val);
                             window.getSelection().removeAllRanges();
@@ -161,7 +161,7 @@ export default class Slider extends Component<IProps, IState> {
                     paddingTop: "10px",
                 }}
                 onMouseDown={e => {
-                    if (this.props.pauser) this.props.pauser.next(true);
+                    window.pauser.next(true);
                     document.addEventListener("mousemove", this.onMove);
                     document.addEventListener("mouseup", this.onUp);
 

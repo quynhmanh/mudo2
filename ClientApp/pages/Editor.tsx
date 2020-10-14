@@ -171,6 +171,10 @@ declare global {
         oldTransform: any;
         imageselected: any;
         imagesrc: any;
+        pauser: any;
+        rectWidth: number;
+        rectHeight: number;
+        grids: any;
     }
 }
 
@@ -766,8 +770,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleTransparentAdjust = (e: any) => {
-        this.pauserTransparentPopup.next(true);
-        this.pauser.next(true);
+        window.pauser.next(true);
         (document.activeElement as HTMLElement).blur();
         e.preventDefault();
         let self = this;
@@ -797,8 +800,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 onMove
             );
             document.removeEventListener("mouseup", onUp);
-            this.pauser.next(false);
-            this.pauserTransparentPopup.next(false);
+            window.pauser.next(false);
             this.handleOpacityChangeEnd();
         };
 
@@ -807,7 +809,6 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     pauser = null;
-    pauserTransparentPopup = null;
 
     forceEditorUpdate = () => {
         this.forceUpdate();
@@ -821,15 +822,15 @@ class CanvaEditor extends Component<IProps, IState> {
         let screenContainerParentRect = screenContainerParent.getBoundingClientRect();
         let doNoObjectSelected$ = fromEvent(screenContainerParent, "mouseup");
 
-        this.pauser = new BehaviorSubject(false);
-        window.pauser = this.pauser;
+        window.pauser = new BehaviorSubject(false);
+        window.pauser = window.pauser;
 
-        const pausable = this.pauser.pipe(
+        const pausable = window.pauser.pipe(
             switchMap(paused => {
                 return paused ? NEVER : doNoObjectSelected$;
             })
         );
-        this.pauser.next(false);
+        window.pauser.next(false);
 
         pausable.subscribe(e => {
             if ((e.target.id == "screen-container-parent" || e.target.id == "screen-container")
@@ -837,8 +838,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 this.doNoObjectSelected();
             }
         });
-
-        this.pauserTransparentPopup = new BehaviorSubject(false);
 
         let ce = document.createElement.bind(document);
         let ca = document.createAttribute.bind(document);
@@ -1572,7 +1571,7 @@ class CanvaEditor extends Component<IProps, IState> {
         window.startY = e.clientY;
         window.resizingInnerImage = false;
 
-        this.pauser.next(true);
+        window.pauser.next(true);
 
         let cursor = e.target.id;
         let type = e.target.getAttribute("class").split(" ")[0];
@@ -1696,7 +1695,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 () => {
                     this.displayResizers(true);
                     this.handleResizeEnd();
-                    this.pauser.next(false);
+                    window.pauser.next(false);
                     this.forceUpdate();
                     ell.style.zIndex = "0";
                     ell.style.cursor = "default";
@@ -2515,7 +2514,7 @@ class CanvaEditor extends Component<IProps, IState> {
             tempEl.style.transform = `translate(${left * scale}px, ${top * scale}px) rotate(${image.rotateAngle ? image.rotateAngle : 0}deg)`;
         }
 
-        let a = document.getElementsByClassName(_id + "aaaa2alo");
+        a = document.getElementsByClassName(_id + "aaaa2alo");
         for (let i = 0; i < a.length; ++i) {
             let tempEl = a[i] as HTMLElement;
             tempEl.style.width = width  + "px";
@@ -2731,7 +2730,7 @@ class CanvaEditor extends Component<IProps, IState> {
         window.resizingInnerImage = true;
         window.startX = e.clientX;
         window.startY = e.clientY;
-        this.pauser.next(true);
+        window.pauser.next(true);
 
         let cursor = e.target.id;
         let type = e.target.getAttribute("class").split(" ")[0];
@@ -2866,7 +2865,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 null,
                 () => {
                     this.handleResizeEnd();
-                    this.pauser.next(false);
+                    window.pauser.next(false);
                     this.displayResizers(true);
                     ell.style.zIndex = "0";
 
@@ -3175,7 +3174,7 @@ class CanvaEditor extends Component<IProps, IState> {
             y: e.clientY - center.y
         };
 
-        this.pauser.next(true);
+        window.pauser.next(true);
 
         let ell = document.getElementById("screen-container-parent2");
         ell.style.zIndex = "2";
@@ -3265,7 +3264,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 () => {
                     this.displayResizers(true);
                     this.handleRotateEnd(editorStore.idObjectSelected);
-                    this.pauser.next(false);
+                    window.pauser.next(false);
                     ell.style.zIndex = "0";
 
                     if (window.rotated) {
@@ -3346,7 +3345,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         window.selectionsAngle = {};
 
-        this.pauser.next(true);
+        window.pauser.next(true);
 
         const location$ = this.handleDragRx(e.target);
 
@@ -3399,7 +3398,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 null,
                 () => {
                     this.displayResizers(true);
-                    this.pauser.next(false);
+                    window.pauser.next(false);
 
                     if (window.dragged) {
                         this.handleDragEnd();
@@ -5737,7 +5736,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                     id={this.state._id}
                                     effectId={this.state.effectId}
                                     align={this.state.align}
-                                    pauser={this.pauser}
                                     colorPickerShown={this.colorPickerShown}
                                     handleEditFont={this.handleEditFont}
                                     scale={this.state.scale}
@@ -5806,7 +5804,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                         onTextChange={this.onTextChange}
                                         updateImages={this.updateImages}
                                         selectedCanvas={this.state.selectedCanvas}
-                                        pauser={this.pauser}
                                         effectId={this.state.effectId}
                                         bold={this.state.bold}
                                         italic={this.state.italic}

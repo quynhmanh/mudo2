@@ -110,7 +110,6 @@ class Toolbar extends Component<IProps, IState> {
                     handleLetterSpacing={props.handleLetterSpacing}
                     currentLineHeight={props.currentLineHeight}
                     currentLetterSpacing={props.currentLetterSpacing}
-                    pauser={props.pauser}
                 />
                 <RightSide
                     show=

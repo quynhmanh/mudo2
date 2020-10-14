@@ -11,7 +11,6 @@ import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     scale: number;
-    pauser: any;
     translate: any;
     selectedTab: any;
     handleEditmedia: any;

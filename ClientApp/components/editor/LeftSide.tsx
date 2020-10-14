@@ -52,7 +52,6 @@ export interface IProps {
     colorPickerShown: any;
     handleApplyEffect: any;
     selectedImage: any;
-    pauser: any;
     backgroundOnMouseDown: any;
     updateImages: any;
     forceEditorUpdate: any;
@@ -669,7 +668,6 @@ class LeftSide extends Component<IProps, IState> {
                             scale={this.props.scale}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
-                            pauser={this.props.pauser}
                             handleImageSelected={this.props.handleImageSelected}
                             effectId={editorStore.effectId}
                             idImageSelected={editorStore.idObjectSelected}
@@ -681,7 +679,6 @@ class LeftSide extends Component<IProps, IState> {
                             scale={this.props.scale}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
-                            pauser={this.props.pauser}
                             handleImageSelected={this.props.handleImageSelected}
                             effectId={editorStore.effectId}
                         />

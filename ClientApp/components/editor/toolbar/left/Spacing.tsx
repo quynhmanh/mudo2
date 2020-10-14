@@ -204,7 +204,6 @@ export default class Spacing extends Component<IProps, IState> {
                         className="dropdown-content-font-size"
                     >
                         <Slider
-                            pauser={this.props.pauser}
                             title="Letter"
                             currentValue={editorStore.currentLetterSpacing}
                             onChangeStart={e => {
@@ -218,7 +217,6 @@ export default class Spacing extends Component<IProps, IState> {
                             }}
                         />
                         <Slider
-                            pauser={this.props.pauser}
                             title="Line letter"
                             currentValue={(100 * (editorStore.currentLineHeight ? editorStore.currentLineHeight : 30) - 50) / 2}
                             onChangeStart={e => {

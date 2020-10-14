@@ -467,14 +467,12 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <Slider
                                     title="Offset"
                                     currentValue={image.offSet}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeOffset}
                                     onChangeEnd={this.handleChangeOffsetEnd}
                                 />
                                 <Slider
                                     title="Direction"
                                     currentValue={image.direction}
-                                    pauser={this.props.pauser}
                                     multiplier={3.6}
                                     onChange={this.handleChangeDirection}
                                     onChangeEnd={this.handleChangeDirectionEnd}
@@ -482,14 +480,12 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <Slider
                                     title="Blur"
                                     currentValue={image.blur}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeBlur}
                                     onChangeEnd={this.handleChangeBlurEnd}
                                 />
                                 <Slider
                                     title="Transparency"
                                     currentValue={image.textShadowTransparent}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeTextShadowTransparent}
                                     onChangeEnd={this.handleChangeTextShadowTransparentEnd}
                                 />
@@ -524,7 +520,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <Slider
                                     title="Intensity"
                                     currentValue={image.intensity}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeIntensity}
                                     onChangeEnd={this.handleChangeIntensityEnd}
                                 />
@@ -622,7 +617,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <Slider
                                     title="Thickness"
                                     currentValue={image.hollowThickness}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeHollowThickness}
                                     onChangeEnd={this.handleChangeHollowThicknessEnd}
                                 />
@@ -634,21 +628,18 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <Slider
                                     title="Thickness"
                                     currentValue={image.hollowThickness}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeHollowThickness}
                                     onChangeEnd={this.handleChangeHollowThicknessEnd}
                                 />
                                 <Slider
                                     title="Offset"
                                     currentValue={image.offSet}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeOffset}
                                     onChangeEnd={this.handleChangeOffsetEnd}
                                 />
                                 <Slider
                                     title="Direction"
                                     currentValue={image.direction}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeDirection}
                                     multiplier={3.6}
                                     onChangeEnd={this.handleChangeDirectionEnd}
@@ -684,14 +675,12 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <Slider
                                     title="Offset"
                                     currentValue={image.offSet}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeOffset}
                                     onChangeEnd={this.handleChangeOffsetEnd}
                                 />
                                 <Slider
                                     title="Direction"
                                     currentValue={image.direction}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeDirection}
                                     multiplier={3.6}
                                     onChangeEnd={this.handleChangeDirectionEnd}
@@ -784,14 +773,12 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <Slider
                                     title="Offset"
                                     currentValue={image.offSet}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeOffset}
                                     onChangeEnd={this.handleChangeOffsetEnd}
                                 />
                                 <Slider
                                     title="Direction"
                                     currentValue={image.direction}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeDirection}
                                     multiplier={3.6}
                                     onChangeEnd={this.handleChangeDirectionEnd}
@@ -804,7 +791,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 <Slider
                                     title="Intensity"
                                     currentValue={50}
-                                    pauser={this.props.pauser}
                                     onChange={this.handleChangeIntensity}
                                     onChangeEnd={this.handleChangeIntensityEnd}
                                 />
