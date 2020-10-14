@@ -71,7 +71,8 @@ namespace RCB.TypeScript.Services
                     p => p.Title,
                     p => p.IsVideo,
                     p => p.VideoRepresentative,
-                    p => p.Document
+                    p => p.Document,
+                    p => p.FontList
                 )))
                 .From((page - 1) * perPage)
                 .Size(perPage)
