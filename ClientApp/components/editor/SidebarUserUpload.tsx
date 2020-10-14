@@ -12,6 +12,7 @@ import loadable from '@loadable/component';
 const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
 import VideoPicker from "@Components/shared/VideoPicker2";
 import ReactDOMServer from 'react-dom/server';
+import { camelCase } from "lodash";
 
 export interface IProps {
     scale: number;
