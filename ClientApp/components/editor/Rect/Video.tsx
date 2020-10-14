@@ -73,17 +73,6 @@ export default class Video extends Component<IProps, IState> {
                     height: imgHeight + "px"
                 }}
             >
-                <canvas
-                    id={_id + "video4" + canvas + this.props.name}
-                    style={{
-                        width: "200%",
-                        height: "200%",
-                        transformOrigin: "0 0",
-                        opacity: 1,
-                        position: "absolute",
-                        transform: 'scale(0.5)',
-                    }}
-                />
                 <video
                     id={_id + "video" + this.props.name + canvas}
                     ref={i => this.ref = i}

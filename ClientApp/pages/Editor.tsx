@@ -546,19 +546,19 @@ class CanvaEditor extends Component<IProps, IState> {
             let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
             let el4 = document.getElementById(editorStore.idObjectSelected + "video4" + "alo1") as HTMLCanvasElement;
             let ctx = el3.getContext('2d')
-            let ctx2 = el4.getContext('2d');
+            // let ctx2 = el4.getContext('2d');
             var w = el.videoWidth * 1;
             var h = el.videoHeight * 1;
             el3.width = w;
             el3.height = h;
-            el4.width = w;
-            el4.height = h;
+            // el4.width = w;
+            // el4.height = h;
             if (el && el3) {
                 el.pause();
                 ctx.imageSmoothingEnabled = false;
-                ctx2.imageSmoothingEnabled = false;
+                // ctx2.imageSmoothingEnabled = false;
                 ctx.drawImage(el, 0, 0, w, h);
-                ctx2.drawImage(el, 0, 0, w, h);
+                // ctx2.drawImage(el, 0, 0, w, h);
             }
 
             if (!image.paused) this.canvas1[image.page].canvas[CanvasType.HoverLayer][image._id].child.toggleVideo();
