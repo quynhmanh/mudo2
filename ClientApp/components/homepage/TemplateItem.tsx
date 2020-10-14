@@ -54,7 +54,7 @@ export default class TemplateItem extends Component<IProps, IState> {
             // if (this.props.keys == this.props.startPoint) {
                 setTimeout(() => {
                     this.props.loadImage(this.props.keys + 1);
-                }, 100);
+                }, 50);
             // }
         }
     }
