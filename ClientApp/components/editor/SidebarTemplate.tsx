@@ -130,8 +130,6 @@ export default class SidebarTemplate extends Component<IProps, IState> {
 
         this.props.forceEditorUpdate();
 
-        return;
-
         const url = `/api/Template/Get?id=${id}`;
         fetch(url)
             .then(res => res.json())
