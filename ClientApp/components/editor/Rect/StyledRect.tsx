@@ -182,15 +182,15 @@ export default styled.div`
     left: calc(50% - 10px);
   }
   .l {
-    left: -11px;
+    left: -10px;
   }
   .r {
-    right: -11px;
+    right: -10px;
   }
   .t {
-    top: -11px;
+    top: -10px;
   }
   .b {
-    bottom: -11px;
+    bottom: -10px;
   }
 `
