@@ -1,23 +1,29 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
+import homePageTranslation from "@Locales/default/homePage";
 import { Helmet } from "react-helmet";
-import loadable from '@loadable/component';
+import { withTranslation } from "react-i18next";
+
+const NAMESPACE = "homePage";
 
 import "@Styles/homePage.scss";
 
 import TemplateList from "@Components/homepage/TemplateList";
 import { isNode } from "@Utils";
 
-type Props = RouteComponentProps<{
-}>;
+interface IProps {
+    t: any;
+    i18n: any;
+};
 
-export default class TemplatesPage extends React.Component<Props, { textTemplates, templates, mounted, }> {
+class TemplatesPage extends React.Component<IProps, {}> {
     constructor(props) {
         super(props);
 
         this.state = {
             mounted: false,
         }
+
+        this.translate = this.translate.bind(this);
     }
 
     componentDidMount() {
@@ -32,9 +38,19 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
 
     }
 
-    translate() {
+    translate = (key: string) => {
+        const { t, i18n } = this.props;
 
+        if (i18n.exists(NAMESPACE + ":" + key))
+            return t(key);
+
+        if (homePageTranslation !== undefined && homePageTranslation.hasOwnProperty(key)) {
+            return homePageTranslation[key]; // load default translation in case failed to load translation file from server
+        }
+
+        return key;
     }
+
 
     render() {
 
@@ -45,7 +61,7 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
             case 0:
                 break;
             case 1:
-                title = "Poster";
+                title = "poster";
                 break;
             case 2:
                 break;
@@ -56,37 +72,37 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
             case 5:
                 break;
             case 6:
-                title = "Facebook Post";
+                title = "facebookPost";
                 break;
             case 7:
                 break;
             case 8:
                 break;
             case 9:
-                title = "Square Video Post";
+                title = "squareVideoPost";
                 break;
             case 10:
                 break;
             case 11: // Menu
-                title = "Menu";
+                title = "menu";
                 break;
             case 12: // Instagram Story
-                title = "Instagram Story";
+                title = "instagramStory";
                 break;
             case 14:
-                title = "Instagram Post";
+                title = "instagramPost";
                 break;
             case 15: // Business Card
-                title = "Business Card";
+                title = "businessCard";
                 break;
             case 16: // Facebook Cover
-                title = "Facebook Cover";
+                title = "facebookCover";
                 break;
             case 17: // Facebook Post
-                title = "Facebook Post";
+                title = "facebookPost";
                 break;
             case 18: // Facebook ad
-                title = "Facebook Ad";
+                title = "facebookAd";
                 break;
         }
 
@@ -108,7 +124,7 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
                                     fontSize: "35px",
                                     textAlign: 'center',
                                 }}
-                            >{title}</h1>}
+                            >{this.translate(title)}</h1>}
                         {!isNode() &&
                             <TemplateList
                                 type={parseInt(this.props.match.params.subtype)}
@@ -120,3 +136,5 @@ export default class TemplatesPage extends React.Component<Props, { textTemplate
         </div>;
     }
 }
+
+export default withTranslation(NAMESPACE)(TemplatesPage);
