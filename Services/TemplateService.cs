@@ -56,11 +56,17 @@ namespace RCB.TypeScript.Services
             }
 
             var res = client.Search<TemplateModel>(s =>
-                // Query(q => q.QueryString(d => d.Query(query)))
                 s.Query(t => t.Bool(b => b.Must(
                     q => q.Match(c => c.Field(p => p.Type).Query(type)),
                     q => q.Match(c => c.Field(p => p.PrintType).Query(printType)),
                     q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
+                .Source(f => f.Includes(ff => ff.Fields(
+                    p => p.Width, 
+                    p => p.Height, 
+                    p => p.Representative, 
+                    p => p.Id,
+                    p => p.Title
+                )))
                 .From((page - 1) * perPage)
                 .Size(perPage)
                 .Aggregations(a => a.Terms("my_agg", t => t.Field("subType"))));
@@ -82,6 +88,13 @@ namespace RCB.TypeScript.Services
             s.Query(t => t.Bool(b => b.Must(
                 q => q.Match(c => c.Field(p => p.UserName).Query(userName)),
                 q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
+                .Source(f => f.Includes(ff => ff.Fields(
+                    p => p.Width, 
+                    p => p.Height, 
+                    p => p.Representative, 
+                    p => p.Id,
+                    p => p.Title
+                )))
                 .From((page - 1) * perPage)
                 .Size(perPage));
 
