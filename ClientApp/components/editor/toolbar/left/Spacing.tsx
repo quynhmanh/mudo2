@@ -10,7 +10,6 @@ interface IProps {
     title: string;
     currentLineHeight: number;
     currentLetterSpacing: number
-    pauser: any;
     updateImages: any;
     onTextChange: any;
     scale: number;

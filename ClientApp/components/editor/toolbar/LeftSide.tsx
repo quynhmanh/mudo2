@@ -53,7 +53,6 @@ interface IProps {
     handleLetterSpacingEnd: any;
     currentLineHeight: number;
     currentLetterSpacing: number;
-    pauser: any;
     selectedCanvas: any;
     updateImages: any;
     onTextChange: any;

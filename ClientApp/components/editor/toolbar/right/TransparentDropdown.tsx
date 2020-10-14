@@ -43,7 +43,6 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                 <Slider 
                       title={this.props.translate("transparent")} 
                       currentValue={editorStore.currentOpacity}
-                      pauser={null}
                       onChange={this.props.handleOpacityChange}
                       onChangeEnd={this.props.handleOpacityChangeEnd}
                     />

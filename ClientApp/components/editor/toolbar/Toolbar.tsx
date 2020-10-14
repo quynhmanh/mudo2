@@ -50,7 +50,6 @@ interface IProps {
     effectId: number;
     bold: boolean;
     italic: boolean;
-    pauser: any;
     updateImages: any;
     onTextChange: any;
     scale: any;

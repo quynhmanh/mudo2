@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 export interface IProps {
     title: string;
     currentValue: number;
-    pauser: any;
     onChange: any;
     onChangeEnd: any;
     multiplier: number;

@@ -7,7 +7,6 @@ import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     scale: number;
-    pauser: any;
     translate: any;
     selectedTab: any;
     handleEditmedia: any;
@@ -658,14 +657,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                             fontSize: '12px',
                                         }}
                                     >Color</p>
-                                    {/* <ColorPicker
+                                    <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
                                         translate={this.props.translate}
                                         forceUpdate={() => {
                                             this.forceUpdate();
                                         }}
-                                    /> */}
+                                    />
                                 </div>
                             </div>}
                         {editorStore.effectId == 5 &&
@@ -699,14 +698,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                             fontSize: '12px',
                                         }}
                                     >Color</p>
-                                    {/* <ColorPicker
+                                    <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
                                         translate={this.props.translate}
                                         forceUpdate={() => {
                                             this.forceUpdate();
                                         }}
-                                    /> */}
+                                    />
                                 </div>
                             </div>}
                         <div
