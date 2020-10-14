@@ -66,7 +66,8 @@ namespace RCB.TypeScript.Services
                     p => p.Representative, 
                     p => p.Id,
                     p => p.Title,
-                    p => p.IsVideo
+                    p => p.IsVideo,
+                    p => p.VideoRepresentative
                 )))
                 .From((page - 1) * perPage)
                 .Size(perPage)
@@ -95,7 +96,8 @@ namespace RCB.TypeScript.Services
                     p => p.Representative, 
                     p => p.Id,
                     p => p.Title,
-                    p => p.IsVideo
+                    p => p.IsVideo,
+                    p => p.VideoRepresentative
                 )))
                 .From((page - 1) * perPage)
                 .Size(perPage));
@@ -123,7 +125,8 @@ namespace RCB.TypeScript.Services
                     p => p.Representative, 
                     p => p.Id,
                     p => p.Title,
-                    p => p.IsVideo
+                    p => p.IsVideo,
+                    p => p.VideoRepresentative
                 )))
                 .From((page - 1) * perPage)
                 .Size(perPage));
