@@ -117,6 +117,21 @@ export default class SidebarTemplate extends Component<IProps, IState> {
 
         e.preventDefault();
 
+        let pageIndex = 0;
+        editorStore.pages.forEach((p, id) => {
+            if (p == editorStore.activePageId) {
+                pageIndex = id;
+            }
+        })
+        let cv = document.getElementById("alo-" + pageIndex);
+        cv.style.backgroundImage = `url(${e.target.src})`;
+
+        editorStore.applyTemplate([]);
+
+        this.props.forceEditorUpdate();
+
+        return;
+
         const url = `/api/Template/Get?id=${id}`;
         fetch(url)
             .then(res => res.json())
@@ -188,6 +203,10 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                     editorStore.fonts.replace(tempFonts);
 
                     this.props.forceEditorUpdate();
+
+                    setTimeout(() => {
+                        cv.style.backgroundImage = ``;
+                    }, 300);
                 }
             );
     }

@@ -341,9 +341,9 @@ export default class Canvas extends Component<IProps, IState> {
                     </div>}
                     {!this.props.downloading &&
                         <div
-                            id="alo"
+                            id={!this.props.downloading ? "alo-" + index : ""}
                             ref={i => this.refAlo = i}
-                            className={!this.props.downloading ? "alo" : ""}
+                            className={!this.props.downloading ? `alo alo-${index}` : ""}
                             style={{
                                 backgroundColor:
                                     !this.props.showPopup &&
@@ -364,7 +364,8 @@ export default class Canvas extends Component<IProps, IState> {
                                 padding: this.props.bleed ? "10px" : 0,
                                 // transition: 'all 2s linear',
                                 overflow: this.props.bleed && "hidden",
-                                boxSizing: "border-box"
+                                boxSizing: "border-box",
+                                backgroundSize: "contain",
                             }}
                         >
                             {this.props.selected && !this.props.cropMode &&
