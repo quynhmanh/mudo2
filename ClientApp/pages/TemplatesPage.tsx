@@ -84,7 +84,7 @@ class TemplatesPage extends React.Component<IProps, {}> {
             case 10:
                 break;
             case 11: // Menu
-                title = "menu";
+                title = "Menu";
                 break;
             case 12: // Instagram Story
                 title = "instagramStory";
