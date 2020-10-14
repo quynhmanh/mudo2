@@ -89,8 +89,6 @@ class LeftSide extends Component<IProps, IState> {
             let found = image.document_object.find(doc => doc._id == editorStore.childId);
             image = found;
         }
-        if (image)
-        console.log('image.type ', image.type, editorStore.gridIndex);
         const props = this.props;
         return (
             <React.Fragment>

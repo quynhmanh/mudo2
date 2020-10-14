@@ -151,11 +151,9 @@ export default class Rect extends Component<IProps, IState> {
 
 		const cropMode = editorStore.cropMode;
 
-
 		if (cropMode && selected) {
 			let aloEL = document.getElementById('screen-container-parent');
 			let canvas = document.getElementsByClassName('canvas-' + this.props.image.page)[0];
-			console.log('quynh', this.cropLayer, aloEL, canvas)
 			if (this.cropLayer && aloEL && canvas) {
 				let rectAloEL = aloEL.getBoundingClientRect();
 				let rectCanvas = canvas.getBoundingClientRect();
@@ -168,7 +166,6 @@ export default class Rect extends Component<IProps, IState> {
 				this.cropLayer.style.width = width + "px";
 				this.cropLayer.style.height = height + "px";
 
-				console.log('quynh3', this.props.name, left, top, width, height, this.cropLayer)
 			}
 		}
 	}
@@ -209,7 +206,6 @@ export default class Rect extends Component<IProps, IState> {
 		if (cropMode && selected) {
 			let aloEL = document.getElementById('screen-container-parent');
 			let canvas = document.getElementsByClassName('canvas-' + this.props.image.page)[0];
-			console.log('quynh', this.cropLayer, aloEL, canvas)
 			if (this.cropLayer && aloEL && canvas) {
 				let rectAloEL = aloEL.getBoundingClientRect();
 				let rectCanvas = canvas.getBoundingClientRect();
@@ -222,7 +218,6 @@ export default class Rect extends Component<IProps, IState> {
 				this.cropLayer.style.width = width + "px";
 				this.cropLayer.style.height = height + "px";
 
-				console.log('quynh3', this.props.name, left, top, width, height, this.cropLayer)
 			}
 		}
 	}
@@ -384,7 +379,6 @@ export default class Rect extends Component<IProps, IState> {
 	}
 
 	enableCropMode() {
-		console.log('enableCropMode')
 		this.setState({ cropMode: true });
 		this.forceUpdate();
 	}
@@ -478,11 +472,9 @@ export default class Rect extends Component<IProps, IState> {
 		// 	try {
 		// 		grid = JSON.parse(grids);
 		// 	} catch (e) {
-		// 		console.log(e)
 		// 	}
 		// }
 
-		// console.log('grid ', grid)
 
 		let ABC;
 		if (type == TemplateType.Gradient) {
@@ -541,7 +533,6 @@ export default class Rect extends Component<IProps, IState> {
 			page: page,
 		};
 
-		console.log('cropMode', cropMode, selected, name)
 
 		return (
 			<div>
@@ -632,7 +623,6 @@ export default class Rect extends Component<IProps, IState> {
 							}}
 							onMouseEnter={e => {
 								if (window.imagedragging && type == TemplateType.Element) {
-									console.log('onMouseEnter123 ', window.imagedragging);
 									window.imgDragging.style.opacity = 0;
 									let el = document.getElementById(_id + "1235alo") as HTMLImageElement;
 									el.src = window.imagesrc;
@@ -662,7 +652,6 @@ export default class Rect extends Component<IProps, IState> {
 							}}
 							onMouseLeave={e => {
 								if (type == TemplateType.Element) {
-									console.log('onMouseLeave123 ', window.imagedragging);
 									window.imgDragging.style.opacity = 1;
 									let el = document.getElementById(_id + "1235alo") as HTMLImageElement;
 									el.src = src;
@@ -1043,10 +1032,8 @@ export default class Rect extends Component<IProps, IState> {
 														}}
 														onMouseLeave={e => {
 															if (window.imagedragging && type == TemplateType.Grids) {
-																console.log('onMouseEnter123 ', window.imagedragging);
 																window.imgDragging.style.opacity = 1;
 
-																console.log('onmouseEnter')
 																let el = e.currentTarget;
 																el.children[0].children[0].src = g.src;
 																if (!g.src) el.children[0].children[0].style.display = "none";
@@ -1070,7 +1057,6 @@ export default class Rect extends Component<IProps, IState> {
 															}
 														}}
 														onDoubleClick={e => {
-															console.log('onDoubleClick');
 
 															e.preventDefault();
 															e.stopPropagation();

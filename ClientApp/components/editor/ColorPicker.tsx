@@ -4,6 +4,7 @@ import { isArray, isString, isObject } from "lodash";
 import Pickr from "@Components/pickr";
 import editorStore from "@Store/EditorStore";
 import "@Styles/colorPicker.scss";
+import {isEqual} from "lodash";
 
 import AppComponent from "@Components/shared/AppComponent";
 import TemplatesPage from "@Pages/TemplatesPage";
@@ -29,20 +30,32 @@ export interface IProps {
 export interface IState {
     isOpen: boolean;
     isClicked: boolean;
+    color: any;
 }
 
 export default class Tooltip extends AppComponent<IProps, IState> {
+    pickr = null;
+
     constructor(props) {
         super(props);
         this.state = {
             isOpen: false,
-            isClicked: false
+            isClicked: false,
+            color: props.color,
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        let colors = nextProps.color;
+        if (isArray(nextProps.color) && !isEqual(this.props.color, nextProps.color)) {
+            this.pickr.setColor(`rgb(${colors[0]},${colors[1]},${colors[2]})`, true);
+        }    
+        return true;
+    }
+
     componentDidMount = () => {
-        const colors = this.props.color;
-        const pickr = Pickr.create({
+        const colors = this.state.color;
+        this.pickr = Pickr.create({
             default: colors ? `rgb(${colors[0]},${colors[1]},${colors[2]})` : null,
             el: '.color-picker',
             useAsButton: true,
@@ -78,12 +91,16 @@ export default class Tooltip extends AppComponent<IProps, IState> {
             }
         });
 
-        pickr
+        window.picker = this.pickr;
+
+        this.pickr
             .on("save", (color, instance) => {
+                console.log('save')
                 if (color) {
                     let colorCode = color.toRGBA();
                     this.props.setSelectionColor(colorCode)
                     editorStore.addFontColor(colorCode.toString())
+                    console.log(`rgb(${colorCode[0]},${colorCode[1]},${colorCode[2]})`)
                     instance.setColor(null);
                     this.props.forceUpdate();
                 }
@@ -148,6 +165,8 @@ export default class Tooltip extends AppComponent<IProps, IState> {
 
     render() {
         const colors = this.props.color;
+
+
         return (
             <a
                 href="#"

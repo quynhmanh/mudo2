@@ -573,6 +573,7 @@ class Pickr {
 
     _parseLocalColor(str) {
         const {values, type, a} = parseToHSVA(str);
+
         const {lockOpacity} = this.options;
         const alphaMakesAChange = a !== undefined && a !== 1;
 
@@ -820,6 +821,7 @@ class Pickr {
 
         const {values, type} = this._parseLocalColor(string);
 
+
         // Check if color is ok
         if (values) {
 
@@ -833,9 +835,9 @@ class Pickr {
                 for (const el of options) {
                     el.classList[el === target ? 'add' : 'remove']('active');
                 }
-            }
+            }   
 
-            const { h, s, v, a} = values;
+            const [ h, s, v, a] = values;
 
             // Update color (fires 'save' event if silent is 'false')
             if (!this.setHSVA(h, s, v, a, silent)) {

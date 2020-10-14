@@ -394,6 +394,8 @@ export default class SidebarColor extends Component<IProps, IState> {
 
     render() {
         let image = editorStore.getImageSelected() || {};
+        
+        console.log('image.color', image.color)
 
         return (
             <Sidebar
@@ -470,6 +472,7 @@ export default class SidebarColor extends Component<IProps, IState> {
                                 forceUpdate={() => {
                                     this.forceUpdate();
                                 }}
+                                color={image.color}
                             />
                         </div>
                     </ul>
