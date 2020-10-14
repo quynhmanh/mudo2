@@ -93,7 +93,15 @@ namespace RCB.TypeScript.Services
             string query = $"UserName:{userName}";
 
             var res = client.Search<DesignModel>(s => 
-            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName))).From((page - 1) * perPage)
+            s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName)))
+                .Source(f => f.Includes(ff => ff.Fields(
+                    p => p.Width, 
+                    p => p.Height, 
+                    p => p.Representative, 
+                    p => p.Id,
+                    p => p.Title
+                )))
+                .From((page - 1) * perPage)
                 .Size(perPage));
 
             var res2 = new KeyValuePair<List<DesignModel>, long>(res.Documents.ToList(), res.Total);

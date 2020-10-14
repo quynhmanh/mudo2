@@ -115,6 +115,13 @@ namespace RCB.TypeScript.Services
                 q => q.Match(c => c.Field(p => p.Popular).Query("true")),
                 q => q.Match(c => c.Field(p => p.Delete).Query("false")))))
                 .Sort(f => f.Descending(ff => ff.Popularity))
+                .Source(f => f.Includes(ff => ff.Fields(
+                    p => p.Width, 
+                    p => p.Height, 
+                    p => p.Representative, 
+                    p => p.Id,
+                    p => p.Title
+                )))
                 .From((page - 1) * perPage)
                 .Size(perPage));
 
