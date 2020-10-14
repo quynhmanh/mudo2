@@ -50,7 +50,7 @@ export default class TemplateList extends Component<IProps, IState> {
         super(props);
 
         if (!isNode()) {
-            this.perPage = Math.floor((window.innerWidth - 200) / 141) + 1;
+            this.perPage = 15;
         }
 
         this.state.rem = this.perPage;
