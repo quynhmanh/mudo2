@@ -43,6 +43,8 @@ export default class Tooltip extends AppComponent<IProps, IState> {
             isClicked: false,
             color: props.color,
         };
+
+        this.getDefaultColor = this.getDefaultColor.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -54,9 +56,8 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     }
 
     componentDidMount = () => {
-        const colors = this.state.color;
         this.pickr = Pickr.create({
-            default: colors ? `rgb(${colors[0]},${colors[1]},${colors[2]})` : null,
+            default: this.getDefaultColor(),
             el: '.color-picker',
             useAsButton: true,
             theme: 'nano', // or 'monolith', or 'nano'
@@ -95,12 +96,10 @@ export default class Tooltip extends AppComponent<IProps, IState> {
 
         this.pickr
             .on("save", (color, instance) => {
-                console.log('save')
                 if (color) {
                     let colorCode = color.toRGBA();
                     this.props.setSelectionColor(colorCode)
                     editorStore.addFontColor(colorCode.toString())
-                    console.log(`rgb(${colorCode[0]},${colorCode[1]},${colorCode[2]})`)
                     instance.setColor(null);
                     this.props.forceUpdate();
                 }
@@ -165,8 +164,25 @@ export default class Tooltip extends AppComponent<IProps, IState> {
             })
     }
 
+    getDefaultColor() {
+        let colors = this.props.color;
+        let defaultColor;
+        if (isArray(colors))
+            defaultColor = `rgb(${colors[0]},${colors[1]},${colors[2]})`;
+        else if (colors && !colors.startsWith("rgb")) 
+            defaultColor = colors;
+        else
+            defaultColor = `rgb(0,0,0)`;
+
+        return defaultColor;
+    }
+
     render() {
         const colors = this.props.color;
+
+        let defaultColor = this.getDefaultColor();
+        if (defaultColor == "black" || defaultColor == "rgb(0,0,0)") 
+            defaultColor = "transparent";
 
 
         return (
@@ -197,11 +213,11 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                             top: 0,
                             bottom: 0,
                             position: 'absolute',
-                            backgroundColor: colors && `rgb(${colors[0]},${colors[1]},${colors[2]})`,
+                            backgroundColor: defaultColor,
                             borderRadius: '.15em',
                             border: 'none',
                             boxShadow: 'inset 0 0 0 1px rgba(14,19,24,.15)',
-                            backgroundImage: (!colors || colors.length < 3) ? 'url(web_images/test.png)' : '',
+                            backgroundImage: defaultColor == "transparent" ? 'url(web_images/test.png)' : '',
                             backgroundSize: "100% 100%",
                         }}
                     >

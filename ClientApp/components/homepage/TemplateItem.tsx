@@ -50,12 +50,10 @@ export default class TemplateItem extends Component<IProps, IState> {
             this.cc.style.background = "transparent";
             this.cc.style.opacity = 1;
             this.picker.image.style.opacity = 1;
-                this.transitioned = true;
-            // if (this.props.keys == this.props.startPoint) {
-                setTimeout(() => {
-                    this.props.loadImage(this.props.keys + 1);
-                }, 50);
-            // }
+            this.transitioned = true;
+            setTimeout(() => {
+                this.props.loadImage(this.props.keys + 1);
+            }, 50);
         }
     }
 
