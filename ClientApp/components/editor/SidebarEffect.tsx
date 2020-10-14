@@ -362,6 +362,21 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     transform: "none",
                 }}
             >
+                <div
+                    style={{
+                        borderBottom: "1px solid #00000026",
+                        height: "47px",
+                    }}
+                >
+                    <p
+                        style={{
+                            height: "100%",
+                            lineHeight: "47px",
+                            paddingLeft: "21px",
+                            fontSize: "15px",
+                        }}
+                    >Effect</p>
+                </div>
                 <div>
                     <div
                         style={{

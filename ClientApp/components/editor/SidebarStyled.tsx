@@ -13,6 +13,7 @@ export default styled.div`
     height: 100%;
     left: 19px;
     overflow: visible;
+    user-select: none;
 
     .clear {
         color: rgba(30,41,51,.45);
