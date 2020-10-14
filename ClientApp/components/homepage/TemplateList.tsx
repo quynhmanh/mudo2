@@ -60,12 +60,12 @@ export default class TemplateList extends Component<IProps, IState> {
 
         if (props.type == 7) {
             let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
-            this.width = (el.width - 100) / 2 - 100;
+            this.width = el.width / 4 - 30;
         }
 
         if (props.type == 9 || props.type == 15 || props.type == 16) {
             let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
-            this.width = (el.width - 100) / 3 - 100;
+            this.width = el.width / 4 - 30;
         }
 
         let width = 200;
@@ -257,7 +257,7 @@ export default class TemplateList extends Component<IProps, IState> {
         return (
             <div
                 style={{
-                    padding: "20px 100px",
+                    padding: "20px 0px",
                     display: this.state.mounted ? "block" : "none",
                 }}
             >
