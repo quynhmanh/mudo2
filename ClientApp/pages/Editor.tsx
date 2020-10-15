@@ -4443,7 +4443,7 @@ class CanvaEditor extends Component<IProps, IState> {
             axios
                 .post(
                     `/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight
-                    }&videoId=${uuidv4()}`,
+                    }&videoId=${uuidv4()}&duration=5000`,
                     {
                         fonts: toJS(editorStore.fonts),
                         canvas,

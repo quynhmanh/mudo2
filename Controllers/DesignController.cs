@@ -457,7 +457,8 @@ namespace RCB.TypeScript.Controllers
         public async System.Threading.Tasks.Task<IActionResult> DownloadVideo(
             [FromQuery]string width,
             [FromQuery]string height,
-            [FromQuery]string videoId
+            [FromQuery]string videoId,
+            [FromQuery]string duration = "5000"
         ) {
 
             string body = null;
@@ -595,12 +596,10 @@ namespace RCB.TypeScript.Controllers
                         await page.SetContentAsync(html,
                                 new NavigationOptions()
                                 {
-                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, },
+                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load, },
                                     Timeout = 0,
                                 }
                             );
-
-                        await page.WaitForTimeoutAsync(5000);
 
 
                         if (backgroundPageTarget == null)
@@ -613,7 +612,7 @@ namespace RCB.TypeScript.Controllers
                         backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
                         var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
-                            startRecording('" + videoId + @"'," + width + @"," + height + @"); 
+                            startRecording('" + videoId + @"'," + width + @"," + height + @"," + duration + @"); 
                             return Promise.resolve(42);
                         }");
 
@@ -650,7 +649,7 @@ namespace RCB.TypeScript.Controllers
 
                 if (HostingEnvironment.IsDevelopment())
                 {
-                    exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
+                    exePath = Configuration.GetSection("ffmpegPath").Get<string>();
                     inputArgs = "./wwwroot" + "/" + videoId + ".webm -c:v copy ";
                     outputArgs = "./wwwroot" + "/" + videoId + ".mp4";
                 }

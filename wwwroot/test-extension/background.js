@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener(request => {
     }
 });
 
-function startRecording(videoId, width, height) {
+function startRecording(videoId, width, height, duration) {
     console.log('Starting to record.');
 
     const options = { 
@@ -85,7 +85,7 @@ function startRecording(videoId, width, height) {
 	    	recorder.stop()
 	    }
 	});
-        const timeslice = 5000;
+        const timeslice = duration;
         chrome.tabs.executeScript( null, {code:"let videos = document.getElementsByTagName('video'); for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;"});
         recorder.start(timeslice);
     });
