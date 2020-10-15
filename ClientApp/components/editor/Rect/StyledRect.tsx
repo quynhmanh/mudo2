@@ -68,7 +68,7 @@ export default styled.div`
     z-index: 12312313;
     transition: opacity 0.1s ease-in-out 0s;
     &.tr {
-      top: -10px;
+      top: -9px;
       transform-origin: center;
     }
     &.tl {
