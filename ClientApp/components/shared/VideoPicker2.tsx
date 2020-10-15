@@ -185,6 +185,18 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                     src={this.props.src}
                     onMouseDown={this.props.onPick}
                 />
+                <svg className="playIcon___2MyHG" viewBox="0 0 16 16" width="16" height="16" 
+                                // style="/* transform:translateX(-6px) translateY(-6px); */position: absolute;bottom: 5px;right: 4px;width: 20px;height: 20px;"
+                                style={{
+                                    position: 'absolute',
+                                    bottom: '5px',
+                                    right: '4px',
+                                    width: '20px',
+                                    height: '20px',
+                                    opacity: 0.7,
+                                }}
+                            >
+                                <g opacity="0.94"><rect width="16" height="16" rx="4" fill="white"></rect><path d="M6.53 12.0438C5.86395 12.46 5 11.9812 5 11.1958V4.80425C5 4.01881 5.86395 3.53997 6.53 3.95625L11.6432 7.152C12.2699 7.54367 12.2699 8.45633 11.6432 8.848L6.53 12.0438Z" fill="#121316"></path></g></svg>
                 {(this.props.showDuration && this.props.duration && this.state.loaded) ? 
                     <Duration>{secondToMinutes(this.props.duration)}</Duration> : null}
             </Container>
