@@ -107,9 +107,11 @@ class TemplatesPage extends React.Component<IProps, {}> {
         }
 
         return <div>
+            {!isNode() &&
             <Helmet>
-                <title>Mẫu thiết kế</title>
+                <title>{this.translate(title)}</title>
             </Helmet>
+            }
             <div className="container-content">
                 <div style={{ display: 'flex' }} className="container">
                     <div
