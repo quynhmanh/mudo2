@@ -107,15 +107,14 @@ export default class VideoPicker extends Component<IProps, IState> {
                         }}
                         onClick={this.props.onEdit}
                     ><span>
-                            {/* <svg width="16" height="16" viewBox="0 0 16 16"><defs><path id="_2658783389__a" d="M3.25 9.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm4.75 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></defs><use fill="black" xlinkHref="#_2658783389__a" fillRule="evenodd"></use></svg> */}
                             <svg className="playIcon___2MyHG" viewBox="0 0 16 16" width="16" height="16" 
                                 // style="/* transform:translateX(-6px) translateY(-6px); */position: absolute;bottom: 5px;right: 4px;width: 20px;height: 20px;"
                                 style={{
                                     position: 'absolute',
-                                    bottom: '5px',
-                                    right: '4px',
-                                    width: '20px',
-                                    height: '20px',
+                                    bottom: '3px',
+                                    right: '3px',
+                                    width: '15px',
+                                    height: '15px',
                                 }}
                             >
                                 <g opacity="0.94"><rect width="16" height="16" rx="4" fill="white"></rect><path d="M6.53 12.0438C5.86395 12.46 5 11.9812 5 11.1958V4.80425C5 4.01881 5.86395 3.53997 6.53 3.95625L11.6432 7.152C12.2699 7.54367 12.2699 8.45633 11.6432 8.848L6.53 12.0438Z" fill="#121316"></path></g></svg>
@@ -143,11 +142,6 @@ export default class VideoPicker extends Component<IProps, IState> {
                     onLoadedMetadata={e => {
                         this.handleImageLoaded();
                     }}
-
-                    // onCanPlay={(e) => {
-                    //     this.handleImageLoaded();
-                    // }
-                    // }
 
                     onMouseEnter={e => {
                         this.image.play();
