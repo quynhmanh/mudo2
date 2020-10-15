@@ -189,10 +189,10 @@ export default class VideoPicker2 extends Component<IProps, IState> {
                                 // style="/* transform:translateX(-6px) translateY(-6px); */position: absolute;bottom: 5px;right: 4px;width: 20px;height: 20px;"
                                 style={{
                                     position: 'absolute',
-                                    bottom: '5px',
-                                    right: '4px',
-                                    width: '20px',
-                                    height: '20px',
+                                    bottom: '3px',
+                                    right: '3px',
+                                    width: '15px',
+                                    height: '15px',
                                     opacity: 0.7,
                                 }}
                             >
