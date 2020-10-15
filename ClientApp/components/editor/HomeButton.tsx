@@ -69,7 +69,8 @@ export default class HomeButton extends React.Component<IProps, IState> {
                     fontStyle: "italic",
                     margin: "auto",
                     marginLeft: "20px",
-                    fontSize: "15px",
+                    fontSize: "14px",
+                    fontWeight: 400,
                 }}
             >{this.props.translate("allChangesSaved")}</p>
         </div>

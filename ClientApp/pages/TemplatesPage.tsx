@@ -121,8 +121,7 @@ class TemplatesPage extends React.Component<IProps, {}> {
                             <h1
                                 style={{
                                     marginTop: '30px',
-                                    fontFamily: "AvenirNextRoundedPro-Bold",
-                                    fontWeight: 600,
+                                    fontWeight: 700,
                                     fontSize: "35px",
                                     textAlign: 'center',
                                 }}

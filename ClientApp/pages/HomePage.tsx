@@ -355,8 +355,8 @@ class HomePage extends React.Component<IProps, IState> {
                                     <div className="h__hero u-color-inherit@medium ">
                                         <h1
                                             style={{
-                                                fontFamily: "sans-serif",
                                                 textAlign: "center",
+                                                fontWeight: 700,
                                             }}
                                             >{this.translate("startDesign")}</h1>
                                     </div>
