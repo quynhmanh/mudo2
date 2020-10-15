@@ -62,11 +62,6 @@ export default class SidebarTemplate extends Component<IProps, IState> {
     constructor(props) {
         super(props);
 
-
-        if (props.subtype == 7 ||  props.subtype == 16) {
-            imgWidth = 332;
-        }
-
         this.left = props.rem;
 
         this.state.items = getRem(props.rem);
