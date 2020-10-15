@@ -1153,8 +1153,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     break;
             }
 
-            scaleX = (width - 50) / rectWidth;
-            scaleY = (height - 80) / rectHeight;
+            scaleX = (width - 100) / rectWidth;
+            scaleY = (height - 100) / rectHeight;
             let fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY)
 
             staticGuides = {
