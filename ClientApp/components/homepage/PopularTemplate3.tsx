@@ -138,7 +138,6 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                     style={{
                         marginBottom: '20px',
                         marginTop: '0px',
-                        fontFamily: "AvenirNextRoundedPro",
                         fontWeight: 600,
                         fontSize: "23px",
                         display: "inline-block",

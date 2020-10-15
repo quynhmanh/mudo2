@@ -126,7 +126,6 @@ export default class PopularTemplate2 extends Component<IProps, IState> {
                     style={{
                         marginBottom: '20px',
                         marginTop: '20px',
-                        fontFamily: "AvenirNextRoundedPro",
                         fontWeight: 600,
                         fontSize: "23px",
                     }}

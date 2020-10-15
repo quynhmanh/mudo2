@@ -27,7 +27,6 @@ const SvgTest = props => (
             padding: 0,
             listStyle: "none",
             width: "100%",
-            fontFamily: 'AvenirNextRoundedPro',
           }}
         >
           <li

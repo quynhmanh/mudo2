@@ -359,7 +359,6 @@ class LoginPopup extends PureComponent<IProps, IState> {
                 <h1
                   style={{
                     textAlign: "center",
-                    fontFamily: "AvenirNextRoundedPro",
                     marginTop: 0,
                     marginBottom: "26px",
                     fontSize: "26px"

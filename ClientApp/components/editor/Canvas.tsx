@@ -136,7 +136,6 @@ export default class Canvas extends Component<IProps, IState> {
                             display: "block",
                             marginBottom: "5px",
                             marginTop: "15px",
-                            fontFamily: "AvenirNextRoundedPro-Medium",
                             color: "#989899",
                         }}
                     >

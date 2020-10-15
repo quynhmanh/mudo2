@@ -124,7 +124,6 @@ class Popup extends Component<IProps, IState> {
                         marginTop: '20px',
                         fontWeight: 600,
                         fontSize: "23px",
-                        fontFamily: 'AvenirNextRoundedPro',
                     }}
                 >{this.props.translate("recentDesign")}</h3>
                 <div

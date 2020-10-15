@@ -271,7 +271,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
 const Catalog = styled.div`
     margin-bottom: 15px;
     p {
-        font-family: AvenirNextRoundedPro-Medium;
         font-weight: 600;
         font-size: 16px;
     }
