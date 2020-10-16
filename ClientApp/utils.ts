@@ -2,8 +2,9 @@
 import { compact, isBoolean } from 'lodash';
 import htmlToImageLib from './htmltoimage';
 import { VisibilityProperty } from "csstype";
-
+import React  from "react";
 export const htmlToImage = htmlToImageLib;
+import { camelCase } from "lodash";
 
 declare var process: any;
 
@@ -786,3 +787,72 @@ export const hideGuide = el => {
 }
 
 export const getLetterSpacing = val => `${1.0 * val / 100 * 50 - 15}px`;
+
+
+export const processChildren = (children, _id = "") => {
+	return Array.from(children.length ? children : []).map(
+		(node: any, i) => {
+			// return if text node
+			if (node.nodeType == 8) return null;
+			if (node.nodeType === 3) return node.nodeValue;
+
+			if (node.tagName == "svg") {
+				// let el = document.createAttribute("class");
+				// node.appendChild(el);
+				// node.attributes["class"] = "svg";
+				// node.attributes["className"] = "svg";
+				// console.log('svg ', node);
+				node.setAttribute("class", _id);
+			}
+
+			let attributes;
+			// collect all attributes
+			if (node.attributes) {
+				attributes = Array.from(node.attributes).reduce((attrs, attr: any) => {
+					if (node.tagName == "svg" && (attr.name == "width" || attr.name == "height")) {
+						attrs[attr.name] = "100%";
+					} else if (attr.name == "style") {
+						let style = createStyleJsonFromString(attr.value);
+						attrs[attr.name] = style;
+					} else {
+						attrs[attr.name] = attr.value;
+					}
+					return attrs;
+				}, {});
+			}
+
+			if (node.tagName == "svg") {
+				console.log('attributes', node.attributes);
+			}
+
+			// create React component
+			return React.createElement(node.nodeName, {
+				...attributes,
+				key: i
+			}, processChildren(node.childNodes));
+		});
+}
+
+export const createStyleJsonFromString = (styleString) => {
+	styleString = styleString || '';
+	var styles = styleString.split(/;(?!base64)/);
+	var singleStyle, key, value, jsonStyles = {};
+	for (var i = 0; i < styles.length; ++i) {
+		singleStyle = styles[i].split(':');
+		if (singleStyle.length > 2) {
+			singleStyle[1] = singleStyle.slice(1).join(':');
+		}
+
+		key = singleStyle[0];
+		value = singleStyle[1];
+		if (typeof value === 'string') {
+			value = value.trim();
+		}
+
+		if (key != null && value != null && key.length > 0 && value.length > 0) {
+			jsonStyles[camelCase(key)] = value;
+		}
+	}
+
+	return jsonStyles;
+}

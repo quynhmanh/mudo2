@@ -5,6 +5,8 @@ import { Helmet } from "react-helmet";
 import { withTranslation } from "react-i18next";
 import { SidebarTab, Mode, TemplateType, SavingState, CanvasType, } from "@Components/editor/enums";
 import loadable from "@loadable/component";
+import ReactDOMServer from 'react-dom/server';
+
 import {
     catchError,
 } from 'rxjs/operators';
@@ -22,7 +24,7 @@ const Narbar = loadable(() => import("@Components/editor/Navbar"));
 const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
 
 import {
-    isNode, transformPoint,
+    isNode, transformPoint, createStyleJsonFromString, processChildren,
 } from "@Utils";
 
 import {
@@ -2532,6 +2534,64 @@ class CanvaEditor extends Component<IProps, IState> {
             for (let i = 0; i < hihi4s.length; ++i) {
                 let el = hihi4s[i] as HTMLElement;
                 el.style.width = width / window.scaleX + "px";
+            }
+        }
+
+        if (objectType == TemplateType.Shape) {
+            let els = document.getElementsByClassName(_id + "svgalo");
+
+            const regex = /\[CALC.+?]/gm;
+            let xml = image.path;
+
+            console.log('alo123')
+
+            for (let i = 0; i < els.length; ++i) {
+                let el = els[i] as SVGElement;
+                el.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+                try {
+                    let res = xml.match(regex);
+                    console.log('res ', res, xml, regex);
+                    if (res) {
+                        for (let i = 0; i < res.length; ++i) {
+                            let tmp = res[i].substring(6, res[i].length - 1);
+                            console.log('tmp ', tmp);
+                            tmp = tmp.replace("VIEWBOX_WIDTH", width);
+                            console.log('tmp ', tmp);
+                            tmp = tmp.replace("VIEWBOX_HEIGHT", height);
+                            console.log('tmp ', tmp);
+                            xml = xml.replaceAll(res[i], eval(tmp));
+                        }
+                    }
+                }
+                catch (e) {
+                    console.log(e);
+                }
+    
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xml, 'text/xml');
+    
+                let ABC = processChildren(Array.from(xmlDoc.childNodes), _id + "svg" + "alo", image.colors);
+
+                var xmlString = ReactDOMServer.renderToString(ABC);
+                var doc2 = new DOMParser().parseFromString(xmlString, "text/xml");
+
+                for (let j = 0; j < image.colors.length; ++j) {
+					let elColors = doc2.firstChild.getElementsByClassName("color-" + (j + 1));
+					for (let i = 0; i < elColors.length; ++i) {
+						let ell = elColors[i] as HTMLElement;
+						let field = ell.getAttribute("field");
+						if (ell.tagName == "stop") {
+							if (!field) field = "stopColor";
+							ell.style[field] = image.colors[j];
+						} else if (ell.tagName == "path" || ell.tagName == "circle" || ell.tagName == "g" || ell.tagName == "polygon") {
+							if (!field) field = "fill";
+							ell.style[field] = image.colors[j];
+						}
+					}
+				}
+
+                el.replaceWith(doc2.firstChild);
             }
         }
 

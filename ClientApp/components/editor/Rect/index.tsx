@@ -9,8 +9,7 @@ import { TemplateType, CanvasType, } from "../enums";
 import editorStore from "@Store/EditorStore";
 import { clone } from "lodash";
 import { secondToMinutes, degToRadian, } from "@Utils";
-import { getLetterSpacing } from "@Utils";
-import { camelCase } from "lodash";
+import { getLetterSpacing, processChildren, } from "@Utils";
 import styled from "styled-components";
 
 const zoomableMap = {
@@ -477,11 +476,32 @@ export default class Rect extends Component<IProps, IState> {
 		// 	}
 		// }
 
+		const regex = /\[CALC.+?]/gm;
 
 		let ABC;
 		if (type == TemplateType.Gradient || type == TemplateType.Shape) {
 			let cnt = 1;
 			let xml = path ? path : "";
+
+			try {
+				let res = xml.match(regex);
+				console.log('res ', res, xml, regex);
+				if (res) {
+					for (let i = 0; i < res.length; ++i) {
+						let tmp = res[i].substring(6, res[i].length - 1);
+						console.log('tmp ', tmp);
+						tmp = tmp.replace("VIEWBOX_WIDTH", width);
+						console.log('tmp ', tmp);
+						tmp = tmp.replace("VIEWBOX_HEIGHT", height);
+						console.log('tmp ', tmp);
+						xml = xml.replaceAll(res[i], eval(tmp));
+					}
+				}
+			}
+			catch (e) {
+				console.log(e);
+			}
+
 			while (cnt < 15 && xml) {
 				let newXml = xml.replaceAll('SVGID_' + cnt + '_', _id + cnt + name);
 				xml = newXml;
@@ -491,7 +511,9 @@ export default class Rect extends Component<IProps, IState> {
 			const parser = new DOMParser();
 			const xmlDoc = parser.parseFromString(xml, 'text/xml');
 
-			ABC = processChildren(Array.from(xmlDoc.childNodes));
+			ABC = processChildren(Array.from(xmlDoc.childNodes), _id + "svg" + canvas);
+
+			console.log('ABC ', ABC)
 		}
 
 		let zIndex = this.state.image.zIndex;
@@ -1892,62 +1914,6 @@ export default class Rect extends Component<IProps, IState> {
 		);
 	}
 }
-
-function processChildren(children) {
-	return Array.from(children.length ? children : []).map(
-		(node: any, i) => {
-			// return if text node
-			if (node.nodeType == 8) return null;
-			if (node.nodeType === 3) return node.nodeValue;
-
-			let attributes;
-			// collect all attributes
-			if (node.attributes) {
-				attributes = Array.from(node.attributes).reduce((attrs, attr: any) => {
-					if (node.tagName == "svg" && (attr.name == "width" || attr.name == "height")) {
-						attrs[attr.name] = "100%";
-					} else if (attr.name == "style") {
-						let style = createStyleJsonFromString(attr.value);
-						attrs[attr.name] = style;
-					} else {
-						attrs[attr.name] = attr.value;
-					}
-					return attrs;
-				}, {});
-			}
-
-			// create React component
-			return React.createElement(node.nodeName, {
-				...attributes,
-				key: i
-			}, processChildren(node.childNodes));
-		});
-}
-
-function createStyleJsonFromString(styleString) {
-	styleString = styleString || '';
-	var styles = styleString.split(/;(?!base64)/);
-	var singleStyle, key, value, jsonStyles = {};
-	for (var i = 0; i < styles.length; ++i) {
-		singleStyle = styles[i].split(':');
-		if (singleStyle.length > 2) {
-			singleStyle[1] = singleStyle.slice(1).join(':');
-		}
-
-		key = singleStyle[0];
-		value = singleStyle[1];
-		if (typeof value === 'string') {
-			value = value.trim();
-		}
-
-		if (key != null && value != null && key.length > 0 && value.length > 0) {
-			jsonStyles[camelCase(key)] = value;
-		}
-	}
-
-	return jsonStyles;
-}
-
 
 const GradientContainer = styled.div`
 	z-index: 9999999;
