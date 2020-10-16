@@ -958,7 +958,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                             id={item.id}
                                             key={this.prefix + key}
                                             color={item.color}
-                                            src={item.representative && item.representative.endsWith("gif") ? item.representative : item.representativeThumbnail}
+                                            src={
+                                                (item.representative && item.representative.endsWith("gif") || (item.keywords && item.keywords[0] == "Frame")) ? 
+                                                item.representative : item.representativeThumbnail}
                                             height={height}
                                             defaultHeight={imgWidth}
                                             width={width}
