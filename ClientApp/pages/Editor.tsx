@@ -541,7 +541,8 @@ class CanvaEditor extends Component<IProps, IState> {
         if (image.type == TemplateType.GroupedItem || 
             image.type == TemplateType.TextTemplate || 
             image.type == TemplateType.Heading || 
-            image.type == TemplateType.Grids) {
+            image.type == TemplateType.Grids ||
+            image.type == TemplateType.Shape) {
             return;
         }
 
