@@ -828,6 +828,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             imgOnMouseDown={this.imgOnMouseDown}
                             gradientOnMouseDown={this.gradientOnMouseDown}
                         />
+                        <SidebarElement
+                            elements={elements["Shapes"]}
+                            term="Shapes"
+                            handleQuery={this.handleQuery}
+                            selectedTab={this.props.selectedTab}
+                            imgOnMouseDown={this.imgOnMouseDown}
+                            gradientOnMouseDown={this.gradientOnMouseDown}
+                        />
                         {/* <SidebarElement
                                 elements={elements["Shapes"]}
                                 term="Shapes"
