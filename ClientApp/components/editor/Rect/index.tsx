@@ -113,6 +113,7 @@ export default class Rect extends Component<IProps, IState> {
 		const {
 			image: {
 				innerHTML,
+				type,
 			}
 		} = this.props;
 		if (innerHTML && this.$textEle) {
@@ -122,7 +123,8 @@ export default class Rect extends Component<IProps, IState> {
 			this.$textEle2.innerHTML = innerHTML;
 		}
 
-		if (this.props.image.type == TemplateType.Gradient) {
+		if (type == TemplateType.Gradient ||
+			type == TemplateType.Shape) {
 			let el = document.getElementById(this.props.image._id + "1235" + this.props.canvas);
 
 			if (el && this.props.image.colors) {
