@@ -477,7 +477,7 @@ export default class Rect extends Component<IProps, IState> {
 
 
 		let ABC;
-		if (type == TemplateType.Gradient) {
+		if (type == TemplateType.Gradient || type == TemplateType.Shape) {
 			let cnt = 1;
 			let xml = path ? path : "";
 			while (cnt < 15 && xml) {
@@ -1123,6 +1123,31 @@ export default class Rect extends Component<IProps, IState> {
 									>
 										{ABC}
 									</GradientContainer>
+								</div>
+							}
+							{(name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) && type == TemplateType.Shape &&
+								<div
+									id={_id}
+									style={{
+										zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage && type !== TemplateType.Element ? 1 : 0,
+										transformOrigin: "0 0",
+										position: "absolute",
+										width: "100%",
+										height: "100%",
+										pointerEvents: "none",
+										overflow: type == TemplateType.Gradient ? 'hidden' : 'auto',
+									}}
+								>
+									<div
+										id={_id + "1235" + canvas}
+										className={`${_id}1236` + canvas}
+										style={{
+											width: "100%",
+											height: "100%",
+										}}
+									>
+										{ABC}
+									</div>
 								</div>
 							}
 							{

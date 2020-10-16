@@ -217,9 +217,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                     if (img.stopColor4) {
                         colors.push(img.stopColor4);
                     }
+
+                    let type = TemplateType.Gradient;
+                    if (img.keywords && img.keywords[0] == "Shapes") {
+                        type = TemplateType.Shape;
+                    }
                     let newImg = {
                         _id: uuidv4(),
-                        type: TemplateType.Gradient,
+                        type,
                         width: rec2.width / scale,
                         height: rec2.height / scale,
                         origin_width: rec2.width / scale,

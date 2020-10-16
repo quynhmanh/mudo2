@@ -338,7 +338,7 @@ export default class SidebarColor extends Component<IProps, IState> {
             editorStore.images2.set(image._id, image);
             this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         }
-        if (image.type == TemplateType.Gradient) {
+        if (image.type == TemplateType.Gradient || image.type == TemplateType.Shape) {
             for (let i = 0; i <= CanvasType.Preview; ++i) {
                 let el = document.getElementById(editorStore.idObjectSelected + "1235alo" + (i == 0 ? "" : i));
                 if (el) {
