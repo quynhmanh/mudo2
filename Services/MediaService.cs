@@ -155,12 +155,26 @@ namespace RCB.TypeScript.Services
                     p => p.Grids,
                     p => p.GridTemplateAreas,
                     p => p.GridTemplateColumns,
-                    p => p.GridTemplateRows
+                    p => p.GridTemplateRows,
+                    p => p.Keywords[0] == "Shapes" ? p.Path : null
                 )))
                 .From(0)
-                .Size(90));
+                .Size(80));
 
-            var res2 = new KeyValuePair<List<MediaModel>, long>(res4.Documents.ToList(), res4.Total);
+            var res5 = client.Search<MediaModel>(s => s.
+                Query(q => q.
+                    Bool(d => d.
+                        Must(
+                            e => e.Match(ee => ee.Field(f => f.Keywords).Query("Shapes")))
+                        )
+                    )
+                .Sort(f => f.Descending(ff => ff.Popularity2))
+                .From(0)
+                .Size(10));
+
+            var res = res4.Documents.Concat(res5.Documents);
+
+            var res2 = new KeyValuePair<List<MediaModel>, long>(res.ToList(), 0);
 
             return Ok(res2);
         }
