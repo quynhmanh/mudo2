@@ -789,7 +789,7 @@ export const hideGuide = el => {
 export const getLetterSpacing = val => `${1.0 * val / 100 * 50 - 15}px`;
 
 
-export const processChildren = (children, _id = "") => {
+export const processChildren = (children, _id = "", colors) => {
 	return Array.from(children.length ? children : []).map(
 		(node: any, i) => {
 			// return if text node
@@ -814,7 +814,8 @@ export const processChildren = (children, _id = "") => {
 					} else if (attr.name == "style") {
 						let style = createStyleJsonFromString(attr.value);
 						attrs[attr.name] = style;
-					} else {
+                    } 
+                    else {
 						attrs[attr.name] = attr.value;
 					}
 					return attrs;

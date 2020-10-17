@@ -808,7 +808,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         id="object-container"
                         style={{
                             height: "calc(100% - 30px)",
-                            overflow: "scroll",
+                            overflowY: "scroll",
+                            overflowX: "hidden",
                             marginTop: "30px",
                             paddingTop: "20px",
                         }}
