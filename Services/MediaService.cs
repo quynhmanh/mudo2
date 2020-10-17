@@ -194,6 +194,7 @@ namespace RCB.TypeScript.Services
                     p => p.GridTemplateColumns,
                     p => p.GridTemplateRows,
                     p => p.Gap,
+                    p => p.Path,
                     p => p.Keywords[0] == "Shapes" ? p.Path : null
                 )))
                 .From(0)
