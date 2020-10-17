@@ -529,13 +529,11 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleCropBtnClick = (id: string) => {
-        console.log('handleCropBtnClick')
         let image = editorStore.getImageSelected();
         if (image.type == TemplateType.BackgroundImage && !image.src) {
             return;
         }
         if (image.type == TemplateType.Grids && editorStore.gridIndex != null) {
-            console.log('handleCropBtnClick2')
             this.handleGridCrop(editorStore.gridIndex);
         }
         if (image.type == TemplateType.GroupedItem || 
@@ -2544,7 +2542,6 @@ class CanvaEditor extends Component<IProps, IState> {
             const regex = /\[CALC.+?]/gm;
             let xml = image.path;
 
-            console.log('alo123')
 
             for (let i = 0; i < els.length; ++i) {
                 let el = els[i] as SVGElement;
@@ -2552,21 +2549,16 @@ class CanvaEditor extends Component<IProps, IState> {
 
                 try {
                     let res = xml.match(regex);
-                    console.log('res ', res, xml, regex);
                     if (res) {
                         for (let i = 0; i < res.length; ++i) {
                             let tmp = res[i].substring(6, res[i].length - 1);
-                            console.log('tmp ', tmp);
-                            tmp = tmp.replace("VIEWBOX_WIDTH", width);
-                            console.log('tmp ', tmp);
-                            tmp = tmp.replace("VIEWBOX_HEIGHT", height);
-                            console.log('tmp ', tmp);
+                            tmp = tmp.replace("VIEWBOX_WIDTH", width / 3);
+                            tmp = tmp.replace("VIEWBOX_HEIGHT", height / 3);
                             xml = xml.replaceAll(res[i], eval(tmp));
                         }
                     }
                 }
                 catch (e) {
-                    console.log(e);
                 }
     
                 const parser = new DOMParser();
@@ -5351,7 +5343,6 @@ class CanvaEditor extends Component<IProps, IState> {
             parentImage.selected = false;
             parentImage.grids = parentImage.grids.map((g, i) => {
                 if (i == image.gridIndex) {
-                    console.log('asd')
                     g.imgWidth = image.imgWidth;
                     g.imgHeight = image.imgHeight;
                     g.posX = image.posX;

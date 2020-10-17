@@ -485,21 +485,16 @@ export default class Rect extends Component<IProps, IState> {
 
 			try {
 				let res = xml.match(regex);
-				console.log('res ', res, xml, regex);
 				if (res) {
 					for (let i = 0; i < res.length; ++i) {
 						let tmp = res[i].substring(6, res[i].length - 1);
-						console.log('tmp ', tmp);
-						tmp = tmp.replace("VIEWBOX_WIDTH", width);
-						console.log('tmp ', tmp);
-						tmp = tmp.replace("VIEWBOX_HEIGHT", height);
-						console.log('tmp ', tmp);
+						tmp = tmp.replace("VIEWBOX_WIDTH", width / 3);
+						tmp = tmp.replace("VIEWBOX_HEIGHT", height / 3);
 						xml = xml.replaceAll(res[i], eval(tmp));
 					}
 				}
 			}
 			catch (e) {
-				console.log(e);
 			}
 
 			while (cnt < 15 && xml) {
@@ -513,7 +508,6 @@ export default class Rect extends Component<IProps, IState> {
 
 			ABC = processChildren(Array.from(xmlDoc.childNodes), _id + "svg" + canvas);
 
-			console.log('ABC ', ABC)
 		}
 
 		let zIndex = this.state.image.zIndex;
