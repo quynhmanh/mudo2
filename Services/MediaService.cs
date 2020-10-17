@@ -187,6 +187,7 @@ namespace RCB.TypeScript.Services
                     p => p.Representative, 
                     p => p.RepresentativeThumbnail,
                     p => p.Id,
+                    p => p.Ext,
                     p => p.Keywords,
                     p => p.Grids,
                     p => p.GridTemplateAreas,
