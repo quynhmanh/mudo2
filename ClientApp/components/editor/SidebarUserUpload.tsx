@@ -169,6 +169,10 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
             document.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseup", onUp);
 
+            let src = !img.representative.startsWith("data")
+            ? window.location.origin + "/" + img.representative
+            : img.representative;
+
             let rec2 = imgDragging.getBoundingClientRect();
             if (window.imageselected) {
                 let ratio = rec2.width / rec2.height;
@@ -223,9 +227,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         left: (rec2.left - rec.left) / scale,
                         top: (rec2.top - rec.top) / scale,
                         rotateAngle: 0.0,
-                        src: !img.representative.startsWith("data")
-                            ? window.location.origin + "/" + img.representative
-                            : img.representative,
+                        src,
                         srcThumnail: img.representativeThumbnail,
                         backgroundColor: target.style.backgroundColor,
                         selected: true,
