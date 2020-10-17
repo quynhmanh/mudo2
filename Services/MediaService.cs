@@ -151,7 +151,8 @@ namespace RCB.TypeScript.Services
                     p => p.Representative, 
                     p => p.RepresentativeThumbnail,
                     p => p.Id,
-                    p => p.Keywords
+                    p => p.Keywords,
+                    p => p.Grids
                 )))
                 .From(0)
                 .Size(90));
