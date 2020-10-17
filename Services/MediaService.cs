@@ -145,6 +145,13 @@ namespace RCB.TypeScript.Services
             var res4 = client.Search<MediaModel>(s => s.
                 Query(q => q.MatchAll())
                 .Sort(f => f.Descending(ff => ff.Popularity2))
+                .Source(f => f.Includes(ff => ff.Fields(
+                    p => p.Width, 
+                    p => p.Height,
+                    p => p.Representative, 
+                    p => p.RepresentativeThumbnail,
+                    p => p.Id
+                )))
                 .From(0)
                 .Size(90));
 
