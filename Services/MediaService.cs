@@ -152,7 +152,10 @@ namespace RCB.TypeScript.Services
                     p => p.RepresentativeThumbnail,
                     p => p.Id,
                     p => p.Keywords,
-                    p => p.Grids
+                    p => p.Grids,
+                    p => p.GridTemplateAreas,
+                    p => p.GridTemplateColumns,
+                    p => p.GridTemplateRows
                 )))
                 .From(0)
                 .Size(90));
