@@ -182,7 +182,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
 
                 let id = window.imageselected;
                 let image2 = editorStore.images2.get(id);
-                image2.src = target.src;
+                image2.src = src;
                 image2.selected = false;
                 image2.hovered = false;
                 image2.posX = 0;
