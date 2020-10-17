@@ -488,8 +488,8 @@ export default class Rect extends Component<IProps, IState> {
 				if (res) {
 					for (let i = 0; i < res.length; ++i) {
 						let tmp = res[i].substring(6, res[i].length - 1);
-						tmp = tmp.replace("VIEWBOX_WIDTH", width / 3);
-						tmp = tmp.replace("VIEWBOX_HEIGHT", height / 3);
+						tmp = tmp.replace("VIEWBOX_WIDTH", width / 2);
+						tmp = tmp.replace("VIEWBOX_HEIGHT", height / 2);
 						xml = xml.replaceAll(res[i], eval(tmp));
 					}
 				}
