@@ -314,7 +314,7 @@ namespace RCB.TypeScript.Services
                     backgroundPage.Console += (sender, e) => messages.Add(e.Message);
 
                     var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
-                            startRecording('" + videoId + @"'," + width + @"," + height + @"); 
+                            startRecording('" + videoId + @"'," + width + @"," + height + @", 5000); 
                             return Promise.resolve(42);
                         }");
 
@@ -888,7 +888,7 @@ namespace RCB.TypeScript.Services
                     if (File.Exists(inp)) File.Delete(inp);
 
                     var res = await backgroundPage.EvaluateFunctionAsync(@"() => {
-                            startRecording('" + templateModel.Id + @"'," + width + @"," + height + @"); 
+                            startRecording('" + templateModel.Id + @"'," + width + @"," + height + @", 5000); 
                             return Promise.resolve(42);
                         }");
 
