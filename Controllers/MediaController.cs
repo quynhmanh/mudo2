@@ -181,7 +181,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Id = id.ToString();
                 mediaModel.Representative = file2;
                 mediaModel.Width = oDownloadBody.width;
-                mediaModel.height = oDownloadBody.height;
+                mediaModel.Height = oDownloadBody.height;
                 mediaModel.Type = oDownloadBody.type;
                 mediaModel.Keywords = oDownloadBody.keywords;
                 mediaModel.FirstName = oDownloadBody.title;
@@ -272,7 +272,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Id = id.ToString();
                 mediaModel.Representative = file2;
                 mediaModel.Width = oDownloadBody.width;
-                mediaModel.height = oDownloadBody.height;
+                mediaModel.Height = oDownloadBody.height;
                 mediaModel.Type = oDownloadBody.type;
                 mediaModel.Keywords = oDownloadBody.keywords;
                 mediaModel.FirstName = oDownloadBody.title;
@@ -399,7 +399,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Representative = file5;
                 mediaModel.RepresentativeRemoveBackground = file4;
                 mediaModel.Width = oDownloadBody.width;
-                mediaModel.height = oDownloadBody.height;
+                mediaModel.Height = oDownloadBody.height;
                 mediaModel.Type = oDownloadBody.type;
                 mediaModel.Keywords = oDownloadBody.keywords;
                 mediaModel.FirstName = oDownloadBody.title;
@@ -519,7 +519,7 @@ namespace RCB.TypeScript.Controllers
                 MediaModel mediaModel = new MediaModel();
                 mediaModel.Id = oDownloadBody.id;
                 mediaModel.Width = oDownloadBody.width;
-                mediaModel.height = oDownloadBody.height;
+                mediaModel.Height = oDownloadBody.height;
                 mediaModel.Type = oDownloadBody.type;
                 mediaModel.Keywords = oDownloadBody.keywords;
                 mediaModel.FirstName = oDownloadBody.title;

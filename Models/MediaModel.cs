@@ -9,7 +9,7 @@
         public string RepresentativeThumbnail { get; set; }
         public string RepresentativeRemoveBackground { get; set; }
         public float Width { get; set; }
-        public float height { get; set; }
+        public float Height { get; set; }
         public int Type { get; set; }
         public string[] Keywords { get; set; }
         public NpgsqlTypes.NpgsqlTsVector query { get; set; }
