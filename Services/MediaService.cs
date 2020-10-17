@@ -197,6 +197,10 @@ namespace RCB.TypeScript.Services
                     p => p.Gap,
                     p => p.Path,
                     p => p.ClipId,
+                    p => p.ClipWidth,
+                    p => p.ClipHeight,
+                    p => p.ClipWidth0,
+                    p => p.ClipHeight0,
                     p => p.Keywords[0] == "Shapes" ? p.Path : null
                 )))
                 .From(0)
