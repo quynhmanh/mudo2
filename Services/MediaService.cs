@@ -44,6 +44,42 @@ namespace RCB.TypeScript.Services
             return Ok(1);
         }
 
+        public virtual Result<MediaModel> Get(string id)
+        {
+            var node = new Uri(elasticsearchAddress);
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
+            var client = new ElasticClient(settings);
+
+            var response = client.Get<MediaModel>(id);
+
+            return Ok(response.Source);
+        }
+
+        public virtual Infrastructure.Result Update(MediaModel model) {
+            if (model == null)
+                return Error();
+
+            var node = new Uri(elasticsearchAddress);
+            var settings = new ConnectionSettings(node).DefaultIndex(DefaultIndex);
+            var client = new ElasticClient(settings);
+
+            var getResponse = client.Get<MediaModel>(model.Id);
+
+            var template = getResponse.Source;
+
+            template = model;
+
+            template.Width = model.Width;
+            template.Height = model.Height;
+            template.Ext = model.Ext;
+            template.RepresentativeThumbnail = model.RepresentativeThumbnail;
+            template.Representative = model.Representative;
+            
+            var updateResponse = client.Update<MediaModel>(template, u => u.Doc(template));
+
+            return Ok();
+        }
+
         public virtual Result<int> RemoveAll()
         {
             var node = new Uri(elasticsearchAddress);

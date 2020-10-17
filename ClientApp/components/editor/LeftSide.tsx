@@ -280,7 +280,6 @@ class LeftSide extends Component<IProps, IState> {
                 break;
         }
 
-        var self = this;
         var fileUploader = document.getElementById(
             "image-file"
         ) as HTMLInputElement;

@@ -150,6 +150,138 @@ namespace RCB.TypeScript.Controllers
             public int? quality { get; set; }
         }
 
+        class UpdateMediaRepresentative
+        {
+            [JsonProperty(PropertyName = "id")]
+            public string id;
+
+            [JsonProperty(PropertyName = "data")]
+            public string data;
+
+            [JsonProperty(PropertyName = "ext")]
+            public string ext;
+
+            [JsonProperty(PropertyName = "width")]
+            public float width;
+
+            [JsonProperty(PropertyName = "height")]
+            public float height;
+        }
+
+        [HttpPost("[action]")]
+        [RequestSizeLimit(200000000)]
+        public IActionResult UpdateRepresentative() {
+            string body = null;
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = reader.ReadToEnd();
+
+                UpdateMediaRepresentative oData = JsonConvert.DeserializeObject<UpdateMediaRepresentative>(body);
+
+                var model = MediaService.Get(oData.id).Value;
+
+                if (System.IO.File.Exists(model.Representative))
+                {
+                    System.IO.File.Delete(model.Representative);
+                }
+
+                if (System.IO.File.Exists(model.RepresentativeThumbnail))
+                {
+                    System.IO.File.Delete(model.RepresentativeThumbnail);
+                }
+
+                var id = oData.id;
+
+                var dataFont = oData.data;
+                string file2 = "images" + Path.DirectorySeparatorChar + id + "." + oData.ext;
+                string file3 = "images" + Path.DirectorySeparatorChar + id + "_thumbnail." + "png";
+                var filePath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file2);
+                var filePath3 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + file3);
+                string base64 = dataFont.Substring(dataFont.IndexOf(',') + 1);
+                byte[] data = Convert.FromBase64String(base64);
+                System.Drawing.Image img;
+                using (var fontFile = new FileStream(filePath, FileMode.Create))
+                {
+                    fontFile.Write(data, 0, data.Length);
+                    fontFile.Flush();
+                }
+
+                model.Representative = file2;
+                model.Width = oData.width;
+                model.Height = oData.height;
+                model.Ext = oData.ext;
+
+                try
+                {
+                    if (oData.ext == "svg")
+                    {
+                        // Create PNG Image from SVG-File
+                        var svgDocument = SvgDocument.Open<SvgDocument>(filePath, null);
+
+                        var svgHeight = 0;
+                        var svgWidth = 0;
+                        double ratio = (double)oData.width / (double)oData.height;
+                        if (oData.height > oData.width) {
+                            svgHeight = 320;
+                            svgWidth = (int)(320 * ratio);
+                        } else {
+                            svgWidth = 320;
+                            svgHeight = (int)(320 / ratio);
+                        }
+                        svgDocument.Width = new SvgUnit(SvgUnitType.Pixel, svgWidth);
+                        svgDocument.Height = new SvgUnit(SvgUnitType.Pixel, svgHeight);
+                        Bitmap bmp = svgDocument.Draw();
+                        bmp.Save(filePath3, ImageFormat.Png); 				// save Bitmap as PNG-File
+                        model.RepresentativeThumbnail = file3;
+                    } 
+                    else if (oData.ext == "gif")
+                    {
+                        model.RepresentativeThumbnail = file2;
+                    } else {
+                        img = System.Drawing.Image.FromFile(filePath);
+
+                        double imgHeight = img.Size.Height;
+                        double imgWidth = img.Size.Width;
+
+                        double x = imgWidth / 300;
+                        int newWidth = Convert.ToInt32(imgWidth / x);
+                        int newHeight = Convert.ToInt32(imgHeight / x);
+
+                        ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);  
+
+                        // Create an Encoder object based on the GUID  
+                        // for the Quality parameter category.  
+                        System.Drawing.Imaging.Encoder myEncoder =  
+                            System.Drawing.Imaging.Encoder.Quality;  
+            
+                        // Create an EncoderParameters object.  
+                        // An EncoderParameters object has an array of EncoderParameter  
+                        // objects. In this case, there is only one  
+                        // EncoderParameter object in the array.  
+                        EncoderParameters myEncoderParameters = new EncoderParameters(1);  
+            
+                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50);  
+                        myEncoderParameters.Param[0] = myEncoderParameter;  
+
+                        var img2 = (Image)(new Bitmap(img, new Size(newWidth,newHeight)));
+                        img2.Save(filePath3, jpgEncoder, myEncoderParameters);
+
+                        // img.Save(filePath3, ImageFormat.Jpeg, 
+                        model.RepresentativeThumbnail = file3;
+                    }
+
+                } catch (Exception e)
+                {
+                    Log.Logger.Error($"Something went wrong: {e}");
+                    model.RepresentativeThumbnail = file2;
+                }
+
+                MediaService.Update(model);
+            }
+
+            return Ok();
+        }
+
         [HttpPost("[action]")]
         [RequestSizeLimit(200000000)]
         public IActionResult AddVideo()

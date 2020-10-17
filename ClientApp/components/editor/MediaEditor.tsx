@@ -14,6 +14,12 @@ interface IState {
 }
 
 class MediaEditPopup extends PureComponent<IProps, IState> {
+
+    constructor(props) {
+        super(props);
+
+        this.updateImageRep = this.updateImageRep.bind(this);
+    }
     
     static getDerivedStateFromProps(props, state) {
 
@@ -124,6 +130,31 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
         this.setState({ keywords });
     }
 
+    updateImageRep = () => {
+        let id = this.props.item.id;
+        var fileUploader = document.getElementById("image-file-update-rep") as HTMLInputElement;
+        let fr = new FileReader();
+        let file = fileUploader.files[0];
+        fr.readAsDataURL(file);
+        fr.onload = () => {
+            const url = `/api/Media/UpdateRepresentative?id=${this.props.item.id}`;
+            var img = new Image();
+            img.src = fr.result.toString();
+            img.onload = function () {
+                document.body.appendChild(img);
+                axios
+                    .post(url, {
+                        id,
+                        data: fr.result,
+                        ext: file.name.split(".")[1],
+                        width: img.width,
+                        height: img.height,
+                        quality: 100,
+                    });
+            };
+        }
+    }
+
     ref = null;
 
     render() {
@@ -207,6 +238,19 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                     <input className='unblurred' id="gridTemplateRows" type="text" placeholder="Grid template Rows"/>
                     <input className='unblurred' id="gap" type="text" placeholder="gap"/>
                     <input style={{width: "500px",}} className='unblurred' id="grids" type="text" placeholder="grids"/>
+                    <input
+                        id="image-file-update-rep"
+                        type="file"
+                        multiple
+                        onChange={e => {
+                            e.preventDefault();
+                            this.updateImageRep();
+                        }}
+                        style={{
+                            bottom: 0,
+                            display: "none",
+                        }}
+                    />
                     
                     <div
                         className='unblurred'
@@ -223,6 +267,9 @@ class MediaEditPopup extends PureComponent<IProps, IState> {
                             className='unblurred' onClick={this.handleSubmit}>OK</button>
                         <button className='unblurred' onClick={this.handleAddNewKeyword}>Add new keyword</button>
                         <button className="unblurred" onClick={this.handleDeleteTemplate}>Delete</button>
+                        <button className="unblurred" onClick={e => {
+                            document.getElementById("image-file-update-rep").click();
+                        }}>Update image rep</button>
                     </div>
                 </div>
             </PopupWrapper>
