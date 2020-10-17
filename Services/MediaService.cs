@@ -159,7 +159,7 @@ namespace RCB.TypeScript.Services
                     p => p.Keywords[0] == "Shapes" ? p.Path : null
                 )))
                 .From(0)
-                .Size(80));
+                .Size(70));
 
             var res5 = client.Search<MediaModel>(s => s.
                 Query(q => q.
