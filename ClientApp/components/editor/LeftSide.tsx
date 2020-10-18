@@ -416,7 +416,6 @@ class LeftSide extends Component<IProps, IState> {
                             id: uuidv4(),
                             ext: file.name.split(".")[1],
                             userEmail: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
-                            // color: `rgb(${prominentColor.r}, ${prominentColor.g}, ${prominentColor.b})`,
                             stopColor,
                             path: ReactDOMServer.renderToString(ABC),
                             data: fr.result,

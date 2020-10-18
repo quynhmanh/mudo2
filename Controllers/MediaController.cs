@@ -321,6 +321,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.UserEmail = oDownloadBody.userEmail;
                 mediaModel.Ext = oDownloadBody.ext;
                 mediaModel.Duration = oDownloadBody.duration;
+                mediaModel.CreatedAt = DateTime.Now;
 
                 try
                 {
@@ -413,6 +414,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Ext = oDownloadBody.ext;
                 mediaModel.Path = oDownloadBody.path;
                 mediaModel.StopColor = oDownloadBody.stopColor;
+                mediaModel.CreatedAt = DateTime.Now;
                 
                 try
                 {

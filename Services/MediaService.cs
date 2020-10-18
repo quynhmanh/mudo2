@@ -163,7 +163,7 @@ namespace RCB.TypeScript.Services
                             )
                         )
                     )
-                    .Sort(f => f.Descending(ff => ff.Popularity))
+                    .Sort(f => f.Descending(ff => ff.Popularity).Descending(ff => ff.CreatedAt))
                 .From((page - 1) * perPage)
                 .Size(perPage));
 

@@ -191,7 +191,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     onMouseDown={e => {
                                         e.preventDefault();
                                         let el = e.currentTarget.getElementsByTagName("img")[0];
-
+                                        console.log('item ', item)
                                         if (item.ext == "svg")
                                             this.props.gradientOnMouseDown(item, el, e);
 
