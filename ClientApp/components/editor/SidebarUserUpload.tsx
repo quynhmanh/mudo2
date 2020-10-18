@@ -37,7 +37,7 @@ export interface IState {
 }
 
 const imgWidth = 163;
-const imgHeight = 80;
+const imgHeight = 120;
 
 let getRem = (rem) => Array(rem).fill(0).map(i => {
     return {
