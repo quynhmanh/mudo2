@@ -1119,7 +1119,7 @@ export default class Rect extends Component<IProps, IState> {
 							}
 							{(name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) && type == TemplateType.Gradient &&
 								<div
-									id={_id}
+									id={_id + "hihi4" + canvas}
 									style={{
 										zIndex: selected && type !== TemplateType.Image && type !== TemplateType.BackgroundImage && type !== TemplateType.Element ? 1 : 0,
 										transformOrigin: "0 0",
@@ -1127,6 +1127,7 @@ export default class Rect extends Component<IProps, IState> {
 										width: "100%",
 										height: "100%",
 										pointerEvents: "none",
+										opacity,
 										overflow: type == TemplateType.Gradient ? 'hidden' : 'auto',
 									}}
 								>
