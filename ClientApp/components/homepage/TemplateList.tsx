@@ -300,34 +300,6 @@ export default class TemplateList extends Component<IProps, IState> {
                                             loadImage={this.loadImage}
                                             startPoint={this.state.startPoint}
                                         />)}
-                                    <Item
-                                        itemWidth={width}
-                                        itemHeight={0}
-                                        prefix={3}
-                                        keys={this.state.recentDesign.length}
-                                        loadImage={this.loadImage}
-                                        startPoint={this.state.startPoint}/>
-                                    <Item
-                                        itemWidth={width}
-                                        itemHeight={0}
-                                        prefix={3}
-                                        keys={this.state.recentDesign.length + 1}
-                                        loadImage={this.loadImage}
-                                        startPoint={this.state.startPoint}/>
-                                    <Item
-                                        itemWidth={width}
-                                        itemHeight={0}
-                                        prefix={3}
-                                        keys={this.state.recentDesign.length + 2}
-                                        loadImage={this.loadImage}
-                                        startPoint={this.state.startPoint}/>
-                                    <Item
-                                        itemWidth={width}
-                                        itemHeight={0}
-                                        prefix={3}
-                                        keys={this.state.recentDesign.length + 3}
-                                        loadImage={this.loadImage}
-                                        startPoint={this.state.startPoint}/>
                                 </div>
                             </InfiniteScroll>
                         </div>
