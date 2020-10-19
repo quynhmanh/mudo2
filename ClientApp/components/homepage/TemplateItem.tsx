@@ -131,10 +131,7 @@ export default class TemplateItem extends Component<IProps, IState> {
             <CC
                 ref={i => this.cc = i}
                 style={{ 
-                    // marginRight: '24px',
-                    animation: "TB8Ekw 1.4s infinite",
                     background: 'black',
-                    animationDelay: (-1500 + (this.props.keys - this.props.startPoint) * 120) + "ms",
                     borderRadius: "4px",
                     marginBottom: '35px',
                     opacity: 0.07,
