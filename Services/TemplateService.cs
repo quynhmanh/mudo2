@@ -595,7 +595,7 @@ namespace RCB.TypeScript.Services
                 }
             }
 
-            const int scaledWidth = 400;
+            const int scaledWidth = 600;
 
             double scale = 1.0 * scaledWidth/width;
             height = (int)(scaledWidth / (1.0 * width / height));
