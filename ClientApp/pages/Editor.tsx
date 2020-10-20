@@ -110,7 +110,7 @@ if (!isNode()) {
     } = require("rxjs/operators"));
 }
 
-const RESIZE_OFFSET = 10;
+const RESIZE_OFFSET = 3;
 
 function getBoundingClientRect(id: string) {
     if (!document.getElementById(id)) {
