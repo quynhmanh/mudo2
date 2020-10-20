@@ -54,6 +54,8 @@ namespace RCB.TypeScript.Services
             if (model == null)
                 return Error<string>();
 
+            model.CreatedAt = DateTime.Now;
+
             var node = new Uri(elasticsearchAddress);
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
@@ -94,6 +96,7 @@ namespace RCB.TypeScript.Services
 
             var res = client.Search<DesignModel>(s => 
             s.Query(q => q.Match(c => c.Field(p => p.UserName).Query(userName)))
+                .Sort(f => f.Descending(ff => ff.CreatedAt))
                 .Source(f => f.Includes(ff => ff.Fields(
                     p => p.Width, 
                     p => p.Height, 
