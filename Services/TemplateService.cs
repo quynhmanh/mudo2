@@ -688,7 +688,6 @@ namespace RCB.TypeScript.Services
                             Height = (decimal)height,
                         },
                         Type = ScreenshotType.Jpeg,
-                        Quality = 70,
                     });
 
                     using (var memoryStream = new MemoryStream())
