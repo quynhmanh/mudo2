@@ -45,6 +45,7 @@ export default class TemplateList extends Component<IProps, IState> {
 
     perPage = 0;
     width = 0;
+    height = 0;
 
     constructor(props: any) {
         super(props);
@@ -64,6 +65,11 @@ export default class TemplateList extends Component<IProps, IState> {
         }
 
         if (props.type == 16) {
+            let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
+            this.width = el.width / 3 - 30;
+        }
+
+        if (props.type == 18) {
             let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
             this.width = el.width / 3 - 30;
         }
@@ -151,6 +157,7 @@ export default class TemplateList extends Component<IProps, IState> {
             case 18: // Facebook ad
                 rectWidth = 1200;
                 rectHeight = 628;
+                width = this.width;
                 break;
         }
 
