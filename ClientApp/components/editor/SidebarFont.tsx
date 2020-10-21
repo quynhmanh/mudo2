@@ -239,7 +239,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                             type="text" 
                             autoCorrect="off" 
                             placeholder="Try “Calligraphy” or “Open Sans”" 
-                            defaultValue="Calligraphy" />
+                            />
                         <button 
                             type="button"
                             style={{
