@@ -219,8 +219,9 @@ export default class TemplateList extends Component<IProps, IState> {
                 const startPoint = newRecentDesign.length;
                 newRecentDesign = [...newRecentDesign, ...recentDesign];
                 let hasMore = newRecentDesign.length < res.data.value.value;
+                let rem = 10;
                 if (hasMore) {
-                    let rem = Math.min(res.data.value.value - newRecentDesign.length, this.perPage);
+                    rem = Math.min(res.data.value.value - newRecentDesign.length, this.perPage);
                     newRecentDesign = [...newRecentDesign, ...getRem(rem)];
                 }
 
@@ -228,6 +229,7 @@ export default class TemplateList extends Component<IProps, IState> {
                     recentDesign: newRecentDesign,
                     hasMore,
                     startPoint,
+                    rem,
                 });
 
             })
