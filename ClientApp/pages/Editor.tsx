@@ -4333,6 +4333,26 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     removeImage(e) {
+
+        if (e.keyCode == 67 && (e.ctrlKey || e.metaKey)) {
+            let image = this.getImageSelected();
+
+            let newImage = {...image};
+            newImage._id = uuidv4();
+            newImage.selected = false;
+            newImage.hovered = false;
+            newImage.left += 15;
+            newImage.top += 15;
+
+            editorStore.addItem2(newImage, false);
+
+            let index2 = editorStore.pages.findIndex(pageId => pageId == newImage.page);
+            editorStore.keys[index2] = editorStore.keys[index2] + 1;
+            editorStore.increaseUpperzIndex();
+
+            this.forceUpdate();
+        }
+
         let image = this.getImageSelected();
         let OSNAME = this.getPlatformName();
         if (

@@ -165,8 +165,6 @@ export default class TemplateList extends Component<IProps, IState> {
 
         this.width = width;
         this.height = height;
-
-        console.log('width height', width, height);
     }
 
     loadImage(counter) {
@@ -208,7 +206,6 @@ export default class TemplateList extends Component<IProps, IState> {
 
     loadMore = () => {
         const url = `/api/Template/Search?Type=1&page=${(this.state.recentDesign.length - this.state.rem) / this.perPage + 1}&perPage=${this.perPage}&printType=${this.props.type}`;
-        //https://localhost:64099/api/Template/Search?Type=1&page=1&perPage=10&printType=10
         axios
             .get(url)
             .then(res => {
@@ -221,16 +218,14 @@ export default class TemplateList extends Component<IProps, IState> {
                 const startPoint = newRecentDesign.length;
                 newRecentDesign = [...newRecentDesign, ...recentDesign];
                 let hasMore = newRecentDesign.length < res.data.value.value;
-                let rem = 10;
                 if (hasMore) {
-                    rem = Math.min(res.data.value.value - newRecentDesign.length, 10);
+                    let rem = Math.min(res.data.value.value - newRecentDesign.length, this.perPage);
                     newRecentDesign = [...newRecentDesign, ...getRem(rem)];
                 }
 
                 this.setState({
                     recentDesign: newRecentDesign,
                     hasMore,
-                    rem,
                     startPoint,
                 });
 
