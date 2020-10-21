@@ -230,6 +230,12 @@ export default class SidebarFont extends Component<IProps, IState> {
                                     this.handleQuery(el.value);
                                 }
                             }}
+                            onFocus={e => {
+                                window.inputFocus = true;
+                            }}
+                            onBlur={e => {
+                                window.inputFocus = false;
+                            }}
                             type="text" 
                             autoCorrect="off" 
                             placeholder="Try “Calligraphy” or “Open Sans”" 

@@ -4336,6 +4336,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let image = this.getImageSelected();
         let OSNAME = this.getPlatformName();
         if (
+            !window.inputFocus &&
             editorStore.idObjectSelected &&
             !e.target.classList.contains("text") &&
             ((e.keyCode === 8 && OSNAME == "Mac/iOS") ||
