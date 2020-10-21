@@ -347,7 +347,7 @@ export const SUGGESTED_LIST = [
     size: "851px × 315px"
   },
   {
-    url: "/templates/17",
+    url: "/templates/6",
     src: "web_images/facebook-cover.svg",
     title: "facebookPost",
     size: "940px × 788px"
