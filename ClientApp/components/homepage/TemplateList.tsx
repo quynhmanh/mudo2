@@ -205,7 +205,7 @@ export default class TemplateList extends Component<IProps, IState> {
     }
 
     loadMore = () => {
-        const page = (Math.floor(this.state.recentDesign.length - this.state.rem) / this.perPage) + 1;
+        const page = Math.floor((this.state.recentDesign.length - this.state.rem) / this.perPage) + 1;
         const url = `/api/Template/Search?Type=1&page=${page}&perPage=${this.perPage}&printType=${this.props.type}`;
         axios
             .get(url)
