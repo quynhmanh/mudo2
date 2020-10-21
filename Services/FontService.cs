@@ -40,9 +40,8 @@ namespace RCB.TypeScript.Services
                 s.Query(t => t.Bool(b => b.Must(
                     q => q.Exists(c => c.Field(p => p.Id)),
                     q => q.Match(c => c.Field(p => p.Text).Query(term))
-                ))));
-                
-                // .From((page - 1) * perPage).Take(perPage));
+                )))
+                .From((page - 1) * perPage).Take(perPage));
 
             var res2 = new KeyValuePair<List<FontModel>, long>(res.Documents.ToList(), res.Total);
             return Ok(res2);
