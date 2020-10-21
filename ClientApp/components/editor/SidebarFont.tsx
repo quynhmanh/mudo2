@@ -27,6 +27,7 @@ export interface IState {
     hasMore: boolean;
     cursor: any;
     loaded: boolean;
+    query: string;
 }
 
 export default class SidebarFont extends Component<IProps, IState> {
@@ -37,6 +38,7 @@ export default class SidebarFont extends Component<IProps, IState> {
         hasMore: true,
         cursor: null,
         loaded: false,
+        query: "",
     }
 
     constructor(props) {
@@ -132,17 +134,11 @@ export default class SidebarFont extends Component<IProps, IState> {
 
 
     loadMore = initialLoad => {
-        let pageId;
-        let count;
-        if (initialLoad) {
-            pageId = 1;
-            count = 30;
-        } else {
-            pageId = editorStore.fontsList.length / 30 + 1;
-            count = 30;
-        }
+        const count = 30;
+        const pageId = Math.floor(editorStore.fontsList.length / 30) + 1;
         this.setState({ isLoading: true, error: undefined, loaded: true, });
-        const url = `/api/Font/Search?page=${pageId}&perPage=${count}`;
+        const url = `/api/Font/Search?page=${pageId}&perPage=${count}&term=${this.state.query}`;
+        console.log('url ', url)
         fetch(url)
             .then(res => res.json())
             .then(
@@ -164,6 +160,16 @@ export default class SidebarFont extends Component<IProps, IState> {
             );
     };
 
+    handleQuery = term => {
+        editorStore.fontsList.clear();
+        this.setState({ query: term}, () => {
+            this.loadMore(false);
+        });
+        let el = document.getElementById("queryInput") as HTMLInputElement;
+        el.value = term;
+        this.forceUpdate();
+    };
+
     render() {
         return (
             <Sidebar
@@ -180,6 +186,76 @@ export default class SidebarFont extends Component<IProps, IState> {
             >
                 <div>
                     <ScrollContainer>
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '335px',
+                            boxSizing: 'border-box',
+                            position: 'relative',
+                            height: "40px",
+                            margin: "16px auto 0px",
+                        }}
+                    >
+                        <button 
+                            type="button"
+                            style={{
+                                color: 'rgba(30,41,51,.45)',
+                                flexGrow: 0,
+                                flexShrink: 0,
+                                position: 'absolute',
+                                width: "40px",
+                                height: "40px",
+                                border: "none",
+                            }}>
+                            <span className="c-sq0w">
+                                <span aria-hidden="true" className="_1zGq3g uEuSRg AHNG3A">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="{24}" height="{24}" viewBox="0 0 24 24">
+                                        <path fill="rgba(30,41,51,.45)" d="M15.45 17.97L9.5 12.01a.25.25 0 0 1 0-.36l5.87-5.87a.75.75 0 0 0-1.06-1.06l-5.87 5.87c-.69.68-.69 1.8 0 2.48l5.96 5.96a.75.75 0 0 0 1.06-1.06z" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </button>
+                        <input 
+                            style={{
+                                width: "100%",
+                                border: "none",
+                                boxShadow: "0 0 0 1px rgba(53,71,90,.2)",
+                                borderRadius: "4px",
+                                color: "black",
+                                padding: "9px 37px 10px",
+                            }}
+                            onKeyDown={e => {
+                                if (e.key === "Enter") {
+                                    let el = e.target as HTMLInputElement;
+                                    this.handleQuery(el.value);
+                                }
+                            }}
+                            type="text" 
+                            autoCorrect="off" 
+                            placeholder="Try “Calligraphy” or “Open Sans”" 
+                            defaultValue="Calligraphy" />
+                        <button 
+                            type="button"
+                            style={{
+                                color: 'rgba(30,41,51,.45)',
+                                flexGrow: 0,
+                                flexShrink: 0,
+                                position: 'absolute',
+                                width: "40px",
+                                height: "40px",
+                                right: "4px",
+                                border: "none",
+                            }}>
+                            <span className="c-sq0w">
+                                <span aria-hidden="true" className="_1zGq3g uEuSRg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="{24}" height="{24}" viewBox="0 0 24 24">
+                                        <path fill="rgba(30,41,51,.45)" d="M13.06 12.15l5.02-5.03a.75.75 0 1 0-1.06-1.06L12 11.1 6.62 5.7a.75.75 0 1 0-1.06 1.06l5.38 5.38-5.23 5.23a.75.75 0 1 0 1.06 1.06L12 13.2l4.88 4.87a.75.75 0 1 0 1.06-1.06l-4.88-4.87z" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </button>
+                    </div>
+
                         <InfiniteScroll
                             scroll={true}
                             throttle={200}
