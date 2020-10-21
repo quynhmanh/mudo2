@@ -113,7 +113,12 @@ class TemplatesPage extends React.Component<IProps, {}> {
             </Helmet>
             }
             <div className="container-content">
-                <div style={{ display: 'flex' }} className="container">
+                <div 
+                    style={{ 
+                        display: 'flex',
+                        width: 'calc(100% - 100px)',
+                        margin: 'auto',
+                    }}>
                     <div
                         style={{ width: '100%' }}
                     >
