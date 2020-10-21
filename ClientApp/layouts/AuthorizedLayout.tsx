@@ -269,8 +269,9 @@ class AuthorizedLayout extends React.Component<Props, {}> {
                         boxShadow: '0 1px 8px rgba(38,49,71,.08)',
                     }}>
                     <div
-                        className="container"
                         style={{
+                            width: "calc(100% - 50px)",
+                            margin: "auto",
                         }}
                     >
                         <div style={{
@@ -296,11 +297,11 @@ class AuthorizedLayout extends React.Component<Props, {}> {
                                 height: '100%',
                             }} id="logo" href="/">
                                 <svg style={{
-                                    transform: 'scale(0.5)',
-                                    transformOrigin: 'center 20px',
+                                    transform: 'scale(0.4)',
+                                    transformOrigin: '0 0',
                                     position: 'absolute',
                                     left: 0,
-                                    right: 0,
+                                    top: "13px",
                                     margin: 'auto',
                                     fill: 'rgb(28 119 212)'
                                 }} width="160" height="60" xmlns="http://www.w3.org/2000/svg">
