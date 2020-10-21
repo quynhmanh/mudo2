@@ -118,6 +118,7 @@ class TemplatesPage extends React.Component<IProps, {}> {
                         display: 'flex',
                         width: 'calc(100% - 100px)',
                         margin: 'auto',
+                        paddingLeft: "16px",
                     }}>
                     <div
                         style={{ width: '100%' }}
