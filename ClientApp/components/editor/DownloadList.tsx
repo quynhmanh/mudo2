@@ -264,7 +264,7 @@ c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"
               </div>
             </button>
           </li>
-          <li
+          {/* <li
             style={{
               boxShadow: "rgba(55, 53, 47, 0.09) 0px 1px 0px",
               marginBottom: "1px"
@@ -358,12 +358,11 @@ c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"
                     fontSize: "12px"
                   }}
                 >
-                  {/* Chất lượng ảnh cao, nhiều trang */}
                   {props.translate("pdfPrint")}
                 </span>
               </div>
             </button>
-          </li>
+          </li> */}
           <li
             style={{
               boxShadow: "rgba(55, 53, 47, 0.09) 0px 1px 0px",
