@@ -196,7 +196,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                             margin: "16px auto 0px",
                         }}
                     >
-                        <button 
+                        {/* <button 
                             type="button"
                             style={{
                                 color: 'rgba(30,41,51,.45)',
@@ -214,8 +214,9 @@ export default class SidebarFont extends Component<IProps, IState> {
                                     </svg>
                                 </span>
                             </span>
-                        </button>
-                        <input 
+                        </button> */}
+                        <input
+                            id="queryEl" 
                             style={{
                                 width: "100%",
                                 border: "none",
@@ -242,6 +243,11 @@ export default class SidebarFont extends Component<IProps, IState> {
                             />
                         <button 
                             type="button"
+                            onClick={e => {
+                                let el = document.getElementById('queryEl');
+                                el.value = "";
+                                this.handleQuery("");
+                            }}
                             style={{
                                 color: 'rgba(30,41,51,.45)',
                                 flexGrow: 0,
