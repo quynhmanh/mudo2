@@ -357,6 +357,9 @@ class HomePage extends React.Component<IProps, IState> {
                                             style={{
                                                 textAlign: "center",
                                                 fontWeight: 700,
+                                                fontSize: "45px",
+                                                marginBottom: "20px",
+                                                marginTop: "15px",
                                             }}
                                             >{this.translate("startDesign")}</h1>
                                     </div>
