@@ -128,7 +128,7 @@ class TemplatesPage extends React.Component<IProps, {}> {
                                 style={{
                                     marginTop: '30px',
                                     fontWeight: 700,
-                                    fontSize: "35px",
+                                    fontSize: "45px",
                                     textAlign: 'center',
                                 }}
                             >{this.translate(title)}</h1>}
