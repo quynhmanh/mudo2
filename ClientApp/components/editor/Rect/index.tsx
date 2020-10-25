@@ -856,6 +856,7 @@ export default class Rect extends Component<IProps, IState> {
 													}}
 												>
 													{<div
+														className="hideWhenDownload"
 														style={{
 															position: "absolute",
 															top: "-1px",
@@ -1705,6 +1706,7 @@ export default class Rect extends Component<IProps, IState> {
 									}}
 								>
 									{cropMode && <div
+										className="hideWhenDownload"
 										style={{
 											position: "absolute",
 											top: "-1px",
