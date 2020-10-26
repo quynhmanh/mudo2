@@ -45,7 +45,7 @@ class Popup extends PureComponent<IProps, IState> {
                             style={{
                                 padding: '30px 40px',
                             }}
-                            className="unblurred"><h1 style={{ textAlign: 'center', fontSize: '30px', margin: "auto", }} className="unblurred">Đang xử lý...</h1>
+                            className="unblurred"><h1 style={{ textAlign: 'center', fontSize: '30px', margin: "auto", }} className="unblurred">Đang xử lý ...</h1>
                         </div>
                         <div
                             style={{
@@ -53,7 +53,7 @@ class Popup extends PureComponent<IProps, IState> {
                             }}
                             className="container">
 
-                            <div 
+                            <div
                                 className="progress"
                                 style={{
                                     borderRadius: "10px",
@@ -61,8 +61,8 @@ class Popup extends PureComponent<IProps, IState> {
                                     background: "rgba(57,76,96,.15)",
                                 }}>
                                 <div id={"progress-bar-download"} className="progress-bar progress-bar-striped" role="progressbar"
-                                    style={{ 
-                                        width: "0%", 
+                                    style={{
+                                        width: "0%",
                                         backgroundSize: "200%",
                                         backgroundImage: "repeating-linear-gradient(90deg,#00c4cc,#a06fda,#00c4cc)",
                                     }}
@@ -89,16 +89,16 @@ class Popup extends PureComponent<IProps, IState> {
                                 }}
                                 type="button"
                                 className="btn btn-light">Start</button>
-                                <div 
-                                    style={{
-                                        fontSize: "13px",
-                                    }}
-                                ><blockquote  style={{
+                            <div
+                                style={{
                                     fontSize: "13px",
-                                    border: "none",
-                                    textAlign: "center",
-                                    marginTop: "5px",
-                                }} >It always seems impossible until it's done. <strong>— Nelson Mandela</strong></blockquote></div>
+                                }}
+                            ><blockquote style={{
+                                fontSize: "13px",
+                                border: "none",
+                                textAlign: "center",
+                                marginTop: "5px",
+                            }} >It always seems impossible until it's done. <strong>— Nelson Mandela</strong></blockquote></div>
                             <button
                                 style={{
                                     margin: "auto",
