@@ -4621,6 +4621,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         this.hidePopupDownloading();
                     })
                     .catch(error => {
+                        console.log('Something went wrong', error);
                         this.hidePopupDownloading();
                     });
             }
