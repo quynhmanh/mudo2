@@ -822,10 +822,6 @@ export const processChildren = (children, _id = "", colors) => {
 				}, {});
 			}
 
-			if (node.tagName == "svg") {
-				console.log('attributes', node.attributes);
-			}
-
 			// create React component
 			return React.createElement(node.nodeName, {
 				...attributes,
