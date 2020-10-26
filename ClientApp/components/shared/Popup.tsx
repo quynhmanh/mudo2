@@ -58,7 +58,7 @@ class Popup extends PureComponent<IProps, IState> {
                                 className="progress"
                                 style={{
                                     borderRadius: "10px",
-                                    margin: "0 25px",
+                                    margin: "0 20px",
                                 }}>
                                 <div id={"progress-bar-download"} className="progress-bar progress-bar-striped" role="progressbar"
                                     style={{ 
