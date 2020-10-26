@@ -1145,7 +1145,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                             <VideoPicker
                                                 id=""
                                                 defaultHeight={imgWidth}
-                                                delay={0}
+                                                delay={250 * key}
                                                 width={item.width}
                                                 key={key}
                                                 color={item.color}
