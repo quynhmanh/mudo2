@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import Loader from '@Components/shared/Loader';
 
 export interface IProps {
     text: string;
@@ -44,7 +43,7 @@ class Popup extends PureComponent<IProps, IState> {
 
                         <div
                             style={{
-                                padding: '20px 40px',
+                                padding: '30px 40px',
                             }}
                             className="unblurred"><h1 style={{ textAlign: 'center', fontSize: '30px', margin: "auto", }} className="unblurred">Đang xử lý...</h1>
                         </div>
@@ -106,7 +105,7 @@ class Popup extends PureComponent<IProps, IState> {
                                     position: "absolute",
                                     left: "0",
                                     right: "0",
-                                    bottom: "35px",
+                                    bottom: "23px",
                                     border: "none",
                                     padding: "10px 20px",
                                     background: "rgba(64,87,109,.07)",
