@@ -196,25 +196,6 @@ export default class SidebarFont extends Component<IProps, IState> {
                             margin: "16px auto 0px",
                         }}
                     >
-                        {/* <button 
-                            type="button"
-                            style={{
-                                color: 'rgba(30,41,51,.45)',
-                                flexGrow: 0,
-                                flexShrink: 0,
-                                position: 'absolute',
-                                width: "40px",
-                                height: "40px",
-                                border: "none",
-                            }}>
-                            <span className="c-sq0w">
-                                <span aria-hidden="true" className="_1zGq3g uEuSRg AHNG3A">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="{24}" height="{24}" viewBox="0 0 24 24">
-                                        <path fill="rgba(30,41,51,.45)" d="M15.45 17.97L9.5 12.01a.25.25 0 0 1 0-.36l5.87-5.87a.75.75 0 0 0-1.06-1.06l-5.87 5.87c-.69.68-.69 1.8 0 2.48l5.96 5.96a.75.75 0 0 0 1.06-1.06z" />
-                                    </svg>
-                                </span>
-                            </span>
-                        </button> */}
                         <input
                             id="queryEl" 
                             style={{
@@ -237,6 +218,14 @@ export default class SidebarFont extends Component<IProps, IState> {
                             onBlur={e => {
                                 window.inputFocus = false;
                             }}
+                            onChange={e => {
+                                let el = document.getElementById('clearBtnFont');
+                                if (e.target.value) {
+                                    el.style.display = "block";
+                                } else {
+                                    el.style.display = "none";
+                                }
+                            }}
                             type="text" 
                             autoCorrect="off" 
                             placeholder="Try “Calligraphy” or “Open Sans”" 
@@ -246,8 +235,10 @@ export default class SidebarFont extends Component<IProps, IState> {
                             onClick={e => {
                                 let el = document.getElementById('queryEl');
                                 el.value = "";
+                                e.currentTarget.style.display = "none";
                                 this.handleQuery("");
                             }}
+                            id="clearBtnFont"
                             style={{
                                 color: 'rgba(30,41,51,.45)',
                                 flexGrow: 0,
@@ -257,6 +248,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                 height: "40px",
                                 right: "4px",
                                 border: "none",
+                                display: this.state.query ? "block" : "none",
                             }}>
                             <span className="c-sq0w">
                                 <span aria-hidden="true" className="_1zGq3g uEuSRg">
