@@ -4654,11 +4654,20 @@ class CanvaEditor extends Component<IProps, IState> {
     showPopupDownloading = () => {
         document.getElementById("downloadPopup").style.display = "block";
         document.getElementById("editor").classList.add("popup");
+
+        window.current_progress = 0;
+        let btn = document.getElementById("progress-bar-start-btn-download");
+        if (btn) btn.click();
     }
 
     hidePopupDownloading = () => {
         document.getElementById("downloadPopup").style.display = "none";
         document.getElementById("editor").classList.remove("popup");
+
+        window.current_progress = 0;
+
+        clearInterval(window.progress_interval);
+        document.getElementById("progress-bar-download").style.width = "0%";
     }
 
     downloadPNG(transparent, png) {
