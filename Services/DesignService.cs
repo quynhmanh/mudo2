@@ -127,9 +127,8 @@ namespace RCB.TypeScript.Services
 
             template.Title = model.Title;
             template.Document = model.Document;
-            template.CreatedAt = model.CreatedAt;
-            template.CreatedBy = model.CreatedBy;
-            template.UpdatedAt = model.UpdatedAt;
+            // template.CreatedAt = model.CreatedAt;
+            template.UpdatedAt = DateTime.Now;
             template.UpdatedBy = model.UpdatedBy;
             template.FontList = model.FontList;
             template.Type = model.Type;
