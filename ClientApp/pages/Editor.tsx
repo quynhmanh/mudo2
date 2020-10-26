@@ -4484,6 +4484,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     download = async (filename, text) => {
+        if (window.cancelDownload) return;
         let blobUrl = URL.createObjectURL(text);
         let element = document.createElement("a");
 
@@ -4497,6 +4498,8 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     downloadVideo = () => {
+        window.cancelDownload = false;
+        window.step = 0.1;
         this.showPopupDownloading();
 
         window.downloading = true;
@@ -4567,6 +4570,8 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     downloadPDF(bleed) {
+        window.cancelDownload = false;
+        window.step = 0.2;
         this.showPopupDownloading();
         window.downloading = true;
 
@@ -4671,6 +4676,8 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     downloadPNG(transparent, png) {
+        window.cancelDownload = false;
+        window.step = 0.2;
         this.showPopupDownloading();
 
         let self = this;

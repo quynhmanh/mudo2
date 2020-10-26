@@ -74,13 +74,13 @@ class Popup extends PureComponent<IProps, IState> {
                                     console.log('clicked')
                                     let self = this;
                                     window.progress_interval = setInterval(function () {
-                                        window.current_progress += self.step;
+                                        window.current_progress += window.step;
                                         let progress = Math.round(Math.atan(window.current_progress) / (Math.PI / 2) * 100 * 1000) / 1000
                                         document.getElementById("progress-bar-download").style.width = progress + "%";
                                         if (progress >= 100) {
                                             clearInterval(window.progress_interval);
                                         } else if (progress >= 70) {
-                                            this.step = 0.1
+                                            window.step = 0.1
                                         }
                                     }, 100);
                                 }}
@@ -95,11 +95,21 @@ class Popup extends PureComponent<IProps, IState> {
                                     position: "absolute",
                                     left: "0",
                                     right: "0",
-                                    bottom: "40px",
+                                    bottom: "35px",
                                     border: "none",
-                                    padding: "10px",
+                                    padding: "10px 20px",
                                     background: "rgba(64,87,109,.07)",
-                                    borderRadius: "9px",
+                                    borderRadius: "4px",
+                                }}
+                                onClick={e => {
+                                    window.cancelDownload = true;
+                                    document.getElementById("downloadPopup").style.display = "none";
+                                    document.getElementById("editor").classList.remove("popup");
+
+                                    window.current_progress = 0;
+
+                                    clearInterval(window.progress_interval);
+                                    document.getElementById("progress-bar-download").style.width = "0%";
                                 }}
                             >Cancel</button>
                         </div>
