@@ -4658,7 +4658,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
     showPopupDownloading = () => {
         document.getElementById("downloadPopup").style.display = "block";
-        document.getElementById("editor").classList.add("popup");
+
+        let editorEl = document.getElementById("editor");
+        editorEl.classList.add("popup");
+        editorEl.style.filter = "blur(4px)";
 
         window.current_progress = 0;
         let btn = document.getElementById("progress-bar-start-btn-download");
@@ -4667,7 +4670,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
     hidePopupDownloading = () => {
         document.getElementById("downloadPopup").style.display = "none";
-        document.getElementById("editor").classList.remove("popup");
+
+        let editorEl = document.getElementById("editor");
+        editorEl.classList.remove("popup");
+        editorEl.style.filter = "";
 
         window.current_progress = 0;
 

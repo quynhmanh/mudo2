@@ -38,15 +38,15 @@ class Popup extends PureComponent<IProps, IState> {
                     style={{
                         display: 'flex',
                         borderRadius: '7px',
-                        background: 'rgba(242, 241, 238, 0.99)',
+                        background: 'white',
                     }} >
                     <div className="unblurred" style={{ width: '100%', position: 'relative' }}>
 
                         <div
                             style={{
-                                padding: '39px 40px',
+                                padding: '20px 40px',
                             }}
-                            className="unblurred"><h1 style={{ textAlign: 'center', fontSize: '30px', }} className="unblurred">Đang xử lý...</h1>
+                            className="unblurred"><h1 style={{ textAlign: 'center', fontSize: '30px', margin: "auto", }} className="unblurred">Đang xử lý...</h1>
                         </div>
                         <div
                             style={{
@@ -59,6 +59,7 @@ class Popup extends PureComponent<IProps, IState> {
                                 style={{
                                     borderRadius: "10px",
                                     margin: "0 20px",
+                                    background: "rgba(57,76,96,.15)",
                                 }}>
                                 <div id={"progress-bar-download"} className="progress-bar progress-bar-striped" role="progressbar"
                                     style={{ 
@@ -89,6 +90,16 @@ class Popup extends PureComponent<IProps, IState> {
                                 }}
                                 type="button"
                                 className="btn btn-light">Start</button>
+                                <div 
+                                    style={{
+                                        fontSize: "13px",
+                                    }}
+                                ><blockquote  style={{
+                                    fontSize: "13px",
+                                    border: "none",
+                                    textAlign: "center",
+                                    marginTop: "5px",
+                                }} >It always seems impossible until it's done. <strong>— Nelson Mandela</strong></blockquote></div>
                             <button
                                 style={{
                                     margin: "auto",
@@ -138,7 +149,7 @@ const PopupWrapper = styled.div`
         margin: auto;  
         background-color: black;
         width: 560px;
-        height: 277px;
+        height: 230px;
     }
 
 `;
