@@ -120,7 +120,7 @@ class LeftSide extends Component<IProps, IState> {
                                 })
 
                                 curOpa += 0.01;
-                                if (limit - window.rectWidth / 100 > 0) limit -= window.rectWidth / 100;
+                                if (limit - window.rectWidth / 60 > 0) limit -= window.rectWidth / 60;
                                 else limit = 1;
                             }, 10);
 
@@ -150,7 +150,7 @@ class LeftSide extends Component<IProps, IState> {
                                     })
 
                                     curOpa += 0.01;
-                                    if (limit - window.innerWidth / 100 > 0) limit -= window.innerWidth / 100;
+                                    if (limit - window.innerWidth / 60 > 0) limit -= window.innerWidth / 60;
                                 else limit = 1;
                                 }, 10);
 
