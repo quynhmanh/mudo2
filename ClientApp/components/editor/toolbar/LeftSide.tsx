@@ -104,7 +104,7 @@ class LeftSide extends Component<IProps, IState> {
                             if (img.type != TemplateType.BackgroundImage) {
                                 ids.push(img._id);
                                 let ratio = 1.0 * (img.left + 100) / (window.rectWidth + 100);
-                                ratios.push(img.left);
+                                ratios.push(img.left + img.width);
                             }
                         });
 
@@ -114,7 +114,6 @@ class LeftSide extends Component<IProps, IState> {
                             window.intervalAnimation = setInterval(() => {
                                 ids.forEach(id => {
                                     let image = editorStore.images2.get(id);
-                                    let ratio = 1.0 * (Math.max(100, image.left + 100) + 1) / limit;
                                     let el = document.getElementById(id + "_alo") as HTMLElement;
                                     // el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
                                     if (image.left + image.width > limit)
@@ -147,15 +146,15 @@ class LeftSide extends Component<IProps, IState> {
                                 let ratios = ['${ratios.join("','")}'];
                                 let interval = setInterval(() => {
                                     ['${ids.join("','")}'].forEach((id, key) => {
-                                        let ratio = 1.0 * (Math.max(100, ratios[key] + 100) + 1) / limit;
                                         let el = document.getElementById(id + "_alo2");
-                                        el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
+                                        if (ratios[key] > limit)
+                                            el.style.opacity = (ratios[key] - limit) / window.innerWidth * 2;
+                                        else 
+                                            el.style.opacity = 0;
                                     })
 
-                                    curOpa += 0.1;
-                                    if (limit - window.innerWidth / 50 > 0) limit -= window.innerWidth / 50;
-                                else limit = 1;
-                                }, 10);
+                                    limit -= window.innerWidth / 40;
+                                }, 15);
 
                                 setTimeout(() => {
                                     clearTimeout(interval);
