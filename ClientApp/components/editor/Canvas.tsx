@@ -91,6 +91,15 @@ export default class Canvas extends Component<IProps, IState> {
         return false;
     }
 
+    componentDidMount() {
+        const s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.id = "animation-script"
+        s.innerHTML = "function animate() {}";
+        this.refAlo.appendChild(s);
+    }
+
     refAlo = null;
     canvas = {
         0: {},
@@ -716,11 +725,6 @@ export default class Canvas extends Component<IProps, IState> {
                                     )
                                 }
                             </div>
-                            <script id="animation-script">
-                                function animate() {
-                                    
-                                }
-                            </script>
                         </div>}
                 </div>
             </ResizableRectContainer>
