@@ -94,38 +94,46 @@ class LeftSide extends Component<IProps, IState> {
                 <button
                     className="toolbar-btn"
                     onClick={e => {
+                        clearTimeout(window.intervalAnimation);
                         let curOpa = 0;
 
                         let ids = [];
+                        let ratios = [];
                         editorStore.images2.forEach(img => {
                             if (img.type != TemplateType.BackgroundImage) {
                                 ids.push(img._id);
+                                let ratio = 1.0 * img.left / window.rectWidth;
+                                ratios.push(ratio);
                             }
                         });
 
-                        let interval = setInterval(() => {
+                        window.intervalAnimation = setInterval(() => {
                             ids.forEach(id => {
-                                let el = document.getElementById(id + "_alo");
-                                el.style.opacity = curOpa;
+                                let image = editorStore.images2.get(id);
+                                let ratio = 1.0 * image.left / window.rectWidth;
+                                let el = document.getElementById(id + "_alo") as HTMLElement;
+                                el.style.opacity = (curOpa*0.1 + ratio * curOpa).toString();
                             })
 
-                            curOpa += 0.05;
+                            curOpa += 0.2;
                         }, 40);
 
                         setTimeout(() => {
-                            clearTimeout(interval);
-                        }, 800);
+                            clearTimeout(window.intervalAnimation);
+                        }, 3000);
 
                         let val = `
+                        let ratios = ['${ratios.join("','")}'];
                         function animate() {
                             let curOpa = 0;
                             let interval = setInterval(() => {
-                                ['${ids.join("','")}'].forEach(id => {
+                                ['${ids.join("','")}'].forEach((id, key) => {
+                                    let ratio = ratios[key];
                                     let el = document.getElementById(id + "_alo2");
-                                    el.style.opacity = curOpa;
+                                    el.style.opacity = (curOpa*0.1 + ratio * curOpa).toString();
                                 })
 
-                                curOpa += 0.05;
+                                curOpa += 0.2;
                             }, 40);
 
                             setTimeout(() => {
@@ -133,7 +141,7 @@ class LeftSide extends Component<IProps, IState> {
                             }, 800)
                         }`;
 
-                        console.log('val ', ids, toJS(ids), val)
+                        console.log('val ', ratios, val)
 
                         let scriptEl = document.getElementById('animation-script').innerHTML = val;
                     }}
