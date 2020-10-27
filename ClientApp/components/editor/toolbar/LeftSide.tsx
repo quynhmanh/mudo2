@@ -94,7 +94,8 @@ class LeftSide extends Component<IProps, IState> {
                 <button
                     className="toolbar-btn"
                     onClick={e => {
-                        clearTimeout(window.intervalAnimation);
+                        clearInterval(window.intervalAnimation);
+                        clearTimeout(window.timeoutAnimation)
                         let curOpa = 0;
 
                         let ids = [];
@@ -115,10 +116,10 @@ class LeftSide extends Component<IProps, IState> {
                                 el.style.opacity = (curOpa*0.1 + ratio * curOpa).toString();
                             })
 
-                            curOpa += 0.2;
+                            curOpa += 0.3;
                         }, 40);
 
-                        setTimeout(() => {
+                        window.timeoutAnimation = setTimeout(() => {
                             clearTimeout(window.intervalAnimation);
                         }, 3000);
 
@@ -133,12 +134,12 @@ class LeftSide extends Component<IProps, IState> {
                                     el.style.opacity = (curOpa*0.1 + ratio * curOpa).toString();
                                 })
 
-                                curOpa += 0.2;
+                                curOpa += 0.3;
                             }, 40);
 
                             setTimeout(() => {
                                 clearTimeout(interval);
-                            }, 800)
+                            }, 3000)
                         }`;
 
                         console.log('val ', ratios, val)
