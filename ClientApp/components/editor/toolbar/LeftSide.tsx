@@ -91,6 +91,53 @@ class LeftSide extends Component<IProps, IState> {
         const props = this.props;
         return (
             <React.Fragment>
+                <button
+                    className="toolbar-btn"
+                    onClick={e => {
+                        let curOpa = 0;
+
+                        let ids = [];
+                        editorStore.images2.forEach(img => {
+                            if (img.type != TemplateType.BackgroundImage) {
+                                ids.push(img._id);
+                            }
+                        });
+
+                        let interval = setInterval(() => {
+                            ids.forEach(id => {
+                                let el = document.getElementById(id + "_alo");
+                                el.style.opacity = curOpa;
+                            })
+
+                            curOpa += 0.05;
+                        }, 40);
+
+                        setTimeout(() => {
+                            clearTimeout(interval);
+                        }, 800);
+
+                        let val = `
+                        function animate() {
+                            let curOpa = 0;
+                            let interval = setInterval(() => {
+                                ['${ids.join("','")}'].forEach(id => {
+                                    let el = document.getElementById(id + "_alo2");
+                                    el.style.opacity = curOpa;
+                                })
+
+                                curOpa += 0.05;
+                            }, 40);
+
+                            setTimeout(() => {
+                                clearTimeout(interval);
+                            }, 800)
+                        }`;
+
+                        console.log('val ', ids, toJS(ids), val)
+
+                        let scriptEl = document.getElementById('animation-script').innerHTML = val;
+                    }}
+                ><span>Animation</span></button>
                 <FontFamily
                     show=
                     {

@@ -596,6 +596,9 @@ export default class Canvas extends Component<IProps, IState> {
                                 display: "none",
                             }}
                         >
+                            <script id="animation-script">
+                                console.log('alo')
+                            </script>
                             {this.props.bleed && (
                                 <div
                                     style={{

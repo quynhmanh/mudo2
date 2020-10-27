@@ -617,6 +617,7 @@ namespace RCB.TypeScript.Controllers
                         }");
 
                         await page.EvaluateFunctionAsync(@"() => {
+                            animate();
                             let videos = document.getElementsByTagName('video'); 
                             for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;
                         }");
