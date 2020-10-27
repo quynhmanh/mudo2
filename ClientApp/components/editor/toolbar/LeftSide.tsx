@@ -116,13 +116,13 @@ class LeftSide extends Component<IProps, IState> {
                                     let image = editorStore.images2.get(id);
                                     let ratio = 1.0 * (Math.max(0, image.left) + 1) / limit;
                                     let el = document.getElementById(id + "_alo") as HTMLElement;
-                                    el.style.opacity = (ratio * curOpa * 0.3).toString();
+                                    el.style.opacity = (ratio * curOpa).toString();
                                 })
 
-                                curOpa += 0.1;
-                                if (limit - 100 > 0) limit -= 100;
+                                curOpa += 0.01;
+                                if (limit - 10 > 0) limit -= 10;
                                 else limit = 1;
-                            }, 50);
+                            }, 10);
 
                             window.timeoutAnimation = setTimeout(() => {
                                 clearTimeout(window.intervalAnimation);
@@ -146,13 +146,13 @@ class LeftSide extends Component<IProps, IState> {
                                     ['${ids.join("','")}'].forEach((id, key) => {
                                         let ratio = 1.0 * (Math.max(0, ratios[key]) + 1) / limit;
                                         let el = document.getElementById(id + "_alo2");
-                                        el.style.opacity = (ratio * curOpa * 0.3).toString();
+                                        el.style.opacity = (ratio * curOpa).toString();
                                     })
 
-                                    curOpa += 0.1;
-                                    if (limit - 100 > 0) limit -= 100;
+                                    curOpa += 0.01;
+                                    if (limit - 10 > 0) limit -= 10;
                                     else limit = 1;
-                                }, 50);
+                                }, 10);
 
                                 setTimeout(() => {
                                     clearTimeout(interval);
