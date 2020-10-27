@@ -119,8 +119,8 @@ class LeftSide extends Component<IProps, IState> {
                                     el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
                                 })
 
-                                curOpa += 0.01;
-                                if (limit - window.rectWidth / 60 > 0) limit -= window.rectWidth / 60;
+                                curOpa += 0.1;
+                                if (limit - window.rectWidth / 50 > 0) limit -= window.rectWidth / 50;
                                 else limit = 1;
                             }, 10);
 
@@ -147,8 +147,8 @@ class LeftSide extends Component<IProps, IState> {
                                         el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
                                     })
 
-                                    curOpa += 0.01;
-                                    if (limit - window.innerWidth / 60 > 0) limit -= window.innerWidth / 60;
+                                    curOpa += 0.1;
+                                    if (limit - window.innerWidth / 50 > 0) limit -= window.innerWidth / 50;
                                 else limit = 1;
                                 }, 10);
 
