@@ -96,7 +96,7 @@ class LeftSide extends Component<IProps, IState> {
                     onClick={e => {
                         clearInterval(window.intervalAnimation);
                         clearTimeout(window.timeoutAnimation)
-                        let curOpa = 0;
+                        let curOpa = 1;
 
                         let ids = [];
                         let ratios = [];
@@ -116,13 +116,18 @@ class LeftSide extends Component<IProps, IState> {
                                     let image = editorStore.images2.get(id);
                                     let ratio = 1.0 * (Math.max(100, image.left + 100) + 1) / limit;
                                     let el = document.getElementById(id + "_alo") as HTMLElement;
-                                    el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
+                                    // el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
+                                    if (image.left + image.width > limit)
+                                        el.style.opacity = (image.left + image.width - limit) / window.rectWidth * 2;
+                                    else 
+                                        el.style.opacity = 0;
                                 })
 
-                                curOpa += 0.1;
-                                if (limit - window.rectWidth / 50 > 0) limit -= window.rectWidth / 50;
-                                else limit = 1;
-                            }, 10);
+                                // if (limit - window.rectWidth / 40 > 0) 
+                                    limit -= window.rectWidth / 40;
+                                // else 
+                                //     limit = 1;
+                            }, 15);
 
                             window.timeoutAnimation = setTimeout(() => {
                                 clearTimeout(window.intervalAnimation);
