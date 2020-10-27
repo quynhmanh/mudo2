@@ -103,24 +103,24 @@ class LeftSide extends Component<IProps, IState> {
                         editorStore.images2.forEach(img => {
                             if (img.type != TemplateType.BackgroundImage) {
                                 ids.push(img._id);
-                                let ratio = 1.0 * img.left / window.rectWidth;
+                                let ratio = 1.0 * (img.left + 100) / (window.rectWidth + 100);
                                 ratios.push(img.left);
                             }
                         });
 
-                        let limit = window.rectWidth;
+                        let limit = window.rectWidth + 100;
 
                         setTimeout(() => {
                             window.intervalAnimation = setInterval(() => {
                                 ids.forEach(id => {
                                     let image = editorStore.images2.get(id);
-                                    let ratio = 1.0 * (Math.max(0, image.left) + 1) / limit;
+                                    let ratio = 1.0 * (Math.max(100, image.left + 100) + 1) / limit;
                                     let el = document.getElementById(id + "_alo") as HTMLElement;
-                                    el.style.opacity = (ratio * curOpa).toString();
+                                    el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
                                 })
 
                                 curOpa += 0.01;
-                                if (limit - 10 > 0) limit -= 10;
+                                if (limit - window.rectWidth / 50 > 0) limit -= window.rectWidth / 50;
                                 else limit = 1;
                             }, 10);
 
@@ -139,19 +139,19 @@ class LeftSide extends Component<IProps, IState> {
 
                         function animate() {
                             setTimeout(() => {
-                                let limit = window.innerWidth;
+                                let limit = window.innerWidth + 100;
                                 let curOpa = 0;
                                 let ratios = ['${ratios.join("','")}'];
                                 let interval = setInterval(() => {
                                     ['${ids.join("','")}'].forEach((id, key) => {
-                                        let ratio = 1.0 * (Math.max(0, ratios[key]) + 1) / limit;
+                                        let ratio = 1.0 * (Math.max(100, ratios[key] + 100) + 1) / limit;
                                         let el = document.getElementById(id + "_alo2");
-                                        el.style.opacity = (ratio * curOpa).toString();
+                                        el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
                                     })
 
                                     curOpa += 0.01;
-                                    if (limit - 10 > 0) limit -= 10;
-                                    else limit = 1;
+                                    if (limit - window.innerWidth / 50 > 0) limit -= window.innerWidth / 50;
+                                else limit = 1;
                                 }, 10);
 
                                 setTimeout(() => {
