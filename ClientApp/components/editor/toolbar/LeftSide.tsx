@@ -134,7 +134,7 @@ class LeftSide extends Component<IProps, IState> {
                                 }
                             })
 
-                            limit -= window.rectWidth / 30;
+                            limit -= window.rectWidth / 40;
                             if (limit < 0) {
                                 limit = window.rectWidth;
                                 limitHeight -= window.rectHeight / 3;
@@ -171,7 +171,7 @@ class LeftSide extends Component<IProps, IState> {
                                         }
                                     })
 
-                                    limit -= window.innerWidth / 30;
+                                    limit -= window.innerWidth / 40;
                                     if (limit < 0) {
                                         limit = window.innerWidth;
                                         limitHeight -= window.innerHeight / 3;
