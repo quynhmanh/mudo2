@@ -717,7 +717,9 @@ export default class Canvas extends Component<IProps, IState> {
                                 }
                             </div>
                             <script id="animation-script">
-                                console.log('alo')
+                                function animate() {
+                                    
+                                }
                             </script>
                         </div>}
                 </div>
