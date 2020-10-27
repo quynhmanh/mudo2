@@ -130,14 +130,12 @@ class LeftSide extends Component<IProps, IState> {
                         }, 100);
 
                         let val = `
-
-                        ['${ids.join("','")}'].forEach((id, key) => {
-                            console.log("asd", id + "_alo2");
-                            let el = document.getElementById(id + "_alo2");
-                            el.style.opacity = 0;
-                        });
-
                         function animate() {
+                            ['${ids.join("','")}'].forEach((id, key) => {
+                                console.log("asd", id + "_alo2");
+                                let el = document.getElementById(id + "_alo2");
+                                el.style.opacity = 0;
+                            });
                             setTimeout(() => {
                                 let limit = window.innerWidth + 100;
                                 let curOpa = 0;
