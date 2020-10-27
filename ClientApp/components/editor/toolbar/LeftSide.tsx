@@ -99,39 +99,51 @@ class LeftSide extends Component<IProps, IState> {
                         let curOpa = 1;
 
                         let ids = [];
-                        let ratios = [];
+                        let ratios = {};
                         editorStore.images2.forEach(img => {
                             if (img.type != TemplateType.BackgroundImage) {
                                 ids.push(img._id);
                                 let ratio = 1.0 * (img.left + 100) / (window.rectWidth + 100);
-                                ratios.push(img.left + img.width);
+                                ratios[`id${img._id}`] = {
+                                    left: img.left,
+                                    top: img.top,
+                                    width: img.width,
+                                    height: img.height,
+                                };
                             }
                         });
 
-                        let limit = window.rectWidth + 100;
+                        let limit = window.rectWidth;
+                        let limitHeight = window.rectHeight;
 
-                        setTimeout(() => {
-                            window.intervalAnimation = setInterval(() => {
-                                ids.forEach(id => {
-                                    let image = editorStore.images2.get(id);
-                                    let el = document.getElementById(id + "_alo") as HTMLElement;
-                                    // el.style.opacity = (Math.min(1, ratio * curOpa)).toString();
-                                    if (image.left + image.width > limit)
-                                        el.style.opacity = (image.left + image.width - limit) / window.rectWidth * 2;
-                                    else 
-                                        el.style.opacity = 0;
-                                })
+                        ids.forEach((id, key) => {
+                            let el = document.getElementById(id + "_alo");
+                            el.style.opacity = 0;
+                        });
 
-                                // if (limit - window.rectWidth / 40 > 0) 
-                                    limit -= window.rectWidth / 40;
-                                // else 
-                                //     limit = 1;
-                            }, 15);
+                        let marked = {};
+                        window.intervalAnimation = setInterval(() => {
+                            ids.forEach(id => {
+                                let image = editorStore.images2.get(id);
+                                let el = document.getElementById(id + "_alo") as HTMLElement;
+                                let opa = parseFloat(el.style.opacity);
+                                if (isNaN(opa)) opa = 0;
+                                if ((image.left + image.width > limit && image.top + image.height > limitHeight) || marked[id]) {
+                                    el.style.opacity = opa + 0.03;
+                                    marked[id] = true;
+                                }
+                            })
 
-                            window.timeoutAnimation = setTimeout(() => {
-                                clearTimeout(window.intervalAnimation);
-                            }, 3000);
-                        }, 100);
+                            limit -= window.rectWidth / 30;
+                            if (limit < 0) {
+                                limit = window.rectWidth;
+                                limitHeight -= window.rectHeight / 3;
+                            }
+                        }, 15);
+
+                        window.timeoutAnimation = setTimeout(() => {
+                            clearTimeout(window.intervalAnimation);
+                        }, 5000);
 
                         let val = `
                         function animate() {
@@ -140,20 +152,30 @@ class LeftSide extends Component<IProps, IState> {
                                 let el = document.getElementById(id + "_alo2");
                                 el.style.opacity = 0;
                             });
+                            let marked = {};
                             setTimeout(() => {
-                                let limit = window.innerWidth + 100;
+                                let limit = window.innerWidth;
+                                let limitHeight = window.innerHeight;
                                 let curOpa = 0;
-                                let ratios = ['${ratios.join("','")}'];
+                                let ratios = ${JSON.stringify(ratios)};
                                 let interval = setInterval(() => {
                                     ['${ids.join("','")}'].forEach((id, key) => {
+                                        let image= ratios["id" + id];
+                                        console.log('image', image)
                                         let el = document.getElementById(id + "_alo2");
-                                        if (ratios[key] > limit)
-                                            el.style.opacity = (ratios[key] - limit) / window.innerWidth * 2;
-                                        else 
-                                            el.style.opacity = 0;
+                                        let opa = parseFloat(el.style.opacity);
+                                        if (isNaN(opa)) opa = 0;
+                                        if ((image.left + image.width > limit && image.top + image.height > limitHeight) || marked[id]) {
+                                            el.style.opacity = opa + 0.03;
+                                            marked[id] = true;
+                                        }
                                     })
 
-                                    limit -= window.innerWidth / 40;
+                                    limit -= window.innerWidth / 30;
+                                    if (limit < 0) {
+                                        limit = window.innerWidth;
+                                        limitHeight -= window.innerHeight / 3;
+                                    }
                                 }, 15);
 
                                 setTimeout(() => {
