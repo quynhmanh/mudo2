@@ -104,42 +104,60 @@ class LeftSide extends Component<IProps, IState> {
                             if (img.type != TemplateType.BackgroundImage) {
                                 ids.push(img._id);
                                 let ratio = 1.0 * img.left / window.rectWidth;
-                                ratios.push(ratio);
+                                ratios.push(img.left);
                             }
                         });
 
-                        window.intervalAnimation = setInterval(() => {
-                            ids.forEach(id => {
-                                let image = editorStore.images2.get(id);
-                                let ratio = 1.0 * image.left / window.rectWidth;
-                                let el = document.getElementById(id + "_alo") as HTMLElement;
-                                el.style.opacity = (curOpa*0.1 + ratio * curOpa).toString();
-                            })
+                        let limit = window.rectWidth;
 
-                            curOpa += 0.3;
-                        }, 40);
-
-                        window.timeoutAnimation = setTimeout(() => {
-                            clearTimeout(window.intervalAnimation);
-                        }, 3000);
-
-                        let val = `
-                        let ratios = ['${ratios.join("','")}'];
-                        function animate() {
-                            let curOpa = 0;
-                            let interval = setInterval(() => {
-                                ['${ids.join("','")}'].forEach((id, key) => {
-                                    let ratio = ratios[key];
-                                    let el = document.getElementById(id + "_alo2");
-                                    el.style.opacity = (curOpa*0.1 + ratio * curOpa).toString();
+                        setTimeout(() => {
+                            window.intervalAnimation = setInterval(() => {
+                                ids.forEach(id => {
+                                    let image = editorStore.images2.get(id);
+                                    let ratio = 1.0 * (Math.max(0, image.left) + 1) / limit;
+                                    let el = document.getElementById(id + "_alo") as HTMLElement;
+                                    el.style.opacity = (ratio * curOpa * 0.1).toString();
                                 })
 
-                                curOpa += 0.3;
-                            }, 40);
+                                curOpa += 0.2;
+                                if (limit - 100 > 0) limit -= 100;
+                                else limit = 1;
+                            }, 50);
 
+                            window.timeoutAnimation = setTimeout(() => {
+                                clearTimeout(window.intervalAnimation);
+                            }, 3000);
+                        }, 100);
+
+                        let val = `
+
+                        ['${ids.join("','")}'].forEach((id, key) => {
+                            console.log("asd", id + "_alo2");
+                            let el = document.getElementById(id + "_alo2");
+                            el.style.opacity = 0;
+                        });
+
+                        function animate() {
                             setTimeout(() => {
-                                clearTimeout(interval);
-                            }, 3000)
+                                let limit = window.innerWidth;
+                                let curOpa = 0;
+                                let ratios = ['${ratios.join("','")}'];
+                                let interval = setInterval(() => {
+                                    ['${ids.join("','")}'].forEach((id, key) => {
+                                        let ratio = 1.0 * (Math.max(0, ratios[key]) + 1) / limit;
+                                        let el = document.getElementById(id + "_alo2");
+                                        el.style.opacity = (curOpa*0.1 + ratio * curOpa).toString();
+                                    })
+
+                                    curOpa += 0.2;
+                                    if (limit - 100 > 0) limit -= 100;
+                                    else limit = 1;
+                                }, 50);
+
+                                setTimeout(() => {
+                                    clearTimeout(interval);
+                                }, 3000)
+                            }, 300);
                         }`;
 
                         console.log('val ', ratios, val)
