@@ -25,7 +25,7 @@ function startRecording(videoId, width, height, duration) {
                 "maxHeight": height
             }
         }, 
-	audio: true, 
+	audio: false, 
 	};
 
     chrome.tabCapture.capture(options, (stream) => {
