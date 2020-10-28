@@ -141,6 +141,7 @@ namespace RCB.TypeScript.Services
             template.IsVideo = model.IsVideo;
             template.VideoRepresentative = model.VideoRepresentative;
             template.Pages = model.Pages;
+            template.AnimationId = model.AnimationId;
 
             var updateResponse = client.Update<DesignModel>(template, u => u.Doc(template));
 

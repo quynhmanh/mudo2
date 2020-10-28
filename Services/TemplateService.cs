@@ -486,6 +486,7 @@ namespace RCB.TypeScript.Services
             template.Delete = model.Delete;
             template.IsVideo = model.IsVideo;
             template.Popularity = model.Popularity;
+            template.AnimationId = model.AnimationId;
 
             var updateResponse = client.Update<TemplateModel>(template, u => u.Doc(template));
 
