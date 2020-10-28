@@ -80,17 +80,17 @@ function startRecording(videoId, width, height, duration) {
         // xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send(formData);
         
-	    // ++count;
-	    // if (count > 1) {
-	    // 	recorder.stop()
-	    // }
+	    ++count;
+	    if (count > 1) {
+	    	recorder.stop()
+	    }
 	});
         const timeslice = duration;
         chrome.tabs.executeScript( null, {code:"let videos = document.getElementsByTagName('video'); for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;"});
         recorder.start(timeslice);
 
-        setTimeout(() => {
-            recorder.stop();
-        }, duration);
+        // setTimeout(() => {
+        //     recorder.stop();
+        // }, duration);
     });
 }
