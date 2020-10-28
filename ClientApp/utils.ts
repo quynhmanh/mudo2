@@ -871,6 +871,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 height: img.height,
                 color: img.color,
                 rotateAngle: img.rotateAngle ? img.rotateAngle : 0,
+                zIndex: img.zIndex,
             };
         }
     });
