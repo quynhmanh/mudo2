@@ -91,6 +91,7 @@ class LeftSide extends Component<IProps, IState> {
         const props = this.props;
         return (
             <React.Fragment>
+                {editorStore.tReady && 
                 <button
                     className="toolbar-btn"
                     onClick={e => {
@@ -98,6 +99,7 @@ class LeftSide extends Component<IProps, IState> {
                         editorStore.selectedTab = SidebarTab.Animation;
                     }}
                 ><span>Animation</span></button>
+                }   
                 <FontFamily
                     show=
                     {

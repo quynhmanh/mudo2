@@ -4,7 +4,7 @@ import TopMenu from "@Components/editor/Sidebar";
 import Globals from "@Globals";
 import axios from "axios";
 import uuidv4 from "uuid/v4";
-import { getMostProminentColor } from "@Utils";
+import { getMostProminentColor, isNode } from "@Utils";
 import { toJS } from "mobx";
 import editorStore from "@Store/EditorStore";
 import SidebarVideo from "@Components/editor/SidebarVideo";
@@ -711,10 +711,12 @@ class LeftSide extends Component<IProps, IState> {
                                 setSavingState={this.props.setSavingState}
                                 updateImages={this.props.updateImages}
                             />
+                            {this.props.tReady && this.props.mounted && !isNode() && 
                             <SidebarAnimation
                                 selectedTab={editorStore.selectedTab}
                                 animationId={editorStore.animationId}
                             />
+                            }
                         {/* } */}
                     </div>}
                 </div>

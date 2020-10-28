@@ -79,6 +79,8 @@ namespace RCB.TypeScript.Models
 
         public int Popularity { get; set; }
 
+        public int AnimationId { get; set; }
+
         public TemplateModel()
         {
 

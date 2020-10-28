@@ -70,6 +70,7 @@ class Toolbar extends Component<IProps, IState> {
                 }}
             >
                 <LeftSide
+                    tReady={props.tReady}
                     scale={props.scale}
                     onTextChange={props.onTextChange}
                     updateImages={props.updateImages}

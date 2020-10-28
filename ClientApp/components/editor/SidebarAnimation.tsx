@@ -167,7 +167,12 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                     }}
                 >
                     <button
-                        onClick={this.handleFadeAnimation}
+                        onClick={e => {
+                            e.preventDefault();
+                            editorStore.animationId = 0;
+
+                            document.getElementById('animation-script').innerHTML = "function animate() {}";
+                        }}
                         style={{
                             border: editorStore.animationId == 0 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
                             borderRadius: "4px",
