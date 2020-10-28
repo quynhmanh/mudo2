@@ -37,7 +37,7 @@ export default class SidebarAnimation extends Component<IProps, IState> {
     }
 
     handleFadeAnimation() {
-        editorStore.animationId = 0;
+        editorStore.animationId = 1;
         clearInterval(window.intervalAnimation);
         clearTimeout(window.timeoutAnimation)
         let curOpa = 1;
@@ -172,6 +172,22 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                             border: editorStore.animationId == 0 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
                             borderRadius: "4px",
                             width: "100px",
+                            marginRight: "12px",
+                        }}
+                    >
+                        <span
+                            style={{
+                                height: "46px",
+                                lineHeight: "46px",
+                            }}
+                        >None</span></button>
+                    <button
+                        onClick={this.handleFadeAnimation}
+                        style={{
+                            border: editorStore.animationId == 1 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
+                            borderRadius: "4px",
+                            width: "100px",
+                            marginRight: "12px",
                         }}
                     >
                         <span
