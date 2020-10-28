@@ -134,12 +134,12 @@ class LeftSide extends Component<IProps, IState> {
                                 }
                             })
 
-                            limit -= window.rectWidth / 45;
+                            limit -= window.rectWidth / 80;
                             if (limit < 0) {
                                 limit = window.rectWidth;
-                                limitHeight += window.rectHeight / 4;
+                                limitHeight += window.rectHeight / 10;
                             }
-                        }, 15);
+                        }, 5);
 
                         window.timeoutAnimation = setTimeout(() => {
                             clearTimeout(window.intervalAnimation);
@@ -170,12 +170,12 @@ class LeftSide extends Component<IProps, IState> {
                                         }
                                     })
 
-                                    limit -= window.innerWidth / 45;
+                                    limit -= window.innerWidth / 80;
                                     if (limit < 0) {
                                         limit = window.innerWidth;
-                                        limitHeight += window.innerHeight / 4;
+                                        limitHeight += window.innerHeight / 10;
                                     }
-                                }, 15);
+                                }, 5);
 
                                 setTimeout(() => {
                                     clearTimeout(interval);
