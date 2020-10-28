@@ -892,6 +892,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             newNode.appendChild(newNode2);
             newNode.id = id + "animation-block";
             newNode.style.position = "absolute";
+            newNode.style.pointerEvents = "none";
             newNode.style.zIndex = image.zIndex;
             newNode.style.width = image.width * scale + "px";
             newNode.style.height = image.height * scale + "px";
@@ -905,9 +906,9 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             el.parentNode.appendChild(newNode);
         });
 
-        let cnt = 30 * scale;
+        let cnt = 25 * scale;
         window.intervalAnimation = setInterval(() => {
-            cnt += 30 * scale;
+            cnt += 25 * scale;
             ids.forEach(id => {
                 let image = editorStore.images2.get(id);
                 let el = document.getElementById(id + "animation-block") as HTMLElement;
@@ -957,10 +958,10 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     }
                 });
                 
-                let cnt = 30;
+                let cnt = 25;
                 setTimeout(() => {
                     let interval = setInterval(() => {
-                        cnt += 30;
+                        cnt += 25;
                         ids.forEach(id => {
                             let image= ratios["id" + id];
                             let el = document.getElementById(id + "animation-block");
