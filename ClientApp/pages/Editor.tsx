@@ -1034,6 +1034,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     editorStore.fonts.replace(image.value.fontList);
                     editorStore.subtype = res.data.value.printType;
                     let scale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
+                    editorStore.scale = scale;
                     self.setState({
                         scale,
                         fitScale: scale,
