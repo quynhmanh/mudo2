@@ -891,6 +891,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             newNode.appendChild(newNode2);
             newNode.id = id + "animation-block";
             newNode.style.position = "absolute";
+            newNode.style.zIndex = image.zIndex;
             newNode.style.width = image.width * scale + "px";
             newNode.style.height = image.height * scale + "px";
             newNode.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px)`;
@@ -937,6 +938,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                         newNode.appendChild(newNode2);
                         newNode.id = id + "animation-block";
                         newNode.style.position = "absolute";
+                        newNode.style.zIndex = image.zIndex;
                         newNode.style.width = image.width * scale + "px";
                         newNode.style.height = image.height * scale + "px";
                         newNode.style.transform = "translate(" + image.left * scale + "px, " + image.top * scale + "px)";
