@@ -917,7 +917,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 let el2 = document.getElementById(id + "_alo");
                 if (-image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
             })
-        }, 20);
+        }, 30);
 
         window.timeoutAnimation = setTimeout(() => {
             ids.forEach(id => {
@@ -970,7 +970,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             let el2 = document.getElementById(id + "_alo2");
                             if (-image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
                         })
-                    }, 20);
+                    }, 30);
 
                     setTimeout(() => {
                         clearTimeout(interval);
