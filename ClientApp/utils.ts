@@ -870,7 +870,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 width: img.width,
                 height: img.height,
                 color: img.color,
-                rotateAngle: img.rotateAngle,
+                rotateAngle: img.rotateAngle ? img.rotateAngle : 0,
             };
         }
     });
