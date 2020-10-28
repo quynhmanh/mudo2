@@ -856,6 +856,119 @@ export const createStyleJsonFromString = (styleString) => {
     return jsonStyles;
 }
 
+export const handleBlockAnimation = (injectScriptOnly = false) => {
+    clearInterval(window.intervalAnimation);
+    clearTimeout(window.timeoutAnimation)
+    let curOpa = 1;
+
+    let ids = [];
+    let ratios = {};
+    editorStore.images2.forEach(img => {
+        if (img.type == TemplateType.Heading) {
+            ids.push(img._id);
+            let ratio = 1.0 * (img.left + 100) / (window.rectWidth + 100);
+            ratios[`id${img._id}`] = {
+                left: img.left,
+                top: img.top,
+                width: img.width,
+                height: img.height,
+            };
+        }
+    });
+
+    if (!injectScriptOnly) {
+        let scale = editorStore.scale;
+
+        ids.forEach((id, key) => {
+            let image = editorStore.images2.get(id);
+            let el = document.getElementById(id + "_alo");
+            let el2 = document.getElementById(id + "animation-block");
+            if (el2) el2.remove();
+
+            let newNode = document.createElement("div");
+            let newNode2 = document.createElement("div");
+            newNode.appendChild(newNode2);
+            newNode.id = id + "animation-block";
+            newNode.style.position = "absolute";
+            newNode.style.width = image.width * scale + "px";
+            newNode.style.height = image.height * scale + "px";
+            newNode.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px)`;
+            newNode.style.overflow = "hidden";
+            newNode2.style.width = "100%";
+            newNode2.style.height = "100%";
+            newNode2.style.background = "black";
+            newNode2.style.transform = `translate(-${image.width * scale}px, 0px)`;
+            newNode2.style.position = "absolute";
+            el.parentNode.appendChild(newNode);
+        });
+
+        let cnt = 5;
+        window.intervalAnimation = setInterval(() => {
+            cnt += 5;
+            ids.forEach(id => {
+                let image = editorStore.images2.get(id);
+                let el = document.getElementById(id + "animation-block") as HTMLElement;
+                el.children[0].style.transform = `translate(${-image.width * scale + cnt}px, 0px)`;
+            })
+        }, 10);
+
+        window.timeoutAnimation = setTimeout(() => {
+            ids.forEach(id => {
+                let el = document.getElementById(id + "animation-block") as HTMLElement;
+                el.remove();
+            });
+            clearTimeout(window.intervalAnimation);
+        }, 5000);
+    }
+
+    let val = `
+            function animate() {
+                let scale = 1;
+                let ids = ['${ids.join("','")}'];
+                let ratios = ${JSON.stringify(ratios)};
+                ids.forEach((id, key) => {
+                    let image= ratios["id" + id];
+                    let el = document.getElementById(id + "_alo2");
+        
+                    if (!document.getElementById(id + "animation-block")) {
+                        let newNode = document.createElement("div");
+                        let newNode2 = document.createElement("div");
+                        newNode.appendChild(newNode2);
+                        newNode.id = id + "animation-block";
+                        newNode.style.position = "absolute";
+                        newNode.style.width = image.width * scale + "px";
+                        newNode.style.height = image.height * scale + "px";
+                        newNode.style.transform = "translate(" + image.left * scale + "px, " + image.top * scale + "px)";
+                        newNode.style.overflow = "hidden";
+                        newNode2.style.width = "100%";
+                        newNode2.style.height = "100%";
+                        newNode2.style.background = "black";
+                        newNode2.style.transform = "translate(-" + image.width * scale + "px, 0px)";
+                        newNode2.style.position = "absolute";
+                        el.parentNode.appendChild(newNode);
+                    }
+                });
+                
+                let cnt = 5;
+                setTimeout(() => {
+                    let interval = setInterval(() => {
+                        cnt += 5;
+                        ids.forEach(id => {
+                            let image= ratios["id" + id];
+                            let el = document.getElementById(id + "animation-block");
+                            el.children[0].style.transform = "translate(" + (-image.width + cnt) + "px, 0px)";
+                        })
+                    }, 10);
+
+                    setTimeout(() => {
+                        clearTimeout(interval);
+                    }, 5000)
+                }, 300);
+            }`;
+
+    document.getElementById('animation-script').innerHTML = val;
+}
+
 export const handleFadeAnimation = (injectScriptOnly = false) => {
     clearInterval(window.intervalAnimation);
     clearTimeout(window.timeoutAnimation)

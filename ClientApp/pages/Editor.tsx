@@ -927,7 +927,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 id: id
             };
         });
-
+        
+        editorStore.scale = fitScale;
         this.setState({
             staticGuides,
             scale: fitScale,
@@ -4501,7 +4502,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     downloadVideo = () => {
-        if (editorStore.animationId == 1) handleFadeAnimation(true);
+        if (editorStore.animationId == 2) handleFadeAnimation(true);
 
         window.cancelDownload = false;
         window.step = 0.1;

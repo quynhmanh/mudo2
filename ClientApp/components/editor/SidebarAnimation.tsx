@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { SidebarTab, TemplateType, } from "./enums";
 import editorStore from "@Store/EditorStore";
 import Sidebar from "@Components/editor/SidebarStyled";
-import { handleFadeAnimation } from "@Utils";
+import { handleFadeAnimation, handleBlockAnimation } from "@Utils";
 
 export interface IProps {
     selectedTab: any;
@@ -38,8 +38,13 @@ export default class SidebarAnimation extends Component<IProps, IState> {
     }
 
     handleFadeAnimation() {
-        editorStore.animationId = 1;
+        editorStore.animationId = 2;
         handleFadeAnimation();
+    }
+
+    handleBlockAnimation() {
+        editorStore.animationId = 1;
+        handleBlockAnimation();
     }
 
     render() {
@@ -89,7 +94,7 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                             border: editorStore.animationId == 0 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
                             borderRadius: "4px",
                             width: "100px",
-                            marginRight: "12px",
+                            marginRight: "10px",
                         }}
                     >
                         <span
@@ -99,12 +104,26 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                             }}
                         >None</span></button>
                     <button
-                        onClick={this.handleFadeAnimation}
+                        onClick={this.handleBlockAnimation}
                         style={{
                             border: editorStore.animationId == 1 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
                             borderRadius: "4px",
                             width: "100px",
-                            marginRight: "12px",
+                            marginRight: "10px",
+                        }}
+                    >
+                        <span
+                            style={{
+                                height: "46px",
+                                lineHeight: "46px",
+                            }}
+                        >Block</span></button>
+                    <button
+                        onClick={this.handleFadeAnimation}
+                        style={{
+                            border: editorStore.animationId == 2 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
+                            borderRadius: "4px",
+                            width: "100px",
                         }}
                     >
                         <span
