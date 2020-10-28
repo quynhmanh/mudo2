@@ -21,6 +21,7 @@ import { SidebarTab, TemplateType } from "./enums";
 import { camelCase } from "lodash";
 
 import { observer } from "mobx-react";
+import SidebarAnimation from "./SidebarAnimation";
 
 export interface IProps {
     id: string;
@@ -709,6 +710,9 @@ class LeftSide extends Component<IProps, IState> {
                                 handleEditmedia={this.props.handleEditmedia}
                                 setSavingState={this.props.setSavingState}
                                 updateImages={this.props.updateImages}
+                            />
+                            <SidebarAnimation
+                                selectedTab={editorStore.selectedTab}
                             />
                         {/* } */}
                     </div>}

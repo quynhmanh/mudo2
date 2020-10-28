@@ -20,6 +20,7 @@ export enum SidebarTab {
     Color = 496,
     Emoji = 992,
     Effect = 1984,
+    Animation = 3968,
 }
 
 export enum Mode {
