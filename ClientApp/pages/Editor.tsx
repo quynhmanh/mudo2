@@ -927,7 +927,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 id: id
             };
         });
-        
+
         editorStore.scale = fitScale;
         this.setState({
             staticGuides,
@@ -1209,6 +1209,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             window.rectWidth = rectWidth;
             window.rectHeight = rectHeight;
+            editorStore.scale = fitScale;
 
             self.setState({
                 staticGuides,
