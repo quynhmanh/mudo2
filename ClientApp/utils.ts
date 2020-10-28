@@ -859,14 +859,11 @@ export const createStyleJsonFromString = (styleString) => {
 export const handleBlockAnimation = (injectScriptOnly = false) => {
     clearInterval(window.intervalAnimation);
     clearTimeout(window.timeoutAnimation)
-    let curOpa = 1;
-
     let ids = [];
     let ratios = {};
     editorStore.images2.forEach(img => {
         if (img.type == TemplateType.Heading) {
             ids.push(img._id);
-            let ratio = 1.0 * (img.left + 100) / (window.rectWidth + 100);
             ratios[`id${img._id}`] = {
                 left: img.left,
                 top: img.top,
@@ -884,6 +881,9 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
         ids.forEach((id, key) => {
             let image = editorStore.images2.get(id);
             let el = document.getElementById(id + "_alo");
+            el.style.opacity = 0;
+
+
             let el2 = document.getElementById(id + "animation-block");
             if (el2) el2.remove();
 
@@ -905,13 +905,16 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             el.parentNode.appendChild(newNode);
         });
 
-        let cnt = 5;
+        let cnt = 30 * scale;
         window.intervalAnimation = setInterval(() => {
-            cnt += 5;
+            cnt += 30 * scale;
             ids.forEach(id => {
                 let image = editorStore.images2.get(id);
                 let el = document.getElementById(id + "animation-block") as HTMLElement;
                 el.children[0].style.transform = `translate(${-image.width * scale + cnt}px, 0px)`;
+
+                let el2 = document.getElementById(id + "_alo");
+                if (-image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
             })
         }, 10);
 
@@ -932,7 +935,8 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 ids.forEach((id, key) => {
                     let image = ratios["id" + id];
                     let el = document.getElementById(id + "_alo2");
-        
+                    el.style.opacity = 0;
+
                     if (!document.getElementById(id + "animation-block")) {
                         let newNode = document.createElement("div");
                         let newNode2 = document.createElement("div");
@@ -953,14 +957,17 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     }
                 });
                 
-                let cnt = 5;
+                let cnt = 30;
                 setTimeout(() => {
                     let interval = setInterval(() => {
-                        cnt += 5;
+                        cnt += 30;
                         ids.forEach(id => {
                             let image= ratios["id" + id];
                             let el = document.getElementById(id + "animation-block");
                             el.children[0].style.transform = "translate(" + (-image.width + cnt) + "px, 0px)";
+
+                            let el2 = document.getElementById(id + "_alo2");
+                            if (-image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
                         })
                     }, 10);
 
@@ -983,7 +990,6 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
     editorStore.images2.forEach(img => {
         if (img.type != TemplateType.BackgroundImage) {
             ids.push(img._id);
-            let ratio = 1.0 * (img.left + 100) / (window.rectWidth + 100);
             ratios[`id${img._id}`] = {
                 left: img.left,
                 top: img.top,
