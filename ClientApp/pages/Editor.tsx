@@ -55,6 +55,7 @@ let rotateRect,
     updateYGuide,
     getGuideOfImage,
     hideGuide,
+    handleFadeAnimation,
     first;
 
 let editorStore: any = {};
@@ -92,6 +93,7 @@ if (!isNode()) {
         updateYGuide,
         getGuideOfImage,
         hideGuide,
+        handleFadeAnimation,
     } = require("@Utils"));
 
     ({
@@ -979,6 +981,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     editorStore.popularity = image.value.popularity;
                     editorStore.isPopular = image.value.popular;
                     editorStore.animationId = image.value.animationId;
+
+                    if (editorStore.animationId == 1) handleFadeAnimation();
 
                     let document = JSON.parse(image.value.document);
                     scaleX = (width - 100) / document.width;

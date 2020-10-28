@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { SidebarTab, TemplateType, } from "./enums";
 import editorStore from "@Store/EditorStore";
 import Sidebar from "@Components/editor/SidebarStyled";
+import { handleFadeAnimation } from "@Utils";
 
 export interface IProps {
     selectedTab: any;
@@ -38,96 +39,7 @@ export default class SidebarAnimation extends Component<IProps, IState> {
 
     handleFadeAnimation() {
         editorStore.animationId = 1;
-        clearInterval(window.intervalAnimation);
-        clearTimeout(window.timeoutAnimation)
-        let curOpa = 1;
-
-        let ids = [];
-        let ratios = {};
-        editorStore.images2.forEach(img => {
-            if (img.type != TemplateType.BackgroundImage) {
-                ids.push(img._id);
-                let ratio = 1.0 * (img.left + 100) / (window.rectWidth + 100);
-                ratios[`id${img._id}`] = {
-                    left: img.left,
-                    top: img.top,
-                    width: img.width,
-                    height: img.height,
-                };
-            }
-        });
-
-        let limit = window.rectWidth;
-        let limitHeight = 0;
-
-        ids.forEach((id, key) => {
-            let el = document.getElementById(id + "_alo");
-            el.style.opacity = 0;
-        });
-
-        let marked = {};
-        window.intervalAnimation = setInterval(() => {
-            ids.forEach(id => {
-                let image = editorStore.images2.get(id);
-                let el = document.getElementById(id + "_alo") as HTMLElement;
-                let opa = parseFloat(el.style.opacity);
-                if (isNaN(opa)) opa = 0;
-                if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
-                    el.style.opacity = opa + 0.025;
-                    marked[id] = true;
-                }
-            })
-
-            limit -= window.rectWidth / 80;
-            if (limit < 0) {
-                limit = window.rectWidth;
-                limitHeight += window.rectHeight / 10;
-            }
-        }, 5);
-
-        window.timeoutAnimation = setTimeout(() => {
-            clearTimeout(window.intervalAnimation);
-        }, 5000);
-
-        let val = `
-                        function animate() {
-                            ['${ids.join("','")}'].forEach((id, key) => {
-                                console.log("asd", id + "_alo2");
-                                let el = document.getElementById(id + "_alo2");
-                                el.style.opacity = 0;
-                            });
-                            let marked = {};
-                            setTimeout(() => {
-                                let limit = window.innerWidth;
-                                let limitHeight = 0;
-                                let curOpa = 0;
-                                let ratios = ${JSON.stringify(ratios)};
-                                let interval = setInterval(() => {
-                                    ['${ids.join("','")}'].forEach((id, key) => {
-                                        let image= ratios["id" + id];
-                                        let el = document.getElementById(id + "_alo2");
-                                        let opa = parseFloat(el.style.opacity);
-                                        if (isNaN(opa)) opa = 0;
-                                        if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
-                                            el.style.opacity = opa + 0.03;
-                                            marked[id] = true;
-                                        }
-                                    })
-
-                                    limit -= window.innerWidth / 80;
-                                    if (limit < 0) {
-                                        limit = window.innerWidth;
-                                        limitHeight += window.innerHeight / 10;
-                                    }
-                                }, 5);
-
-                                setTimeout(() => {
-                                    clearTimeout(interval);
-                                }, 5000)
-                            }, 300);
-                        }`;
-
-        document.getElementById('animation-script').innerHTML = val;
+        handleFadeAnimation();
     }
 
     render() {
