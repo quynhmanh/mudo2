@@ -873,6 +873,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 width: img.width,
                 height: img.height,
                 color: img.color,
+                rotateAngle: img.rotateAngle,
             };
         }
     });
@@ -894,7 +895,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             newNode.style.zIndex = image.zIndex;
             newNode.style.width = image.width * scale + "px";
             newNode.style.height = image.height * scale + "px";
-            newNode.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px)`;
+            newNode.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle}deg)`;
             newNode.style.overflow = "hidden";
             newNode2.style.width = "100%";
             newNode2.style.height = "100%";
@@ -941,7 +942,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                         newNode.style.zIndex = image.zIndex;
                         newNode.style.width = image.width * scale + "px";
                         newNode.style.height = image.height * scale + "px";
-                        newNode.style.transform = "translate(" + image.left * scale + "px, " + image.top * scale + "px)";
+                        newNode.style.transform = "translate(" + image.left * scale + "px, " + image.top * scale + "px) rotate(" + image.rotateAngle + "deg)";
                         newNode.style.overflow = "hidden";
                         newNode2.style.width = "100%";
                         newNode2.style.height = "100%";
