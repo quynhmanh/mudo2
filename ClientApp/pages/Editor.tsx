@@ -24,7 +24,7 @@ const Narbar = loadable(() => import("@Components/editor/Navbar"));
 const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
 
 import {
-    isNode, transformPoint, createStyleJsonFromString, processChildren,
+    isNode, transformPoint, createStyleJsonFromString, processChildren, handleBlockAnimation,
 } from "@Utils";
 
 import {
@@ -4504,6 +4504,7 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     downloadVideo = () => {
+        if (editorStore.animationId == 1) handleBlockAnimation(true);
         if (editorStore.animationId == 2) handleFadeAnimation(true);
 
         window.cancelDownload = false;
