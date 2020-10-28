@@ -711,12 +711,10 @@ class LeftSide extends Component<IProps, IState> {
                                 setSavingState={this.props.setSavingState}
                                 updateImages={this.props.updateImages}
                             />
-                            {this.props.tReady && this.props.mounted && !isNode() && 
                             <SidebarAnimation
                                 selectedTab={editorStore.selectedTab}
                                 animationId={editorStore.animationId}
                             />
-                            }
                         {/* } */}
                     </div>}
                 </div>
