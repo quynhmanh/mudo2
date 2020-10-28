@@ -982,8 +982,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     editorStore.isPopular = image.value.popular;
                     editorStore.animationId = image.value.animationId;
 
-                    if (editorStore.animationId == 1) handleFadeAnimation();
-
                     let document = JSON.parse(image.value.document);
                     scaleX = (width - 100) / document.width;
                     scaleY = (height - 100) / document.height;
