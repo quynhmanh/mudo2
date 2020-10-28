@@ -906,9 +906,9 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             el.parentNode.appendChild(newNode);
         });
 
-        let cnt = 25 * scale;
+        let cnt = 50 * scale;
         window.intervalAnimation = setInterval(() => {
-            cnt += 25 * scale;
+            cnt += 50 * scale;
             ids.forEach(id => {
                 let image = editorStore.images2.get(id);
                 let el = document.getElementById(id + "animation-block") as HTMLElement;
@@ -917,7 +917,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 let el2 = document.getElementById(id + "_alo");
                 if (-image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
             })
-        }, 10);
+        }, 20);
 
         window.timeoutAnimation = setTimeout(() => {
             ids.forEach(id => {
@@ -958,10 +958,10 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     }
                 });
                 
-                let cnt = 25;
+                let cnt = 50;
                 setTimeout(() => {
                     let interval = setInterval(() => {
-                        cnt += 25;
+                        cnt += 50;
                         ids.forEach(id => {
                             let image= ratios["id" + id];
                             let el = document.getElementById(id + "animation-block");
@@ -970,7 +970,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             let el2 = document.getElementById(id + "_alo2");
                             if (-image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
                         })
-                    }, 10);
+                    }, 20);
 
                     setTimeout(() => {
                         clearTimeout(interval);
