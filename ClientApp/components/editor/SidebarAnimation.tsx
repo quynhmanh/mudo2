@@ -5,6 +5,7 @@ import Sidebar from "@Components/editor/SidebarStyled";
 
 export interface IProps {
     selectedTab: any;
+    animationId: any;
 }
 
 export interface IState {
@@ -28,10 +29,15 @@ export default class SidebarAnimation extends Component<IProps, IState> {
             return true;
         }
 
+        if (this.props.animationId != nextProps.animationId) {
+            return true;
+        }
+ 
         return false;
     }
 
     handleFadeAnimation() {
+        editorStore.animationId = 0;
         clearInterval(window.intervalAnimation);
         clearTimeout(window.timeoutAnimation)
         let curOpa = 1;
@@ -163,7 +169,7 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                     <button
                         onClick={this.handleFadeAnimation}
                         style={{
-                            border: "1px solid rgba(57,76,96,.15)",
+                            border: editorStore.animationId == 0 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
                             borderRadius: "4px",
                             width: "100px",
                         }}

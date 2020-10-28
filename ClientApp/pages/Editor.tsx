@@ -978,6 +978,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     editorStore.isVideo = image.value.isVideo;
                     editorStore.popularity = image.value.popularity;
                     editorStore.isPopular = image.value.popular;
+                    editorStore.AnimationId = image.value.animationId;
 
                     let document = JSON.parse(image.value.document);
                     scaleX = (width - 100) / document.width;
@@ -4883,6 +4884,7 @@ class CanvaEditor extends Component<IProps, IState> {
             UserName: Globals.serviceUser ? Globals.serviceUser.username : "admin@draft.vn",
             Popular: editorStore.isPopular,
             Popularity: pop,
+            AnimationId: editorStore.AnimationId,
         });
 
         axios
