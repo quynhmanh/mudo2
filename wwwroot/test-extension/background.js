@@ -25,7 +25,7 @@ function startRecording(videoId, width, height, duration) {
                 "maxHeight": height
             }
         }, 
-	audio: false, 
+	audio: true, 
 	};
 
     chrome.tabCapture.capture(options, (stream) => {
@@ -65,28 +65,32 @@ function startRecording(videoId, width, height, duration) {
             // console.log(`Got another blob: ${timecode}: ${chunks}`);
         }
 	var count = 0;
-        recorder.addEventListener('dataavailable', event => {
-            console.log('event.data ', event.data)
-            chunks.push(event.data);
-            var formData = new FormData();
-            formData.append('webm', event.data, 'video.webm');
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                }
-            };
-            const url = 'http://localhost:64099/api/Design/VideoStream?videoId=' + videoId;
-            xhttp.open("POST", url, true);
-            // xhttp.setRequestHeader("Content-type", "application/json");
-            xhttp.send(formData);
+    recorder.addEventListener('dataavailable', event => {
+        console.log('event.data ', event.data)
+        chunks.push(event.data);
+        var formData = new FormData();
+        formData.append('webm', event.data, 'video.webm');
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            }
+        };
+        const url = 'http://localhost:64099/api/Design/VideoStream?videoId=' + videoId;
+        xhttp.open("POST", url, true);
+        // xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(formData);
         
-	    ++count;
-	    if (count > 1) {
-	    	recorder.stop()
-	    }
+	    // ++count;
+	    // if (count > 1) {
+	    // 	recorder.stop()
+	    // }
 	});
         const timeslice = duration;
         chrome.tabs.executeScript( null, {code:"let videos = document.getElementsByTagName('video'); for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;"});
         recorder.start(timeslice);
+
+        setTimeout(() => {
+            recorder.stop();
+        }, duration);
     });
 }
