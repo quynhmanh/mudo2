@@ -89,6 +89,20 @@ class LeftSide extends Component<IProps, IState> {
             image = found;
         }
         const props = this.props;
+
+        let animation;
+        switch (editorStore.animationId) {
+            case 0:
+                animation = "Animation";
+                break;
+            case 1:
+                animation = "Block";
+                break;
+            case 2:
+                animation = "Fade";
+                break;
+        }
+
         return (
             <React.Fragment>
                 {editorStore.tReady && !editorStore.idObjectSelected &&
@@ -108,7 +122,7 @@ class LeftSide extends Component<IProps, IState> {
                             marginRight: "8px",
                         }}
                     ><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.782 8.782a7 7 0 1 0 9.436 9.436 6.953 6.953 0 0 1-2.393.734 5.5 5.5 0 0 1-7.777-7.777c.1-.855.355-1.662.734-2.393z" fill="currentColor" fill-opacity=".3"></path><circle cx="15" cy="9" r="6.25" stroke="currentColor" stroke-width="1.5"></circle><path fill-rule="evenodd" clip-rule="evenodd" d="M8.782 5.782a7 7 0 1 0 9.436 9.436 6.953 6.953 0 0 1-2.393.734 5.5 5.5 0 0 1-7.777-7.777c.1-.854.355-1.662.734-2.393z" fill="currentColor" fill-opacity=".6"></path></svg></span>}
-                    <span>{editorStore.animationId == 2 ? "Animation" : "Fade"}</span></button>
+                    <span>{animation}</span></button>
                 }   
                 <FontFamily
                     show=
