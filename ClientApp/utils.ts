@@ -872,6 +872,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 top: img.top,
                 width: img.width,
                 height: img.height,
+                color: img.color,
             };
         }
     });
@@ -896,7 +897,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             newNode.style.overflow = "hidden";
             newNode2.style.width = "100%";
             newNode2.style.height = "100%";
-            newNode2.style.background = "black";
+            newNode2.style.background = image.color ? image.color : "black";
             newNode2.style.transform = `translate(-${image.width * scale}px, 0px)`;
             newNode2.style.position = "absolute";
             el.parentNode.appendChild(newNode);
@@ -927,7 +928,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 let ids = ['${ids.join("','")}'];
                 let ratios = ${JSON.stringify(ratios)};
                 ids.forEach((id, key) => {
-                    let image= ratios["id" + id];
+                    let image = ratios["id" + id];
                     let el = document.getElementById(id + "_alo2");
         
                     if (!document.getElementById(id + "animation-block")) {
@@ -942,7 +943,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                         newNode.style.overflow = "hidden";
                         newNode2.style.width = "100%";
                         newNode2.style.height = "100%";
-                        newNode2.style.background = "black";
+                        newNode2.style.background = image.color ? image.color : "black";
                         newNode2.style.transform = "translate(-" + image.width * scale + "px, 0px)";
                         newNode2.style.position = "absolute";
                         el.parentNode.appendChild(newNode);
