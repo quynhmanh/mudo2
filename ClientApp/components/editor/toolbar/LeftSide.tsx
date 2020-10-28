@@ -114,7 +114,7 @@ class LeftSide extends Component<IProps, IState> {
                         });
 
                         let limit = window.rectWidth;
-                        let limitHeight = window.rectHeight;
+                        let limitHeight = 0;
 
                         ids.forEach((id, key) => {
                             let el = document.getElementById(id + "_alo");
@@ -128,16 +128,16 @@ class LeftSide extends Component<IProps, IState> {
                                 let el = document.getElementById(id + "_alo") as HTMLElement;
                                 let opa = parseFloat(el.style.opacity);
                                 if (isNaN(opa)) opa = 0;
-                                if ((image.left + image.width > limit && image.top + image.height > limitHeight) || marked[id]) {
-                                    el.style.opacity = opa + 0.03;
+                                if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
+                                    el.style.opacity = opa + 0.025;
                                     marked[id] = true;
                                 }
                             })
 
-                            limit -= window.rectWidth / 40;
+                            limit -= window.rectWidth / 45;
                             if (limit < 0) {
                                 limit = window.rectWidth;
-                                limitHeight -= window.rectHeight / 4;
+                                limitHeight += window.rectHeight / 4;
                             }
                         }, 15);
 
@@ -155,26 +155,25 @@ class LeftSide extends Component<IProps, IState> {
                             let marked = {};
                             setTimeout(() => {
                                 let limit = window.innerWidth;
-                                let limitHeight = window.innerHeight;
+                                let limitHeight = 0;
                                 let curOpa = 0;
                                 let ratios = ${JSON.stringify(ratios)};
                                 let interval = setInterval(() => {
                                     ['${ids.join("','")}'].forEach((id, key) => {
                                         let image= ratios["id" + id];
-                                        console.log('image', image)
                                         let el = document.getElementById(id + "_alo2");
                                         let opa = parseFloat(el.style.opacity);
                                         if (isNaN(opa)) opa = 0;
-                                        if ((image.left + image.width > limit && image.top + image.height > limitHeight) || marked[id]) {
+                                        if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
                                             el.style.opacity = opa + 0.03;
                                             marked[id] = true;
                                         }
                                     })
 
-                                    limit -= window.innerWidth / 40;
+                                    limit -= window.innerWidth / 45;
                                     if (limit < 0) {
                                         limit = window.innerWidth;
-                                        limitHeight -= window.innerHeight / 4;
+                                        limitHeight += window.innerHeight / 4;
                                     }
                                 }, 15);
 
