@@ -91,7 +91,7 @@ class LeftSide extends Component<IProps, IState> {
         const props = this.props;
         return (
             <React.Fragment>
-                {editorStore.tReady && 
+                {editorStore.tReady && !editorStore.idObjectSelected &&
                 <button
                     className="toolbar-btn"
                     onClick={e => {
