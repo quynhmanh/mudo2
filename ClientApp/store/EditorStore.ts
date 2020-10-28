@@ -57,7 +57,7 @@ class Images {
     @observable colorField = null;
     @observable gridIndex = null;
     @observable croppable = false;
-    @observable animationId = null;
+    @observable animationId = 0;
     
     @action getImageSelected = () => {
       return toJS(this.images2.get(this.idObjectSelected));
