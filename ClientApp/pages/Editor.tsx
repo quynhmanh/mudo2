@@ -4501,6 +4501,8 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     downloadVideo = () => {
+        if (editorStore.animationId == 1) handleFadeAnimation(true);
+
         window.cancelDownload = false;
         window.step = 0.1;
         this.showPopupDownloading();
