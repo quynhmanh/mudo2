@@ -179,11 +179,9 @@ class LeftSide extends Component<IProps, IState> {
 
                                 setTimeout(() => {
                                     clearTimeout(interval);
-                                }, 3000)
+                                }, 5000)
                             }, 300);
                         }`;
-
-                        console.log('val ', ratios, val)
 
                         let scriptEl = document.getElementById('animation-script').innerHTML = val;
                     }}
