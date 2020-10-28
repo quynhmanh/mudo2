@@ -1015,7 +1015,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
             limit -= window.rectWidth / 80;
             if (limit < 0) {
                 limit = window.rectWidth;
-                limitHeight += window.rectHeight / 10;
+                limitHeight += window.rectHeight / 8;
             }
         }, 5);
 
@@ -1051,7 +1051,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                         limit -= window.innerWidth / 80;
                         if (limit < 0) {
                             limit = window.innerWidth;
-                            limitHeight += window.innerHeight / 10;
+                            limitHeight += window.innerHeight / 8;
                         }
                     }, 5);
 
