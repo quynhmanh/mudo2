@@ -937,7 +937,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 ids.forEach((id, key) => {
                     let image = ratios["id" + id];
                     let el = document.getElementById(id + "_alo2");
-                    el.style.opacity = 0;
+                    if (el) el.style.opacity = 0;
 
                     if (!document.getElementById(id + "animation-block")) {
                         let newNode = document.createElement("div");
@@ -969,7 +969,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             el.children[0].style.transform = "translate(" + (-image.width + cnt) + "px, 0px)";
 
                             let el2 = document.getElementById(id + "_alo2");
-                            if (-image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
+                            if (el2 && -image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
                         })
                     }, 30);
 
