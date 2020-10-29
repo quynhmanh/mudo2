@@ -957,7 +957,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                         newNode2.style.width = "100%";
                         newNode2.style.height = "100%";
                         newNode2.style.background = image.color ? image.color : "black";
-                        newNode2.style.transform = "translate(-" + image.width * scale + "px, 0px)";
+                        newNode2.style.transform = "translate(-" + (image.width * scale + 1) + "px, 0px)";
                         newNode2.style.position = "absolute";
                         if (el) el.parentNode.appendChild(newNode);
                     }
