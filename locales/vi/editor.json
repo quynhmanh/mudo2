@@ -59,5 +59,9 @@
     "doNotHaveAccount": "Bạn chưa có tài khoản ?",
     "createAFreeAccount": "Miễn phí tạo ngay",
     "loginWithGoogle": "Đăng nhập với Google",
-    "loginWithFacebook": "Đăng nhập với Facebook"
+    "loginWithFacebook": "Đăng nhập với Facebook",
+    "processing": "Đang xử lý",
+    "animation": "Hình động",
+    "block": "Khối",
+    "fade": "Rõ dần"
 }

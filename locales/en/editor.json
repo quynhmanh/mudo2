@@ -59,5 +59,10 @@
     "doNotHaveAccount": "Do not have an account ?",
     "createAFreeAccount": "Create a free account",
     "loginWithGoogle": "Login with Google",
-    "loginWithFacebook": "Login with Facebook"
+    "loginWithFacebook": "Login with Facebook",
+    "processing": "Processing",
+    "animation": "Animation",
+    "block": "Block",
+    "fade": "Fade",
+    "none": "None"
 }
