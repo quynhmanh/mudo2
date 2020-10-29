@@ -596,7 +596,11 @@ namespace RCB.TypeScript.Controllers
                         await page.SetContentAsync(html,
                                 new NavigationOptions()
                                 {
-                                    WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Load, },
+                                    WaitUntil = new WaitUntilNavigation[] { 
+                                        WaitUntilNavigation.Networkidle0, 
+                                        WaitUntilNavigation.Load,
+                                        WaitUntilNavigation.DOMContentLoaded
+                                    },
                                     Timeout = 0,
                                 }
                             );
