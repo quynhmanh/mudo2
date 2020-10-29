@@ -916,7 +916,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 el.children[0].style.transform = `translate(${-image.width * scale + cnt}px, 0px)`;
 
                 let el2 = document.getElementById(id + "_alo");
-                if (-image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
+                if (el2 && -image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
             })
         }, 30);
 
@@ -1007,7 +1007,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
 
         ids.forEach((id, key) => {
             let el = document.getElementById(id + "_alo");
-            el.style.opacity = 0;
+            if (el) el.style.opacity = 0;
         });
 
         let marked = {};
@@ -1015,11 +1015,13 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
             ids.forEach(id => {
                 let image = editorStore.images2.get(id);
                 let el = document.getElementById(id + "_alo") as HTMLElement;
-                let opa = parseFloat(el.style.opacity);
-                if (isNaN(opa)) opa = 0;
-                if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
-                    el.style.opacity = opa + 0.025;
-                    marked[id] = true;
+                if (el) {
+                    let opa = parseFloat(el.style.opacity);
+                    if (isNaN(opa)) opa = 0;
+                    if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
+                        el.style.opacity = opa + 0.025;
+                        marked[id] = true;
+                    }
                 }
             })
 
@@ -1039,7 +1041,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
             function animate() {
                 ['${ids.join("','")}'].forEach((id, key) => {
                     let el = document.getElementById(id + "_alo2");
-                    el.style.opacity = 0;
+                    if (el) el.style.opacity = 0;
                 });
                 let marked = {};
                 setTimeout(() => {
@@ -1051,11 +1053,13 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                         ['${ids.join("','")}'].forEach((id, key) => {
                             let image= ratios["id" + id];
                             let el = document.getElementById(id + "_alo2");
-                            let opa = parseFloat(el.style.opacity);
-                            if (isNaN(opa)) opa = 0;
-                            if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
-                                el.style.opacity = opa + 0.03;
-                                marked[id] = true;
+                            if (el) {
+                                let opa = parseFloat(el.style.opacity);
+                                if (isNaN(opa)) opa = 0;
+                                if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
+                                    el.style.opacity = opa + 0.03;
+                                    marked[id] = true;
+                                }
                             }
                         })
 
