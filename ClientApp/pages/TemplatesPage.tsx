@@ -104,6 +104,9 @@ class TemplatesPage extends React.Component<IProps, {}> {
             case 18: // Facebook ad
                 title = "facebookAd";
                 break;
+            case 19:
+                title = "resume";
+                break;
         }
 
         return <div>

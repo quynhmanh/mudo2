@@ -363,7 +363,13 @@ export const SUGGESTED_LIST = [
     src: "web_images/facebook-cover.svg",
     title: "facebookAd",
     size: "1200px × 628px"
-  }
+  },
+  {
+    url: "/templates/19",
+    src: "web_images/facebook-cover.svg",
+    title: "resume",
+    size: "21cm × 29.7cm"
+  },
 ];
 
 export const NAVBAR_LIST = [

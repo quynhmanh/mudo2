@@ -63,5 +63,6 @@
     "processing": "Đang xử lý",
     "animation": "Hình động",
     "block": "Khối",
-    "fade": "Rõ dần"
+    "fade": "Rõ dần",
+    "none": "Không"
 }

@@ -1157,6 +1157,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectWidth = 1200;
                     rectHeight = 628;
                     break;
+                case 19: // Resume
+                    rectWidth = 794;
+                    rectHeight = 1123;
+                    break;
             }
 
             scaleX = (width - 100) / rectWidth;
