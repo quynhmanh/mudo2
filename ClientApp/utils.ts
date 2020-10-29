@@ -987,7 +987,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     setTimeout(() => {
                         clearTimeout(interval);
                     }, 5000)
-                }, 1000);
+                }, 500);
             }`;
 
     document.getElementById('animation-script').innerHTML = val;
