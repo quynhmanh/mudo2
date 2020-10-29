@@ -955,7 +955,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                         newNode2.style.background = image.color ? image.color : "black";
                         newNode2.style.transform = "translate(-" + image.width * scale + "px, 0px)";
                         newNode2.style.position = "absolute";
-                        el.parentNode.appendChild(newNode);
+                        if (el) el.parentNode.appendChild(newNode);
                     }
                 });
                 
@@ -966,7 +966,8 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                         ids.forEach(id => {
                             let image= ratios["id" + id];
                             let el = document.getElementById(id + "animation-block");
-                            el.children[0].style.transform = "translate(" + (-image.width + cnt) + "px, 0px)";
+                            if (el && el.children && el.children[0])
+                                el.children[0].style.transform = "translate(" + (-image.width + cnt) + "px, 0px)";
 
                             let el2 = document.getElementById(id + "_alo2");
                             if (el2 && -image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
