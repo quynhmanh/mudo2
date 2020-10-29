@@ -6058,13 +6058,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 </div>
                 <Popup
                     showPopup={this.state.showPopup}
-                    text='Click "Close Button" to hide popup'
-                    handleDownloadPDF={this.downloadPDF.bind(this, false)}
-                    handleDownloadJPG={this.downloadPNG.bind(this, false, false)}
-                    handleDownloadPNGTransparent={this.downloadPNG.bind(this, true, true)}
-                    handleDownloadPNG={this.downloadPNG.bind(this, false, true)}
-                    handleDownloadPDFWithBleed={this.downloadPDF.bind(this, true)}
-                    handleDownloadVideo={this.downloadVideo.bind(this)}
+                    translate={this.translate}
                     closePopup={() => {
                         this.setState({ showPopup: false });
                     }}

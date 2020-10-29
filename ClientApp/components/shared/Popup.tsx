@@ -2,15 +2,10 @@ import React, { PureComponent } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 export interface IProps {
-    text: string;
     closePopup: any;
-    handleDownloadPDF: any;
-    handleDownloadPNG: any;
-    handleDownloadPNGTransparent: any;
-    handleDownloadPDFWithBleed: any;
-    handleDownloadJPG: any;
     showPopup: boolean;
     handleDownloadVideo: any;
+    translate: any;
 }
 
 interface IState {
@@ -45,7 +40,7 @@ class Popup extends PureComponent<IProps, IState> {
                             style={{
                                 padding: '30px 40px',
                             }}
-                            className="unblurred"><h1 style={{ textAlign: 'center', fontSize: '30px', margin: "auto", }} className="unblurred">Đang xử lý ...</h1>
+                            className="unblurred"><h1 style={{ textAlign: 'center', fontSize: '30px', margin: "auto", }} className="unblurred">{this.props.translate("processing")} ...</h1>
                         </div>
                         <div
                             style={{
@@ -67,7 +62,7 @@ class Popup extends PureComponent<IProps, IState> {
                                         backgroundSize: "200%",
                                         backgroundImage: "repeating-linear-gradient(90deg,#00c4cc,#a06fda,#00c4cc)",
                                     }}
-                                    ariaValuenow="0" ariaValuemin="0" ariaValuemax="100"></div>
+                                    ariaValuemin="0" ariaValuemax="100"></div>
                             </div>
                             <button
                                 id={"progress-bar-start-btn-download"}

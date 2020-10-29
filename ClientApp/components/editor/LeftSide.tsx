@@ -714,6 +714,7 @@ class LeftSide extends Component<IProps, IState> {
                             <SidebarAnimation
                                 selectedTab={editorStore.selectedTab}
                                 animationId={editorStore.animationId}
+                                translate={this.props.translate}
                             />
                         {/* } */}
                     </div>}

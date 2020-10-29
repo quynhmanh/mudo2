@@ -7,6 +7,7 @@ import { handleFadeAnimation, handleBlockAnimation } from "@Utils";
 export interface IProps {
     selectedTab: any;
     animationId: any;
+    translate: any;
 }
 
 export interface IState {
@@ -76,7 +77,7 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                             paddingLeft: "21px",
                             fontSize: "15px",
                         }}
-                    >Animation</p>
+                    >{this.props.translate("animation")}</p>
                 </div>
                 <div
                     style={{
@@ -102,7 +103,7 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                                 height: "46px",
                                 lineHeight: "46px",
                             }}
-                        >None</span></button>
+                        >{this.props.translate("none")}</span></button>
                     <button
                         onClick={this.handleBlockAnimation}
                         style={{
@@ -117,7 +118,7 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                                 height: "46px",
                                 lineHeight: "46px",
                             }}
-                        >Block</span></button>
+                        >{this.props.translate("block")}</span></button>
                     <button
                         onClick={this.handleFadeAnimation}
                         style={{
@@ -131,7 +132,7 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                                 height: "46px",
                                 lineHeight: "46px",
                             }}
-                        >Fade</span></button>
+                        >{this.props.translate("fade")}</span></button>
                 </div>
             </Sidebar>
         )
