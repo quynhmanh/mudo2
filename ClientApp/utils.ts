@@ -907,16 +907,20 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             el.parentNode.appendChild(newNode);
         });
 
-        let cnt = 50 * scale;
+        let curPos = {};
         window.intervalAnimation = setInterval(() => {
-            cnt += 50 * scale;
             ids.forEach(id => {
                 let image = editorStore.images2.get(id);
+                if (!curPos[id]) curPos[id] = 0;
+                if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
+                    curPos[id] += image.width / 50  * scale;
+                else 
+                    curPos[id] += image.width / 8 * scale;
                 let el = document.getElementById(id + "animation-block") as HTMLElement;
-                el.children[0].style.transform = `translate(${-image.width * scale + cnt}px, 0px)`;
+                el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
 
                 let el2 = document.getElementById(id + "_alo");
-                if (el2 && -image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
+                if (el2 && -image.width * scale + curPos[id] > 0) el2.style.opacity = 1;
             })
         }, 30);
 
@@ -959,25 +963,31 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     }
                 });
                 
-                let cnt = 50;
+                let curPos = {};
                 setTimeout(() => {
                     let interval = setInterval(() => {
-                        cnt += 50;
                         ids.forEach(id => {
+                            
                             let image= ratios["id" + id];
+                            if (!curPos[id]) curPos[id] = 0;
+                            if (curPos[id] < image.width / 5 || curPos[id] > image.width * 1.8) 
+                                curPos[id] += image.width / 50;
+                            else 
+                                curPos[id] += image.width / 8;
+
                             let el = document.getElementById(id + "animation-block");
                             if (el && el.children && el.children[0])
-                                el.children[0].style.transform = "translate(" + (-image.width + cnt) + "px, 0px)";
+                                el.children[0].style.transform = "translate(" + (-image.width + curPos[id]) + "px, 0px)";
 
                             let el2 = document.getElementById(id + "_alo2");
-                            if (el2 && -image.width * scale + cnt > image.width * scale) el2.style.opacity = 1;
+                            if (el2 && -image.width + curPos[id] > 0) el2.style.opacity = 1;
                         })
                     }, 30);
 
                     setTimeout(() => {
                         clearTimeout(interval);
                     }, 5000)
-                }, 300);
+                }, 1000);
             }`;
 
     document.getElementById('animation-script').innerHTML = val;
