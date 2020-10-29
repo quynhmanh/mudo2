@@ -117,7 +117,7 @@ class Popup extends PureComponent<IProps, IState> {
                                     clearInterval(window.progress_interval);
                                     document.getElementById("progress-bar-download").style.width = "0%";
                                 }}
-                            >Cancel</button>
+                            >{this.props.translate("cancel")}</button>
                         </div>
                     </div>
                 </div>
