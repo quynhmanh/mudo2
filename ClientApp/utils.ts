@@ -861,6 +861,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
     clearTimeout(window.timeoutAnimation)
     let ids = [];
     let ratios = {};
+
     editorStore.images2.forEach(img => {
         if (img.type == TemplateType.Heading) {
             ids.push(img._id);
@@ -873,6 +874,11 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 rotateAngle: img.rotateAngle ? img.rotateAngle : 0,
                 zIndex: img.zIndex,
             };
+        } else {
+            let el = document.getElementById(img._id + "_alo");
+            let opacity = img.opacity ? img.opacity : 100;
+            opacity  = opacity / 100;
+            el.style.opacity = opacity;
         }
     });
 
@@ -882,7 +888,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
         ids.forEach((id, key) => {
             let image = editorStore.images2.get(id);
             let el = document.getElementById(id + "_alo");
-            el.style.opacity = 0;
+            el.style.opacity = "0";
 
 
             let el2 = document.getElementById(id + "animation-block");
@@ -996,7 +1002,6 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
 export const handleFadeAnimation = (injectScriptOnly = false) => {
     clearInterval(window.intervalAnimation);
     clearTimeout(window.timeoutAnimation)
-    let curOpa = 1;
 
     let ids = [];
     let ratios = {};
@@ -1009,6 +1014,11 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                 width: img.width,
                 height: img.height,
             };
+        }
+
+        if (img.type == TemplateType.Heading) {
+            let el = document.getElementById(img._id + "animation-block");
+            if (el) el.remove();
         }
     });
 
