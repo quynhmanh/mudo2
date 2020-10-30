@@ -924,10 +924,10 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     marked[id] = true;
 
                     if (!curPos[id]) curPos[id] = 0;
-                    if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
-                        curPos[id] += image.width / 100  * scale;
+                    if (curPos[id] < image.width / 4 * scale || curPos[id] > image.width * scale * 1.7) 
+                        curPos[id] += image.width / 200  * scale;
                     else 
-                        curPos[id] += image.width / 16 * scale;
+                        curPos[id] += image.width / 32 * scale;
                     let el = document.getElementById(id + "animation-block") as HTMLElement;
                     el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
                 }
