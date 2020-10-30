@@ -996,10 +996,10 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                 marked[id] = true;
 
                                 if (!curPos[id]) curPos[id] = 0;
-                                if (curPos[id] < image.width / 5 || curPos[id] > image.width * 1.8) 
-                                    curPos[id] += image.width / 100;
+                                if (curPos[id] < image.width / 4 || curPos[id] > image.width * 1.7) 
+                                    curPos[id] += image.width / 200;
                                 else 
-                                    curPos[id] += image.width / 16;
+                                    curPos[id] += image.width / 32;
 
                                 let el = document.getElementById(id + "animation-block");
                                 if (el && el.children && el.children[0])
