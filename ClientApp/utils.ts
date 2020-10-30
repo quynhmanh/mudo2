@@ -7,6 +7,7 @@ export const htmlToImage = htmlToImageLib;
 import { camelCase } from "lodash";
 import editorStore from "@Store/EditorStore";
 import { TemplateType } from "@Components/editor/enums";
+import { swap } from "formik";
 
 declare var process: any;
 
@@ -1059,37 +1060,35 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
             if (el) el.remove();
         }
     });
+    
+    for (let i = 0; i < ids.length; ++i)
+        for (let j = 0; j < i; ++j) {
+            let imgI = editorStore.images2.get(ids[i]);
+            let imgJ = editorStore.images2.get(ids[j]);
+            if (imgI.top < imgJ.top || (imgI.top == imgJ.top && imgI.left < imgJ.left)) {
+                let tmp = ids[i];
+                ids[i] = ids[j];
+                ids[j] = tmp;
+            }
+        }
 
     if (!injectScriptOnly) {
-        let limit = window.rectWidth;
-        let limitHeight = 0;
-
         ids.forEach((id, key) => {
             let el = document.getElementById(id + "_alo");
             if (el) el.style.opacity = 0;
         });
 
-        let marked = {};
+        let curI = 0;
+        let curOpa = {};
         window.intervalAnimation = setInterval(() => {
-            ids.forEach(id => {
-                let image = editorStore.images2.get(id);
-                let el = document.getElementById(id + "_alo") as HTMLElement;
-                if (el) {
-                    let opa = parseFloat(el.style.opacity);
-                    if (isNaN(opa)) opa = 0;
-                    if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
-                        el.style.opacity = opa + 0.025;
-                        marked[id] = true;
-                    }
-                }
-            })
-
-            limit -= window.rectWidth / 70;
-            if (limit < 0) {
-                limit = window.rectWidth;
-                limitHeight += window.rectHeight / 7;
-            }
-        }, 5);
+            ids.forEach((id, key) => {
+                if (!curOpa[id]) curOpa[id] = 0;
+                if (curI / 10 >= key) curOpa[id] += 0.05;
+                let el = document.getElementById(id + "_alo");
+                if (el) el.style.opacity = curOpa[id];
+            });
+            ++curI;
+        }, 30);
 
         window.timeoutAnimation = setTimeout(() => {
             clearTimeout(window.intervalAnimation);
@@ -1104,30 +1103,18 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                 });
                 let marked = {};
                 setTimeout(() => {
-                    let limit = window.innerWidth;
-                    let limitHeight = 0;
-                    let curOpa = 0;
+                    let curI = 0;
+                    let curOpa = {};
                     let ratios = ${JSON.stringify(ratios)};
                     let interval = setInterval(() => {
                         ['${ids.join("','")}'].forEach((id, key) => {
-                            let image= ratios["id" + id];
+                            if (!curOpa[id]) curOpa[id] = 0;
+                            if (curI / 10 >= key) curOpa[id] += 0.1;
                             let el = document.getElementById(id + "_alo2");
-                            if (el) {
-                                let opa = parseFloat(el.style.opacity);
-                                if (isNaN(opa)) opa = 0;
-                                if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
-                                    el.style.opacity = opa + 0.03;
-                                    marked[id] = true;
-                                }
-                            }
-                        })
-
-                        limit -= window.innerWidth / 70;
-                        if (limit < 0) {
-                            limit = window.innerWidth;
-                            limitHeight += window.innerHeight / 7;
-                        }
-                    }, 5);
+                            if (el) el.style.opacity = curOpa[id];
+                        });
+                        ++curI;
+                    }, 30);
 
                     setTimeout(() => {
                         clearTimeout(interval);
