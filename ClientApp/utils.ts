@@ -924,13 +924,18 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             ids.forEach(id => {
                 let image = editorStore.images2.get(id);
                 if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
-                    marked[id] = true;
 
-                    if (!curPos[id]) curPos[id] = 0;
-                    if (curPos[id] < image.width / 4 * scale || curPos[id] > image.width * scale * 1.7) 
-                        curPos[id] += image.width / 200  * scale;
-                    else 
-                        curPos[id] += image.width / 32 * scale;
+                    if (marked[id]) {
+                        if (!curPos[id]) curPos[id] = 0;
+                        if (curPos[id] < image.width / 4 * scale || curPos[id] > image.width * scale * 1.7) 
+                            curPos[id] += image.width / 200  * scale;
+                        else 
+                            curPos[id] += image.width / 32 * scale;
+                    } else {
+                        curPos[id] = (limitHeight - image.top) / window.rectHeight * image.width;
+                        marked[id] = true;
+                    }
+
                     let el = document.getElementById(id + "animation-block") as HTMLElement;
                     el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
                 }
@@ -991,18 +996,20 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 let marked = {};
                 setTimeout(() => {
                     let interval = setInterval(() => {
-                        console.log('limit', limit);
-                        console.log('limitHeight', limitHeight)
                         ids.forEach(id => {
                             let image= ratios["id" + id];
                             if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
-                                marked[id] = true;
 
-                                if (!curPos[id]) curPos[id] = 0;
-                                if (curPos[id] < image.width / 4 || curPos[id] > image.width * 1.7) 
-                                    curPos[id] += image.width / 200;
-                                else 
-                                    curPos[id] += image.width / 32;
+                                if (marked[id]) {
+                                    if (!curPos[id]) curPos[id] = 0;
+                                    if (curPos[id] < image.width / 4 || curPos[id] > image.width * 1.7) 
+                                        curPos[id] += image.width / 200;
+                                    else 
+                                        curPos[id] += image.width / 32;
+                                } else {
+                                    curPos[id] = (limitHeight - image.top) / window.innerHeight * image.width;
+                                    marked[id] = true;
+                                }
 
                                 let el = document.getElementById(id + "animation-block");
                                 if (el && el.children && el.children[0])
