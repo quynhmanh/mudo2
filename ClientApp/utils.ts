@@ -1088,7 +1088,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                 if (el) el.style.opacity = curOpa[id];
             });
             ++curI;
-        }, 10);
+        }, 20);
 
         window.timeoutAnimation = setTimeout(() => {
             clearTimeout(window.intervalAnimation);
@@ -1114,7 +1114,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                             if (el) el.style.opacity = curOpa[id];
                         });
                         ++curI;
-                    }, 10);
+                    }, 20);
 
                     setTimeout(() => {
                         clearTimeout(interval);
