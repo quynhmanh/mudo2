@@ -913,22 +913,35 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             el.parentNode.appendChild(newNode);
         });
 
+        let limit = window.rectWidth;
+        let limitHeight = 0;
+        let marked = {};
         let curPos = {};
         window.intervalAnimation = setInterval(() => {
             ids.forEach(id => {
                 let image = editorStore.images2.get(id);
-                if (!curPos[id]) curPos[id] = 0;
-                if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
-                    curPos[id] += image.width / 50  * scale;
-                else 
-                    curPos[id] += image.width / 8 * scale;
-                let el = document.getElementById(id + "animation-block") as HTMLElement;
-                el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
+                if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
+                    marked[id] = true;
+
+                    if (!curPos[id]) curPos[id] = 0;
+                    if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
+                        curPos[id] += image.width / 100  * scale;
+                    else 
+                        curPos[id] += image.width / 16 * scale;
+                    let el = document.getElementById(id + "animation-block") as HTMLElement;
+                    el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
+                }
 
                 let el2 = document.getElementById(id + "_alo");
                 if (el2 && -image.width * scale + curPos[id] > 0) el2.style.opacity = 1;
             })
-        }, 30);
+
+            limit -= window.rectWidth / 70;
+            if (limit < 0) {
+                limit = window.rectWidth;
+                limitHeight += window.rectHeight / 7;
+            }
+        }, 5);
 
         window.timeoutAnimation = setTimeout(() => {
             ids.forEach(id => {
@@ -970,25 +983,40 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 });
                 
                 let curPos = {};
+                let limit = window.innerWidth;
+                let limitHeight = 0;
+                let marked = {};
                 setTimeout(() => {
                     let interval = setInterval(() => {
+                        console.log('limit', limit);
+                        console.log('limitHeight', limitHeight)
                         ids.forEach(id => {
-                            
                             let image= ratios["id" + id];
-                            if (!curPos[id]) curPos[id] = 0;
-                            if (curPos[id] < image.width / 5 || curPos[id] > image.width * 1.8) 
-                                curPos[id] += image.width / 50;
-                            else 
-                                curPos[id] += image.width / 8;
+                            if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
+                                marked[id] = true;
 
-                            let el = document.getElementById(id + "animation-block");
-                            if (el && el.children && el.children[0])
-                                el.children[0].style.transform = "translate(" + (-image.width + curPos[id]) + "px, 0px)";
+                                if (!curPos[id]) curPos[id] = 0;
+                                if (curPos[id] < image.width / 5 || curPos[id] > image.width * 1.8) 
+                                    curPos[id] += image.width / 100;
+                                else 
+                                    curPos[id] += image.width / 16;
+
+                                let el = document.getElementById(id + "animation-block");
+                                if (el && el.children && el.children[0])
+                                    el.children[0].style.transform = "translate(" + (-image.width + curPos[id]) + "px, 0px)";
+                            }
 
                             let el2 = document.getElementById(id + "_alo2");
                             if (el2 && -image.width + curPos[id] > 0) el2.style.opacity = 1;
                         })
-                    }, 30);
+
+                        limit -= window.innerWidth / 70;
+                        if (limit < 0) {
+                            limit = window.innerWidth;
+                            limitHeight += window.innerHeight / 7;
+                        }
+                        
+                    }, 5);
 
                     setTimeout(() => {
                         clearTimeout(interval);
