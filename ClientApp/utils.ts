@@ -1083,12 +1083,12 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
         window.intervalAnimation = setInterval(() => {
             ids.forEach((id, key) => {
                 if (!curOpa[id]) curOpa[id] = 0;
-                if (curI / 10 >= key) curOpa[id] += 0.2;
+                if (curI / 10 >= key) curOpa[id] += 0.1;
                 let el = document.getElementById(id + "_alo");
                 if (el) el.style.opacity = curOpa[id];
             });
             ++curI;
-        }, 30);
+        }, 10);
 
         window.timeoutAnimation = setTimeout(() => {
             clearTimeout(window.intervalAnimation);
@@ -1109,12 +1109,12 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                     let interval = setInterval(() => {
                         ['${ids.join("','")}'].forEach((id, key) => {
                             if (!curOpa[id]) curOpa[id] = 0;
-                            if (curI / 10 >= key) curOpa[id] += 0.2;
+                            if (curI / 10 >= key) curOpa[id] += 0.1;
                             let el = document.getElementById(id + "_alo2");
                             if (el) el.style.opacity = curOpa[id];
                         });
                         ++curI;
-                    }, 30);
+                    }, 10);
 
                     setTimeout(() => {
                         clearTimeout(interval);
