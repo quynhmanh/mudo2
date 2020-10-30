@@ -59,6 +59,7 @@ export default class ZoomController extends Component<IProps, IState> {
                             <button
                                 onClick={e => {
                                     let scale = Math.max(0.1, this.props.scale - 0.15);
+                                    editorStore.scale = scale;
                                     this.props.setScale(scale);
                                 }}
                                 style={{
@@ -130,6 +131,7 @@ export default class ZoomController extends Component<IProps, IState> {
                             <button
                                 onClick={e => {
                                     let scale = this.props.scale + 0.15;
+                                    editorStore.scale = scale;
                                     this.props.setScale(scale);
                                 }}
                                 style={{
