@@ -1061,7 +1061,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
         }
     });
 
-    window.videoDuration = ids.length * 700;
+    window.videoDuration = ids.length * 140;
     
     for (let i = 0; i < ids.length; ++i)
         for (let j = 0; j < i; ++j) {
@@ -1094,7 +1094,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
 
         window.timeoutAnimation = setTimeout(() => {
             clearTimeout(window.intervalAnimation);
-        }, ids.length * 700);
+        }, ids.length * 140);
     }
 
     let val = `
