@@ -4530,7 +4530,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             window.downloading = false;
 
-            let duration = 5000;
+            let duration = 6000;
             if (editorStore.animationId == 2) {
                 duration = Math.max(duration, window.videoDuration);
             }
