@@ -1061,7 +1061,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
         }
     });
 
-    window.videoDuration = ids.length * 140;
+    window.videoDuration = ids.length * 140 + 1000;
     
     for (let i = 0; i < ids.length; ++i)
         for (let j = 0; j < i; ++j) {
