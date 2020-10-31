@@ -1094,7 +1094,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
 
         window.timeoutAnimation = setTimeout(() => {
             clearTimeout(window.intervalAnimation);
-        }, ids.length * 140);
+        }, ids.length * 140 + 1000);
     }
 
     let val = `
