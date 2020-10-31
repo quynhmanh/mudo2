@@ -928,10 +928,10 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
 
                     if (marked[id]) {
                         if (!curPos[id]) curPos[id] = 0;
-                        if (curPos[id] < image.width / 4 * scale || curPos[id] > image.width * scale * 1.7) 
+                        if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
                             curPos[id] += image.width / 200  * scale;
                         else 
-                            curPos[id] += image.width / 32 * scale;
+                            curPos[id] += image.width / 20 * scale;
                     } else {
                         curPos[id] = (limitHeight - image.top) / window.rectHeight * image.width;
                         marked[id] = true;
@@ -1003,10 +1003,10 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
 
                                 if (marked[id]) {
                                     if (!curPos[id]) curPos[id] = 0;
-                                    if (curPos[id] < image.width / 4 || curPos[id] > image.width * 1.7) 
+                                    if (curPos[id] < image.width / 5 || curPos[id] > image.width * 1.8) 
                                         curPos[id] += image.width / 200;
                                     else 
-                                        curPos[id] += image.width / 32;
+                                        curPos[id] += image.width / 20;
                                 } else {
                                     curPos[id] = (limitHeight - image.top) / window.innerHeight * image.width;
                                     marked[id] = true;
