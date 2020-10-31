@@ -90,6 +90,169 @@ export default class Canvas extends Component<IProps, IState> {
         return false;
     }
 
+    componentDidMount() {
+        if (editorStore.animationId == 1) {
+            clearInterval(window.intervalAnimation);
+            clearTimeout(window.timeoutAnimation)
+            let ids = [];
+            let ratios = {};
+
+            editorStore.images2.forEach(img => {
+                if (img.type == TemplateType.Heading) {
+                    ids.push(img._id);
+                    ratios[`id${img._id}`] = {
+                        left: img.left,
+                        top: img.top,
+                        width: img.width,
+                        height: img.height,
+                        color: img.color,
+                        rotateAngle: img.rotateAngle ? img.rotateAngle : 0,
+                        zIndex: img.zIndex,
+                    };
+                } else {
+                    let el = document.getElementById(img._id + "_alo3");
+                    if (el) {
+                        let opacity = img.opacity ? img.opacity : 100;
+                        opacity  = opacity / 100;
+                        el.style.opacity = opacity;
+                    }
+                }
+            });
+
+            let scale = editorStore.scale;
+
+            ids.forEach((id, key) => {
+                let el2 = document.getElementById(id + "animation-block");
+                if (el2) el2.remove();
+
+                let image = editorStore.images2.get(id);
+                let el = document.getElementById(id + "_alo3");
+                if (el) {
+                    el.style.opacity = "0";
+
+                    let newNode = document.createElement("div");
+                    let newNode2 = document.createElement("div");
+                    newNode.appendChild(newNode2);
+                    newNode.id = id + "animation-block";
+                    newNode.style.position = "absolute";
+                    newNode.style.pointerEvents = "none";
+                    newNode.style.zIndex = image.zIndex;
+                    newNode.style.width = image.width * scale + "px";
+                    newNode.style.height = image.height * scale + "px";
+                    newNode.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle}deg)`;
+                    newNode.style.overflow = "hidden";
+                    newNode2.style.width = "100%";
+                    newNode2.style.height = "100%";
+                    newNode2.style.background = image.color ? image.color : "black";
+                    newNode2.style.transform = `translate(-${image.width * scale + 1}px, 0px)`;
+                    newNode2.style.position = "absolute";
+                    el.parentNode.appendChild(newNode);
+                }
+            });
+
+            let limit = window.rectWidth;
+            let limitHeight = 0;
+            let marked = {};
+            let curPos = {};
+            window.intervalAnimation = setInterval(() => {
+                ids.forEach(id => {
+                    let image = editorStore.images2.get(id);
+                    if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
+
+                        if (marked[id]) {
+                            if (!curPos[id]) curPos[id] = 0;
+                            if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
+                                curPos[id] += image.width / 66  * scale;
+                            else 
+                                curPos[id] += image.width / 15 * scale;
+                        } else {
+                            curPos[id] = (limitHeight - image.top) / window.rectHeight * image.width;
+                            marked[id] = true;
+                        }
+
+                        let el = document.getElementById(id + "animation-block") as HTMLElement;
+                        el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
+                    }
+
+                    let el2 = document.getElementById(id + "_alo3");
+                    if (el2 && -image.width * scale + curPos[id] > 0) el2.style.opacity = 1;
+                })
+
+                limit -= window.rectWidth / 22;
+                if (limit < 0) {
+                    limit = window.rectWidth;
+                    limitHeight += window.rectHeight / 7;
+                }
+            }, 15);
+
+            window.timeoutAnimation = setTimeout(() => {
+                ids.forEach(id => {
+                    let el = document.getElementById(id + "animation-block") as HTMLElement;
+                    if (el) el.remove();
+                });
+                clearTimeout(window.intervalAnimation);
+            }, 5000);
+        }
+
+        if (editorStore.animationId == 2) {
+            clearInterval(window.intervalAnimation);
+            clearTimeout(window.timeoutAnimation)
+
+            let ids = [];
+            let ratios = {};
+            editorStore.images2.forEach(img => {
+                if (img.type != TemplateType.BackgroundImage) {
+                    ids.push(img._id);
+                    ratios[`id${img._id}`] = {
+                        left: img.left,
+                        top: img.top,
+                        width: img.width,
+                        height: img.height,
+                    };
+                }
+
+                if (img.type == TemplateType.Heading) {
+                    let el = document.getElementById(img._id + "animation-block");
+                    if (el) el.remove();
+                }
+            });
+
+            window.videoDuration = ids.length * 140 + 1000;
+            
+            for (let i = 0; i < ids.length; ++i)
+                for (let j = 0; j < i; ++j) {
+                    let imgI = editorStore.images2.get(ids[i]);
+                    let imgJ = editorStore.images2.get(ids[j]);
+                    if (imgI.top < imgJ.top || (imgI.top == imgJ.top && imgI.left < imgJ.left)) {
+                        let tmp = ids[i];
+                        ids[i] = ids[j];
+                        ids[j] = tmp;
+                    }
+                }
+
+            ids.forEach((id, key) => {
+                let el = document.getElementById(id + "_alo3");
+                if (el) el.style.opacity = 0;
+            });
+
+            let curI = 0;
+            let curOpa = {};
+            window.intervalAnimation = setInterval(() => {
+                ids.forEach((id, key) => {
+                    if (!curOpa[id]) curOpa[id] = 0;
+                    if (curI / 7 >= key) curOpa[id] += 0.1;
+                    let el = document.getElementById(id + "_alo3");
+                    if (el) el.style.opacity = curOpa[id];
+                });
+                ++curI;
+            }, 20);
+
+            window.timeoutAnimation = setTimeout(() => {
+                clearTimeout(window.intervalAnimation);
+            }, ids.length * 140 + 1000);
+        }
+    }
+
     refAlo = null;
     canvas = {
         0: {},
@@ -178,58 +341,6 @@ export default class Canvas extends Component<IProps, IState> {
                                         backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
                                     }}
                                 ></div>}
-                            {this.props.bleed && (
-                                <div
-                                    style={{
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        width: "10px",
-                                        height: "10px",
-                                        backgroundColor: "black",
-                                        zIndex: 99999999
-                                    }}
-                                ></div>
-                            )}
-                            {this.props.bleed && (
-                                <div
-                                    style={{
-                                        position: "absolute",
-                                        top: 0,
-                                        right: 0,
-                                        width: "10px",
-                                        height: "10px",
-                                        backgroundColor: "black",
-                                        zIndex: 99999999
-                                    }}
-                                ></div>
-                            )}
-                            {this.props.bleed && (
-                                <div
-                                    style={{
-                                        position: "absolute",
-                                        bottom: 0,
-                                        left: 0,
-                                        width: "10px",
-                                        height: "10px",
-                                        backgroundColor: "black",
-                                        zIndex: 99999999
-                                    }}
-                                ></div>
-                            )}
-                            {this.props.bleed && (
-                                <div
-                                    style={{
-                                        position: "absolute",
-                                        bottom: 0,
-                                        right: 0,
-                                        width: "10px",
-                                        height: "10px",
-                                        backgroundColor: "black",
-                                        zIndex: 99999999
-                                    }}
-                                ></div>
-                            )}
                             <div
                                 {...customAttr}
                                 id="canvas"
