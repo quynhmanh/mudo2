@@ -4530,10 +4530,15 @@ class CanvaEditor extends Component<IProps, IState> {
 
             window.downloading = false;
 
+            let duration = 5000;
+            if (editorStore.animationId == 2) {
+                duration = Math.max(duration, window.videoDuration);
+            }
+
             axios
                 .post(
                     `/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight
-                    }&videoId=${uuidv4()}&duration=5000`,
+                    }&videoId=${uuidv4()}&duration=${duration}`,
                     {
                         fonts: toJS(editorStore.fonts),
                         canvas,

@@ -1060,6 +1060,8 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
             if (el) el.remove();
         }
     });
+
+    window.videoDuration = ids.length * 700;
     
     for (let i = 0; i < ids.length; ++i)
         for (let j = 0; j < i; ++j) {
