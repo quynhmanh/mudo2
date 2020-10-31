@@ -1092,12 +1092,13 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
 
         window.timeoutAnimation = setTimeout(() => {
             clearTimeout(window.intervalAnimation);
-        }, 5000);
+        }, ids.length * 700);
     }
 
     let val = `
             function animate() {
-                ['${ids.join("','")}'].forEach((id, key) => {
+                let ids = ['${ids.join("','")}'];
+                ids.forEach((id, key) => {
                     let el = document.getElementById(id + "_alo2");
                     if (el) el.style.opacity = 0;
                 });
@@ -1107,7 +1108,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                     let curOpa = {};
                     let ratios = ${JSON.stringify(ratios)};
                     let interval = setInterval(() => {
-                        ['${ids.join("','")}'].forEach((id, key) => {
+                        ids.forEach((id, key) => {
                             if (!curOpa[id]) curOpa[id] = 0;
                             if (curI / 7 >= key) curOpa[id] += 0.1;
                             let el = document.getElementById(id + "_alo2");
@@ -1118,7 +1119,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
 
                     setTimeout(() => {
                         clearTimeout(interval);
-                    }, 5000)
+                    }, ids.length * 700)
                 }, 300);
             }`;
 
