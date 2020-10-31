@@ -929,9 +929,9 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     if (marked[id]) {
                         if (!curPos[id]) curPos[id] = 0;
                         if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
-                            curPos[id] += image.width / 200  * scale;
+                            curPos[id] += image.width / 66  * scale;
                         else 
-                            curPos[id] += image.width / 32 * scale;
+                            curPos[id] += image.width / 10 * scale;
                     } else {
                         curPos[id] = (limitHeight - image.top) / window.rectHeight * image.width;
                         marked[id] = true;
@@ -945,12 +945,12 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 if (el2 && -image.width * scale + curPos[id] > 0) el2.style.opacity = 1;
             })
 
-            limit -= window.rectWidth / 70;
+            limit -= window.rectWidth / 22;
             if (limit < 0) {
                 limit = window.rectWidth;
                 limitHeight += window.rectHeight / 7;
             }
-        }, 5);
+        }, 15);
 
         window.timeoutAnimation = setTimeout(() => {
             ids.forEach(id => {
@@ -1004,9 +1004,9 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                 if (marked[id]) {
                                     if (!curPos[id]) curPos[id] = 0;
                                     if (curPos[id] < image.width / 5 || curPos[id] > image.width * 1.8) 
-                                        curPos[id] += image.width / 200;
+                                        curPos[id] += image.width / 66;
                                     else 
-                                        curPos[id] += image.width / 32;
+                                        curPos[id] += image.width / 10;
                                 } else {
                                     curPos[id] = (limitHeight - image.top) / window.innerHeight * image.width;
                                     marked[id] = true;
@@ -1021,13 +1021,13 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             if (el2 && -image.width + curPos[id] > 0) el2.style.opacity = 1;
                         })
 
-                        limit -= window.innerWidth / 70;
+                        limit -= window.innerWidth / 22;
                         if (limit < 0) {
                             limit = window.innerWidth;
                             limitHeight += window.innerHeight / 7;
                         }
                         
-                    }, 5);
+                    }, 15);
 
                     setTimeout(() => {
                         clearTimeout(interval);
