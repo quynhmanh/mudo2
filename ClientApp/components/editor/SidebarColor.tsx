@@ -52,7 +52,7 @@ export default class SidebarColor extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        if (Globals.serviceUser) {
+        if (Globals && Globals.serviceUser) {
             var url = `/users/getColors?username=${Globals.serviceUser.username}`;
             axios.get(url).then(res => {
                 editorStore.fontColors = res.data;
