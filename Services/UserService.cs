@@ -70,6 +70,18 @@ namespace RCB.TypeScript.Services
             return GetUserInfoResponse(user);
         }
 
+        public string[] GetColors(string username) {
+            var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
+            return user.Colors != null ? user.Colors : new string[0];
+        }
+
+        public Result UpdateColors(string username, string[] colors) {
+            var user = _userContext.Users.SingleOrDefault(u => u.Username == username);
+            user.Colors = colors;
+            _userContext.SaveChanges();
+            return Ok();
+        }
+
         private UserInfoResponse GetUserInfoResponse(User user) {
             return new UserInfoResponse(
                 user.Username,

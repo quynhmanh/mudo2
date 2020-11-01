@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import { CanvasType, SidebarTab, TemplateType, } from "./enums";
 import uuidv4 from "uuid/v4";
 import editorStore from "@Store/EditorStore";
-import InfiniteScroll from "@Components/shared/InfiniteScroll";
-import ImagePicker from "@Components/shared/ImagePicker";
-import { toJS } from "mobx";
-import Slider from "@Components/editor/Slider";
 import ColorPicker from "@Components/editor/ColorPicker";
 import Sidebar from "@Components/editor/SidebarStyled";
+import axios from "axios";
+import Globals from '@Globals';
 
 export interface IProps {
     scale: number;
@@ -54,6 +52,12 @@ export default class SidebarColor extends Component<IProps, IState> {
     }
 
     componentDidMount() {
+        if (Globals.serviceUser) {
+            var url = `/users/getColors?username=${Globals.serviceUser.username}`;
+            axios.get(url).then(res => {
+                editorStore.fontColors = res.data;
+            });
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -393,8 +397,6 @@ export default class SidebarColor extends Component<IProps, IState> {
 
     render() {
         let image = editorStore.getImageSelected() || {};
-        
-        console.log('image.color', image.color)
 
         return (
             <Sidebar

@@ -73,6 +73,28 @@ namespace RCB.TypeScript.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("~/users/getColors")]
+        public IActionResult getColors([FromQuery]string username) {
+            return Json(_userService.GetColors(username));
+        }
+
+        public class UserColor
+        {
+            [JsonProperty(PropertyName = "colors")]
+            public string[] colors;
+
+            [JsonProperty(PropertyName = "username")]
+            public string username;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("~/users/updateColors")]
+        public IActionResult updateColors(UserColor userColor) {
+            _userService.UpdateColors(userColor.username, userColor.colors);
+            return Ok();
+        }
+
         private IActionResult verifyFacebook(Auth auth)
         {
             const string APP_ID = "476336289816631";

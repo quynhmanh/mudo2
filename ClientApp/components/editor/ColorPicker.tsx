@@ -7,8 +7,9 @@ import "@Styles/colorPicker.scss";
 import {isEqual} from "lodash";
 
 import AppComponent from "@Components/shared/AppComponent";
-import TemplatesPage from "@Pages/TemplatesPage";
 import { SidebarTab, TemplateType } from "./enums";
+import axios from "axios";
+import Globals from "@Globals";
 
 const EVENT_NAME_LIST: string[] = ["hover", "click"];
 
@@ -98,10 +99,17 @@ export default class Tooltip extends AppComponent<IProps, IState> {
             .on("save", (color, instance) => {
                 if (color) {
                     let colorCode = color.toRGBA();
-                    this.props.setSelectionColor(colorCode)
-                    editorStore.addFontColor(colorCode.toString())
+                    this.props.setSelectionColor(colorCode);
+                    editorStore.addFontColor(colorCode.toString());
                     instance.setColor(null);
                     this.props.forceUpdate();
+                    
+                    var url = `/users/updateColors`;
+                    axios.post(url,
+                        {
+                            username: Globals.serviceUser.username,
+                            colors: editorStore.fontColors,
+                        });
                 }
             })
             .on("show", instance => {
