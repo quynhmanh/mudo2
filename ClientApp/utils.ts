@@ -1207,14 +1207,12 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
         }
     });
 
-    console.log('id ', ids);
-
     window.videoDuration = ids.length * 140 + 1000;
     
     for (let i = 0; i < ids.length; ++i)
         for (let j = 0; j < i; ++j) {
-            let imgI = editorStore.images2.get(ids[i].id);
-            let imgJ = editorStore.images2.get(ids[j].id);
+            let imgI = editorStore.images2.get(ids[i]);
+            let imgJ = editorStore.images2.get(ids[j]);
             if (imgI.top < imgJ.top || (imgI.top == imgJ.top && imgI.left < imgJ.left)) {
                 let tmp = ids[i];
                 ids[i] = ids[j];
@@ -1260,8 +1258,6 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
             clearTimeout(window.intervalAnimation);
         }, ids.length * 140 + 1000);
     }
-
-    console.log('ids ', ids)
 
     let val = `
             function animate() {
