@@ -1470,15 +1470,17 @@ class CanvaEditor extends Component<IProps, IState> {
         let childImages = [];
         image.childIds.forEach(id => {
             let childImage = editorStore.images2.get(id);
-            childImage.width2 = childImage.width / image.width;
-            childImage.height2 = childImage.height / image.height;
-            childImage.top = childImage.top - image.top;
-            childImage.left = childImage.left - image.left;
-            childImage.scaleX = 1;
-            childImage.scaleY = 1;
-            childImage.selected = false;
-            childImage.hovered = false;
-            childImages.push(toJS(childImage));
+            let newChildImage = clone(toJS(childImage));
+            newChildImage._id = uuidv4();
+            newChildImage.width2 = childImage.width / image.width;
+            newChildImage.height2 = childImage.height / image.height;
+            newChildImage.top = childImage.top - image.top;
+            newChildImage.left = childImage.left - image.left;
+            newChildImage.scaleX = 1;
+            newChildImage.scaleY = 1;
+            newChildImage.selected = false;
+            newChildImage.hovered = false;
+            childImages.push(clone(toJS(newChildImage)));
         });
 
         let newImage = {
@@ -1496,6 +1498,8 @@ class CanvaEditor extends Component<IProps, IState> {
             rotateAngle: image.rotateAngle,
             document_object: childImages,
         }
+
+        console.log('childImages', childImages)
 
         let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
         editorStore.keys[index2] = editorStore.keys[index2] + 1;
