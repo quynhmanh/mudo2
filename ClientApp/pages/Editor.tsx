@@ -3442,7 +3442,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 if (window.image.type != TemplateType.GroupedItem) {
                     let clonedImage = transformImage(clone(image));
                     images.push(clonedImage);
-                } else if (!window.selectionIDs[image._id]) {
+                } else if (!window.selectionIDs || !window.selectionIDs[image._id]) {
                     let clonedImage = transformImage(clone(image));
                     images.push(clonedImage);
                 }
