@@ -4782,7 +4782,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let self = this;
         const { rectWidth, rectHeight } = this.state;
 
-        let images = toJS(Array.from(editorStore.images2.values()).filter((image: any) => image.type != TemplateType.GroupedItem));
+        let images = toJS(Array.from(editorStore.images2.values()));
         let clonedArray = JSON.parse(JSON.stringify(images))
         let tempImages = clonedArray.map(image => {
             image.width2 = image.width / rectWidth;
