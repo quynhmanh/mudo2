@@ -30,6 +30,7 @@ import {
 import {
     Observable
 } from "rxjs";
+import { uuid } from "htmltoimage/utils";
 
 let rotateRect,
     rotatePoint,
@@ -1465,6 +1466,47 @@ class CanvaEditor extends Component<IProps, IState> {
         image.temporary = false;
         editorStore.images2.set(image._id, image);
         this.updateImages2(image, false);
+
+        let childImages = [];
+        image.childIds.forEach(id => {
+            let childImage = editorStore.images2.get(id);
+            childImage.width2 = childImage.width / image.width;
+            childImage.height2 = childImage.height / image.height;
+            childImage.top = childImage.top - image.top;
+            childImage.left = childImage.left - image.left;
+            childImage.scaleX = 1;
+            childImage.scaleY = 1;
+            childImage.selected = false;
+            childImage.hovered = false;
+            childImages.push(toJS(childImage));
+        });
+
+        let newImage = {
+            _id: uuidv4(),
+            page: editorStore.activePageId,
+            type: TemplateType.TextTemplate,
+            width: image.width,
+            origin_width: image.width,
+            origin_height: image.height,
+            height: image.height,
+            top: image.top,
+            left: image.left,
+            scaleX: 1,
+            scaleY: 1,
+            rotateAngle: image.rotateAngle,
+            document_object: childImages,
+        }
+
+        let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+        editorStore.keys[index2] = editorStore.keys[index2] + 1;
+        editorStore.addItem2(newImage, false);
+        this.handleImageSelected(newImage._id, newImage.page, false, true, false);
+
+
+        editorStore.images2.delete(image._id);
+        image.childIds.forEach(id => {
+            editorStore.images2.delete(id);
+        });
     }
 
     ungroupGroupedItem() {
@@ -4809,22 +4851,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 }
             }
             tempImages = newImages;
-        }
-
-        if (
-            this.state.mode === Mode.CreateTextTemplate ||
-            this.state.mode == Mode.EditTextTemplate
-        ) {
-            tempImages = tempImages.map(img => {
-                if (img.innerHTML) {
-                    img.innerHTML = img.innerHTML.replace(/#ffffff/g, "black");
-                    img.innerHTML = img.innerHTML.replace(
-                        /rgb\(255, 255, 255\)/g,
-                        "black"
-                    );
-                }
-                return img;
-            });
         }
 
         let url;
