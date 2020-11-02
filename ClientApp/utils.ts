@@ -1160,50 +1160,43 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
     let ratios = {};
     let groupedHeading = {};
 
-    editorStore.images2.forEach(img => {
-        if (img.type == TemplateType.GroupedItem) {
-            img.childIds.forEach(id => {
-                groupedHeading[id] = true;
-            })
-        }
-    });
-
-    console.log('groupedHeading ', groupedHeading)
+    // editorStore.images2.forEach(img => {
+    //     if (img.type == TemplateType.GroupedItem) {
+    //         img.childIds.forEach(id => {
+    //             groupedHeading[id] = true;
+    //         })
+    //     }
+    // });
 
     editorStore.images2.forEach(img => {
-        console.log('img ', img.type)
         if (img.type == TemplateType.GroupedItem) {
-            ids.push({
-                id: img._id,
-                childIds: img.childIds,
-            });
+            ids.push(img._id);
             ratios[`id${img._id}`] = {
                 left: img.left,
                 top: img.top,
                 width: img.width,
                 height: img.height,
+                type: img.type,
             };
         } 
         else if (img.type == TemplateType.Heading && !groupedHeading[img._id]) {
-            ids.push({
-                id: img._id,
-            });
+            ids.push(img._id);
             ratios[`id${img._id}`] = {
                 left: img.left,
                 top: img.top,
                 width: img.width,
                 height: img.height,
+                type: img.type,
             };
         }
         else if (img.type != TemplateType.BackgroundImage && img.type != TemplateType.Heading) {
-            ids.push({
-                id: img._id,
-            });
+            ids.push(img._id);
             ratios[`id${img._id}`] = {
                 left: img.left,
                 top: img.top,
                 width: img.width,
                 height: img.height,
+                type: img.type,
             };
         }
         
@@ -1237,7 +1230,7 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                     if (el) el.style.opacity = 0;
                 })
             } else {
-                let el = document.getElementById(id.id + "_alo");
+                let el = document.getElementById(id + "_alo");
                 if (el) el.style.opacity = 0;
             }
         });
@@ -1254,10 +1247,10 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                         if (el) el.style.opacity = curOpa[jd];
                     })
                 } else {
-                    if (!curOpa[id.id]) curOpa[id.id] = 0;
-                    if (curI / 7 >= key) curOpa[id.id] += 0.1;
-                    let el = document.getElementById(id.id + "_alo");
-                    if (el) el.style.opacity = curOpa[id.id];
+                    if (!curOpa[id]) curOpa[id] = 0;
+                    if (curI / 7 >= key) curOpa[id] += 0.1;
+                    let el = document.getElementById(id + "_alo");
+                    if (el) el.style.opacity = curOpa[id];
                 }
             });
             ++curI;
@@ -1268,9 +1261,11 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
         }, ids.length * 140 + 1000);
     }
 
+    console.log('ids ', ids)
+
     let val = `
             function animate() {
-                let ids = ['${ids.join("','")}'];
+                let ids = ${JSON.stringify(ids)};
                 ids.forEach((id, key) => {
                     let el = document.getElementById(id + "_alo2");
                     if (el) el.style.opacity = 0;
