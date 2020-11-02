@@ -1484,6 +1484,8 @@ class CanvaEditor extends Component<IProps, IState> {
             newChildImage.left = newChildImage.left / childImage.scaleX;
             newChildImage.selected = false;
             newChildImage.hovered = false;
+            newChildImage.ref = null;
+            newChildImage.childId = null;
             childImages.push(clone(toJS(newChildImage)));
         });
 
