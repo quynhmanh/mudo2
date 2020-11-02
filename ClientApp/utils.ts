@@ -8,6 +8,7 @@ import { camelCase } from "lodash";
 import editorStore from "@Store/EditorStore";
 import { TemplateType } from "@Components/editor/enums";
 import { swap } from "formik";
+import { toJS } from "mobx";
 
 declare var process: any;
 
@@ -867,6 +868,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
         if (img.type == TemplateType.Heading) {
             ids.push(img._id);
             ratios[`id${img._id}`] = {
+                _id: img._id,
                 left: img.left,
                 top: img.top,
                 width: img.width,
@@ -874,6 +876,22 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 color: img.color,
                 rotateAngle: img.rotateAngle ? img.rotateAngle : 0,
                 zIndex: img.zIndex,
+                type: img.type,
+            };
+        } 
+        else if (img.type == TemplateType.TextTemplate) {
+            ids.push(img._id);
+            ratios[`id${img._id}`] = {
+                _id: img._id,
+                left: img.left,
+                top: img.top,
+                width: img.width,
+                height: img.height,
+                color: img.color,
+                rotateAngle: img.rotateAngle ? img.rotateAngle : 0,
+                zIndex: img.zIndex,
+                type: img.type,
+                document_object: img.document_object,
             };
         } else {
             let el = document.getElementById(img._id + "_alo");
@@ -893,27 +911,47 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             if (el2) el2.remove();
 
             let image = editorStore.images2.get(id);
-            let el = document.getElementById(id + "_alo");
-            if (el) {
-                el.style.opacity = "0";
+            if (image && image.type == TemplateType.Heading) {
+                let el = document.getElementById(id + "_alo");
+                if (el) {
+                    el.style.opacity = "0";
 
-                let newNode = document.createElement("div");
-                let newNode2 = document.createElement("div");
-                newNode.appendChild(newNode2);
-                newNode.id = id + "animation-block";
-                newNode.style.position = "absolute";
-                newNode.style.pointerEvents = "none";
-                newNode.style.zIndex = image.zIndex;
-                newNode.style.width = image.width * scale + "px";
-                newNode.style.height = image.height * scale + "px";
-                newNode.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle}deg)`;
-                newNode.style.overflow = "hidden";
-                newNode2.style.width = "100%";
-                newNode2.style.height = "100%";
-                newNode2.style.background = image.color ? image.color : "black";
-                newNode2.style.transform = `translate(-${image.width * scale + 1}px, 0px)`;
-                newNode2.style.position = "absolute";
-                el.parentNode.appendChild(newNode);
+                    let newNode = document.createElement("div");
+                    let newNode2 = document.createElement("div");
+                    newNode.appendChild(newNode2);
+                    newNode.id = id + "animation-block";
+                    newNode.style.position = "absolute";
+                    newNode.style.pointerEvents = "none";
+                    newNode.style.zIndex = image.zIndex;
+                    newNode.style.width = image.width * scale + "px";
+                    newNode.style.height = image.height * scale + "px";
+                    newNode.style.transform = `translate(${image.left * scale}px, ${image.top * scale}px) rotate(${image.rotateAngle}deg)`;
+                    newNode.style.overflow = "hidden";
+                    newNode2.style.width = "100%";
+                    newNode2.style.height = "100%";
+                    newNode2.style.background = image.color ? image.color : "black";
+                    newNode2.style.transform = `translate(-${image.width * scale + 1}px, 0px)`;
+                    newNode2.style.position = "absolute";
+                    el.parentNode.appendChild(newNode);
+                }
+            } else if (image.type == TemplateType.TextTemplate) {
+                console.log(toJS(image))
+                image.document_object.forEach(child => {
+
+                    let el = document.getElementById(image._id + child._id + "alo");
+                    if (el) {
+                        el.style.opacity = "0";
+                        let newNode = document.getElementById(image._id + child._id + "animation-block");
+                        if (!newNode) {
+                            newNode = el.cloneNode(true);
+                            el.parentNode.appendChild(newNode);
+                        }
+                        newNode.id = image._id + child._id + "animation-block";
+                        newNode.style.background = "black";
+                        newNode.style.opacity = 1;
+                        newNode.style.left = "-" + newNode.style.width;
+                    }
+                });
             }
         });
 
@@ -924,25 +962,50 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
         window.intervalAnimation = setInterval(() => {
             ids.forEach(id => {
                 let image = editorStore.images2.get(id);
-                if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
+                if (image && image.type == TemplateType.Heading) {
+                    if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
 
-                    if (marked[id]) {
-                        if (!curPos[id]) curPos[id] = 0;
-                        if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
-                            curPos[id] += image.width / 66  * scale;
-                        else 
-                            curPos[id] += image.width / 15 * scale;
-                    } else {
-                        curPos[id] = (limitHeight - image.top) / window.rectHeight * image.width;
-                        marked[id] = true;
+                        if (marked[id]) {
+                            if (!curPos[id]) curPos[id] = 0;
+                            if (curPos[id] < image.width / 5 * scale || curPos[id] > image.width * scale * 1.8) 
+                                curPos[id] += image.width / 66  * scale;
+                            else 
+                                curPos[id] += image.width / 15 * scale;
+                        } else {
+                            curPos[id] = (limitHeight - image.top) / window.rectHeight * image.width;
+                            marked[id] = true;
+                        }
+
+                        let el = document.getElementById(id + "animation-block") as HTMLElement;
+                        el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
                     }
 
-                    let el = document.getElementById(id + "animation-block") as HTMLElement;
-                    el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
-                }
+                    let el2 = document.getElementById(id + "_alo");
+                    if (el2 && -image.width * scale + curPos[id] > 0) el2.style.opacity = 1;
+                } else if (image && image.type == TemplateType.TextTemplate) {
+                    image.document_object.forEach(child => {
+                        let childId = id + child._id;
+                        if ((image.left + child.left + child.width > limit && image.top + child.top + child.height <= limitHeight) || marked[childId]) {
 
-                let el2 = document.getElementById(id + "_alo");
-                if (el2 && -image.width * scale + curPos[id] > 0) el2.style.opacity = 1;
+                            if (marked[childId]) {
+                                if (!curPos[childId]) curPos[childId] = 0;
+                                if (curPos[childId] < child.width / 5 || curPos[childId] > child.width * 1.8) 
+                                    curPos[childId] += child.width / 66 ;
+                                else 
+                                    curPos[childId] += child.width / 15;
+                            } else {
+                                curPos[childId] = (limitHeight - image.top - child.top) / window.rectHeight * image.width;
+                                marked[childId] = true;
+                            }
+
+                            let el = document.getElementById(childId + "animation-block");
+                            el.style.left = (-child.width + curPos[childId]) + "px";
+                        }
+
+                        let el2 = document.getElementById(childId + "alo");
+                        if (el2 && -child.width * scale + curPos[childId] > 0) el2.style.opacity = 1;
+                    });
+                }
             })
 
             limit -= window.rectWidth / 22;
@@ -954,8 +1017,17 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
 
         window.timeoutAnimation = setTimeout(() => {
             ids.forEach(id => {
-                let el = document.getElementById(id + "animation-block") as HTMLElement;
-                if (el) el.remove();
+                let image = editorStore.images2.get(id);
+                if (image && image.type == TemplateType.Heading) {
+                    let el = document.getElementById(id + "animation-block") as HTMLElement;
+                    if (el) el.remove();
+                } else if (image && image.type == TemplateType.TextTemplate) {
+                    image.document_object.forEach(child => {
+                        let childId = id + child._id;
+                        let el = document.getElementById(childId + "animation-block");
+                        el.remove();
+                    });
+                }
             });
             clearTimeout(window.intervalAnimation);
         }, 5000);
@@ -968,26 +1040,43 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 let ratios = ${JSON.stringify(ratios)};
                 ids.forEach((id, key) => {
                     let image = ratios["id" + id];
-                    let el = document.getElementById(id + "_alo2");
-                    if (el) el.style.opacity = 0;
+                    console.log('image.type', image.type)
+                    if (image && image.type == 3) {
+                        let el = document.getElementById(id + "_alo2");
+                        if (el) el.style.opacity = 0;
 
-                    if (!document.getElementById(id + "animation-block")) {
-                        let newNode = document.createElement("div");
-                        let newNode2 = document.createElement("div");
-                        newNode.appendChild(newNode2);
-                        newNode.id = id + "animation-block";
-                        newNode.style.position = "absolute";
-                        newNode.style.zIndex = image.zIndex;
-                        newNode.style.width = image.width * scale + "px";
-                        newNode.style.height = image.height * scale + "px";
-                        newNode.style.transform = "translate(" + image.left * scale + "px, " + image.top * scale + "px) rotate(" + image.rotateAngle + "deg)";
-                        newNode.style.overflow = "hidden";
-                        newNode2.style.width = "100%";
-                        newNode2.style.height = "100%";
-                        newNode2.style.background = image.color ? image.color : "black";
-                        newNode2.style.transform = "translate(-" + (image.width * scale + 1) + "px, 0px)";
-                        newNode2.style.position = "absolute";
-                        if (el) el.parentNode.appendChild(newNode);
+                        if (!document.getElementById(id + "animation-block")) {
+                            let newNode = document.createElement("div");
+                            let newNode2 = document.createElement("div");
+                            newNode.appendChild(newNode2);
+                            newNode.id = id + "animation-block";
+                            newNode.style.position = "absolute";
+                            newNode.style.zIndex = image.zIndex;
+                            newNode.style.width = image.width * scale + "px";
+                            newNode.style.height = image.height * scale + "px";
+                            newNode.style.transform = "translate(" + image.left * scale + "px, " + image.top * scale + "px) rotate(" + image.rotateAngle + "deg)";
+                            newNode.style.overflow = "hidden";
+                            newNode2.style.width = "100%";
+                            newNode2.style.height = "100%";
+                            newNode2.style.background = image.color ? image.color : "black";
+                            newNode2.style.transform = "translate(-" + (image.width * scale + 1) + "px, 0px)";
+                            newNode2.style.position = "absolute";
+                            if (el) el.parentNode.appendChild(newNode);
+                        }
+                    } else if (image && image.type == 2) {
+                        image.document_object.forEach(child => {
+                            console.log('iddd', image._id, child._id);
+                            let el = document.getElementById(image._id + child._id + "alo2");
+                            if (el) {
+                                el.style.opacity = "0";
+                                let newNode = el.cloneNode(true);
+                                newNode.id = image._id + child._id + "animation-block";
+                                newNode.style.background = "black";
+                                newNode.style.opacity = 1;
+                                newNode.style.left = "-" + newNode.style.width;
+                                el.parentNode.appendChild(newNode);
+                            }
+                        });
                     }
                 });
                 
@@ -999,26 +1088,51 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     let interval = setInterval(() => {
                         ids.forEach(id => {
                             let image= ratios["id" + id];
-                            if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
+                            if (image && image.type == 3) {
+                                if ((image.left + image.width > limit && image.top <= limitHeight) || marked[id]) {
 
-                                if (marked[id]) {
-                                    if (!curPos[id]) curPos[id] = 0;
-                                    if (curPos[id] < image.width / 5 || curPos[id] > image.width * 1.8) 
-                                        curPos[id] += image.width / 66;
-                                    else 
-                                        curPos[id] += image.width / 15;
-                                } else {
-                                    curPos[id] = (limitHeight - image.top) / window.innerHeight * image.width;
-                                    marked[id] = true;
+                                    if (marked[id]) {
+                                        if (!curPos[id]) curPos[id] = 0;
+                                        if (curPos[id] < image.width / 5 || curPos[id] > image.width * 1.8) 
+                                            curPos[id] += image.width / 66;
+                                        else 
+                                            curPos[id] += image.width / 15;
+                                    } else {
+                                        curPos[id] = (limitHeight - image.top) / window.innerHeight * image.width;
+                                        marked[id] = true;
+                                    }
+
+                                    let el = document.getElementById(id + "animation-block");
+                                    if (el && el.children && el.children[0])
+                                        el.children[0].style.transform = "translate(" + (-image.width + curPos[id]) + "px, 0px)";
                                 }
 
-                                let el = document.getElementById(id + "animation-block");
-                                if (el && el.children && el.children[0])
-                                    el.children[0].style.transform = "translate(" + (-image.width + curPos[id]) + "px, 0px)";
-                            }
+                                let el2 = document.getElementById(id + "_alo2");
+                                if (el2 && -image.width + curPos[id] > 0) el2.style.opacity = 1;
+                            } else if (image && image.type == 2) {
+                                image.document_object.forEach(child => {
+                                    let childId = id + child._id;
+                                    if ((image.left + child.left + child.width > limit && image.top + child.top + child.height <= limitHeight) || marked[childId]) {
 
-                            let el2 = document.getElementById(id + "_alo2");
-                            if (el2 && -image.width + curPos[id] > 0) el2.style.opacity = 1;
+                                        if (marked[childId]) {
+                                            if (!curPos[childId]) curPos[childId] = 0;
+                                            if (curPos[childId] < child.width / 5 || curPos[childId] > child.width * 1.8) 
+                                                curPos[childId] += child.width / 66 ;
+                                            else 
+                                                curPos[childId] += child.width / 15;
+                                        } else {
+                                            curPos[childId] = (limitHeight - image.top - child.top) / window.rectHeight * image.width;
+                                            marked[childId] = true;
+                                        }
+            
+                                        let el = document.getElementById(childId + "animation-block");
+                                        el.style.left = (-child.width + curPos[childId]) + "px";
+                                    }
+            
+                                    let el2 = document.getElementById(childId + "alo2");
+                                    if (el2 && -child.width * scale + curPos[childId] > 0) el2.style.opacity = 1;
+                                });
+                            }
                         })
 
                         limit -= window.innerWidth / 22;
