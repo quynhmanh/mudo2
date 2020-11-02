@@ -4238,7 +4238,7 @@ class CanvaEditor extends Component<IProps, IState> {
             if (el5) el5.style.display = "none";
         });
 
-        if (window.image.type == TemplateType.GroupedItem && window.selections) {
+        if (window.image.type == TemplateType.GroupedItem) {
             window.image.childIds.forEach(id => {
                 let image2 = editorStore.images2.get(id);
                 if (image2) {
