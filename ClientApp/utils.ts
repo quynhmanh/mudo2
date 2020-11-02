@@ -1071,7 +1071,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                 el.style.opacity = "0";
                                 let newNode = el.cloneNode(true);
                                 newNode.id = image._id + child._id + "animation-block";
-                                newNode.style.background = "black";
+                                newNode.style.background = child.color;
                                 newNode.style.opacity = 1;
                                 newNode.style.left = "-" + newNode.style.width;
                                 el.parentNode.appendChild(newNode);
