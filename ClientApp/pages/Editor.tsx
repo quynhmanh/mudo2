@@ -4347,9 +4347,11 @@ class CanvaEditor extends Component<IProps, IState> {
                 let index = editorStore.pages.findIndex(pageId => pageId == image.page);
                 editorStore.keys[index] = editorStore.keys[index] + 1;
 
-                window.selections.forEach(el => {
-                    el.style.opacity = 0;
-                });
+                if (window.selections) {
+                    window.selections.forEach(el => {
+                        el.style.opacity = 0;
+                    });
+                }
 
                 this.forceUpdate();
             }
