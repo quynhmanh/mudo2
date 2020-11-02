@@ -132,8 +132,8 @@ export default class SingleText extends PureComponent<IProps, IState> {
                     className={`text-container ${_id + _id + "text-container2" + canvas}`}
                     style={{
                         zIndex: selected && type !== TemplateType.Image ? 1 : 0,
-                        left: left * scale,
-                        top: top * scale,
+                        left: left * scaleX * scale,
+                        top: top * scaleY * scale,
                         position: "absolute",
                         width: width * scale,
                         height: height * scale,

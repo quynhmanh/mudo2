@@ -1478,6 +1478,10 @@ class CanvaEditor extends Component<IProps, IState> {
             newChildImage.left = childImage.left - image.left;
             newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
             newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
+            newChildImage.width = newChildImage.width / childImage.scaleX;
+            newChildImage.height = newChildImage.height / childImage.scaleY;
+            newChildImage.top = newChildImage.top / childImage.scaleY;
+            newChildImage.left = newChildImage.left / childImage.scaleX;
             newChildImage.selected = false;
             newChildImage.hovered = false;
             childImages.push(clone(toJS(newChildImage)));
@@ -2544,13 +2548,15 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                 }
 
+                console.log('newDocumentObjects', newDocumentObjects);
+
                 newDocumentObjects = newDocumentObjects.map(text => {
                     let els = document.getElementsByClassName(_id + text._id + "b2");
                     for (let i = 0; i < els.length; ++i) {
                         let el = els[i] as HTMLElement;
                         el.style.height = `calc(${text.height2 * 100}% + 2px)`
                         el.style.left = `calc(${text.left / width * image.scaleX * 100}% - 1px)`;
-                        el.style.top = `calc(${text.top / (text.height / text.height2) * 100}% - 1px)`;
+                        el.style.top = `calc(${text.top / (text.height / text.height2) * text.scaleY * 100}% - 1px)`;
                     }
 
                     let childEl = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
@@ -5297,8 +5303,10 @@ class CanvaEditor extends Component<IProps, IState> {
         height: number
     ): any {
 
+        console.log('arguments', arguments);
         let result = [];
         let norm = (image, parent) => {
+            console.log('image ', image);
             let res = { ...image };
             if (parent != null) {
                 let img = images.filter(img => img._id === image._id)[0];
@@ -5309,7 +5317,9 @@ class CanvaEditor extends Component<IProps, IState> {
             if (res.childId) {
                 let child = images.filter(img => img._id === res.childId)[0];
 
-                norm(child, res);
+                if (child) {
+                    norm(child, res);
+                }
             }
         };
 
