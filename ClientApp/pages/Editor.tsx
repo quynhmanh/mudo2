@@ -1476,8 +1476,8 @@ class CanvaEditor extends Component<IProps, IState> {
             newChildImage.height2 = childImage.height / image.height;
             newChildImage.top = childImage.top - image.top;
             newChildImage.left = childImage.left - image.left;
-            newChildImage.scaleX = 1;
-            newChildImage.scaleY = 1;
+            newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
+            newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
             newChildImage.selected = false;
             newChildImage.hovered = false;
             childImages.push(clone(toJS(newChildImage)));
