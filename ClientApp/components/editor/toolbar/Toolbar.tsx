@@ -53,6 +53,8 @@ interface IProps {
     updateImages: any;
     onTextChange: any;
     scale: any;
+    groupGroupedItem: any;
+    ungroupGroupedItem: any;
 }
 
 interface IState {
@@ -126,6 +128,8 @@ class Toolbar extends Component<IProps, IState> {
                     currentOpacity={props.currentOpacity}
                     handleOpacityChange={props.handleOpacityChange}
                     handleOpacityChangeEnd={props.handleOpacityChangeEnd}
+                    groupGroupedItem={props.groupGroupedItem}
+                    ungroupGroupedItem={props.ungroupGroupedItem}
                 />
             </div>
         );

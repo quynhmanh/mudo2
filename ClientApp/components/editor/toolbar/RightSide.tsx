@@ -20,6 +20,8 @@ interface IProps {
     handleOpacityChange: any;
     handleOpacityChangeEnd: any;
     cropMode: any;
+    groupGroupedItem: any;
+    ungroupGroupedItem: any;
 }
 
 interface IState {
@@ -39,7 +41,33 @@ class RightSide extends Component<IProps, IState> {
                     display: props.show ? "flex" : "none",
                     height: "30px",
                 }}
-            >   
+            >
+            {image && image.type == TemplateType.GroupedItem && image.temporary && <button
+                    className="toolbar-btn"
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                    onClick={e => {
+                        e.preventDefault();
+                        this.props.groupGroupedItem();
+                    }}
+                >
+                    <span>Group</span>
+            </button>}
+            {image && image.type == TemplateType.GroupedItem && !image.temporary && <button
+                    className="toolbar-btn"
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                    onClick={e => {
+                        e.preventDefault();
+                        this.props.ungroupGroupedItem();
+                    }}
+                >
+                    <span>Ungroup</span>
+            </button>}
             {!editorStore.cropMode && ((editorStore.idObjectSelected && image && image.type != TemplateType.GroupedItem) 
                 || editorStore.childId) &&
                 <Position 

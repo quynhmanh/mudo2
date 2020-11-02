@@ -363,6 +363,8 @@ class CanvaEditor extends Component<IProps, IState> {
         this.onTextChange = this.onTextChange.bind(this);
         this.setScale = this.setScale.bind(this);
         this.saveImages = this.saveImages.bind(this);
+        this.groupGroupedItem = this.groupGroupedItem.bind(this);
+        this.ungroupGroupedItem = this.ungroupGroupedItem.bind(this);
     }
 
     $app = null;
@@ -1341,9 +1343,11 @@ class CanvaEditor extends Component<IProps, IState> {
             }, 300);
 
             let top = 999999, right = 0, bottom = 0, left = 999999;
+            let childIds = [];
             evt.selected.forEach(node => {
                 let id = node.attributes.iden.value;
                 if (!id) return;
+                childIds.push(id);
 
                 window.selectionIDs[id] = true;
 
@@ -1410,6 +1414,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             let item = {
                 _id: uuidv4(),
+                childIds,
                 type: TemplateType.GroupedItem,
                 src: "",
                 width: width / scale,
@@ -1438,12 +1443,36 @@ class CanvaEditor extends Component<IProps, IState> {
                 childId: null,
                 selected: true,
                 hovered: true,
+                temporary: true,
             };
             let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
             editorStore.keys[index2] = editorStore.keys[index2] + 1;
             editorStore.addItem2(item, false);
             self.handleImageSelected(item._id, item.page, false, true, false);
         });
+    }
+
+    groupGroupedItem() {
+        window.selections.forEach(node => {
+            let id = node.attributes.iden.value;
+            if (!id) return;
+            window.selectionIDs[id] = true;
+
+            node.style.opacity = 0;
+        });
+
+        let image = this.getImageSelected();
+        image.temporary = false;
+        editorStore.images2.set(image._id, image);
+        this.updateImages2(image, false);
+    }
+
+    ungroupGroupedItem() {
+        let image = this.getImageSelected();
+        image.temporary = true;
+        editorStore.images2.set(image._id, image);
+        this.updateImages2(image, false);
+        this.doNoObjectSelected();
     }
 
     selectFont = (id, e) => {
@@ -1774,10 +1803,7 @@ class CanvaEditor extends Component<IProps, IState> {
         document.body.style.cursor = null;
 
         if (window.image.type == TemplateType.GroupedItem) {
-            window.selections.forEach(sel => {
-                let id = sel.attributes.iden.value;
-                if (!id) return;
-
+            window.image.childIds.forEach(id => {
                 let image2 = editorStore.images2.get(id);
                 image2.selected = false;
                 image2.left = window.selectionsAngle[id].left;
@@ -2599,10 +2625,7 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (objectType == TemplateType.GroupedItem) {
-            window.selections.forEach(sel => {
-                let id = sel.attributes.iden.value;
-                if (!id) return;
-
+            image.childIds.forEach(id => {
                 let image2 = editorStore.images2.get(id);
 
                 let centerX = image2.left + image2.width / 2;
@@ -4065,10 +4088,7 @@ class CanvaEditor extends Component<IProps, IState> {
         let deltaTop = top - window.startTop / scale;
 
         if (image.type == TemplateType.GroupedItem) {
-            window.selections.forEach(sel => {
-                let id = sel.attributes.iden.value;
-                if (!id) return;
-
+            image.childIds.forEach(id => {
                 let image2 = editorStore.images2.get(id);
 
                 window.selectionsAngle[image2._id] = {
@@ -4219,17 +4239,17 @@ class CanvaEditor extends Component<IProps, IState> {
         });
 
         if (window.image.type == TemplateType.GroupedItem && window.selections) {
-            window.selections.forEach(sel => {
-                let id = sel.attributes.iden.value;
-                if (!id || !window.selectionsAngle[id]) return;
+            window.image.childIds.forEach(id => {
                 let image2 = editorStore.images2.get(id);
-                image2.left = window.selectionsAngle[id].left;
-                image2.top = window.selectionsAngle[id].top;
-                image2.selected = false;
+                if (image2) {
+                    image2.left = window.selectionsAngle[id].left;
+                    image2.top = window.selectionsAngle[id].top;
+                    image2.selected = false;
 
-                editorStore.images2.set(id, image2);
-                this.updateGuide(image2);
-                this.updateImages(id, image2.page, image2, true);
+                    editorStore.images2.set(id, image2);
+                    this.updateGuide(image2);
+                    this.updateImages(id, image2.page, image2, true);
+                }
             })
         }
     };
@@ -4322,7 +4342,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             let image = editorStore.getImageSelected();
 
-            if (image && image.type == TemplateType.GroupedItem) {
+            if (image && image.type == TemplateType.GroupedItem && image.temporary) {
                 editorStore.images2.delete(editorStore.idObjectSelected);
                 let index = editorStore.pages.findIndex(pageId => pageId == image.page);
                 editorStore.keys[index] = editorStore.keys[index] + 1;
@@ -5957,6 +5977,8 @@ class CanvaEditor extends Component<IProps, IState> {
                                         currentLetterSpacing={this.state.currentLetterSpacing}
                                         handleOpacityChange={this.handleOpacityChange}
                                         handleOpacityChangeEnd={this.handleOpacityChangeEnd}
+                                        groupGroupedItem={this.groupGroupedItem}
+                                        ungroupGroupedItem={this.ungroupGroupedItem}
                                     />
                                 </div>
                             </div>

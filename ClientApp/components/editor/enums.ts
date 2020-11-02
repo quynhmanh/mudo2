@@ -49,6 +49,7 @@ export enum TemplateType {
     UserUploadVideo = 14,
     Grids = 15,
     Shape = 16,
+    GroupedGroupedItem = 17,
 }
 
 export enum SavingState {

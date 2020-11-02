@@ -1044,9 +1044,36 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
 
     let ids = [];
     let ratios = {};
+    let groupedHeading = {};
+
     editorStore.images2.forEach(img => {
-        if (img.type != TemplateType.BackgroundImage) {
-            ids.push(img._id);
+        if (img.type == TemplateType.GroupedItem) {
+            img.childIds.forEach(id => {
+                groupedHeading[id] = true;
+            })
+        }
+    });
+
+    console.log('groupedHeading ', groupedHeading)
+
+    editorStore.images2.forEach(img => {
+        console.log('img ', img.type)
+        if (img.type == TemplateType.GroupedItem) {
+            ids.push({
+                id: img._id,
+                childIds: img.childIds,
+            });
+            ratios[`id${img._id}`] = {
+                left: img.left,
+                top: img.top,
+                width: img.width,
+                height: img.height,
+            };
+        } 
+        else if (img.type == TemplateType.Heading && !groupedHeading[img._id]) {
+            ids.push({
+                id: img._id,
+            });
             ratios[`id${img._id}`] = {
                 left: img.left,
                 top: img.top,
@@ -1054,19 +1081,33 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
                 height: img.height,
             };
         }
+        else if (img.type != TemplateType.BackgroundImage && img.type != TemplateType.Heading) {
+            ids.push({
+                id: img._id,
+            });
+            ratios[`id${img._id}`] = {
+                left: img.left,
+                top: img.top,
+                width: img.width,
+                height: img.height,
+            };
+        }
+        
 
-        if (img.type == TemplateType.Heading) {
+        if (img.type == TemplateType.Heading && !groupedHeading[img._id]) {
             let el = document.getElementById(img._id + "animation-block");
             if (el) el.remove();
         }
     });
 
+    console.log('id ', ids);
+
     window.videoDuration = ids.length * 140 + 1000;
     
     for (let i = 0; i < ids.length; ++i)
         for (let j = 0; j < i; ++j) {
-            let imgI = editorStore.images2.get(ids[i]);
-            let imgJ = editorStore.images2.get(ids[j]);
+            let imgI = editorStore.images2.get(ids[i].id);
+            let imgJ = editorStore.images2.get(ids[j].id);
             if (imgI.top < imgJ.top || (imgI.top == imgJ.top && imgI.left < imgJ.left)) {
                 let tmp = ids[i];
                 ids[i] = ids[j];
@@ -1076,18 +1117,34 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
 
     if (!injectScriptOnly) {
         ids.forEach((id, key) => {
-            let el = document.getElementById(id + "_alo");
-            if (el) el.style.opacity = 0;
+            if (Array.isArray(id.childIds)) {
+                id.childIds.forEach(jd => {
+                    let el = document.getElementById(jd + "_alo");
+                    if (el) el.style.opacity = 0;
+                })
+            } else {
+                let el = document.getElementById(id.id + "_alo");
+                if (el) el.style.opacity = 0;
+            }
         });
 
         let curI = 0;
         let curOpa = {};
         window.intervalAnimation = setInterval(() => {
             ids.forEach((id, key) => {
-                if (!curOpa[id]) curOpa[id] = 0;
-                if (curI / 7 >= key) curOpa[id] += 0.1;
-                let el = document.getElementById(id + "_alo");
-                if (el) el.style.opacity = curOpa[id];
+                if (Array.isArray(id.childIds)) {
+                    id.childIds.forEach(jd => {
+                        if (!curOpa[jd]) curOpa[jd] = 0;
+                        if (curI / 7 >= key) curOpa[jd] += 0.1;
+                        let el = document.getElementById(jd + "_alo");
+                        if (el) el.style.opacity = curOpa[jd];
+                    })
+                } else {
+                    if (!curOpa[id.id]) curOpa[id.id] = 0;
+                    if (curI / 7 >= key) curOpa[id.id] += 0.1;
+                    let el = document.getElementById(id.id + "_alo");
+                    if (el) el.style.opacity = curOpa[id.id];
+                }
             });
             ++curI;
         }, 20);
