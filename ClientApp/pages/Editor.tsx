@@ -2519,14 +2519,14 @@ class CanvaEditor extends Component<IProps, IState> {
 
                 let texts = image.document_object.map(text => {
                     const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
-                    maxHeight = Math.max(maxHeight, h + text.top);
-                    text.height = h;
+                    maxHeight = Math.max(maxHeight, h + text.top * text.scaleY);
+                    text.height = h / text.scaleY;
                     text.width = (width * text.width2) / image.scaleX / text.scaleX;
                     return text;
                 });
 
                 texts = texts.map(text => {
-                    text.height2 = text.height / maxHeight;
+                    text.height2 = text.height * text.scaleY / maxHeight;
                     return text;
                 });
 
@@ -2555,13 +2555,13 @@ class CanvaEditor extends Component<IProps, IState> {
                     for (let i = 0; i < els.length; ++i) {
                         let el = els[i] as HTMLElement;
                         el.style.height = `calc(${text.height2 * 100}% + 2px)`
-                        el.style.left = `calc(${text.left / width * image.scaleX * 100}% - 1px)`;
-                        el.style.top = `calc(${text.top / (text.height / text.height2) * text.scaleY * 100}% - 1px)`;
+                        el.style.left = `calc(${text.left / (text.width / text.width2) * 100}% - 1px)`;
+                        el.style.top = `calc(${text.top / (text.height / text.height2) * 100}% - 1px)`;
                     }
 
                     let childEl = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
-                    childEl.style.left = text.left * scale + "px";
-                    childEl.style.top = text.top * scale + "px";
+                    childEl.style.left = text.left * text.scaleX * scale + "px";
+                    childEl.style.top = text.top * text.scaleY * scale + "px";
                     return text;
                 });
 

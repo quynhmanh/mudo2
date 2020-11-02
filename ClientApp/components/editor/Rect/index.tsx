@@ -1566,8 +1566,8 @@ export default class Rect extends Component<IProps, IState> {
 												id={child._id + "b2"}
 												className={_id + child._id + "b2 hideWhenDownload2"}
 												style={{
-													left: `calc(${child.left / (child.width / child.width2) * child.scaleX * 100}% - 1px)`,
-													top: `calc(${child.top / (child.height / child.height2) * child.scaleY * 100}% - 1px)`,
+													left: `calc(${child.left / (child.width / child.width2) * 100}% - 1px)`,
+													top: `calc(${child.top / (child.height / child.height2) * 100}% - 1px)`,
 													position: "absolute",
 													width: `calc(${child.width2 * 100}% + 2px)`,
 													height: `calc(${child.height2 * 100}% + 2px)`,
