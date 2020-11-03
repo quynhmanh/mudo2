@@ -151,7 +151,6 @@ export default class SingleText extends PureComponent<IProps, IState> {
                         fontStyle: italic ? "italic" : "",
                         fontWeight: bold ? "bold" : "normal",
                         letterSpacing: getLetterSpacing(letterSpacing),
-                        overflow: "hidden",
                     }}
                 >
                     <div
