@@ -1566,8 +1566,8 @@ export default class Rect extends Component<IProps, IState> {
 												id={child._id + "b2"}
 												className={_id + child._id + "b2 hideWhenDownload2"}
 												style={{
-													left: `calc(${child.left / (child.width / child.width2) * 100}%)`,
-													top: `calc(${child.top / (child.height / child.height2) * 100}%)`,
+													left: `calc(${child.left / width * 100 * scaleX}%)`,
+													top: `calc(${child.top / height * 100 * scaleY}%)`,
 													position: "absolute",
 													width: `calc(${child.width2 * 100}%)`,
 													height: `calc(${child.height2 * 100}%)`,
@@ -1676,15 +1676,15 @@ export default class Rect extends Component<IProps, IState> {
 															<div
 																style={{
 																	zIndex: selected && type !== TemplateType.Image ? 1 : 0,
-																	left: child.left * child.scaleX * scale,
-																	top: child.top * child.scaleY * scale,
+																	left: child.left * scale,
+																	top: child.top * scale,
 																	position: "absolute",
-																	width: child.width * scale / scaleX,
-																	height: child.height * scale / scaleY,
+																	width: child.width * scale,
+																	height: child.height * scale,
 																}}>
 																	<Image
 																		canvas={canvas}
-																		_id={_id}
+																		_id={child._id}
 																		imgWidth={child.width * scale}
 																		imgHeight={child.height * scale}
 																		posX={0}

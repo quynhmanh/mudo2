@@ -132,11 +132,11 @@ export default class SingleText extends PureComponent<IProps, IState> {
                     className={`text-container ${_id + _id + "text-container2" + canvas}`}
                     style={{
                         zIndex: selected && type !== TemplateType.Image ? 1 : 0,
-                        left: left * scaleX * scale,
-                        top: top * scaleY * scale,
+                        left: left * scale,
+                        top: top * scale,
                         position: "absolute",
-                        width: width * scale,
-                        height: height * scale,
+                        width: width * scaleX * scale,
+                        height: height * scaleY * scale,
                         transform: `rotate(${rotateAngle}deg)`,
                         opacity: opacity,
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
@@ -162,7 +162,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
                             id={parentId + _id + canvas}
                             spellCheck={false}
                             style={{
-                                width: Math.abs(width),
+                                width: width / scaleX + "px",
                                 zIndex: zIndex,
                                 cursor: 'auto',
                                 margin: 0,

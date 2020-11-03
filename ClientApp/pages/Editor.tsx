@@ -1479,11 +1479,11 @@ class CanvaEditor extends Component<IProps, IState> {
             newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
             newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
             if (newChildImage.type == TemplateType.Heading) {
-                newChildImage.width = newChildImage.width / childImage.scaleX;
-                newChildImage.height = newChildImage.height / childImage.scaleY;
+                // newChildImage.width = newChildImage.width;
+                // newChildImage.height = newChildImage.height;
             }
-            newChildImage.top = newChildImage.top / childImage.scaleY;
-            newChildImage.left = newChildImage.left / childImage.scaleX;
+            // newChildImage.top = newChildImage.top / childImage.scaleY;
+            // newChildImage.left = newChildImage.left / childImage.scaleX;
             newChildImage.selected = false;
             newChildImage.hovered = false;
             newChildImage.ref = null;
@@ -1507,7 +1507,6 @@ class CanvaEditor extends Component<IProps, IState> {
             document_object: childImages,
         }
 
-        console.log('childImages', childImages)
 
         let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
         editorStore.keys[index2] = editorStore.keys[index2] + 1;
@@ -2518,7 +2517,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     if (text.type == TemplateType.Heading) {
                         let textContainer2 = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
                         let textEl = textContainer2.getElementsByClassName("text")[0] as HTMLElement;
-                        textContainer2.style.width = (width * text.width2) / image.scaleX * scale + "px";
+                        textContainer2.style.width = (width * text.width2) * scale + "px";
                         textEl.style.width = (width * text.width2) / image.scaleX / text.scaleX + "px";
                     }
                 });
@@ -2526,16 +2525,18 @@ class CanvaEditor extends Component<IProps, IState> {
                 let texts = image.document_object.map(text => {
                     if (text.type == TemplateType.Heading) {
                         const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
-                        maxHeight = Math.max(maxHeight, h + text.top * text.scaleY);
+                        maxHeight = Math.max(maxHeight, h + text.top);
                         text.height = h / text.scaleY;
-                        text.width = (width * text.width2) / image.scaleX / text.scaleX;
+                        text.width = (width * text.width2) / image.scaleY;
+                    } else if (text.type == TemplateType.Image) {
+                        maxHeight = Math.max(maxHeight, (text.height + text.top));
                     }
                     return text;
                 });
 
                 texts = texts.map(text => {
                     if (text.type == TemplateType.Heading) {
-                        text.height2 = text.height * text.scaleY / maxHeight;
+                        text.height2 = text.height / maxHeight * text.scaleY;
                     }
                     return text;
                 });
@@ -2558,24 +2559,25 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                 }
 
+                height = maxHeight * image.scaleY;
+
                 newDocumentObjects = newDocumentObjects.map(text => {
                     if (text.type == TemplateType.Heading) {
                         let els = document.getElementsByClassName(_id + text._id + "b2");
                         for (let i = 0; i < els.length; ++i) {
                             let el = els[i] as HTMLElement;
                             el.style.height = `calc(${text.height2 * 100}% + 2px)`
-                            el.style.left = `calc(${text.left / (text.width / text.width2) * 100}% - 1px)`;
-                            el.style.top = `calc(${text.top / (text.height / text.height2) * 100}% - 1px)`;
+                            el.style.left = `calc(${text.left / width * 100 * image.scaleX}% - 1px)`;
+                            el.style.top = `calc(${text.top / height * 100 * image.scaleY}% - 1px)`;
                         }
 
                         let childEl = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
-                        childEl.style.left = text.left * text.scaleX * scale + "px";
-                        childEl.style.top = text.top * text.scaleY * scale + "px";
+                        childEl.style.left = text.left * scale + "px";
+                        childEl.style.top = text.top * scale + "px";
                     }
                     return text;
                 });
 
-                height = maxHeight * image.scaleY;
                 image.document_object = newDocumentObjects;
                 window.document_object = newDocumentObjects;
                 window.imageHeight = height;
@@ -4723,7 +4725,6 @@ class CanvaEditor extends Component<IProps, IState> {
                         this.hidePopupDownloading();
                     })
                     .catch(error => {
-                        console.log('Something went wrong', error);
                         this.hidePopupDownloading();
                     });
             }
@@ -5002,7 +5003,6 @@ class CanvaEditor extends Component<IProps, IState> {
             e.persist();
         }
         setTimeout(() => {
-            const { scale } = self.state;
             if (!childId) {
                 let image = editorStore.getImageSelected();
                 let centerX = image.left + image.width / 2;
@@ -5051,10 +5051,15 @@ class CanvaEditor extends Component<IProps, IState> {
                 });
 
                 let maxHeight = 0;
-                texts.forEach(text => {
+                texts.filter(text => text.type == TemplateType.Heading).forEach(text => {
                     const h = document.getElementById(editorStore.idObjectSelected + text._id + "alo").offsetHeight * text.scaleY;
                     maxHeight = Math.max(maxHeight, h + text.top);
                 });
+
+                // texts.filter(text => text.type == TemplateType.Image).forEach(text => {
+                //     const h = document.getElementById(text._id + "1235alo").offsetHeight * text.scaleY;
+                //     maxHeight = Math.max(maxHeight, h + text.top);
+                // });
 
                 texts = texts.map(text => {
                     text.height2 = text.height / maxHeight;
@@ -5313,10 +5318,8 @@ class CanvaEditor extends Component<IProps, IState> {
         height: number
     ): any {
 
-        console.log('arguments', arguments);
         let result = [];
         let norm = (image, parent) => {
-            console.log('image ', image);
             let res = { ...image };
             if (parent != null) {
                 let img = images.filter(img => img._id === image._id)[0];
