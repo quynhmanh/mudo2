@@ -1478,16 +1478,11 @@ class CanvaEditor extends Component<IProps, IState> {
             newChildImage.left = childImage.left - image.left;
             newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
             newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
-            if (newChildImage.type == TemplateType.Heading) {
-                // newChildImage.width = newChildImage.width;
-                // newChildImage.height = newChildImage.height;
-            }
-            // newChildImage.top = newChildImage.top / childImage.scaleY;
-            // newChildImage.left = newChildImage.left / childImage.scaleX;
             newChildImage.selected = false;
             newChildImage.hovered = false;
             newChildImage.ref = null;
             newChildImage.childId = null;
+            console.log('newChildImage ', newChildImage)
             childImages.push(clone(toJS(newChildImage)));
         });
 

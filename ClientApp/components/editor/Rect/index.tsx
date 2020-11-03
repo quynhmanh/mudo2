@@ -1608,56 +1608,22 @@ export default class Rect extends Component<IProps, IState> {
 										(
 											<div>
 												{document_object.filter(child => child.type == TemplateType.Heading).map(child => {
-													const styles = tLToCenter({
-														top: child.top,
-														left: child.left,
-														width: child.width,
-														height: child.height,
-														rotateAngle: child.rotateAngle
-													});
-													// if (child.type == TemplateType.Image) {
-													// 	return (
-													// 		<div
-													// 			style={{
-													// 				zIndex: selected && type !== TemplateType.Image ? 1 : 0,
-													// 				left: child.left * child.scaleX * scale,
-													// 				top: child.top * child.scaleY * scale,
-													// 				position: "absolute",
-													// 				width: child.width * scale / scaleX,
-													// 				height: child.height * scale / scaleY,
-													// 			}}>
-													// 				<Image
-													// 					canvas={canvas}
-													// 					_id={_id}
-													// 					imgWidth={child.width * scale}
-													// 					imgHeight={child.height * scale}
-													// 					posX={0}
-													// 					posY={0}
-													// 					selected={selected}
-													// 					cropMode={cropMode}
-													// 					backgroundColor={backgroundColor}
-													// 					src={child.src}
-													// 					enableCropMode={null}
-													// 					srcThumnail={child.srcThumnail}
-													// 				/></div>);
-													// } else {
-														return (
-															<SingleText
-																child={child}
-																ref={ref => {
-																	this.childrens[child._id] = ref;
-																}}
-																canvas={canvas}
-																_id={_id + child._id + canvas}
-																parentId={_id}
-																rotateAngle={child.rotateAngle}
-																selected={child._id == editorStore.childId}
-																onInput={onTextChange}
-																handleChildIdSelected={handleChildIdSelected}
-																scale={scale}
-															/>
-														);
-													// }
+													return (
+														<SingleText
+															child={child}
+															ref={ref => {
+																this.childrens[child._id] = ref;
+															}}
+															canvas={canvas}
+															_id={_id + child._id + canvas}
+															parentId={_id}
+															rotateAngle={child.rotateAngle}
+															selected={child._id == editorStore.childId}
+															onInput={onTextChange}
+															handleChildIdSelected={handleChildIdSelected}
+															scale={scale}
+														/>
+													);
 												})}
 											</div>
 										)}
@@ -1665,38 +1631,32 @@ export default class Rect extends Component<IProps, IState> {
 										(
 											<div>
 												{document_object.filter(child => child.type == TemplateType.Image).map(child => {
-													const styles = tLToCenter({
-														top: child.top,
-														left: child.left,
-														width: child.width,
-														height: child.height,
-														rotateAngle: child.rotateAngle
-													});
-														return (
-															<div
-																style={{
-																	zIndex: selected && type !== TemplateType.Image ? 1 : 0,
-																	left: child.left * scale,
-																	top: child.top * scale,
-																	position: "absolute",
-																	width: child.width * scale,
-																	height: child.height * scale,
-																	overflow: "hidden",
-																}}>
-																	<Image
-																		canvas={canvas}
-																		_id={child._id}
-																		imgWidth={child.imgWidth * scale}
-																		imgHeight={child.imgHeight * scale}
-																		posX={child.posX * scale}
-																		posY={child.posY * scale}
-																		selected={selected}
-																		cropMode={cropMode}
-																		backgroundColor={backgroundColor}
-																		src={child.src}
-																		enableCropMode={null}
-																		srcThumnail={child.srcThumnail}
-																	/></div>);
+													return (
+														<div
+															style={{
+																zIndex: selected && type !== TemplateType.Image ? 1 : 0,
+																left: child.left * scale,
+																top: child.top * scale,
+																position: "absolute",
+																width: child.width * scale,
+																height: child.height * scale,
+																overflow: "hidden",
+																transform: `rotate(${child.rotateAngle}deg)`,
+															}}>
+																<Image
+																	canvas={canvas}
+																	_id={child._id}
+																	imgWidth={child.imgWidth * scale}
+																	imgHeight={child.imgHeight * scale}
+																	posX={child.posX * scale}
+																	posY={child.posY * scale}
+																	selected={selected}
+																	cropMode={cropMode}
+																	backgroundColor={backgroundColor}
+																	src={child.src}
+																	enableCropMode={null}
+																	srcThumnail={child.srcThumnail}
+																/></div>);
 												})}
 											</div>
 										)}
