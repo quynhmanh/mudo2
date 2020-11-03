@@ -2517,7 +2517,10 @@ class CanvaEditor extends Component<IProps, IState> {
                     if (text.type == TemplateType.Heading) {
                         let textContainer2 = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
                         let textEl = textContainer2.getElementsByClassName("text")[0] as HTMLElement;
+                        const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
                         textContainer2.style.width = (width * text.width2) * scale + "px";
+                        textContainer2.style.height = h * scale + "px";
+
                         textEl.style.width = (width * text.width2) / image.scaleX / text.scaleX + "px";
                     }
                 });
@@ -2526,7 +2529,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     if (text.type == TemplateType.Heading) {
                         const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
                         maxHeight = Math.max(maxHeight, h + text.top);
-                        text.height = h / text.scaleY;
+                        text.height = h;
                         text.width = (width * text.width2) / image.scaleY;
                     } else if (text.type == TemplateType.Image) {
                         maxHeight = Math.max(maxHeight, (text.height + text.top));
@@ -2536,7 +2539,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
                 texts = texts.map(text => {
                     if (text.type == TemplateType.Heading) {
-                        text.height2 = text.height / maxHeight * text.scaleY;
+                        text.height2 = text.height / maxHeight;
                     }
                     return text;
                 });
@@ -4991,7 +4994,6 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     onTextChange(thisImage, e, childId) {
-        let self = this;
         thisImage = toJS(thisImage);
         let target;
         if (childId) {
