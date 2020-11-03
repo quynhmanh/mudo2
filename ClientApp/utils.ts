@@ -1118,7 +1118,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                             else 
                                                 curPos[childId] += child.width / child.scaleX / 15;
                                         } else {
-                                            curPos[childId] = (limitHeight - image.top - child.top) / window.rectHeight * image.width;
+                                            curPos[childId] = (limitHeight - image.top - child.top) / window.rectHeight * child.width / child.scaleX;
                                             marked[childId] = true;
                                         }
             
