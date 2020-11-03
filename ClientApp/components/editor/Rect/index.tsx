@@ -1660,6 +1660,39 @@ export default class Rect extends Component<IProps, IState> {
 												})}
 											</div>
 										)}
+									{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
+										(
+											<div>
+												{document_object.filter(child => child.type == TemplateType.Gradient).map(child => {
+													return (
+														<div
+															style={{
+																zIndex: child.zIndex,
+																left: child.left * scale,
+																top: child.top * scale,
+																position: "absolute",
+																width: child.width * scale,
+																height: child.height * scale,
+																overflow: "hidden",
+																transform: `rotate(${child.rotateAngle}deg)`,
+															}}>
+																<Image
+																	canvas={canvas}
+																	_id={child._id}
+																	imgWidth={child.imgWidth * scale}
+																	imgHeight={child.imgHeight * scale}
+																	posX={child.posX * scale}
+																	posY={child.posY * scale}
+																	selected={selected}
+																	cropMode={cropMode}
+																	backgroundColor={backgroundColor}
+																	src={child.src}
+																	enableCropMode={null}
+																	srcThumnail={child.srcThumnail}
+																/></div>);
+												})}
+											</div>
+										)}
 									{((selected && name == CanvasType.HoverLayer) || name == CanvasType.Preview ||
 										(!selected && (name == CanvasType.All)) ||
 										name == CanvasType.Download) &&

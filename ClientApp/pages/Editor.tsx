@@ -2545,7 +2545,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         maxHeight = Math.max(maxHeight, h + text.top);
                         text.height = h;
                         text.width = (width * text.width2) / image.scaleY;
-                    } else if (text.type == TemplateType.Image) {
+                    } else if (text.type == TemplateType.Image || text.type == TemplateType.Gradient) {
                         maxHeight = Math.max(maxHeight, (text.height + text.top));
                     }
                     return text;
