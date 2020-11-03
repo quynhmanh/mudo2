@@ -1478,8 +1478,10 @@ class CanvaEditor extends Component<IProps, IState> {
             newChildImage.left = childImage.left - image.left;
             newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
             newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
-            newChildImage.width = newChildImage.width / childImage.scaleX;
-            newChildImage.height = newChildImage.height / childImage.scaleY;
+            if (newChildImage.type == TemplateType.Heading) {
+                newChildImage.width = newChildImage.width / childImage.scaleX;
+                newChildImage.height = newChildImage.height / childImage.scaleY;
+            }
             newChildImage.top = newChildImage.top / childImage.scaleY;
             newChildImage.left = newChildImage.left / childImage.scaleX;
             newChildImage.selected = false;
@@ -2513,22 +2515,28 @@ class CanvaEditor extends Component<IProps, IState> {
                 let maxHeight = 0;
 
                 image.document_object.map(text => {
-                    let textContainer2 = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
-                    let textEl = textContainer2.getElementsByClassName("text")[0] as HTMLElement;
-                    textContainer2.style.width = (width * text.width2) / image.scaleX * scale + "px";
-                    textEl.style.width = (width * text.width2) / image.scaleX / text.scaleX + "px";
+                    if (text.type == TemplateType.Heading) {
+                        let textContainer2 = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
+                        let textEl = textContainer2.getElementsByClassName("text")[0] as HTMLElement;
+                        textContainer2.style.width = (width * text.width2) / image.scaleX * scale + "px";
+                        textEl.style.width = (width * text.width2) / image.scaleX / text.scaleX + "px";
+                    }
                 });
 
                 let texts = image.document_object.map(text => {
-                    const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
-                    maxHeight = Math.max(maxHeight, h + text.top * text.scaleY);
-                    text.height = h / text.scaleY;
-                    text.width = (width * text.width2) / image.scaleX / text.scaleX;
+                    if (text.type == TemplateType.Heading) {
+                        const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
+                        maxHeight = Math.max(maxHeight, h + text.top * text.scaleY);
+                        text.height = h / text.scaleY;
+                        text.width = (width * text.width2) / image.scaleX / text.scaleX;
+                    }
                     return text;
                 });
 
                 texts = texts.map(text => {
-                    text.height2 = text.height * text.scaleY / maxHeight;
+                    if (text.type == TemplateType.Heading) {
+                        text.height2 = text.height * text.scaleY / maxHeight;
+                    }
                     return text;
                 });
 
@@ -2550,20 +2558,20 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                 }
 
-                console.log('newDocumentObjects', newDocumentObjects);
-
                 newDocumentObjects = newDocumentObjects.map(text => {
-                    let els = document.getElementsByClassName(_id + text._id + "b2");
-                    for (let i = 0; i < els.length; ++i) {
-                        let el = els[i] as HTMLElement;
-                        el.style.height = `calc(${text.height2 * 100}% + 2px)`
-                        el.style.left = `calc(${text.left / (text.width / text.width2) * 100}% - 1px)`;
-                        el.style.top = `calc(${text.top / (text.height / text.height2) * 100}% - 1px)`;
-                    }
+                    if (text.type == TemplateType.Heading) {
+                        let els = document.getElementsByClassName(_id + text._id + "b2");
+                        for (let i = 0; i < els.length; ++i) {
+                            let el = els[i] as HTMLElement;
+                            el.style.height = `calc(${text.height2 * 100}% + 2px)`
+                            el.style.left = `calc(${text.left / (text.width / text.width2) * 100}% - 1px)`;
+                            el.style.top = `calc(${text.top / (text.height / text.height2) * 100}% - 1px)`;
+                        }
 
-                    let childEl = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
-                    childEl.style.left = text.left * text.scaleX * scale + "px";
-                    childEl.style.top = text.top * text.scaleY * scale + "px";
+                        let childEl = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
+                        childEl.style.left = text.left * text.scaleX * scale + "px";
+                        childEl.style.top = text.top * text.scaleY * scale + "px";
+                    }
                     return text;
                 });
 

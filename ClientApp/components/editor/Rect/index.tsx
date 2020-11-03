@@ -1623,8 +1623,8 @@ export default class Rect extends Component<IProps, IState> {
 																	left: child.left * child.scaleX * scale,
 																	top: child.top * child.scaleY * scale,
 																	position: "absolute",
-																	width: child.width * scale,
-																	height: child.height * scale,
+																	width: child.width * scale / scaleX,
+																	height: child.height * scale / scaleY,
 																}}>
 																	<Image
 																		canvas={canvas}
