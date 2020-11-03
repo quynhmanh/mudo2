@@ -805,7 +805,6 @@ export const processChildren = (children, _id = "", colors) => {
                 // node.appendChild(el);
                 // node.attributes["class"] = "svg";
                 // node.attributes["className"] = "svg";
-                // console.log('svg ', node);
                 node.setAttribute("class", _id);
             }
 
@@ -935,7 +934,6 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     el.parentNode.appendChild(newNode);
                 }
             } else if (image.type == TemplateType.TextTemplate) {
-                console.log(toJS(image))
                 image.document_object.forEach(child => {
                     if (child.type == TemplateType.Heading) {
                         let el = document.getElementById(image._id + child._id + "alo");
@@ -949,7 +947,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             newNode.id = image._id + child._id + "animation-block";
                             newNode.style.background = child.color;
                             newNode.style.opacity = 1;
-                            newNode.style.left = "-" + (child.width + 10) + "px";
+                            newNode.style.left = "-" + (child.width / child.scaleX + 10) + "px";
                         }
                     }
                 });
@@ -1041,7 +1039,6 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                 let ratios = ${JSON.stringify(ratios)};
                 ids.forEach((id, key) => {
                     let image = ratios["id" + id];
-                    console.log('image.type', image.type)
                     if (image && image.type == 3) {
                         let el = document.getElementById(id + "_alo2");
                         if (el) el.style.opacity = 0;
@@ -1066,7 +1063,6 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                         }
                     } else if (image && image.type == 2) {
                         image.document_object.forEach(child => {
-                            console.log('iddd', image._id, child._id);
                             let el = document.getElementById(image._id + child._id + "alo2");
                             if (el) {
                                 el.style.opacity = "0";
@@ -1074,7 +1070,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                 newNode.id = image._id + child._id + "animation-block";
                                 newNode.style.background = child.color;
                                 newNode.style.opacity = 1;
-                                newNode.style.left = "-" + (child.width + 10);
+                                newNode.style.left = "-" + (child.width / child.scaleX + 10) + "px";
                                 el.parentNode.appendChild(newNode);
                             }
                         });
