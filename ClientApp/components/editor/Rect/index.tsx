@@ -1681,14 +1681,15 @@ export default class Rect extends Component<IProps, IState> {
 																	position: "absolute",
 																	width: child.width * scale,
 																	height: child.height * scale,
+																	overflow: "hidden",
 																}}>
 																	<Image
 																		canvas={canvas}
 																		_id={child._id}
-																		imgWidth={child.width * scale}
-																		imgHeight={child.height * scale}
-																		posX={0}
-																		posY={0}
+																		imgWidth={child.imgWidth * scale}
+																		imgHeight={child.imgHeight * scale}
+																		posX={child.posX * scale}
+																		posY={child.posY * scale}
 																		selected={selected}
 																		cropMode={cropMode}
 																		backgroundColor={backgroundColor}
