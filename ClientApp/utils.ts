@@ -1109,25 +1109,25 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             } else if (image && image.type == 2) {
                                 image.document_object.forEach(child => {
                                     let childId = id + child._id;
-                                    if ((image.left + child.left + child.width > limit && image.top + child.top + child.height <= limitHeight) || marked[childId]) {
+                                    if ((image.left + child.left + child.width / child.scaleX > limit && image.top + child.top + child.height <= limitHeight) || marked[childId]) {
 
                                         if (marked[childId]) {
                                             if (!curPos[childId]) curPos[childId] = 0;
-                                            if (curPos[childId] < child.width / 5 || curPos[childId] > child.width * 1.8) 
-                                                curPos[childId] += child.width / 66 ;
+                                            if (curPos[childId] < child.width / child.scaleX / 5 || curPos[childId] > child.width / child.scaleX * 1.8) 
+                                                curPos[childId] += child.width / child.scaleX / 66 ;
                                             else 
-                                                curPos[childId] += child.width / 15;
+                                                curPos[childId] += child.width / child.scaleX / 15;
                                         } else {
                                             curPos[childId] = (limitHeight - image.top - child.top) / window.rectHeight * image.width;
                                             marked[childId] = true;
                                         }
             
                                         let el = document.getElementById(childId + "animation-block");
-                                        if (el) el.style.left = (-child.width + curPos[childId]) + "px";
+                                        if (el) el.style.left = (-child.width / child.scaleX + curPos[childId]) + "px";
                                     }
             
                                     let el2 = document.getElementById(childId + "alo2");
-                                    if (el2 && -child.width * scale + curPos[childId] > 0) el2.style.opacity = 1;
+                                    if (el2 && -child.width / child.scaleX + curPos[childId] > 0) el2.style.opacity = 1;
                                 });
                             }
                         })
