@@ -476,6 +476,8 @@ export default class Rect extends Component<IProps, IState> {
 		// 	}
 		// }
 
+		console.log('document_object', document_object)
+
 		const regex = /\[CALC.+?]/gm;
 
 		let ABC;
@@ -1663,7 +1665,7 @@ export default class Rect extends Component<IProps, IState> {
 									{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
 										(
 											<div>
-												{document_object.filter(child => child.type == TemplateType.Gradient).map(child => {
+												{document_object.filter(child => child.type == TemplateType.Gradient || child.type == TemplateType.Shape || child.type == TemplateType.Element).map(child => {
 													return (
 														<div
 															style={{
