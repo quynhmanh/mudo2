@@ -1530,6 +1530,8 @@ class CanvaEditor extends Component<IProps, IState> {
             img.imgHeight = img.imgHeight * image.scaleY;
             img.scaleX = img.scaleX * image.scaleX;
             img.scaleY = img.scaleY * image.scaleY;
+            img.posX = img.posX * image.scaleX;
+            img.posY = img.posY * image.scaleY;
             img.selected = false;
             img.hovered = false;
             editorStore.images2.set(img._id, img);
