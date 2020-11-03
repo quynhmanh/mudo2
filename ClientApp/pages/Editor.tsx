@@ -1481,8 +1481,8 @@ class CanvaEditor extends Component<IProps, IState> {
             newChildImage.selected = false;
             newChildImage.hovered = false;
             newChildImage.ref = null;
+            newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
             newChildImage.childId = null;
-            console.log('newChildImage ', newChildImage)
             childImages.push(clone(toJS(newChildImage)));
         });
 
@@ -1521,6 +1521,7 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.delete(image._id);
 
         image.document_object.forEach(img => {
+            img._id = uuidv4();
             img.top = image.top + img.top * image.scaleX;
             img.left = image.left + img.left * image.scaleY;
             img.width = img.width * image.scaleX;
