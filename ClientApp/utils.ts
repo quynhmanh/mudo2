@@ -937,19 +937,20 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
             } else if (image.type == TemplateType.TextTemplate) {
                 console.log(toJS(image))
                 image.document_object.forEach(child => {
-
-                    let el = document.getElementById(image._id + child._id + "alo");
-                    if (el) {
-                        el.style.opacity = "0";
-                        let newNode = document.getElementById(image._id + child._id + "animation-block");
-                        if (!newNode) {
-                            newNode = el.cloneNode(true);
-                            el.parentNode.appendChild(newNode);
+                    if (child.type == TemplateType.Heading) {
+                        let el = document.getElementById(image._id + child._id + "alo");
+                        if (el) {
+                            el.style.opacity = "0";
+                            let newNode = document.getElementById(image._id + child._id + "animation-block");
+                            if (!newNode) {
+                                newNode = el.cloneNode(true);
+                                el.parentNode.appendChild(newNode);
+                            }
+                            newNode.id = image._id + child._id + "animation-block";
+                            newNode.style.background = child.color;
+                            newNode.style.opacity = 1;
+                            newNode.style.left = "-" + newNode.style.width;
                         }
-                        newNode.id = image._id + child._id + "animation-block";
-                        newNode.style.background = child.color;
-                        newNode.style.opacity = 1;
-                        newNode.style.left = "-" + newNode.style.width;
                     }
                 });
             }
@@ -999,7 +1000,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             }
 
                             let el = document.getElementById(childId + "animation-block");
-                            el.style.left = (-child.width + curPos[childId]) + "px";
+                            if (el) el.style.left = (-child.width + curPos[childId]) + "px";
                         }
 
                         let el2 = document.getElementById(childId + "alo");
@@ -1025,7 +1026,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     image.document_object.forEach(child => {
                         let childId = id + child._id;
                         let el = document.getElementById(childId + "animation-block");
-                        el.remove();
+                        if (el) el.remove();
                     });
                 }
             });
@@ -1126,7 +1127,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                         }
             
                                         let el = document.getElementById(childId + "animation-block");
-                                        el.style.left = (-child.width + curPos[childId]) + "px";
+                                        if (el) el.style.left = (-child.width + curPos[childId]) + "px";
                                     }
             
                                     let el2 = document.getElementById(childId + "alo2");
