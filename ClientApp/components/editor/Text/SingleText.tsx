@@ -124,14 +124,14 @@ export default class SingleText extends PureComponent<IProps, IState> {
                 id={parentId + _id + "text-container3"}
                 style={{
                     WebkitTextStroke: (effectId == 3 || effectId == 4) && (`${1.0 * hollowThickness / 100 * 4 + 0.1}px ${(effectId == 3 || effectId == 4) ? color : "black"}`),
-                    transform: "translateZ(0)",
+                    transform: `translateZ(${zIndex})`,
                 }}
             >
                 <div
                     id={parentId + _id + "text-container2" + canvas}
                     className={`text-container ${_id + _id + "text-container2" + canvas}`}
                     style={{
-                        zIndex: selected && type !== TemplateType.Image ? 1 : 0,
+                        zIndex: zIndex,
                         left: left * scale,
                         top: top * scale,
                         position: "absolute",

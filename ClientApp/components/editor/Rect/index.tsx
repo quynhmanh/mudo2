@@ -1634,7 +1634,7 @@ export default class Rect extends Component<IProps, IState> {
 													return (
 														<div
 															style={{
-																zIndex: selected && type !== TemplateType.Image ? 1 : 0,
+																zIndex: child.zIndex,
 																left: child.left * scale,
 																top: child.top * scale,
 																position: "absolute",
