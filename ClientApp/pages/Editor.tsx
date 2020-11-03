@@ -1525,6 +1525,8 @@ class CanvaEditor extends Component<IProps, IState> {
             img.left = image.left + img.left * image.scaleY;
             img.width = img.width * image.scaleX;
             img.height = img.height * image.scaleY;
+            img.imgWidth = img.imgWidth * image.scaleX;
+            img.imgHeight = img.imgHeight * image.scaleY;
             img.scaleX = img.scaleX * image.scaleX;
             img.scaleY = img.scaleY * image.scaleY;
             img.selected = false;
