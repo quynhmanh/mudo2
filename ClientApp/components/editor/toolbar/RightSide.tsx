@@ -55,7 +55,7 @@ class RightSide extends Component<IProps, IState> {
                 >
                     <span>Group</span>
             </button>}
-            {image && image.type == TemplateType.GroupedItem && !image.temporary && <button
+            {image && image.type == TemplateType.TextTemplate && <button
                     className="toolbar-btn"
                     style={{
                         display: "flex",

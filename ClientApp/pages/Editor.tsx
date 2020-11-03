@@ -1517,10 +1517,20 @@ class CanvaEditor extends Component<IProps, IState> {
 
     ungroupGroupedItem() {
         let image = this.getImageSelected();
-        image.temporary = true;
-        editorStore.images2.set(image._id, image);
-        this.updateImages2(image, false);
         this.doNoObjectSelected();
+        editorStore.images2.delete(image._id);
+
+        image.document_object.forEach(img => {
+            img.top = image.top + img.top;
+            img.left = image.left + img.left;
+            img.selected = false;
+            img.hovered = false;
+            editorStore.images2.set(img._id, img);
+        })
+
+        let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+        editorStore.keys[index2] = editorStore.keys[index2] + 1;
+        this.forceUpdate();
     }
 
     selectFont = (id, e) => {
