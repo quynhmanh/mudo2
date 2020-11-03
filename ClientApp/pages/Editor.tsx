@@ -1521,8 +1521,12 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.delete(image._id);
 
         image.document_object.forEach(img => {
-            img.top = image.top + img.top;
-            img.left = image.left + img.left;
+            img.top = image.top + img.top * image.scaleX;
+            img.left = image.left + img.left * image.scaleY;
+            img.width = img.width * image.scaleX;
+            img.height = img.height * image.scaleY;
+            img.scaleX = img.scaleX * image.scaleX;
+            img.scaleY = img.scaleY * image.scaleY;
             img.selected = false;
             img.hovered = false;
             editorStore.images2.set(img._id, img);
