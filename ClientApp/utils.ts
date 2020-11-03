@@ -949,7 +949,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             newNode.id = image._id + child._id + "animation-block";
                             newNode.style.background = child.color;
                             newNode.style.opacity = 1;
-                            newNode.style.left = "-" + newNode.style.width;
+                            newNode.style.left = "-" + (newNode.style.width + 1);
                         }
                     }
                 });
@@ -1074,7 +1074,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                 newNode.id = image._id + child._id + "animation-block";
                                 newNode.style.background = child.color;
                                 newNode.style.opacity = 1;
-                                newNode.style.left = "-" + newNode.style.width;
+                                newNode.style.left = "-" + (newNode.style.width + 1);
                                 el.parentNode.appendChild(newNode);
                             }
                         });
