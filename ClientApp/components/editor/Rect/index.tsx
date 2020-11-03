@@ -1607,7 +1607,7 @@ export default class Rect extends Component<IProps, IState> {
 											name == CanvasType.Download) &&
 										(
 											<div>
-												{document_object.map(child => {
+												{document_object.filter(child => child.type == TemplateType.Heading).map(child => {
 													const styles = tLToCenter({
 														top: child.top,
 														left: child.left,
@@ -1615,7 +1615,63 @@ export default class Rect extends Component<IProps, IState> {
 														height: child.height,
 														rotateAngle: child.rotateAngle
 													});
-													if (child.type == TemplateType.Image) {
+													// if (child.type == TemplateType.Image) {
+													// 	return (
+													// 		<div
+													// 			style={{
+													// 				zIndex: selected && type !== TemplateType.Image ? 1 : 0,
+													// 				left: child.left * child.scaleX * scale,
+													// 				top: child.top * child.scaleY * scale,
+													// 				position: "absolute",
+													// 				width: child.width * scale / scaleX,
+													// 				height: child.height * scale / scaleY,
+													// 			}}>
+													// 				<Image
+													// 					canvas={canvas}
+													// 					_id={_id}
+													// 					imgWidth={child.width * scale}
+													// 					imgHeight={child.height * scale}
+													// 					posX={0}
+													// 					posY={0}
+													// 					selected={selected}
+													// 					cropMode={cropMode}
+													// 					backgroundColor={backgroundColor}
+													// 					src={child.src}
+													// 					enableCropMode={null}
+													// 					srcThumnail={child.srcThumnail}
+													// 				/></div>);
+													// } else {
+														return (
+															<SingleText
+																child={child}
+																ref={ref => {
+																	this.childrens[child._id] = ref;
+																}}
+																canvas={canvas}
+																_id={_id + child._id + canvas}
+																parentId={_id}
+																rotateAngle={child.rotateAngle}
+																selected={child._id == editorStore.childId}
+																onInput={onTextChange}
+																handleChildIdSelected={handleChildIdSelected}
+																scale={scale}
+															/>
+														);
+													// }
+												})}
+											</div>
+										)}
+										{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
+										(
+											<div>
+												{document_object.filter(child => child.type == TemplateType.Image).map(child => {
+													const styles = tLToCenter({
+														top: child.top,
+														left: child.left,
+														width: child.width,
+														height: child.height,
+														rotateAngle: child.rotateAngle
+													});
 														return (
 															<div
 																style={{
@@ -1640,24 +1696,6 @@ export default class Rect extends Component<IProps, IState> {
 																		enableCropMode={null}
 																		srcThumnail={child.srcThumnail}
 																	/></div>);
-													} else {
-														return (
-															<SingleText
-																child={child}
-																ref={ref => {
-																	this.childrens[child._id] = ref;
-																}}
-																canvas={canvas}
-																_id={_id + child._id + canvas}
-																parentId={_id}
-																rotateAngle={child.rotateAngle}
-																selected={child._id == editorStore.childId}
-																onInput={onTextChange}
-																handleChildIdSelected={handleChildIdSelected}
-																scale={scale}
-															/>
-														);
-													}
 												})}
 											</div>
 										)}
