@@ -212,7 +212,7 @@ export default class Canvas extends Component<IProps, IState> {
                             el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
                         }
 
-                        let el2 = document.getElementById(id + "_alo");
+                        let el2 = document.getElementById(id + "_alo3");
                         if (el2 && -image.width * scale + curPos[id] > 0) el2.style.opacity = 1;
                     } else if (image && image.type == TemplateType.TextTemplate) {
                         image.document_object.forEach(child => {
