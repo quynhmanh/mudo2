@@ -474,6 +474,9 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleChildCrop = (id) => {
         let image = this.getImageSelected();
+        let childImage = image.document_object.find(doc => doc._id == id);
+        if (childImage.type == TemplateType.Heading) return;
+        
         this.doNoObjectSelected();
         editorStore.images2.delete(image._id);
 
