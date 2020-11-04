@@ -1695,6 +1695,48 @@ export default class Rect extends Component<IProps, IState> {
 												})}
 											</div>
 										)}
+									{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
+										(
+											<div>
+												{document_object.filter(child => child.type == TemplateType.Video).map(child => {
+													return (
+														<div
+															style={{
+																zIndex: child.zIndex,
+																left: child.left * scale,
+																top: child.top * scale,
+																position: "absolute",
+																width: child.width * scale,
+																height: child.height * scale,
+																overflow: "hidden",
+																transform: `rotate(${child.rotateAngle}deg)`,
+															}}>
+																<Video
+														name={name}
+														paused={this.state.paused}
+														rotateAngle={rotateAngle}
+														parentRotateAngle={parentRotateAngle}
+														canvas={canvas}
+														_id={child._id}
+														showController={showController}
+														imgWidth={child.imgWidth * scale}
+														imgHeight={child.imgHeight * scale}
+														posX={child.posX * scale}
+														posY={child.posY * scale}
+														selected={selected}
+														cropMode={cropMode}
+														backgroundColor={backgroundColor}
+														src={child.src}
+														srcThumnail={child.srcThumnail}
+														opacity={child.opacity}
+														startResizeImage={this.startResizeImage}
+														setMax={this.setMax}
+														setCurrentTime={this.setCurrentTime}
+													/> </div>
+													);
+												})}
+											</div>
+										)}
 									{((selected && name == CanvasType.HoverLayer) || name == CanvasType.Preview ||
 										(!selected && (name == CanvasType.All)) ||
 										name == CanvasType.Download) &&
