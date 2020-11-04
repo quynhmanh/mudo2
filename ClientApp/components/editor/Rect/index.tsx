@@ -1620,12 +1620,18 @@ export default class Rect extends Component<IProps, IState> {
 												})}
 											</div>
 										)}
-										{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
+									{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
 										(
 											<div>
 												{document_object.filter(child => child.type == TemplateType.Image).map(child => {
 													return (
 														<div
+															onMouseDown={e => {
+																e.preventDefault();
+																setTimeout(() => {
+																	handleChildIdSelected(child._id);
+																}, 50);
+															}}
 															style={{
 																zIndex: child.zIndex,
 																left: child.left * scale,
@@ -1636,20 +1642,20 @@ export default class Rect extends Component<IProps, IState> {
 																overflow: "hidden",
 																transform: `rotate(${child.rotateAngle}deg)`,
 															}}>
-																<Image
-																	canvas={canvas}
-																	_id={child._id}
-																	imgWidth={child.imgWidth * scale}
-																	imgHeight={child.imgHeight * scale}
-																	posX={child.posX * scale}
-																	posY={child.posY * scale}
-																	selected={selected}
-																	cropMode={cropMode}
-																	backgroundColor={backgroundColor}
-																	src={child.src}
-																	enableCropMode={null}
-																	srcThumnail={child.srcThumnail}
-																/></div>);
+															<Image
+																canvas={canvas}
+																_id={child._id}
+																imgWidth={child.imgWidth * scale}
+																imgHeight={child.imgHeight * scale}
+																posX={child.posX * scale}
+																posY={child.posY * scale}
+																selected={selected}
+																cropMode={cropMode}
+																backgroundColor={backgroundColor}
+																src={child.src}
+																enableCropMode={null}
+																srcThumnail={child.srcThumnail}
+															/></div>);
 												})}
 											</div>
 										)}
@@ -1659,6 +1665,12 @@ export default class Rect extends Component<IProps, IState> {
 												{document_object.filter(child => child.type == TemplateType.Gradient || child.type == TemplateType.Shape || child.type == TemplateType.Element).map(child => {
 													return (
 														<div
+															onMouseDown={e => {
+																e.preventDefault();
+																setTimeout(() => {
+																	handleChildIdSelected(child._id);
+																}, 50);
+															}}
 															style={{
 																zIndex: child.zIndex,
 																left: child.left * scale,
@@ -1669,20 +1681,20 @@ export default class Rect extends Component<IProps, IState> {
 																overflow: "hidden",
 																transform: `rotate(${child.rotateAngle}deg)`,
 															}}>
-																<Image
-																	canvas={canvas}
-																	_id={child._id}
-																	imgWidth={child.imgWidth * scale}
-																	imgHeight={child.imgHeight * scale}
-																	posX={child.posX * scale}
-																	posY={child.posY * scale}
-																	selected={selected}
-																	cropMode={cropMode}
-																	backgroundColor={backgroundColor}
-																	src={child.src}
-																	enableCropMode={null}
-																	srcThumnail={child.srcThumnail}
-																/></div>);
+															<Image
+																canvas={canvas}
+																_id={child._id}
+																imgWidth={child.imgWidth * scale}
+																imgHeight={child.imgHeight * scale}
+																posX={child.posX * scale}
+																posY={child.posY * scale}
+																selected={selected}
+																cropMode={cropMode}
+																backgroundColor={backgroundColor}
+																src={child.src}
+																enableCropMode={null}
+																srcThumnail={child.srcThumnail}
+															/></div>);
 												})}
 											</div>
 										)}
@@ -1692,6 +1704,12 @@ export default class Rect extends Component<IProps, IState> {
 												{document_object.filter(child => child.type == TemplateType.Video).map(child => {
 													return (
 														<div
+															onMouseDown={e => {
+																e.preventDefault();
+																setTimeout(() => {
+																	handleChildIdSelected(child._id);
+																}, 50);
+															}}
 															style={{
 																zIndex: child.zIndex,
 																left: child.left * scale,
@@ -1702,28 +1720,28 @@ export default class Rect extends Component<IProps, IState> {
 																overflow: "hidden",
 																transform: `rotate(${child.rotateAngle}deg)`,
 															}}>
-																<Video
-														name={name}
-														paused={this.state.paused}
-														rotateAngle={rotateAngle}
-														parentRotateAngle={parentRotateAngle}
-														canvas={canvas}
-														_id={child._id}
-														showController={showController}
-														imgWidth={child.imgWidth * scale}
-														imgHeight={child.imgHeight * scale}
-														posX={child.posX * scale}
-														posY={child.posY * scale}
-														selected={selected}
-														cropMode={cropMode}
-														backgroundColor={backgroundColor}
-														src={child.src}
-														srcThumnail={child.srcThumnail}
-														opacity={child.opacity}
-														startResizeImage={this.startResizeImage}
-														setMax={this.setMax}
-														setCurrentTime={this.setCurrentTime}
-													/> </div>
+															<Video
+																name={name}
+																paused={this.state.paused}
+																rotateAngle={rotateAngle}
+																parentRotateAngle={parentRotateAngle}
+																canvas={canvas}
+																_id={child._id}
+																showController={showController}
+																imgWidth={child.imgWidth * scale}
+																imgHeight={child.imgHeight * scale}
+																posX={child.posX * scale}
+																posY={child.posY * scale}
+																selected={selected}
+																cropMode={cropMode}
+																backgroundColor={backgroundColor}
+																src={child.src}
+																srcThumnail={child.srcThumnail}
+																opacity={child.opacity}
+																startResizeImage={this.startResizeImage}
+																setMax={this.setMax}
+																setCurrentTime={this.setCurrentTime}
+															/> </div>
 													);
 												})}
 											</div>

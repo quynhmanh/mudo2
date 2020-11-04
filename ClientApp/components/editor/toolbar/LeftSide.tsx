@@ -128,7 +128,6 @@ class LeftSide extends Component<IProps, IState> {
                     show=
                     {
                         (
-                            editorStore.childId !== null ||
                             (
                                 image &&
                                 image.type === TemplateType.Heading
@@ -144,8 +143,7 @@ class LeftSide extends Component<IProps, IState> {
                     show=
                     {
                         (image &&
-                            image.type === TemplateType.Heading) ||
-                        !!editorStore.childId
+                            image.type === TemplateType.Heading)
                     }
                     translate={props.translate}
                     selectedImage={props.selectedImage}
@@ -161,8 +159,7 @@ class LeftSide extends Component<IProps, IState> {
                         (
                             image.type === TemplateType.Heading ||
                             image.type === TemplateType.Latex ||
-                            image.type === TemplateType.BackgroundImage ||
-                            editorStore.childId !== null
+                            image.type === TemplateType.BackgroundImage
                         )
                     }
                     isText={image && image.type === TemplateType.Heading}
@@ -175,7 +172,6 @@ class LeftSide extends Component<IProps, IState> {
                     show=
                     {
                         (
-                            editorStore.childId !== null ||
                             (
                                 image &&
                                 image.type === TemplateType.Heading
@@ -190,7 +186,6 @@ class LeftSide extends Component<IProps, IState> {
                     show=
                     {
                         (
-                            editorStore.childId !== null ||
                             (
                                 image &&
                                 image.type === TemplateType.Heading
@@ -294,7 +289,6 @@ class LeftSide extends Component<IProps, IState> {
                                     show=
                                     {
                                         (
-                                            editorStore.childId !== null ||
                                             (
                                                 image &&
                                                 image.type === TemplateType.Heading
@@ -335,7 +329,7 @@ class LeftSide extends Component<IProps, IState> {
                         (image &&
                             (
                                 image.type === TemplateType.Heading
-                            )) || (!!editorStore.childId)
+                            ))
                     }
                     translate={props.translate}
                     cropMode={editorStore.cropMode}
