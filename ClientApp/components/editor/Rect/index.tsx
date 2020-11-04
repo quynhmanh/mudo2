@@ -11,6 +11,7 @@ import { clone } from "lodash";
 import { secondToMinutes, degToRadian, } from "@Utils";
 import { getLetterSpacing, processChildren, } from "@Utils";
 import styled from "styled-components";
+import Canvas from "../Canvas";
 
 const zoomableMap = {
 	n: "t",
@@ -1625,7 +1626,7 @@ export default class Rect extends Component<IProps, IState> {
 												})}
 											</div>
 										)}
-									{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
+									{document_object && (name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) &&
 										(
 											<div>
 												{document_object.filter(child => child.type == TemplateType.Image).map(child => {
@@ -1669,7 +1670,7 @@ export default class Rect extends Component<IProps, IState> {
 												})}
 											</div>
 										)}
-									{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
+									{document_object && (name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) &&
 										(
 											<div>
 												{document_object.filter(child => child.type == TemplateType.Gradient || child.type == TemplateType.Shape || child.type == TemplateType.Element).map(child => {
@@ -1708,7 +1709,7 @@ export default class Rect extends Component<IProps, IState> {
 												})}
 											</div>
 										)}
-									{document_object && (name == CanvasType.All || name == CanvasType.Download) &&
+									{document_object && (name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) &&
 										(
 											<div>
 												{document_object.filter(child => child.type == TemplateType.Video).map(child => {
