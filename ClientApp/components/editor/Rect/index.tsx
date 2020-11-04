@@ -64,6 +64,7 @@ export interface IProps {
 	doNoObjectSelected: any;
 	handleCropBtnClick: any;
 	handleGridCrop: any;
+	handleChildCrop: any;
 	handleGridSelected: any;
 }
 
@@ -357,14 +358,16 @@ export default class Rect extends Component<IProps, IState> {
 	handleTextChildSelected(id) {
 		let image = clone(this.state.image);
 		image.selected = true;
-		image.document_object = image.document_object.map(doc => {
-			if (doc._id == id) {
-				doc.selected = true;
-			} else {
-				doc.selected = false;
-			}
-			return doc;
-		});
+		if (image.document_object) {
+			image.document_object = image.document_object.map(doc => {
+				if (doc._id == id) {
+					doc.selected = true;
+				} else {
+					doc.selected = false;
+				}
+				return doc;
+			});
+		}
 
 		this.setState({
 			image,
@@ -465,6 +468,7 @@ export default class Rect extends Component<IProps, IState> {
 				gridTemplateColumns,
 				gridTemplateRows,
 				gap,
+				existImage,
 			}
 		} = this.state;
 
@@ -515,13 +519,14 @@ export default class Rect extends Component<IProps, IState> {
 
 		const imgResizeDirection = ["nw", "ne", "se", "sw", "e", "w", "s", "n"];
 		const cropImageResizeDirection = ["nw", "ne", "se", "sw"];
-		const textResizeDirection = ["nw", "ne", "se", "sw", "e", "w"];
+		const textResizeDirection = ["nw", "ne", "se", "sw"];
 		const groupedItemResizeDirection = ["nw", "ne", "se", "sw"];
 
 		let imgDirections = imgResizeDirection;
 
 		if (type === TemplateType.Heading || type === TemplateType.TextTemplate) {
 			imgDirections = textResizeDirection;
+			if (!existImage) imgDirections = imgDirections.concat(["e", "w"]);
 		}
 
 		if (type == TemplateType.GroupedItem || type == TemplateType.Element) {
@@ -1631,6 +1636,11 @@ export default class Rect extends Component<IProps, IState> {
 																setTimeout(() => {
 																	handleChildIdSelected(child._id);
 																}, 50);
+															}}
+															onDoubleClick={e => {
+																e.preventDefault();
+																e.stopPropagation();
+																this.props.handleChildCrop(child._id)
 															}}
 															style={{
 																zIndex: child.zIndex,

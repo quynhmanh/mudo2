@@ -489,6 +489,7 @@ function Selection(options = {}) {
             // Itreate over the selectable elements
             for (let i = 0; i < _selectables.length; i++) {
                 const node = _selectables[i];
+                if (!node.attributes.page || !node.attributes.iden) continue;
 
                 let page = node.attributes.page.value;
                 let id = node.attributes.iden.value;

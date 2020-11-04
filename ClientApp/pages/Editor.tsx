@@ -366,6 +366,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.saveImages = this.saveImages.bind(this);
         this.groupGroupedItem = this.groupGroupedItem.bind(this);
         this.ungroupGroupedItem = this.ungroupGroupedItem.bind(this);
+        this.handleChildCrop = this.handleChildCrop.bind(this);
     }
 
     $app = null;
@@ -471,6 +472,44 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ cropMode: true });
     }
 
+    handleChildCrop = (id) => {
+        let image = this.getImageSelected();
+        this.doNoObjectSelected();
+        editorStore.images2.delete(image._id);
+
+        let newId;
+        let groupedIds = [];
+        image.document_object.forEach(img => {
+            let newImageId = uuidv4();
+            groupedIds.push(newImageId);
+            if (img._id == id) newId = newImageId;
+            img._id = newImageId;
+            img.top = image.top + img.top * image.scaleX;
+            img.left = image.left + img.left * image.scaleY;
+            img.width = img.width * image.scaleX;
+            img.height = img.height * image.scaleY;
+            img.imgWidth = img.imgWidth * image.scaleX;
+            img.imgHeight = img.imgHeight * image.scaleY;
+            img.scaleX = img.scaleX * image.scaleX;
+            img.scaleY = img.scaleY * image.scaleY;
+            img.posX = img.posX * image.scaleX;
+            img.posY = img.posY * image.scaleY;
+            img.selected = false;
+            img.hovered = false;
+            editorStore.images2.set(img._id, img);
+        });
+
+        let newImage = editorStore.images2.get(newId);
+        newImage.groupedIds = groupedIds;
+        this.handleImageSelected(newImage._id, newImage.page, false, true, false);
+        this.setState({ cropMode: true });
+        editorStore.cropMode = true;
+
+        let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+        editorStore.keys[index2] = editorStore.keys[index2] + 1;
+        this.forceUpdate();
+    }
+
     handleGridCrop = (index) => {
         let image = this.getImageSelected();
         const scale = this.state.scale;
@@ -542,10 +581,14 @@ class CanvaEditor extends Component<IProps, IState> {
             this.handleGridCrop(editorStore.gridIndex);
         }
         if (image.type == TemplateType.GroupedItem || 
-            image.type == TemplateType.TextTemplate || 
             image.type == TemplateType.Heading || 
             image.type == TemplateType.Grids ||
             image.type == TemplateType.Shape) {
+            return;
+        }
+
+        if (image.type == TemplateType.TextTemplate) {
+            this.handleChildCrop(editorStore.childId);
             return;
         }
 
@@ -1467,6 +1510,8 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.set(image._id, image);
         this.updateImages2(image, false);
 
+        let onlyText = true;
+
         let childImages = [];
         image.childIds.forEach(id => {
             let childImage = editorStore.images2.get(id);
@@ -1484,6 +1529,8 @@ class CanvaEditor extends Component<IProps, IState> {
             newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
             newChildImage.childId = null;
             childImages.push(clone(toJS(newChildImage)));
+
+            if (newChildImage.type != TemplateType.Heading) onlyText = false;
         });
 
         let newImage = {
@@ -1500,6 +1547,7 @@ class CanvaEditor extends Component<IProps, IState> {
             scaleY: 1,
             rotateAngle: image.rotateAngle,
             document_object: childImages,
+            existImage: !onlyText,
         }
 
 
@@ -1513,6 +1561,8 @@ class CanvaEditor extends Component<IProps, IState> {
         image.childIds.forEach(id => {
             editorStore.images2.delete(id);
         });
+
+        this.forceUpdate();
     }
 
     ungroupGroupedItem() {
@@ -4227,9 +4277,13 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     updateImages(id, pageId, image, includeDownloadCanvas) {
-        this.canvas1[pageId].canvas[CanvasType.All][id].child.updateImage(image);
-        this.canvas1[pageId].canvas[CanvasType.HoverLayer][id].child.updateImage(image);
-        if (includeDownloadCanvas) this.canvas2[pageId].canvas[CanvasType.Download][id].child.updateImage(image);
+        try {
+            this.canvas1[pageId].canvas[CanvasType.All][id].child.updateImage(image);
+            this.canvas1[pageId].canvas[CanvasType.HoverLayer][id].child.updateImage(image);
+            if (includeDownloadCanvas) this.canvas2[pageId].canvas[CanvasType.Download][id].child.updateImage(image);
+        } catch (e) {
+
+        }
     }
 
     getGuider(id, num) {
@@ -4418,8 +4472,12 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (editorStore.idObjectSelected) {
-            this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
-            this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
+            try { 
+                this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
+                this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
+            } catch (e) {
+
+            }
 
             let image = editorStore.getImageSelected();
 
@@ -4542,8 +4600,12 @@ class CanvaEditor extends Component<IProps, IState> {
         let tab = editorStore.selectedTab;
 
         if (editorStore.idObjectSelected) {
-            this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
-            this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
+            try {
+                this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
+                this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
+            } catch (e) {
+
+            }
             this.doNoObjectSelected();
         }
 
@@ -5483,11 +5545,17 @@ class CanvaEditor extends Component<IProps, IState> {
     };
 
     disableCropMode = () => {
+        let scale = editorStore.scale;
+
         if (editorStore.idObjectSelected) {
             this.setState({ cropMode: false });
             editorStore.cropMode = false;
             this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.disableCropMode();
             this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.disableCropMode();
+            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
+            editorStore.keys[index] = editorStore.keys[index] + 1;
+
+            this.forceUpdate();
         }
 
         let image = this.getImageSelected();
@@ -5513,6 +5581,110 @@ class CanvaEditor extends Component<IProps, IState> {
             editorStore.keys[index] = editorStore.keys[index] + 1;
 
             this.forceUpdate();
+        }
+
+        if (image.type == TemplateType.Image && image.groupedIds) {
+            let top = 999999, right = 0, bottom = 0, left = 999999;
+            let childIds = [];
+            image.groupedIds.forEach(id => {
+                let img = editorStore.images2.get(id);
+                childIds.push(id);
+                let b = transformImage(img);
+
+                let w = b.x[2] * scale - b.x[0] * scale - 4;
+                let h = b.y[2] * scale - b.y[0] * scale - 4;
+                let centerX = b.x[0] * scale + w / 2 + 2;
+                let centerY = b.y[0] * scale + h / 2 + 2;
+                let rotateAngle = img.rotateAngle / 180 * Math.PI;
+                let newL = centerX - img.width * scale / 2;
+                let newR = centerX + img.width * scale / 2;
+                let newT = centerY - img.height * scale / 2;
+                let newB = centerY + img.height * scale / 2;
+
+
+                let bb = [
+                    {
+                        x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                        y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+                    },
+                    {
+                        x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                        y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+                    },
+                    {
+                        x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                        y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+                    },
+                    {
+                        x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                        y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+                    }
+                ]
+
+                left = Math.min(left, bb[0].x);
+                left = Math.min(left, bb[1].x);
+                left = Math.min(left, bb[2].x);
+                left = Math.min(left, bb[3].x);
+                right = Math.max(right, bb[0].x)
+                right = Math.max(right, bb[1].x)
+                right = Math.max(right, bb[2].x)
+                right = Math.max(right, bb[3].x)
+                top = Math.min(top, bb[0].y)
+                top = Math.min(top, bb[1].y)
+                top = Math.min(top, bb[2].y)
+                top = Math.min(top, bb[3].y)
+                bottom = Math.max(bottom, bb[0].y)
+                bottom = Math.max(bottom, bb[1].y)
+                bottom = Math.max(bottom, bb[2].y)
+                bottom = Math.max(bottom, bb[3].y)
+            });
+
+            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+
+            let newTop = top;
+            let newLeft = left;
+            let width = right - left;
+            let height = bottom - top;
+
+            let item = {
+                _id: uuidv4(),
+                childIds,
+                type: TemplateType.GroupedItem,
+                src: "",
+                width: width / scale,
+                height: height / scale,
+                origin_width: width / scale,
+                origin_height: height / scale,
+                left: newLeft / scale,
+                top: newTop / scale,
+                rotateAngle: 0.0,
+                scaleX: 1,
+                scaleY: 1,
+                posX: 0,
+                posY: 0,
+                imgWidth: width / scale,
+                imgHeight: height / scale,
+                page: editorStore.activePageId,
+                zIndex: 99999,
+                width2: 1,
+                height2: 1,
+                document_object: [],
+                ref: null,
+                innerHTML: null,
+                color: 'transparent',
+                opacity: 100,
+                backgroundColor: 'transparent',
+                childId: null,
+                selected: true,
+                hovered: true,
+                temporary: true,
+            };
+            let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+            editorStore.keys[index2] = editorStore.keys[index2] + 1;
+            editorStore.addItem2(item, false);
+            this.handleImageSelected(item._id, item.page, false, true, false);
+
+            this.groupGroupedItem();
         }
     }
 
@@ -5629,6 +5801,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleGridSelected={this.handleGridSelected}
                     handleCropBtnClick={this.handleCropBtnClick}
                     handleGridCrop={this.handleGridCrop}
+                    handleChildCrop={this.handleChildCrop}
                     toggleVideo={this.toggleVideo}
                     uiKey={pages[i] + keys[i]}
                     selected={
