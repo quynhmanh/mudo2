@@ -1626,6 +1626,12 @@ export default class Rect extends Component<IProps, IState> {
 												{document_object.filter(child => child.type == TemplateType.Image).map(child => {
 													return (
 														<div
+															onMouseDown={e => {
+																e.preventDefault();
+																setTimeout(() => {
+																	handleChildIdSelected(child._id);
+																}, 50);
+															}}
 															style={{
 																zIndex: child.zIndex,
 																left: child.left * scale,
