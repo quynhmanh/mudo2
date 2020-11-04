@@ -151,7 +151,7 @@ export default class Canvas extends Component<IProps, IState> {
                         let newNode = document.createElement("div");
                         let newNode2 = document.createElement("div");
                         newNode.appendChild(newNode2);
-                        newNode.id = id + "animation-block";
+                        newNode.id = id + "animation-block3";
                         newNode.style.position = "absolute";
                         newNode.style.pointerEvents = "none";
                         newNode.style.zIndex = image.zIndex;
