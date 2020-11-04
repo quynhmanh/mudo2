@@ -344,7 +344,16 @@ export default class SidebarColor extends Component<IProps, IState> {
             editorStore.images2.set(image._id, image);
             this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         }
-        if (image.type == TemplateType.Gradient || image.type == TemplateType.Shape) {
+        if (image.type == TemplateType.TextTemplate) {
+            image.document_object = image.document_object.map(doc => {
+                if (doc._id == editorStore.childId) {
+                    doc.color = color;
+                }
+                return doc;   
+            });
+            editorStore.images2.set(image._id, image);
+            this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+        } else if (image.type == TemplateType.Gradient || image.type == TemplateType.Shape) {
             for (let i = 0; i <= CanvasType.Preview; ++i) {
                 let el = document.getElementById(editorStore.idObjectSelected + "1235alo" + (i == 0 ? "" : i));
                 if (el) {
@@ -364,22 +373,8 @@ export default class SidebarColor extends Component<IProps, IState> {
             }
 
             image.colors[editorStore.colorField - 1] = color;
-
-            // image[editorStore.colorField] = color;
-            // image.colors = [
-            //     {
-            //         field: 'stopColor1',
-            //         value: image.stopColor1,
-            //     },
-            //     {
-            //         field: 'stopColor2',
-            //         value: image.stopColor2,
-            //     }
-            // ]
-
             editorStore.colors = image.colors;
             editorStore.images2.set(image._id, image);
-            // this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, false);
         } else if (editorStore.idObjectSelected) {
             image.color = color;
             image.backgroundColor = color;
