@@ -469,15 +469,6 @@ export default class Rect extends Component<IProps, IState> {
 		} = this.state;
 
 		let grid = grids;
-		// if (type == TemplateType.Grids) {
-		// 	try {
-		// 		grid = JSON.parse(grids);
-		// 	} catch (e) {
-		// 	}
-		// }
-
-		console.log('document_object', document_object)
-
 		const regex = /\[CALC.+?]/gm;
 
 		let ABC;
