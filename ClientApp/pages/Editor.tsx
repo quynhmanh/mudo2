@@ -5583,7 +5583,9 @@ class CanvaEditor extends Component<IProps, IState> {
             this.forceUpdate();
         }
 
-        if (image.type == TemplateType.Image && image.groupedIds) {
+        if ((image.type == TemplateType.Image ||
+            image.type == TemplateType.Element ||
+            image.type == TemplateType.Gradient ) && image.groupedIds) {
             let top = 999999, right = 0, bottom = 0, left = 999999;
             let childIds = [];
             image.groupedIds.forEach(id => {
