@@ -55,6 +55,7 @@ export interface IProps {
     toggleVideo: any;
     handleCropBtnClick: any;
     handleGridCrop: any;
+    handleChildCrop: any;
     handleGridSelected: any;
 }
 
@@ -462,6 +463,7 @@ export default class Canvas extends Component<IProps, IState> {
                                         <ResizableRect
                                             handleGridSelected={this.props.handleGridSelected}
                                             handleGridCrop={this.props.handleGridCrop}
+                                            handleChildCrop={this.props.handleChildCrop}
                                             handleCropBtnClick={this.props.handleCropBtnClick}
                                             doNoObjectSelected={this.props.doNoObjectSelected}
                                             handleDragStart={this.props.handleDragStart}
@@ -530,6 +532,7 @@ export default class Canvas extends Component<IProps, IState> {
                                             <ResizableRect
                                                 handleGridSelected={this.props.handleGridSelected}
                                                 handleGridCrop={this.props.handleGridCrop}
+                                                handleChildCrop={this.props.handleChildCrop}
                                                 handleCropBtnClick={this.props.handleCropBtnClick}
                                                 handleDragStart={this.props.handleDragStart}
                                                 ref={i => this.canvas[CanvasType.HoverLayer][imgHovered._id] = i}
@@ -678,6 +681,7 @@ export default class Canvas extends Component<IProps, IState> {
                                     // .filter(image => image.type != TemplateType.GroupedItem)
                                     .map(imgHovered =>
                                         <ResizableRect
+                                            handleChildCrop={this.props.handleChildCrop}
                                             handleDragStart={this.props.handleDragStart}
                                             ref={i => this.canvas[CanvasType.Download][imgHovered._id] = i}
                                             handleImageSelected={this.props.handleImageSelected}
