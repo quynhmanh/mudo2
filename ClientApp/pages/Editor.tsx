@@ -1524,22 +1524,47 @@ class CanvaEditor extends Component<IProps, IState> {
             image.childIds.forEach(id => {
                 let childImage = editorStore.images2.get(id);
                 let newChildImage = clone(toJS(childImage));
-                newChildImage._id = uuidv4();
-                newChildImage.width2 = childImage.width / image.width;
-                newChildImage.height2 = childImage.height / image.height;
-                newChildImage.top = childImage.top - image.top;
-                newChildImage.left = childImage.left - image.left;
-                newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
-                newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
-                newChildImage.selected = false;
-                newChildImage.hovered = false;
-                newChildImage.ref = null;
-                newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
-                newChildImage.childId = null;
-                childImages.push(clone(toJS(newChildImage)));
+                console.log('newChildImage' , newChildImage)
+                if (newChildImage.type != TemplateType.TextTemplate) {
+                    newChildImage._id = uuidv4();
+                    newChildImage.width2 = childImage.width / image.width;
+                    newChildImage.height2 = childImage.height / image.height;
+                    newChildImage.top = childImage.top - image.top;
+                    newChildImage.left = childImage.left - image.left;
+                    newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
+                    newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
+                    newChildImage.selected = false;
+                    newChildImage.hovered = false;
+                    newChildImage.ref = null;
+                    newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
+                    newChildImage.childId = null;
+                
+                    childImages.push(clone(toJS(newChildImage)));
+                } else {
+                    if (newChildImage.document_object) {
+                        newChildImage.document_object.forEach(child => {
+                            child._id = uuidv4();
+                            child.width2 = child.width / image.width;
+                            child.height2 = child.height / image.height;
+                            child.top = child.top + newChildImage.top - image.top;
+                            child.left = child.left + newChildImage.left - image.left;
+                            // child.width = child.width * childImage.scaleX;
+                            // child.height = child.height * childImage.scaleY;
+                            // child.childWidth = child.childWidth * childImage.scaleX;
+                            // child.childHeight = child.childHeight * childImage.scaleY;
+                            // child.scaleX = child.scaleX * childImage.scaleX;
+                            // child.scaleY = child.scaleY * childImage.scaleY;
+                            // child.posX = child.posX * childImage.scaleX;
+                            // child.posY = child.posY * childImage.scaleY;
+                            childImages.push(child);
+                        });
+                    }
+                }
 
                 if (newChildImage.type != TemplateType.Heading) onlyText = false;
             });
+
+            console.log('childimages ', childImages)
         }
 
         let newImage = {
