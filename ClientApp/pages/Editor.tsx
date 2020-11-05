@@ -1533,13 +1533,15 @@ class CanvaEditor extends Component<IProps, IState> {
                     newChildImage.left = childImage.left - image.left;
                     newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
                     newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
-                    newChildImage.imgWidth = newChildImage.imgWidth * newChildImage.scaleX;
-                    newChildImage.imgHeight = newChildImage.imgHeight * newChildImage.scaleY;
+                    // newChildImage.imgWidth = newChildImage.imgWidth * newChildImage.scaleX;
+                    // newChildImage.imgHeight = newChildImage.imgHeight * newChildImage.scaleY;
                     newChildImage.selected = false;
                     newChildImage.hovered = false;
                     newChildImage.ref = null;
                     newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
                     newChildImage.childId = null;
+
+                    console.log('newChildImage', newChildImage)
                 
                     childImages.push(clone(toJS(newChildImage)));
                 } else {

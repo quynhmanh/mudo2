@@ -11,7 +11,7 @@ import { clone } from "lodash";
 import { secondToMinutes, degToRadian, } from "@Utils";
 import { getLetterSpacing, processChildren, } from "@Utils";
 import styled from "styled-components";
-import Canvas from "../Canvas";
+import Shape from "./Shape";
 import Gradient from "./Gradient";
 
 const zoomableMap = {
@@ -1674,8 +1674,7 @@ export default class Rect extends Component<IProps, IState> {
 									{document_object && (name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) &&
 										(
 											<div>
-												{document_object.filter(child => child.type == TemplateType.Gradient ||
-												child.type == TemplateType.Shape).map(child => {
+												{document_object.filter(child => child.type == TemplateType.Gradient).map(child => {
 													return (
 														<div
 															onMouseDown={e => {
@@ -1695,6 +1694,36 @@ export default class Rect extends Component<IProps, IState> {
 																transform: `rotate(${child.rotateAngle}deg)`,
 															}}>
 															<Gradient 
+																image={child}
+																canvas={canvas}
+															/>
+														</div>);
+												})}
+											</div>
+										)}
+									{document_object && (name == CanvasType.All || name == CanvasType.Download || name == CanvasType.Preview) &&
+										(
+											<div>
+												{document_object.filter(child => child.type == TemplateType.Shape).map(child => {
+													return (
+														<div
+															onMouseDown={e => {
+																e.preventDefault();
+																setTimeout(() => {
+																	handleChildIdSelected(child._id);
+																}, 50);
+															}}
+															style={{
+																zIndex: child.zIndex,
+																left: child.left * scale,
+																top: child.top * scale,
+																position: "absolute",
+																width: child.width * scale,
+																height: child.height * scale,
+																overflow: "hidden",
+																transform: `rotate(${child.rotateAngle}deg)`,
+															}}>
+															<Shape 
 																image={child}
 																canvas={canvas}
 															/>
