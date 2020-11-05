@@ -5601,6 +5601,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         if ((image.type == TemplateType.Image ||
             image.type == TemplateType.Element ||
+            image.type == TemplateType.Video || 
             image.type == TemplateType.Gradient ) && image.groupedIds) {
             let top = 999999, right = 0, bottom = 0, left = 999999;
             let childIds = [];
