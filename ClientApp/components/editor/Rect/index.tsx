@@ -1651,7 +1651,7 @@ export default class Rect extends Component<IProps, IState> {
 																posY={child.posY * scale}
 																selected={selected}
 																cropMode={cropMode}
-																backgroundColor={backgroundColor}
+																backgroundColor={child.backgroundColor}
 																src={child.src}
 																enableCropMode={null}
 																srcThumnail={child.srcThumnail}
