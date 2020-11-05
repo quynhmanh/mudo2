@@ -1544,18 +1544,14 @@ class CanvaEditor extends Component<IProps, IState> {
                     if (newChildImage.document_object) {
                         newChildImage.document_object.forEach(child => {
                             child._id = uuidv4();
-                            child.width2 = child.width / image.width;
-                            child.height2 = child.height / image.height;
-                            child.top = child.top + newChildImage.top - image.top;
-                            child.left = child.left + newChildImage.left - image.left;
-                            // child.width = child.width * childImage.scaleX;
-                            // child.height = child.height * childImage.scaleY;
-                            // child.childWidth = child.childWidth * childImage.scaleX;
-                            // child.childHeight = child.childHeight * childImage.scaleY;
-                            // child.scaleX = child.scaleX * childImage.scaleX;
-                            // child.scaleY = child.scaleY * childImage.scaleY;
-                            // child.posX = child.posX * childImage.scaleX;
-                            // child.posY = child.posY * childImage.scaleY;
+                            child.width2 = child.width * newChildImage.scaleX / image.width;
+                            child.height2 = child.height * newChildImage.scaleY / image.height;
+                            child.top = child.top * newChildImage.scaleX + newChildImage.top - image.top;
+                            child.left = child.left * newChildImage.scaleY + newChildImage.left - image.left;
+                            child.width = child.width * newChildImage.scaleX;
+                            child.height = child.height * newChildImage.scaleY;
+                            child.scaleX = child.scaleX * newChildImage.scaleX;
+                            child.scaleY = child.scaleY * newChildImage.scaleY;
                             childImages.push(child);
                         });
                     }
