@@ -1500,13 +1500,15 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     groupGroupedItem() {
-        window.selections.forEach(node => {
-            let id = node.attributes.iden.value;
-            if (!id) return;
-            window.selectionIDs[id] = true;
+        if (window.selections) {
+            window.selections.forEach(node => {
+                let id = node.attributes.iden.value;
+                if (!id) return;
+                window.selectionIDs[id] = true;
 
-            node.style.opacity = 0;
-        });
+                node.style.opacity = 0;
+            });
+        }
 
         let image = this.getImageSelected();
         image.temporary = false;
@@ -1516,25 +1518,27 @@ class CanvaEditor extends Component<IProps, IState> {
         let onlyText = true;
 
         let childImages = [];
-        image.childIds.forEach(id => {
-            let childImage = editorStore.images2.get(id);
-            let newChildImage = clone(toJS(childImage));
-            newChildImage._id = uuidv4();
-            newChildImage.width2 = childImage.width / image.width;
-            newChildImage.height2 = childImage.height / image.height;
-            newChildImage.top = childImage.top - image.top;
-            newChildImage.left = childImage.left - image.left;
-            newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
-            newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
-            newChildImage.selected = false;
-            newChildImage.hovered = false;
-            newChildImage.ref = null;
-            newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
-            newChildImage.childId = null;
-            childImages.push(clone(toJS(newChildImage)));
+        if (image.childIds) {
+            image.childIds.forEach(id => {
+                let childImage = editorStore.images2.get(id);
+                let newChildImage = clone(toJS(childImage));
+                newChildImage._id = uuidv4();
+                newChildImage.width2 = childImage.width / image.width;
+                newChildImage.height2 = childImage.height / image.height;
+                newChildImage.top = childImage.top - image.top;
+                newChildImage.left = childImage.left - image.left;
+                newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
+                newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
+                newChildImage.selected = false;
+                newChildImage.hovered = false;
+                newChildImage.ref = null;
+                newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
+                newChildImage.childId = null;
+                childImages.push(clone(toJS(newChildImage)));
 
-            if (newChildImage.type != TemplateType.Heading) onlyText = false;
-        });
+                if (newChildImage.type != TemplateType.Heading) onlyText = false;
+            });
+        }
 
         let newImage = {
             _id: uuidv4(),
@@ -1561,9 +1565,11 @@ class CanvaEditor extends Component<IProps, IState> {
 
 
         editorStore.images2.delete(image._id);
-        image.childIds.forEach(id => {
-            editorStore.images2.delete(id);
-        });
+        if (image.childIds) {
+            image.childIds.forEach(id => {
+                editorStore.images2.delete(id);
+            });
+        }
 
         this.forceUpdate();
     }
@@ -5462,23 +5468,25 @@ class CanvaEditor extends Component<IProps, IState> {
         let fontSize;
         let image = editorStore.getImageSelected();
         image.selected = true;
-        image.document_object.forEach(doc => {
-            if (doc._id == childId) {
-                doc.selected = true;
-                align = doc.align;
-                effectId = doc.effectId;
-                bold = doc.bold;
-                italic = doc.italic;
-                fontId = doc.fontId;
-                fontText = doc.fontText;
-                fontColor = doc.color;
-                currentLineHeight = doc.lineHeight;
-                currentOpacity = doc.opacity;
-                currentLetterSpacing = doc.letterSpacing;
-                fontSize = doc.fontSize * doc.scaleY * image.scaleY;
-            }
-            return doc;
-        });
+        if (image.document_object) {
+            image.document_object.forEach(doc => {
+                if (doc._id == childId) {
+                    doc.selected = true;
+                    align = doc.align;
+                    effectId = doc.effectId;
+                    bold = doc.bold;
+                    italic = doc.italic;
+                    fontId = doc.fontId;
+                    fontText = doc.fontText;
+                    fontColor = doc.color;
+                    currentLineHeight = doc.lineHeight;
+                    currentOpacity = doc.opacity;
+                    currentLetterSpacing = doc.letterSpacing;
+                    fontSize = doc.fontSize * doc.scaleY * image.scaleY;
+                }
+                return doc;
+            });
+        }
 
         let fontsList = toJS(editorStore.fontsList);
         let font = fontsList.find(font => font.id === fontId);
