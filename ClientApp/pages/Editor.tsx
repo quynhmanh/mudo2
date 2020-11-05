@@ -31,6 +31,7 @@ import {
     Observable
 } from "rxjs";
 import { uuid } from "htmltoimage/utils";
+import { isInteger } from "formik";
 
 let rotateRect,
     rotatePoint,
@@ -1076,7 +1077,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
 
                     let images = document.document_object;
-                    images.forEach(image => {
+                    images.forEach((image, key) => {
+                        if (isNaN(image.zIndex)) image.zIndex = key;
                         editorStore.images2.set(image._id, image);
                     })
 
