@@ -8,6 +8,7 @@ import editorStore from "@Store/EditorStore";
 export interface IProps {
     image: any;
     canvas: any;
+    scale: any;
 }
 
 export interface IState {
@@ -35,7 +36,6 @@ export default class Gradient extends Component<IProps, IState> {
 
     componentDidMount() {
         const {
-            canvas,
             image: {
                 type
             }
@@ -68,6 +68,7 @@ export default class Gradient extends Component<IProps, IState> {
 
         const {
             canvas,
+            scale,
             image: {
                 type,
                 path,
@@ -113,8 +114,6 @@ export default class Gradient extends Component<IProps, IState> {
 			ABC = processChildren(Array.from(xmlDoc.childNodes), _id + "svg" + canvas, null);
 
         }
-
-        let scale = editorStore.scale;
         
         return (
             <GradientContainer

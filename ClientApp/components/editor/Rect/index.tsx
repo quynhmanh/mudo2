@@ -1696,6 +1696,7 @@ export default class Rect extends Component<IProps, IState> {
 															<Gradient 
 																image={child}
 																canvas={canvas}
+																scale={this.props.scale}
 															/>
 														</div>);
 												})}

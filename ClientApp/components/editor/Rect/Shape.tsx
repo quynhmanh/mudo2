@@ -63,10 +63,6 @@ export default class Shape extends Component<IProps, IState> {
                 _id,
                 width,
                 height,
-                imgWidth,
-                imgHeight,
-                posX,
-                posY,
             }
         } = this.props;
 
@@ -102,8 +98,6 @@ export default class Shape extends Component<IProps, IState> {
 			ABC = processChildren(Array.from(xmlDoc.childNodes), _id + "svg" + canvas, null);
 
         }
-
-        let scale = editorStore.scale;
         
         return (
             <div
