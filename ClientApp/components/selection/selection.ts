@@ -489,7 +489,11 @@ function Selection(options = {}) {
             // Itreate over the selectable elements
             for (let i = 0; i < _selectables.length; i++) {
                 const node = _selectables[i];
-                if (!node.attributes.page || !node.attributes.iden) continue;
+                if (!node.attributes.page || 
+                    !node.attributes.iden || 
+                    !node.attributes.angle || 
+                    !node.attributes.width || 
+                    !node.attributes.height) continue;
 
                 let page = node.attributes.page.value;
                 let id = node.attributes.iden.value;
@@ -500,23 +504,11 @@ function Selection(options = {}) {
                 window.rs[id] = {left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom};
                 if (id && (touched.length == 0 || page == editorStore.activePageId) && intersects(_areaDomRect, rect, mode, node)) {
                     
-                    // if (page == editorStore.activePageId) {
-                        // Check if the element wasn't present in the last selection.
                         if (!_selected.includes(node)) {
                             added.push(node);
-                            
-                            // let id = node.attributes.iden.value;
-                            // if (id) {
                             node.classList.toggle("selected");
                             node.style.opacity = 1;
-
-                            if (_selected.length == 1) {
-                                let page = node.attributes.page.value;
-                                // editorStore.activePageId = page;
-                            }
-                            // }
                         }
-                    // }
 
                     touched.push(node);
 
@@ -537,13 +529,6 @@ function Selection(options = {}) {
 
                     el.style.opacity = 0;
                     el.classList.toggle("selected");
-
-                    // let id = el.attributes.iden.value;
-                    // if (id) {
-                    //     let image = editorStore.images2.get(id);
-                    //     image.hovered = false;
-                    //     editorStore.images2.set(id, image);
-                    // }
                 }
             }
 
