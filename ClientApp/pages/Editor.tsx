@@ -1550,6 +1550,8 @@ class CanvaEditor extends Component<IProps, IState> {
                             child.left = child.left * newChildImage.scaleY + newChildImage.left - image.left;
                             child.width = child.width * newChildImage.scaleX;
                             child.height = child.height * newChildImage.scaleY;
+                            child.imgWidth = child.imgWidth * newChildImage.scaleX;
+                            child.imgHeight = child.imgHeight * newChildImage.scaleY;
                             child.scaleX = child.scaleX * newChildImage.scaleX;
                             child.scaleY = child.scaleY * newChildImage.scaleY;
                             childImages.push(child);
