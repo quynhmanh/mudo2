@@ -1555,12 +1555,15 @@ class CanvaEditor extends Component<IProps, IState> {
             rotateAngle: image.rotateAngle,
             document_object: childImages,
             existImage: !onlyText,
+            zIndex: editorStore.upperZIndex + 1,
         }
 
 
         let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
         editorStore.keys[index2] = editorStore.keys[index2] + 1;
         editorStore.addItem2(newImage, false);
+        editorStore.increaseUpperzIndex();
+
         this.handleImageSelected(newImage._id, newImage.page, false, true, false);
 
 
