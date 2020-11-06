@@ -976,7 +976,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                         }
 
                         let el = document.getElementById(id + "animation-block") as HTMLElement;
-                        el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
+                        if (el) el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
                     }
 
                     let el2 = document.getElementById(id + "_alo");

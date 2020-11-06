@@ -1528,7 +1528,6 @@ class CanvaEditor extends Component<IProps, IState> {
             image.childIds.forEach(id => {
                 let childImage = editorStore.images2.get(id);
                 let newChildImage = clone(toJS(childImage));
-                console.log('newChildImage' , newChildImage)
                 if (newChildImage.type != TemplateType.TextTemplate) {
                     newChildImage._id = uuidv4();
                     newChildImage.width2 = childImage.width / image.width;
@@ -1544,8 +1543,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     newChildImage.ref = null;
                     newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
                     newChildImage.childId = null;
-
-                    console.log('newChildImage', newChildImage)
                 
                     childImages.push(clone(toJS(newChildImage)));
                 } else {
@@ -1571,8 +1568,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
                 if (newChildImage.type != TemplateType.Heading) onlyText = false;
             });
-
-            console.log('childimages ', childImages)
         }
 
         let newImage = {
