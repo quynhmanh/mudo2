@@ -1618,20 +1618,23 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.delete(image._id);
 
         image.document_object.forEach(img => {
-            img._id = uuidv4();
-            img.top = image.top + img.top * image.scaleX;
-            img.left = image.left + img.left * image.scaleY;
-            img.width = img.width * image.scaleX;
-            img.height = img.height * image.scaleY;
-            img.imgWidth = img.imgWidth * image.scaleX;
-            img.imgHeight = img.imgHeight * image.scaleY;
-            img.scaleX = img.scaleX * image.scaleX;
-            img.scaleY = img.scaleY * image.scaleY;
-            img.posX = img.posX * image.scaleX;
-            img.posY = img.posY * image.scaleY;
-            img.selected = false;
-            img.hovered = false;
-            editorStore.images2.set(img._id, img);
+            if (img.type != TemplateType.BackgroundImage) {
+                img._id = uuidv4();
+                img.top = image.top + img.top * image.scaleX;
+                img.left = image.left + img.left * image.scaleY;
+                img.width = img.width * image.scaleX;
+                img.height = img.height * image.scaleY;
+                img.imgWidth = img.imgWidth * image.scaleX;
+                img.imgHeight = img.imgHeight * image.scaleY;
+                img.scaleX = img.scaleX * image.scaleX;
+                img.scaleY = img.scaleY * image.scaleY;
+                img.posX = img.posX * image.scaleX;
+                img.posY = img.posY * image.scaleY;
+                img.selected = false;
+                img.hovered = false;
+                img.page = image.page;
+                editorStore.images2.set(img._id, img);
+            }
         })
 
         let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
