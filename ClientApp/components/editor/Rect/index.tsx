@@ -2076,10 +2076,10 @@ export default class Rect extends Component<IProps, IState> {
 								ref={i => this.hideWhenDownload = i}
 								style={{
 									position: "absolute",
-									top: "-1px",
-									left: "-1px",
-									right: "-1px",
-									bottom: "-1px",
+									top: "-2px",
+									left: "-2px",
+									right: "-2px",
+									bottom: "-2px",
 									backgroundImage:
 										(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem || type == TemplateType.Grids) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 											: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
