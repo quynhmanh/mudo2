@@ -1381,12 +1381,6 @@ class CanvaEditor extends Component<IProps, IState> {
             evt.oe.preventDefault();
             window.selections = evt.selected;
             window.selectionIDs = {};
-            // window.selections.forEach(el => {
-            //     let id = el.attributes.iden.value;
-            //     if (id)
-            //     el.style.opacity = 1;
-            //     el.classList.toggle('selected');
-            // });
             setTimeout(() => {
                 window.selectionStart = false;
             }, 300);
@@ -1397,7 +1391,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 node.classList.toggle("selected");
                 if (id) {
                     let item = editorStore.images2.get(id);
-                    console.log('item ', item);
                     self.handleImageSelected(item._id, item.page, true, true, true);
                 }
             } else {
@@ -6422,7 +6415,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             id="closePreviewBtn"
                             style={{
                                 position: 'absolute',
-                                right: '125px',
+                                right: '175px',
                                 top: '10px',
                                 color: 'white',
                                 backgroundColor: 'rgba(255, 255, 255, 0.15)',
