@@ -2629,10 +2629,10 @@ class CanvaEditor extends Component<IProps, IState> {
                         let textContainer2 = document.getElementById(_id + text._id + "text-container2alo") as HTMLElement;
                         let textEl = textContainer2.getElementsByClassName("text")[0] as HTMLElement;
                         const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
-                        textContainer2.style.width = (width * text.width2) / image.scaleX * scale + "px";
+                        textContainer2.style.width = (width * text.width2 / image.scaleX) * scale + "px";
                         textContainer2.style.height = h * scale + "px";
 
-                        textEl.style.width = (width * text.width2) / image.scaleX / text.scaleX + "px";
+                        textEl.style.width = (width * text.width2 / image.scaleX) / text.scaleX + "px";
                     }
                 });
 
@@ -2641,7 +2641,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
                         maxHeight = Math.max(maxHeight, h + text.top);
                         text.height = h;
-                        text.width = (width * text.width2);
+                        text.width = (width * text.width2 / image.scaleX);
                     } else if (text.type == TemplateType.Image || text.type == TemplateType.Gradient) {
                         maxHeight = Math.max(maxHeight, (text.height + text.top));
                     }
