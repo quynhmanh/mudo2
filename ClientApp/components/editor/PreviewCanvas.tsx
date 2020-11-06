@@ -172,15 +172,29 @@ export default class Canvas extends Component<IProps, IState> {
                             let el = document.getElementById(image._id + child._id + "alo3");
                             if (el) {
                                 el.style.opacity = "0";
-                                let newNode = document.getElementById(image._id + child._id + "animation-block3");
-                                if (!newNode) {
+                                let animationNode = document.getElementById(image._id + child._id + "animation-block3");
+                                let newNode;
+                                if (!animationNode) {
                                     newNode = el.cloneNode(true);
+                                    animationNode = document.createElement("div");
+                                    newNode.style.overflow = "hidden";
+                                    newNode.appendChild(animationNode);
+                                    for (let i = 0; i < newNode.children.length; ++i) {
+                                        newNode.children[i].style.opacity = 0;
+                                    }
                                     el.parentNode.appendChild(newNode);
+                                } else {
+                                    newNode = animationNode.parentNode;
                                 }
-                                newNode.id = image._id + child._id + "animation-block3";
-                                newNode.style.background = child.color;
-                                newNode.style.opacity = 1;
-                                newNode.style.left = "-" + (child.width / child.scaleX + 10) + "px";
+                                newNode.style.opacity = "1";
+                                animationNode.id = image._id + child._id + "animation-block3";
+                                animationNode.style.background = child.color;
+                                animationNode.style.opacity = 1;
+                                animationNode.style.top = 0;
+                                animationNode.style.width = child.width / child.scaleX + "px";
+                                animationNode.style.bottom = 0;
+                                animationNode.style.position = "absolute";
+                                animationNode.style.left = "-" + (child.width / child.scaleX + 10) + "px";
                             }
                         }
                     });
