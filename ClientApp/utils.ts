@@ -946,6 +946,9 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                 animationNode = document.createElement("div");
                                 newNode.style.overflow = "hidden";
                                 newNode.appendChild(animationNode);
+                                for (let i = 0; i < newNode.children.length; ++i) {
+                                    newNode.children[i].style.opacity = 0;
+                                }
                                 el.parentNode.appendChild(newNode);
                             } else {
                                 newNode = animationNode.parentNode;
