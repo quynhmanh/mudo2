@@ -688,7 +688,7 @@ namespace RCB.TypeScript.Services
                             Width = (decimal)width,
                             Height = (decimal)height,
                         },
-                        Type = ScreenshotType.Jpeg,
+                        Type = templateModel.Type == 2 ? ScreenshotType.Png : ScreenshotType.Jpeg,
                         Quality = 100,
                     });
 
