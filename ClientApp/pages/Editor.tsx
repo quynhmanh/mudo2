@@ -2641,7 +2641,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         const h = document.getElementById(_id + text._id + "alo").offsetHeight * text.scaleY;
                         maxHeight = Math.max(maxHeight, h + text.top);
                         text.height = h;
-                        text.width = (width * text.width2) / image.scaleX;
+                        text.width = (width * text.width2);
                     } else if (text.type == TemplateType.Image || text.type == TemplateType.Gradient) {
                         maxHeight = Math.max(maxHeight, (text.height + text.top));
                     }
