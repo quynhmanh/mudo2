@@ -1080,12 +1080,29 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                             let el = document.getElementById(image._id + child._id + "alo2");
                             if (el) {
                                 el.style.opacity = "0";
-                                let newNode = el.cloneNode(true);
-                                newNode.id = image._id + child._id + "animation-block";
-                                newNode.style.background = child.color;
-                                newNode.style.opacity = 1;
-                                newNode.style.left = "-" + (child.width / child.scaleX + 10) + "px";
-                                el.parentNode.appendChild(newNode);
+                                let animationNode = document.getElementById(image._id + child._id + "animation-block");
+                                let newNode;
+                                if (!animationNode) {
+                                    newNode = el.cloneNode(true);
+                                    animationNode = document.createElement("div");
+                                    newNode.style.overflow = "hidden";
+                                    newNode.appendChild(animationNode);
+                                    for (let i = 0; i < newNode.children.length; ++i) {
+                                        newNode.children[i].style.opacity = 0;
+                                    }
+                                    el.parentNode.appendChild(newNode);
+                                } else {
+                                    newNode = animationNode.parentNode;
+                                }
+                                newNode.style.opacity = "1";
+                                animationNode.id = image._id + child._id + "animation-block";
+                                animationNode.style.background = child.color;
+                                animationNode.style.opacity = 1;
+                                animationNode.style.top = 0;
+                                animationNode.style.width = child.width / child.scaleX + "px";
+                                animationNode.style.bottom = 0;
+                                animationNode.style.position = "absolute";
+                                animationNode.style.left = "-" + (child.width / child.scaleX + 10) + "px";
                             }
                         });
                     }
