@@ -1391,113 +1391,124 @@ class CanvaEditor extends Component<IProps, IState> {
                 window.selectionStart = false;
             }, 300);
 
-            let top = 999999, right = 0, bottom = 0, left = 999999;
-            let childIds = [];
-            evt.selected.forEach(node => {
+            if (evt.selected.length == 1) {
+                let node = evt.selected[0];
                 let id = node.attributes.iden.value;
-                if (!id) return;
-                childIds.push(id);
+                node.classList.toggle("selected");
+                if (id) {
+                    let item = editorStore.images2.get(id);
+                    console.log('item ', item);
+                    self.handleImageSelected(item._id, item.page, true, true, true);
+                }
+            } else {
+                let top = 999999, right = 0, bottom = 0, left = 999999;
+                let childIds = [];
+                evt.selected.forEach(node => {
+                    let id = node.attributes.iden.value;
+                    if (!id) return;
+                    childIds.push(id);
 
-                window.selectionIDs[id] = true;
+                    window.selectionIDs[id] = true;
 
-                node.style.opacity = 1;
-                node.classList.toggle('selected');
+                    node.style.opacity = 1;
+                    node.classList.toggle('selected');
 
-                let b = window.rs[id];
+                    let b = window.rs[id];
 
-                let w = b.right - b.left - 4;
-                let h = b.bottom - b.top - 4;
-                let centerX = b.left + w / 2 + 2;
-                let centerY = b.top + h / 2 + 2;
-                let rotateAngle = node.attributes.angle.value / 180 * Math.PI;
-                let newL = centerX - node.attributes.width.value / 2;
-                let newR = centerX + node.attributes.width.value / 2;
-                let newT = centerY - node.attributes.height.value / 2;
-                let newB = centerY + node.attributes.height.value / 2;
+                    let w = b.right - b.left - 4;
+                    let h = b.bottom - b.top - 4;
+                    let centerX = b.left + w / 2 + 2;
+                    let centerY = b.top + h / 2 + 2;
+                    let rotateAngle = node.attributes.angle.value / 180 * Math.PI;
+                    let newL = centerX - node.attributes.width.value / 2;
+                    let newR = centerX + node.attributes.width.value / 2;
+                    let newT = centerY - node.attributes.height.value / 2;
+                    let newB = centerY + node.attributes.height.value / 2;
 
-                let bb = [
-                    {
-                        x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
-                        y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
-                    },
-                    {
-                        x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
-                        y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
-                    },
-                    {
-                        x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
-                        y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
-                    },
-                    {
-                        x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
-                        y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
-                    }
-                ]
+                    let bb = [
+                        {
+                            x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                            y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+                        },
+                        {
+                            x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                            y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+                        },
+                        {
+                            x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                            y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+                        },
+                        {
+                            x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                            y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+                        }
+                    ]
 
-                left = Math.min(left, bb[0].x);
-                left = Math.min(left, bb[1].x);
-                left = Math.min(left, bb[2].x);
-                left = Math.min(left, bb[3].x);
-                right = Math.max(right, bb[0].x)
-                right = Math.max(right, bb[1].x)
-                right = Math.max(right, bb[2].x)
-                right = Math.max(right, bb[3].x)
-                top = Math.min(top, bb[0].y)
-                top = Math.min(top, bb[1].y)
-                top = Math.min(top, bb[2].y)
-                top = Math.min(top, bb[3].y)
-                bottom = Math.max(bottom, bb[0].y)
-                bottom = Math.max(bottom, bb[1].y)
-                bottom = Math.max(bottom, bb[2].y)
-                bottom = Math.max(bottom, bb[3].y)
-            });
+                    left = Math.min(left, bb[0].x);
+                    left = Math.min(left, bb[1].x);
+                    left = Math.min(left, bb[2].x);
+                    left = Math.min(left, bb[3].x);
+                    right = Math.max(right, bb[0].x)
+                    right = Math.max(right, bb[1].x)
+                    right = Math.max(right, bb[2].x)
+                    right = Math.max(right, bb[3].x)
+                    top = Math.min(top, bb[0].y)
+                    top = Math.min(top, bb[1].y)
+                    top = Math.min(top, bb[2].y)
+                    top = Math.min(top, bb[3].y)
+                    bottom = Math.max(bottom, bb[0].y)
+                    bottom = Math.max(bottom, bb[1].y)
+                    bottom = Math.max(bottom, bb[2].y)
+                    bottom = Math.max(bottom, bb[3].y)
+                });
 
-            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+                let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
 
-            let rect = document.getElementsByClassName("alo")[index].getBoundingClientRect();
-            let newTop = top - rect.top;
-            let newLeft = left - rect.left;
-            let width = right - left;
-            let height = bottom - top;
-            let scale = self.state.scale;
+                let rect = document.getElementsByClassName("alo")[index].getBoundingClientRect();
+                let newTop = top - rect.top;
+                let newLeft = left - rect.left;
+                let width = right - left;
+                let height = bottom - top;
+                let scale = self.state.scale;
 
-            let item = {
-                _id: uuidv4(),
-                childIds,
-                type: TemplateType.GroupedItem,
-                src: "",
-                width: width / scale,
-                height: height / scale,
-                origin_width: width / scale,
-                origin_height: height / scale,
-                left: newLeft / scale,
-                top: newTop / scale,
-                rotateAngle: 0.0,
-                scaleX: 1,
-                scaleY: 1,
-                posX: 0,
-                posY: 0,
-                imgWidth: width / scale,
-                imgHeight: height / scale,
-                page: editorStore.activePageId,
-                zIndex: 99999,
-                width2: 1,
-                height2: 1,
-                document_object: [],
-                ref: null,
-                innerHTML: null,
-                color: 'transparent',
-                opacity: 100,
-                backgroundColor: 'transparent',
-                childId: null,
-                selected: true,
-                hovered: true,
-                temporary: true,
-            };
-            let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-            editorStore.keys[index2] = editorStore.keys[index2] + 1;
-            editorStore.addItem2(item, false);
-            self.handleImageSelected(item._id, item.page, false, true, false);
+                let item = {
+                    _id: uuidv4(),
+                    childIds,
+                    type: TemplateType.GroupedItem,
+                    src: "",
+                    width: width / scale,
+                    height: height / scale,
+                    origin_width: width / scale,
+                    origin_height: height / scale,
+                    left: newLeft / scale,
+                    top: newTop / scale,
+                    rotateAngle: 0.0,
+                    scaleX: 1,
+                    scaleY: 1,
+                    posX: 0,
+                    posY: 0,
+                    imgWidth: width / scale,
+                    imgHeight: height / scale,
+                    page: editorStore.activePageId,
+                    zIndex: 99999,
+                    width2: 1,
+                    height2: 1,
+                    document_object: [],
+                    ref: null,
+                    innerHTML: null,
+                    color: 'transparent',
+                    opacity: 100,
+                    backgroundColor: 'transparent',
+                    childId: null,
+                    selected: true,
+                    hovered: true,
+                    temporary: true,
+                };
+                let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+                editorStore.keys[index2] = editorStore.keys[index2] + 1;
+                editorStore.addItem2(item, false);
+                self.handleImageSelected(item._id, item.page, false, true, false);
+            }
         });
     }
 
@@ -4325,7 +4336,7 @@ class CanvaEditor extends Component<IProps, IState> {
             this.canvas1[pageId].canvas[CanvasType.HoverLayer][id].child.updateImage(image);
             if (includeDownloadCanvas) this.canvas2[pageId].canvas[CanvasType.Download][id].child.updateImage(image);
         } catch (e) {
-
+            console.log('Failed to updateImages. Exception: ', e);
         }
     }
 
@@ -4680,7 +4691,11 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.selectedTab = tab;
 
         if (updateCanvas) {
-            this.canvas1[pageId].canvas[updateCanvas][id].child.handleImageSelected();
+            try {
+                this.canvas1[pageId].canvas[updateCanvas][id].child.handleImageSelected();
+            } catch (e) {
+                console.log('Failed to update canvas. Exception: ', e);
+            }
         }
 
         if (updateImage) {
