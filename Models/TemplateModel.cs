@@ -10,7 +10,7 @@ namespace RCB.TypeScript.Models
     {
         string Title { get; set; }
 
-        int Type { get; set; }
+        string Type { get; set; }
 
         [Ignore]
         string[] Canvas { get; set; }
