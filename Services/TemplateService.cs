@@ -690,6 +690,7 @@ namespace RCB.TypeScript.Services
                                 Width = (decimal)width,
                                 Height = (decimal)height,
                             },
+                            OmitBackground = true,
                             Type = ScreenshotType.Png
                         });
                     } else {
