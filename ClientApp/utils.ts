@@ -947,6 +947,8 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                 newNode.style.overflow = "hidden";
                                 newNode.appendChild(animationNode);
                                 el.parentNode.appendChild(newNode);
+                            } else {
+                                newNode = animationNode.parentNode;
                             }
                             newNode.style.opacity = "1";
                             animationNode.id = image._id + child._id + "animation-block";
