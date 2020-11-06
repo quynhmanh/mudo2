@@ -938,7 +938,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     if (child.type == TemplateType.Heading) {
                         let el = document.getElementById(image._id + child._id + "alo");
                         if (el) {
-                            el.style.opacity = "1";
+                            el.style.opacity = "0";
                             let animationNode = document.getElementById(image._id + child._id + "animation-block");
                             let newNode;
                             if (!animationNode) {
@@ -948,6 +948,7 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                                 newNode.appendChild(animationNode);
                                 el.parentNode.appendChild(newNode);
                             }
+                            newNode.style.opacity = "1";
                             animationNode.id = image._id + child._id + "animation-block";
                             animationNode.style.background = child.color;
                             animationNode.style.opacity = 1;
