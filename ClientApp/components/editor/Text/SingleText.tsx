@@ -131,7 +131,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
             >
                 <div
                     id={parentId + _id + "text-container2" + canvas}
-                    className={`text-container ${_id + _id + "text-container2" + canvas}`}
+                    // className={`text-container ${_id + _id + "text-container2" + canvas}`}
                     style={{
                         zIndex: zIndex,
                         left: left * scale,

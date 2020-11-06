@@ -938,16 +938,24 @@ export const handleBlockAnimation = (injectScriptOnly = false) => {
                     if (child.type == TemplateType.Heading) {
                         let el = document.getElementById(image._id + child._id + "alo");
                         if (el) {
-                            el.style.opacity = "0";
-                            let newNode = document.getElementById(image._id + child._id + "animation-block");
-                            if (!newNode) {
+                            el.style.opacity = "1";
+                            let animationNode = document.getElementById(image._id + child._id + "animation-block");
+                            let newNode;
+                            if (!animationNode) {
                                 newNode = el.cloneNode(true);
+                                animationNode = document.createElement("div");
+                                newNode.style.overflow = "hidden";
+                                newNode.appendChild(animationNode);
                                 el.parentNode.appendChild(newNode);
                             }
-                            newNode.id = image._id + child._id + "animation-block";
-                            newNode.style.background = child.color;
-                            newNode.style.opacity = 1;
-                            newNode.style.left = "-" + (child.width / child.scaleX + 10) + "px";
+                            animationNode.id = image._id + child._id + "animation-block";
+                            animationNode.style.background = child.color;
+                            animationNode.style.opacity = 1;
+                            animationNode.style.top = 0;
+                            animationNode.style.width = child.width / child.scaleX + "px";
+                            animationNode.style.bottom = 0;
+                            animationNode.style.position = "absolute";
+                            animationNode.style.left = "-" + (child.width / child.scaleX + 10) + "px";
                         }
                     }
                 });
