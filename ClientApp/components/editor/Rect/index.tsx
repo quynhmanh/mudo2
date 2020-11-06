@@ -1566,11 +1566,11 @@ export default class Rect extends Component<IProps, IState> {
 												id={child._id + "b2"}
 												className={_id + child._id + "b2 hideWhenDownload2"}
 												style={{
-													left: `calc(${child.left / width * 100 * scaleX}%)`,
-													top: `calc(${child.top / height * 100 * scaleY}%)`,
+													left: `calc(${child.left / width * 100 * scaleX}% - 1px)`,
+													top: `calc(${child.top / height * 100 * scaleY}% - 1px)`,
 													position: "absolute",
-													width: `calc(${child.width2 * 100}%)`,
-													height: `calc(${child.height2 * 100}%)`,
+													width: `calc(${child.width2 * 100}% + 2px)`,
+													height: `calc(${child.height2 * 100}% + 2px)`,
 													backgroundImage: selected && child._id == editorStore.childId && 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
 													backgroundPosition: 'top,100%,bottom,0',
 													backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
