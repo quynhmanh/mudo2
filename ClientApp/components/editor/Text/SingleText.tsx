@@ -13,6 +13,7 @@ export interface IProps {
     child: any;
     canvas: any;
     rotateAngle: number;
+    parentImage: any;
 }
 
 export interface IState {
@@ -86,6 +87,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
         } = this.props
 
         const {
+            parentImage,
             child: {
                 width,
                 zIndex,
@@ -135,8 +137,8 @@ export default class SingleText extends PureComponent<IProps, IState> {
                         left: left * scale,
                         top: top * scale,
                         position: "absolute",
-                        width: width * scale,
-                        height: height * scale,
+                        width: width / parentImage.scaleX * scale,
+                        height: height / parentImage.scaleY * scale,
                         transform: `rotate(${rotateAngle}deg)`,
                         opacity: opacity,
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
@@ -164,7 +166,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
                             id={parentId + _id + canvas}
                             spellCheck={false}
                             style={{
-                                width: width / scaleX + "px",
+                                width: width / parentImage.scaleX / scaleX + "px",
                                 zIndex: zIndex,
                                 cursor: 'auto',
                                 margin: 0,

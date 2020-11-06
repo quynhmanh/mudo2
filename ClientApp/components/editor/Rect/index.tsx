@@ -1616,6 +1616,7 @@ export default class Rect extends Component<IProps, IState> {
 															}}
 															canvas={canvas}
 															_id={_id + child._id + canvas}
+															parentImage={this.state.image}
 															parentId={_id}
 															rotateAngle={child.rotateAngle}
 															selected={child._id == editorStore.childId}
