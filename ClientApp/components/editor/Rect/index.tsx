@@ -754,7 +754,7 @@ export default class Rect extends Component<IProps, IState> {
 									);
 								})}
 							{(name == CanvasType.All || name == CanvasType.Preview ||
-								(cropMode && name == CanvasType.HoverLayer) ||
+								(cropMode && name == CanvasType.HoverLayer && selected) ||
 								name == CanvasType.Download) &&
 								src &&
 								(type === TemplateType.Image || type === TemplateType.BackgroundImage || type == TemplateType.Element || type == TemplateType.Gradient) && (
@@ -859,10 +859,10 @@ export default class Rect extends Component<IProps, IState> {
 														className="hideWhenDownload"
 														style={{
 															position: "absolute",
-															top: "-1px",
-															left: "-1px",
-															right: "-1px",
-															bottom: "-1px",
+															top: "-2px",
+															left: "-2px",
+															right: "-2px",
+															bottom: "-2px",
 															backgroundImage:
 																(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 																	: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
@@ -1661,7 +1661,7 @@ export default class Rect extends Component<IProps, IState> {
 																imgHeight={child.imgHeight * scale}
 																posX={child.posX * scale}
 																posY={child.posY * scale}
-																selected={selected}
+																selected={editorStore.childId == child._id}
 																cropMode={cropMode}
 																backgroundColor={child.backgroundColor}
 																src={child.src}
