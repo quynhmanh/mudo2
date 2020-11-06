@@ -680,17 +680,30 @@ namespace RCB.TypeScript.Services
                             WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.DOMContentLoaded, WaitUntilNavigation.Load, },
                             Timeout = 0,
                         });
-
-                    Stream a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
-                    {
-                        Clip = new PuppeteerSharp.Media.Clip()
+                    
+                    Stream a;
+                    if (omitBackground) {
+                        a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
                         {
-                            Width = (decimal)width,
-                            Height = (decimal)height,
-                        },
-                        Type = omitBackground ? ScreenshotType.Png : ScreenshotType.Jpeg,
-                        Quality = 100,
-                    });
+                            Clip = new PuppeteerSharp.Media.Clip()
+                            {
+                                Width = (decimal)width,
+                                Height = (decimal)height,
+                            },
+                            Type = ScreenshotType.Png
+                        });
+                    } else {
+                        a = await page.ScreenshotStreamAsync(new ScreenshotOptions()
+                        {
+                            Clip = new PuppeteerSharp.Media.Clip()
+                            {
+                                Width = (decimal)width,
+                                Height = (decimal)height,
+                            },
+                            Type = ScreenshotType.Jpeg,
+                            Quality = 100,
+                        });
+                    }
 
                     using (var memoryStream = new MemoryStream())
                     {
