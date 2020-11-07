@@ -20,7 +20,6 @@ interface IState {
     startPoint: number;
 }
 
-const TEMPLATE_PERPAGE = 10;
 const WIDTH = 200;
 
 let getRem = (rem) => Array(rem).fill(0).map(i => {
@@ -59,19 +58,19 @@ export default class TemplateList extends Component<IProps, IState> {
 
         this.loadImage = this.loadImage.bind(this);
 
+        let innerWidth = window.innerWidth - 116;
+        console.log('innerWidth ', innerWidth)
+
         if (props.type == 7 || props.type == 9 || props.type == 15 || props.type == 16) {
-            let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
-            this.width = el.width / 4 - 30;
+            this.width = Math.max(innerWidth / 6, 216);
         }
 
         if (props.type == 16) {
-            let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
-            this.width = el.width / 3 - 30;
+            this.width = innerWidth / 3 - 30;
         }
 
         if (props.type == 18) {
-            let el = document.getElementsByClassName('container')[0].getBoundingClientRect();
-            this.width = el.width / 3 - 30;
+            this.width = innerWidth / 3 - 30;
         }
 
         let width = 200;
@@ -105,6 +104,7 @@ export default class TemplateList extends Component<IProps, IState> {
             case 6:
                 rectWidth = 1024;
                 rectHeight = 1024;
+                this.perPage = Math.floor(innerWidth / 216) * 3;
                 break;
             case 7:
                 rectWidth = 1920;
