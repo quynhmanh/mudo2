@@ -4573,6 +4573,9 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.keys[index2] = editorStore.keys[index2] + 1;
         editorStore.increaseUpperzIndex();
 
+        this.handleImageSelected(newImage._id, newImage.page, false, true, false);
+
+
         this.forceUpdate();
     }
 
