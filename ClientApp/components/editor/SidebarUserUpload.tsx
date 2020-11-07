@@ -1017,11 +1017,11 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                 sidebar={SidebarTab.Upload}
             >
                 {!Globals.serviceUser && <div>
-                    <p>Please sign in</p>
                     <button
                         id="login-btn"
                         style={{
-                            height: '30px',
+                            height: '40px',
+                            width: '150px',
                             lineHeight: '30px',
                             border: 'none',
                             fontSize: '13px',
@@ -1030,6 +1030,8 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                             display: 'block',
                             padding: '0 10px',
                             backgroundColor: "white",
+                            margin: 'auto',
+                            marginTop: '15px',
                         }}
                         onClick={this.handleLogin}
                     >{this.props.translate("login")}</button>

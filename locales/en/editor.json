@@ -60,11 +60,14 @@
     "createAFreeAccount": "Create a free account",
     "loginWithGoogle": "Login with Google",
     "loginWithFacebook": "Login with Facebook",
+    "login": "Login",
     "processing": "Processing",
     "animation": "Animation",
     "block": "Block",
     "fade": "Fade",
     "none": "None",
     "copy": "Copy",
-    "remove": "Remove"
+    "remove": "Remove",
+    "group": "Group",
+    "ungroup": "Ungroup"
 }

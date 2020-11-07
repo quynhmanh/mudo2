@@ -56,7 +56,7 @@ class RightSide extends Component<IProps, IState> {
                         this.props.groupGroupedItem();
                     }}
                 >
-                    <span>Group</span>
+                    <span>{this.props.translate("ungroup")}</span>
                 </button>}
                 {image && image.type == TemplateType.TextTemplate && <button
                     className="toolbar-btn"
@@ -69,7 +69,7 @@ class RightSide extends Component<IProps, IState> {
                         this.props.ungroupGroupedItem();
                     }}
                 >
-                    <span>Ungroup</span>
+                    <span>{this.props.translate("ungroup")}</span>
                 </button>}
                 {!editorStore.cropMode && ((editorStore.idObjectSelected && image && image.type != TemplateType.GroupedItem)
                     || editorStore.childId) &&

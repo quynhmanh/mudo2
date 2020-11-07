@@ -60,11 +60,14 @@
     "createAFreeAccount": "Miễn phí tạo ngay",
     "loginWithGoogle": "Đăng nhập với Google",
     "loginWithFacebook": "Đăng nhập với Facebook",
+    "login": "Đăng nhập",
     "processing": "Đang xử lý",
     "animation": "Hình động",
     "block": "Khối",
     "fade": "Rõ dần",
     "none": "Không",
     "copy": "Nhân bản",
-    "remove": "Xóa"
+    "remove": "Xóa",
+    "group": "Nhóm",
+    "ungroup": "Bỏ nhóm"
 }
