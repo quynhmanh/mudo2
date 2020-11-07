@@ -98,7 +98,7 @@ class RightSide extends Component<IProps, IState> {
                     handleOpacityChange={props.handleOpacityChange}
                     handleOpacityChangeEnd={props.handleOpacityChangeEnd}
                 />
-                {image && 
+                {image && image.type != TemplateType.GroupedItem && 
                 <Tooltip
                     offsetLeft={0}
                     offsetTop={-10}
