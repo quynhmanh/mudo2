@@ -4560,6 +4560,13 @@ class CanvaEditor extends Component<IProps, IState> {
             newImage.left += 15;
             newImage.top += 15;
 
+            if (newImage.type == TemplateType.TextTemplate) {
+                newImage.document_object = newImage.document_object.map(doc => {
+                    doc._id = uuidv4();
+                    return doc;
+                })
+            }
+
             editorStore.addItem2(newImage, false);
 
             let index2 = editorStore.pages.findIndex(pageId => pageId == newImage.page);
