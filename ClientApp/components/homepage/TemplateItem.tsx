@@ -21,6 +21,8 @@ interface IProps {
     startPoint: number;
     loadImage: any;
     prefix: any;
+    itemWidth: number;
+    itemHeight: number;
 }
 
 interface IState {
@@ -158,7 +160,7 @@ export default class TemplateItem extends Component<IProps, IState> {
                         <div
                             style={{ 
                                 paddingTop: 0,
-                                width: `${this.props.itemWidth}px`,
+                                width: `${this.props.itemWidth + 2}px`,
                                 transitionDuration: '0.25s',
                                 transitionProperty: 'opacity, width',
                             }}>

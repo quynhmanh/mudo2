@@ -21,6 +21,7 @@ export interface IProps {
     keys: any;
     startPoint: any;
     mediaLoaded: any;
+    loadImage: any;
 }
 
 export interface IState {

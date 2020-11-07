@@ -24,6 +24,7 @@ export interface IProps {
     keys: number;
     startPoint: number;
     hasBorder: boolean;
+    loadImage: any;
 }
 
 export interface IState {
