@@ -56,7 +56,7 @@ class RightSide extends Component<IProps, IState> {
                         this.props.groupGroupedItem();
                     }}
                 >
-                    <span>{this.props.translate("ungroup")}</span>
+                    <span>{this.props.translate("group")}</span>
                 </button>}
                 {image && image.type == TemplateType.TextTemplate && <button
                     className="toolbar-btn"
