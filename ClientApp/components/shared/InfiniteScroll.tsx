@@ -123,7 +123,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, {}>
                     height: `calc(100% - ${(this.props.marginTop * 1)}px)`,
                     marginTop: this.props.marginTop * 1 + "px",
                     overflow: this.props.scroll && 'overlay',
-                    overflowX: this.props.scroll ? "hidden" : 'auto',
+                    overflowX: this.props.scroll ? "hidden" : 'visible',
                 }}>
                 {this.props.children}
                 {/* {<div style={{marginBottom: '10px', height: '10%', color: 'white', position: 'relative'}} ref={i => this.sentinel = i}><Loader show={true} black={this.props.loaderBlack} /></div>} */}
