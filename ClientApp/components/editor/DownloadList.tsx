@@ -50,7 +50,7 @@ const SvgTest = props => (
                 <p style={{ marginBottom: "0px" }}>PNG</p>
                 <span
                   style={{
-                    fontSize: "12px"
+                    fontSize: "13px"
                   }}
                 >
                   {/* Ảnh chất lượng cao */}
@@ -152,7 +152,7 @@ S17.101,14.5,19.069,14.5z"
                 <p style={{ marginBottom: "0px" }}>JPG</p>
                 <span
                   style={{
-                    fontSize: "12px"
+                    fontSize: "13px"
                   }}
                 >
                   {/* Kích thước tập tin ảnh nhỏ */}
@@ -255,7 +255,7 @@ c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"
                 </p>
                 <span
                   style={{
-                    fontSize: "12px"
+                    fontSize: "13px"
                   }}
                 >
                   {/* Kích thước tập tin nhỏ, nhiều trang */}
@@ -355,7 +355,7 @@ c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"
                 <p style={{ marginBottom: "0px" }}>PDF Print</p>
                 <span
                   style={{
-                    fontSize: "12px"
+                    fontSize: "13px"
                   }}
                 >
                   {props.translate("pdfPrint")}
@@ -444,7 +444,7 @@ C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.82
                 <p style={{ marginBottom: "4px" }}>Video</p>
                 <span
                   style={{
-                    fontSize: "12px"
+                    fontSize: "13px"
                   }}
                 >
                   MP4

@@ -300,6 +300,7 @@ p.single-text:focus {
   align-items: center;
   padding: 8px 0px;
   text-align: center;
+  font-weight: 600;
 }
 
 .tab-menu:hover {
@@ -338,6 +339,7 @@ p.single-text:focus {
     margin-right: 7px;
     font-size: 15px;
     height: 32px;
+    font-weight: 600;
 }
 
 .toolbar-btn:focus {
@@ -918,6 +920,7 @@ button:focus {
   margin: auto;
   margin-right: 10px;
   background: rgba(255, 255, 255, .15) !important;
+  font-weight: 600;
 }
 
 #download-btn:hover{
