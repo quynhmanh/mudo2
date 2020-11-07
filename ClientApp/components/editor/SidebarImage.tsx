@@ -416,7 +416,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                             paddingLeft: '40px',
                             backgroundPosition: 'left 8px center',
                             color: "black",
-                            fontWeight: 300,
+                            fontWeight: 400,
                         }}
                         onKeyDown={this.handleQuery}
                         type="text"

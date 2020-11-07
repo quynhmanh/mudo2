@@ -764,7 +764,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         paddingLeft: '40px',
                         backgroundPosition: 'left 8px center',
                         position: "absolute",
-                        fontWeight: 300,
+                        fontWeight: 400,
                     }}
                     onKeyDown={e => {
                         if (e.key === "Enter") {
