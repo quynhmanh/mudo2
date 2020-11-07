@@ -22,7 +22,6 @@ const Transparent = (props: IProps) => {
         >
             <button
                 style={{
-                    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
                     width: "30px",
                     padding: 0,
                     height: "32px",

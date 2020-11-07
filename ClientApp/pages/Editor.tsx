@@ -368,6 +368,8 @@ class CanvaEditor extends Component<IProps, IState> {
         this.groupGroupedItem = this.groupGroupedItem.bind(this);
         this.ungroupGroupedItem = this.ungroupGroupedItem.bind(this);
         this.handleChildCrop = this.handleChildCrop.bind(this);
+        this.copyImage = this.copyImage.bind(this);
+        this.removeImage2 = this.removeImage2.bind(this);
     }
 
     $app = null;
@@ -4548,32 +4550,45 @@ class CanvaEditor extends Component<IProps, IState> {
         }
     };
 
+    copyImage() {
+        let image = this.getImageSelected();
+
+        let newImage = {...image};
+        newImage._id = uuidv4();
+        newImage.selected = false;
+        newImage.hovered = false;
+        newImage.left += 15;
+        newImage.top += 15;
+
+        if (newImage.type == TemplateType.TextTemplate) {
+            newImage.document_object = newImage.document_object.map(doc => {
+                doc._id = uuidv4();
+                return doc;
+            })
+        }
+
+        editorStore.addItem2(newImage, false);
+
+        let index2 = editorStore.pages.findIndex(pageId => pageId == newImage.page);
+        editorStore.keys[index2] = editorStore.keys[index2] + 1;
+        editorStore.increaseUpperzIndex();
+
+        this.forceUpdate();
+    }
+
+    removeImage2() {
+        editorStore.images2.delete(editorStore.idObjectSelected);
+        this.doNoObjectSelected();
+        let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
+        editorStore.keys[index] = editorStore.keys[index] + 1;
+
+        this.forceUpdate();
+    }
+
     removeImage(e) {
 
         if (e.keyCode == 67 && (e.ctrlKey || e.metaKey)) {
-            let image = this.getImageSelected();
-
-            let newImage = {...image};
-            newImage._id = uuidv4();
-            newImage.selected = false;
-            newImage.hovered = false;
-            newImage.left += 15;
-            newImage.top += 15;
-
-            if (newImage.type == TemplateType.TextTemplate) {
-                newImage.document_object = newImage.document_object.map(doc => {
-                    doc._id = uuidv4();
-                    return doc;
-                })
-            }
-
-            editorStore.addItem2(newImage, false);
-
-            let index2 = editorStore.pages.findIndex(pageId => pageId == newImage.page);
-            editorStore.keys[index2] = editorStore.keys[index2] + 1;
-            editorStore.increaseUpperzIndex();
-
-            this.forceUpdate();
+            this.copyImage();
         }
 
         let image = this.getImageSelected();
@@ -4594,14 +4609,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 editorStore.images2.set(image._id, image);
                 this.updateImages2(image, true);
             } else {
-                // let id = editorStore.idObjectSelected;
-                // let page = editorStore.imageSelected.page;
-                editorStore.images2.delete(editorStore.idObjectSelected);
-                this.doNoObjectSelected();
-                let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
-                editorStore.keys[index] = editorStore.keys[index] + 1;
-
-                this.forceUpdate();
+                this.removeImage2();
             }
         }
 
@@ -6284,6 +6292,8 @@ class CanvaEditor extends Component<IProps, IState> {
                                         handleOpacityChangeEnd={this.handleOpacityChangeEnd}
                                         groupGroupedItem={this.groupGroupedItem}
                                         ungroupGroupedItem={this.ungroupGroupedItem}
+                                        removeImage={this.removeImage2}
+                                        copyImage={this.copyImage}
                                     />
                                 </div>
                             </div>

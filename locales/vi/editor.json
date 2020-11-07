@@ -64,5 +64,7 @@
     "animation": "Hình động",
     "block": "Khối",
     "fade": "Rõ dần",
-    "none": "Không"
+    "none": "Không",
+    "copy": "Nhân bản",
+    "remove": "Xóa"
 }

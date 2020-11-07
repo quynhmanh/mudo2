@@ -55,6 +55,8 @@ interface IProps {
     scale: any;
     groupGroupedItem: any;
     ungroupGroupedItem: any;
+    removeImage: any;
+    copyImage: any;
 }
 
 interface IState {
@@ -130,6 +132,8 @@ class Toolbar extends Component<IProps, IState> {
                     handleOpacityChangeEnd={props.handleOpacityChangeEnd}
                     groupGroupedItem={props.groupGroupedItem}
                     ungroupGroupedItem={props.ungroupGroupedItem}
+                    removeImage={props.removeImage}
+                    copyImage={props.copyImage}
                 />
             </div>
         );

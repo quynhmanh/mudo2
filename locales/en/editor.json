@@ -64,5 +64,7 @@
     "animation": "Animation",
     "block": "Block",
     "fade": "Fade",
-    "none": "None"
+    "none": "None",
+    "copy": "Copy",
+    "remove": "Remove"
 }
