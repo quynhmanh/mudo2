@@ -270,7 +270,7 @@ export default class TemplateList extends Component<IProps, IState> {
                     <div>
                         <div style={{ position: 'relative' }}>
                             <InfiniteScroll
-                                scroll={true}
+                                scroll={false}
                                 throttle={200}
                                 threshold={300}
                                 isLoading={false}
