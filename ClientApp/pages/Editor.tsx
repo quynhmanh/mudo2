@@ -24,14 +24,12 @@ const Narbar = loadable(() => import("@Components/editor/Navbar"));
 const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
 
 import {
-    isNode, transformPoint, createStyleJsonFromString, processChildren, handleBlockAnimation,
+    isNode, transformPoint, processChildren, handleBlockAnimation,
 } from "@Utils";
 
 import {
     Observable
 } from "rxjs";
-import { uuid } from "htmltoimage/utils";
-import { isInteger } from "formik";
 
 let rotateRect,
     rotatePoint,
@@ -404,20 +402,17 @@ class CanvaEditor extends Component<IProps, IState> {
     handleItalicBtnClick = (e: any) => {
         e.preventDefault();
 
-        let italic;
         let image = this.getImageSelected();
         if (editorStore.childId) {
             let texts = image.document_object.map(text => {
                 if (text._id == editorStore.childId) {
                     text.italic = !text.italic;
-                    italic = text.italic;
                 }
                 return text;
             });
             image.document_object = texts;
         } else {
             image.italic = !image.italic;
-            italic = image.italic;
         }
 
         this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
