@@ -1507,10 +1507,6 @@ export const downloadVideo = () => {
         });
 };
 
-const getImageSelected = () => {
-    return toJS(editorStore.images2.get(editorStore.idObjectSelected));
-}
-
 
 export function ungroupGroupedItem() {
         let image = getImageSelected();
@@ -1542,6 +1538,10 @@ export function ungroupGroupedItem() {
         this.forceUpdate();
     }
 
+export function getImageSelected() {
+    return toJS(editorStore.images2.get(editorStore.idObjectSelected));
+}
+
 export function groupGroupedItem() {
     if (window.selections) {
         window.selections.forEach(node => {
@@ -1553,7 +1553,7 @@ export function groupGroupedItem() {
         });
     }
 
-    let image = this.getImageSelected();
+    let image = getImageSelected();
     image.temporary = false;
     editorStore.images2.set(image._id, image);
     this.updateImages2(image, false);
@@ -1644,7 +1644,7 @@ export function groupGroupedItem() {
 
 export function handleItalicBtnClick(e: any) {
     e.preventDefault();
-    let image = this.getImageSelected();
+    let image = getImageSelected();
     if (editorStore.childId) {
         let texts = image.document_object.map(text => {
             if (text._id == editorStore.childId) {
@@ -1666,7 +1666,7 @@ export function handleBoldBtnClick(e: any) {
     e.preventDefault();
 
     let bold;
-    let image = this.getImageSelected();
+    let image = getImageSelected();
     if (editorStore.childId) {
         let texts = image.document_object.map(text => {
             if (text._id == editorStore.childId) {
@@ -1737,7 +1737,7 @@ export function handleCropBtnClick(id: string) {
 }
 
 export function handleGridCrop(index) {
-    let image = this.getImageSelected();
+    let image = getImageSelected();
     const scale = this.state.scale;
     let g = image.grids[index];
     if (!g.src) return;
@@ -1839,7 +1839,7 @@ export function handleTransparentAdjust(e: any) {
 
 export function handleFontSizeBtnClick(e: any, fontSize: number) {
 
-    let image = this.getImageSelected();
+    let image = getImageSelected();
 
     if (editorStore.childId) {
         let text = image.document_object.find(text => text._id == editorStore.childId);
@@ -1916,7 +1916,7 @@ export function handleFontSizeBtnClick(e: any, fontSize: number) {
 }
 
 export function handleChildCrop(id) {
-    let image = this.getImageSelected();
+    let image = getImageSelected();
     let childImage = image.document_object.find(doc => doc._id == id);
     if (childImage.type == TemplateType.Heading) return;
     
@@ -2094,7 +2094,7 @@ export function handleAlignBtnClick(e: any, type: string) {
             return;
     }
 
-    let image = this.getImageSelected();
+    let image = getImageSelected();
     if (!editorStore.childId) {
         image.align = align;
     } else {
@@ -2247,7 +2247,7 @@ export function doNoObjectSelected() {
 };
 
 export function copyImage() {
-    let image = this.getImageSelected();
+    let image = getImageSelected();
 
     let newImage = {...image};
     newImage._id = uuidv4();
@@ -2279,7 +2279,7 @@ export function removeImage(e) {
         copyImage();
     }
 
-    let image = this.getImageSelected();
+    let image = getImageSelected();
     let OSNAME = this.getPlatformName();
     if (
         !window.inputFocus &&
@@ -2290,7 +2290,7 @@ export function removeImage(e) {
     ) {
         let image = editorStore.getImageSelected();
         if (image.type == TemplateType.BackgroundImage) {
-            let image = this.getImageSelected();
+            let image = getImageSelected();
             image.src = null;
             image.backgroundColor = "";
             image.color = "";
@@ -5068,3 +5068,352 @@ function handleImageDrag(_id, clientX, clientY) {
             })
         }
     };
+
+    
+    export function handleOpacityChange(opacity) {
+        let image = getImageSelected();
+        if (image.type == TemplateType.Video) {
+            let el = document.getElementById(editorStore.idObjectSelected + "video0alo");
+            if (el) {
+                el.style.opacity = (opacity / 100).toString();
+            }
+        } else {
+
+            let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+            if (el) {
+                el.style.opacity = (opacity / 100).toString();
+            }
+        }
+
+        window.opacity = opacity;
+    };
+
+    export function handleOpacityChangeEnd() {
+        let opacity = window.opacity;
+        let image = getImageSelected();
+        image.opacity = opacity;
+        editorStore.images2.set(editorStore.idObjectSelected, image);
+
+        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    }
+
+    export function handleGridSelected(childId) {
+        let image = this.getImageSelected();
+        if (image.grids[childId].src) editorStore.croppable = true;
+        else editorStore.croppable = false;
+        editorStore.gridIndex = childId;
+        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleGridSelected(childId);
+        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleGridSelected(childId);
+    }
+
+    export function handleChildIdSelected(childId) {
+        editorStore.childId = childId;
+        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
+        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
+
+        let align, effectId, bold, italic, fontId, fontColor, fontText;
+        let currentOpacity, currentLineHeight, currentLetterSpacing;
+        let fontSize;
+        let image = editorStore.getImageSelected();
+        image.selected = true;
+        if (image.document_object) {
+            image.document_object.forEach(doc => {
+                if (doc._id == childId) {
+                    doc.selected = true;
+                    align = doc.align;
+                    effectId = doc.effectId;
+                    bold = doc.bold;
+                    italic = doc.italic;
+                    fontId = doc.fontId;
+                    fontText = doc.fontText;
+                    fontColor = doc.color;
+                    currentLineHeight = doc.lineHeight;
+                    currentOpacity = doc.opacity;
+                    currentLetterSpacing = doc.letterSpacing;
+                    fontSize = doc.fontSize * doc.scaleY * image.scaleY;
+                }
+                return doc;
+            });
+        }
+
+        let fontsList = toJS(editorStore.fontsList);
+        let font = fontsList.find(font => font.id === fontId);
+        let text = image.document_object.find(text => text._id == childId);
+
+        editorStore.fontId = fontId;
+        editorStore.fontFace = fontId;
+        editorStore.fontText = fontText;
+        editorStore.currentFontSize = fontSize;
+        editorStore.currentLetterSpacing = currentLetterSpacing;
+        editorStore.childId = childId;
+        editorStore.currentLineHeight = currentLineHeight;
+        editorStore.effectId = effectId;
+        editorStore.images2.set(editorStore.idObjectSelected, image);
+
+        this.setState({
+            fontColor,
+            childId,
+            align,
+            effectId,
+            bold,
+            italic,
+            fontId,
+            currentOpacity,
+            currentLineHeight,
+            currentLetterSpacing,
+            fontName: font ? font.representative : null,
+            fontSize: Math.round(text.fontSize * image.scaleY * text.scaleY),
+        });
+    };
+
+export function disableCropMode() {
+    let scale = editorStore.scale;
+
+    if (editorStore.idObjectSelected) {
+        this.setState({ cropMode: false });
+        editorStore.cropMode = false;
+        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.disableCropMode();
+        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.disableCropMode();
+        let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
+        editorStore.keys[index] = editorStore.keys[index] + 1;
+
+        this.forceUpdate();
+    }
+
+    let image = this.getImageSelected();
+    if (image.type == TemplateType.BackgroundImage && image.deleteAfterCrop) {
+        let parentImage = editorStore.images2.get(image.parentImageId);
+        parentImage.hovered = false;
+        parentImage.selected = false;
+        parentImage.grids = parentImage.grids.map((g, i) => {
+            if (i == image.gridIndex) {
+                g.imgWidth = image.imgWidth;
+                g.imgHeight = image.imgHeight;
+                g.posX = image.posX;
+                g.posY = image.posY;
+            }
+            return g;
+        });
+
+        this.updateImages(parentImage._id, parentImage.page, parentImage, true);
+
+        editorStore.images2.delete(editorStore.idObjectSelected);
+        doNoObjectSelected.bind(this)();
+        let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
+        editorStore.keys[index] = editorStore.keys[index] + 1;
+
+        this.forceUpdate();
+    }
+
+    if ((image.type == TemplateType.Image ||
+        image.type == TemplateType.Element ||
+        image.type == TemplateType.Video || 
+        image.type == TemplateType.Gradient ) && image.groupedIds) {
+        let top = 999999, right = 0, bottom = 0, left = 999999;
+        let childIds = [];
+        image.groupedIds.forEach(id => {
+            let img = editorStore.images2.get(id);
+            childIds.push(id);
+            let b = transformImage(img);
+
+            let w = b.x[2] * scale - b.x[0] * scale - 4;
+            let h = b.y[2] * scale - b.y[0] * scale - 4;
+            let centerX = b.x[0] * scale + w / 2 + 2;
+            let centerY = b.y[0] * scale + h / 2 + 2;
+            let rotateAngle = img.rotateAngle / 180 * Math.PI;
+            let newL = centerX - img.width * scale / 2;
+            let newR = centerX + img.width * scale / 2;
+            let newT = centerY - img.height * scale / 2;
+            let newB = centerY + img.height * scale / 2;
+
+
+            let bb = [
+                {
+                    x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                    y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+                },
+                {
+                    x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
+                    y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
+                },
+                {
+                    x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                    y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+                },
+                {
+                    x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
+                    y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
+                }
+            ]
+
+            left = Math.min(left, bb[0].x);
+            left = Math.min(left, bb[1].x);
+            left = Math.min(left, bb[2].x);
+            left = Math.min(left, bb[3].x);
+            right = Math.max(right, bb[0].x)
+            right = Math.max(right, bb[1].x)
+            right = Math.max(right, bb[2].x)
+            right = Math.max(right, bb[3].x)
+            top = Math.min(top, bb[0].y)
+            top = Math.min(top, bb[1].y)
+            top = Math.min(top, bb[2].y)
+            top = Math.min(top, bb[3].y)
+            bottom = Math.max(bottom, bb[0].y)
+            bottom = Math.max(bottom, bb[1].y)
+            bottom = Math.max(bottom, bb[2].y)
+            bottom = Math.max(bottom, bb[3].y)
+        });
+
+        let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+
+        let newTop = top;
+        let newLeft = left;
+        let width = right - left;
+        let height = bottom - top;
+
+        let item = {
+            _id: uuidv4(),
+            childIds,
+            type: TemplateType.GroupedItem,
+            src: "",
+            width: width / scale,
+            height: height / scale,
+            origin_width: width / scale,
+            origin_height: height / scale,
+            left: newLeft / scale,
+            top: newTop / scale,
+            rotateAngle: 0.0,
+            scaleX: 1,
+            scaleY: 1,
+            posX: 0,
+            posY: 0,
+            imgWidth: width / scale,
+            imgHeight: height / scale,
+            page: editorStore.activePageId,
+            zIndex: 99999,
+            width2: 1,
+            height2: 1,
+            document_object: [],
+            ref: null,
+            innerHTML: null,
+            color: 'transparent',
+            opacity: 100,
+            backgroundColor: 'transparent',
+            childId: null,
+            selected: true,
+            hovered: true,
+            temporary: true,
+        };
+        let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+        editorStore.keys[index2] = editorStore.keys[index2] + 1;
+        editorStore.addItem2(item, false);
+        this.handleImageSelected(item._id, item.page, false, true, false);
+
+        if (groupGroupedItem) groupGroupedItem.bind(this)();
+    }
+}
+
+export function forwardSelectedObject(id) {
+    let image = getImageSelected();
+    image.zIndex = editorStore.upperZIndex + 1;
+    editorStore.images2.set(editorStore.idObjectSelected, image);
+    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    editorStore.increaseUpperzIndex();
+};
+
+export function backwardSelectedObject(id) {
+    let image = getImageSelected();
+    image.zIndex = 2;
+    editorStore.images2.forEach((val, key) => {
+        if (val.page == image.page) {
+            if (key == editorStore.idObjectSelected) {
+                val.zIndex = 1;
+            } else {
+                val.zIndex += 1;
+            }
+            val.selected = false;
+            val.hovered = false;
+            editorStore.images2.set(key, val);
+            this.updateImages(key, editorStore.pageId, val, true);
+        }
+    });
+    editorStore.upperZIndex += 1;
+    editorStore.images2.set(editorStore.idObjectSelected, image);
+    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+
+};
+
+export function toggleVideo() {
+    this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.toggleVideo();
+    this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.toggleVideo();
+
+    let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
+    let el2 = document.getElementById(editorStore.idObjectSelected + "video2" + "alo") as HTMLVideoElement;
+    let image = getImageSelected();
+    if (image.paused) {
+        if (el) el.play();
+        if (el2) el2.play();
+        image.paused = false;
+    } else {
+        if (el) el.pause();
+        if (el2) el2.pause();
+        image.paused = true;
+    }
+
+    editorStore.images2.set(image._id, image);
+}
+
+export function addAPage(e, id) {
+    e.preventDefault();
+    let pages = toJS(editorStore.pages);
+    let keys = toJS(editorStore.keys);
+    const index = pages.findIndex(img => img === id) + 1;
+    let newPageId = uuidv4();
+    pages.splice(index, 0, newPageId);
+    keys.splice(index, 0, 0);
+
+    const { rectWidth, rectHeight } = this.state;
+
+    let item = {
+        _id: uuidv4(),
+        type: TemplateType.BackgroundImage,
+        width: rectWidth,
+        height: rectHeight,
+        origin_width: rectWidth,
+        origin_height: rectWidth,
+        left: 0,
+        top: 0,
+        rotateAngle: 0.0,
+        selected: false,
+        scaleX: 1,
+        scaleY: 1,
+        posX: 0,
+        posY: 0,
+        imgWidth: rectWidth,
+        imgHeight: rectWidth,
+        page: newPageId,
+        zIndex: 1,
+        width2: 1,
+        height2: 1,
+        document_object: [],
+        ref: null,
+        innerHTML: null,
+        color: null,
+        opacity: 100,
+        backgroundColor: null,
+        childId: null
+    };
+
+    this.setSavingState(SavingState.UnsavedChanges, false);
+    editorStore.addItem2(item, false);
+
+    this.handleImageSelected(item._id, newPageId, false, true, false);
+
+    editorStore.pages.replace(pages);
+    editorStore.keys.replace(keys);
+    setTimeout(() => {
+        document.getElementById(newPageId).scrollIntoView();
+    }, 100);
+
+    this.forceUpdate();
+};

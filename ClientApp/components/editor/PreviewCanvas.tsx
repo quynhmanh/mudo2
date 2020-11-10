@@ -472,11 +472,6 @@ export default class Canvas extends Component<IProps, IState> {
                                                 this,
                                                 img
                                             )}
-                                            handleFontColorChange={this.props.handleFontColorChange}
-                                            onFontSizeChange={this.props.handleFontSizeChange}
-                                            handleFontFaceChange={this.props.handleFontFamilyChange.bind(
-                                                this
-                                            )}
                                             handleChildIdSelected={this.props.handleChildIdSelected.bind(
                                                 this
                                             )}

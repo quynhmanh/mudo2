@@ -47,9 +47,6 @@ export interface IProps {
 	parentRotateAngle: number;
 	showController: boolean;
 	onTextChange: any;
-	onFontSizeChange(fontSize: number): void;
-	handleFontColorChange(fontColor: string): void;
-	handleFontFaceChange(fontFace: string): void;
 	handleChildIdSelected(childId: string): void;
 	disableCropMode(): void;
 	cropMode: boolean;

@@ -5,11 +5,6 @@ import { Helmet } from "react-helmet";
 import { withTranslation } from "react-i18next";
 import { SidebarTab, Mode, TemplateType, SavingState, CanvasType, } from "@Components/editor/enums";
 import loadable from "@loadable/component";
-import ReactDOMServer from 'react-dom/server';
-
-import {
-    catchError,
-} from 'rxjs/operators';
 
 const Canvas = loadable(() => import("@Components/editor/Canvas"));
 const PreviewCanvas = loadable(() => import("@Components/editor/PreviewCanvas"));
@@ -24,38 +19,14 @@ const Narbar = loadable(() => import("@Components/editor/Navbar"));
 const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
 
 import {
-    isNode, transformPoint, processChildren, handleBlockAnimation,
+    isNode,
 } from "@Utils";
 
-import {
-    Observable
-} from "rxjs";
-
-let rotateRect,
-    rotatePoint,
-    getCursorStyleWithRotateAngle,
-    getCursorStyleForResizer,
-    centerToTL,
-    tLToCenter,
-    getNewStyle,
-    degToRadian,
-    updatePosition,
-    getLength,
-    getAngle,
-    transformImage,
+let transformImage,
     fromEvent,
-    merge,
     NEVER,
     BehaviorSubject,
-    map,
-    filter,
     switchMap,
-    takeUntil,
-    updateXGuide,
-    updateYGuide,
-    getGuideOfImage,
-    hideGuide,
-    handleFadeAnimation,
     ungroupGroupedItem,
     groupGroupedItem,
     handleItalicBtnClick,
@@ -77,8 +48,16 @@ let rotateRect,
     handleResizeStart,
     handleDragStart,
     handleRotateStart,
-    handleResizeInnerImageStart,
-    first;
+    handleOpacityChange,
+    handleOpacityChangeEnd,
+    handleGridSelected,
+    handleChildIdSelected,
+    disableCropMode,
+    forwardSelectedObject,
+    backwardSelectedObject,
+    toggleVideo,
+    addAPage,
+    handleResizeInnerImageStart;
 
 let editorStore: any = {};
 let axios;
@@ -96,26 +75,7 @@ if (!isNode()) {
     ({ toJS } = require("mobx"));
 
     ({
-        rotateRect,
-        rotatePoint,
-    } = require("@Components/selection/utils"));
-
-    ({
-        getCursorStyleWithRotateAngle,
-        getCursorStyleForResizer,
-        centerToTL,
-        tLToCenter,
-        getNewStyle,
-        degToRadian,
-        updatePosition,
-        getLength,
-        getAngle,
         transformImage,
-        updateXGuide,
-        updateYGuide,
-        getGuideOfImage,
-        hideGuide,
-        handleFadeAnimation,
         ungroupGroupedItem,
         groupGroupedItem,
         handleItalicBtnClick,
@@ -138,21 +98,25 @@ if (!isNode()) {
         handleResizeInnerImageStart,
         handleDragStart,
         handleRotateStart,
+        handleOpacityChange,
+        handleOpacityChangeEnd,
+        handleGridSelected,
+        handleChildIdSelected,
+        disableCropMode,
+        forwardSelectedObject,
+        backwardSelectedObject,
+        toggleVideo,
+        addAPage,
     } = require("@Utils"));
 
     ({
         fromEvent,
-        merge,
         NEVER,
         BehaviorSubject,
     } = require("rxjs"));
 
     ({
-        map,
-        filter,
         switchMap,
-        takeUntil,
-        first,
     } = require("rxjs/operators"));
 }
 
@@ -386,10 +350,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.handleFlipBtnClick = this.handleFlipBtnClick.bind(this);
         this.handleImageBackgroundColorBtnClick = this.handleImageBackgroundColorBtnClick.bind(this);
         this.handleOkBtnClick = this.handleOkBtnClick.bind(this);
-        this.forwardSelectedObject = this.forwardSelectedObject.bind(this);
-        this.backwardSelectedObject = this.backwardSelectedObject.bind(this);
         this.cancelSaving = this.cancelSaving.bind(this);
-        this.toggleVideo = this.toggleVideo.bind(this);
         this.updateImages = this.updateImages.bind(this);
         this.forceEditorUpdate = this.forceEditorUpdate.bind(this);
         this.removeImage2 = this.removeImage2.bind(this);
@@ -468,7 +429,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleOkBtnClick = (e: any) => {
-        this.disableCropMode();
+        disableCropMode.bind(this)();
     }
 
     rerenderAllPages() {
@@ -483,34 +444,7 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.imageSelected = window.tempImage;
         editorStore.images2.set(window.tempImage._id, window.tempImage);
 
-        this.disableCropMode();
-    }
-
-    handleOpacityChange = opacity => {
-        let image = this.getImageSelected();
-        if (image.type == TemplateType.Video) {
-            let el = document.getElementById(editorStore.idObjectSelected + "video0alo");
-            if (el) {
-                el.style.opacity = (opacity / 100).toString();
-            }
-        } else {
-
-            let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-            if (el) {
-                el.style.opacity = (opacity / 100).toString();
-            }
-        }
-
-        window.opacity = opacity;
-    };
-
-    handleOpacityChangeEnd = () => {
-        let opacity = window.opacity;
-        let image = this.getImageSelected();
-        image.opacity = opacity;
-        editorStore.images2.set(editorStore.idObjectSelected, image);
-
-        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+        disableCropMode.bind(this)();
     }
 
     pauser = null;
@@ -1270,7 +1204,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleImageSelected = (id, pageId, updateCanvas, forceUpdate, updateImage) => {
         if (editorStore.cropMode) {
-            this.disableCropMode();
+            disableCropMode.bind(this)();
         }
         let oldImage = editorStore.getImageSelected();
         let tab = editorStore.selectedTab;
@@ -1338,35 +1272,6 @@ class CanvaEditor extends Component<IProps, IState> {
         });
     };
 
-    toggleVideo() {
-        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.toggleVideo();
-        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.toggleVideo();
-
-        let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
-        let el2 = document.getElementById(editorStore.idObjectSelected + "video2" + "alo") as HTMLVideoElement;
-        let image = this.getImageSelected();
-        if (image.paused) {
-            if (el) el.play();
-            if (el2) el2.play();
-            image.paused = false;
-        } else {
-            if (el) el.pause();
-            if (el2) el2.pause();
-            image.paused = true;
-        }
-
-        editorStore.images2.set(image._id, image);
-    }
-
-    handleRemoveBackground = (mediaId, e) => {
-        this.setState({
-            showImageRemovalBackgroundPopup: true,
-            imageIdBackgroundRemoved: mediaId,
-            showMediaEditPopup: false,
-            showPopup: false
-        });
-    };
-
     imgDragging = null;
 
     onClickDropDownFontList = e => {
@@ -1379,50 +1284,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({ selectedTab: SidebarTab.Effect, toolbarOpened: true });
     }
 
-    getPlatformName = () => {
-        let OSName = "Unknown";
-        if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
-            OSName = "Windows";
-        if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
-            OSName = "Windows";
-        if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
-            OSName = "Windows";
-        if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
-            OSName = "Windows";
-        if (window.navigator.userAgent.indexOf("Windows NT 5.1") != -1)
-            OSName = "Windows";
-        if (window.navigator.userAgent.indexOf("Windows NT 5.0") != -1)
-            OSName = "Windows";
-        if (window.navigator.userAgent.indexOf("Mac") != -1) OSName = "Mac/iOS";
-        if (window.navigator.userAgent.indexOf("X11") != -1) OSName = "UNIX";
-        if (window.navigator.userAgent.indexOf("Linux") != -1) OSName = "Linux";
-
-        return OSName;
-    };
-
     allowScroll = true;
-
-    handleToolbarResize = e => {
-        e.preventDefault();
-        let self = this;
-        let minimumToolbarSize = 332;
-        const onMove = e => {
-            e.preventDefault();
-            let toolbarSize = e.pageX;
-            if (e.pageX >= minimumToolbarSize) {
-                self.setState({ toolbarSize });
-            }
-        };
-
-        const onUp = e => {
-            e.preventDefault();
-            document.removeEventListener("mousemove", onMove);
-            document.removeEventListener("mouseup", onUp);
-        };
-
-        document.addEventListener("mousemove", onMove);
-        document.addEventListener("mouseup", onUp);
-    };
 
     handleSidebarSelectorClicked = (selectedTab: SidebarTab, e: any) => {
         e.preventDefault();
@@ -1486,95 +1348,6 @@ class CanvaEditor extends Component<IProps, IState> {
         return result;
     }
 
-    handleGridSelected = childId => {
-        let image = this.getImageSelected();
-        if (image.grids[childId].src) editorStore.croppable = true;
-        else editorStore.croppable = false;
-        editorStore.gridIndex = childId;
-        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleGridSelected(childId);
-        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleGridSelected(childId);
-    }
-
-    handleChildIdSelected = childId => {
-        editorStore.childId = childId;
-        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
-        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
-
-        let align, effectId, bold, italic, fontId, fontColor, fontText;
-        let currentOpacity, currentLineHeight, currentLetterSpacing;
-        let fontSize;
-        let image = editorStore.getImageSelected();
-        image.selected = true;
-        if (image.document_object) {
-            image.document_object.forEach(doc => {
-                if (doc._id == childId) {
-                    doc.selected = true;
-                    align = doc.align;
-                    effectId = doc.effectId;
-                    bold = doc.bold;
-                    italic = doc.italic;
-                    fontId = doc.fontId;
-                    fontText = doc.fontText;
-                    fontColor = doc.color;
-                    currentLineHeight = doc.lineHeight;
-                    currentOpacity = doc.opacity;
-                    currentLetterSpacing = doc.letterSpacing;
-                    fontSize = doc.fontSize * doc.scaleY * image.scaleY;
-                }
-                return doc;
-            });
-        }
-
-        let fontsList = toJS(editorStore.fontsList);
-        let font = fontsList.find(font => font.id === fontId);
-        let text = image.document_object.find(text => text._id == childId);
-
-        editorStore.fontId = fontId;
-        editorStore.fontFace = fontId;
-        editorStore.fontText = fontText;
-        editorStore.currentFontSize = fontSize;
-        editorStore.currentLetterSpacing = currentLetterSpacing;
-        editorStore.childId = childId;
-        editorStore.currentLineHeight = currentLineHeight;
-        editorStore.effectId = effectId;
-        editorStore.images2.set(editorStore.idObjectSelected, image);
-
-        this.setState({
-            fontColor,
-            childId,
-            align,
-            effectId,
-            bold,
-            italic,
-            fontId,
-            currentOpacity,
-            currentLineHeight,
-            currentLetterSpacing,
-            fontName: font ? font.representative : null,
-            fontSize: Math.round(text.fontSize * image.scaleY * text.scaleY),
-        });
-    };
-
-    handleFontSizeChange = fontSize => {
-        this.setState({ fontSize });
-    };
-
-    handleFontColorChange = fontColor => {
-        this.setState({ fontColor });
-    };
-
-    handleFontFamilyChange = fontId => {
-        if (fontId) {
-            let font = toJS(editorStore.fontsList).find(font => font.id === fontId);
-            if (font) {
-                this.setState({
-                    fontName: font.representative,
-                    fontId: fontId,
-                });
-            }
-        }
-    };
-
     enableCropMode = (id, page) => {
         this.setState({ cropMode: true });
         editorStore.cropMode = true;
@@ -1583,240 +1356,8 @@ class CanvaEditor extends Component<IProps, IState> {
         this.canvas1[page].canvas[CanvasType.HoverLayer][id].child.enableCropMode();
     };
 
-    disableCropMode = () => {
-        let scale = editorStore.scale;
-
-        if (editorStore.idObjectSelected) {
-            this.setState({ cropMode: false });
-            editorStore.cropMode = false;
-            this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.disableCropMode();
-            this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.disableCropMode();
-            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
-            editorStore.keys[index] = editorStore.keys[index] + 1;
-
-            this.forceUpdate();
-        }
-
-        let image = this.getImageSelected();
-        if (image.type == TemplateType.BackgroundImage && image.deleteAfterCrop) {
-            let parentImage = editorStore.images2.get(image.parentImageId);
-            parentImage.hovered = false;
-            parentImage.selected = false;
-            parentImage.grids = parentImage.grids.map((g, i) => {
-                if (i == image.gridIndex) {
-                    g.imgWidth = image.imgWidth;
-                    g.imgHeight = image.imgHeight;
-                    g.posX = image.posX;
-                    g.posY = image.posY;
-                }
-                return g;
-            });
-
-            this.updateImages(parentImage._id, parentImage.page, parentImage, true);
-
-            editorStore.images2.delete(editorStore.idObjectSelected);
-            doNoObjectSelected.bind(this)();
-            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
-            editorStore.keys[index] = editorStore.keys[index] + 1;
-
-            this.forceUpdate();
-        }
-
-        if ((image.type == TemplateType.Image ||
-            image.type == TemplateType.Element ||
-            image.type == TemplateType.Video || 
-            image.type == TemplateType.Gradient ) && image.groupedIds) {
-            let top = 999999, right = 0, bottom = 0, left = 999999;
-            let childIds = [];
-            image.groupedIds.forEach(id => {
-                let img = editorStore.images2.get(id);
-                childIds.push(id);
-                let b = transformImage(img);
-
-                let w = b.x[2] * scale - b.x[0] * scale - 4;
-                let h = b.y[2] * scale - b.y[0] * scale - 4;
-                let centerX = b.x[0] * scale + w / 2 + 2;
-                let centerY = b.y[0] * scale + h / 2 + 2;
-                let rotateAngle = img.rotateAngle / 180 * Math.PI;
-                let newL = centerX - img.width * scale / 2;
-                let newR = centerX + img.width * scale / 2;
-                let newT = centerY - img.height * scale / 2;
-                let newB = centerY + img.height * scale / 2;
-
-
-                let bb = [
-                    {
-                        x: (newL - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
-                        y: (newL - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
-                    },
-                    {
-                        x: (newR - centerX) * Math.cos(rotateAngle) - (newT - centerY) * Math.sin(rotateAngle) + centerX,
-                        y: (newR - centerX) * Math.sin(rotateAngle) + (newT - centerY) * Math.cos(rotateAngle) + centerY,
-                    },
-                    {
-                        x: (newR - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
-                        y: (newR - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
-                    },
-                    {
-                        x: (newL - centerX) * Math.cos(rotateAngle) - (newB - centerY) * Math.sin(rotateAngle) + centerX,
-                        y: (newL - centerX) * Math.sin(rotateAngle) + (newB - centerY) * Math.cos(rotateAngle) + centerY,
-                    }
-                ]
-
-                left = Math.min(left, bb[0].x);
-                left = Math.min(left, bb[1].x);
-                left = Math.min(left, bb[2].x);
-                left = Math.min(left, bb[3].x);
-                right = Math.max(right, bb[0].x)
-                right = Math.max(right, bb[1].x)
-                right = Math.max(right, bb[2].x)
-                right = Math.max(right, bb[3].x)
-                top = Math.min(top, bb[0].y)
-                top = Math.min(top, bb[1].y)
-                top = Math.min(top, bb[2].y)
-                top = Math.min(top, bb[3].y)
-                bottom = Math.max(bottom, bb[0].y)
-                bottom = Math.max(bottom, bb[1].y)
-                bottom = Math.max(bottom, bb[2].y)
-                bottom = Math.max(bottom, bb[3].y)
-            });
-
-            let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-
-            let newTop = top;
-            let newLeft = left;
-            let width = right - left;
-            let height = bottom - top;
-
-            let item = {
-                _id: uuidv4(),
-                childIds,
-                type: TemplateType.GroupedItem,
-                src: "",
-                width: width / scale,
-                height: height / scale,
-                origin_width: width / scale,
-                origin_height: height / scale,
-                left: newLeft / scale,
-                top: newTop / scale,
-                rotateAngle: 0.0,
-                scaleX: 1,
-                scaleY: 1,
-                posX: 0,
-                posY: 0,
-                imgWidth: width / scale,
-                imgHeight: height / scale,
-                page: editorStore.activePageId,
-                zIndex: 99999,
-                width2: 1,
-                height2: 1,
-                document_object: [],
-                ref: null,
-                innerHTML: null,
-                color: 'transparent',
-                opacity: 100,
-                backgroundColor: 'transparent',
-                childId: null,
-                selected: true,
-                hovered: true,
-                temporary: true,
-            };
-            let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-            editorStore.keys[index2] = editorStore.keys[index2] + 1;
-            editorStore.addItem2(item, false);
-            this.handleImageSelected(item._id, item.page, false, true, false);
-
-            if (groupGroupedItem) groupGroupedItem.bind(this)();
-        }
-    }
-
     toggleImageResizing = e => {
         // this.setState({ resizingInnerImage: !this.state.resizingInnerImage });
-    };
-
-    addAPage = (e, id) => {
-        e.preventDefault();
-        let pages = toJS(editorStore.pages);
-        let keys = toJS(editorStore.keys);
-        const index = pages.findIndex(img => img === id) + 1;
-        let newPageId = uuidv4();
-        pages.splice(index, 0, newPageId);
-        keys.splice(index, 0, 0);
-
-        const { rectWidth, rectHeight } = this.state;
-
-        let item = {
-            _id: uuidv4(),
-            type: TemplateType.BackgroundImage,
-            width: rectWidth,
-            height: rectHeight,
-            origin_width: rectWidth,
-            origin_height: rectWidth,
-            left: 0,
-            top: 0,
-            rotateAngle: 0.0,
-            selected: false,
-            scaleX: 1,
-            scaleY: 1,
-            posX: 0,
-            posY: 0,
-            imgWidth: rectWidth,
-            imgHeight: rectWidth,
-            page: newPageId,
-            zIndex: 1,
-            width2: 1,
-            height2: 1,
-            document_object: [],
-            ref: null,
-            innerHTML: null,
-            color: null,
-            opacity: 100,
-            backgroundColor: null,
-            childId: null
-        };
-
-        this.setSavingState(SavingState.UnsavedChanges, false);
-        editorStore.addItem2(item, false);
-
-        this.handleImageSelected(item._id, newPageId, false, true, false);
-
-        editorStore.pages.replace(pages);
-        editorStore.keys.replace(keys);
-        setTimeout(() => {
-            document.getElementById(newPageId).scrollIntoView();
-        }, 100);
-
-        this.forceUpdate();
-    };
-
-    forwardSelectedObject = id => {
-        let image = this.getImageSelected();
-        image.zIndex = editorStore.upperZIndex + 1;
-        editorStore.images2.set(editorStore.idObjectSelected, image);
-        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-        editorStore.increaseUpperzIndex();
-    };
-
-    backwardSelectedObject = id => {
-        let image = this.getImageSelected();
-        image.zIndex = 2;
-        editorStore.images2.forEach((val, key) => {
-            if (val.page == image.page) {
-                if (key == editorStore.idObjectSelected) {
-                    val.zIndex = 1;
-                } else {
-                    val.zIndex += 1;
-                }
-                val.selected = false;
-                val.hovered = false;
-                editorStore.images2.set(key, val);
-                this.updateImages(key, editorStore.pageId, val, true);
-            }
-        });
-        editorStore.upperZIndex += 1;
-        editorStore.images2.set(editorStore.idObjectSelected, image);
-        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-
     };
 
     renderCanvas(preview, index, downloading) {
@@ -1840,11 +1381,11 @@ class CanvaEditor extends Component<IProps, IState> {
                             this.canvas2[pageId] = ref;
                         }
                     }}
-                    handleGridSelected={this.handleGridSelected}
+                    handleGridSelected={handleGridSelected && handleGridSelected.bind(this)}
                     handleCropBtnClick={handleCropBtnClick && handleCropBtnClick.bind(this)}
                     handleGridCrop={handleGridCrop && handleGridCrop.bind(this)}
                     handleChildCrop={handleChildCrop && handleChildCrop.bind(this)}
-                    toggleVideo={this.toggleVideo}
+                    toggleVideo={toggleVideo && toggleVideo.bind(this)}
                     uiKey={pages[i] + keys[i]}
                     selected={
                         editorStore.imageSelected &&
@@ -1859,7 +1400,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     key={i}
                     staticGuides={this.state.staticGuides}
                     index={i}
-                    addAPage={this.addAPage}
+                    addAPage={addAPage && addAPage.bind(this)}
                     images={images}
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
@@ -1878,8 +1419,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleFontSizeChange={this.handleFontSizeChange}
                     handleFontColorChange={this.handleFontColorChange}
                     handleFontFamilyChange={this.handleFontFamilyChange}
-                    handleChildIdSelected={this.handleChildIdSelected}
-                    disableCropMode={this.disableCropMode}
+                    handleChildIdSelected={handleChildIdSelected && handleChildIdSelected.bind(this)}
+                    disableCropMode={disableCropMode && disableCropMode.bind(this)}
                     handleResizeInnerImageStart={handleResizeInnerImageStart && handleResizeInnerImageStart.bind(this)}
                     doNoObjectSelected={doNoObjectSelected && doNoObjectSelected.bind(this)}
                     handleDeleteThisPage={this.handleDeleteThisPage.bind(this, pages[i])}
@@ -1902,7 +1443,7 @@ class CanvaEditor extends Component<IProps, IState> {
             res.push(
                 <PreviewCanvas
                     handleCropBtnClick={handleCropBtnClick && handleCropBtnClick.bind(this)}
-                    toggleVideo={this.toggleVideo}
+                    toggleVideo={null}
                     uiKey={pages[i] + keys[i]}
                     selected={
                         editorStore.imageSelected &&
@@ -1917,7 +1458,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     key={i}
                     staticGuides={this.state.staticGuides}
                     index={i}
-                    addAPage={this.addAPage}
+                    addAPage={null}
                     images={Array.from(editorStore.images2.values()).filter((img: any) => img.page === pages[i]).map(img => toJS(img))}
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
@@ -1929,16 +1470,16 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleImageHovered={this.handleImageHovered}
                     handleImageUnhovered={this.handleImageUnhovered}
                     handleImageHover={this.handleImageHover}
-                    handleRotateStart={this.handleRotateStart}
+                    handleRotateStart={null}
                     handleResizeStart={null}
-                    handleDragStart={this.handleDragStart}
+                    handleDragStart={null}
                     onTextChange={onTextChange && onTextChange.bind(this)}
                     handleFontSizeChange={this.handleFontSizeChange}
                     handleFontColorChange={this.handleFontColorChange}
                     handleFontFamilyChange={this.handleFontFamilyChange}
-                    handleChildIdSelected={this.handleChildIdSelected}
-                    disableCropMode={this.disableCropMode}
-                    handleResizeInnerImageStart={this.handleResizeInnerImageStart}
+                    handleChildIdSelected={null}
+                    disableCropMode={null}
+                    handleResizeInnerImageStart={null}
                     doNoObjectSelected={doNoObjectSelected && doNoObjectSelected.bind(this)}
                     handleDeleteThisPage={this.handleDeleteThisPage.bind(this, pages[i])}
                     showPopup={this.state.showPopup}
@@ -1960,20 +1501,6 @@ class CanvaEditor extends Component<IProps, IState> {
         let pages = toJS(editorStore.pages);
         let tempPages = pages.filter(pId => pId !== pageId);
         editorStore.pages.replace(tempPages);
-    };
-
-    handleRemoveAllMedia = () => {
-        let model;
-        if (
-            this.state.selectedTab === SidebarTab.Image ||
-            this.state.selectedTab === SidebarTab.Background
-        ) {
-            model = "Media";
-        } else if (this.state.selectedTab === SidebarTab.Template) {
-            model = "Template";
-        }
-        const url = `/api/${model}/RemoveAll`;
-        fetch(url);
     };
 
     refFullName = null;
@@ -2047,7 +1574,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                     translate={this.translate.bind(this)}
                                     mounted={this.state.mounted}
                                     selectFont={selectFont && selectFont.bind(this)}
-                                    handleFontColorChange={this.handleFontColorChange.bind(this)}
                                     typeObjectSelected={this.state.typeObjectSelected}
                                     idObjectSelected={editorStore.idObjectSelected}
                                     childId={editorStore.childId}
@@ -2073,9 +1599,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                 width: `calc(100% - ${(this.state.toolbarOpened
                                     ? this.state.toolbarSize
                                     : 80) + (this.state.showPrintingSidebar ? 330 : 0)}px)`,
-                                // left: `${
-                                //   this.state.toolbarOpened ? this.state.toolbarSize - 2 : 80
-                                // }px`,
                                 backgroundColor: "#ECF0F2",
                                 position: "relative",
                                 height: "100%"
@@ -2133,14 +1656,14 @@ class CanvaEditor extends Component<IProps, IState> {
                                         handleOkBtnClick={this.handleOkBtnClick}
                                         handleCancelBtnClick={this.handleCancelBtnClick}
                                         idObjectSelected={editorStore.idObjectSelected}
-                                        forwardSelectedObject={this.forwardSelectedObject}
-                                        backwardSelectedObject={this.backwardSelectedObject}
+                                        forwardSelectedObject={forwardSelectedObject && forwardSelectedObject.bind(this)}
+                                        backwardSelectedObject={backwardSelectedObject && backwardSelectedObject.bind(this)}
                                         handleTransparentAdjust={handleTransparentAdjust && handleTransparentAdjust.bind(this)}
                                         currentOpacity={this.state.currentOpacity}
                                         currentLineHeight={this.state.currentLineHeight}
                                         currentLetterSpacing={this.state.currentLetterSpacing}
-                                        handleOpacityChange={this.handleOpacityChange}
-                                        handleOpacityChangeEnd={this.handleOpacityChangeEnd}
+                                        handleOpacityChange={handleOpacityChange && handleOpacityChange.bind(this)}
+                                        handleOpacityChangeEnd={handleOpacityChangeEnd && handleOpacityChangeEnd.bind(this)}
                                         groupGroupedItem={groupGroupedItem && groupGroupedItem.bind(this)}
                                         ungroupGroupedItem={groupGroupedItem && ungroupGroupedItem.bind(this)}
                                         removeImage={this.removeImage2}
