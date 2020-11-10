@@ -2311,6 +2311,27 @@ export function copyImage() {
     this.forceUpdate();
 }
 
+function getPlatformName() {
+    let OSName = "Unknown";
+    if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
+        OSName = "Windows";
+    if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
+        OSName = "Windows";
+    if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
+        OSName = "Windows";
+    if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
+        OSName = "Windows";
+    if (window.navigator.userAgent.indexOf("Windows NT 5.1") != -1)
+        OSName = "Windows";
+    if (window.navigator.userAgent.indexOf("Windows NT 5.0") != -1)
+        OSName = "Windows";
+    if (window.navigator.userAgent.indexOf("Mac") != -1) OSName = "Mac/iOS";
+    if (window.navigator.userAgent.indexOf("X11") != -1) OSName = "UNIX";
+    if (window.navigator.userAgent.indexOf("Linux") != -1) OSName = "Linux";
+
+    return OSName;
+};
+
 export function removeImage(e) {
 
     if (e.keyCode == 67 && (e.ctrlKey || e.metaKey)) {
@@ -2318,7 +2339,7 @@ export function removeImage(e) {
     }
 
     let image = getImageSelected();
-    let OSNAME = this.getPlatformName();
+    let OSNAME = getPlatformName();
     if (
         !window.inputFocus &&
         editorStore.idObjectSelected &&
