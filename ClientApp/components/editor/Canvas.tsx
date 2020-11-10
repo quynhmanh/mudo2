@@ -461,6 +461,7 @@ export default class Canvas extends Component<IProps, IState> {
                                 {images
                                     .map(img => (
                                         <ResizableRect
+                                            handleChildIdSelected={this.props.handleChildIdSelected}
                                             handleGridSelected={this.props.handleGridSelected}
                                             handleGridCrop={this.props.handleGridCrop}
                                             handleChildCrop={this.props.handleChildCrop}
@@ -522,6 +523,7 @@ export default class Canvas extends Component<IProps, IState> {
                                     {images
                                         .map(imgHovered =>
                                             <ResizableRect
+                                                handleChildIdSelected={this.props.handleChildIdSelected}
                                                 handleGridSelected={this.props.handleGridSelected}
                                                 handleGridCrop={this.props.handleGridCrop}
                                                 handleChildCrop={this.props.handleChildCrop}
