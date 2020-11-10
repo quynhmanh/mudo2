@@ -2175,6 +2175,44 @@ export function selectFont(id, e) {
     editorStore.addFont(id);
 };
 
+export function  isWindow(obj){
+    return obj != null && obj === obj.window;
+};
+
+export function getWindow(elem) {
+    return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
+};
+
+export function offset(elem) {
+    let docElem,
+            win,
+            box = { top: 0, left: 0 },
+            doc = elem && elem.ownerDocument;
+
+        docElem = doc.documentElement;
+
+        if (typeof elem.getBoundingClientRect !== typeof undefined) {
+            box = elem.getBoundingClientRect();
+        }
+        win = getWindow(doc);
+        return {
+            top: box.top + win.pageYOffset - docElem.clientTop,
+            left: box.left + win.pageXOffset - docElem.clientLeft
+        };
+}
+
+export function elementIsVisible(element, container, partial) {
+    let contHeight = container.offsetHeight,
+        elemTop = offset(element).top - offset(container).top,
+        elemBottom = elemTop + element.offsetHeight;
+    return (
+        (elemTop >= 0 && elemBottom <= contHeight) ||
+        (partial &&
+            ((elemTop < 0 && elemBottom > 0) ||
+                (elemTop > 0 && elemTop <= contHeight)))
+    );
+};
+
 
 export function handleScroll() {
     const screensRect = getBoundingClientRect("screens");
@@ -2188,7 +2226,7 @@ export function handleScroll() {
                 let pageId = pages[i];
                 let canvas = document.getElementById(pageId);
                 if (canvas) {
-                    if (this.elementIsVisible(canvas, container, false)) {
+                    if (elementIsVisible(canvas, container, false)) {
                         activePageId = pageId;
                     }
                 }
@@ -5404,7 +5442,7 @@ export function addAPage(e, id) {
         childId: null
     };
 
-    this.setSavingState(SavingState.UnsavedChanges, false);
+    setSavingState(SavingState.UnsavedChanges, false);
     editorStore.addItem2(item, false);
 
     this.handleImageSelected(item._id, newPageId, false, true, false);

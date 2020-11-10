@@ -1131,42 +1131,12 @@ class CanvaEditor extends Component<IProps, IState> {
     setAppRef = ref => (this.$app = ref);
     setContainerRef = ref => (this.$container = ref);
 
-    elementIsVisible = (element, container, partial) => {
-        let contHeight = container.offsetHeight,
-            elemTop = this.offset(element).top - this.offset(container).top,
-            elemBottom = elemTop + element.offsetHeight;
-        return (
-            (elemTop >= 0 && elemBottom <= contHeight) ||
-            (partial &&
-                ((elemTop < 0 && elemBottom > 0) ||
-                    (elemTop > 0 && elemTop <= contHeight)))
-        );
-    };
-
     isWindow = obj => {
         return obj != null && obj === obj.window;
     };
 
     getWindow = elem => {
         return this.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-    };
-
-    offset = elem => {
-        let docElem,
-            win,
-            box = { top: 0, left: 0 },
-            doc = elem && elem.ownerDocument;
-
-        docElem = doc.documentElement;
-
-        if (typeof elem.getBoundingClientRect !== typeof undefined) {
-            box = elem.getBoundingClientRect();
-        }
-        win = this.getWindow(doc);
-        return {
-            top: box.top + win.pageYOffset - docElem.clientTop,
-            left: box.left + win.pageXOffset - docElem.clientLeft
-        };
     };
 
     removeImage2() {
