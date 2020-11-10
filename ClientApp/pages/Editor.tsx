@@ -24,7 +24,7 @@ const Narbar = loadable(() => import("@Components/editor/Navbar"));
 const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
 
 import {
-    isNode, transformPoint, createStyleJsonFromString, processChildren, handleBlockAnimation,
+    isNode, transformPoint, processChildren, handleBlockAnimation,
 } from "@Utils";
 
 import {

@@ -859,10 +859,10 @@ export default class Rect extends Component<IProps, IState> {
 														className="hideWhenDownload"
 														style={{
 															position: "absolute",
-															top: "-2px",
-															left: "-2px",
-															right: "-2px",
-															bottom: "-2px",
+															top: "-1px",
+															left: "-1px",
+															right: "-1px",
+															bottom: "-1px",
 															backgroundImage:
 																(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 																	: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
@@ -1566,11 +1566,11 @@ export default class Rect extends Component<IProps, IState> {
 												id={child._id + "b2"}
 												className={_id + child._id + "b2 hideWhenDownload2"}
 												style={{
-													left: `calc(${child.left / width * 100 * scaleX}% - 1px)`,
-													top: `calc(${child.top / height * 100 * scaleY}% - 1px)`,
+													left: `calc(${child.left / width * 100 * scaleX}%)`,
+													top: `calc(${child.top / height * 100 * scaleY}%)`,
 													position: "absolute",
-													width: `calc(${child.width2 * 100}% + 2px)`,
-													height: `calc(${child.height2 * 100}% + 2px)`,
+													width: `calc(${child.width2 * 100}%)`,
+													height: `calc(${child.height2 * 100}%)`,
 													backgroundImage: selected && child._id == editorStore.childId && 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
 													backgroundPosition: 'top,100%,bottom,0',
 													backgroundRepeat: 'repeat-x,repeat-y,repeat-x,repeat-y',
@@ -1895,10 +1895,10 @@ export default class Rect extends Component<IProps, IState> {
 										className="hideWhenDownload"
 										style={{
 											position: "absolute",
-											top: "-2px",
-											left: "-2px",
-											right: "-2px",
-											bottom: "-2px",
+											top: "-1px",
+											left: "-1px",
+											right: "-1px",
+											bottom: "-1px",
 											backgroundImage:
 												(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 													: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
@@ -2077,10 +2077,10 @@ export default class Rect extends Component<IProps, IState> {
 								ref={i => this.hideWhenDownload = i}
 								style={{
 									position: "absolute",
-									top: "-2px",
-									left: "-2px",
-									right: "-2px",
-									bottom: "-2px",
+									top: "-1px",
+									left: "-1px",
+									right: "-1px",
+									bottom: "-1px",
 									backgroundImage:
 										(type == TemplateType.TextTemplate || type == TemplateType.GroupedItem || type == TemplateType.Grids) ? `linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0),linear-gradient(90deg,#00d9e1 60%,transparent 0),linear-gradient(180deg,#00d9e1 60%,transparent 0)`
 											: 'linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1),linear-gradient(90deg,#00d9e1 0,#00d9e1),linear-gradient(180deg,#00d9e1 0,#00d9e1)',
