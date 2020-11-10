@@ -1629,7 +1629,7 @@ export function groupGroupedItem() {
     editorStore.addItem2(newImage, false);
     editorStore.increaseUpperzIndex();
 
-    this.handleImageSelected(newImage._id, newImage.page, false, true, false);
+    handleImageSelected(newImage._id, newImage.page, false, true, false);
 
 
     editorStore.images2.delete(image._id);
@@ -1727,7 +1727,7 @@ export function handleCropBtnClick(id: string) {
             // ctx2.drawImage(el, 0, 0, w, h);
         }
 
-        if (!image.paused) this.canvas1[image.page].canvas[CanvasType.HoverLayer][image._id].child.toggleVideo();
+        if (!image.paused) window.editor.canvas1[image.page].canvas[CanvasType.HoverLayer][image._id].child.toggleVideo();
 
         image.paused = true;
         editorStore.images2.set(image._id, image);
@@ -1803,9 +1803,73 @@ export function handleGridCrop(index) {
     editorStore.addItem2(newImg, false);
     editorStore.increaseUpperzIndex();
 
-    this.handleImageSelected(newImg._id, newImg.page, false, true, false);
+    handleImageSelected(newImg._id, newImg.page, false, true, false);
     editorStore.cropMode = true;
 }
+
+
+export function handleImageSelected(id, pageId, updateCanvas, forceUpdate, updateImage) {
+    if (editorStore.cropMode) {
+        disableCropMode.bind(this)();
+    }
+    let oldImage = editorStore.getImageSelected();
+    let tab = editorStore.selectedTab;
+
+    if (editorStore.idObjectSelected) {
+        try {
+            window.editor.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
+            window.editor.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
+        } catch (e) {
+
+        }
+        doNoObjectSelected.bind(this)();
+    }
+
+    let image = editorStore.images2.get(id);
+    image.selected = true;
+    image.hovered = true;
+    editorStore.images2.set(id, image);
+    editorStore.idObjectSelected = id;
+    editorStore.pageId = pageId;
+    editorStore.effectId = image.effectId;
+    editorStore.currentOpacity = image.opacity ? image.opacity : 100;
+    editorStore.colors = image.colors;
+    editorStore.colorField = null;
+    if (!editorStore.childId) {
+        editorStore.currentFontSize = image.fontSize * image.scaleY;
+        editorStore.fontId = image.fontId;
+        editorStore.fontFace = image.fontId;
+        editorStore.fontText = image.fontText;
+        editorStore.currentLetterSpacing = image.letterSpacing;
+        editorStore.currentLineHeight = image.lineHeight;
+    }
+
+    if (oldImage && oldImage.type != image.type) {
+        if (image.type == TemplateType.Heading && (tab == SidebarTab.Color || tab == SidebarTab.Effect)) {
+            tab = SidebarTab.Image;
+        }
+    }
+
+    editorStore.selectedTab = tab;
+
+    if (updateCanvas) {
+        try {
+            window.editor.canvas1[pageId].canvas[updateCanvas][id].child.handleImageSelected();
+        } catch (e) {
+            console.log('Failed to update canvas. Exception: ', e);
+        }
+    }
+
+    if (updateImage) {
+        updateImages(id, pageId, image, false);
+    }
+
+    if (forceUpdate) {
+        let index = editorStore.pages.findIndex(id => id == pageId);
+        editorStore.keys[index] = editorStore.keys[index] + 1;
+        window.editor.forceUpdate();
+    }
+};
 
 export function handleTransparentAdjust(e: any) {
     window.pauser.next(true);
@@ -1825,7 +1889,7 @@ export function handleTransparentAdjust(e: any) {
         scale = Math.max(1, scale);
         scale = Math.min(100, scale);
 
-        this.setState({ currentOpacity: scale });
+        window.editor.setState({ currentOpacity: scale });
 
         this.handleOpacityChange.bind(this)(scale);
     };
@@ -1956,8 +2020,8 @@ export function handleChildCrop(id) {
 
     let newImage = editorStore.images2.get(newId);
     newImage.groupedIds = groupedIds;
-    this.handleImageSelected(newImage._id, newImage.page, false, true, false);
-    this.setState({ cropMode: true });
+    handleImageSelected(newImage._id, newImage.page, false, true, false);
+    window.editor.setState({ cropMode: true });
     editorStore.cropMode = true;
 
     let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
@@ -2011,7 +2075,7 @@ export function onTextChange(thisImage, e, childId) {
             image.innerHTML = target.innerHTML;
             editorStore.images2.set(editorStore.idObjectSelected, image);
             updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-            this.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.updateInnerHTML(image.innerHTML);
+            window.editor.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.updateInnerHTML(image.innerHTML);
         } else {
             let image = editorStore.getImageSelected();
             let centerX = image.left + image.width / 2;
@@ -2077,7 +2141,7 @@ export function onTextChange(thisImage, e, childId) {
 
             editorStore.images2.set(editorStore.idObjectSelected, image);
             updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-            this.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.childrens[childId].updateInnerHTML(target.innerHTML);
+            window.editor.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.childrens[childId].updateInnerHTML(target.innerHTML);
         }
     }, 0);
 }
@@ -2117,7 +2181,7 @@ export function handleAlignBtnClick(e: any, type: string) {
     editorStore.images2.set(editorStore.idObjectSelected, image);
 
     updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-    this.setState({ align: type });
+    window.editor.setState({ align: type });
 }
 
 export function selectFont(id, e) {
@@ -2152,7 +2216,7 @@ export function selectFont(id, e) {
     editorStore.images2.set(editorStore.idObjectSelected, image);
     updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
 
-    this.setState({
+    window.editor.setState({
         fontName: font.representative,
         fontId: font.id,
     });
@@ -2252,7 +2316,7 @@ export function handleWheel(e) {
         const nextScale = parseFloat(
             Math.max(0.1, this.state.scale - e.deltaY / 500).toFixed(2)
         );
-        this.setState({ scale: nextScale });
+        window.editor.setState({ scale: nextScale });
         editorStore.scale = nextScale;
     }
 };
@@ -2264,8 +2328,8 @@ export function doNoObjectSelected() {
 
     if (editorStore.idObjectSelected) {
         try { 
-            this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
-            this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
+            window.editor.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
+            window.editor.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
         } catch (e) {
             console.log('Failed doNoObjectSelected', e)
         }
@@ -5164,18 +5228,18 @@ function handleImageDrag(_id, clientX, clientY) {
     }
 
     export function handleGridSelected(childId) {
-        let image = this.getImageSelected();
+        let image = getImageSelected();
         if (image.grids[childId].src) editorStore.croppable = true;
         else editorStore.croppable = false;
         editorStore.gridIndex = childId;
-        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleGridSelected(childId);
-        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleGridSelected(childId);
+        window.editor.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleGridSelected(childId);
+        window.editor.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleGridSelected(childId);
     }
 
     export function handleChildIdSelected(childId) {
         editorStore.childId = childId;
-        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
-        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
+        window.editor.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
+        window.editor.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
 
         let align, effectId, bold, italic, fontId, fontColor, fontText;
         let currentOpacity, currentLineHeight, currentLetterSpacing;
@@ -5216,7 +5280,7 @@ function handleImageDrag(_id, clientX, clientY) {
         editorStore.effectId = effectId;
         editorStore.images2.set(editorStore.idObjectSelected, image);
 
-        this.setState({
+        window.editor.setState({
             fontColor,
             childId,
             align,
@@ -5236,17 +5300,17 @@ export function disableCropMode() {
     let scale = editorStore.scale;
 
     if (editorStore.idObjectSelected) {
-        this.setState({ cropMode: false });
+        window.editor.setState({ cropMode: false });
         editorStore.cropMode = false;
-        this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.disableCropMode();
-        this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.disableCropMode();
+        window.editor.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.disableCropMode();
+        window.editor.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.disableCropMode();
         let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
         editorStore.keys[index] = editorStore.keys[index] + 1;
 
         window.editor.forceUpdate();
     }
 
-    let image = this.getImageSelected();
+    let image = getImageSelected();
     if (image.type == TemplateType.BackgroundImage && image.deleteAfterCrop) {
         let parentImage = editorStore.images2.get(image.parentImageId);
         parentImage.hovered = false;
@@ -5373,7 +5437,7 @@ export function disableCropMode() {
         let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
         editorStore.keys[index2] = editorStore.keys[index2] + 1;
         editorStore.addItem2(item, false);
-        this.handleImageSelected(item._id, item.page, false, true, false);
+        handleImageSelected(item._id, item.page, false, true, false);
 
         if (groupGroupedItem) groupGroupedItem.bind(this)();
     }
@@ -5410,8 +5474,8 @@ export function backwardSelectedObject(id) {
 };
 
 export function toggleVideo() {
-    this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.toggleVideo();
-    this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.toggleVideo();
+    window.editor.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.toggleVideo();
+    window.editor.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.toggleVideo();
 
     let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
     let el2 = document.getElementById(editorStore.idObjectSelected + "video2" + "alo") as HTMLVideoElement;
@@ -5473,7 +5537,7 @@ export function addAPage(e, id) {
     setSavingState(SavingState.UnsavedChanges, false);
     editorStore.addItem2(item, false);
 
-    this.handleImageSelected(item._id, newPageId, false, true, false);
+    handleImageSelected(item._id, newPageId, false, true, false);
 
     editorStore.pages.replace(pages);
     editorStore.keys.replace(keys);
