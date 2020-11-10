@@ -113,8 +113,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
                 }
             })
             .on("show", instance => {
-                // this.props.colorPickerShown()
-                // editorStore.toggleColorPickerVisibility();
                 editorStore.setToggleColorPickerVisibility(true);
                 window.pauser.next(true);
             })

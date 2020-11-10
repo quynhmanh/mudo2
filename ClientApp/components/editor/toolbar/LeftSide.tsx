@@ -20,7 +20,6 @@ import styled from 'styled-components';
 interface IProps {
     childId: string;
     translate: any;
-    handleColorBtnClick: any;
     fontColor: string;
     handleItalicBtnClick: any;
     handleBoldBtnClick: any;

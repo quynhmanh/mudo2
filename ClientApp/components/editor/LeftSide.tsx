@@ -50,7 +50,6 @@ export interface IProps {
     scale: number;
     handleEditFont: any;
     handleImageSelected: any;
-    colorPickerShown: any;
     handleApplyEffect: any;
     selectedImage: any;
     backgroundOnMouseDown: any;

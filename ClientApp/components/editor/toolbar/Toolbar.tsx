@@ -12,7 +12,6 @@ interface IProps {
     editorStore: any;
     childId: string;
     fontColor: string;
-    handleColorBtnClick: any;
     handleItalicBtnClick: any;
     handleBoldBtnClick: any;
     onClickDropDownFontList: any;
@@ -86,7 +85,6 @@ class Toolbar extends Component<IProps, IState> {
                     selectedTab={editorStore.selectedTab}
                     childId={props.childId}
                     translate={props.translate}
-                    handleColorBtnClick={props.handleColorBtnClick}
                     fontColor={props.fontColor}
                     handleItalicBtnClick={props.handleItalicBtnClick}
                     handleBoldBtnClick={props.handleBoldBtnClick}

@@ -30,8 +30,6 @@ import {
 import {
     Observable
 } from "rxjs";
-import { uuid } from "htmltoimage/utils";
-import { isInteger } from "formik";
 
 let rotateRect,
     rotatePoint,
@@ -181,6 +179,12 @@ declare global {
         rectWidth: number;
         rectHeight: number;
         grids: any;
+        cancelDownload: any;
+        step: any;
+        videoDuration: any;
+        inputFocus: any;
+        current_progress: any;
+        progress_interval: any;
     }
 }
 
@@ -257,7 +261,6 @@ interface IState {
     mounted: boolean;
     showZoomPopup: boolean;
     selectedImage: any;
-    colorPickerShown: boolean;
     selectedCanvas: string;
     saved: boolean;
     designId: string;
@@ -279,7 +282,6 @@ class CanvaEditor extends Component<IProps, IState> {
             bold: false,
             effectId: 0,
             align: "",
-            colorPickerShown: false,
             selectedImage: null,
             showFontEditPopup: false,
             currentPrintStep: 1,
@@ -340,7 +342,6 @@ class CanvaEditor extends Component<IProps, IState> {
         this.handleResponse = this.handleResponse.bind(this);
         this.handleAddOrder = this.handleAddOrder.bind(this);
         this.externalPaymentCompleted = this.externalPaymentCompleted.bind(this);
-        this.handleColorBtnClick = this.handleColorBtnClick.bind(this);
         this.handleItalicBtnClick = this.handleItalicBtnClick.bind(this);
         this.handleBoldBtnClick = this.handleBoldBtnClick.bind(this);
         this.handleFilterBtnClick = this.handleFilterBtnClick.bind(this);
@@ -396,28 +397,20 @@ class CanvaEditor extends Component<IProps, IState> {
         this.forceUpdate();
     }
 
-    handleColorBtnClick = (e: any) => {
-        e.preventDefault();
-        this.setState({ selectedTab: SidebarTab.Color });
-    }
-
     handleItalicBtnClick = (e: any) => {
         e.preventDefault();
 
-        let italic;
         let image = this.getImageSelected();
         if (editorStore.childId) {
             let texts = image.document_object.map(text => {
                 if (text._id == editorStore.childId) {
                     text.italic = !text.italic;
-                    italic = text.italic;
                 }
                 return text;
             });
             image.document_object = texts;
         } else {
             image.italic = !image.italic;
-            italic = image.italic;
         }
 
         this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
@@ -738,7 +731,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
     handleAlignBtnClick = (e: any, type: string) => {
         e.preventDefault();
-        let a = document.getSelection();
         let command;
         let align;
         switch (type) {
@@ -776,9 +768,6 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     handleOkBtnClick = (e: any) => {
-        // this.rerenderAllPages();
-        // e.preventDefault();
-        // this.setState({ cropMode: false });
         this.disableCropMode();
     }
 
@@ -2784,7 +2773,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 var doc2 = new DOMParser().parseFromString(xmlString, "text/xml");
 
                 for (let j = 0; j < image.colors.length; ++j) {
-					let elColors = doc2.firstChild.getElementsByClassName("color-" + (j + 1));
+					let elColors = (doc2.firstChild as HTMLElement).getElementsByClassName("color-" + (j + 1));
 					for (let i = 0; i < elColors.length; ++i) {
 						let ell = elColors[i] as HTMLElement;
 						let field = ell.getAttribute("field");
@@ -3577,15 +3566,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 this.updateImages(id, image.page, image, true);
             });
         }
-
-        // this.refreshActivePage();
     };
-
-    refreshActivePage() {
-        let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
-        editorStore.keys[index] = editorStore.keys[index] + 1;
-    }
-
+    
     canvasRect = null;
     temp = null;
 
@@ -4175,92 +4157,8 @@ class CanvaEditor extends Component<IProps, IState> {
                         el5.style.display = "none";
                     }
                 }
-
-                // for (let ii = 0; ii < 6; ++ii) {
-                //     let el = document.getElementById(image._id + "guide_" + ii);
-                //     if (el) {
-                //         if (image[ii] == 1) {
-                //             el.style.display = "block";
-                //         } else {
-                //             el.style.display = "none";
-                //         }
-                //     }
-                // }
             }
         });
-
-        // const { staticGuides } = this.state;
-        // let pageId = img.page;
-
-        // let x = staticGuides.x.map(v => {
-        //     let e = v[0];
-        //     if (!updateStartPosX && Math.abs(newLeft - e) < 5) {
-        //         left -= newLeft - e;
-        //         // v[1] = 1;
-        //         let el = document.getElementById(v[1] + pageId);
-        //         if (el) {
-        //             el.style.display = "block";
-        //         }
-        //         updateStartPosX = true;
-        //     } else if (!updateStartPosX && Math.abs(newLeft3 - e) < 5) {
-        //         left -= newLeft3 - e;
-        //         // v[1] = 1;
-        //         let el = document.getElementById(v[1] + pageId);
-        //         if (el) {
-        //             el.style.display = "block";
-        //         }
-        //         updateStartPosX = true;
-        //     } else if (!updateStartPosX && Math.abs(newLeft2 - e) < 5) {
-        //         left -= newLeft2 - e;
-        //         // v[1] = 1;
-        //         let el = document.getElementById(v[1] + pageId);
-        //         if (el) {
-        //             el.style.display = "block";
-        //         }
-        //         updateStartPosX = true;
-        //     } else {
-        //         let el = document.getElementById(v[1] + pageId);
-        //         if (el) {
-        //             el.style.display = "none";
-        //         }
-        //         // v[1] = 0;
-        //     }
-
-        //     return v;
-        // });
-
-        // let y = staticGuides.y.map(v => {
-        //     let e = v[0];
-        //     if (!updateStartPosY && Math.abs(newTop - e) < 5) {
-        //         top -= newTop - e;
-        //         let el = document.getElementById(v[1] + pageId);
-        //         if (el) {
-        //             el.style.display = "block";
-        //         }
-        //         updateStartPosY = true;
-        //     } else if (!updateStartPosY && Math.abs(newTop3 - e) < 5) {
-        //         top -= newTop3 - e;
-        //         let el = document.getElementById(v[1] + pageId);
-        //         if (el) {
-        //             el.style.display = "block";
-        //         }
-        //         updateStartPosY = true;
-        //     } else if (!updateStartPosY && Math.abs(newTop2 - e) < 5) {
-        //         top -= newTop2 - e;
-        //         let el = document.getElementById(v[1] + pageId);
-        //         if (el) {
-        //             el.style.display = "block";
-        //         }
-        //         updateStartPosY = true;
-        //     } else {
-        //         let el = document.getElementById(v[1] + pageId);
-        //         if (el) {
-        //             el.style.display = "none";
-        //         }
-        //     }
-
-        //     return v;
-        // });
 
         let deltaLeft = left - window.startLeft / scale;
         let deltaTop = top - window.startTop / scale;
@@ -4574,8 +4472,6 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.increaseUpperzIndex();
 
         this.handleImageSelected(newImage._id, newImage.page, false, true, false);
-
-
         this.forceUpdate();
     }
 
@@ -4725,80 +4621,6 @@ class CanvaEditor extends Component<IProps, IState> {
         });
     };
 
-    download = async (filename, text) => {
-        if (window.cancelDownload) return;
-        let blobUrl = URL.createObjectURL(text);
-        let element = document.createElement("a");
-
-        element.setAttribute("href", blobUrl);
-        element.setAttribute("download", filename);
-        element.style.display = "none";
-
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
-    };
-
-    downloadVideo = () => {
-        if (editorStore.animationId == 1) handleBlockAnimation(true);
-        if (editorStore.animationId == 2) handleFadeAnimation(true);
-
-        window.cancelDownload = false;
-        window.step = 0.1;
-        this.showPopupDownloading();
-
-        window.downloading = true;
-        this.setState({ showPopup: true, downloading: true }, () => {
-            let aloCloned = document.getElementsByClassName("alo2");
-            let canvas = [];
-            for (let i = 0; i < aloCloned.length; ++i) {
-                canvas.push((aloCloned[i] as HTMLElement).outerHTML);
-            }
-
-            let styles = document.getElementsByTagName("style");
-            let a = Array.from(styles).filter(style => {
-                return style.attributes.getNamedItem("data-styled") !== null;
-            });
-
-            window.downloading = false;
-
-            let duration = 6000;
-            if (editorStore.animationId == 2) {
-                duration = Math.max(duration, window.videoDuration);
-            }
-
-            axios
-                .post(
-                    `/api/Design/DownloadVideo?width=${this.state.rectWidth}&height=${this.state.rectHeight
-                    }&videoId=${uuidv4()}&duration=${duration}`,
-                    {
-                        fonts: toJS(editorStore.fonts),
-                        canvas,
-                    },
-                    {
-                        headers: {
-                            "Content-Type": "text/html"
-                        },
-                        responseType: "blob"
-                    }
-                )
-                .then(response => {
-                    this.setState({
-                        showPopup: false,
-                        downloading: false
-                    });
-                    let title = (document.getElementById("designTitle") as HTMLInputElement).value;
-                        title = title ? title : "Untitled design";
-
-                    this.download(title + `.mp4`, response.data);
-                    this.hidePopupDownloading();
-                })
-                .catch(error => {
-                    this.hidePopupDownloading();
-                });
-        });
-    };
-
     toggleVideo() {
         this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.toggleVideo();
         this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.toggleVideo();
@@ -4819,84 +4641,6 @@ class CanvaEditor extends Component<IProps, IState> {
         editorStore.images2.set(image._id, image);
     }
 
-    downloadPDF(bleed) {
-        window.cancelDownload = false;
-        window.step = 0.2;
-        this.showPopupDownloading();
-        window.downloading = true;
-
-        this.setState(
-            {
-                // scale: 1,
-                showPopup: true,
-                bleed,
-                downloading: true
-            },
-            () => {
-                let aloCloned = document.getElementsByClassName("alo2");
-                let canvas = [];
-                for (let i = 0; i < aloCloned.length; ++i) {
-                    canvas.push((aloCloned[i] as HTMLElement).outerHTML);
-                }
-
-                let styles = document.getElementsByTagName("style");
-                let a = Array.from(styles).filter(style => {
-                    return style.attributes.getNamedItem("data-styled") !== null;
-                });
-
-                axios
-                    .post(
-                        `/api/Design/Download?width=${this.state.rectWidth +
-                        (bleed ? 20 : 0)}&height=${this.state.rectHeight +
-                        (bleed ? 20 : 0)}`,
-                        { fonts: toJS(editorStore.fonts), canvas },
-                        {
-                            headers: {
-                                "Content-Type": "text/html"
-                            },
-                            responseType: "blob"
-                        }
-                    )
-                    .then(response => {
-                        this.setState({
-                            showPopup: false,
-                            bleed: false,
-                            downloading: false
-                        });
-
-                        let title = (document.getElementById("designTitle") as HTMLInputElement).value;
-                        title = title ? title : "Untitled design";
-
-                        this.download(title + ".pdf", response.data);
-                        this.hidePopupDownloading();
-                    })
-                    .catch(error => {
-                        this.hidePopupDownloading();
-                    });
-            }
-        );
-    }
-
-    b64toBlob = (b64Data, contentType = "", sliceSize = 512) => {
-        const byteCharacters = atob(b64Data);
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-        }
-
-        const blob = new Blob(byteArrays, { type: contentType });
-        return blob;
-    };
-
     handleRemoveBackground = (mediaId, e) => {
         this.setState({
             showImageRemovalBackgroundPopup: true,
@@ -4905,82 +4649,6 @@ class CanvaEditor extends Component<IProps, IState> {
             showPopup: false
         });
     };
-
-    showPopupDownloading = () => {
-        document.getElementById("downloadPopup").style.display = "block";
-
-        let editorEl = document.getElementById("editor");
-        editorEl.classList.add("popup");
-        editorEl.style.filter = "blur(4px)";
-
-        window.current_progress = 0;
-        let btn = document.getElementById("progress-bar-start-btn-download");
-        if (btn) btn.click();
-    }
-
-    hidePopupDownloading = () => {
-        document.getElementById("downloadPopup").style.display = "none";
-
-        let editorEl = document.getElementById("editor");
-        editorEl.classList.remove("popup");
-        editorEl.style.filter = "";
-
-        window.current_progress = 0;
-
-        clearInterval(window.progress_interval);
-        document.getElementById("progress-bar-download").style.width = "0%";
-    }
-
-    downloadPNG(transparent, png) {
-        window.cancelDownload = false;
-        window.step = 0.2;
-        this.showPopupDownloading();
-
-        let self = this;
-        window.downloading = true;
-        this.setState({ showPopup: true, downloading: true }, () => {
-            let aloCloned = document.getElementsByClassName("alo2");
-            let canvas = [];
-            for (let i = 0; i < aloCloned.length; ++i) {
-                canvas.push((aloCloned[i] as HTMLElement).outerHTML);
-            }
-
-            let styles = document.getElementsByTagName("style");
-            let a = Array.from(styles).filter(style => {
-                return style.attributes.getNamedItem("data-styled") !== null;
-            });
-
-            window.downloading = false;
-
-            axios
-                .post(
-                    `/api/Design/DownloadPNG?width=${this.state.rectWidth}&height=${this.state.rectHeight}&transparent=${transparent}&download=true&png=${png}`,
-                    {
-                        fonts: toJS(editorStore.fonts),
-                        canvas,
-                        additionalStyle: a[0].outerHTML,
-                        transparent
-                    },
-                    {
-                        headers: {
-                            "Content-Type": "text/html"
-                        },
-                        responseType: "blob"
-                    }
-                )
-                .then(response => {
-                    self.setState({
-                        showPopup: false,
-                        downloading: false
-                    });
-                    self.download(`test.${png ? "png" : "jpeg"}`, response.data);
-                    self.hidePopupDownloading();
-                })
-                .catch(error => {
-                    self.hidePopupDownloading();
-                });
-        });
-    }
 
     async saveImages(rep, isVideo, isAdmin = false) {
 
@@ -5130,10 +4798,6 @@ class CanvaEditor extends Component<IProps, IState> {
             })
             .catch(error => {
             });
-    }
-
-    colorPickerShown = () => {
-        this.setState({ colorPickerShown: true })
     }
 
     onTextChange(thisImage, e, childId) {
@@ -5602,15 +5266,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
         this.canvas1[page].canvas[CanvasType.All][id].child.enableCropMode();
         this.canvas1[page].canvas[CanvasType.HoverLayer][id].child.enableCropMode();
-
-        // let el = document.getElementById("screen-container-parent");
-        // el.style.backgroundColor = "rgba(14, 19, 24, 0.15)";
-
-        // let els = document.getElementsByClassName("alo");
-        // for (let i = 0; i < els.length; ++i) {
-        //     let el = els[i] as HTMLElement;
-        //     el.style.backgroundColor = "rgba(14, 19, 24, 0.15)";
-        // }
     };
 
     disableCropMode = () => {
@@ -6160,9 +5815,6 @@ class CanvaEditor extends Component<IProps, IState> {
                         <Narbar
                             playVideos={this.playVideos}
                             translate={this.translate}
-                            downloadPNG={this.downloadPNG.bind(this)}
-                            downloadPDF={this.downloadPDF.bind(this)}
-                            downloadVideo={this.downloadVideo.bind(this)}
                             designTitle={this.state.designTitle}
                         />
                     </div>
@@ -6187,7 +5839,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                     id={this.state._id}
                                     effectId={this.state.effectId}
                                     align={this.state.align}
-                                    colorPickerShown={this.colorPickerShown}
                                     handleEditFont={this.handleEditFont}
                                     scale={this.state.scale}
                                     fontId={this.state.fontId}
@@ -6263,7 +5914,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                         translate={this.translate}
                                         childId={editorStore.childId}
                                         fontColor={this.state.fontColor}
-                                        handleColorBtnClick={this.handleColorBtnClick}
                                         handleItalicBtnClick={this.handleItalicBtnClick}
                                         handleBoldBtnClick={this.handleBoldBtnClick}
                                         onClickDropDownFontList={this.onClickDropDownFontList}

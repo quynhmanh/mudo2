@@ -7,8 +7,9 @@ export const htmlToImage = htmlToImageLib;
 import { camelCase } from "lodash";
 import editorStore from "@Store/EditorStore";
 import { TemplateType } from "@Components/editor/enums";
-import { swap } from "formik";
 import { toJS } from "mobx";
+import axios from "axios";
+import uuidv4 from "uuid/v4";
 
 declare var process: any;
 
@@ -1317,3 +1318,183 @@ export const handleFadeAnimation = (injectScriptOnly = false) => {
 
     document.getElementById('animation-script').innerHTML = val;
 }
+
+const showPopupDownloading = () => {
+    document.getElementById("downloadPopup").style.display = "block";
+
+    let editorEl = document.getElementById("editor");
+    editorEl.classList.add("popup");
+    editorEl.style.filter = "blur(4px)";
+
+    window.current_progress = 0;
+    let btn = document.getElementById("progress-bar-start-btn-download");
+    if (btn) btn.click();
+}
+
+const hidePopupDownloading = () => {
+    document.getElementById("downloadPopup").style.display = "none";
+
+    let editorEl = document.getElementById("editor");
+    editorEl.classList.remove("popup");
+    editorEl.style.filter = "";
+
+    window.current_progress = 0;
+
+    clearInterval(window.progress_interval);
+    document.getElementById("progress-bar-download").style.width = "0%";
+}
+
+const download = async (filename, text) => {
+    if (window.cancelDownload) return;
+    let blobUrl = URL.createObjectURL(text);
+    let element = document.createElement("a");
+
+    element.setAttribute("href", blobUrl);
+    element.setAttribute("download", filename);
+    element.style.display = "none";
+
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+};
+
+export const downloadPDF = (bleed) => {
+    window.cancelDownload = false;
+    window.step = 0.2;
+    showPopupDownloading();
+    window.downloading = true;
+
+    let aloCloned = document.getElementsByClassName("alo2");
+    let canvas = [];
+    for (let i = 0; i < aloCloned.length; ++i) {
+        canvas.push((aloCloned[i] as HTMLElement).outerHTML);
+    }
+
+    let styles = document.getElementsByTagName("style");
+    let a = Array.from(styles).filter(style => {
+        return style.attributes.getNamedItem("data-styled") !== null;
+    });
+
+    axios
+        .post(
+            `/api/Design/Download?width=${window.rectWidth +
+            (bleed ? 20 : 0)}&height=${window.rectHeight +
+            (bleed ? 20 : 0)}`,
+            { fonts: toJS(editorStore.fonts), canvas },
+            {
+                headers: {
+                    "Content-Type": "text/html"
+                },
+                responseType: "blob"
+            }
+        )
+        .then(response => {
+            let title = (document.getElementById("designTitle") as HTMLInputElement).value;
+            title = title ? title : "Untitled design";
+
+            download(title + ".pdf", response.data);
+            hidePopupDownloading();
+        })
+        .catch(error => {
+            hidePopupDownloading();
+        });
+}
+
+export const downloadPNG = (transparent, png) => {
+    window.cancelDownload = false;
+    window.step = 0.2;
+    showPopupDownloading();
+
+    let self = this;
+    window.downloading = true;
+    let aloCloned = document.getElementsByClassName("alo2");
+    let canvas = [];
+    for (let i = 0; i < aloCloned.length; ++i) {
+        canvas.push((aloCloned[i] as HTMLElement).outerHTML);
+    }
+
+    let styles = document.getElementsByTagName("style");
+    let a = Array.from(styles).filter(style => {
+        return style.attributes.getNamedItem("data-styled") !== null;
+    });
+
+    window.downloading = false;
+
+    axios
+        .post(
+            `/api/Design/DownloadPNG?width=${window.rectWidth}&height=${window.rectHeight}&transparent=${transparent}&download=true&png=${png}`,
+            {
+                fonts: toJS(editorStore.fonts),
+                canvas,
+                additionalStyle: a[0].outerHTML,
+                transparent
+            },
+            {
+                headers: {
+                    "Content-Type": "text/html"
+                },
+                responseType: "blob"
+            }
+        )
+        .then(response => {
+            download(`test.${png ? "png" : "jpeg"}`, response.data);
+            hidePopupDownloading();
+        })
+        .catch(error => {
+            hidePopupDownloading();
+        });
+}
+
+export const downloadVideo = () => {
+    if (editorStore.animationId == 1) handleBlockAnimation(true);
+    if (editorStore.animationId == 2) handleFadeAnimation(true);
+
+    window.cancelDownload = false;
+    window.step = 0.1;
+    showPopupDownloading();
+
+    window.downloading = true;
+    let aloCloned = document.getElementsByClassName("alo2");
+    let canvas = [];
+    for (let i = 0; i < aloCloned.length; ++i) {
+        canvas.push((aloCloned[i] as HTMLElement).outerHTML);
+    }
+
+    let styles = document.getElementsByTagName("style");
+    let a = Array.from(styles).filter(style => {
+        return style.attributes.getNamedItem("data-styled") !== null;
+    });
+
+    window.downloading = false;
+
+    let duration = 6000;
+    if (editorStore.animationId == 2) {
+        duration = Math.max(duration, window.videoDuration);
+    }
+
+    axios
+        .post(
+            `/api/Design/DownloadVideo?width=${window.rectWidth}&height=${window.rectHeight
+            }&videoId=${uuidv4()}&duration=${duration}`,
+            {
+                fonts: toJS(editorStore.fonts),
+                canvas,
+            },
+            {
+                headers: {
+                    "Content-Type": "text/html"
+                },
+                responseType: "blob"
+            }
+        )
+        .then(response => {
+            let title = (document.getElementById("designTitle") as HTMLInputElement).value;
+                title = title ? title : "Untitled design";
+
+            download(title + `.mp4`, response.data);
+            hidePopupDownloading();
+        })
+        .catch(error => {
+            hidePopupDownloading();
+        });
+};

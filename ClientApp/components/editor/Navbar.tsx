@@ -11,11 +11,14 @@ const HomeButton = loadable(() => import("@Components/editor/HomeButton"));
 
 import DownloadIcon from "@Components/shared/svgs/DownloadIcon";
 
+import {
+    downloadPDF,
+    downloadPNG,
+    downloadVideo,
+} from "@Utils";
+
 interface IProps {
     translate: any;
-    downloadPNG: any;
-    downloadPDF: any;
-    downloadVideo: any;
     designTitle: any;
     playVideos: any;
 }
@@ -199,9 +202,9 @@ class LeftSide extends Component<IProps, IState> {
                 )}
                 {(
                     <DownloadList
-                        downloadPNG={this.props.downloadPNG.bind(this)}
-                        downloadPDF={this.props.downloadPDF.bind(this)}
-                        downloadVideo={this.props.downloadVideo.bind(this)}
+                        downloadPNG={downloadPNG}
+                        downloadPDF={downloadPDF}
+                        downloadVideo={downloadVideo}
                         translate={this.props.translate}
                     />
                 )}
