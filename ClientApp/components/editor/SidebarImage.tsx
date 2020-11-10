@@ -5,6 +5,9 @@ import editorStore from "@Store/EditorStore";
 import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import Sidebar from "@Components/editor/SidebarStyled";
+import {
+    setSavingState,
+} from "@Utils";
 
 export interface IProps {
     scale: number;
@@ -260,7 +263,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                         freeStyle: img.freeStyle
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();
 

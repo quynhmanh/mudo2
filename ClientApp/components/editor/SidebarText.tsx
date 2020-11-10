@@ -6,7 +6,9 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import { toJS } from "mobx";
 import Sidebar from "@Components/editor/SidebarStyled";
-
+import {
+    setSavingState,
+} from "@Utils";
 export interface IProps {
     translate: any;
     selectedTab: any;
@@ -117,7 +119,7 @@ export default class SidebarText extends Component<IProps, IState> {
         }, 100);
 
         editorStore.increaseUpperzIndex();
-        this.props.setSavingState(SavingState.UnsavedChanges, true);
+        setSavingState(SavingState.UnsavedChanges, true);
     }
 
 
