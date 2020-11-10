@@ -1131,14 +1131,6 @@ class CanvaEditor extends Component<IProps, IState> {
     setAppRef = ref => (this.$app = ref);
     setContainerRef = ref => (this.$container = ref);
 
-    isWindow = obj => {
-        return obj != null && obj === obj.window;
-    };
-
-    getWindow = elem => {
-        return this.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-    };
-
     removeImage2() {
         editorStore.images2.delete(editorStore.idObjectSelected);
         doNoObjectSelected.bind(this)();
