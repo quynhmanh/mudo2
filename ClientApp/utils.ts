@@ -1701,7 +1701,7 @@ export function handleCropBtnClick(id: string) {
     }
 
     if (image.type == TemplateType.TextTemplate) {
-        this.handleChildCrop(editorStore.childId);
+        handleChildCrop(editorStore.childId);
         return;
     }
 
