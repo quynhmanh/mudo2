@@ -1691,7 +1691,7 @@ export function handleCropBtnClick(id: string) {
         return;
     }
     if (image.type == TemplateType.Grids && editorStore.gridIndex != null) {
-        this.handleGridCrop(editorStore.gridIndex);
+        handleGridCrop.bind(this)(editorStore.gridIndex);
     }
     if (image.type == TemplateType.GroupedItem || 
         image.type == TemplateType.Heading || 
@@ -1701,7 +1701,7 @@ export function handleCropBtnClick(id: string) {
     }
 
     if (image.type == TemplateType.TextTemplate) {
-        handleChildCrop(editorStore.childId);
+        handleChildCrop.bind(this)(editorStore.childId);
         return;
     }
 
@@ -1920,7 +1920,7 @@ export function handleChildCrop(id) {
     let childImage = image.document_object.find(doc => doc._id == id);
     if (childImage.type == TemplateType.Heading) return;
     
-    this.doNoObjectSelected();
+    doNoObjectSelected.bind(this)();
     editorStore.images2.delete(image._id);
 
     let newId;
