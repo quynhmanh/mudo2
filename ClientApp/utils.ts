@@ -5492,7 +5492,7 @@ export function handleDeleteThisPage(pageId)  {
 };
 
 export function updateImages2(image, includeDownloadCanvas) {
-    window.editor.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, includeDownloadCanvas);
+    updateImages(editorStore.idObjectSelected, editorStore.pageId, image, includeDownloadCanvas);
 }
 
 export function updateImages(id, pageId, image, includeDownloadCanvas) {
