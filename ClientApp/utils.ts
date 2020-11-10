@@ -2360,7 +2360,7 @@ export async function saveImages(rep, isVideo, isAdmin = false) {
 
     isVideo = (document.getElementById('vehicle1') as HTMLInputElement).checked;
 
-    this.setSavingState(SavingState.SavingChanges, false);
+    setSavingState(SavingState.SavingChanges, false);
     const { mode } = this.state;
     let self = this;
     const { rectWidth, rectHeight } = this.state;

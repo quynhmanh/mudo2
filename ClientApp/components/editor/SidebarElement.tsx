@@ -8,6 +8,9 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import Sidebar from "@Components/editor/SidebarStyled";
 import styled from "styled-components";
 import GridPicker from '@Components/shared/GridPicker';
+import {
+    setSavingState,
+} from "@Utils";
 
 export interface IProps {
     scale: number;
@@ -266,7 +269,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         colors: img.stopColor,
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();
 
@@ -420,7 +423,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         grids,
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();
 
@@ -548,7 +551,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         path2: img.path2,
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();
 
@@ -675,7 +678,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         path2: img.path2,
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();
 

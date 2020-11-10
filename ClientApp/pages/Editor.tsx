@@ -1549,7 +1549,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                     handleImageSelected={this.handleImageSelected}
                                     updateImages={this.updateImages}
                                     forceEditorUpdate={this.forceEditorUpdate}
-                                    setSavingState={this.setSavingState}
                                     handleEditmedia={this.handleEditmedia}
                                     saveImages={saveImages && saveImages.bind(this)}
                                 />}

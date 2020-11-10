@@ -13,6 +13,9 @@ const LoginPopup = loadable(() => import("@Components/shared/LoginPopup"));
 import VideoPicker from "@Components/shared/VideoPicker2";
 import ReactDOMServer from 'react-dom/server';
 import { camelCase } from "lodash";
+import {
+    setSavingState,
+} from "@Utils";
 
 export interface IProps {
     scale: number;
@@ -243,7 +246,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         freeStyle: img.freeStyle
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();
 
@@ -792,7 +795,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         paused: true,
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newItem, false);
                     editorStore.increaseUpperzIndex();
 
@@ -945,7 +948,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                         colors: img.stopColor,
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();
 

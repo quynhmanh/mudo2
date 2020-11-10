@@ -5,6 +5,9 @@ import editorStore from "@Store/EditorStore";
 import { toJS } from "mobx";
 import VideoPicker from "@Components/shared/VideoPicker2";
 import Sidebar from "@Components/editor/SidebarStyled";
+import {
+    setSavingState,
+} from "@Utils";
 
 export interface IProps {
     videoOnMouseDown: any;
@@ -223,7 +226,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                         paused: true,
                     };
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newItem, false);
                     editorStore.increaseUpperzIndex();
 

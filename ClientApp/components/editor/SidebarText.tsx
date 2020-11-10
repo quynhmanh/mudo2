@@ -277,7 +277,7 @@ export default class SidebarText extends Component<IProps, IState> {
                     }
 
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(document2, false);
 
                     this.props.handleImageSelected(document2._id, document2.page, false, true, false);

@@ -55,7 +55,6 @@ export interface IProps {
     backgroundOnMouseDown: any;
     updateImages: any;
     forceEditorUpdate: any;
-    setSavingState: any;
     handleEditmedia: any;
     saveImages: any;
 }
@@ -615,7 +614,6 @@ class LeftSide extends Component<IProps, IState> {
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
                             handleEditmedia={this.props.handleEditmedia}
-                            setSavingState={this.props.setSavingState}
                             updateImages={this.props.updateImages}
                         />
                         <SidebarText
@@ -624,7 +622,6 @@ class LeftSide extends Component<IProps, IState> {
                             selectedTab={editorStore.selectedTab}
                             handleImageSelected={this.props.handleImageSelected}
                             scale={this.props.scale}
-                            setSavingState={this.props.setSavingState}
                         />
                         {editorStore.templateRatio && this.state.mounted && this.props.mounted && editorStore.tReady &&
                             <SidebarTemplate
@@ -688,7 +685,6 @@ class LeftSide extends Component<IProps, IState> {
                             rectWidth={this.props.rectWidth}
                             rectHeight={this.props.rectHeight}
                             handleImageSelected={this.props.handleImageSelected}
-                            setSavingState={this.props.setSavingState}
                             rem={this.elRem}
                         />
                         <SidebarVideo
@@ -697,7 +693,6 @@ class LeftSide extends Component<IProps, IState> {
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
                             handleImageSelected={this.props.handleImageSelected}
-                            setSavingState={this.props.setSavingState}
                             handleEditmedia={this.props.handleEditmedia}
                         />
                         {/* {Globals.serviceUser && */}
@@ -707,7 +702,6 @@ class LeftSide extends Component<IProps, IState> {
                                 translate={this.props.translate}
                                 selectedTab={editorStore.selectedTab}
                                 handleEditmedia={this.props.handleEditmedia}
-                                setSavingState={this.props.setSavingState}
                                 updateImages={this.props.updateImages}
                             />
                             <SidebarAnimation
