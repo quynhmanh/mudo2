@@ -8,6 +8,9 @@ import editorStore from "@Store/EditorStore";
 import { TemplateType } from "../enums";
 import { toJS } from "mobx";
 import Tooltip from "@Components/shared/Tooltip";
+import {
+    ungroupGroupedItem,
+} from "@Utils";
 
 interface IProps {
     show: boolean;

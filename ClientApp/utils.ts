@@ -6,7 +6,7 @@ import React from "react";
 export const htmlToImage = htmlToImageLib;
 import { camelCase } from "lodash";
 import editorStore from "@Store/EditorStore";
-import { TemplateType } from "@Components/editor/enums";
+import { TemplateType, CanvasType, SidebarTab, } from "@Components/editor/enums";
 import { toJS } from "mobx";
 import axios from "axios";
 import uuidv4 from "uuid/v4";
@@ -1498,3 +1498,489 @@ export const downloadVideo = () => {
             hidePopupDownloading();
         });
 };
+
+const getImageSelected = () => {
+    return toJS(editorStore.images2.get(editorStore.idObjectSelected));
+}
+
+function doNoObjectSelected() {
+
+    if (editorStore.cropMode) {
+        this.disableCropMode();
+    }
+
+    if (editorStore.idObjectSelected) {
+        try { 
+            this.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleImageUnselected();
+            this.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleImageUnselected();
+        } catch (e) {
+
+        }
+
+        let image = editorStore.getImageSelected();
+
+        if (image && image.type == TemplateType.GroupedItem && image.temporary) {
+            editorStore.images2.delete(editorStore.idObjectSelected);
+            let index = editorStore.pages.findIndex(pageId => pageId == image.page);
+            editorStore.keys[index] = editorStore.keys[index] + 1;
+
+            if (window.selections) {
+                window.selections.forEach(el => {
+                    el.style.opacity = 0;
+                });
+            }
+
+            this.forceUpdate();
+        }
+        editorStore.idObjectSelected = null;
+        editorStore.childId = null;
+    }
+
+    if (editorStore.selectedTab === SidebarTab.Font || editorStore.selectedTab === SidebarTab.Color || editorStore.selectedTab === SidebarTab.Effect) {
+        editorStore.selectedTab = SidebarTab.Image;
+    }
+};
+
+export function ungroupGroupedItem() {
+        let image = getImageSelected();
+        doNoObjectSelected.bind(this)();
+        editorStore.images2.delete(image._id);
+
+        image.document_object.forEach(img => {
+            if (img.type != TemplateType.BackgroundImage) {
+                img._id = uuidv4();
+                img.top = image.top + img.top * image.scaleX;
+                img.left = image.left + img.left * image.scaleY;
+                img.width = img.width * image.scaleX;
+                img.height = img.height * image.scaleY;
+                img.imgWidth = img.imgWidth * image.scaleX;
+                img.imgHeight = img.imgHeight * image.scaleY;
+                img.scaleX = img.scaleX * image.scaleX;
+                img.scaleY = img.scaleY * image.scaleY;
+                img.posX = img.posX * image.scaleX;
+                img.posY = img.posY * image.scaleY;
+                img.selected = false;
+                img.hovered = false;
+                img.page = image.page;
+                editorStore.images2.set(img._id, img);
+            }
+        })
+
+        let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+        editorStore.keys[index2] = editorStore.keys[index2] + 1;
+        this.forceUpdate();
+    }
+
+export function groupGroupedItem() {
+    if (window.selections) {
+        window.selections.forEach(node => {
+            let id = node.attributes.iden.value;
+            if (!id) return;
+            window.selectionIDs[id] = true;
+
+            node.style.opacity = 0;
+        });
+    }
+
+    let image = this.getImageSelected();
+    image.temporary = false;
+    editorStore.images2.set(image._id, image);
+    this.updateImages2(image, false);
+
+    let onlyText = true;
+
+    let childImages = [];
+    if (image.childIds) {
+        image.childIds.forEach(id => {
+            let childImage = editorStore.images2.get(id);
+            let newChildImage = clone(toJS(childImage));
+            if (newChildImage.type != TemplateType.TextTemplate) {
+                newChildImage._id = uuidv4();
+                newChildImage.width2 = childImage.width / image.width;
+                newChildImage.height2 = childImage.height / image.height;
+                newChildImage.top = childImage.top - image.top;
+                newChildImage.left = childImage.left - image.left;
+                newChildImage.scaleX = childImage.scaleX ? childImage.scaleX : 1;
+                newChildImage.scaleY = childImage.scaleY ? childImage.scaleY : 1;
+                newChildImage.selected = false;
+                newChildImage.hovered = false;
+                newChildImage.ref = null;
+                newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
+                newChildImage.childId = null;
+            
+                childImages.push(clone(toJS(newChildImage)));
+            } else {
+                if (newChildImage.document_object) {
+                    newChildImage.document_object.forEach(child => {
+                        child._id = uuidv4();
+                        child.width2 = child.width * newChildImage.scaleX / image.width;
+                        child.height2 = child.height * newChildImage.scaleY / image.height;
+                        child.top = child.top * newChildImage.scaleX + newChildImage.top - image.top;
+                        child.left = child.left * newChildImage.scaleY + newChildImage.left - image.left;
+                        child.width = child.width * newChildImage.scaleX;
+                        child.height = child.height * newChildImage.scaleY;
+                        child.imgWidth = child.imgWidth * newChildImage.scaleX;
+                        child.imgHeight = child.imgHeight * newChildImage.scaleY;
+                        child.posX = child.posX * newChildImage.scaleX;
+                        child.posY = child.posY * newChildImage.scaleY;
+                        child.scaleX = child.scaleX * newChildImage.scaleX;
+                        child.scaleY = child.scaleY * newChildImage.scaleY;
+                        childImages.push(child);
+                    });
+                }
+            }
+
+            if (newChildImage.type != TemplateType.Heading) onlyText = false;
+        });
+    }
+
+    let newImage = {
+        _id: uuidv4(),
+        page: editorStore.activePageId,
+        type: TemplateType.TextTemplate,
+        width: image.width,
+        origin_width: image.width,
+        origin_height: image.height,
+        height: image.height,
+        top: image.top,
+        left: image.left,
+        scaleX: 1,
+        scaleY: 1,
+        rotateAngle: image.rotateAngle,
+        document_object: childImages,
+        existImage: !onlyText,
+        zIndex: editorStore.upperZIndex + 1,
+    }
+
+
+    let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+    editorStore.keys[index2] = editorStore.keys[index2] + 1;
+    editorStore.addItem2(newImage, false);
+    editorStore.increaseUpperzIndex();
+
+    this.handleImageSelected(newImage._id, newImage.page, false, true, false);
+
+
+    editorStore.images2.delete(image._id);
+    if (image.childIds) {
+        image.childIds.forEach(id => {
+            editorStore.images2.delete(id);
+        });
+    }
+
+    this.forceUpdate();
+}
+
+export function handleItalicBtnClick(e: any) {
+    e.preventDefault();
+    let image = this.getImageSelected();
+    if (editorStore.childId) {
+        let texts = image.document_object.map(text => {
+            if (text._id == editorStore.childId) {
+                text.italic = !text.italic;
+            }
+            return text;
+        });
+        image.document_object = texts;
+    } else {
+        image.italic = !image.italic;
+    }
+
+    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+
+    editorStore.images2.set(editorStore.idObjectSelected, image);
+}
+
+export function handleBoldBtnClick(e: any) {
+    e.preventDefault();
+
+    let bold;
+    let image = this.getImageSelected();
+    if (editorStore.childId) {
+        let texts = image.document_object.map(text => {
+            if (text._id == editorStore.childId) {
+                text.bold = !text.bold;
+                bold = text.bold;
+            }
+            return text;
+        });
+        image.document_object = texts;
+    } else {
+        image.bold = !image.bold;
+        bold = image.bold;
+    }
+
+    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    editorStore.images2.set(editorStore.idObjectSelected, image);
+}
+
+export function handleCropBtnClick(id: string) {
+    let image = editorStore.getImageSelected();
+    if (image.type == TemplateType.BackgroundImage && !image.src) {
+        return;
+    }
+    if (image.type == TemplateType.Grids && editorStore.gridIndex != null) {
+        this.handleGridCrop(editorStore.gridIndex);
+    }
+    if (image.type == TemplateType.GroupedItem || 
+        image.type == TemplateType.Heading || 
+        image.type == TemplateType.Grids ||
+        image.type == TemplateType.Shape) {
+        return;
+    }
+
+    if (image.type == TemplateType.TextTemplate) {
+        this.handleChildCrop(editorStore.childId);
+        return;
+    }
+
+    window.tempImage = image;
+
+    if (image.type == TemplateType.Video) {
+        let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
+        let el3 = document.getElementById(editorStore.idObjectSelected + "video3" + "alo") as HTMLCanvasElement;
+        let el4 = document.getElementById(editorStore.idObjectSelected + "video4" + "alo1") as HTMLCanvasElement;
+        let ctx = el3.getContext('2d')
+        // let ctx2 = el4.getContext('2d');
+        var w = el.videoWidth * 1;
+        var h = el.videoHeight * 1;
+        el3.width = w;
+        el3.height = h;
+        // el4.width = w;
+        // el4.height = h;
+        if (el && el3) {
+            el.pause();
+            ctx.imageSmoothingEnabled = false;
+            // ctx2.imageSmoothingEnabled = false;
+            ctx.drawImage(el, 0, 0, w, h);
+            // ctx2.drawImage(el, 0, 0, w, h);
+        }
+
+        if (!image.paused) this.canvas1[image.page].canvas[CanvasType.HoverLayer][image._id].child.toggleVideo();
+
+        image.paused = true;
+        editorStore.images2.set(image._id, image);
+    }
+
+    this.enableCropMode(editorStore.idObjectSelected, editorStore.pageId);
+}
+
+export function handleGridCrop(index) {
+    let image = this.getImageSelected();
+    const scale = this.state.scale;
+    let g = image.grids[index];
+    if (!g.src) return;
+
+    let boxWidth = (image.width - g.gapWidth) * g.width / 100;
+    let boxHeight = (image.height - g.gapHeight) * g.height / 100;
+
+
+    let offsetLeft = (image.width * scale - g.gapLeft * scale) * g.left / 100 + g.gapLeft * scale;
+    let offsetTop = (image.height * scale - g.gapTop * scale) * g.top / 100 + g.gapTop * scale;
+    let left = image.left + offsetLeft / scale;
+    let top = image.top + offsetTop / scale;
+
+    let newL = left;
+    let newR = left + boxWidth;
+    let newT = top;
+    let newB = top + boxHeight;
+    let centerX = image.left + image.width / 2;
+    let centerY = image.top + image.height / 2;
+    let rotateAngle = image.rotateAngle / 180 * Math.PI;
+    let topLeft = transformPoint(newL, newT, rotateAngle, centerX, centerY);
+    let bottomRight = transformPoint(newR, newB, rotateAngle, centerX, centerY);
+    let centerX1 = (topLeft.x + bottomRight.x) / 2;
+    let centerY1 = (topLeft.y + bottomRight.y) / 2;
+    let left1 = centerX1 - boxWidth / 2;
+    let top1 = centerY1 - boxHeight / 2;
+
+    let newImg = {
+        _id: uuidv4(),
+        type: TemplateType.BackgroundImage,
+        width: boxWidth,
+        height: boxHeight,
+        origin_width: boxWidth,
+        origin_height: boxHeight,
+        left: left1,
+        top: top1,
+        rotateAngle: image.rotateAngle,
+        src: g.src,
+        selected: true,
+        scaleX: 1,
+        scaleY: 1,
+        posX: g.posX ? g.posX : 0,
+        posY: g.posY ? g.posY : 0,
+        imgWidth: g.imgWidth,
+        imgHeight: g.imgHeight,
+        page: image.page,
+        zIndex: editorStore.upperZIndex + 1,
+        deleteAfterCrop: true,
+        parentImageId: image._id,
+        gridIndex: index,
+    };
+
+
+    editorStore.addItem2(newImg, false);
+    editorStore.increaseUpperzIndex();
+
+    this.handleImageSelected(newImg._id, newImg.page, false, true, false);
+    editorStore.cropMode = true;
+}
+
+export function handleTransparentAdjust(e: any) {
+    window.pauser.next(true);
+    (document.activeElement as HTMLElement).blur();
+    e.preventDefault();
+    let self = this;
+    const onMove = e => {
+        e.preventDefault();
+        let rec1 = document
+            .getElementById("myOpacity-3")
+            .getBoundingClientRect();
+        let rec2 = document.getElementById(
+            "myOpacity-3slider"
+        );
+        let slide = e.pageX - rec1.left;
+        let scale = (slide / rec1.width) * 100;
+        scale = Math.max(1, scale);
+        scale = Math.min(100, scale);
+
+        this.setState({ currentOpacity: scale });
+
+        this.handleOpacityChange.bind(this)(scale);
+    };
+
+    const onUp = e => {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        document.removeEventListener(
+            "mousemove",
+            onMove
+        );
+        document.removeEventListener("mouseup", onUp);
+        window.pauser.next(false);
+        this.handleOpacityChangeEnd();
+    };
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+}
+
+export function handleFontSizeBtnClick(e: any, fontSize: number) {
+
+    let image = this.getImageSelected();
+
+    if (editorStore.childId) {
+        let text = image.document_object.find(text => text._id == editorStore.childId);
+        fontSize = fontSize / image.scaleY / text.scaleY;
+    }
+
+    let fonts;
+
+    if (editorStore.childId) {
+        fonts = document
+            .getElementById(editorStore.idObjectSelected + editorStore.childId + "alo")
+            .getElementsByClassName("font");
+    } else {
+        fonts = document
+            .getElementById(editorStore.idObjectSelected + "hihi4alo")
+            .getElementsByClassName("font");
+    }
+
+
+    let width2 = 0, height2 = 0;
+
+    let fontSizePx = fontSize + "px";
+    let fontSizePt = fontSize + "pt";
+
+    for (let i = 0; i < fonts.length; ++i) {
+        let font = fonts[i];
+        (font as HTMLElement).style.fontSize = fontSizePx;
+
+        let lines = font.offsetHeight / (image.lineHeight * image.fontSize);
+
+
+        width2 = Math.max(width2, this.getTextWidth(font.innerHTML, fontSizePt + " " + image.fontFace));
+        height2 += fontSize * image.lineHeight * lines;
+    }
+
+    if (!editorStore.childId) {
+        image.scaleX = 1;
+        image.scaleY = 1;
+        // image.width = width2;
+        image.origin_width = image.width;
+        image.height = height2;
+        image.origin_height = height2;
+        image.fontSize = fontSize;
+        let hihi4 = document.getElementById(image._id + "hihi4alo");
+        if (hihi4) {
+            image.innerHTML = hihi4.innerHTML;
+        }
+    } else {
+        let el = document.getElementById(editorStore.idObjectSelected + editorStore.childId + "alo");
+        if (el) {
+            let texts = image.document_object.map(text => {
+                if (text._id == editorStore.childId) {
+                    text.innerHTML = el.innerHTML;
+
+                    text.fontSize = fontSize;
+
+                    fontSize = fontSize * image.scaleY * text.scaleY;
+                }
+                return text;
+            });
+            image.document_object = texts;
+        }
+    }
+
+    editorStore.images2.set(editorStore.idObjectSelected, image);
+    this.updateImages2(image, true);
+
+    editorStore.currentFontSize = fontSize;
+
+    (document.getElementById("fontSizeButton") as HTMLInputElement).value = fontSize.toString();
+    if (editorStore.childId) {
+        this.onTextChange(image, e, editorStore.childId);
+    }
+}
+
+export function handleChildCrop(id) {
+    let image = this.getImageSelected();
+    let childImage = image.document_object.find(doc => doc._id == id);
+    if (childImage.type == TemplateType.Heading) return;
+    
+    this.doNoObjectSelected();
+    editorStore.images2.delete(image._id);
+
+    let newId;
+    let groupedIds = [];
+    image.document_object.forEach(img => {
+        let newImageId = uuidv4();
+        groupedIds.push(newImageId);
+        if (img._id == id) newId = newImageId;
+        img._id = newImageId;
+        img.top = image.top + img.top * image.scaleX;
+        img.left = image.left + img.left * image.scaleY;
+        img.width = img.width * image.scaleX;
+        img.height = img.height * image.scaleY;
+        img.imgWidth = img.imgWidth * image.scaleX;
+        img.imgHeight = img.imgHeight * image.scaleY;
+        img.scaleX = img.scaleX * image.scaleX;
+        img.scaleY = img.scaleY * image.scaleY;
+        img.posX = img.posX * image.scaleX;
+        img.posY = img.posY * image.scaleY;
+        img.selected = false;
+        img.hovered = false;
+        editorStore.images2.set(img._id, img);
+    });
+
+    let newImage = editorStore.images2.get(newId);
+    newImage.groupedIds = groupedIds;
+    this.handleImageSelected(newImage._id, newImage.page, false, true, false);
+    this.setState({ cropMode: true });
+    editorStore.cropMode = true;
+
+    let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+    editorStore.keys[index2] = editorStore.keys[index2] + 1;
+    this.forceUpdate();
+}
