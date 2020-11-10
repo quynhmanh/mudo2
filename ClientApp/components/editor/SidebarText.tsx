@@ -7,12 +7,12 @@ import ImagePicker from "@Components/shared/ImagePicker";
 import { toJS } from "mobx";
 import Sidebar from "@Components/editor/SidebarStyled";
 import {
+    handleEditmedia,
     setSavingState,
 } from "@Utils";
 export interface IProps {
     translate: any;
     selectedTab: any;
-    handleEditmedia: any;
     handleImageSelected: any;
     scale: number;
     setSavingState: any;
@@ -455,7 +455,7 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 width={imgWidth}
                                                 defaultHeight={imgWidth}
                                                 onPick={null}
-                                                onEdit={this.props.handleEditmedia.bind(this, null)}
+                                                onEdit={handleEditmedia.bind(this, null)}
                                                 delay={0}
                                                 showButton={false}
                                             />
@@ -498,7 +498,7 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 width={imgWidth}
                                                 defaultHeight={imgWidth}
                                                 onPick={null}
-                                                onEdit={this.props.handleEditmedia.bind(this, null)}
+                                                onEdit={handleEditmedia.bind(this, null)}
                                                 delay={150}
                                                 showButton={false}
                                             />

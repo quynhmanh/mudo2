@@ -1,17 +1,17 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
+import { handleAlignBtnClick } from "@Utils";
 
 interface IProps {
     show: boolean;
     translate: any;
-    handleAlignBtnClick: any;
     title: string;
     iconPath: string;
     checked: boolean;
 }
 
 const Align = (props: IProps) => {
-    const { show, handleAlignBtnClick, translate, title, iconPath } = props;
+    const { show, translate, title, iconPath } = props;
     const content = translate(title);
     return (
         <Tooltip

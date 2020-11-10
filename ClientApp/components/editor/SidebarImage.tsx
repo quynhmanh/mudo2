@@ -6,6 +6,7 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import Sidebar from "@Components/editor/SidebarStyled";
 import {
+    handleEditmedia,
     setSavingState,
 } from "@Utils";
 
@@ -13,7 +14,6 @@ export interface IProps {
     scale: number;
     translate: any;
     selectedTab: any;
-    handleEditmedia: any;
     handleImageSelected: any;
     setSavingState: any;
     updateImages: any;
@@ -390,7 +390,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                                         defaultHeight={imgWidth}
                                         width={item.width}
                                         onPick={this.imgOnMouseDown.bind(this, item)}
-                                        onEdit={this.props.handleEditmedia.bind(this, item)}
+                                        onEdit={handleEditmedia.bind(this, item)}
                                         delay={250 * key}
                                         showButton={true}
                                         backgroundColorLoaded="transparent"

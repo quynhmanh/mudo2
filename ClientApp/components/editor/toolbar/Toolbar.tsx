@@ -12,8 +12,6 @@ interface IProps {
     editorStore: any;
     childId: string;
     fontColor: string;
-    handleItalicBtnClick: any;
-    handleBoldBtnClick: any;
     onClickDropDownFontList: any;
     onClickEffectList: any;
     fontName: string;
@@ -21,14 +19,11 @@ interface IProps {
     cropMode: boolean;
     handleFilterBtnClick: any;
     handleAdjustBtnClick: any;
-    handleCropBtnClick: any;
     handleFlipBtnClick: any;
     imgBackgroundColor: string;
     handleImageBackgroundColorBtnClick: any;
     selectedImage: any;
     fontSize: number;
-    handleFontSizeBtnClick: any;
-    handleAlignBtnClick: any;
     handleOkBtnClick: any;
     handleCancelBtnClick: any;
     idObjectSelected: string;
@@ -36,12 +31,9 @@ interface IProps {
     onClickTransparent: any;
     forwardSelectedObject: any;
     backwardSelectedObject: any;
-    handleTransparentAdjust: any;
     currentOpacity: number;
     currentLineHeight: number;
     currentLetterSpacing: number;
-    handleOpacityChange: any;
-    handleOpacityChangeEnd: any;
     handleLineHeightChange: any;
     handleLineHeightChangeEnd: any;
     handleLetterSpacingEnd: any;
@@ -50,12 +42,10 @@ interface IProps {
     bold: boolean;
     italic: boolean;
     updateImages: any;
-    onTextChange: any;
     scale: any;
     groupGroupedItem: any;
     ungroupGroupedItem: any;
     removeImage: any;
-    copyImage: any;
 }
 
 interface IState {
@@ -75,7 +65,6 @@ class Toolbar extends Component<IProps, IState> {
                 <LeftSide
                     tReady={props.tReady}
                     scale={props.scale}
-                    onTextChange={props.onTextChange}
                     updateImages={props.updateImages}
                     selectedCanvas={props.selectedCanvas}
                     italic={props.italic}
@@ -86,8 +75,6 @@ class Toolbar extends Component<IProps, IState> {
                     childId={props.childId}
                     translate={props.translate}
                     fontColor={props.fontColor}
-                    handleItalicBtnClick={props.handleItalicBtnClick}
-                    handleBoldBtnClick={props.handleBoldBtnClick}
                     onClickDropDownFontList={props.onClickDropDownFontList}
                     onClickEffectList={props.onClickEffectList}
                     fontName={props.fontName}
@@ -95,15 +82,12 @@ class Toolbar extends Component<IProps, IState> {
                     cropMode={props.cropMode}
                     handleFilterBtnClick={props.handleFilterBtnClick}
                     handleAdjustBtnClick={props.handleAdjustBtnClick}
-                    handleCropBtnClick={props.handleCropBtnClick}
                     handleFlipBtnClick={props.handleFlipBtnClick}
                     imgBackgroundColor={props.imgBackgroundColor}
                     handleImageBackgroundColorBtnClick={props.handleImageBackgroundColorBtnClick}
                     selectedImage={props.selectedImage}
                     fontSize={props.fontSize}
-                    handleFontSizeBtnClick={props.handleFontSizeBtnClick}
                     idObjectSelected={props.idObjectSelected}
-                    handleAlignBtnClick={props.handleAlignBtnClick}
                     handleOkBtnClick={props.handleOkBtnClick}
                     handleCancelBtnClick={props.handleCancelBtnClick}
                     handleLineHeightChange={props.handleLineHeightChange}
@@ -124,14 +108,10 @@ class Toolbar extends Component<IProps, IState> {
                     onClickTransparent={props.onClickTransparent}
                     forwardSelectedObject={props.forwardSelectedObject}
                     backwardSelectedObject={props.backwardSelectedObject}
-                    handleTransparentAdjust={props.handleTransparentAdjust}
                     currentOpacity={props.currentOpacity}
-                    handleOpacityChange={props.handleOpacityChange}
-                    handleOpacityChangeEnd={props.handleOpacityChangeEnd}
                     groupGroupedItem={props.groupGroupedItem}
                     ungroupGroupedItem={props.ungroupGroupedItem}
                     removeImage={props.removeImage}
-                    copyImage={props.copyImage}
                 />
             </div>
         );

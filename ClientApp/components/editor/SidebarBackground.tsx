@@ -5,12 +5,12 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import {toJS} from "mobx";
 import Sidebar from "@Components/editor/SidebarStyled";
+import { handleEditmedia } from '@Utils';
 
 export interface IProps {
     scale: number;
     translate: any;
     selectedTab: any;
-    handleEditmedia: any;
     handleImageSelected: any;
     rectWidth: number;
     rectHeight: number;
@@ -204,7 +204,7 @@ export default class SidebarBackground extends Component<IProps, IState> {
                                     height={backgroundWidth / (item.width / item.height)}
                                     defaultHeight={backgroundWidth}
                                     onPick={this.backgroundOnMouseDown.bind(this, item)}
-                                    onEdit={this.props.handleEditmedia.bind(this, item)}
+                                    onEdit={handleEditmedia.bind(this, item)}
                                 />
                             ))}
                         </div>

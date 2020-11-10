@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { TemplateType } from '../enums';
-import { getLetterSpacing } from "@Utils";
+import { getLetterSpacing, handleChildIdSelected } from "@Utils";
 
 export interface IProps {
     selected: boolean;
     onInput(e: any, id: string): void;
     _id: string;
     parentId: string;
-    handleChildIdSelected(childId: string): void;
     scale: number;
     child: any;
     canvas: any;
@@ -66,7 +65,6 @@ export default class SingleText extends PureComponent<IProps, IState> {
 
     onMouseDown() {
         const {
-            handleChildIdSelected,
             child: {
                 _id: childId,
             }

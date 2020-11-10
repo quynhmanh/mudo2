@@ -22,91 +22,39 @@ import {
     isNode,
 } from "@Utils";
 
-let transformImage,
-    fromEvent,
+let fromEvent,
     NEVER,
     BehaviorSubject,
     switchMap,
-    ungroupGroupedItem,
-    groupGroupedItem,
-    handleItalicBtnClick,
-    handleBoldBtnClick,
-    handleCropBtnClick,
-    handleGridCrop,
-    handleTransparentAdjust,
-    handleFontSizeBtnClick,
-    handleChildCrop,
-    onTextChange,
-    handleAlignBtnClick,
-    selectFont,
     doNoObjectSelected,
     handleScroll,
     handleWheel,
-    copyImage,
     removeImage,
-    saveImages,
-    handleResizeStart,
-    handleDragStart,
-    handleRotateStart,
-    handleOpacityChange,
-    handleOpacityChangeEnd,
-    handleGridSelected,
-    handleChildIdSelected,
-    disableCropMode,
-    forwardSelectedObject,
-    backwardSelectedObject,
-    toggleVideo,
-    addAPage,
-    handleResizeInnerImageStart;
+    updateImages2,
+    updateImages,
+    disableCropMode;
 
 let editorStore: any = {};
 let axios;
 let Globals;
 let toJS;
 let editorTranslation;
-let clone;
 
 if (!isNode()) {
     axios = require("axios").default;
     Globals = require("@Globals").default;
     editorStore = require("@Store/EditorStore").default;
     editorTranslation = require("@Locales/default/editor").default;
-    ({ clone } = require("lodash"));
     ({ toJS } = require("mobx"));
 
     ({
-        transformImage,
-        ungroupGroupedItem,
-        groupGroupedItem,
-        handleItalicBtnClick,
-        handleBoldBtnClick,
-        handleCropBtnClick,
-        handleGridCrop,
-        handleTransparentAdjust,
-        handleFontSizeBtnClick,
-        handleChildCrop,
-        handleAlignBtnClick,
-        onTextChange,
-        selectFont,
         doNoObjectSelected,
         handleScroll,
         handleWheel,
-        copyImage,
         removeImage,
-        saveImages,
-        handleResizeStart,
-        handleResizeInnerImageStart,
-        handleDragStart,
-        handleRotateStart,
-        handleOpacityChange,
-        handleOpacityChangeEnd,
-        handleGridSelected,
-        handleChildIdSelected,
+        updateImages,
+        updateImages2,
         disableCropMode,
-        forwardSelectedObject,
-        backwardSelectedObject,
-        toggleVideo,
-        addAPage,
     } = require("@Utils"));
 
     ({
@@ -350,8 +298,6 @@ class CanvaEditor extends Component<IProps, IState> {
         this.handleFlipBtnClick = this.handleFlipBtnClick.bind(this);
         this.handleImageBackgroundColorBtnClick = this.handleImageBackgroundColorBtnClick.bind(this);
         this.handleOkBtnClick = this.handleOkBtnClick.bind(this);
-        this.cancelSaving = this.cancelSaving.bind(this);
-        this.updateImages = this.updateImages.bind(this);
         this.forceEditorUpdate = this.forceEditorUpdate.bind(this);
         this.removeImage2 = this.removeImage2.bind(this);
         this.setScale = this.setScale.bind(this);
@@ -875,6 +821,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         this.setRef();
 
+        window.editor = this;
         let self = this;
 
         let Selection = require("@Components/selection/selection").default;
@@ -1097,36 +1044,10 @@ class CanvaEditor extends Component<IProps, IState> {
         }
     }
 
-    handleEditmedia = item => {
-        this.setState({ showMediaEditPopup: true, editingMedia: item });
-        this.forceUpdate();
-    };
-
-    handleEditFont = item => {
-        this.setState({ showFontEditPopup: true, editingFont: item });
-        this.forceUpdate();
-    };
-
-
     switching = false;
 
     canvasRect = null;
     temp = null;
-
-    updateImages2(image, includeDownloadCanvas) {
-        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, includeDownloadCanvas);
-    }
-
-    updateImages(id, pageId, image, includeDownloadCanvas) {
-        try {
-            this.canvas1[pageId].canvas[CanvasType.All][id].child.updateImage(image);
-            this.canvas1[pageId].canvas[CanvasType.HoverLayer][id].child.updateImage(image);
-            if (includeDownloadCanvas) this.canvas2[pageId].canvas[CanvasType.Download][id].child.updateImage(image);
-        } catch (e) {
-            console.log('Failed to updateImages. Exception: ', e);
-        }
-    }
-
     saving = null;
     setAppRef = ref => (this.$app = ref);
     setContainerRef = ref => (this.$container = ref);
@@ -1217,7 +1138,7 @@ class CanvaEditor extends Component<IProps, IState> {
         }
 
         if (updateImage) {
-            this.updateImages(id, pageId, image, false);
+            updateImages(id, pageId, image, false);
         }
 
         if (forceUpdate) {
@@ -1343,11 +1264,6 @@ class CanvaEditor extends Component<IProps, IState> {
                             this.canvas2[pageId] = ref;
                         }
                     }}
-                    handleGridSelected={handleGridSelected && handleGridSelected.bind(this)}
-                    handleCropBtnClick={handleCropBtnClick && handleCropBtnClick.bind(this)}
-                    handleGridCrop={handleGridCrop && handleGridCrop.bind(this)}
-                    handleChildCrop={handleChildCrop && handleChildCrop.bind(this)}
-                    toggleVideo={toggleVideo && toggleVideo.bind(this)}
                     uiKey={pages[i] + keys[i]}
                     selected={
                         editorStore.imageSelected &&
@@ -1362,7 +1278,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     key={i}
                     staticGuides={this.state.staticGuides}
                     index={i}
-                    addAPage={addAPage && addAPage.bind(this)}
                     images={images}
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
@@ -1374,15 +1289,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleImageHovered={this.handleImageHovered}
                     handleImageUnhovered={this.handleImageUnhovered}
                     handleImageHover={this.handleImageHover}
-                    handleRotateStart={handleRotateStart && handleRotateStart.bind(this)}
-                    handleResizeStart={handleResizeStart && handleResizeStart.bind(this)}
-                    handleDragStart={handleDragStart && handleDragStart.bind(this)}
-                    onTextChange={onTextChange && onTextChange.bind(this)}
-                    handleChildIdSelected={handleChildIdSelected && handleChildIdSelected.bind(this)}
-                    disableCropMode={disableCropMode && disableCropMode.bind(this)}
-                    handleResizeInnerImageStart={handleResizeInnerImageStart && handleResizeInnerImageStart.bind(this)}
                     doNoObjectSelected={doNoObjectSelected && doNoObjectSelected.bind(this)}
-                    handleDeleteThisPage={this.handleDeleteThisPage.bind(this, pages[i])}
                     showPopup={this.state.showPopup}
                     preview={preview}
                     activePageId={toJS(editorStore.activePageId)}
@@ -1401,8 +1308,6 @@ class CanvaEditor extends Component<IProps, IState> {
 
             res.push(
                 <PreviewCanvas
-                    handleCropBtnClick={handleCropBtnClick && handleCropBtnClick.bind(this)}
-                    toggleVideo={null}
                     uiKey={pages[i] + keys[i]}
                     selected={
                         editorStore.imageSelected &&
@@ -1417,7 +1322,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     key={i}
                     staticGuides={this.state.staticGuides}
                     index={i}
-                    addAPage={null}
                     images={Array.from(editorStore.images2.values()).filter((img: any) => img.page === pages[i]).map(img => toJS(img))}
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
@@ -1429,15 +1333,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleImageHovered={this.handleImageHovered}
                     handleImageUnhovered={this.handleImageUnhovered}
                     handleImageHover={this.handleImageHover}
-                    handleRotateStart={null}
-                    handleResizeStart={null}
-                    handleDragStart={null}
-                    onTextChange={onTextChange && onTextChange.bind(this)}
-                    handleChildIdSelected={null}
-                    disableCropMode={null}
-                    handleResizeInnerImageStart={null}
                     doNoObjectSelected={doNoObjectSelected && doNoObjectSelected.bind(this)}
-                    handleDeleteThisPage={this.handleDeleteThisPage.bind(this, pages[i])}
                     showPopup={this.state.showPopup}
                     preview={false}
                     activePageId={toJS(editorStore.activePageId)}
@@ -1453,24 +1349,11 @@ class CanvaEditor extends Component<IProps, IState> {
         this.setState({scale});
     }
 
-    handleDeleteThisPage = pageId => {
-        let pages = toJS(editorStore.pages);
-        let tempPages = pages.filter(pId => pId !== pageId);
-        editorStore.pages.replace(tempPages);
-    };
 
     refFullName = null;
     refAddress = null;
     refCity = null;
     refPhoneNumber = null;
-
-    cancelSaving() {
-        if (this.saving) {
-            clearTimeout(this.saving);
-            this.saving = null;
-        }
-    }
-
     canvas1 = {};
     canvas2 = {};
 
@@ -1524,12 +1407,10 @@ class CanvaEditor extends Component<IProps, IState> {
                                     id={this.state._id}
                                     effectId={this.state.effectId}
                                     align={this.state.align}
-                                    handleEditFont={this.handleEditFont}
                                     scale={this.state.scale}
                                     fontId={this.state.fontId}
                                     translate={this.translate.bind(this)}
                                     mounted={this.state.mounted}
-                                    selectFont={selectFont && selectFont.bind(this)}
                                     typeObjectSelected={this.state.typeObjectSelected}
                                     idObjectSelected={editorStore.idObjectSelected}
                                     childId={editorStore.childId}
@@ -1541,10 +1422,8 @@ class CanvaEditor extends Component<IProps, IState> {
                                     selectedTab={this.state.selectedTab}
                                     handleSidebarSelectorClicked={this.handleSidebarSelectorClicked}
                                     handleImageSelected={this.handleImageSelected}
-                                    updateImages={this.updateImages}
+                                    updateImages={updateImages}
                                     forceEditorUpdate={this.forceEditorUpdate}
-                                    handleEditmedia={this.handleEditmedia}
-                                    saveImages={saveImages && saveImages.bind(this)}
                                 />}
                         </div>
                         <div
@@ -1583,8 +1462,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 >
                                     <Toolbar
                                         scale={this.state.scale}
-                                        onTextChange={onTextChange && onTextChange.bind(this)}
-                                        updateImages={this.updateImages}
+                                        updateImages={updateImages}
                                         selectedCanvas={this.state.selectedCanvas}
                                         effectId={this.state.effectId}
                                         bold={this.state.bold}
@@ -1594,35 +1472,22 @@ class CanvaEditor extends Component<IProps, IState> {
                                         translate={this.translate}
                                         childId={editorStore.childId}
                                         fontColor={this.state.fontColor}
-                                        handleItalicBtnClick={handleItalicBtnClick && handleItalicBtnClick.bind(this)}
-                                        handleBoldBtnClick={handleBoldBtnClick && handleBoldBtnClick.bind(this)}
                                         onClickDropDownFontList={this.onClickDropDownFontList}
                                         onClickEffectList={this.onClickEffectList}
                                         fontName={this.state.fontName}
                                         fontId={this.state.fontId}
                                         cropMode={this.state.cropMode}
-                                        handleCropBtnClick={handleCropBtnClick && handleCropBtnClick.bind(this)}
                                         handleFlipBtnClick={this.handleFlipBtnClick}
                                         imgBackgroundColor={this.state.imgBackgroundColor}
                                         handleImageBackgroundColorBtnClick={this.handleImageBackgroundColorBtnClick}
                                         fontSize={this.state.fontSize}
-                                        handleFontSizeBtnClick={handleFontSizeBtnClick && handleFontSizeBtnClick.bind(this)}
-                                        handleAlignBtnClick={handleAlignBtnClick && handleAlignBtnClick.bind(this)}
                                         handleOkBtnClick={this.handleOkBtnClick}
                                         handleCancelBtnClick={this.handleCancelBtnClick}
                                         idObjectSelected={editorStore.idObjectSelected}
-                                        forwardSelectedObject={forwardSelectedObject && forwardSelectedObject.bind(this)}
-                                        backwardSelectedObject={backwardSelectedObject && backwardSelectedObject.bind(this)}
-                                        handleTransparentAdjust={handleTransparentAdjust && handleTransparentAdjust.bind(this)}
                                         currentOpacity={this.state.currentOpacity}
                                         currentLineHeight={this.state.currentLineHeight}
                                         currentLetterSpacing={this.state.currentLetterSpacing}
-                                        handleOpacityChange={handleOpacityChange && handleOpacityChange.bind(this)}
-                                        handleOpacityChangeEnd={handleOpacityChangeEnd && handleOpacityChangeEnd.bind(this)}
-                                        groupGroupedItem={groupGroupedItem && groupGroupedItem.bind(this)}
-                                        ungroupGroupedItem={groupGroupedItem && ungroupGroupedItem.bind(this)}
                                         removeImage={this.removeImage2}
-                                        copyImage={copyImage && copyImage.bind(this)}
                                     />
                                 </div>
                             </div>
@@ -1707,10 +1572,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                 this.setState({ showMediaEditPopup: false });
                                 this.forceUpdate();
                             }}
-                            handleRemoveBackground={this.handleRemoveBackground.bind(
-                                this,
-                                this.state.editingMedia.id
-                            )}
                         />
                     ) : null}
                     {this.state.showTemplateEditPopup ? (

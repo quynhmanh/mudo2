@@ -1535,7 +1535,7 @@ export function ungroupGroupedItem() {
 
         let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
         editorStore.keys[index2] = editorStore.keys[index2] + 1;
-        this.forceUpdate();
+        window.editor.forceUpdate();
     }
 
 export function getImageSelected() {
@@ -1556,7 +1556,7 @@ export function groupGroupedItem() {
     let image = getImageSelected();
     image.temporary = false;
     editorStore.images2.set(image._id, image);
-    this.updateImages2(image, false);
+    updateImages2(image, false);
 
     let onlyText = true;
 
@@ -1639,7 +1639,7 @@ export function groupGroupedItem() {
         });
     }
 
-    this.forceUpdate();
+    window.editor.forceUpdate();
 }
 
 export function handleItalicBtnClick(e: any) {
@@ -1657,7 +1657,7 @@ export function handleItalicBtnClick(e: any) {
         image.italic = !image.italic;
     }
 
-    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
 
     editorStore.images2.set(editorStore.idObjectSelected, image);
 }
@@ -1681,7 +1681,7 @@ export function handleBoldBtnClick(e: any) {
         bold = image.bold;
     }
 
-    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
     editorStore.images2.set(editorStore.idObjectSelected, image);
 }
 
@@ -1733,8 +1733,17 @@ export function handleCropBtnClick(id: string) {
         editorStore.images2.set(image._id, image);
     }
 
-    this.enableCropMode(editorStore.idObjectSelected, editorStore.pageId);
+    enableCropMode(editorStore.idObjectSelected, editorStore.pageId);
 }
+
+function enableCropMode(id, page) {
+    window.editor.setState({ cropMode: true });
+    editorStore.cropMode = true;
+
+    window.editor.canvas1[page].canvas[CanvasType.All][id].child.enableCropMode();
+    window.editor.canvas1[page].canvas[CanvasType.HoverLayer][id].child.enableCropMode();
+};
+
 
 export function handleGridCrop(index) {
     let image = getImageSelected();
@@ -1905,7 +1914,7 @@ export function handleFontSizeBtnClick(e: any, fontSize: number) {
     }
 
     editorStore.images2.set(editorStore.idObjectSelected, image);
-    this.updateImages2(image, true);
+    updateImages2(image, true);
 
     editorStore.currentFontSize = fontSize;
 
@@ -1953,7 +1962,7 @@ export function handleChildCrop(id) {
 
     let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
     editorStore.keys[index2] = editorStore.keys[index2] + 1;
-    this.forceUpdate();
+    window.editor.forceUpdate();
 }
 
 export function onTextChange(thisImage, e, childId) {
@@ -2001,7 +2010,7 @@ export function onTextChange(thisImage, e, childId) {
 
             image.innerHTML = target.innerHTML;
             editorStore.images2.set(editorStore.idObjectSelected, image);
-            this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+            updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
             this.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.updateInnerHTML(image.innerHTML);
         } else {
             let image = editorStore.getImageSelected();
@@ -2067,7 +2076,7 @@ export function onTextChange(thisImage, e, childId) {
             image.top = newCenterY - image.height / 2;
 
             editorStore.images2.set(editorStore.idObjectSelected, image);
-            this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+            updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
             this.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.childrens[childId].updateInnerHTML(target.innerHTML);
         }
     }, 0);
@@ -2107,7 +2116,7 @@ export function handleAlignBtnClick(e: any, type: string) {
     }
     editorStore.images2.set(editorStore.idObjectSelected, image);
 
-    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
     this.setState({ align: type });
 }
 
@@ -2141,7 +2150,7 @@ export function selectFont(id, e) {
     image.fontRepresentative = font.representative;
 
     editorStore.images2.set(editorStore.idObjectSelected, image);
-    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
 
     this.setState({
         fontName: font.representative,
@@ -2273,7 +2282,7 @@ export function doNoObjectSelected() {
                 });
             }
 
-            this.forceUpdate();
+            window.editor.forceUpdate();
         }
         editorStore.idObjectSelected = null;
         editorStore.childId = null;
@@ -2307,8 +2316,8 @@ export function copyImage() {
     editorStore.keys[index2] = editorStore.keys[index2] + 1;
     editorStore.increaseUpperzIndex();
 
-    this.handleImageSelected(newImage._id, newImage.page, false, true, false);
-    this.forceUpdate();
+    handleImageSelected(newImage._id, newImage.page, false, true, false);
+    window.editor.forceUpdate();
 }
 
 function getPlatformName() {
@@ -2354,7 +2363,7 @@ export function removeImage(e) {
             image.backgroundColor = "";
             image.color = "";
             editorStore.images2.set(image._id, image);
-            this.updateImages2(image, true);
+            updateImages2(image, true);
         } else {
             this.removeImage2();
         }
@@ -2371,7 +2380,7 @@ export function removeImage(e) {
         let index = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
         editorStore.keys[index] = editorStore.keys[index] + 1;
 
-        this.forceUpdate();
+        window.editor.forceUpdate();
     }
 }
 
@@ -2626,7 +2635,7 @@ export function setSavingState(state, callSave) {
 }
 
 export function handleResizeStart(e: any, d: any) {
-
+    let scale = editorStore.scale;
     cancelSaving.bind(this)();
 
     popuplateImageProperties(editorStore.idObjectSelected);
@@ -2643,7 +2652,6 @@ export function handleResizeStart(e: any, d: any) {
 
     let cursor = e.target.id;
     let type = e.target.getAttribute("class").split(" ")[0];
-    let { scale } = this.state;
     const location$ = handleDragRx(e.target);
     let { top: top2, left: left2, width: width2, height: height2 } = window.image;
 
@@ -2764,7 +2772,7 @@ export function handleResizeStart(e: any, d: any) {
                 displayResizers.bind(this)(true);
                 handleResizeEnd.bind(this)();
                 window.pauser.next(false);
-                this.forceUpdate();
+                window.editor.forceUpdate();
                 ell.style.zIndex = "0";
                 ell.style.cursor = "default";
 
@@ -3837,19 +3845,18 @@ function handleResizeEnd() {
             image2.scaleY = window.selectionsAngle[id].scaleY;
             editorStore.images2.set(id, image2);
             updateGuide(image2);
-            this.updateImages(id, image2.page, image2, true);
+            updateImages(id, image2.page, image2, true);
         });
     }
 
-    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
+    updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
     updateGuide(window.image);
 };
 
 
 export function handleResizeInnerImageStart(e, d) {
-    console.log('handleResizeInnerImageStart')
     window.resized = false;
-    this.cancelSaving();
+    cancelSaving();
 
     popuplateImageProperties(editorStore.idObjectSelected);
 
@@ -3860,7 +3867,7 @@ export function handleResizeInnerImageStart(e, d) {
 
     let cursor = e.target.id;
     let type = e.target.getAttribute("class").split(" ")[0];
-    let { scale } = this.state;
+    let scale = editorStore.scale;
     const location$ = handleDragRx(e.target);
 
     let image = editorStore.getImageSelected();
@@ -4258,9 +4265,9 @@ function handleImageResize(
 export function handleRotateStart(e: any) {
 
         window.rotated = false;
-        this.cancelSaving();
+        cancelSaving();
 
-        let scale = this.state.scale;
+        let scale = editorStore.scale;
         e.stopPropagation();
 
         let image = editorStore.getImageSelected();
@@ -4425,7 +4432,7 @@ function handleRotateEnd(_id: string) {
         }
 
         editorStore.images2.set(editorStore.idObjectSelected, window.image);
-        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
+        updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
         updateGuide(window.image);
 
         if (window.image.type == TemplateType.GroupedItem) {
@@ -4439,7 +4446,7 @@ function handleRotateEnd(_id: string) {
                 image.selected = false;
                 editorStore.images2.set(id, image);
                 updateGuide(image);
-                this.updateImages(id, image.page, image, true);
+                updateImages(id, image.page, image, true);
             });
         }
     };
@@ -4447,7 +4454,7 @@ function handleRotateEnd(_id: string) {
 
 export function handleDragStart(e, _id) {
 
-        this.cancelSaving();
+        cancelSaving();
 
         window.startX = e.clientX;
         window.startY = e.clientY;
@@ -5094,7 +5101,7 @@ function handleImageDrag(_id, clientX, clientY) {
 
         editorStore.images2.set(editorStore.idObjectSelected, window.image);
         updateGuide(window.image);
-        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
+        updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
 
         window.cloneImages.forEach(imageTransformed => {
             let el0 = document.getElementById(imageTransformed._id + "guide_0");
@@ -5122,7 +5129,7 @@ function handleImageDrag(_id, clientX, clientY) {
 
                     editorStore.images2.set(id, image2);
                     updateGuide(image2);
-                    this.updateImages(id, image2.page, image2, true);
+                    updateImages(id, image2.page, image2, true);
                 }
             })
         }
@@ -5153,7 +5160,7 @@ function handleImageDrag(_id, clientX, clientY) {
         image.opacity = opacity;
         editorStore.images2.set(editorStore.idObjectSelected, image);
 
-        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+        updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
     }
 
     export function handleGridSelected(childId) {
@@ -5236,7 +5243,7 @@ export function disableCropMode() {
         let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
         editorStore.keys[index] = editorStore.keys[index] + 1;
 
-        this.forceUpdate();
+        window.editor.forceUpdate();
     }
 
     let image = this.getImageSelected();
@@ -5254,14 +5261,14 @@ export function disableCropMode() {
             return g;
         });
 
-        this.updateImages(parentImage._id, parentImage.page, parentImage, true);
+        updateImages(parentImage._id, parentImage.page, parentImage, true);
 
         editorStore.images2.delete(editorStore.idObjectSelected);
         doNoObjectSelected.bind(this)();
         let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
         editorStore.keys[index] = editorStore.keys[index] + 1;
 
-        this.forceUpdate();
+        window.editor.forceUpdate();
     }
 
     if ((image.type == TemplateType.Image ||
@@ -5376,7 +5383,7 @@ export function forwardSelectedObject(id) {
     let image = getImageSelected();
     image.zIndex = editorStore.upperZIndex + 1;
     editorStore.images2.set(editorStore.idObjectSelected, image);
-    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
     editorStore.increaseUpperzIndex();
 };
 
@@ -5393,12 +5400,12 @@ export function backwardSelectedObject(id) {
             val.selected = false;
             val.hovered = false;
             editorStore.images2.set(key, val);
-            this.updateImages(key, editorStore.pageId, val, true);
+            updateImages(key, editorStore.pageId, val, true);
         }
     });
     editorStore.upperZIndex += 1;
     editorStore.images2.set(editorStore.idObjectSelected, image);
-    this.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
 
 };
 
@@ -5474,5 +5481,36 @@ export function addAPage(e, id) {
         document.getElementById(newPageId).scrollIntoView();
     }, 100);
 
-    this.forceUpdate();
+    window.editor.forceUpdate();
+};
+
+
+export function handleDeleteThisPage(pageId)  {
+    let pages = toJS(editorStore.pages);
+    let tempPages = pages.filter(pId => pId !== pageId);
+    editorStore.pages.replace(tempPages);
+};
+
+export function updateImages2(image, includeDownloadCanvas) {
+    window.editor.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, includeDownloadCanvas);
+}
+
+export function updateImages(id, pageId, image, includeDownloadCanvas) {
+    try {
+        window.editor.canvas1[pageId].canvas[CanvasType.All][id].child.updateImage(image);
+        window.editor.canvas1[pageId].canvas[CanvasType.HoverLayer][id].child.updateImage(image);
+        if (includeDownloadCanvas) window.editor.canvas2[pageId].canvas[CanvasType.Download][id].child.updateImage(image);
+    } catch (e) {
+        console.log('Failed to updateImages. Exception: ', e);
+    }
+}
+
+export function handleEditmedia(item) {
+    window.editor.setState({ showMediaEditPopup: true, editingMedia: item });
+    window.editor.forceUpdate();
+};
+
+export function handleEditFont(item) {
+    window.editor.setState({ showFontEditPopup: true, editingFont: item });
+    window.editor.forceUpdate();
 };

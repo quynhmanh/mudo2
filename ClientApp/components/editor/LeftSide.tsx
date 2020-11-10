@@ -4,7 +4,7 @@ import TopMenu from "@Components/editor/Sidebar";
 import Globals from "@Globals";
 import axios from "axios";
 import uuidv4 from "uuid/v4";
-import { getMostProminentColor, isNode } from "@Utils";
+import { getMostProminentColor, isNode, saveImages } from "@Utils";
 import { toJS } from "mobx";
 import editorStore from "@Store/EditorStore";
 import SidebarVideo from "@Components/editor/SidebarVideo";
@@ -38,7 +38,6 @@ export interface IProps {
     childId: string;
     typeObjectSelected: any;
     handleFontColorChange: any;
-    selectFont: any;
     mounted: boolean;
     setSelectionColor: any;
     imgOnMouseDown: any;
@@ -48,15 +47,12 @@ export interface IProps {
     tReady: boolean;
     fontId: any;
     scale: number;
-    handleEditFont: any;
     handleImageSelected: any;
     handleApplyEffect: any;
     selectedImage: any;
     backgroundOnMouseDown: any;
     updateImages: any;
     forceEditorUpdate: any;
-    handleEditmedia: any;
-    saveImages: any;
 }
 
 interface IState {
@@ -436,10 +432,6 @@ class LeftSide extends Component<IProps, IState> {
 
     imgDragging = null;
 
-    handleEditFont = item => {
-        this.props.handleEditFont(item);
-    };
-
     handleDeleteTemplate = () => {
         var url = `/api/Template/Delete?id=${this.props.id}`;
         axios.delete(url);
@@ -589,7 +581,7 @@ class LeftSide extends Component<IProps, IState> {
                     </button>
                     <button
                         onClick={e => {
-                            this.props.saveImages(null, false, true)
+                            saveImages(null, false, true)
                         }
                         }
                     >
@@ -613,11 +605,9 @@ class LeftSide extends Component<IProps, IState> {
                             handleImageSelected={this.props.handleImageSelected}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
-                            handleEditmedia={this.props.handleEditmedia}
                             updateImages={this.props.updateImages}
                         />
                         <SidebarText
-                            handleEditmedia={this.props.handleEditmedia}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
                             handleImageSelected={this.props.handleImageSelected}
@@ -625,7 +615,6 @@ class LeftSide extends Component<IProps, IState> {
                         />
                         {editorStore.templateRatio && this.state.mounted && this.props.mounted && editorStore.tReady &&
                             <SidebarTemplate
-                                handleEditmedia={this.props.handleEditmedia}
                                 scale={this.props.scale}
                                 translate={this.props.translate}
                                 selectedTab={editorStore.selectedTab}
@@ -636,7 +625,6 @@ class LeftSide extends Component<IProps, IState> {
                                 rem={this.rem}
                             />}
                         <SidebarBackground
-                            handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
@@ -648,18 +636,15 @@ class LeftSide extends Component<IProps, IState> {
                         />
                         <SidebarFont
                             updateImages={this.props.updateImages}
-                            handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
-                            handleEditFont={this.handleEditFont}
                             fontId={editorStore.fontId}
                             rem={this.elRemFont}
                         />
 
                         <SidebarEffect
                             updateImages={this.props.updateImages}
-                            handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
@@ -670,7 +655,6 @@ class LeftSide extends Component<IProps, IState> {
                         />
                         <SidebarColor
                             updateImages={this.props.updateImages}
-                            handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
@@ -678,7 +662,6 @@ class LeftSide extends Component<IProps, IState> {
                             effectId={editorStore.effectId}
                         />
                         <SidebarElement
-                            handleEditmedia={this.props.handleEditmedia}
                             scale={this.props.scale}
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
@@ -693,7 +676,6 @@ class LeftSide extends Component<IProps, IState> {
                             translate={this.props.translate}
                             selectedTab={editorStore.selectedTab}
                             handleImageSelected={this.props.handleImageSelected}
-                            handleEditmedia={this.props.handleEditmedia}
                         />
                         {/* {Globals.serviceUser && */}
                             <SidebarUserUpload
@@ -701,7 +683,6 @@ class LeftSide extends Component<IProps, IState> {
                                 handleImageSelected={this.props.handleImageSelected}
                                 translate={this.props.translate}
                                 selectedTab={editorStore.selectedTab}
-                                handleEditmedia={this.props.handleEditmedia}
                                 updateImages={this.props.updateImages}
                             />
                             <SidebarAnimation

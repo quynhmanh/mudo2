@@ -8,6 +8,9 @@ import Tooltip from "@Components/shared/Tooltip";
 import { TemplateType, CanvasType, } from "./enums";
 
 import {
+    addAPage,
+    disableCropMode,
+    handleDeleteThisPage,
     transformImage as getTransformedImage,
 } from "@Utils";
 
@@ -26,22 +29,13 @@ export interface IProps {
     handleImageUnhovered: any;
     handleImageHovered: any;
     handleImageHover: any;
-    handleRotateStart: any;
-    handleResizeStart: any;
-    handleDragStart: any;
-    onTextChange: any;
     handleFontSizeChange: any;
     handleFontColorChange: any;
     handleFontFamilyChange: any;
-    handleChildIdSelected: any;
-    disableCropMode: any;
-    handleResizeInnerImageStart: any;
     doNoObjectSelected: any;
     index: number;
-    addAPage: any;
     staticGuides: any;
     idObjectSelected: any;
-    handleDeleteThisPage: any;
     bleed: boolean;
     showPopup: boolean;
     preview: boolean;
@@ -52,11 +46,6 @@ export interface IProps {
     selected: boolean;
     activePageId: string;
     active: boolean;
-    toggleVideo: any;
-    handleCropBtnClick: any;
-    handleGridCrop: any;
-    handleChildCrop: any;
-    handleGridSelected: any;
 }
 
 export interface IState {
@@ -175,7 +164,7 @@ export default class Canvas extends Component<IProps, IState> {
                                     onClick={() => {
                                         document.getElementById(id).style.opacity = "0";
                                         setTimeout(() => {
-                                            this.props.handleDeleteThisPage(id);
+                                            handleDeleteThisPage(id);
                                         }, 100);
                                     }}
                                 >
@@ -206,7 +195,7 @@ export default class Canvas extends Component<IProps, IState> {
                             <button
                                 className="controllers-btn"
                                 onClick={e => {
-                                    this.props.addAPage(e, id);
+                                    addAPage(e, id);
                                 }}
                             >
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.875 10.208a.625.625 0 1 0 1.25 0v-3.75h3.75a.625.625 0 1 0 0-1.25h-3.75v-3.75a.625.625 0 1 0-1.25 0v3.75h-3.75a.625.625 0 0 0 0 1.25h3.75v3.75z" fill="currentColor"></path><path d="M6.015 3.333H5c-.92 0-1.667.746-1.667 1.667v10c0 .92.746 1.666 1.667 1.666h8.333c.92 0 1.667-.746 1.667-1.666v-2.151h-1.25v2.15c0 .23-.187.417-.417.417H5A.417.417 0 0 1 4.583 15V5c0-.23.187-.417.417-.417h1.015v-1.25z" fill="currentColor"></path></svg>
@@ -461,13 +450,7 @@ export default class Canvas extends Component<IProps, IState> {
                                 {images
                                     .map(img => (
                                         <ResizableRect
-                                            handleChildIdSelected={this.props.handleChildIdSelected}
-                                            handleGridSelected={this.props.handleGridSelected}
-                                            handleGridCrop={this.props.handleGridCrop}
-                                            handleChildCrop={this.props.handleChildCrop}
-                                            handleCropBtnClick={this.props.handleCropBtnClick}
                                             doNoObjectSelected={this.props.doNoObjectSelected}
-                                            handleDragStart={this.props.handleDragStart}
                                             handleImageHovered={this.props.handleImageHovered}
                                             handleImageUnhovered={this.props.handleImageUnhovered}
                                             handleImageSelected={this.props.handleImageSelected}
@@ -478,26 +461,15 @@ export default class Canvas extends Component<IProps, IState> {
                                             image={img}
                                             hovered={img.hovered}
                                             freeStyle={img.freeStyle}
-                                            toggleVideo={this.props.toggleVideo}
                                             id={img._id + "_1"}
                                             showImage={true}
                                             showController={false}
                                             key={img._id + "2"}
                                             scale={scale}
                                             rotateAngle={img.rotateAngle}
-                                            onRotateStart={this.props.handleRotateStart}
-                                            onResizeStart={this.props.handleResizeStart}
-                                            onTextChange={this.props.onTextChange.bind(
-                                                this,
-                                                img
-                                            )}
                                             childId={this.props.childId}
                                             cropMode={cropMode}
-                                            handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
-                                                this
-                                            )}
                                             bleed={this.props.bleed}
-                                            disableCropMode={null}
                                         />
                                     ))}
                             </div>
@@ -515,7 +487,7 @@ export default class Canvas extends Component<IProps, IState> {
                                 }}
                                 onClick={e => {
                                     if ((e.target as HTMLElement).id == "canvas") {
-                                        this.props.disableCropMode();
+                                        disableCropMode();
                                     }
                                 }}
                             >
@@ -523,12 +495,6 @@ export default class Canvas extends Component<IProps, IState> {
                                     {images
                                         .map(imgHovered =>
                                             <ResizableRect
-                                                handleChildIdSelected={this.props.handleChildIdSelected}
-                                                handleGridSelected={this.props.handleGridSelected}
-                                                handleGridCrop={this.props.handleGridCrop}
-                                                handleChildCrop={this.props.handleChildCrop}
-                                                handleCropBtnClick={this.props.handleCropBtnClick}
-                                                handleDragStart={this.props.handleDragStart}
                                                 ref={i => this.canvas[CanvasType.HoverLayer][imgHovered._id] = i}
                                                 handleImageSelected={this.props.handleImageSelected}
                                                 handleImageUnhovered={this.props.handleImageUnhovered}
@@ -538,7 +504,6 @@ export default class Canvas extends Component<IProps, IState> {
                                                 selected={imgHovered.selected}
                                                 hovered={imgHovered.hovered}
                                                 image={imgHovered}
-                                                toggleVideo={this.props.toggleVideo}
                                                 freeStyle={imgHovered.freeStyle}
                                                 id={imgHovered._id + "_2"}
                                                 bleed={this.props.bleed}
@@ -547,18 +512,8 @@ export default class Canvas extends Component<IProps, IState> {
                                                 key={imgHovered._id + "2"}
                                                 scale={scale}
                                                 rotateAngle={imgHovered.rotateAngle}
-                                                onRotateStart={this.props.handleRotateStart}
-                                                onResizeStart={this.props.handleResizeStart}
-                                                disableCropMode={this.props.disableCropMode}
-                                                onTextChange={this.props.onTextChange.bind(
-                                                    this,
-                                                    imgHovered
-                                                )}
                                                 childId={this.props.childId}
                                                 cropMode={cropMode}
-                                                handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
-                                                    this
-                                                )}
                                                 doNoObjectSelected={null}
                                             />
                                         )
@@ -665,8 +620,6 @@ export default class Canvas extends Component<IProps, IState> {
                                     // .filter(image => image.type != TemplateType.GroupedItem)
                                     .map(imgHovered =>
                                         <ResizableRect
-                                            handleChildCrop={this.props.handleChildCrop}
-                                            handleDragStart={this.props.handleDragStart}
                                             ref={i => this.canvas[CanvasType.Download][imgHovered._id] = i}
                                             handleImageSelected={this.props.handleImageSelected}
                                             handleImageUnhovered={this.props.handleImageUnhovered}
@@ -676,7 +629,6 @@ export default class Canvas extends Component<IProps, IState> {
                                             selected={imgHovered.selected}
                                             hovered={imgHovered.hovered}
                                             image={imgHovered}
-                                            toggleVideo={this.props.toggleVideo}
                                             freeStyle={imgHovered.freeStyle}
                                             id={imgHovered._id + "_2"}
                                             bleed={this.props.bleed}
@@ -685,23 +637,12 @@ export default class Canvas extends Component<IProps, IState> {
                                             key={imgHovered._id + "2"}
                                             scale={1}
                                             rotateAngle={imgHovered.rotateAngle}
-                                            onRotateStart={this.props.handleRotateStart}
-                                            onResizeStart={this.props.handleResizeStart}
-                                            onTextChange={this.props.onTextChange.bind(
-                                                this,
-                                                imgHovered
-                                            )}
-                                            disableCropMode={this.props.disableCropMode}
                                             handleFontColorChange={
                                                 this.props.handleFontColorChange
                                             }
                                             childId={this.props.childId}
                                             cropMode={cropMode}
-                                            handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
-                                                this
-                                            )}
                                             doNoObjectSelected={null}
-                                            handleCropBtnClick={null}
                                         />
                                     )
                                 }

@@ -6,6 +6,7 @@ import { toJS } from "mobx";
 import VideoPicker from "@Components/shared/VideoPicker2";
 import Sidebar from "@Components/editor/SidebarStyled";
 import {
+    handleEditmedia,
     setSavingState,
 } from "@Utils";
 
@@ -16,7 +17,6 @@ export interface IProps {
     handleImageSelected: any;
     scale: any;
     setSavingState: any;
-    handleEditmedia: any;
 }
 
 export interface IState {
@@ -280,7 +280,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                                 onPick={e => {
                                     this.videoOnMouseDown(e, item);
                                 }}
-                                onEdit={this.props.handleEditmedia.bind(this, item)}
+                                onEdit={handleEditmedia.bind(this, item)}
                                 showButton={true}
                                 duration={item.duration}
                                 showDuration={true}

@@ -1,9 +1,8 @@
+import { backwardSelectedObject, forwardSelectedObject } from "@Utils";
 import React from "react";
 
 interface IProps {
     translate: any;
-    forwardSelectedObject: any;
-    backwardSelectedObject: any;
 }
 
 const PositionDropdown = (props: IProps) => {
@@ -38,7 +37,7 @@ const PositionDropdown = (props: IProps) => {
                             display: "inline-flex",
                             justifyContent: "center",
                         }}
-                        onClick={props.forwardSelectedObject}
+                        onClick={forwardSelectedObject}
                     >
                         <img 
                             src={require("@Components/shared/svgs/editor/toolbar/forward.svg")} 
@@ -64,7 +63,7 @@ const PositionDropdown = (props: IProps) => {
                             display: "inline-flex",
                             justifyContent: "center",
                         }}
-                        onClick={props.backwardSelectedObject}
+                        onClick={backwardSelectedObject}
                     >
                         <img 
                             src={require("@Components/shared/svgs/editor/toolbar/backward.svg")} 

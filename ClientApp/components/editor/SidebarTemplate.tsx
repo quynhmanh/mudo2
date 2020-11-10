@@ -12,7 +12,6 @@ export interface IProps {
     translate: any;
     subtype: any;
     selectedTab: any;
-    handleEditmedia: any;
     rectHeight: number;
     rectWidth: number;
     forceEditorUpdate: any;

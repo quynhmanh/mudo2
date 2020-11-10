@@ -1,14 +1,14 @@
+import { handleCropBtnClick } from "@Utils";
 import React from "react";
 
 interface IProps {
     show: boolean;
     translate: any;
     cropMode: boolean;
-    handleCropBtnClick: any;
 }
 
 const Crop = (props: IProps) => {
-    const { show, cropMode, handleCropBtnClick, translate } = props;
+    const { show, cropMode, translate } = props;
     const content = translate("crop");
     return (
         <div

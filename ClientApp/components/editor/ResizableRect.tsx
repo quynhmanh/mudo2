@@ -13,30 +13,21 @@ export interface IProps {
   minHeight: number;
   parentRotateAngle: number;
   showController: boolean;
-  onTextChange: any;
   onFontSizeChange(fontSize: number): void;
   handleFontColorChange(fontColor: string): void;
   handleFontFaceChange(fontFace: string): void;
-  handleChildIdSelected(childId: string): void;
-  disableCropMode: any
   cropMode: boolean;
-  handleResizeInnerImageStart: any;
   showImage: boolean;
   bleed: boolean;
   freeStyle: boolean;
   image: any;
   selected: boolean;
   canvas: string;
-  toggleVideo: any;
   hovered: boolean;
   handleImageSelected: any;
   handleImageHovered: any;
   handleImageUnhovered: any;
-  handleDragStart: any;
   doNoObjectSelected: any;
-  handleCropBtnClick: any;
-  handleGridCrop: any;
-  handleChildCrop: any;
 }
 
 export interface IState {
@@ -70,47 +61,31 @@ export default class ResizableRect extends Component<IProps, IState> {
       onResizeStart,
       onRotateStart,
       showController,
-      onTextChange,
       onFontSizeChange,
       handleFontColorChange,
       handleFontFaceChange,
-      handleChildIdSelected,
       childId,
       cropMode,
       showImage,
-      handleResizeInnerImageStart,
       bleed,
       id,
       image,
       selected,
       name,
       canvas,
-      toggleVideo,
       handleImageSelected,
       handleImageHovered,
       handleImageUnhovered,
-      handleDragStart,
       doNoObjectSelected,
-      handleCropBtnClick,
-      disableCropMode,
-      handleGridCrop,
-      handleGridSelected,
-      handleChildCrop,
     } = this.props;
 
     return (
       <Rect
-        handleGridSelected={handleGridSelected}
-        handleGridCrop={handleGridCrop}
-        handleChildCrop={handleChildCrop}
-        handleCropBtnClick={handleCropBtnClick}
         doNoObjectSelected={doNoObjectSelected}
-        handleDragStart={handleDragStart}
         ref={i => this.child = i}
         handleImageSelected={handleImageSelected}
         handleImageHovered={handleImageHovered}
         handleImageUnhovered={handleImageUnhovered}
-        toggleVideo={toggleVideo}
         canvas={canvas}
         name={name}
         selected={selected}
@@ -121,15 +96,11 @@ export default class ResizableRect extends Component<IProps, IState> {
         parentRotateAngle={parentRotateAngle}
         onResizeStart={onResizeStart}
         onRotateStart={onRotateStart}
-        onTextChange={onTextChange}
         onFontSizeChange={onFontSizeChange}
         handleFontColorChange={handleFontColorChange}
         handleFontFaceChange={handleFontFaceChange}
-        handleChildIdSelected={handleChildIdSelected}
-        disableCropMode={disableCropMode}
         childId={childId}
         cropMode={cropMode}
-        handleResizeInnerImageStart={handleResizeInnerImageStart}
         showImage={showImage}
         bleed={bleed}
       />

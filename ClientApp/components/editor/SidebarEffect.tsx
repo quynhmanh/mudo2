@@ -9,7 +9,6 @@ export interface IProps {
     scale: number;
     translate: any;
     selectedTab: any;
-    handleEditmedia: any;
     handleImageSelected: any;
     updateImages: any;
     effectId: any;

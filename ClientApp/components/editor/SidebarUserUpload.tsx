@@ -14,6 +14,7 @@ import VideoPicker from "@Components/shared/VideoPicker2";
 import ReactDOMServer from 'react-dom/server';
 import { camelCase } from "lodash";
 import {
+    handleEditmedia,
     setSavingState,
 } from "@Utils";
 
@@ -21,7 +22,6 @@ export interface IProps {
     scale: number;
     translate: any;
     selectedTab: any;
-    handleEditmedia: any;
     handleImageSelected: any;
     setSavingState: any;
     updateImages: any;
@@ -1160,7 +1160,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                                 onPick={e => {
                                                     this.videoOnMouseDown(e, item);
                                                 }}
-                                                onEdit={this.props.handleEditmedia.bind(this, item)}
+                                                onEdit={handleEditmedia.bind(this, item)}
                                                 showButton={true}
                                                 duration={item.duration}
                                                 showDuration={true}
@@ -1217,7 +1217,7 @@ export default class SidebarUserUpload extends Component<IProps, IState> {
                                                 else
                                                     this.imgOnMouseDown(item, e);
                                             }}
-                                            onEdit={this.props.handleEditmedia.bind(this, item)}
+                                            onEdit={handleEditmedia.bind(this, item)}
                                             showButton={true}
                                             showProgressBar={item.showProgressBar}
                                         />
