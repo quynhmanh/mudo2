@@ -490,9 +490,6 @@ export default class Canvas extends Component<IProps, IState> {
                                                 this,
                                                 img
                                             )}
-                                            handleChildIdSelected={this.props.handleChildIdSelected.bind(
-                                                this
-                                            )}
                                             childId={this.props.childId}
                                             cropMode={cropMode}
                                             handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
@@ -554,9 +551,6 @@ export default class Canvas extends Component<IProps, IState> {
                                                 onTextChange={this.props.onTextChange.bind(
                                                     this,
                                                     imgHovered
-                                                )}
-                                                handleChildIdSelected={this.props.handleChildIdSelected.bind(
-                                                    this
                                                 )}
                                                 childId={this.props.childId}
                                                 cropMode={cropMode}
@@ -699,10 +693,6 @@ export default class Canvas extends Component<IProps, IState> {
                                             handleFontColorChange={
                                                 this.props.handleFontColorChange
                                             }
-                                            onFontSizeChange={this.props.handleFontSizeChange}
-                                            handleChildIdSelected={this.props.handleChildIdSelected.bind(
-                                                this
-                                            )}
                                             childId={this.props.childId}
                                             cropMode={cropMode}
                                             handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(

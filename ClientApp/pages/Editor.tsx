@@ -1378,9 +1378,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleResizeStart={handleResizeStart && handleResizeStart.bind(this)}
                     handleDragStart={handleDragStart && handleDragStart.bind(this)}
                     onTextChange={onTextChange && onTextChange.bind(this)}
-                    handleFontSizeChange={this.handleFontSizeChange}
-                    handleFontColorChange={this.handleFontColorChange}
-                    handleFontFamilyChange={this.handleFontFamilyChange}
                     handleChildIdSelected={handleChildIdSelected && handleChildIdSelected.bind(this)}
                     disableCropMode={disableCropMode && disableCropMode.bind(this)}
                     handleResizeInnerImageStart={handleResizeInnerImageStart && handleResizeInnerImageStart.bind(this)}
@@ -1436,9 +1433,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     handleResizeStart={null}
                     handleDragStart={null}
                     onTextChange={onTextChange && onTextChange.bind(this)}
-                    handleFontSizeChange={this.handleFontSizeChange}
-                    handleFontColorChange={this.handleFontColorChange}
-                    handleFontFamilyChange={this.handleFontFamilyChange}
                     handleChildIdSelected={null}
                     disableCropMode={null}
                     handleResizeInnerImageStart={null}

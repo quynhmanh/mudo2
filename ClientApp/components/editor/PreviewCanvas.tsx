@@ -30,9 +30,6 @@ export interface IProps {
     handleResizeStart: any;
     handleDragStart: any;
     onTextChange: any;
-    handleFontSizeChange: any;
-    handleFontColorChange: any;
-    handleFontFamilyChange: any;
     handleChildIdSelected: any;
     enableCropMode: any;
     disableCropMode: any;
@@ -471,9 +468,6 @@ export default class Canvas extends Component<IProps, IState> {
                                             onTextChange={this.props.onTextChange.bind(
                                                 this,
                                                 img
-                                            )}
-                                            handleChildIdSelected={this.props.handleChildIdSelected.bind(
-                                                this
                                             )}
                                             childId={this.props.childId}
                                             cropMode={cropMode}
