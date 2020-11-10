@@ -482,9 +482,7 @@ export default class Canvas extends Component<IProps, IState> {
                                             )}
                                             childId={this.props.childId}
                                             cropMode={cropMode}
-                                            handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
-                                                this
-                                            )}
+                                            handleResizeInnerImageStart={null}
                                             bleed={this.props.bleed}
                                             disableCropMode={null}
                                         />

@@ -14,6 +14,10 @@ import Globals from "@Globals";
 import { fromEvent, merge } from "rxjs";
 import { catchError, filter, first, map, takeUntil } from "rxjs/operators";
 import ReactDOMServer from "react-dom/server";
+import {
+    rotateRect,
+    rotatePoint,
+} from "@Components/selection/utils";
 
 declare var process: any;
 
@@ -2207,7 +2211,6 @@ export function handleWheel(e) {
 };
 
 export function doNoObjectSelected() {
-    console.log('doNoObjectSelected')
     if (editorStore.cropMode) {
         this.disableCropMode();
     }
@@ -2221,7 +2224,6 @@ export function doNoObjectSelected() {
         }
 
         let image = editorStore.getImageSelected();
-        console.log('doNoObjectSelected', image)
         if (image && image.type == TemplateType.GroupedItem && image.temporary) {
             editorStore.images2.delete(editorStore.idObjectSelected);
             let index = editorStore.pages.findIndex(pageId => pageId == image.page);
@@ -2700,7 +2702,7 @@ export function handleResizeStart(e: any, d: any) {
             },
             null,
             () => {
-                displayResizers(true);
+                displayResizers.bind(this)(true);
                 handleResizeEnd.bind(this)();
                 window.pauser.next(false);
                 this.forceUpdate();
@@ -3775,7 +3777,7 @@ function handleResizeEnd() {
             image2.scaleX = window.selectionsAngle[id].scaleX;
             image2.scaleY = window.selectionsAngle[id].scaleY;
             editorStore.images2.set(id, image2);
-            this.updateGuide(image2);
+            updateGuide(image2);
             this.updateImages(id, image2.page, image2, true);
         });
     }
@@ -3786,11 +3788,11 @@ function handleResizeEnd() {
 
 
 export function handleResizeInnerImageStart(e, d) {
-
+    console.log('handleResizeInnerImageStart')
     window.resized = false;
     this.cancelSaving();
 
-    this.popuplateImageProperties(editorStore.idObjectSelected);
+    popuplateImageProperties(editorStore.idObjectSelected);
 
     window.resizingInnerImage = true;
     window.startX = e.clientX;
@@ -3896,7 +3898,7 @@ export function handleResizeInnerImageStart(e, d) {
                         5
                     );
                     let style = centerToTL({ centerX, centerY, width, height, rotateAngle });
-                    this.handleResize(
+                    handleResize.bind(this)(
                         style,
                         type,
                         editorStore.idObjectSelected,
@@ -3920,7 +3922,7 @@ export function handleResizeInnerImageStart(e, d) {
                     );
                     let style = centerToTL({ centerX, centerY, width, height, rotateAngle: 0 });
 
-                    this.handleImageResize(
+                    handleImageResize.bind(this)(
                         style,
                         type,
                         editorStore.idObjectSelected,
@@ -3929,9 +3931,9 @@ export function handleResizeInnerImageStart(e, d) {
             },
             null,
             () => {
-                this.handleResizeEnd();
+                handleResizeEnd.bind(this)();
                 window.pauser.next(false);
-                this.displayResizers(true);
+                displayResizers(true);
                 ell.style.zIndex = "0";
 
                 if (window.resized) {
@@ -4157,7 +4159,7 @@ function handleImageResize(
         }
 
         if (switching) {
-            this.handleResizeEnd();
+            handleResizeEnd.bind(this)();
 
             const styles = tLToCenter({
                 top: window.imageTop,
@@ -4329,8 +4331,8 @@ export function handleRotateStart(e: any) {
                 },
                 null,
                 () => {
-                    this.displayResizers(true);
-                    this.handleRotateEnd(editorStore.idObjectSelected);
+                    displayResizers(true);
+                    handleRotateEnd.bind(this)(editorStore.idObjectSelected);
                     window.pauser.next(false);
                     ell.style.zIndex = "0";
 
@@ -4364,7 +4366,7 @@ function handleRotateEnd(_id: string) {
         }
 
         editorStore.images2.set(editorStore.idObjectSelected, window.image);
-        updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
+        this.updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);
         updateGuide(window.image);
 
         if (window.image.type == TemplateType.GroupedItem) {
@@ -4378,7 +4380,7 @@ function handleRotateEnd(_id: string) {
                 image.selected = false;
                 editorStore.images2.set(id, image);
                 updateGuide(image);
-                updateImages(id, image.page, image, true);
+                this.updateImages(id, image.page, image, true);
             });
         }
     };
@@ -5060,7 +5062,7 @@ function handleImageDrag(_id, clientX, clientY) {
                     image2.selected = false;
 
                     editorStore.images2.set(id, image2);
-                    this.updateGuide(image2);
+                    updateGuide(image2);
                     this.updateImages(id, image2.page, image2, true);
                 }
             })

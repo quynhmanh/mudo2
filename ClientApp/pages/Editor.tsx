@@ -393,6 +393,7 @@ class CanvaEditor extends Component<IProps, IState> {
         this.updateImages = this.updateImages.bind(this);
         this.forceEditorUpdate = this.forceEditorUpdate.bind(this);
         this.removeImage2 = this.removeImage2.bind(this);
+        this.setScale = this.setScale.bind(this);
     }
 
     $app = null;
@@ -420,6 +421,7 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        console.log('shouldComponentUpdate')
         if (this.state.scale != nextState.scale) {
             return true;
         }
@@ -1005,7 +1007,7 @@ class CanvaEditor extends Component<IProps, IState> {
             }
 
             if (window.selections) {
-                if (editorStore.idObjectSelected) doNoObjectSelected();
+                if (editorStore.idObjectSelected) doNoObjectSelected.bind(self)();
                 window.selections.forEach(el => {
                     el.style.opacity = 0;
                 });
@@ -1235,7 +1237,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
     removeImage2() {
         editorStore.images2.delete(editorStore.idObjectSelected);
-        doNoObjectSelected();
+        doNoObjectSelected.bind(this)();
         let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
         editorStore.keys[index] = editorStore.keys[index] + 1;
 
@@ -1280,7 +1282,7 @@ class CanvaEditor extends Component<IProps, IState> {
             } catch (e) {
 
             }
-            doNoObjectSelected();
+            doNoObjectSelected.bind(this)();
         }
 
         let image = editorStore.images2.get(id);
@@ -1613,7 +1615,7 @@ class CanvaEditor extends Component<IProps, IState> {
             this.updateImages(parentImage._id, parentImage.page, parentImage, true);
 
             editorStore.images2.delete(editorStore.idObjectSelected);
-            doNoObjectSelected();
+            doNoObjectSelected.bind(this)();
             let index = editorStore.pages.findIndex(pageId => pageId == editorStore.pageId);
             editorStore.keys[index] = editorStore.keys[index] + 1;
 
@@ -1949,6 +1951,11 @@ class CanvaEditor extends Component<IProps, IState> {
         return res;
     }
 
+    setScale = (scale) => {
+        editorStore.scale = scale;
+        this.setState({scale});
+    }
+
     handleDeleteThisPage = pageId => {
         let pages = toJS(editorStore.pages);
         let tempPages = pages.filter(pId => pId !== pageId);
@@ -2193,6 +2200,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                     }}
                                 >
                                     {this.props.tReady && <ZoomController
+                                        setScale={this.setScale}
                                         translate={this.translate}
                                         scale={this.state.scale}
                                         fitScale={this.state.fitScale}
