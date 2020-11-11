@@ -1458,6 +1458,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         zIndex: 2,
                                         background: '#fff',
                                         boxShadow: '0 1px 0 rgba(57,76,96,.15)',
+                                        userSelect: "none",
                                     }}
                                 >
                                     <Toolbar
