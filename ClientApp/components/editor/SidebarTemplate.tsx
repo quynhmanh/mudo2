@@ -129,7 +129,6 @@ export default class SidebarTemplate extends Component<IProps, IState> {
             .then(res => res.json())
             .then(
                 res => {
-                    console.log('res', res)
                     var doc = res.value;
                     
                     this.forceUpdate();
@@ -160,6 +159,22 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         return doc;
                     });
 
+                    let cnt = 0;
+                    const checkLoadTemplate = () => {
+                        editorStore.applyTemplate(template.document_object);
+
+                        let fonts = toJS(editorStore.fonts);
+                        let tempFonts = [...fonts, ...doc.fontList];
+                        editorStore.fonts.replace(tempFonts);
+
+                        this.props.forceEditorUpdate();
+
+                        cv.style.backgroundImage = ``;
+                    }
+
+                    console.log('doc.fontList ', doc.fontList);
+                    if (doc.fontList.length == 0) checkLoadTemplate();
+
                     if (doc.fontList) {
                         doc.fontList.forEach(id => {
                             let style = `@font-face {
@@ -181,24 +196,16 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                             link.media = "all";
                             link.as = "font";
                             link.crossOrigin = "anonymous";
+                            link.onload = () => {
+                                ++cnt;
+                                if (cnt == doc.fontList.length) checkLoadTemplate();
+                            }
                             head.appendChild(link);
                             return {
                                 id: id
                             };
                         });
                     }
-
-                    editorStore.applyTemplate(template.document_object);
-
-                    let fonts = toJS(editorStore.fonts);
-                    let tempFonts = [...fonts, ...doc.fontList];
-                    editorStore.fonts.replace(tempFonts);
-
-                    this.props.forceEditorUpdate();
-
-                    setTimeout(() => {
-                        cv.style.backgroundImage = ``;
-                    }, 300);
                 }
             );
     }
