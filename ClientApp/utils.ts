@@ -2616,7 +2616,7 @@ export async function saveImages(rep, isVideo, isAdmin = false) {
             }
         })
         .then(res => {
-            self.setSavingState(SavingState.ChangesSaved, false);
+            setSavingState(SavingState.ChangesSaved, false);
         })
         .catch(error => {
         });
