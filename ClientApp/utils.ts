@@ -14,6 +14,7 @@ import Globals from "@Globals";
 import { fromEvent, merge } from "rxjs";
 import { catchError, filter, first, map, takeUntil } from "rxjs/operators";
 import ReactDOMServer from "react-dom/server";
+import CircleType from "@Components/circletype/entry";
 import {
     rotateRect,
     rotatePoint,
@@ -2069,6 +2070,13 @@ export function onTextChange(thisImage, e, childId) {
     if (e) {
         e.persist();
     }
+    if (thisImage.effectId == 9) {
+        let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+        window.circleType = new CircleType(el);
+
+        // Set the text radius and direction. Note: setter methods are chainable.
+        window.circleType.radius(200).dir(1);
+    }
     setTimeout(() => {
         if (!childId) {
             let image = editorStore.getImageSelected();
@@ -2167,12 +2175,19 @@ export function onTextChange(thisImage, e, childId) {
             updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
             window.editor.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.childrens[childId].updateInnerHTML(target.innerHTML);
         }
-    }, 0);
+    }, 50);
 }
 
-export function onTextChange2(target) {
+export function onTextChange2(target, angle, dir) {
     console.log('onTextChange2 ')
     let thisImage = getImageSelected();
+    if (thisImage.effectId == 9) {
+        let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+        window.circleType = new CircleType(el);
+
+        // Set the text radius and direction. Note: setter methods are chainable.
+        window.circleType.radius(angle).dir(dir);
+    }
     setTimeout(() => {
             let image = editorStore.getImageSelected();
             let centerX = image.left + image.width / 2;

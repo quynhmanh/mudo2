@@ -4,8 +4,8 @@ import editorStore from "@Store/EditorStore";
 import Slider from "@Components/editor/Slider";
 import ColorPicker from "@Components/editor/ColorPicker";
 import Sidebar from "@Components/editor/SidebarStyled";
-import CircleType from "circletype";
-import { onTextChange, onTextChange2 } from '@Utils';
+import CircleType from "@Components/circletype/entry";
+import { getImageSelected, onTextChange, onTextChange2, updateImages2 } from '@Utils';
 
 export interface IProps {
     scale: number;
@@ -793,16 +793,17 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     boxShadow: editorStore.effectId == 9 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
                                 }}
                                 onClick={e => {
+                                    let image = getImageSelected();
+                                    image.effectId = 9;
+                                    editorStore.images2.set(image._id, image);
                                     editorStore.effectId = 9;
-                                   let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-                                   const circleType = new CircleType(el);
+                                    let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+                                    window.circleType = new CircleType(el);
 
                                     // Set the text radius and direction. Note: setter methods are chainable.
-                                    circleType.radius(200).dir(1);
+                                    window.circleType.radius(1000).dir(1);
 
-                                    setTimeout(() => {
-                                        onTextChange2(el);
-                                    }, 50);
+                                    onTextChange2(el, 1000, 1);
                                 }}
                                 className="effect-btn"
                                 id="effect-btn-7"
@@ -845,6 +846,27 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     title="Intensity"
                                     currentValue={50}
                                     onChange={this.handleChangeIntensity}
+                                    onChangeEnd={this.handleChangeIntensityEnd}
+                                />
+                            </div>}
+                        {editorStore.effectId == 9 &&
+                            <div style={{
+                                marginBottom: "15px",
+                            }}>
+                                <Slider
+                                    title="Angle"
+                                    currentValue={50}
+                                    onChange={(value) => {
+                                        if (window.circleType) window.circleType.destroy();
+                                        let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+                                        window.circleType = new CircleType(el);
+                                
+                                        // Set the text radius and direction. Note: setter methods are chainable.
+                                        let angle = Math.abs(value > 50 ? value - 50 : 50 - value)/50*1000+window.circleType._minRadius;
+                                        window.circleType.radius(angle).dir(value > 50 ? 1 : -1);
+
+                                        onTextChange2(el, angle, value > 50 ? 1 : -1);
+                                    }}
                                     onChangeEnd={this.handleChangeIntensityEnd}
                                 />
                             </div>}
