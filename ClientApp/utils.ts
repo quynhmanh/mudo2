@@ -2481,7 +2481,7 @@ export async function saveImages(rep, isVideo, isAdmin = false) {
 
     setSavingState(SavingState.SavingChanges, false);
     const { mode, rectWidth, rectHeight } = window.editor.state;
-    let self = this;
+    let self = window.editor;
 
     let images = toJS(Array.from(editorStore.images2.values()));
     let clonedArray = JSON.parse(JSON.stringify(images))
