@@ -309,8 +309,7 @@ class LeftSide extends Component<IProps, IState> {
                         show=
                         {
                             (image &&
-                                image.type === TemplateType.Heading) ||
-                            !!editorStore.childId
+                                image.type === TemplateType.Heading)
                         }
                         currentLineHeight={editorStore.currentLineHeight}
                         currentLetterSpacing={editorStore.currentLetterSpacing}
