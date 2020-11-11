@@ -862,7 +862,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         window.circleType = new CircleType(el);
                                 
                                         // Set the text radius and direction. Note: setter methods are chainable.
-                                        let angle = Math.abs(value > 50 ? value - 50 : 50 - value)/50*1000+window.circleType._minRadius;
+                                        let angle = Math.abs(value > 50 ? 100 - value : value)/50*1000+window.circleType._minRadius;
                                         window.circleType.radius(angle).dir(value > 50 ? 1 : -1);
 
                                         onTextChange2(el, angle, value > 50 ? 1 : -1);
