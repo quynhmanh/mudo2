@@ -2701,7 +2701,7 @@ export function displayResizers(show: Boolean) {
 
 export function setSavingState(state, callSave) {
     let term;
-    if (this && window.editor.translate) {
+    if (window.editor.translate) {
         if (state == SavingState.UnsavedChanges) {
             term = window.editor.translate("unsavedChanges");
         } else if (state == SavingState.SavingChanges) {
