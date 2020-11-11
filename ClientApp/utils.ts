@@ -1991,7 +1991,7 @@ export function handleFontSizeBtnClick(e: any, fontSize: number) {
 export function handleChildCrop(id) {
     let image = getImageSelected();
     let childImage = image.document_object.find(doc => doc._id == id);
-    if (childImage.type == TemplateType.Heading) return;
+    if (childImage.type == TemplateType.Heading || childImage.type == TemplateType.Shape) return;
     
     doNoObjectSelected.bind(this)();
     editorStore.images2.delete(image._id);
