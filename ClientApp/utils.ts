@@ -5577,6 +5577,7 @@ export function handleDeleteThisPage(pageId)  {
     let pages = toJS(editorStore.pages);
     let tempPages = pages.filter(pId => pId !== pageId);
     editorStore.pages.replace(tempPages);
+    window.editor.forceUpdate();
 };
 
 export function updateImages2(image, includeDownloadCanvas) {
