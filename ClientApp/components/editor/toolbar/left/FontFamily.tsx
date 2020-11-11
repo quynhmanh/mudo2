@@ -45,6 +45,7 @@ const FontFamily = (props: IProps) => {
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
                         fontSize: "15px",
+                        fontWeight: 400,
                     }}
                 >{fontName}</span>
                 <img
