@@ -2059,7 +2059,6 @@ function normalize2(
 
 
 export function onTextChange(thisImage, e, childId) {
-    console.log('onTextCHange')
     thisImage = toJS(thisImage);
     let target;
     if (childId) {
@@ -2168,6 +2167,47 @@ export function onTextChange(thisImage, e, childId) {
             updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
             window.editor.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.childrens[childId].updateInnerHTML(target.innerHTML);
         }
+    }, 0);
+}
+
+export function onTextChange2(target) {
+    console.log('onTextChange2 ')
+    let thisImage = getImageSelected();
+    setTimeout(() => {
+            let image = editorStore.getImageSelected();
+            let centerX = image.left + image.width / 2;
+            let centerY = image.top + image.height / 2;
+            image.width = target.offsetWidth * image.scaleX;
+
+            let oldHeight = image.height;
+            let a;
+            if (thisImage.type === TemplateType.Heading) {
+                a = document.getElementsByClassName(thisImage._id + "hihi4alo")[0] as HTMLElement;
+            } else if (thisImage.type === TemplateType.Latex) {
+                a = document.getElementById(thisImage._id)
+                    .getElementsByClassName("text2")[0] as HTMLElement;
+            }
+            let newHeight = a.offsetHeight * image.scaleY;
+            image.height = newHeight;
+            let tmp = newHeight / 2 - oldHeight / 2;
+            let deltacX = tmp * Math.sin(((360 - image.rotateAngle) / 180) * Math.PI);
+            let deltacY = tmp * Math.cos(((360 - image.rotateAngle) / 180) * Math.PI);
+            let newCenterX = centerX + deltacX;
+            let newCenterY = centerY + deltacY;
+
+            image.left = newCenterX - image.width / 2;
+            image.top = newCenterY - image.height / 2;
+
+            if (image.scaleY === 0) {
+                image.origin_height = 0;
+            } else {
+                image.origin_height = image.height / image.scaleY;
+            }
+
+            image.innerHTML = target.innerHTML;
+            editorStore.images2.set(editorStore.idObjectSelected, image);
+            updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+            window.editor.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.updateInnerHTML(image.innerHTML);
     }, 0);
 }
 

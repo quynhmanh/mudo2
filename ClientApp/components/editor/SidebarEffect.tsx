@@ -4,6 +4,8 @@ import editorStore from "@Store/EditorStore";
 import Slider from "@Components/editor/Slider";
 import ColorPicker from "@Components/editor/ColorPicker";
 import Sidebar from "@Components/editor/SidebarStyled";
+import CircleType from "circletype";
+import { onTextChange, onTextChange2 } from '@Utils';
 
 export interface IProps {
     scale: number;
@@ -755,6 +757,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             style={{
                                 display: "inline-block",
                                 width: "100px",
+                                marginRight: "12px",
                             }}
                         >
                             <button
@@ -778,6 +781,43 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     textAlign: "center",
                                 }}>Neon</p>
+                        </div>
+                        <div
+                            style={{
+                                display: "inline-block",
+                                width: "100px",
+                            }}
+                        >
+                            <button
+                                style={{
+                                    boxShadow: editorStore.effectId == 8 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                                }}
+                                onClick={e => {
+                                    editorStore.effectId = 8;
+                                   let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+                                   const circleType = new CircleType(el);
+
+                                    // Set the text radius and direction. Note: setter methods are chainable.
+                                    circleType.radius(200).dir(1);
+
+                                    setTimeout(() => {
+                                        onTextChange2(el);
+                                    }, 50);
+                                }}
+                                className="effect-btn"
+                                id="effect-btn-7"
+                            >
+                                <img
+                                    style={{
+                                        width: "100%",
+                                        borderRadius: "10px",
+                                    }}
+                                    src="https://static.canva.com/web/images/3a09892e7e39d34e315b9224457c6ea1.jpg" />
+                            </button>
+                            <p
+                                style={{
+                                    textAlign: "center",
+                                }}>Curve</p>
                         </div>
                         {editorStore.effectId == 6 &&
                             <div style={{
