@@ -2179,15 +2179,7 @@ export function onTextChange(thisImage, e, childId) {
 }
 
 export function onTextChange2(target, angle, dir) {
-    console.log('onTextChange2 ')
     let thisImage = getImageSelected();
-    if (thisImage.effectId == 9) {
-        let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-        window.circleType = new CircleType(el);
-
-        // Set the text radius and direction. Note: setter methods are chainable.
-        window.circleType.radius(angle).dir(dir);
-    }
     setTimeout(() => {
             let image = editorStore.getImageSelected();
             let centerX = image.left + image.width / 2;
