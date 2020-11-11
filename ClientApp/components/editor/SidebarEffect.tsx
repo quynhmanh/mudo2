@@ -790,10 +790,10 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         >
                             <button
                                 style={{
-                                    boxShadow: editorStore.effectId == 8 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
+                                    boxShadow: editorStore.effectId == 9 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
                                 }}
                                 onClick={e => {
-                                    editorStore.effectId = 8;
+                                    editorStore.effectId = 9;
                                    let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
                                    const circleType = new CircleType(el);
 
