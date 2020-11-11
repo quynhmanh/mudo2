@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ResizableRect from '@Components/editor/ResizableRect';
 import uuidv4 from "uuid/v4";
 import Tooltip from '@Components/shared/Tooltip';
-import {htmlToImage, getBoundingClientRect} from '@Utils';
+import {htmlToImage, getBoundingClientRect, handleFontSizeBtnClick} from '@Utils';
 import "@Styles/editor.scss";
 import TopMenu from '@Components/editor/Sidebar';
 import axios from 'axios';
@@ -15,7 +15,6 @@ const thick = 16;
 export interface IProps {
     fontSize: any;
     content: string;
-    handleFontSizeBtnClick: any;
 }
 
 export interface IState {
@@ -100,7 +99,7 @@ export default class FontSize extends Component<IProps, IState> {
                 e.nativeEvent.stopImmediatePropagation();
                 if (e.keyCode == 13) {
                     var val = (e.target as HTMLInputElement).value;
-                    this.props.handleFontSizeBtnClick(e, val);
+                    handleFontSizeBtnClick(e, val);
                     window.getSelection().removeAllRanges();
                     document.getElementById("myFontSizeList").classList.toggle("show");
                 }

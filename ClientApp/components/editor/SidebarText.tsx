@@ -6,11 +6,13 @@ import InfiniteScroll from "@Components/shared/InfiniteScroll";
 import ImagePicker from "@Components/shared/ImagePicker";
 import { toJS } from "mobx";
 import Sidebar from "@Components/editor/SidebarStyled";
-
+import {
+    handleEditmedia,
+    setSavingState,
+} from "@Utils";
 export interface IProps {
     translate: any;
     selectedTab: any;
-    handleEditmedia: any;
     handleImageSelected: any;
     scale: number;
     setSavingState: any;
@@ -117,7 +119,7 @@ export default class SidebarText extends Component<IProps, IState> {
         }, 100);
 
         editorStore.increaseUpperzIndex();
-        this.props.setSavingState(SavingState.UnsavedChanges, true);
+        setSavingState(SavingState.UnsavedChanges, true);
     }
 
 
@@ -275,7 +277,7 @@ export default class SidebarText extends Component<IProps, IState> {
                     }
 
 
-                    this.props.setSavingState(SavingState.UnsavedChanges, true);
+                    setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(document2, false);
 
                     this.props.handleImageSelected(document2._id, document2.page, false, true, false);
@@ -453,7 +455,7 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 width={imgWidth}
                                                 defaultHeight={imgWidth}
                                                 onPick={null}
-                                                onEdit={this.props.handleEditmedia.bind(this, null)}
+                                                onEdit={handleEditmedia.bind(this, null)}
                                                 delay={0}
                                                 showButton={false}
                                             />
@@ -496,7 +498,7 @@ export default class SidebarText extends Component<IProps, IState> {
                                                 width={imgWidth}
                                                 defaultHeight={imgWidth}
                                                 onPick={null}
-                                                onEdit={this.props.handleEditmedia.bind(this, null)}
+                                                onEdit={handleEditmedia.bind(this, null)}
                                                 delay={150}
                                                 showButton={false}
                                             />

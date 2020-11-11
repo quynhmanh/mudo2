@@ -1,15 +1,15 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
+import { handleBoldBtnClick } from "@Utils";
 
 interface IProps {
     translate: any;
     show: boolean;
-    handleBoldBtnClick: any;
     checked: boolean;
 }
 
 const Bold = (props: IProps) => {
-    const { show, handleBoldBtnClick, translate } = props;
+    const { show, translate } = props;
     const content = translate("bold");
     return (
         <Tooltip

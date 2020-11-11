@@ -1,15 +1,15 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
+import { handleItalicBtnClick } from "@Utils";
 
 interface IProps {
     translate: any;
     show: boolean;
-    handleItalicBtnClick: any;
     checked: boolean;
 }
 
 const Italic = (props: IProps) => {
-    const { show, handleItalicBtnClick, translate } = props;
+    const { show, translate } = props;
     const content = translate("italic");
     return (
         <Tooltip

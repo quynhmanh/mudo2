@@ -1,4 +1,5 @@
-﻿import React, { Component, FormEvent } from 'react'
+﻿import { onTextChange } from '@Utils';
+import React, { Component, FormEvent } from 'react'
 import styled from 'styled-components';
 
 export interface IProps {
@@ -13,7 +14,6 @@ export interface IProps {
   innerHTML: string;
   fontScale: number;
   fontSize: number;
-  onTextChange(): void;
   id: string;
 }
 
@@ -44,7 +44,6 @@ export default class SingleText extends Component<IProps, IState> {
         top,
         width,
         height, 
-        onTextChange,
         rotateAngle,
         scaleX,
         scaleY,

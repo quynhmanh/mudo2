@@ -10,7 +10,6 @@ interface IProps {
     selectedImage: any;
     childId: string;
     fontSize: number;
-    handleFontSizeBtnClick: any;
     selectedTab: any;
 }
 
@@ -20,7 +19,7 @@ const fontSizes = [
 ];
 
 const FontSizeWrapper = (props: IProps) => {
-    const { show, childId, selectedImage, handleFontSizeBtnClick, translate, fontSize } = props;
+    const { show, childId, selectedImage, translate, fontSize } = props;
 
     const content = translate("fontSize");
     return (
@@ -42,7 +41,10 @@ const FontSizeWrapper = (props: IProps) => {
                 }}
                 className="toolbar-btn"
             >
-                <FontSize fontSize={fontSize} content={content} handleFontSizeBtnClick={props.handleFontSizeBtnClick}/>
+                <FontSize 
+                    fontSize={fontSize} 
+                    content={content} 
+                />
                 <div
                     style={{
                         left: "0px",

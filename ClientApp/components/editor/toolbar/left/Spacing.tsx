@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import Slider from "@Components/editor/Slider";
 import editorStore from "@Store/EditorStore";
-import { getLetterSpacing } from "@Utils";
+import { getLetterSpacing, onTextChange } from "@Utils";
 
 interface IProps {
     show: boolean;
@@ -11,7 +11,6 @@ interface IProps {
     currentLineHeight: number;
     currentLetterSpacing: number
     updateImages: any;
-    onTextChange: any;
     scale: number;
     handleLineHeightChange: any;
     handleLineHeightChangeEnd: any;
@@ -65,7 +64,7 @@ export default class Spacing extends Component<IProps, IState> {
             let el = this.getSingleTextHTMLElement();
             el.style.lineHeight = lineHeight.toString();
 
-            this.props.onTextChange(image, null, editorStore.childId);
+            onTextChange(image, null, editorStore.childId);
         } else {
             let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
             hihi4.style.lineHeight = lineHeight.toString();
@@ -112,7 +111,7 @@ export default class Spacing extends Component<IProps, IState> {
             let el = this.getSingleTextHTMLElement();
             el.style.letterSpacing = getLetterSpacing(letterSpacing);
 
-            this.props.onTextChange(image, null, editorStore.childId);
+            onTextChange(image, null, editorStore.childId);
         } else {
             let hihi4 = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
             hihi4.style.letterSpacing = getLetterSpacing(letterSpacing);

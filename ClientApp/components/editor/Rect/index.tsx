@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, getImageResizerVisibility, } from "@Utils";
+import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, getImageResizerVisibility, handleCropBtnClick, handleGridCrop, handleGridSelected, handleChildCrop, handleRotateStart, handleResizeStart, handleDragStart, handleResizeInnerImageStart, handleChildIdSelected, disableCropMode, toggleVideo, onTextChange, } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import Image from "@Components/editor/Rect/Image";
@@ -43,31 +43,20 @@ export interface IProps {
 	scale: number;
 	onRotateStart(e): void;
 	onResizeStart: any;
-	handleResizeInnerImageStart: any;
 	parentRotateAngle: number;
 	showController: boolean;
-	onTextChange: any;
-	onFontSizeChange(fontSize: number): void;
-	handleFontColorChange(fontColor: string): void;
-	handleFontFaceChange(fontFace: string): void;
-	handleChildIdSelected(childId: string): void;
-	disableCropMode(): void;
 	cropMode: boolean;
 	showImage: boolean;
 	bleed: boolean;
 	image: any;
 	name: any;
 	canvas: string;
-	toggleVideo: any;
 	handleImageSelected: any;
 	handleImageHovered: any;
 	handleImageUnhovered: any;
 	handleDragStart: any;
 	doNoObjectSelected: any;
-	handleCropBtnClick: any;
-	handleGridCrop: any;
 	handleChildCrop: any;
-	handleGridSelected: any;
 }
 
 export interface IState {
@@ -233,7 +222,7 @@ export default class Rect extends Component<IProps, IState> {
 
 	startRotate = e => {
 		e.preventDefault();
-		this.props.onRotateStart && this.props.onRotateStart(e);
+		handleRotateStart(e);
 	};
 
 	startResizeImage = (e, cursor, resizingInnerImage) => {
@@ -241,14 +230,13 @@ export default class Rect extends Component<IProps, IState> {
 		e.stopPropagation();
 		document.body.style.cursor = cursor;
 
-		this.props.handleResizeInnerImageStart &&
-			this.props.handleResizeInnerImageStart(e, cursor);
+		handleResizeInnerImageStart(e, cursor);
 		window.resizingInnerImage = resizingInnerImage;
 	};
 
 	startResize = (e, cursor) => {
 		e.preventDefault();
-		this.props.onResizeStart && this.props.onResizeStart(e, cursor);
+		handleResizeStart(e, cursor);
 	};
 
 	$textEle = null;
@@ -410,8 +398,6 @@ export default class Rect extends Component<IProps, IState> {
 			parentRotateAngle,
 			showController,
 			scale,
-			onTextChange,
-			handleChildIdSelected,
 			name,
 			canvas,
 		} = this.props;
@@ -564,7 +550,7 @@ export default class Rect extends Component<IProps, IState> {
 						display: cropMode && selected && name == CanvasType.HoverLayer ? "block" : "none",
 					}}
 					onClick={e => {
-						this.props.disableCropMode();
+						disableCropMode();
 					}}
 				>
 				</div>
@@ -597,9 +583,9 @@ export default class Rect extends Component<IProps, IState> {
 										this.handleImageSelected();
 										this.props.handleImageSelected(_id, page, name == CanvasType.HoverLayer ? CanvasType.All : CanvasType.HoverLayer);
 									}
-									this.props.handleDragStart(e, _id);
+									handleDragStart(e, _id);
 								} else if (cropMode) {
-									this.props.handleDragStart(e, _id);
+									handleDragStart(e, _id);
 								} else {
 									this.props.doNoObjectSelected();
 								}
@@ -613,7 +599,7 @@ export default class Rect extends Component<IProps, IState> {
 										this.props.handleImageSelected(_id, page, CanvasType.HoverLayer);
 									}
 								} else if (cropMode) {
-									this.props.handleDragStart(e, _id);
+									handleDragStart(e, _id);
 								} else {
 									this.props.doNoObjectSelected();
 								}
@@ -637,7 +623,7 @@ export default class Rect extends Component<IProps, IState> {
 						<StyledRect
 							onDoubleClick={e => {
 								e.preventDefault();
-								if (!cropMode) this.props.handleCropBtnClick(_id);
+								if (!cropMode) handleCropBtnClick(_id);
 							}}
 							onMouseEnter={e => {
 								if (window.imagedragging && type == TemplateType.Element) {
@@ -781,7 +767,7 @@ export default class Rect extends Component<IProps, IState> {
 												}}
 												onDoubleClick={e => {
 													e.preventDefault();
-													this.props.handleCropBtnClick(_id);
+													handleCropBtnClick(_id);
 												}}
 											>
 												<Image
@@ -812,7 +798,7 @@ export default class Rect extends Component<IProps, IState> {
 											}}
 											onDoubleClick={e => {
 												e.preventDefault();
-												this.props.handleCropBtnClick(_id);
+												handleCropBtnClick(_id);
 											}}
 										>
 											<ClipImage
@@ -1079,12 +1065,12 @@ export default class Rect extends Component<IProps, IState> {
 
 															e.preventDefault();
 															e.stopPropagation();
-															this.props.handleGridCrop(index);
+															handleGridCrop(index);
 														}}
 														onClick={e => {
 															e.preventDefault();
 															e.stopPropagation();
-															this.props.handleGridSelected(index);
+															handleGridSelected(index);
 														}}
 														style={{
 															gridArea: g.gridArea,
@@ -1451,7 +1437,7 @@ export default class Rect extends Component<IProps, IState> {
 													})
 												}
 
-												this.props.toggleVideo();
+												toggleVideo();
 											}}
 											style={{
 												position: "absolute",
@@ -1620,8 +1606,6 @@ export default class Rect extends Component<IProps, IState> {
 															parentId={_id}
 															rotateAngle={child.rotateAngle}
 															selected={child._id == editorStore.childId}
-															onInput={onTextChange}
-															handleChildIdSelected={handleChildIdSelected}
 															scale={scale}
 														/>
 													);
@@ -1643,7 +1627,7 @@ export default class Rect extends Component<IProps, IState> {
 															onDoubleClick={e => {
 																e.preventDefault();
 																e.stopPropagation();
-																this.props.handleChildCrop(child._id)
+																handleChildCrop(child._id)
 															}}
 															style={{
 																zIndex: child.zIndex,
@@ -1844,7 +1828,9 @@ export default class Rect extends Component<IProps, IState> {
 													<span
 														id={_id + "hihi4" + canvas}
 														spellCheck={false}
-														onInput={onTextChange}
+														onInput={e => {
+															onTextChange(this.state.image, e);
+														}}
 														contentEditable={selected && name != CanvasType.Preview}
 														ref={this.setTextElementRef2.bind(this)}
 														className={"text single-text " + _id + "hihi4" + canvas}
@@ -2035,7 +2021,7 @@ export default class Rect extends Component<IProps, IState> {
 										id={_id}
 										onDoubleClick={e => {
 											e.preventDefault();
-											this.props.handleCropBtnClick(_id)
+											handleCropBtnClick(_id)
 										}}
 										style={{
 											zIndex: selected ? 1 : 0,

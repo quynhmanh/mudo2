@@ -8,14 +8,13 @@ import Tooltip from "@Components/shared/Tooltip";
 import FontPicker from "@Components/editor/FontPicker";
 import Sidebar from "@Components/editor/SidebarStyled";
 import styled from "styled-components";
+import { handleEditFont } from '@Utils';
 
 export interface IProps {
     scale: number;
     fontId: any;
     translate: any;
     selectedTab: any;
-    handleEditmedia: any;
-    handleEditFont: any;
     updateImages: any;
     rem: number;
 }
@@ -293,7 +292,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                         boxShadow:
                                                             "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
                                                     }}
-                                                    onClick={this.props.handleEditFont.bind(this, font)}
+                                                    onClick={handleEditFont.bind(this, font)}
                                                 >
                                                     <span>
                                                         <svg

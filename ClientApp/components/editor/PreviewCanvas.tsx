@@ -26,23 +26,11 @@ export interface IProps {
     handleImageUnhovered: any;
     handleImageHovered: any;
     handleImageHover: any;
-    handleRotateStart: any;
-    handleResizeStart: any;
-    handleDragStart: any;
-    onTextChange: any;
-    handleFontSizeChange: any;
-    handleFontColorChange: any;
-    handleFontFamilyChange: any;
-    handleChildIdSelected: any;
     enableCropMode: any;
-    disableCropMode: any;
-    handleResizeInnerImageStart: any;
     doNoObjectSelected: any;
     index: number;
-    addAPage: any;
     staticGuides: any;
     idObjectSelected: any;
-    handleDeleteThisPage: any;
     bleed: boolean;
     showPopup: boolean;
     preview: boolean;
@@ -53,8 +41,6 @@ export interface IProps {
     selected: boolean;
     activePageId: string;
     active: boolean;
-    toggleVideo: any;
-    handleCropBtnClick: any;
 }
 
 export interface IState {
@@ -446,9 +432,7 @@ export default class Canvas extends Component<IProps, IState> {
                                     // .filter(img => img._id != this.props.idObjectSelected)
                                     .map(img => (
                                         <ResizableRect
-                                            handleCropBtnClick={this.props.handleCropBtnClick}
                                             doNoObjectSelected={this.props.doNoObjectSelected}
-                                            handleDragStart={this.props.handleDragStart}
                                             handleImageHovered={this.props.handleImageHovered}
                                             handleImageUnhovered={this.props.handleImageUnhovered}
                                             handleImageSelected={this.props.handleImageSelected}
@@ -459,34 +443,15 @@ export default class Canvas extends Component<IProps, IState> {
                                             image={img}
                                             hovered={img.hovered}
                                             freeStyle={img.freeStyle}
-                                            toggleVideo={this.props.toggleVideo}
                                             id={img._id + "_1"}
                                             showImage={true}
                                             showController={false}
                                             key={img._id + "2"}
                                             scale={scale}
                                             rotateAngle={img.rotateAngle}
-                                            onRotateStart={this.props.handleRotateStart}
-                                            onResizeStart={this.props.handleResizeStart}
-                                            onTextChange={this.props.onTextChange.bind(
-                                                this,
-                                                img
-                                            )}
-                                            handleFontColorChange={this.props.handleFontColorChange}
-                                            onFontSizeChange={this.props.handleFontSizeChange}
-                                            handleFontFaceChange={this.props.handleFontFamilyChange.bind(
-                                                this
-                                            )}
-                                            handleChildIdSelected={this.props.handleChildIdSelected.bind(
-                                                this
-                                            )}
                                             childId={this.props.childId}
                                             cropMode={cropMode}
-                                            handleResizeInnerImageStart={this.props.handleResizeInnerImageStart.bind(
-                                                this
-                                            )}
                                             bleed={this.props.bleed}
-                                            disableCropMode={null}
                                         />
                                     ))}
                             </div>

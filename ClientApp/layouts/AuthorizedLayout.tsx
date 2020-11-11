@@ -152,17 +152,6 @@ class AuthorizedLayout extends React.Component<Props, {}> {
         Globals.reset();
         Globals.init({ public: window['publicSession'] });
 
-        this.setState({ key: this.state.key + 1 });
-
-        if (Globals.serviceUser) {
-            const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=1`;
-            axios
-                .get(url)
-                .then(res => {
-                    this.setState({ hasDesign: res.data.value.value > 0 });
-                });
-        }
-
         this.forceUpdate();
     }
 

@@ -21,8 +21,6 @@ interface IProps {
     childId: string;
     translate: any;
     fontColor: string;
-    handleItalicBtnClick: any;
-    handleBoldBtnClick: any;
     onClickDropDownFontList: any;
     onClickEffectList: any;
     fontName: string;
@@ -30,15 +28,12 @@ interface IProps {
     cropMode: boolean;
     handleFilterBtnClick: any;
     handleAdjustBtnClick: any;
-    handleCropBtnClick: any;
     handleFlipBtnClick: any;
     imgBackgroundColor: string;
     handleImageBackgroundColorBtnClick: any;
     selectedImage: any;
     fontSize: number;
-    handleFontSizeBtnClick: any;
     idObjectSelected: string;
-    handleAlignBtnClick: any;
     handleOkBtnClick: any;
     handleCancelBtnClick: any;
     selectedTab: any;
@@ -54,7 +49,6 @@ interface IProps {
     currentLetterSpacing: number;
     selectedCanvas: any;
     updateImages: any;
-    onTextChange: any;
     scale: any;
 }
 
@@ -148,7 +142,6 @@ class LeftSide extends Component<IProps, IState> {
                     selectedImage={props.selectedImage}
                     childId={props.childId}
                     fontSize={editorStore.currentFontSize}
-                    handleFontSizeBtnClick={props.handleFontSizeBtnClick}
                     selectedTab={editorStore.selectedTab}
                 />
                 <Color
@@ -178,7 +171,6 @@ class LeftSide extends Component<IProps, IState> {
                         )
                     }
                     translate={props.translate}
-                    handleItalicBtnClick={props.handleItalicBtnClick}
                     checked={image && image.italic}
                 />
                 <Bold
@@ -192,7 +184,6 @@ class LeftSide extends Component<IProps, IState> {
                         )
                     }
                     translate={props.translate}
-                    handleBoldBtnClick={props.handleBoldBtnClick}
                     checked={image && image.bold}
                 />
                 {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
@@ -254,7 +245,6 @@ class LeftSide extends Component<IProps, IState> {
                     }
                     translate={props.translate}
                     cropMode={editorStore.cropMode}
-                    handleCropBtnClick={props.handleCropBtnClick}
                 />
                 {/* <Flip
                     show=
@@ -297,14 +287,12 @@ class LeftSide extends Component<IProps, IState> {
                                     translate={props.translate}
                                     title={item.title}
                                     iconPath={item.iconPath}
-                                    handleAlignBtnClick={props.handleAlignBtnClick}
                                     checked={image && image.align == item.align}
                                 />
                         )
                 }
                 {image && (image.type === TemplateType.Heading || props.childId) &&
                     <Spacing
-                        onTextChange={this.props.onTextChange}
                         title="spacing"
                         show=
                         {
