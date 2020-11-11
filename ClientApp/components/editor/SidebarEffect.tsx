@@ -795,6 +795,8 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 onClick={e => {
                                     let image = getImageSelected();
                                     image.effectId = 9;
+                                    image.circleWidth = 1000;
+                                    image.circleDir = 1;
                                     editorStore.images2.set(image._id, image);
                                     editorStore.effectId = 9;
                                     let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
@@ -803,7 +805,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     // Set the text radius and direction. Note: setter methods are chainable.
                                     window.circleType.radius(1000).dir(1);
 
-                                    onTextChange2(el, 1000, 1);
+                                    setTimeout(() => {
+                                        onTextChange2(el, 1000, 1);
+                                    }, 300);
                                 }}
                                 className="effect-btn"
                                 id="effect-btn-7"
@@ -865,7 +869,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         let angle = Math.abs(value > 50 ? 100 - value : value)/50*1000+window.circleType._minRadius;
                                         window.circleType.radius(angle).dir(value > 50 ? 1 : -1);
 
-                                        onTextChange2(el, angle, value > 50 ? 1 : -1);
+                                        let image = getImageSelected();
+                                        image.effectId = 9;
+                                        image.circleWidth = angle;
+                                        image.circleDir = value > 50 ? 1 : -1;
+                                        editorStore.images2.set(image._id, image);
+
+                                        onTextChange2(el, angle, image.circleDir);
                                     }}
                                     onChangeEnd={this.handleChangeIntensityEnd}
                                 />

@@ -2075,7 +2075,7 @@ export function onTextChange(thisImage, e, childId) {
         window.circleType = new CircleType(el);
 
         // Set the text radius and direction. Note: setter methods are chainable.
-        window.circleType.radius(200).dir(1);
+        window.circleType.radius(thisImage.circleWidth).dir(thisImage.circleDir);
     }
     setTimeout(() => {
         if (!childId) {
