@@ -119,6 +119,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
         })
         let cv = document.getElementById("alo-" + pageIndex);
         cv.style.backgroundImage = `url(${e.target.src})`;
+        cv.style.filter = `blur(2px)`;
 
         editorStore.applyTemplate([]);
 
@@ -169,7 +170,8 @@ export default class SidebarTemplate extends Component<IProps, IState> {
 
                         this.props.forceEditorUpdate();
 
-                        cv.style.backgroundImage = ``;
+                        cv.style.backgroundImage = "";
+                        cv.style.filter = "";
                     }
 
                     console.log('doc.fontList ', doc.fontList);
