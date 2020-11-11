@@ -807,7 +807,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
 
                                     setTimeout(() => {
                                         onTextChange2(el, 1000, 1);
-                                    }, 300);
+                                    }, 50);
                                 }}
                                 className="effect-btn"
                                 id="effect-btn-7"
