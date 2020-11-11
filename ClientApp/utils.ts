@@ -2701,13 +2701,13 @@ export function displayResizers(show: Boolean) {
 
 export function setSavingState(state, callSave) {
     let term;
-    if (this && this.translate) {
+    if (this && window.editor.translate) {
         if (state == SavingState.UnsavedChanges) {
-            term = this.translate("unsavedChanges");
+            term = window.editor.translate("unsavedChanges");
         } else if (state == SavingState.SavingChanges) {
-            term = this.translate("savingChanges");
+            term = window.editor.translate("savingChanges");
         } else if (state == SavingState.ChangesSaved) {
-            term = this.translate("allChangesSaved");
+            term = window.editor.translate("allChangesSaved");
         }
     }
 
