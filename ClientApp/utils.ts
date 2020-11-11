@@ -2029,7 +2029,37 @@ export function handleChildCrop(id) {
     window.editor.forceUpdate();
 }
 
+function normalize2(
+    image: any,
+    images: any,
+): any {
+
+    let result = [];
+    let norm = (image, parent) => {
+        let res = { ...image };
+        if (parent != null) {
+            let img = images.filter(img => img._id === image._id)[0];
+            res.top = parent.top + img.margin_top + parent.height;
+        }
+
+        result.push(res);
+        if (res.childId) {
+            let child = images.filter(img => img._id === res.childId)[0];
+
+            if (child) {
+                norm(child, res);
+            }
+        }
+    };
+
+    norm(image, null);
+
+    return result;
+}
+
+
 export function onTextChange(thisImage, e, childId) {
+    console.log('onTextCHange')
     thisImage = toJS(thisImage);
     let target;
     if (childId) {
@@ -2103,14 +2133,9 @@ export function onTextChange(thisImage, e, childId) {
             for (let i = 0; i < texts.length; ++i) {
                 let d = texts[i];
                 if (!d.ref) {
-                    let imgs = this.normalize2(
+                    let imgs = normalize2(
                         d,
                         texts,
-                        image.scaleX,
-                        image.scaleY,
-                        this.state.scale,
-                        image.width,
-                        image.height
                     );
                     newDocumentObjects.push(...imgs);
                 }

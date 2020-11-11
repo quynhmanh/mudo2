@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, getImageResizerVisibility, handleCropBtnClick, handleGridCrop, handleGridSelected, handleChildCrop, handleRotateStart, handleResizeStart, handleDragStart, handleResizeInnerImageStart, handleChildIdSelected, disableCropMode, toggleVideo, } from "@Utils";
+import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, getImageResizerVisibility, handleCropBtnClick, handleGridCrop, handleGridSelected, handleChildCrop, handleRotateStart, handleResizeStart, handleDragStart, handleResizeInnerImageStart, handleChildIdSelected, disableCropMode, toggleVideo, onTextChange, } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import Image from "@Components/editor/Rect/Image";
@@ -1828,6 +1828,9 @@ export default class Rect extends Component<IProps, IState> {
 													<span
 														id={_id + "hihi4" + canvas}
 														spellCheck={false}
+														onInput={e => {
+															onTextChange(this.state.image, e);
+														}}
 														contentEditable={selected && name != CanvasType.Preview}
 														ref={this.setTextElementRef2.bind(this)}
 														className={"text single-text " + _id + "hihi4" + canvas}

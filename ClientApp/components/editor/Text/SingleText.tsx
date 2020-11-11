@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { TemplateType } from '../enums';
-import { getLetterSpacing, handleChildIdSelected } from "@Utils";
+import { getLetterSpacing, handleChildIdSelected, onTextChange } from "@Utils";
 
 export interface IProps {
     selected: boolean;
-    onInput(e: any, id: string): void;
     _id: string;
     parentId: string;
     scale: number;
@@ -174,7 +173,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
                                 pointerEvents: 'auto'
                             }}
                             ref={this.setTextElementRef.bind(this)}
-                            onInput={(e) => { onInput(e, _id) }}
+                            onInput={(e) => { onTextChange(null, e, _id) }}
                             className="text"
                             contentEditable={selected}
                             onMouseDown={this.onMouseDown.bind(this)}
