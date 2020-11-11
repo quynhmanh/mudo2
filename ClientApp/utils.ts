@@ -1747,7 +1747,7 @@ function enableCropMode(id, page) {
 
 export function handleGridCrop(index) {
     let image = getImageSelected();
-    const scale = this.state.scale;
+    const scale = editorStore.scale;
     let g = image.grids[index];
     if (!g.src) return;
 
@@ -2339,7 +2339,7 @@ export function handleWheel(e) {
         e.preventDefault();
         e.stopPropagation();
         const nextScale = parseFloat(
-            Math.max(0.1, this.state.scale - e.deltaY / 500).toFixed(2)
+            Math.max(0.1, editorStore.scale - e.deltaY / 500).toFixed(2)
         );
         window.editor.setState({ scale: nextScale });
         editorStore.scale = nextScale;
@@ -2480,9 +2480,8 @@ export async function saveImages(rep, isVideo, isAdmin = false) {
     isVideo = (document.getElementById('vehicle1') as HTMLInputElement).checked;
 
     setSavingState(SavingState.SavingChanges, false);
-    const { mode } = this.state;
+    const { mode, rectWidth, rectHeight } = window.editor.state;
     let self = this;
-    const { rectWidth, rectHeight } = this.state;
 
     let images = toJS(Array.from(editorStore.images2.values()));
     let clonedArray = JSON.parse(JSON.stringify(images))
@@ -2866,7 +2865,7 @@ export function handleResizeStart(e: any, d: any) {
                 ell.style.cursor = "default";
 
                 if (window.resized) {
-                    this.saving = setTimeout(() => {
+                    window.saving = setTimeout(() => {
                         saveImages.bind(this)(null, false);
                     }, 5000);
                 }
@@ -4092,7 +4091,7 @@ export function handleResizeInnerImageStart(e, d) {
                 ell.style.zIndex = "0";
 
                 if (window.resized) {
-                    this.saving = setTimeout(() => {
+                    window.saving = setTimeout(() => {
                         saveImages.bind(this)(null, false);
                     }, 5000);
                 }
@@ -4492,7 +4491,7 @@ export function handleRotateStart(e: any) {
                     ell.style.zIndex = "0";
 
                     if (window.rotated) {
-                        this.saving = setTimeout(() => {
+                        window.saving = setTimeout(() => {
                             saveImages.bind(this)(null, false);
                         }, 5000);
                     }
@@ -5527,7 +5526,7 @@ export function addAPage(e, id) {
     pages.splice(index, 0, newPageId);
     keys.splice(index, 0, 0);
 
-    const { rectWidth, rectHeight } = this.state;
+    const { rectWidth, rectHeight } = window.editor.state;
 
     let item = {
         _id: uuidv4(),
