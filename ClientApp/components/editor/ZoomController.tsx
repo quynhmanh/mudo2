@@ -42,7 +42,7 @@ export default class ZoomController extends Component<IProps, IState> {
                             flexDirection: "row",
                             boxShadow:
                                 "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                            background: "#293039",
+                            background: "rgba(237,240,242,.9)",
                             borderRadius: "5px",
                             height: "34px",
                         }}
@@ -104,7 +104,7 @@ export default class ZoomController extends Component<IProps, IState> {
                                 }}
                                 style={{
                                     height: "100%",
-                                    color: "white",
+                                    color: "black",
                                     border: "none",
                                     background: "transparent",
                                     width: "55px",

@@ -545,25 +545,14 @@ button:focus {
 }
 
 .zoomMinus___1Ooi5, .zoomPlus___1TbHD {
+  color: black;
   svg {
-    fill: #ccc;
-  }
-}
-
-.zoomMinus___1Ooi5:hover {
-  svg {
-    fill: white;
-  }
-}
-
-.zoomPlus___1TbHD:hover {
-  svg {
-    fill: white;
+    fill: black;
   }
 }
 
 .zoomPercent___3286Z:hover {
-  background-color: #0b0a0a;
+  // background-color: #0b0a0a;
     border-radius: 8px;
 }
 
