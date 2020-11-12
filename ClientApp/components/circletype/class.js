@@ -50,12 +50,12 @@ class CircleType {
 
     const { fontSize, lineHeight } = window.getComputedStyle(this.element);
 
-    this._fontSize = parseFloat(fontSize) * editorStore.scale;
-    this._lineHeight = parseFloat(lineHeight) || this._fontSize;
-    this._lineHeight = this._lineHeight * editorStore.scale;
-    this._metrics = this._letters.map(getRect);
+    let image = editorStore.getImageSelected();
 
-    console.log('_fontSize', this._fontSize, this._lineHeight)
+    this._fontSize = parseFloat(fontSize) * editorStore.scale * image.scaleY;
+    this._lineHeight = parseFloat(lineHeight) || this._fontSize;
+    this._lineHeight = this._lineHeight * editorStore.scale * image.scaleY;
+    this._metrics = this._letters.map(getRect);
 
     const totalWidth = this._metrics.reduce((sum, { width }) => sum + width, 0);
     this._minRadius = (totalWidth / PI / 2) + this._lineHeight;
