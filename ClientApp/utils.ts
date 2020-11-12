@@ -1911,6 +1911,15 @@ export function handleTransparentAdjust(e: any) {
     document.addEventListener("mouseup", onUp);
 }
 
+function getTextWidth(text, font) {
+    // re-use canvas object for better performance
+    let canvas = window.canvasgetTextWidth || (window.canvasgetTextWidth = document.createElement("canvas"));
+    let context = canvas.getContext("2d");
+    context.font = font;
+    let metrics = context.measureText(text);
+    return metrics.width;
+}
+
 export function handleFontSizeBtnClick(e: any, fontSize: number) {
 
     let image = getImageSelected();
@@ -1945,7 +1954,7 @@ export function handleFontSizeBtnClick(e: any, fontSize: number) {
         let lines = font.offsetHeight / (image.lineHeight * image.fontSize);
 
 
-        width2 = Math.max(width2, this.getTextWidth(font.innerHTML, fontSizePt + " " + image.fontFace));
+        width2 = Math.max(width2, getTextWidth(font.innerHTML, fontSizePt + " " + image.fontFace));
         height2 += fontSize * image.lineHeight * lines;
     }
 
@@ -2076,7 +2085,7 @@ export function onTextChange(thisImage, e, childId) {
         window.circleType = new CircleType(el);
 
         // Set the text radius and direction. Note: setter methods are chainable.
-        window.circleType.radius(thisImage.circleWidth).dir(thisImage.circleDir);
+        window.circleType.radius(thisImage.circleWidth).dir(thisImage.circleDir).forceWidth(true);
     }
     setTimeout(() => {
         if (!childId) {
@@ -2095,6 +2104,10 @@ export function onTextChange(thisImage, e, childId) {
             }
             let newHeight = a.offsetHeight * image.scaleY;
             image.height = newHeight;
+            if (image.effectId == 9) {
+                image.width = a.children[0].offsetWidth * image.scaleX;
+                image.origin_width = image.width / image.scaleX;
+            }
             let tmp = newHeight / 2 - oldHeight / 2;
             let deltacX = tmp * Math.sin(((360 - image.rotateAngle) / 180) * Math.PI);
             let deltacY = tmp * Math.cos(((360 - image.rotateAngle) / 180) * Math.PI);
