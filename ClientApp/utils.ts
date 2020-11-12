@@ -2085,7 +2085,7 @@ export function onTextChange(thisImage, e, childId) {
         window.circleType = new CircleType(el);
 
         // Set the text radius and direction. Note: setter methods are chainable.
-        window.circleType.radius(thisImage.circleWidth).dir(thisImage.circleDir);
+        window.circleType.radius(thisImage.circleWidth).dir(thisImage.circleDir).forceWidth(true);
     }
     setTimeout(() => {
         if (!childId) {
@@ -2104,6 +2104,10 @@ export function onTextChange(thisImage, e, childId) {
             }
             let newHeight = a.offsetHeight * image.scaleY;
             image.height = newHeight;
+            if (image.effectId == 9) {
+                image.width = a.children[0].offsetWidth * image.scaleX;
+                image.origin_width = image.width / image.scaleX;
+            }
             let tmp = newHeight / 2 - oldHeight / 2;
             let deltacX = tmp * Math.sin(((360 - image.rotateAngle) / 180) * Math.PI);
             let deltacY = tmp * Math.cos(((360 - image.rotateAngle) / 180) * Math.PI);
