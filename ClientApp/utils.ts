@@ -1911,6 +1911,15 @@ export function handleTransparentAdjust(e: any) {
     document.addEventListener("mouseup", onUp);
 }
 
+function getTextWidth(text, font) {
+    // re-use canvas object for better performance
+    let canvas = window.canvasgetTextWidth || (window.canvasgetTextWidth = document.createElement("canvas"));
+    let context = canvas.getContext("2d");
+    context.font = font;
+    let metrics = context.measureText(text);
+    return metrics.width;
+}
+
 export function handleFontSizeBtnClick(e: any, fontSize: number) {
 
     let image = getImageSelected();
@@ -1945,7 +1954,7 @@ export function handleFontSizeBtnClick(e: any, fontSize: number) {
         let lines = font.offsetHeight / (image.lineHeight * image.fontSize);
 
 
-        width2 = Math.max(width2, this.getTextWidth(font.innerHTML, fontSizePt + " " + image.fontFace));
+        width2 = Math.max(width2, getTextWidth(font.innerHTML, fontSizePt + " " + image.fontFace));
         height2 += fontSize * image.lineHeight * lines;
     }
 

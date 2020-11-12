@@ -3,6 +3,7 @@ import Tooltip from "@Components/shared/Tooltip";
 import { TemplateType } from "@Components/editor/enums";
 import FontSize from "@Components/editor/FontSize";
 import {SidebarTab} from "@Components/editor/enums";
+import { handleFontSizeBtnClick } from "@Utils";
 
 interface IProps {
     show: boolean;
