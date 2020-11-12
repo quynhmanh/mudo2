@@ -2072,6 +2072,7 @@ export function onTextChange(thisImage, e, childId) {
     }
     if (thisImage.effectId == 9) {
         let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+        window.CircleType2 = CircleType;
         window.circleType = new CircleType(el);
 
         // Set the text radius and direction. Note: setter methods are chainable.

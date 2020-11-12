@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SidebarTab, } from "./enums";
+import { CanvasType, SidebarTab, } from "./enums";
 import editorStore from "@Store/EditorStore";
 import Slider from "@Components/editor/Slider";
 import ColorPicker from "@Components/editor/ColorPicker";
@@ -80,6 +80,11 @@ export default class SidebarEffect extends Component<IProps, IState> {
                 image.color = color;
             }
             image.filter = filter;
+            if (image.effectId == 9) {
+                image.innerHTML = image.originalHTML;
+                window.editor.canvas1[image.page].canvas[CanvasType.All][image._id].child.updateInnerHTML(image.innerHTML);
+                window.editor.canvas1[image.page].canvas[CanvasType.HoverLayer][image._id].child.updateInnerHTML(image.innerHTML);
+            }
             image.effectId = effectId;
             image.offSet = offSet;
             image.direction = direction;
@@ -797,6 +802,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     image.effectId = 9;
                                     image.circleWidth = 1000;
                                     image.circleDir = 1;
+                                    image.originalHTML = image.innerHTML;
                                     editorStore.images2.set(image._id, image);
                                     editorStore.effectId = 9;
                                     let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
@@ -805,6 +811,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     // Set the text radius and direction. Note: setter methods are chainable.
                                     window.circleType.radius(1000).dir(1);
 
+                                    
                                     setTimeout(() => {
                                         onTextChange2(el, 1000, 1);
                                     }, 150);
