@@ -1985,7 +1985,7 @@ export function handleFontSizeBtnClick(e: any, fontSize: number) {
 
     (document.getElementById("fontSizeButton") as HTMLInputElement).value = fontSize.toString();
     if (editorStore.childId) {
-        this.onTextChange(image, e, editorStore.childId);
+        onTextChange(image, e, editorStore.childId);
     }
 }
 
