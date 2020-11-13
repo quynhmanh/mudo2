@@ -26,7 +26,6 @@ const AccountPage = loadable(() => import("@Pages/AccountPage"));
 const TemplatesListPage = loadable(() => import("@Pages/TemplatesListPage"));
 const PrintPage = loadable(() => import("@Pages/PrintPage"));
 const AboutPage = loadable(() => import("@Pages/AboutPage"));
-const ImageBackgroundRemovalEditor = loadable(() => import("@Components/editor/ImageBackgroundRemovalEditor"));
 const PricingPage = loadable(() => import("@Pages/PricingPage"));
 
 
@@ -53,6 +52,5 @@ export const routes = <Switch>
         <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/print" component={PrintPage}/>
         <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/about" component={AboutPage}/>
         <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/cart" component={AboutPage}/>
-        <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/remove-background/:media_id" component={ImageBackgroundRemovalEditor}/>
         <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/pricing/pricing" component={PricingPage}/>
     </Switch>;
