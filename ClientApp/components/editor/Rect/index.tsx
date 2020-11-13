@@ -1852,13 +1852,13 @@ export default class Rect extends Component<IProps, IState> {
 																onCurveTextChange();
 															}
 														}}
-														onFocus={e => {
+														onClick={e => {
 															e.preventDefault();
 															if (effectId == 9) {
 																onCurveTextFocus();
 															}
 														}}
-														contentEditable={selected && name != CanvasType.Preview}
+														contentEditable={selected && name != CanvasType.Preview && effectId != 9}
 														ref={this.setTextElementRef2.bind(this)}
 														className={"text single-text " + _id + "hihi4" + canvas}
 														style={{
