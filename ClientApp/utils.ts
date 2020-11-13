@@ -2079,14 +2079,14 @@ export function onTextChange(thisImage, e, childId) {
     if (e) {
         e.persist();
     }
-    if (thisImage.effectId == 9) {
-        let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
-        window.CircleType2 = CircleType;
-        window.circleType = new CircleType(el);
+    // if (thisImage.effectId == 9) {
+    //     let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+    //     window.CircleType2 = CircleType;
+    //     window.circleType = new CircleType(el);
 
-        // Set the text radius and direction. Note: setter methods are chainable.
-        window.circleType.radius(thisImage.circleWidth).dir(thisImage.circleDir).forceWidth(true);
-    }
+    //     // Set the text radius and direction. Note: setter methods are chainable.
+    //     window.circleType.radius(thisImage.circleWidth).dir(thisImage.circleDir).forceWidth(true);
+    // }
     setTimeout(() => {
         if (!childId) {
             let image = editorStore.getImageSelected();
@@ -5664,3 +5664,31 @@ export function handleEditFont(item) {
     window.editor.setState({ showFontEditPopup: true, editingFont: item });
     window.editor.forceUpdate();
 };
+
+export function onCurveTextFocus() {
+    console.log('onCurveTextChange')
+    let image = getImageSelected();
+    image.focused = true;
+    editorStore.images2.set(image._id, image);
+
+    updateImages2(image, false);
+}
+
+export function onCurveTextChange(target) {
+    let image = getImageSelected();
+    image.originalHTML = target.innerHTML;
+
+    let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
+    el.innerHTML = image.originalHTML;
+    window.circleType = new CircleType(el);
+
+    // Set the text radius and direction. Note: setter methods are chainable.
+    window.circleType.radius(image.circleWidth).dir(image.circleDir).forceWidth(true);
+    setTimeout(() => {
+        console.log('el.innerHTML', el.innerHTML);
+        image.innerHTML = el.innerHTML;
+        editorStore.images2.set(editorStore.idObjectSelected, image);
+        updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+    }, 50);
+
+}

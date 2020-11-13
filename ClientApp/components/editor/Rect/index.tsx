@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, getImageResizerVisibility, handleCropBtnClick, handleGridCrop, handleGridSelected, handleChildCrop, handleRotateStart, handleResizeStart, handleDragStart, handleResizeInnerImageStart, handleChildIdSelected, disableCropMode, toggleVideo, onTextChange, } from "@Utils";
+import { getCursorStyleWithRotateAngle, getCursorStyleForResizer, tLToCenter, getImageResizerVisibility, handleCropBtnClick, handleGridCrop, handleGridSelected, handleChildCrop, handleRotateStart, handleResizeStart, handleDragStart, handleResizeInnerImageStart, handleChildIdSelected, disableCropMode, toggleVideo, onTextChange, onCurveTextChange, onCurveTextFocus, } from "@Utils";
 import StyledRect from "./StyledRect";
 import SingleText from "@Components/editor/Text/SingleText";
 import Image from "@Components/editor/Rect/Image";
@@ -107,6 +107,14 @@ export default class Rect extends Component<IProps, IState> {
 				type,
 			}
 		} = this.props;
+
+		const {
+			image: {
+				selected,
+			},
+		} = this.state;
+
+
 		if (innerHTML && this.$textEle) {
 			this.$textEle.innerHTML = innerHTML;
 		}
@@ -135,12 +143,6 @@ export default class Rect extends Component<IProps, IState> {
 				}
 			}
 		}
-
-		const {
-			image: {
-				selected,
-			},
-		} = this.state;
 
 		const cropMode = editorStore.cropMode;
 
@@ -183,17 +185,24 @@ export default class Rect extends Component<IProps, IState> {
 				type,
 				selected,
 				innerHTML,
+				effectId,
+				focused,
+				originalHTML,
 			},
 		} = this.state;
 
 		const cropMode = editorStore.cropMode;
-
 		if (
 			type === TemplateType.Heading &&
 			(selected != prevState.image.selected || this.props.name == CanvasType.Download) &&
 			this.$textEle2
 		) {
 			this.$textEle2.innerHTML = innerHTML;
+		}
+
+		if (prevState.image.focused != focused && effectId == 9) {
+			if (this.$originalRef)
+				this.$originalRef.innerHTML = originalHTML;
 		}
 
 		if (cropMode && selected) {
@@ -236,11 +245,13 @@ export default class Rect extends Component<IProps, IState> {
 
 	startResize = (e, cursor) => {
 		e.preventDefault();
+		e.stopPropagation();
 		handleResizeStart(e, cursor);
 	};
 
 	$textEle = null;
 	$textEle2 = null;
+	$originalRef = null;
 
 	setTextElementRef = ref => {
 		this.$textEle = ref;
@@ -249,6 +260,10 @@ export default class Rect extends Component<IProps, IState> {
 	setTextElementRef2 = ref => {
 		this.$textEle2 = ref;
 	};
+
+	setOriginalTextRef = ref => {
+		this.$originalRef = ref;
+	}
 
 	innerHTML = () => {
 		const {
@@ -323,6 +338,7 @@ export default class Rect extends Component<IProps, IState> {
 		let image = clone(this.state.image);
 		image.selected = false;
 		image.hovered = false;
+		image.focused = false;
 
 		this.setState({
 			image,
@@ -405,7 +421,6 @@ export default class Rect extends Component<IProps, IState> {
 		const cropMode = editorStore.cropMode;
 
 		const {
-			// cropMode,
 			image: {
 				page,
 				hovered,
@@ -457,6 +472,7 @@ export default class Rect extends Component<IProps, IState> {
 				gridTemplateRows,
 				gap,
 				existImage,
+				focused,
 			}
 		} = this.state;
 
@@ -1824,15 +1840,66 @@ export default class Rect extends Component<IProps, IState> {
 														pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
 													}}
 												>
-
+													{
 													<span
 														id={_id + "hihi4" + canvas}
 														spellCheck={false}
 														onInput={e => {
-															onTextChange(this.state.image, e);
+															console.log('effectId', effectId);
+															if (effectId != 9) {
+																onTextChange(this.state.image, e, null);
+															} else {
+																onCurveTextChange();
+															}
+														}}
+														onFocus={e => {
+															console.log('ee ', e.target, e.currentTarget);
+															e.preventDefault();
+															if (effectId == 9) {
+																onCurveTextFocus();
+															}
 														}}
 														contentEditable={selected && name != CanvasType.Preview}
 														ref={this.setTextElementRef2.bind(this)}
+														className={"text single-text " + _id + "hihi4" + canvas}
+														style={{
+															pointerEvents: "all",
+															position: "absolute",
+															display: "block",
+															width: width / scaleX + "px",
+															margin: "0px",
+															wordBreak: "break-word",
+															opacity: effectId == 9 && focused ? 0.5 : opacity,
+															transform: `scale(${scale}) translateZ(0)`,
+															transformOrigin: "0 0",
+															fontFamily: `${fontFace}, AvenirNextRoundedPro`,
+															fontStyle: italic ? "italic" : "",
+															fontWeight: bold ? "bold" : "normal",
+															textAlign: align,
+															color: (effectId == 3 || effectId == 4) ? "transparent" : color,
+															textShadow: effectId == 1 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
+																effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` :
+																	effectId == 4 ? `rgb(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+																		effectId == 5 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.5) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.3) ${41.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+																			effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px`,
+															filter: filter,
+															lineHeight: `${lineHeight * fontSize}px`,
+															letterSpacing: getLetterSpacing(letterSpacing),
+															fontSize: fontSize + "px",
+														}}
+													></span>}
+													{effectId == 9 && focused && 
+													<span
+														spellCheck={false}
+														onInput={e => {
+															e.preventDefault();
+
+															let target = e.currentTarget;
+															onCurveTextChange(target);
+														}}
+														contentEditable={selected && name != CanvasType.Preview}
+														// ref={this.setTextElementRef2.bind(this)}
+														ref={this.setOriginalTextRef.bind(this)}
 														className={"text single-text " + _id + "hihi4" + canvas}
 														style={{
 															pointerEvents: "all",
@@ -1860,6 +1927,7 @@ export default class Rect extends Component<IProps, IState> {
 															fontSize: fontSize + "px",
 														}}
 													></span>
+													}
 												</div>
 											</div>
 										)}
