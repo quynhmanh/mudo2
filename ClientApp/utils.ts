@@ -3963,6 +3963,7 @@ function handleResizeEnd() {
     window.image.origin_height = window.origin_height;
     window.image.document_object = window.document_object;
     window.image.grids = window.grids;
+    window.image.focused = false;
 
     if (window.image.type == TemplateType.TextTemplate) {
         window.image.document_object = window.image.document_object.map(doc => {
