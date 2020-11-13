@@ -5,7 +5,7 @@ import Slider from "@Components/editor/Slider";
 import ColorPicker from "@Components/editor/ColorPicker";
 import Sidebar from "@Components/editor/SidebarStyled";
 import CircleType from "@Components/circletype/entry";
-import { getImageSelected, onTextChange, onTextChange2, updateImages2 } from '@Utils';
+import { getImageSelected, onTextChange, onTextChange2, updateImages, updateImages2 } from '@Utils';
 
 export interface IProps {
     scale: number;
@@ -814,6 +814,15 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     
                                     setTimeout(() => {
                                         onTextChange2(el, 1000, 1);
+
+                                        image.width = el.children[0].offsetWidth * image.scaleX;
+                                        image.height = el.offsetHeight * image.scaleY;
+                                        image.origin_width = image.width / image.scaleX;
+                                        image.origin_height = image.height / image.scaleY;
+
+                                        image.innerHTML = el.innerHTML;
+                                        editorStore.images2.set(editorStore.idObjectSelected, image);
+                                        updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
                                     }, 150);
                                 }}
                                 className="effect-btn"
