@@ -1868,7 +1868,7 @@ export default class Rect extends Component<IProps, IState> {
 															width: width / scaleX + "px",
 															margin: "0px",
 															wordBreak: "break-word",
-															opacity: effectId == 9 && focused ? 0.5 : opacity,
+															opacity: effectId == 9 && focused && name == CanvasType.HoverLayer ? 0.5 : opacity,
 															transform: `scale(${scale}) translateZ(0)`,
 															transformOrigin: "0 0",
 															fontFamily: `${fontFace}, AvenirNextRoundedPro`,
@@ -1887,7 +1887,7 @@ export default class Rect extends Component<IProps, IState> {
 															fontSize: fontSize + "px",
 														}}
 													></span>}
-													{effectId == 9 && focused && 
+													{effectId == 9 && focused && name == CanvasType.HoverLayer &&
 													<span
 														spellCheck={false}
 														onInput={e => {
