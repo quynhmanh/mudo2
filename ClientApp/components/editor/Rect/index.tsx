@@ -1853,7 +1853,6 @@ export default class Rect extends Component<IProps, IState> {
 															}
 														}}
 														onFocus={e => {
-															console.log('ee ', e.target, e.currentTarget);
 															e.preventDefault();
 															if (effectId == 9) {
 																onCurveTextFocus();

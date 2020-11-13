@@ -5685,7 +5685,12 @@ export function onCurveTextChange(target) {
     // Set the text radius and direction. Note: setter methods are chainable.
     window.circleType.radius(image.circleWidth).dir(image.circleDir).forceWidth(true);
     setTimeout(() => {
-        console.log('el.innerHTML', el.innerHTML);
+
+        image.width = el.children[0].offsetWidth * image.scaleX;
+        image.height = el.offsetHeight * image.scaleY;
+        image.origin_width = image.width / image.scaleX;
+        image.origin_height = image.height / image.scaleY;
+
         image.innerHTML = el.innerHTML;
         editorStore.images2.set(editorStore.idObjectSelected, image);
         updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
