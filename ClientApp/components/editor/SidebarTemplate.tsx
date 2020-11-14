@@ -174,7 +174,6 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         cv.style.filter = "";
                     }
 
-                    console.log('doc.fontList ', doc.fontList);
                     if (doc.fontList.length == 0) checkLoadTemplate();
 
                     if (doc.fontList) {

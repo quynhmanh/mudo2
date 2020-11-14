@@ -248,6 +248,25 @@ export default class SidebarText extends Component<IProps, IState> {
                         return doc;
                     })
 
+                    let cnt = 0;
+                    const checkLoadTemplate = () => {
+                        setSavingState(SavingState.UnsavedChanges, true);
+                        editorStore.addItem2(document2, false);
+
+                        this.props.handleImageSelected(document2._id, document2.page, false, true, false);
+
+                        let index2 = editorStore.pages.findIndex(pageId => pageId == document2.page);
+                        editorStore.keys[index2] = editorStore.keys[index2] + 1;
+
+                        let fonts = toJS(editorStore.fonts);
+                        let tempFonts = [...fonts, ...doc.fontList];
+                        editorStore.fonts.replace(tempFonts);
+
+                        editorStore.increaseUpperzIndex();
+
+                        this.forceUpdate();
+                    }
+
                     if (doc.fontList) {
                         doc.fontList.forEach(id => {
                             let style = `@font-face {
@@ -269,6 +288,10 @@ export default class SidebarText extends Component<IProps, IState> {
                             link.media = "all";
                             link.as = "font";
                             link.crossOrigin = "anonymous";
+                            link.onload = () => {
+                                ++cnt;
+                                if (cnt == doc.fontList.length) checkLoadTemplate();
+                            }
                             head.appendChild(link);
                             return {
                                 id: id
@@ -277,21 +300,21 @@ export default class SidebarText extends Component<IProps, IState> {
                     }
 
 
-                    setSavingState(SavingState.UnsavedChanges, true);
-                    editorStore.addItem2(document2, false);
+                    // setSavingState(SavingState.UnsavedChanges, true);
+                    // editorStore.addItem2(document2, false);
 
-                    this.props.handleImageSelected(document2._id, document2.page, false, true, false);
+                    // this.props.handleImageSelected(document2._id, document2.page, false, true, false);
 
-                    let index2 = editorStore.pages.findIndex(pageId => pageId == document2.page);
-                    editorStore.keys[index2] = editorStore.keys[index2] + 1;
+                    // let index2 = editorStore.pages.findIndex(pageId => pageId == document2.page);
+                    // editorStore.keys[index2] = editorStore.keys[index2] + 1;
 
-                    let fonts = toJS(editorStore.fonts);
-                    let tempFonts = [...fonts, ...doc.fontList];
-                    editorStore.fonts.replace(tempFonts);
+                    // let fonts = toJS(editorStore.fonts);
+                    // let tempFonts = [...fonts, ...doc.fontList];
+                    // editorStore.fonts.replace(tempFonts);
 
-                    editorStore.increaseUpperzIndex();
+                    // editorStore.increaseUpperzIndex();
 
-                    this.forceUpdate();
+                    // this.forceUpdate();
 
                 }
 
