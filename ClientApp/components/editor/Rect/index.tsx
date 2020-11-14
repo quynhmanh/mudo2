@@ -1696,7 +1696,7 @@ export default class Rect extends Component<IProps, IState> {
 																transform: `rotate(${child.rotateAngle}deg)`,
 																opacity: child.opacity / 100,
 															}}>
-															<Gradient 
+															<Gradient
 																image={child}
 																canvas={canvas}
 																scale={this.props.scale}
@@ -1728,7 +1728,7 @@ export default class Rect extends Component<IProps, IState> {
 																transform: `rotate(${child.rotateAngle}deg)`,
 																opacity: child.opacity / 100,
 															}}>
-															<Shape 
+															<Shape
 																image={child}
 																canvas={canvas}
 															/>
@@ -1759,20 +1759,49 @@ export default class Rect extends Component<IProps, IState> {
 																transform: `rotate(${child.rotateAngle}deg)`,
 																opacity: child.opacity / 100,
 															}}>
-															<Image
-																canvas={canvas}
-																_id={child._id}
-																imgWidth={child.imgWidth * scale}
-																imgHeight={child.imgHeight * scale}
-																posX={child.posX * scale}
-																posY={child.posY * scale}
-																selected={selected}
-																cropMode={cropMode}
-																backgroundColor={backgroundColor}
-																src={child.src}
-																enableCropMode={null}
-																srcThumnail={child.srcThumnail}
-															/></div>);
+															<div
+																id={_id + "hihi4" + canvas}
+																style={{
+																	position: "absolute",
+																	overflow: !this.props.bleed && "hidden",
+																	opacity,
+																	transform: `scale(${child.width * scale / child.clipWidth})`,
+																	transformOrigin: '0 0',
+																	width: `${1 / (child.width * scale / child.clipWidth) * 100}%`,
+																	height: `${1 / (child.width * scale / child.clipWidth) * 100}%`,
+																}}
+																onDoubleClick={e => {
+																	e.preventDefault();
+																	handleCropBtnClick(_id);
+																}}
+															>
+																<ClipImage
+																	name={name}
+																	canvas={canvas}
+																	_id={child._id}
+																	imgWidth={child.imgWidth * scale}
+																	imgHeight={child.imgHeight * scale}
+																	width={child.width * scale}
+																	height={child.height * scale}
+																	posX={child.posX * scale}
+																	posY={child.posY * scale}
+																	clipScale={child.clipScale * scale}
+																	selected={selected}
+																	cropMode={cropMode}
+																	backgroundColor={child.backgroundColor}
+																	src={child.src}
+																	enableCropMode={null}
+																	srcThumnail={child.srcThumnail}
+																	path={child.path}
+																	clipId={child.clipId}
+																	clipWidth={child.clipWidth}
+																	clipHeight={child.clipHeight}
+																	path2={child.path2}
+																/>
+
+
+															</div>
+														</div>);
 												})}
 											</div>
 										)}
@@ -1846,91 +1875,91 @@ export default class Rect extends Component<IProps, IState> {
 													}}
 												>
 													{
-													<span
-														id={_id + "hihi4" + canvas}
-														spellCheck={false}
-														onInput={e => {
-															console.log('effectId', effectId);
-															if (effectId != 9) {
-																onTextChange(this.state.image, e, null);
-															} else {
-																onCurveTextChange();
-															}
-														}}
-														onClick={e => {
-															e.preventDefault();
-															if (effectId == 9) {
-																onCurveTextFocus();
-															}
-														}}
-														contentEditable={selected && name != CanvasType.Preview && effectId != 9}
-														ref={this.setTextElementRef2.bind(this)}
-														className={"text single-text " + _id + "hihi4" + canvas}
-														style={{
-															pointerEvents: "all",
-															position: "absolute",
-															display: "block",
-															width: width / scaleX + "px",
-															margin: "0px",
-															wordBreak: "break-word",
-															opacity: effectId == 9 && focused && name == CanvasType.HoverLayer ? 0.5 : opacity,
-															transform: `scale(${scale}) translateZ(0)`,
-															transformOrigin: "0 0",
-															fontFamily: `${fontFace}, AvenirNextRoundedPro`,
-															fontStyle: italic ? "italic" : "",
-															fontWeight: bold ? "bold" : "normal",
-															textAlign: align,
-															color: (effectId == 3 || effectId == 4) ? "transparent" : color,
-															textShadow: effectId == 1 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
-																effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` :
-																	effectId == 4 ? `rgb(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
-																		effectId == 5 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.5) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.3) ${41.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
-																			effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px`,
-															filter: filter,
-															lineHeight: `${lineHeight * fontSize}px`,
-															letterSpacing: getLetterSpacing(letterSpacing),
-															fontSize: fontSize + "px",
-														}}
-													></span>}
+														<span
+															id={_id + "hihi4" + canvas}
+															spellCheck={false}
+															onInput={e => {
+																console.log('effectId', effectId);
+																if (effectId != 9) {
+																	onTextChange(this.state.image, e, null);
+																} else {
+																	onCurveTextChange();
+																}
+															}}
+															onClick={e => {
+																e.preventDefault();
+																if (effectId == 9) {
+																	onCurveTextFocus();
+																}
+															}}
+															contentEditable={selected && name != CanvasType.Preview && effectId != 9}
+															ref={this.setTextElementRef2.bind(this)}
+															className={"text single-text " + _id + "hihi4" + canvas}
+															style={{
+																pointerEvents: "all",
+																position: "absolute",
+																display: "block",
+																width: width / scaleX + "px",
+																margin: "0px",
+																wordBreak: "break-word",
+																opacity: effectId == 9 && focused && name == CanvasType.HoverLayer ? 0.5 : opacity,
+																transform: `scale(${scale}) translateZ(0)`,
+																transformOrigin: "0 0",
+																fontFamily: `${fontFace}, AvenirNextRoundedPro`,
+																fontStyle: italic ? "italic" : "",
+																fontWeight: bold ? "bold" : "normal",
+																textAlign: align,
+																color: (effectId == 3 || effectId == 4) ? "transparent" : color,
+																textShadow: effectId == 1 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
+																	effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` :
+																		effectId == 4 ? `rgb(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+																			effectId == 5 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.5) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.3) ${41.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+																				effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px`,
+																filter: filter,
+																lineHeight: `${lineHeight * fontSize}px`,
+																letterSpacing: getLetterSpacing(letterSpacing),
+																fontSize: fontSize + "px",
+															}}
+														></span>}
 													{effectId == 9 && focused && name == CanvasType.HoverLayer &&
-													<span
-														spellCheck={false}
-														onInput={e => {
-															e.preventDefault();
+														<span
+															spellCheck={false}
+															onInput={e => {
+																e.preventDefault();
 
-															let target = e.currentTarget;
-															onCurveTextChange(target);
-														}}
-														contentEditable={selected && name != CanvasType.Preview}
-														// ref={this.setTextElementRef2.bind(this)}
-														ref={this.setOriginalTextRef.bind(this)}
-														className={"text single-text " + _id + "hihi4" + canvas}
-														style={{
-															pointerEvents: "all",
-															position: "absolute",
-															display: "block",
-															width: width / scaleX + "px",
-															margin: "0px",
-															wordBreak: "break-word",
-															opacity,
-															transform: `scale(${scale}) translateZ(0)`,
-															transformOrigin: "0 0",
-															fontFamily: `${fontFace}, AvenirNextRoundedPro`,
-															fontStyle: italic ? "italic" : "",
-															fontWeight: bold ? "bold" : "normal",
-															textAlign: align,
-															color: (effectId == 3 || effectId == 4) ? "transparent" : color,
-															textShadow: effectId == 1 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
-																effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` :
-																	effectId == 4 ? `rgb(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
-																		effectId == 5 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.5) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.3) ${41.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
-																			effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px`,
-															filter: filter,
-															lineHeight: `${lineHeight * fontSize}px`,
-															letterSpacing: getLetterSpacing(letterSpacing),
-															fontSize: fontSize + "px",
-														}}
-													></span>
+																let target = e.currentTarget;
+																onCurveTextChange(target);
+															}}
+															contentEditable={selected && name != CanvasType.Preview}
+															// ref={this.setTextElementRef2.bind(this)}
+															ref={this.setOriginalTextRef.bind(this)}
+															className={"text single-text " + _id + "hihi4" + canvas}
+															style={{
+																pointerEvents: "all",
+																position: "absolute",
+																display: "block",
+																width: width / scaleX + "px",
+																margin: "0px",
+																wordBreak: "break-word",
+																opacity,
+																transform: `scale(${scale}) translateZ(0)`,
+																transformOrigin: "0 0",
+																fontFamily: `${fontFace}, AvenirNextRoundedPro`,
+																fontStyle: italic ? "italic" : "",
+																fontWeight: bold ? "bold" : "normal",
+																textAlign: align,
+																color: (effectId == 3 || effectId == 4) ? "transparent" : color,
+																textShadow: effectId == 1 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
+																	effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` :
+																		effectId == 4 ? `rgb(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+																			effectId == 5 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.5) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.3) ${41.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
+																				effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px`,
+																filter: filter,
+																lineHeight: `${lineHeight * fontSize}px`,
+																letterSpacing: getLetterSpacing(letterSpacing),
+																fontSize: fontSize + "px",
+															}}
+														></span>
 													}
 												</div>
 											</div>
