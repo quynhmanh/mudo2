@@ -122,7 +122,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                         </span>
                     </button>
                 }
-                <video
+                <Video
                     ref={i => this.image = i}
                     id={`video-${this.props.keys}`}
                     autoPlay={false}
@@ -130,16 +130,6 @@ export default class VideoPicker extends Component<IProps, IState> {
                     muted={true}
                     ref={i => this.image = i}
                     className={this.props.className}
-                    style={{
-                        height: '100%',
-                        marginBottom: '8px',
-                        pointerEvents: "all",
-                        opacity: 0,
-                        transition: 'opacity 0.1s linear',
-                        borderRadius: '5px',
-                        border: "1px solid rgba(0, 0, 0, 0.1)",
-                    }}
-
                     onLoadedMetadata={e => {
                         this.handleImageLoaded();
                     }}
@@ -171,3 +161,13 @@ export default class VideoPicker extends Component<IProps, IState> {
         );
     }
 }
+
+let Video = styled.video`
+    height: 100%;
+    margin-bottom: 8px;
+    pointer-events: all;
+    opacity: 0;
+    transition: opacity 0.1s linear;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+`;
