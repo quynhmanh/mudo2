@@ -267,6 +267,8 @@ export default class SidebarText extends Component<IProps, IState> {
                         this.forceUpdate();
                     }
 
+                    if (doc.fontList.length == 0) checkLoadTemplate();
+
                     if (doc.fontList) {
                         doc.fontList.forEach(id => {
                             let style = `@font-face {
