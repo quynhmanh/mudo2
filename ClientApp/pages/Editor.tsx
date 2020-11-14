@@ -1621,8 +1621,8 @@ class CanvaEditor extends Component<IProps, IState> {
                             id="closePreviewBtn"
                             style={{
                                 position: 'absolute',
-                                right: '175px',
-                                top: '10px',
+                                right: '119px',
+                                top: '8px',
                                 color: 'white',
                                 backgroundColor: 'rgba(255, 255, 255, 0.15)',
                                 padding: '10px 30px',
@@ -1630,6 +1630,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                 borderRadius: "4px",
                                 fontSize: '15px',
                                 lineHeight: '15px',
+                                height: "40px",
                             }}
                             onClick={e => {
                                 this.setState({ showPopupPreview: false });

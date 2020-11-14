@@ -137,7 +137,6 @@ class LeftSide extends Component<IProps, IState> {
                         id="download-btn"
                         onClick={this.props.playVideos}
                         style={{
-                            display: "flex",
                             float: "right",
                             color: "white",
                             padding: "10px",
@@ -146,8 +145,8 @@ class LeftSide extends Component<IProps, IState> {
                             fontSize: "13px",
                             background: "#ebebeb0f",
                             border: "none",
-                            height: "35px",
-                            marginRight: "67px",
+                            height: "40px",
+                            alignItems: "center",
                         }}
                     >
                         <svg
@@ -175,16 +174,16 @@ class LeftSide extends Component<IProps, IState> {
                             fontSize: "13px",
                             background: "#ebebeb0f",
                             border: "none",
-                            height: "35px",
+                            height: "40px",
                             position: 'absolute',
                             zIndex: 9999999999,
-                            right: '59px',
+                            right: '7px',
                             margin: 'auto',
                             top: 0,
                             bottom: 0,
+                            alignItems: "center",
                         }}
                     >
-                        {/* {" "} */}
                         <p
                             style={{
                                 fontSize: "15px",
@@ -208,7 +207,7 @@ class LeftSide extends Component<IProps, IState> {
                         translate={this.props.translate}
                     />
                 )}
-                <MoreList
+                {/* <MoreList
                     translate={this.props.translate}
                 />
                 {
@@ -226,13 +225,14 @@ class LeftSide extends Component<IProps, IState> {
                             fontSize: "13px",
                             background: "#ebebeb0f",
                             border: "none",
-                            height: "35px",
+                            height: "40px",
                             position: 'absolute',
                             zIndex: 9999999999,
-                            right: '10px',
+                            right: '7px',
                             margin: 'auto',
                             top: 0,
                             bottom: 0,
+                            alignItems: "center",
                         }}
                     >
                         <svg
@@ -240,7 +240,7 @@ class LeftSide extends Component<IProps, IState> {
                                 margin: "auto",
                             }}
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path></svg>
-                    </button>}
+                    </button>} */}
             </div></div>
         )
     }
