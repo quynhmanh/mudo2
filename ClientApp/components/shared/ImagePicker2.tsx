@@ -119,18 +119,13 @@ export default class ImagePicker extends Component<IProps, IState> {
                         </span>
                     </button>
                 }
-                <img
+                <Image
                     id={`image-${this.props.prefix}-${this.props.keys}`}
                     ref={i => this.image = i}
                     className={`${this.props.className} fadeInRight`}
-                    style={{
-                        width: '100%',
-                        borderRadius: "4px",
-                        opacity: loaded && this.props.transitionEnd ? 1 : 0,
-                        transition: 'opacity 0.1s linear',
-                        border: this.props.hasBorder ? "1px solid rgba(0, 0, 0, 0.1)" : "none",
-                    }}
-
+                    loaded={loaded}
+                    transitionEnd={this.props.transitionEnd}
+                    hasBorder={this.props.hasBorder}
                     onLoad={e => {
                         this.handleImageLoaded();
                     }}
@@ -142,3 +137,11 @@ export default class ImagePicker extends Component<IProps, IState> {
         );
     }
 }
+
+let Image = styled.img`
+    width: 100%;
+    border-radius: 4px;
+    opacity: ${props => props.loaded && props.transitionEnd ? 1 : 0};
+    transition: opacity 0.1s linear;
+    border: ${props => props.hasBorder ? "1px solid rgba(0, 0, 0, 0.05)" : "none"}
+`;
