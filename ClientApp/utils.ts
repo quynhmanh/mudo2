@@ -1834,6 +1834,7 @@ export function handleImageSelected(id, pageId, updateCanvas, forceUpdate, updat
     editorStore.pageId = pageId;
     editorStore.effectId = image.effectId;
     editorStore.currentOpacity = image.opacity ? image.opacity : 100;
+    console.log('editorStore.currentOpacity', editorStore.currentOpacity)
     editorStore.colors = image.colors;
     editorStore.colorField = null;
     if (!editorStore.childId) {
@@ -5302,6 +5303,7 @@ function handleImageDrag(_id, clientX, clientY) {
         }
 
         window.opacity = opacity;
+        editorStore.currentOpacity = opacity;
     };
 
     export function handleOpacityChangeEnd() {

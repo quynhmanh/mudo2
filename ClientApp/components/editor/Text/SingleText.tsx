@@ -76,7 +76,6 @@ export default class SingleText extends PureComponent<IProps, IState> {
 
     render() {
         const {
-            onInput,
             scale,
             selected,
             parentId,
@@ -137,7 +136,7 @@ export default class SingleText extends PureComponent<IProps, IState> {
                         width: width * scale,
                         height: height * scale,
                         transform: `rotate(${rotateAngle}deg)`,
-                        opacity: opacity,
+                        opacity: opacity / 100,
                         fontFamily: `${fontFace}, AvenirNextRoundedPro`,
                         color: (effectId == 3 || effectId == 4) ? "transparent" : color,
                         textShadow: effectId == 1 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(direction * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(direction * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :

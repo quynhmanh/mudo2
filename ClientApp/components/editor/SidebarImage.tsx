@@ -7,6 +7,7 @@ import ImagePicker from "@Components/shared/ImagePicker";
 import Sidebar from "@Components/editor/SidebarStyled";
 import {
     handleEditmedia,
+    handleImageSelected,
     setSavingState,
 } from "@Utils";
 
@@ -267,7 +268,7 @@ export default class SidebarImage extends Component<IProps, IState> {
                     editorStore.addItem2(newImg, false);
                     editorStore.increaseUpperzIndex();
 
-                    this.props.handleImageSelected(newImg._id, editorStore.pages[i], false, true, false);
+                    handleImageSelected(newImg._id, editorStore.pages[i], false, true, false);
                 }
             }
 

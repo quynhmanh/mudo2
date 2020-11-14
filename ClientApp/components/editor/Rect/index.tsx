@@ -1654,6 +1654,7 @@ export default class Rect extends Component<IProps, IState> {
 																height: child.height * scale,
 																overflow: "hidden",
 																transform: `rotate(${child.rotateAngle}deg)`,
+																opacity: child.opacity / 100,
 															}}>
 															<Image
 																canvas={canvas}
@@ -1693,6 +1694,7 @@ export default class Rect extends Component<IProps, IState> {
 																height: child.height * scale,
 																overflow: "hidden",
 																transform: `rotate(${child.rotateAngle}deg)`,
+																opacity: child.opacity / 100,
 															}}>
 															<Gradient 
 																image={child}
@@ -1724,6 +1726,7 @@ export default class Rect extends Component<IProps, IState> {
 																height: child.height * scale,
 																overflow: "hidden",
 																transform: `rotate(${child.rotateAngle}deg)`,
+																opacity: child.opacity / 100,
 															}}>
 															<Shape 
 																image={child}
@@ -1754,6 +1757,7 @@ export default class Rect extends Component<IProps, IState> {
 																height: child.height * scale,
 																overflow: "hidden",
 																transform: `rotate(${child.rotateAngle}deg)`,
+																opacity: child.opacity / 100,
 															}}>
 															<Image
 																canvas={canvas}
@@ -1793,6 +1797,7 @@ export default class Rect extends Component<IProps, IState> {
 																height: child.height * scale,
 																overflow: "hidden",
 																transform: `rotate(${child.rotateAngle}deg)`,
+																opacity: child.opacity / 100,
 															}}>
 															<Video
 																name={name}
