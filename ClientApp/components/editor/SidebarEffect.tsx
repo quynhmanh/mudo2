@@ -800,7 +800,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 onClick={e => {
                                     let image = getImageSelected();
                                     image.effectId = 9;
-                                    image.circleWidth = 1000;
+                                    image.circleWidth = 0;
                                     image.circleDir = 1;
                                     image.originalHTML = image.innerHTML;
                                     editorStore.images2.set(image._id, image);
@@ -809,11 +809,11 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     window.circleType = new CircleType(el);
 
                                     // Set the text radius and direction. Note: setter methods are chainable.
-                                    window.circleType.radius(1000).dir(1).forceWidth(true);
+                                    window.circleType.radius(0).dir(1).forceWidth(true);
 
                                     
                                     setTimeout(() => {
-                                        onTextChange2(el, 1000, 1);
+                                        onTextChange2(el, 0, 1);
 
                                         image.width = el.children[0].offsetWidth * image.scaleX;
                                         image.height = el.offsetHeight * image.scaleY;
