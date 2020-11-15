@@ -5349,6 +5349,8 @@ function handleImageDrag(_id, clientX, clientY) {
                     currentOpacity = doc.opacity;
                     currentLetterSpacing = doc.letterSpacing;
                     fontSize = doc.fontSize * doc.scaleY * image.scaleY;
+
+                    editorStore.colors = doc.colors;
                 }
                 return doc;
             });
@@ -5356,10 +5358,8 @@ function handleImageDrag(_id, clientX, clientY) {
 
         let fontsList = toJS(editorStore.fontsList);
         let font = fontsList.find(font => font.id === fontId);
-        let text = image.document_object.find(text => text._id == childId);
 
         editorStore.fontId = fontId;
-        editorStore.fontFace = fontId;
         editorStore.fontText = fontText;
         editorStore.currentFontSize = fontSize;
         editorStore.currentLetterSpacing = currentLetterSpacing;
@@ -5380,7 +5380,6 @@ function handleImageDrag(_id, clientX, clientY) {
             currentLineHeight,
             currentLetterSpacing,
             fontName: font ? font.representative : null,
-            fontSize: Math.round(text.fontSize * image.scaleY * text.scaleY),
         });
     };
 

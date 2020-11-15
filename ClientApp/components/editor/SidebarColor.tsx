@@ -336,6 +336,14 @@ export default class SidebarColor extends Component<IProps, IState> {
             e.preventDefault();
         }
         let image = editorStore.getImageSelected();
+        let childImage;
+        if (editorStore.childId) {
+            image.document_object.forEach(child => {
+                if (child._id == editorStore.childId) {
+                    childImage = child;
+                }
+            })
+        }
         if (image.type == TemplateType.BackgroundImage) {
             image.color = color;
             image.src = null;
@@ -343,7 +351,7 @@ export default class SidebarColor extends Component<IProps, IState> {
             editorStore.images2.set(image._id, image);
             this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         }
-        if (image.type == TemplateType.TextTemplate) {
+        if (image.type == TemplateType.TextTemplate && childImage.type == TemplateType.Heading) {
             image.document_object = image.document_object.map(doc => {
                 if (doc._id == editorStore.childId) {
                     doc.color = color;
@@ -352,28 +360,66 @@ export default class SidebarColor extends Component<IProps, IState> {
             });
             editorStore.images2.set(image._id, image);
             this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-        } else if (image.type == TemplateType.Gradient || image.type == TemplateType.Shape) {
-            for (let i = 0; i <= CanvasType.Preview; ++i) {
-                let el = document.getElementById(editorStore.idObjectSelected + "1235alo" + (i == 0 ? "" : i));
-                if (el) {
-                    let elColors = el.getElementsByClassName("color-" + editorStore.colorField);
-                    for (let i = 0; i < elColors.length; ++i) {
-                        let ell = elColors[i] as HTMLElement;
-                        let field = ell.getAttribute("field");
-                        if (ell.tagName == "stop") {
-                            if (!field) field = "stopColor";
-                            ell.style[field] = color;
-                        } else if (ell.tagName == "path" || ell.tagName == "circle" || ell.tagName == "g" || ell.tagName == "polygon") {
-                            if (!field) field = "fill";
-                            ell.style[field] = color;
+        } else if (image.type == TemplateType.Gradient || image.type == TemplateType.Shape || (childImage && childImage.type == TemplateType.Gradient)) {
+            console.log('gradients');
+            if (!editorStore.childId) {
+                for (let i = 0; i <= CanvasType.Preview; ++i) {
+                    let el = document.getElementById(editorStore.idObjectSelected + "1235alo" + (i == 0 ? "" : i));
+                    if (el) {
+                        let elColors = el.getElementsByClassName("color-" + editorStore.colorField);
+                        for (let i = 0; i < elColors.length; ++i) {
+                            let ell = elColors[i] as HTMLElement;
+                            let field = ell.getAttribute("field");
+                            if (ell.tagName == "stop") {
+                                if (!field) field = "stopColor";
+                                ell.style[field] = color;
+                            } else if (ell.tagName == "path" || ell.tagName == "circle" || ell.tagName == "g" || ell.tagName == "polygon") {
+                                if (!field) field = "fill";
+                                ell.style[field] = color;
+                            }
                         }
                     }
                 }
-            }
 
-            image.colors[editorStore.colorField - 1] = color;
-            editorStore.colors = image.colors;
-            editorStore.images2.set(image._id, image);
+                image.colors[editorStore.colorField - 1] = color;
+                editorStore.colors = image.colors;
+                editorStore.images2.set(image._id, image);
+            } else {
+                let childImage;
+                image.document_object.forEach(child => {
+                    if (child._id == editorStore.childId) {
+                        childImage = child;
+                    }
+                })
+                for (let i = 0; i <= CanvasType.Preview; ++i) {
+                    let el = document.getElementById(editorStore.childId + "1235alo" + (i == 0 ? "" : i));
+                    console.log('el ', el);
+                    if (el) {
+                        let elColors = el.getElementsByClassName("color-" + editorStore.colorField);
+                        for (let i = 0; i < elColors.length; ++i) {
+                            let ell = elColors[i] as HTMLElement;
+                            let field = ell.getAttribute("field");
+                            if (ell.tagName == "stop") {
+                                if (!field) field = "stopColor";
+                                ell.style[field] = color;
+                            } else if (ell.tagName == "path" || ell.tagName == "circle" || ell.tagName == "g" || ell.tagName == "polygon") {
+                                if (!field) field = "fill";
+                                ell.style[field] = color;
+                            }
+                        }
+                    }
+                }
+
+                childImage.colors[editorStore.colorField - 1] = color;
+                editorStore.colors = childImage.colors;
+                image.document_object = image.document_object.map(child => {
+                    if (child._id == editorStore.childId) {
+                        return childImage;
+                    }
+                    return child;
+                })
+                editorStore.images2.set(image._id, image);
+            }
         } else if (editorStore.idObjectSelected) {
             image.color = color;
             image.backgroundColor = color;
