@@ -418,6 +418,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}
                             >{this.props.translate("noneEffect")}</p>
                         </div>
@@ -448,6 +449,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}
                                 >{this.props.translate("shadow")}</p>
                         </div>
@@ -477,6 +479,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}
                             >{this.props.translate("lift")}</p>
                         </div>
@@ -571,6 +574,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}>{this.props.translate("hollow")}</p>
                         </div>
                         <div
@@ -600,6 +604,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}>{this.props.translate("splice")}</p>
                         </div>
                         <div
@@ -628,6 +633,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}>{this.props.translate("echo")}</p>
                         </div>
                         {editorStore.effectId == 3 &&
@@ -756,6 +762,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}>{this.props.translate("glitch")}</p>
                         </div>
                         <div
@@ -785,6 +792,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}>{this.props.translate("neon")}</p>
                         </div>
                         <div
@@ -838,6 +846,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
+                                    fontSize: "13px",
                                 }}>{this.props.translate("curve")}</p>
                         </div>
                         {editorStore.effectId == 6 &&
