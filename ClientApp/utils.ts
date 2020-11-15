@@ -4610,6 +4610,9 @@ export function handleDragStart(e, _id) {
         window.startX = e.clientX;
         window.startY = e.clientY;
         window.dragged = false;
+        if (window.draggedTimeout) {
+            clearTimeout(window.draggedTimeout);
+        }
         const { scale } = editorStore;
 
         let image = editorStore.images2.get(_id);
@@ -4649,6 +4652,7 @@ export function handleDragStart(e, _id) {
             displayResizers(false);
             setSavingState(SavingState.UnsavedChanges, false);
             window.dragged = true;
+            console.log('first drag')
         });
 
         window.temp = location$
@@ -5237,6 +5241,10 @@ function handleImageDrag(_id, clientX, clientY) {
     
     function handleDragEnd() {
 
+        window.draggedTimeout = setTimeout(() => {
+            window.dragged = false;
+        }, 300);
+
         window.temp.unsubscribe();
 
         if (window.image.type == TemplateType.TextTemplate) {
@@ -5250,6 +5258,7 @@ function handleImageDrag(_id, clientX, clientY) {
             })
         }
 
+        window.image.focused = false;
         editorStore.images2.set(editorStore.idObjectSelected, window.image);
         updateGuide(window.image);
         updateImages(editorStore.idObjectSelected, editorStore.pageId, window.image, true);

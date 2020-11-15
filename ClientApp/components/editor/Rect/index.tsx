@@ -1880,7 +1880,6 @@ export default class Rect extends Component<IProps, IState> {
 															id={_id + "hihi4" + canvas}
 															spellCheck={false}
 															onInput={e => {
-																console.log('effectId', effectId);
 																if (effectId != 9) {
 																	onTextChange(this.state.image, e, null);
 																} else {
@@ -1889,7 +1888,9 @@ export default class Rect extends Component<IProps, IState> {
 															}}
 															onClick={e => {
 																e.preventDefault();
-																if (effectId == 9) {
+																console.log('window.dragged', !window.dragged)
+																if (effectId == 9 && !window.dragged) {
+																	console.log('focused');
 																	onCurveTextFocus();
 																}
 															}}
