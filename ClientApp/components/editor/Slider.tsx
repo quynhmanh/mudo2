@@ -151,7 +151,7 @@ export default class Slider extends Component<IProps, IState> {
                         fontSize: "11px",
                         height: "22px",
                         width: "40px",
-                    }} type="number" max="100" min="0" defaultValue={(this.state.currentValue * (this.props.multiplier ? this.props.multiplier : 1)).toString()} ></input>
+                    }} type="number" max="100" min="0" defaultValue={(Math.floor(this.state.currentValue) * (this.props.multiplier ? this.props.multiplier : 1)).toString()} ></input>
             </div>
             <div
                 className="slider-bar"
