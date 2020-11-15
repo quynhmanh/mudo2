@@ -35,6 +35,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                     padding: "5px 14px",
                     borderRadius: "3px",
                     marginLeft: "5px",
+                    textDecoration: "none",
                 }}
                 href="/"
             >
