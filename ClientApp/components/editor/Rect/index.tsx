@@ -1697,6 +1697,7 @@ export default class Rect extends Component<IProps, IState> {
 																opacity: child.opacity / 100,
 															}}>
 															<Gradient
+																name={name}
 																image={child}
 																canvas={canvas}
 																scale={this.props.scale}

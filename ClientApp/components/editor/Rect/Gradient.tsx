@@ -67,6 +67,7 @@ export default class Gradient extends Component<IProps, IState> {
     render() {
 
         const {
+			name,
             canvas,
             scale,
             image: {
