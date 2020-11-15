@@ -73,6 +73,7 @@ export default class Video extends Component<IProps, IState> {
                     height: imgHeight + "px"
                 }}
             >
+                {!this.state.loaded && <div className="loader"></div>}
                 <video
                     id={_id + "video" + this.props.name + canvas}
                     ref={i => this.ref = i}
@@ -88,8 +89,11 @@ export default class Video extends Component<IProps, IState> {
                     loop
                     onLoadedMetadata={e => {
                         let el = document.getElementById(_id + "progress1");
-                        let video = e.target as HTMLVideoElement;
-                        el.setAttribute('max', video.duration.toString());
+                        if (el) {
+                            let video = e.target as HTMLVideoElement;
+                            el.setAttribute('max', video.duration.toString());
+                        }
+                        this.setState({loaded: true});
                     }}
                     onTimeUpdate={e => {
                         let video = e.target as HTMLVideoElement;
