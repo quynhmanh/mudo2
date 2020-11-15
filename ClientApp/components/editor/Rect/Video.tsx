@@ -73,7 +73,7 @@ export default class Video extends Component<IProps, IState> {
                     height: imgHeight + "px"
                 }}
             >
-                {!this.state.loaded && <div className="loader"></div>}
+                {!this.state.loaded && name != CanvasType.Download && <div className="loader"></div>}
                 <video
                     id={_id + "video" + this.props.name + canvas}
                     ref={i => this.ref = i}
