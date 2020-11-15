@@ -360,8 +360,7 @@ export default class SidebarColor extends Component<IProps, IState> {
             });
             editorStore.images2.set(image._id, image);
             this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-        } else if (image.type == TemplateType.Gradient || image.type == TemplateType.Shape || (childImage && childImage.type == TemplateType.Gradient)) {
-            console.log('gradients');
+        } else if (image.type == TemplateType.Gradient || image.type == TemplateType.Shape || (childImage && childImage.type == TemplateType.Gradient) || (childImage && childImage.type == TemplateType.Shape)) {
             if (!editorStore.childId) {
                 for (let i = 0; i <= CanvasType.Preview; ++i) {
                     let el = document.getElementById(editorStore.idObjectSelected + "1235alo" + (i == 0 ? "" : i));
