@@ -2226,6 +2226,12 @@ export function onTextChange2(target, angle, dir) {
                 image.origin_height = image.height / image.scaleY;
             }
 
+            if (image.scaleX == 0) {
+                image.origin_width = 0;
+            } else {
+                image.origin_width = image.width / image.scaleX;
+            }
+
             image.innerHTML = target.innerHTML;
             editorStore.images2.set(editorStore.idObjectSelected, image);
             updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);

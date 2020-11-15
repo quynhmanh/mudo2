@@ -823,7 +823,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         image.innerHTML = el.innerHTML;
                                         editorStore.images2.set(editorStore.idObjectSelected, image);
                                         updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-                                    }, 150);
+                                    }, 15);
                                 }}
                                 className="effect-btn"
                                 id="effect-btn-7"
@@ -883,7 +883,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 
                                         // Set the text radius and direction. Note: setter methods are chainable.
                                         let angle = Math.abs(value > 50 ? 100 - value : value)/50*1000+window.circleType._minRadius;
-                                        window.circleType.radius(angle).dir(value > 50 ? 1 : -1);
+                                        window.circleType.radius(angle).dir(value > 50 ? 1 : -1).forceWidth(true);
 
                                         let image = getImageSelected();
                                         image.effectId = 9;
@@ -891,7 +891,19 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                         image.circleDir = value > 50 ? 1 : -1;
                                         editorStore.images2.set(image._id, image);
 
-                                        onTextChange2(el, angle, image.circleDir);
+                                        setTimeout(() => {
+                                            onTextChange2(el, angle, image.circleDir);
+
+                                            image.width = el.children[0].offsetWidth * image.scaleX;
+                                            console.log('image.width ', image.width)
+                                            image.height = el.offsetHeight * image.scaleY;
+                                            image.origin_width = image.width / image.scaleX;
+                                            image.origin_height = image.height / image.scaleY;
+
+                                            image.innerHTML = el.innerHTML;
+                                            editorStore.images2.set(editorStore.idObjectSelected, image);
+                                            updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+                                        }, 15);
                                     }}
                                     onChangeEnd={this.handleChangeIntensityEnd}
                                 />
