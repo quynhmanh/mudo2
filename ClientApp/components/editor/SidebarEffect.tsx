@@ -419,7 +419,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     textAlign: "center",
                                 }}
-                            >None</p>
+                            >{this.props.translate("noneEffect")}</p>
                         </div>
                         <div
                             style={{
@@ -449,7 +449,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     textAlign: "center",
                                 }}
-                            >Shadow</p>
+                                >{this.props.translate("shadow")}</p>
                         </div>
                         <div
                             style={{
@@ -478,33 +478,33 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 style={{
                                     textAlign: "center",
                                 }}
-                            >Lift</p>
+                            >{this.props.translate("lift")}</p>
                         </div>
                         {editorStore.effectId == 1 &&
                             <div style={{
                                 marginBottom: "15px",
                             }}>
                                 <Slider
-                                    title="Offset"
+                                    title={this.props.translate("offset")}
                                     currentValue={image.offSet}
                                     onChange={this.handleChangeOffset}
                                     onChangeEnd={this.handleChangeOffsetEnd}
                                 />
                                 <Slider
-                                    title="Direction"
+                                    title={this.props.translate("direction")}
                                     currentValue={image.direction}
                                     multiplier={3.6}
                                     onChange={this.handleChangeDirection}
                                     onChangeEnd={this.handleChangeDirectionEnd}
                                 />
                                 <Slider
-                                    title="Blur"
+                                    title={this.props.translate("blur")}
                                     currentValue={image.blur}
                                     onChange={this.handleChangeBlur}
                                     onChangeEnd={this.handleChangeBlurEnd}
                                 />
                                 <Slider
-                                    title="Transparency"
+                                    title={this.props.translate("transparency")}
                                     currentValue={image.textShadowTransparent}
                                     onChange={this.handleChangeTextShadowTransparent}
                                     onChangeEnd={this.handleChangeTextShadowTransparentEnd}
@@ -538,7 +538,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 marginBottom: "15px",
                             }}>
                                 <Slider
-                                    title="Intensity"
+                                    title={this.props.translate("intensity")}
                                     currentValue={image.intensity}
                                     onChange={this.handleChangeIntensity}
                                     onChangeEnd={this.handleChangeIntensityEnd}
@@ -571,7 +571,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
-                                }}>Hollow</p>
+                                }}>{this.props.translate("hollow")}</p>
                         </div>
                         <div
                             style={{
@@ -600,7 +600,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
-                                }}>Splice</p>
+                                }}>{this.props.translate("splice")}</p>
                         </div>
                         <div
                             style={{
@@ -628,14 +628,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
-                                }}>Echo</p>
+                                }}>{this.props.translate("echo")}</p>
                         </div>
                         {editorStore.effectId == 3 &&
                             <div style={{
                                 marginBottom: "15px",
                             }}>
                                 <Slider
-                                    title="Thickness"
+                                    title={this.props.translate("thickness")}
                                     currentValue={image.hollowThickness}
                                     onChange={this.handleChangeHollowThickness}
                                     onChangeEnd={this.handleChangeHollowThicknessEnd}
@@ -646,19 +646,19 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 marginBottom: "15px",
                             }}>
                                 <Slider
-                                    title="Thickness"
+                                     title={this.props.translate("thickness")}
                                     currentValue={image.hollowThickness}
                                     onChange={this.handleChangeHollowThickness}
                                     onChangeEnd={this.handleChangeHollowThicknessEnd}
                                 />
                                 <Slider
-                                    title="Offset"
+                                    title={this.props.translate("offset")}
                                     currentValue={image.offSet}
                                     onChange={this.handleChangeOffset}
                                     onChangeEnd={this.handleChangeOffsetEnd}
                                 />
                                 <Slider
-                                    title="Direction"
+                                    title={this.props.translate("direction")}
                                     currentValue={image.direction}
                                     onChange={this.handleChangeDirection}
                                     multiplier={3.6}
@@ -693,13 +693,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 marginBottom: "15px",
                             }}>
                                 <Slider
-                                    title="Offset"
+                                    title={this.props.translate("offset")}
                                     currentValue={image.offSet}
                                     onChange={this.handleChangeOffset}
                                     onChangeEnd={this.handleChangeOffsetEnd}
                                 />
                                 <Slider
-                                    title="Direction"
+                                    title={this.props.translate("direction")}
                                     currentValue={image.direction}
                                     onChange={this.handleChangeDirection}
                                     multiplier={3.6}
@@ -718,7 +718,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                             lineHeight: '30px',
                                             fontSize: '12px',
                                         }}
-                                    >Color</p>
+                                    >{this.props.translate("color")}</p>
                                     <ColorPicker
                                         color={image.shadowColor}
                                         setSelectionColor={this.updateShadowColor}
@@ -756,7 +756,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
-                                }}>Glitch</p>
+                                }}>{this.props.translate("glitch")}</p>
                         </div>
                         <div
                             style={{
@@ -785,7 +785,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
-                                }}>Neon</p>
+                                }}>{this.props.translate("neon")}</p>
                         </div>
                         <div
                             style={{
@@ -838,20 +838,20 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             <p
                                 style={{
                                     textAlign: "center",
-                                }}>Curve</p>
+                                }}>{this.props.translate("curve")}</p>
                         </div>
                         {editorStore.effectId == 6 &&
                             <div style={{
                                 marginBottom: "15px",
                             }}>
                                 <Slider
-                                    title="Offset"
+                                    title={this.props.translate("offset")}
                                     currentValue={image.offSet}
                                     onChange={this.handleChangeOffset}
                                     onChangeEnd={this.handleChangeOffsetEnd}
                                 />
                                 <Slider
-                                    title="Direction"
+                                    title={this.props.translate("direction")}
                                     currentValue={image.direction}
                                     onChange={this.handleChangeDirection}
                                     multiplier={3.6}
@@ -863,7 +863,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 marginBottom: "15px",
                             }}>
                                 <Slider
-                                    title="Intensity"
+                                    title={this.props.translate("intensity")}
                                     currentValue={50}
                                     onChange={this.handleChangeIntensity}
                                     onChangeEnd={this.handleChangeIntensityEnd}
@@ -874,7 +874,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 marginBottom: "15px",
                             }}>
                                 <Slider
-                                    title="Angle"
+                                    title={this.props.translate("angle")}
                                     currentValue={50}
                                     onChange={(value) => {
                                         if (window.circleType) window.circleType.destroy();

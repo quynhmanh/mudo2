@@ -69,5 +69,21 @@
     "copy": "Nhân bản",
     "remove": "Xóa",
     "group": "Nhóm",
-    "ungroup": "Bỏ nhóm"
+    "ungroup": "Bỏ nhóm",
+    "noneEffect": "Không hiệu uứng",
+    "offset": "Khoảng cách",
+    "direction": "Hướng",
+    "blur": "Độ mờ",
+    "transparency": "Trong suốt",
+    "intensity": "Cường độ",
+    "hollow": "Độ dày",
+    "splice": "Đổ bóng",
+    "echo": "Vang",
+    "thickness": "Độ dày",
+    "glitch": "Nhiễu sóng",
+    "neon": "Nhấp nháy",
+    "curve": "Cong",
+    "angle": "Góc uốn",
+    "shadow": "Bóng",
+    "lift": "Nâng lên"
 }

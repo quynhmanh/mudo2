@@ -69,5 +69,21 @@
     "copy": "Copy",
     "remove": "Remove",
     "group": "Group",
-    "ungroup": "Ungroup"
+    "ungroup": "Ungroup",
+    "noneEffect": "NoneEffect",
+    "offset": "Offset",
+    "direction": "Direction",
+    "blur": "Blur",
+    "transparency": "Transparency",
+    "intensity": "Intensity",
+    "hollow": "Hollow",
+    "splice": "Splice",
+    "echo": "Echo",
+    "thickness": "Thickness",
+    "glitch": "Glitch",
+    "neon": "Neon",
+    "curve": "Curve",
+    "angle": "Angle",
+    "shadow": "Shadow",
+    "lift": "Lift"
 }
