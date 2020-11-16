@@ -160,6 +160,16 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         return doc;
                     });
 
+                    template.document_object.forEach(img => {
+                        if (img.type == TemplateType.Image || img.type == TemplateType.Video) {
+                            let link = ce("link");
+                            link.rel = "preload";
+                            link.href = img.src;
+                            link.media = "all";
+                            link.crossOrigin = "anonymous";
+                        }
+                    });
+
                     let cnt = 0;
                     const checkLoadTemplate = () => {
                         editorStore.applyTemplate(template.document_object);
