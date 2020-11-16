@@ -177,7 +177,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                     }
 
                     template.document_object.forEach(img => {
-                        if (img.type == TemplateType.Image || img.type == TemplateType.Video) {
+                        if (img.type == TemplateType.Image) {
                             ++total;
 
                             let head = document.head || ge("head")[0];
