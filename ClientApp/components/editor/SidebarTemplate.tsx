@@ -181,12 +181,13 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                             ++total;
 
                             let head = document.head || ge("head")[0];
-                            
+
                             let link = ce("link");
                             link.rel = "preload";
                             link.href = img.src;
-                            link.media = "all";
+                            link.media = "all"; 
                             link.crossOrigin = "anonymous";
+                            link.as = "image";
                             link.onload = () => {
                                 ++cnt;
                                 if (cnt == total) checkLoadTemplate();
