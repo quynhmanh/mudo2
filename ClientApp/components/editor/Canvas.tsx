@@ -131,11 +131,12 @@ export default class Canvas extends Component<IProps, IState> {
                 {!this.props.preview && (
                     <span
                         style={{
-                            fontSize: "13px",
+                            fontSize: "14px",
                             display: "block",
                             marginBottom: "5px",
                             marginTop: "15px",
-                            color: "#989899",
+                            color: "rgba(14,19,24,.7)",
+                            fontWeight: 500,
                         }}
                     >
                         {this.props.translate("page")} {index + 1}
@@ -658,7 +659,7 @@ const ResizableRectContainer = StyledComponent.div`
   .controllers-btn {
     border-radius: 3px;
     padding: 5px;
-    color: rgba(43, 59, 74, 0.45);
+    color: rgba(14,19,24,.7);
   }
   .controllers-btn:hover {
     background-color: rgba(75,102,129,.15);
@@ -674,7 +675,7 @@ const ResizableRectContainer = StyledComponent.div`
   }
   .controllers {
     display: none;
-    top: -10px;
+    top: -5px;
   }
   :hover .controllers {
     display: inline !important;
