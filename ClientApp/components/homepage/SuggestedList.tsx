@@ -48,9 +48,6 @@ const SuggestedList = (props: IProps) => {
                 className="_10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88"
             >
                 <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
-                    <ul className="_3iAhdo5irp6o991TKYLo_G _10KwohWWbzE9k3VxqiINB8 _1z-JWQqxYHVcouNSwtyQUF _3l4uYr79jSRjggcw5QCp88" />
-                </li>
-                <li className="_3VrPWTB9VCs9Aq7gbbsrnr">
                     <div className="_1ERFI8bZ2yaDXttvzi0r56">
                         <span 
                             style={{

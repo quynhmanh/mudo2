@@ -146,14 +146,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         margin: "0px 0px",
                     }}
                 >
-                    <div
-                        style={{
-                            width: "340px",
-                            height: "83px",
-                            position: 'relative',
-                            margin: "0px 10px 0px 0px",
-                        }}
-                    >
+                    <CatalogContainer>
                         <InfiniteXScroll
                             scroll={true}
                             throttle={1000}
@@ -261,7 +254,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             </SeeAllButton>
                             </div>
                         </InfiniteXScroll>
-                    </div>
+                    </CatalogContainer>
                 </div>
             </Catalog>
         )
@@ -299,4 +292,11 @@ const SeeAllButton = styled.button`
     :hover {
         border-color: white;
     }
+`;
+
+const CatalogContainer = styled.div`
+    width: 340px;
+    height: 83px;
+    position: relative;
+    margin: 0px 5px 0px 0px;
 `;
