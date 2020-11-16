@@ -160,7 +160,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         return doc;
                     });
 
-                    let total = 0;
+                    let total = doc.fontList.length;
 
                     let cnt = 0;
                     const checkLoadTemplate = () => {
