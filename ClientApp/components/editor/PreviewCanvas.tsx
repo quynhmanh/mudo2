@@ -209,7 +209,7 @@ export default class Canvas extends Component<IProps, IState> {
                             }
 
                             let el = document.getElementById(id + "animation-block3") as HTMLElement;
-                            el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
+                            if (el) el.children[0].style.transform = `translate(${-image.width * scale + curPos[id]}px, 0px)`;
                         }
 
                         let el2 = document.getElementById(id + "_alo3");
