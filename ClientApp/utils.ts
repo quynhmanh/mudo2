@@ -4801,7 +4801,7 @@ function handleImageDrag(_id, clientX, clientY) {
             }
         ]
 
-        let top1 = 999999, right1 = 0, bottom1 = 0, left1 = 999999;
+        let top1 = 999999, right1 = -999999, bottom1 = -999999, left1 = 999999;
 
         left1 = Math.min(left1, bb[0].x);
         left1 = Math.min(left1, bb[1].x);
@@ -5638,9 +5638,7 @@ export function addAPage(e, id) {
 
     setSavingState(SavingState.UnsavedChanges, false);
     editorStore.addItem2(item, false);
-
     handleImageSelected(item._id, newPageId, false, true, false);
-
     editorStore.pages.replace(pages);
     editorStore.keys.replace(keys);
     setTimeout(() => {
