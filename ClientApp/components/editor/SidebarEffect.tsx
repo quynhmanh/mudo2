@@ -100,6 +100,9 @@ export default class SidebarEffect extends Component<IProps, IState> {
             if (effectId == 5) {
                 image.shadowColor = [0, 0, 0]
             }
+            if (effectId == 7) {
+                image.shade = 0.65;
+            }
         } else {
             let texts = image.document_object.map(text => {
                 if (text._id == editorStore.childId) {
@@ -281,13 +284,13 @@ export default class SidebarEffect extends Component<IProps, IState> {
         if (editorStore.childId) {
             let texts = image.document_object.map(text => {
                 if (text._id == editorStore.childId) {
-                    text.intensity = val;
+                    text.shade = val;
                 }
                 return text;
             });
             image.document_object = texts;
         } else {
-            image.intensity = val;
+            image.shade = val / 100;
         }
         this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
         editorStore.images2.set(editorStore.idObjectSelected, image);
@@ -297,10 +300,14 @@ export default class SidebarEffect extends Component<IProps, IState> {
         let image = editorStore.getImageSelected();
         if (editorStore.childId) {
             image = image.document_object.find(text => text._id == editorStore.childId);
-        }
-        image.intensity = val;
+        }  
 
-        this.updateText(image);
+        console.log('val ', val)
+
+        image.shade = val / 100;
+
+        editorStore.images2.set(image._id, image);
+        this.props.updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
     }
 
     handleChangeHollowThicknessEnd = val => {
@@ -542,7 +549,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             }}>
                                 <Slider
                                     title={this.props.translate("intensity")}
-                                    currentValue={image.intensity}
+                                    currentValue={image.shade * 100}
                                     onChange={this.handleChangeIntensity}
                                     onChangeEnd={this.handleChangeIntensityEnd}
                                 />
@@ -777,7 +784,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     boxShadow: editorStore.effectId == 7 && "0 0 0 2px #00c4cc, inset 0 0 0 2px #fff",
                                 }}
                                 onClick={e => {
-                                    this.handleApplyEffect(7, null, null, null, null, null, null, "white", "drop-shadow(rgba(26, 24, 24, 0.95) 0px 0px 2.73317px) drop-shadow(rgba(26, 26, 26, 0.75) 0px 0px 13.6658px) drop-shadow(rgba(26, 26, 26, 0.44) 0px 0px 40.9975px)");
+                                    this.handleApplyEffect(7, null, null, null, null, null, null, "rgb(255, 22, 22)", "");
                                 }}
                                 className="effect-btn"
                                 id="effect-btn-7"

@@ -473,6 +473,7 @@ export default class Rect extends Component<IProps, IState> {
 				gap,
 				existImage,
 				focused,
+				shade,
 			}
 		} = this.state;
 
@@ -1876,7 +1877,7 @@ export default class Rect extends Component<IProps, IState> {
 													}}
 												>
 													{
-														<span
+														<EditableText
 															id={_id + "hihi4" + canvas}
 															spellCheck={false}
 															onInput={e => {
@@ -1895,6 +1896,8 @@ export default class Rect extends Component<IProps, IState> {
 																}
 															}}
 															contentEditable={selected && name != CanvasType.Preview && effectId != 9}
+															neon={effectId == 7}
+															color={color}
 															ref={this.setTextElementRef2.bind(this)}
 															className={"text single-text " + _id + "hihi4" + canvas}
 															style={{
@@ -1911,20 +1914,22 @@ export default class Rect extends Component<IProps, IState> {
 																fontStyle: italic ? "italic" : "",
 																fontWeight: bold ? "bold" : "normal",
 																textAlign: align,
-																color: (effectId == 3 || effectId == 4) ? "transparent" : color,
+																color: (effectId == 3 || effectId == 4) ? "transparent" : effectId == 7 ? shadeColor(color, shade) : color,
 																textShadow: effectId == 1 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, ${1.0 * textShadowTransparent / 100}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${30.0 * blur / 100}px` :
 																	effectId == 2 ? `rgba(0, 0, 0, ${0.6 * intensity}) 0 8.9px ${66.75 * intensity / 100}px` :
 																		effectId == 4 ? `rgb(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
 																			effectId == 5 ? `rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.5) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgba(${shadowColor[0]}, ${shadowColor[1]}, ${shadowColor[2]}, 0.3) ${41.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${41.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px` :
-																				effectId == 6 && `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px`,
+																				effectId == 6 ? `rgb(0, 255, 255) ${21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI)}px ${21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI)}px 0px, rgb(255, 0, 255) ${-(21.0 * offSet / 100 * Math.sin(effectDirection * 3.6 / 360 * 2 * Math.PI))}px ${-(21.0 * offSet / 100 * Math.cos(effectDirection * 3.6 / 360 * 2 * Math.PI))}px 0px` :
+																				effectId == 7 && `0 0 10px ${color}`,
+
 																filter: filter,
 																lineHeight: `${lineHeight * fontSize}px`,
 																letterSpacing: getLetterSpacing(letterSpacing),
 																fontSize: fontSize + "px",
 															}}
-														></span>}
+														></EditableText>}
 													{effectId == 9 && focused && name == CanvasType.HoverLayer &&
-														<span
+														<EditableText
 															spellCheck={false}
 															onInput={e => {
 																e.preventDefault();
@@ -1933,7 +1938,7 @@ export default class Rect extends Component<IProps, IState> {
 																onCurveTextChange(target);
 															}}
 															contentEditable={selected && name != CanvasType.Preview}
-															// ref={this.setTextElementRef2.bind(this)}
+															neon={effectId == 7}
 															ref={this.setOriginalTextRef.bind(this)}
 															className={"text single-text " + _id + "hihi4" + canvas}
 															style={{
@@ -1961,7 +1966,7 @@ export default class Rect extends Component<IProps, IState> {
 																letterSpacing: getLetterSpacing(letterSpacing),
 																fontSize: fontSize + "px",
 															}}
-														></span>
+														></EditableText>
 													}
 												</div>
 											</div>
@@ -2198,3 +2203,42 @@ const GradientContainer = styled.div`
 		height: 100%;
 	}
 `;
+
+const EditableText = styled.span`
+`;
+
+function hex2(c) {
+    c = Math.round(c);
+    if (c < 0) c = 0;
+    if (c > 255) c = 255;
+
+    var s = c.toString(16);
+    if (s.length < 2) s = "0" + s;
+
+    return s;
+}
+
+function color(r, g, b) {
+    return "#" + hex2(r) + hex2(g) + hex2(b);
+}
+
+function shadeColor(col, light) {
+
+	col = col.replace(/[^\d,]/g, '').split(',');
+
+    var r = col[0];
+    var g = col[1];
+    var b = col[2];
+
+    if (light < 0) {
+        r = (1 + light) * r;
+        g = (1 + light) * g;
+        b = (1 + light) * b;
+    } else {
+        r = (1 - light) * r + light * 255;
+        g = (1 - light) * g + light * 255;
+        b = (1 - light) * b + light * 255;
+    }
+
+    return color(r, g, b);
+}
