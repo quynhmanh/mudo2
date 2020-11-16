@@ -179,6 +179,9 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                     template.document_object.forEach(img => {
                         if (img.type == TemplateType.Image || img.type == TemplateType.Video) {
                             ++total;
+
+                            let head = document.head || ge("head")[0];
+                            
                             let link = ce("link");
                             link.rel = "preload";
                             link.href = img.src;
@@ -188,6 +191,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                                 ++cnt;
                                 if (cnt == total) checkLoadTemplate();
                             }
+                            head.appendChild(link);
                         }
                     });
 
