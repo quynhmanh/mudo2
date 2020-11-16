@@ -160,15 +160,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         return doc;
                     });
 
-                    template.document_object.forEach(img => {
-                        if (img.type == TemplateType.Image || img.type == TemplateType.Video) {
-                            let link = ce("link");
-                            link.rel = "preload";
-                            link.href = img.src;
-                            link.media = "all";
-                            link.crossOrigin = "anonymous";
-                        }
-                    });
+                    let total = 0;
 
                     let cnt = 0;
                     const checkLoadTemplate = () => {
@@ -184,7 +176,22 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         cv.style.filter = "";
                     }
 
-                    if (doc.fontList.length == 0) checkLoadTemplate();
+                    template.document_object.forEach(img => {
+                        if (img.type == TemplateType.Image || img.type == TemplateType.Video) {
+                            ++total;
+                            let link = ce("link");
+                            link.rel = "preload";
+                            link.href = img.src;
+                            link.media = "all";
+                            link.crossOrigin = "anonymous";
+                            link.onload = () => {
+                                ++cnt;
+                                if (cnt == total) checkLoadTemplate();
+                            }
+                        }
+                    });
+
+                    if (total == 0) checkLoadTemplate();
 
                     if (doc.fontList) {
                         doc.fontList.forEach(id => {
@@ -209,7 +216,7 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                             link.crossOrigin = "anonymous";
                             link.onload = () => {
                                 ++cnt;
-                                if (cnt == doc.fontList.length) checkLoadTemplate();
+                                if (cnt == total) checkLoadTemplate();
                             }
                             head.appendChild(link);
                             return {
