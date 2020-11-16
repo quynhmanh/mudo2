@@ -338,14 +338,10 @@ export default class SidebarTemplate extends Component<IProps, IState> {
                         backgroundPosition: 'left 8px center',
                         color: "black",
                         fontWeight: 400,
+                        lineHeight: "40px",
                     }}
-                    // onKeyDown={this.handleQuery}
                     type="text"
                     placeholder="Search templates"
-                    onChange={e => {
-                        // this.setState({ query: e.target.value });
-                    }}
-                // value={this.state.query}
                 />
             </Sidebar>
         )
