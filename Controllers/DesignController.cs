@@ -647,7 +647,7 @@ namespace RCB.TypeScript.Controllers
                                 video.currentTime = 1;
                             })
                             let videos = document.getElementsByTagName('video'); 
-                            for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;
+                            for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 1;
                         }");
 
                         while (true)
