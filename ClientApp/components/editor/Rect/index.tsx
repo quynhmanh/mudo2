@@ -474,6 +474,8 @@ export default class Rect extends Component<IProps, IState> {
 				existImage,
 				focused,
 				shade,
+				flipHorizontal,
+				flipVertical,
 			}
 		} = this.state;
 
@@ -781,6 +783,8 @@ export default class Rect extends Component<IProps, IState> {
 													position: "absolute",
 													overflow: "hidden",
 													opacity,
+													transform: (flipHorizontal || flipVertical) && `scale(${flipVertical ? -1 : 1}, ${flipHorizontal ? -1 : 1})`,
+													transition: "transform .3s ease,-webkit-transform .3s ease",
 												}}
 												onDoubleClick={e => {
 													e.preventDefault();

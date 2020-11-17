@@ -85,5 +85,7 @@
     "curve": "Cong",
     "angle": "Góc uốn",
     "shadow": "Bóng",
-    "lift": "Nâng lên"
+    "lift": "Nâng lên",
+    "flipVertical": "Lật dọc",
+    "flipHorizontal": "Lật ngang"
 }

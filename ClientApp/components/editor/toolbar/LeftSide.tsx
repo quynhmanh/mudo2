@@ -16,6 +16,7 @@ import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
 import { toJS } from "mobx";
 import styled from 'styled-components';
+import Flip from "./left/Flip";
 
 interface IProps {
     childId: string;
@@ -246,7 +247,7 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     cropMode={editorStore.cropMode}
                 />
-                {/* <Flip
+                <Flip
                     show=
                     {
                         image &&
@@ -258,7 +259,7 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     cropMode={editorStore.cropMode}
                     handleFlipBtnClick={props.handleFlipBtnClick}
-                /> */}
+                />
                 <ImageBackgroundColor
                     show=
                     {

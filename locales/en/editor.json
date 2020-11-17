@@ -85,5 +85,7 @@
     "curve": "Curve",
     "angle": "Angle",
     "shadow": "Shadow",
-    "lift": "Lift"
+    "lift": "Lift",
+    "flipVertical": "Flip Vertical",
+    "flipHorizontal": "Flip Horizontal"
 }
