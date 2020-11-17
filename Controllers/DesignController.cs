@@ -673,7 +673,7 @@ namespace RCB.TypeScript.Controllers
 
                 int crf = 17;
                 var exePath = "/usr/bin/ffmpeg";
-                var inputArgs = "/app/wwwroot/" + videoId + ".webm -c:v copy " + crf.ToString();
+                var inputArgs = "/app/wwwroot/" + videoId + ".webm -c:v copy ";
                 var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
 
                 if (HostingEnvironment.IsDevelopment())
