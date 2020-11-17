@@ -92,7 +92,7 @@ class Toolbar extends Component<IProps, IState> {
 
                     slider.noUiSlider.on('update', (range)=>{
                         let dur = parseFloat(range[1]) - parseFloat(range[0]);
-                        el.innerHTML = Math.floor(image.duration * dur / 100 * 10) / 10;
+                        el.innerHTML = Math.floor(image.duration * dur / 100 * 10) / 10 + "s";
                     });
                 } catch (e) {
                     console.log("Error when create slider.", e)
