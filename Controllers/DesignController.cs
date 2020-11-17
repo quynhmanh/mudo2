@@ -646,8 +646,8 @@ namespace RCB.TypeScript.Controllers
                                 let video = document.getElementsByTagName(img._id + 'video2alo2');
                                 video.currentTime = 1;
                             })
-                            // let videos = document.getElementsByTagName('video'); 
-                            // for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;
+                            let videos = document.getElementsByTagName('video'); 
+                            for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;
                         }");
 
                         while (true)
