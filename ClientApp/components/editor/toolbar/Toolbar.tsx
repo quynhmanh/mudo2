@@ -79,7 +79,7 @@ class Toolbar extends Component<IProps, IState> {
             if (slider) {
                 try { 
                     noUiSlider.create(slider, {
-                        start: [20, 80],
+                        start: [0, 100],
                         connect: true,
                         range: {
                             'min': 0,
@@ -89,11 +89,30 @@ class Toolbar extends Component<IProps, IState> {
 
                     let image = getImageSelected();
                     let el = document.getElementById("video-duration");
+                    let video = document.getElementById(editorStore.idObjectSelected + "video0alo");
+                    let time_start = 0;
+                    let time_end = 1;
 
                     slider.noUiSlider.on('update', (range)=>{
                         let dur = parseFloat(range[1]) - parseFloat(range[0]);
                         el.innerHTML = Math.floor(image.duration * dur / 100 * 10) / 10 + "s";
+
+                        time_start = parseFloat(range[0]) / 100;
+	                    time_end = parseFloat(range[1]) / 100;
                     });
+
+                    const update = () => {
+                        if (video.currentTime + 0.1 < time_start * video.duration){
+                            video.currentTime = time_start * video.duration;
+                        }
+                        if (video.currentTime > time_end * video.duration)
+                            video.currentTime = time_start * video.duration;
+                        
+                        if (editorStore.croppingVideo)
+                            requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
+                    }
+                    
+                    update();
                 } catch (e) {
                     console.log("Error when create slider.", e)
                 }
