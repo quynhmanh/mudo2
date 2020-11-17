@@ -1488,6 +1488,7 @@ export const downloadVideo = () => {
             {
                 fonts: toJS(editorStore.fonts),
                 canvas,
+                images: Array.from(editorStore.images2.values()),
             },
             {
                 headers: {

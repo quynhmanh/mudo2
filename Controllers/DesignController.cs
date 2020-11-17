@@ -126,6 +126,23 @@ namespace RCB.TypeScript.Controllers
             public string[] Canvas;
             [JsonProperty(PropertyName = "additionalStyle")]
             public string AdditionalStyle;
+
+            [JsonProperty(PropertyName = "images")]
+            public Image[] Images;
+        }
+
+        private class Image
+        {
+            [JsonProperty(PropertyName = "_id")]
+            public string Id;
+            [JsonProperty(PropertyName = "type")]
+            public string Type;
+            [JsonProperty(PropertyName = "duration")]
+            public string Duration;
+            [JsonProperty(PropertyName = "timeStart")]
+            public string TimeStart;
+            [JsonProperty(PropertyName = "timeEnd")]
+            public string TimeEnd;
         }
 
         [HttpPost("[action]")]
@@ -620,10 +637,17 @@ namespace RCB.TypeScript.Controllers
                             return Promise.resolve(42);
                         }");
 
+                        string images = Newtonsoft.Json.JsonConvert.SerializeObject(oDownloadBody.Images);
+
                         await page.EvaluateFunctionAsync(@"() => {
+                            window.images = " + images + @"
                             animate();
-                            let videos = document.getElementsByTagName('video'); 
-                            for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;
+                            window.images.forEach(img => {
+                                let video = document.getElementsByTagName(img._id + 'video2alo2');
+                                video.currentTime = 1;
+                            })
+                            // let videos = document.getElementsByTagName('video'); 
+                            // for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;
                         }");
 
                         while (true)
@@ -649,7 +673,7 @@ namespace RCB.TypeScript.Controllers
 
                 int crf = 17;
                 var exePath = "/usr/bin/ffmpeg";
-                var inputArgs = "/app/wwwroot/" + videoId + ".webm -crf " + crf.ToString();
+                var inputArgs = "/app/wwwroot/" + videoId + ".webm -c:v copy " + crf.ToString();
                 var outputArgs = "/app/wwwroot/" + videoId + ".mp4";
 
                 if (HostingEnvironment.IsDevelopment())
