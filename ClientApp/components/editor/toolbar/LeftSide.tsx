@@ -100,24 +100,24 @@ class LeftSide extends Component<IProps, IState> {
         return (
             <React.Fragment>
                 {editorStore.tReady && !editorStore.idObjectSelected &&
-                <button
-                    className="toolbar-btn"
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                    }}
-                    onClick={e => {
-                        e.preventDefault();
-                        editorStore.selectedTab = SidebarTab.Animation;
-                    }}
-                >
-                    {editorStore.animationId == 2 && <span
+                    <button
+                        className="toolbar-btn"
                         style={{
-                            marginRight: "8px",
+                            display: "flex",
+                            alignItems: "center",
                         }}
-                    ><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.782 8.782a7 7 0 1 0 9.436 9.436 6.953 6.953 0 0 1-2.393.734 5.5 5.5 0 0 1-7.777-7.777c.1-.855.355-1.662.734-2.393z" fill="currentColor" fill-opacity=".3"></path><circle cx="15" cy="9" r="6.25" stroke="currentColor" stroke-width="1.5"></circle><path fill-rule="evenodd" clip-rule="evenodd" d="M8.782 5.782a7 7 0 1 0 9.436 9.436 6.953 6.953 0 0 1-2.393.734 5.5 5.5 0 0 1-7.777-7.777c.1-.854.355-1.662.734-2.393z" fill="currentColor" fill-opacity=".6"></path></svg></span>}
-                    <span>{this.props.translate(animation)}</span></button>
-                }   
+                        onClick={e => {
+                            e.preventDefault();
+                            editorStore.selectedTab = SidebarTab.Animation;
+                        }}
+                    >
+                        {editorStore.animationId == 2 && <span
+                            style={{
+                                marginRight: "8px",
+                            }}
+                        ><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.782 8.782a7 7 0 1 0 9.436 9.436 6.953 6.953 0 0 1-2.393.734 5.5 5.5 0 0 1-7.777-7.777c.1-.855.355-1.662.734-2.393z" fill="currentColor" fill-opacity=".3"></path><circle cx="15" cy="9" r="6.25" stroke="currentColor" stroke-width="1.5"></circle><path fill-rule="evenodd" clip-rule="evenodd" d="M8.782 5.782a7 7 0 1 0 9.436 9.436 6.953 6.953 0 0 1-2.393.734 5.5 5.5 0 0 1-7.777-7.777c.1-.854.355-1.662.734-2.393z" fill="currentColor" fill-opacity=".6"></path></svg></span>}
+                        <span>{this.props.translate(animation)}</span></button>
+                }
                 <FontFamily
                     show=
                     {
@@ -188,22 +188,23 @@ class LeftSide extends Component<IProps, IState> {
                     checked={image && image.bold}
                 />
                 {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
-                <ColorButton
-                    style={{
-                        backgroundColor: editorStore.colorField == key + 1 ? 'rgba(75, 102, 129, 0.15)' : null,
-                    }}
-                >
-                    <button 
-                        style={{
-                            backgroundColor: color,
-                        }}
-                        onClick={e => {
-                            editorStore.selectedTab = SidebarTab.Color;
-                            editorStore.colorField = key + 1;
-                        }}    
-                    >
+                    <ColorContainer>
+                        <ColorButton
+                            style={{
+                                backgroundColor: editorStore.colorField == key + 1 ? 'rgba(75, 102, 129, 0.15)' : null,
+                            }}
+                        >
+                            <button
+                                style={{
+                                    backgroundColor: color,
+                                }}
+                                onClick={e => {
+                                    editorStore.selectedTab = SidebarTab.Color;
+                                    editorStore.colorField = key + 1;
+                                }}
+                            >
 
-                    </button></ColorButton>)}
+                            </button></ColorButton></ColorContainer>)}
                 {/* <Filter
                     show=
                     {
@@ -357,15 +358,29 @@ const ColorButton = styled.div`
     padding: 4px;
     border-radius: 5px;
 
-    :hover { 
-        background-color: rgba(75, 102, 129, 0.15) !important;
+    :hover {
+                            background - color: rgba(75, 102, 129, 0.15) !important;
     }
 
     button {
-        width: 25px;
+                            width: 25px;
         height: 25px;
         border: none;
-        box-shadow: inset 0 0 0 1px rgba(57,76,96,.15); 
-        border-radius: 2px; 
+        box-shadow: inset 0 0 0 1px rgba(57,76,96,.15);
+        border-radius: 2px;
+    }
+`;
+
+const ColorContainer = styled.div`
+    & {
+                            display: flex;
+    }
+
+    &::after {
+                            content: "";
+        width: 1px;
+        height: 24px;
+        background: rgba(57,76,96,.15);
+        margin: auto 7px;
     }
 `;
