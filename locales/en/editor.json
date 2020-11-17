@@ -87,5 +87,7 @@
     "shadow": "Shadow",
     "lift": "Lift",
     "flipVertical": "Flip Vertical",
-    "flipHorizontal": "Flip Horizontal"
+    "flipHorizontal": "Flip Horizontal",
+    "lock": "Lock",
+    "unlock": "Unlock"
 }

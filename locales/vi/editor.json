@@ -87,5 +87,7 @@
     "shadow": "Bóng",
     "lift": "Nâng lên",
     "flipVertical": "Lật dọc",
-    "flipHorizontal": "Lật ngang"
+    "flipHorizontal": "Lật ngang",
+    "lock": "Khoá",
+    "unlock": "Mở khoá"
 }
