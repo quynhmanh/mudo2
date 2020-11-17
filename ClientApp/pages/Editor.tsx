@@ -1489,6 +1489,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         currentLineHeight={this.state.currentLineHeight}
                                         currentLetterSpacing={this.state.currentLetterSpacing}
                                         removeImage={this.removeImage2}
+                                        croppingVideo={editorStore.croppingVideo}
                                     />
                                 </div>
                             </div>

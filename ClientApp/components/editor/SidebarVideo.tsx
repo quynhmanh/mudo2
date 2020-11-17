@@ -224,6 +224,7 @@ export default class SidebarVideo extends Component<IProps, IState> {
                         page: pages[i],
                         zIndex: editorStore.upperZIndex + 1,
                         paused: true,
+                        duration: item.duration,
                     };
 
                     setSavingState(SavingState.UnsavedChanges, true);

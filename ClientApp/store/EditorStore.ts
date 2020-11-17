@@ -58,6 +58,7 @@ class Images {
     @observable gridIndex = null;
     @observable croppable = false;
     @observable animationId = 0;
+    @observable croppingVideo = false;
 
     @action getImageSelected = () => {
         let image = this.images2.get(this.idObjectSelected);

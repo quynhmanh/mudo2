@@ -1834,9 +1834,9 @@ export function handleImageSelected(id, pageId, updateCanvas, forceUpdate, updat
     editorStore.pageId = pageId;
     editorStore.effectId = image.effectId;
     editorStore.currentOpacity = image.opacity ? image.opacity : 100;
-    console.log('editorStore.currentOpacity', editorStore.currentOpacity)
     editorStore.colors = image.colors;
     editorStore.colorField = null;
+    editorStore.croppingVideo = false;
     if (!editorStore.childId) {
         editorStore.currentFontSize = image.fontSize * image.scaleY;
         editorStore.fontId = image.fontId;
@@ -2443,6 +2443,7 @@ export function doNoObjectSelected() {
         }
         editorStore.idObjectSelected = null;
         editorStore.childId = null;
+        editorStore.croppingVideo = false;
     }
 
     if (editorStore.selectedTab === SidebarTab.Font || editorStore.selectedTab === SidebarTab.Color || editorStore.selectedTab === SidebarTab.Effect) {
