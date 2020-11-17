@@ -172,7 +172,7 @@ class Toolbar extends Component<IProps, IState> {
                 <button
                     className="toolbar-btn dropbtn-font"
                     style={{
-                        width: "70px",
+                        width: "80px",
                         display: "flex",
                         alignItems: "center",
                     }}
