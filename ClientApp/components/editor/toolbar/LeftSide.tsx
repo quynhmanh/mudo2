@@ -187,24 +187,26 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     checked={image && image.bold}
                 />
-                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && editorStore.colors.map((color, key) =>
+                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors &&
                     <ColorContainer>
-                        <ColorButton
-                            style={{
-                                backgroundColor: editorStore.colorField == key + 1 ? 'rgba(75, 102, 129, 0.15)' : null,
-                            }}
-                        >
-                            <button
+                        {editorStore.colors.map((color, key) =>
+                            <ColorButton
                                 style={{
-                                    backgroundColor: color,
-                                }}
-                                onClick={e => {
-                                    editorStore.selectedTab = SidebarTab.Color;
-                                    editorStore.colorField = key + 1;
+                                    backgroundColor: editorStore.colorField == key + 1 ? 'rgba(75, 102, 129, 0.15)' : null,
                                 }}
                             >
-
-                            </button></ColorButton></ColorContainer>)}
+                                <button
+                                    style={{
+                                        backgroundColor: color,
+                                    }}
+                                    onClick={e => {
+                                        editorStore.selectedTab = SidebarTab.Color;
+                                        editorStore.colorField = key + 1;
+                                    }}
+                                >
+                                </button>
+                            </ColorButton>)}
+                    </ColorContainer>}
                 {/* <Filter
                     show=
                     {
