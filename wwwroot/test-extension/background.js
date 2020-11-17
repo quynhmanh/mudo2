@@ -86,7 +86,7 @@ function startRecording(videoId, width, height, duration) {
 	    // }
 	});
         const timeslice = duration;
-        chrome.tabs.executeScript( null, {code:"let videos = document.getElementsByTagName('video'); for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;"});
+        // chrome.tabs.executeScript( null, {code:"let videos = document.getElementsByTagName('video'); for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 0;"});
         recorder.start(timeslice);
 
         setTimeout(() => {
