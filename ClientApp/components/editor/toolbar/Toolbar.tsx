@@ -78,8 +78,10 @@ class Toolbar extends Component<IProps, IState> {
 
             if (slider) {
                 try { 
+                    let image = getImageSelected();
+
                     noUiSlider.create(slider, {
-                        start: [0, 100],
+                        start: [image.timeStart ? image.timeStart * 100 : 0, image.timeEnd ? image.timeEnd * 100 : 100],
                         connect: true,
                         range: {
                             'min': 0,
@@ -87,7 +89,6 @@ class Toolbar extends Component<IProps, IState> {
                         }
                     });
 
-                    let image = getImageSelected();
                     let el = document.getElementById("video-duration");
                     let video = document.getElementById(editorStore.idObjectSelected + "video0alo");
                     let time_start = 0;
@@ -98,7 +99,12 @@ class Toolbar extends Component<IProps, IState> {
                         el.innerHTML = Math.floor(image.duration * dur / 100 * 10) / 10 + "s";
 
                         time_start = parseFloat(range[0]) / 100;
-	                    time_end = parseFloat(range[1]) / 100;
+                        time_end = parseFloat(range[1]) / 100;
+                        
+                        image.timeStart = time_start;
+                        image.timeEnd = time_end;
+
+                        editorStore.images2.set(image._id, image);
                     });
 
                     const update = () => {

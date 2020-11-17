@@ -91,6 +91,15 @@ class LeftSide extends Component<IProps, IState> {
             let found = image.document_object.find(doc => doc._id == editorStore.childId);
             image = found;
         }
+
+        let duration = 0;
+        if (image && image.type == TemplateType.Video) {
+            let timeStart = image.timeStart ? image.timeStart : 0;
+            let timeEnd = image.timeEnd ? image.timeEnd : 1;
+            duration = (timeEnd - timeStart) * image.duration;
+            duration = Math.floor(duration * 10) / 10;
+        }
+
         const props = this.props;
 
         let animation;
@@ -234,7 +243,7 @@ class LeftSide extends Component<IProps, IState> {
                             <span 
                                 style={{
                                     marginLeft: "10px",
-                                }}>5.2s</span>
+                                }}>{duration}s</span>
                         </button>
                     </div>}
                 {/* <Filter
