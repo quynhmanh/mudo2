@@ -30,7 +30,7 @@ const PositionDropdown = (props: IProps) => {
                         style={{
                             padding: "6px",
                             border: "none",
-                            backgroundColor: "#eee",
+                            backgroundColor: "rgba(64,87,109,.07)",
                             borderRadius: "3px",
                             marginRight: "10px",
                             width: "135px",
@@ -57,7 +57,7 @@ const PositionDropdown = (props: IProps) => {
                         style={{
                             padding: "6px",
                             border: "none",
-                            backgroundColor: "#eee",
+                            backgroundColor: "rgba(64,87,109,.07)",
                             borderRadius: "3px",
                             width: "135px",
                             display: "inline-flex",

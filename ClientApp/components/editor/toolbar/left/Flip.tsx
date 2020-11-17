@@ -1,6 +1,7 @@
 import { getImageSelected, updateImages } from "@Utils";
 import React from "react";
 import editorStore from "@Store/EditorStore";
+import styled from "styled-components";
 
 interface IProps {
     show: boolean;
@@ -64,7 +65,7 @@ const Flip = (props: IProps) => {
                 id="myFlipDropDown"
                 className="dropdown-content-font-size"
             >
-                <button
+                <Button
                     style={{
                         border: "none",
                         display: "flex",
@@ -86,8 +87,8 @@ const Flip = (props: IProps) => {
                         style={{
                             margin: "7px",
                         }}
-                    >{props.translate("flipHorizontal")}</span></button>
-                <button
+                    >{props.translate("flipHorizontal")}</span></Button>
+                <Button
                     style={{
                         border: "none",
                         display: "flex",
@@ -109,10 +110,16 @@ const Flip = (props: IProps) => {
                         style={{
                             margin: "7px",
                         }}
-                    >{props.translate("flipVertical")}</span></button>
+                    >{props.translate("flipVertical")}</span></Button>
             </div>
         </div>
     );
 }
 
 export default Flip;
+
+const Button = styled.button`
+    :hover {
+        background: rgba(64,87,109,.07);
+    }
+`;
