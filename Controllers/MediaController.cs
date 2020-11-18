@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Serilog;
 using System.Drawing.Drawing2D;
+using Microsoft.Extensions.Configuration;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -30,8 +31,8 @@ namespace RCB.TypeScript.Controllers
         //private readonly DbContextOptions<PersonContext> _context;
         private MediaService MediaService { get; }
         private IHostingEnvironment HostingEnvironment { get; set; }
-
-        public MediaController(MediaService mediaService, IHostingEnvironment hostingEnvironment)
+        private IConfiguration Configuration { get; set; }
+        public MediaController(MediaService mediaService, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
 
             var serviceCollection = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
@@ -40,6 +41,7 @@ namespace RCB.TypeScript.Controllers
 
             MediaService = mediaService;
             HostingEnvironment = hostingEnvironment;
+            Configuration = configuration;
         }
 
         class AddMediaRequest
@@ -308,6 +310,47 @@ namespace RCB.TypeScript.Controllers
                     fontFile.Flush();
                 }
 
+                var exePath = "/usr/bin/ffmpeg";
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    exePath = Configuration.GetSection("ffmpegPath").Get<string>();
+                }
+
+                var rate = 1 / (oDownloadBody.duration / 16.0);
+                var output = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + id + "_output_%05d.jpg");
+
+                var process = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = exePath,
+                        Arguments = $"-i {filePath} -r {rate} -f image2 {output}",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true
+                    }
+                };
+
+                process.Start();
+                process.WaitForExit();
+                process.Close();
+
+                var bitmap = new Bitmap(1024, 2014);
+                var fileName2 = String.Empty;
+                using (var canvas = Graphics.FromImage(bitmap))
+                {
+                    canvas.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    //Draw each image (maybe use a loop to loop over images to draw)
+                    for (int i = 1; i <= 16; ++i) {
+                        fileName2 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + id + "_output_000" + (i < 10 ? "0" : "") + i + ".jpg");
+                        var image = Image.FromFile(fileName2);
+                        canvas.DrawImage(image, new Rectangle((i-1) * 100, 0, 100, (int)(100 / (1.0 * image.Width / image.Height))),  new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
+                    }
+
+                    canvas.Save();
+                }
+
+                bitmap.Save(Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + id + "_output.jpg"));
 
                 MediaModel mediaModel = new MediaModel();
                 mediaModel.Id = id.ToString();
@@ -322,20 +365,21 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Ext = oDownloadBody.ext;
                 mediaModel.Duration = oDownloadBody.duration;
                 mediaModel.CreatedAt = DateTime.Now;
+                mediaModel.PreviewVideo = id + "_output.jpg";
 
                 try
                 {
-                    var exePath = "/usr/bin/ffmpeg";
+                    var exePath2 = "/usr/bin/ffmpeg";
                     if (HostingEnvironment.IsDevelopment())
                     {
-                        exePath = "F:\\ffmpeg-20200716-d11cc74-win64-static\\bin\\ffmpeg.exe";
+                        exePath2 = Configuration.GetSection("ffmpegPath").Get<string>();
                     }
 
-                    var process = new Process
+                    var process2 = new Process
                     {
                         StartInfo =
                         {
-                            FileName = exePath,
+                            FileName = exePath2,
                             Arguments = $"-i {filePath} -vcodec libx264 -vf scale=200:-2 -crf 25 -strict -2 {filePath3}",
                             UseShellExecute = false,
                             CreateNoWindow = true,
@@ -343,9 +387,9 @@ namespace RCB.TypeScript.Controllers
                         }
                     };
 
-                    process.Start();
-                    process.WaitForExit();
-                    process.Close();
+                    process2.Start();
+                    process2.WaitForExit();
+                    process2.Close();
                     
                     mediaModel.RepresentativeThumbnail = file3;
 

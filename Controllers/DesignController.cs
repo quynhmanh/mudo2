@@ -644,7 +644,7 @@ namespace RCB.TypeScript.Controllers
                             animate();
                             window.images.forEach(img => {
                                 let video = document.getElementsByTagName(img._id + 'video2alo2');
-                                video.currentTime = 1;
+                                video.currentTime = window.images[img._id];
                             })
                             let videos = document.getElementsByTagName('video'); 
                             for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 1;

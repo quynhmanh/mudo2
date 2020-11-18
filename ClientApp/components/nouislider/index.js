@@ -1171,6 +1171,9 @@
                 return false;
             }
 
+            addNodeTo(base, "offsetLeft");
+            addNodeTo(base, "offsetRight");
+
             return addNodeTo(base, options.cssClasses.connect);
         }
 
@@ -2340,6 +2343,12 @@
             var translateRule = "translate(" + inRuleOrder(transformDirection(l, connectWidth) + "%", "0") + ")";
             var scaleRule = "scale(" + inRuleOrder(connectWidth / 100, "1") + ")";
 
+            var offsetLeftEL = document.getElementsByClassName("offsetLeft")[0];
+            var offsetRightEL = document.getElementsByClassName("offsetRight")[0];
+
+            offsetLeftEL.style.transform = translateRule;
+            offsetRightEL.style.transform = "translate(" + inRuleOrder(transformDirection(l, connectWidth) + connectWidth + "%", "0") + ")";
+            console.log("translate(" + inRuleOrder(transformDirection(l, connectWidth) + connectWidth / 100 + "%", "0") + ")")
             scope_Connects[index].style[options.transformRule] = translateRule + " " + scaleRule;
         }
 

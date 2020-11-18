@@ -167,14 +167,12 @@
   * Giving the connect element a border radius causes issues with using transform: scale
   */
  .noUi-target {
-   background: #e7e7e7;
    border-radius: 4px;
  }
  .noUi-connects {
    border-radius: 3px;
  }
  .noUi-connect {
-   background: rgb(28, 119, 212);
  }
  /* Handles and cursors;
   */
@@ -358,4 +356,23 @@
    transform: translate(0, -18px);
    top: auto;
    right: 28px;
+ }
+
+ .offsetLeft, .offsetRight {
+  width: 100%;
+  height: 32px;
+  position: absolute;
+ }
+
+ .offsetLeft {
+   left: -100%;
+   background: white;
+   opacity: 0.75;
+   transition: transform 0.3s;
+ }
+
+ .offsetRight {
+  background: white;
+  opacity: 0.75;
+  transition: transform 0.3s;
  }

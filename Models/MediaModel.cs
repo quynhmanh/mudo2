@@ -38,6 +38,8 @@
         public string Gap { get; set; }
         public string Grids { get; set; }
 
+        public string PreviewVideo { get; set; }
+
         public MediaModel(string id, string firstName, string lastName, string representative)
         {
             Id = id;

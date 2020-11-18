@@ -1,3 +1,4 @@
+import { getImageSelected } from '@Utils';
 import React, { Component } from 'react'
 
 export interface IProps {
@@ -99,6 +100,8 @@ export default class Slider extends Component<IProps, IState> {
     $el = null;
 
     render() {
+        let image = getImageSelected();
+
         return <div
             style={{
                 width: "100%",
@@ -212,7 +215,8 @@ export default class Slider extends Component<IProps, IState> {
                             style={{
                                 position: "absolute",
                                 left: this.state.currentValue - 3 + "%",
-                                backgroundColor: "white",
+                                // backgroundColor: "white",
+                                backgroundImage: image && `url(${image.previewVideo})`,
                                 width: "15px",
                                 height: "15px",
                                 borderRadius: "50%",

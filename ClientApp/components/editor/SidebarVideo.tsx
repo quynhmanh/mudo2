@@ -225,7 +225,10 @@ export default class SidebarVideo extends Component<IProps, IState> {
                         zIndex: editorStore.upperZIndex + 1,
                         paused: true,
                         duration: item.duration,
+                        previewVideo: window.location.origin + "/" + item.previewVideo,
                     };
+
+                    console.log('newItem', newItem);
 
                     setSavingState(SavingState.UnsavedChanges, true);
                     editorStore.addItem2(newItem, false);

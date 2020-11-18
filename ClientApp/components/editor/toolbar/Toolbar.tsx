@@ -227,6 +227,9 @@ class Toolbar extends Component<IProps, IState> {
                     >
                         <div
                             id="slider"
+                            style={{
+                                backgroundImage: image && `url(${image.previewVideo})`,
+                            }}
                         ></div>
                         <div 
                             id="slider_time_pos"
