@@ -342,7 +342,7 @@ namespace RCB.TypeScript.Controllers
                     //Draw each image (maybe use a loop to loop over images to draw)
                     for (int i = 1; i <= 16; ++i) {
                         var imgPath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + "images" + Path.DirectorySeparatorChar + id + "_output_000" + (i < 10 ? "0" : "") + i + ".jpg");
-                        var image = Image.FromFile(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + imgPath);
+                        var image = Image.FromFile(imgPath);
                         canvas.DrawImage(image, new Rectangle((i-1) * 100, 0, 100, (int)(100 / (1.0 * image.Width / image.Height))),  new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
                     }
 
