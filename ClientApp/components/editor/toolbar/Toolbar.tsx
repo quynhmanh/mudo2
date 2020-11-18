@@ -107,6 +107,7 @@ class Toolbar extends Component<IProps, IState> {
                         editorStore.images2.set(image._id, image);
                     });
 
+                    let slider_time_pos = document.getElementById("slider_time_pos");
                     const update = () => {
                         if (video.currentTime + 0.1 < time_start * video.duration){
                             video.currentTime = time_start * video.duration;
@@ -114,6 +115,8 @@ class Toolbar extends Component<IProps, IState> {
                         if (video.currentTime > time_end * video.duration)
                             video.currentTime = time_start * video.duration;
                         
+                        slider_time_pos.style.left = video.currentTime / video.duration * 100 + "%";
+
                         if (editorStore.croppingVideo)
                             requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
                     }
@@ -220,11 +223,25 @@ class Toolbar extends Component<IProps, IState> {
                         width: "85%",
                         margin: "8px 10px 0px 10px",
                         display: image && image.type == TemplateType.Video ? "block" : "none",
+                        position: "relative",
                     }}
                     >
                         <div
                             id="slider"
                         ></div>
+                        <div 
+                            id="slider_time_pos"
+                            style={{
+                                position: 'absolute',
+                                width: '4px',
+                                background: 'white',
+                                height: '18px',
+                                top: '0',
+                                left: '50%',
+                                cursor: 'pointer',
+                                zIndex: 123,
+                            }}
+                            ></div>
                     </div>
                     <button
                     className="toolbar-btn dropbtn-font"

@@ -5589,12 +5589,16 @@ export function toggleVideo() {
         if (el2) el2.play();
         image.paused = false;
         editorStore.images2.set(image._id, image);
+
+        let slider_time_pos = document.getElementById("slider_time_pos");
         const update = () => {
 			if (video.currentTime + 0.1 < image.timeStart * video.duration){
 				video.currentTime = image.timeStart * video.duration;
 			}
 			if (video.currentTime > image.timeEnd * video.duration)
-				video.currentTime = image.timeStart * video.duration;
+                video.currentTime = image.timeStart * video.duration;
+                
+            slider_time_pos.style.left = video.currentTime / video.duration * 100 + "%";
             
             let image2 = getImageSelected();
             if (!image2.paused) 
