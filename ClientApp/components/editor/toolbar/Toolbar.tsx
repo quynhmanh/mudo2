@@ -221,7 +221,6 @@ class Toolbar extends Component<IProps, IState> {
                 <div
                     style={{
                         width: "85%",
-                        margin: "8px 10px 0px 10px",
                         display: image && image.type == TemplateType.Video ? "block" : "none",
                         position: "relative",
                     }}
@@ -235,7 +234,7 @@ class Toolbar extends Component<IProps, IState> {
                                 position: 'absolute',
                                 width: '4px',
                                 background: 'white',
-                                height: '18px',
+                                height: '32px',
                                 top: '0',
                                 left: '50%',
                                 cursor: 'pointer',

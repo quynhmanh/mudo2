@@ -1157,9 +1157,9 @@
             handle.setAttribute("aria-orientation", options.ort ? "vertical" : "horizontal");
 
             if (handleNumber === 0) {
-                addClass(handle, options.cssClasses.handleLower);
+                addClass(handle, "lower");
             } else if (handleNumber === options.handles - 1) {
-                addClass(handle, options.cssClasses.handleUpper);
+                addClass(handle, "upper");
             }
 
             return origin;

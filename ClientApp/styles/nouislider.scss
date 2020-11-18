@@ -88,14 +88,68 @@
  /* Slider size and handle placement;
   */
  .noUi-horizontal {
-   height: 18px;
+   height: 32px;
  }
- .noUi-horizontal .noUi-handle {
-   width: 34px;
-   height: 28px;
-   right: -17px;
-   top: -6px;
+ .noUi-handle.upper {
+  height: 28px;
+  right: -4px;
+  top: -6px;
+  width: 34px;
+  height: 32px;
+  background-color: currentColor;
+  color: #00c4cc;
+  bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: color .2s;
+  width: 16px;
+  border-radius: 0 4px 4px 0;
  }
+
+ .noUi-handle.upper::after {
+  background-position: 0 0,0 100%;
+    background-repeat: no-repeat;
+    background-size: 4px 4px;
+    content: "";
+    height: 100%;
+    position: absolute;
+    width: 4px;
+    background-image: radial-gradient(circle at 0 100%,transparent 4px,currentColor 0),radial-gradient(circle at 0 0,transparent 4px,currentColor 0);
+    left: -4px;
+    top: 0;
+ }
+
+ .noUi-handle.lower {
+  height: 28px;
+  right: -4px;
+  top: -6px;
+  width: 34px;
+  height: 32px;
+  background-color: currentColor;
+  color: #00c4cc;
+  bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: color .2s;
+  width: 16px;
+  border-radius: 4px 0 0 4px;
+ }
+
+ .noUi-handle.lower::after {
+  background-position: 0 0,0 100%;
+    background-repeat: no-repeat;
+    background-size: 4px 4px;
+    content: "";
+    height: 100%;
+    position: absolute;
+    width: 4px;
+    background-image: radial-gradient(circle at 100% 100%,transparent 4px,currentColor 0),radial-gradient(circle at 100% 0,transparent 4px,currentColor 0);
+    right: -3px;
+    top: 0;
+ }
+
  .noUi-vertical {
    width: 18px;
  }
@@ -113,10 +167,8 @@
   * Giving the connect element a border radius causes issues with using transform: scale
   */
  .noUi-target {
-   background: #FAFAFA;
+   background: #e7e7e7;
    border-radius: 4px;
-   border: 1px solid #D3D3D3;
-   box-shadow: inset 0 1px 1px #F0F0F0, 0 3px 6px -5px #BBB;
  }
  .noUi-connects {
    border-radius: 3px;
@@ -133,30 +185,29 @@
    cursor: ns-resize;
  }
  .noUi-handle {
-   border: 1px solid #D9D9D9;
+  //  border: 1px solid #D9D9D9;
    border-radius: 3px;
    background: #FFF;
    cursor: default;
-   box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
+  //  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
  }
  .noUi-active {
    box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB;
  }
  /* Handle stripes;
   */
- .noUi-handle:before,
+//  .noUi-handle:before,
+//  .noUi-handle:after {
+//    content: "";
+//    display: block;
+//    position: absolute;
+//    height: 14px;
+//    width: 1px;
+//    background: #E8E7E6;
+//    left: 14px;
+//    top: 6px;
+//  }
  .noUi-handle:after {
-   content: "";
-   display: block;
-   position: absolute;
-   height: 14px;
-   width: 1px;
-   background: #E8E7E6;
-   left: 14px;
-   top: 6px;
- }
- .noUi-handle:after {
-   left: 17px;
  }
  .noUi-vertical .noUi-handle:before,
  .noUi-vertical .noUi-handle:after {
