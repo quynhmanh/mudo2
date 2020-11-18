@@ -336,20 +336,20 @@ namespace RCB.TypeScript.Controllers
                 process.Close();
 
                 var bitmap = new Bitmap(1024, 2014);
-                var fileName2 = "images" + Path.DirectorySeparatorChar + id + "_output.jpg";
                 using (var canvas = Graphics.FromImage(bitmap))
                 {
                     canvas.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     //Draw each image (maybe use a loop to loop over images to draw)
                     for (int i = 1; i <= 16; ++i) {
-                        var image = Image.FromFile(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + fileName2);
+                        var imgPath = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + "images" + Path.DirectorySeparatorChar + id + "_output_000" + (i < 10 ? "0" : "") + i + ".jpg");
+                        var image = Image.FromFile(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + imgPath);
                         canvas.DrawImage(image, new Rectangle((i-1) * 100, 0, 100, (int)(100 / (1.0 * image.Width / image.Height))),  new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
                     }
 
                     canvas.Save();
                 }
-
-                bitmap.Save(Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + id + "_output.jpg"));
+                var fileName2 = "images" + Path.DirectorySeparatorChar + id + "_output.jpg";
+                bitmap.Save(Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + fileName2));
 
                 MediaModel mediaModel = new MediaModel();
                 mediaModel.Id = id.ToString();
