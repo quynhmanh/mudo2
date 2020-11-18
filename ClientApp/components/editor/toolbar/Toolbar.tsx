@@ -200,9 +200,10 @@ class Toolbar extends Component<IProps, IState> {
                 <button
                     className="toolbar-btn dropbtn-font"
                     style={{
-                        width: "80px",
+                        minWidth: "80px",
                         display: "flex",
                         alignItems: "center",
+                        marginRight: "15px",
                     }}
                     onClick={e => {
                         this.setState({croppingVideo: false})
