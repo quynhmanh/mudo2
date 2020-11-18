@@ -290,9 +290,23 @@ export default class Rect extends Component<IProps, IState> {
 	}
 
 	playVideo = () => {
-		let el = document.getElementById(this.state.image._id + "video" + "alo") as HTMLVideoElement;
-		el.currentTime = 0;
-		el.play();
+		let video = document.getElementById(this.state.image._id + "video" + "alo") as HTMLVideoElement;
+		video.currentTime = 0;
+		video.play();
+
+		console.log('playVideo')
+		const update = () => {
+			if (video.currentTime + 0.1 < this.state.image.timeStart * video.duration){
+				video.currentTime = this.state.image.timeStart * video.duration;
+			}
+			if (video.currentTime > this.state.image.timeEnd * video.duration)
+				video.currentTime = this.state.image.timeStart * video.duration;
+			
+			if (editorStore.croppingVideo)
+				requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
+		}
+
+		update();
 	}
 
 	handleImageSelected() {

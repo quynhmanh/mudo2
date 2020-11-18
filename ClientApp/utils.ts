@@ -5581,15 +5581,29 @@ export function toggleVideo() {
     window.editor.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.toggleVideo();
     window.editor.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.toggleVideo();
 
-    let el = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
+    let video = document.getElementById(editorStore.idObjectSelected + "video0" + "alo") as HTMLVideoElement;
     let el2 = document.getElementById(editorStore.idObjectSelected + "video2" + "alo") as HTMLVideoElement;
     let image = getImageSelected();
     if (image.paused) {
-        if (el) el.play();
+        if (video) video.play();
         if (el2) el2.play();
         image.paused = false;
+        editorStore.images2.set(image._id, image);
+        const update = () => {
+			if (video.currentTime + 0.1 < image.timeStart * video.duration){
+				video.currentTime = image.timeStart * video.duration;
+			}
+			if (video.currentTime > image.timeEnd * video.duration)
+				video.currentTime = image.timeStart * video.duration;
+            
+            let image2 = getImageSelected();
+            if (!image2.paused) 
+                requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
+		}
+
+		update();
     } else {
-        if (el) el.pause();
+        if (video) video.pause();
         if (el2) el2.pause();
         image.paused = true;
     }
