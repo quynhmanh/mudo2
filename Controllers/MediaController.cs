@@ -336,14 +336,13 @@ namespace RCB.TypeScript.Controllers
                 process.Close();
 
                 var bitmap = new Bitmap(1024, 2014);
-                var fileName2 = String.Empty;
+                var fileName2 = "images" + Path.DirectorySeparatorChar + id + "_output.jpg";
                 using (var canvas = Graphics.FromImage(bitmap))
                 {
                     canvas.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     //Draw each image (maybe use a loop to loop over images to draw)
                     for (int i = 1; i <= 16; ++i) {
-                        fileName2 = Path.Combine(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + id + "_output_000" + (i < 10 ? "0" : "") + i + ".jpg");
-                        var image = Image.FromFile(fileName2);
+                        var image = Image.FromFile(HostingEnvironment.WebRootPath + Path.DirectorySeparatorChar + fileName2);
                         canvas.DrawImage(image, new Rectangle((i-1) * 100, 0, 100, (int)(100 / (1.0 * image.Width / image.Height))),  new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
                     }
 
@@ -365,7 +364,7 @@ namespace RCB.TypeScript.Controllers
                 mediaModel.Ext = oDownloadBody.ext;
                 mediaModel.Duration = oDownloadBody.duration;
                 mediaModel.CreatedAt = DateTime.Now;
-                mediaModel.PreviewVideo = id + "_output.jpg";
+                mediaModel.PreviewVideo = fileName2;
 
                 try
                 {
