@@ -3,10 +3,10 @@ import LeftSide from "@Components/editor/toolbar/LeftSide";
 import RightSide from "@Components/editor/toolbar/RightSide";
 import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
-import { TemplateType } from "../enums";
+import { CanvasType, TemplateType } from "../enums";
 import noUiSlider from "@Components/nouislider";
 import "@Styles/nouislider.scss";
-import { getImageSelected } from "@Utils";
+import { getImageSelected, toggleVideo } from "@Utils";
 
 interface IProps {
     selectedCanvas: any;
@@ -200,25 +200,28 @@ class Toolbar extends Component<IProps, IState> {
                 <button
                     className="toolbar-btn dropbtn-font"
                     style={{
-                        minWidth: "80px",
                         display: "flex",
                         alignItems: "center",
-                        marginRight: "15px",
+                        marginRight: "0px",
                     }}
                     onClick={e => {
-                        this.setState({croppingVideo: false})
+                        toggleVideo();
                     }}
                 >
-                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="7" y="5" width="3" height="14" rx="1.5" fill="currentColor"></rect><rect x="14" y="5" width="3" height="14" rx="1.5" fill="currentColor"></rect></svg> */}
-                    <span
+                    {image && !image.paused ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="7" y="5" width="3" height="14" rx="1.5" fill="currentColor"></rect><rect x="14" y="5" width="3" height="14" rx="1.5" fill="currentColor"></rect></svg>
+                    : <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.248 4.212l11.05 6.574c.694.412.91 1.29.483 1.961-.121.19-.287.35-.483.467l-11.05 6.574c-.694.413-1.602.204-2.03-.467A1.39 1.39 0 0 1 6 18.574V5.426C6 4.638 6.66 4 7.475 4c.273 0 .54.073.773.212z" fill="currentColor"></path></svg>}
+                </button>
+                <span
                         id="video-duration"
                         style={{ 
                             marginLeft: "5px",
-                            lineHeight: "30px",
+                            lineHeight: "32px",
+                            marginRight: "15px",
+                            minWidth: "40px",
+                            fontWeight: 600,
                         }}>
                         5.2
                     </span>
-                </button>
                 <div
                     style={{
                         width: "85%",
@@ -251,7 +254,7 @@ class Toolbar extends Component<IProps, IState> {
                     style={{
                         display: "flex",
                         alignItems: "center",
-                        marginLeft: "10px",
+                        marginLeft: "0px",
                     }}
                     onClick={e => {
                         editorStore.croppingVideo = false;

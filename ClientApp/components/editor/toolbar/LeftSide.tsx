@@ -224,7 +224,7 @@ class LeftSide extends Component<IProps, IState> {
                                 </button>
                             </ColorButton>)}
                     </ColorContainer>}
-                    {image && image.type == TemplateType.Video && <div 
+                    {image && image.type == TemplateType.Video && !editorStore.cropMode &&  <div 
                         style={{
                             display: "flex",
                         }}
