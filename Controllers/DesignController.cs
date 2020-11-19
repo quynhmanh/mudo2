@@ -643,11 +643,12 @@ namespace RCB.TypeScript.Controllers
                             window.images = " + images + @"
                             animate();
                             window.images.forEach(img => {
-                                let video = document.getElementsByTagName(img._id + 'video2alo2');
-                                video.currentTime = window.images[img._id];
+                                let video = document.getElementById(img._id + 'video2alo2');
+                                if (video) {
+                                    let startTime = img.timeStart ? img.timeStart : 0;
+                                    video.currentTime = startTime * img.duration;
+                                }
                             })
-                            let videos = document.getElementsByTagName('video'); 
-                            for (let i = 0; i < videos.length; ++i) videos[i].currentTime = 1;
                         }");
 
                         while (true)

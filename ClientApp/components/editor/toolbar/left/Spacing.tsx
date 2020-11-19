@@ -193,7 +193,7 @@ export default class Spacing extends Component<IProps, IState> {
                         style={{
                             left: "0px",
                             top: "39px",
-                            padding: "20px 20px 0px",
+                            padding: "15px 20px 0px",
                             background: "white",
                             animation: "bounce 0.8s ease-out",
                             flexDirection: "column",

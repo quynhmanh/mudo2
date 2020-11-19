@@ -31,7 +31,7 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                     position: "absolute",
                     marginTop: "-1px",
                     width: "310px",
-                    padding: "20px 20px 0px",
+                    padding: "15px 20px 0px",
                     background: "white",
                     animation: "bounce 0.8s ease-out",
                 }}
