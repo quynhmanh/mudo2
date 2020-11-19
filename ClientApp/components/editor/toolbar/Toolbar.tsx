@@ -266,7 +266,7 @@ class Toolbar extends Component<IProps, IState> {
                         style={{ 
                             lineHeight: "30px",
                         }}>
-                        Done
+                        {this.props.translate("done")}
                     </span>
                 </button>
             </div>

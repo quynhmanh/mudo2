@@ -89,5 +89,6 @@
     "flipVertical": "Flip Vertical",
     "flipHorizontal": "Flip Horizontal",
     "lock": "Lock",
-    "unlock": "Unlock"
+    "unlock": "Unlock",
+    "done": "Done"
 }
