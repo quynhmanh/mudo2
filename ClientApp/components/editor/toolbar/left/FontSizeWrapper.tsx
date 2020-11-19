@@ -4,6 +4,7 @@ import { TemplateType } from "@Components/editor/enums";
 import FontSize from "@Components/editor/FontSize";
 import {SidebarTab} from "@Components/editor/enums";
 import { handleFontSizeBtnClick } from "@Utils";
+import ToolbarBtn from "../ToolbarBtn";
 
 interface IProps {
     show: boolean;
@@ -24,6 +25,7 @@ const FontSizeWrapper = (props: IProps) => {
 
     const content = translate("fontSize");
     return (
+        <ToolbarBtn>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}
@@ -87,6 +89,7 @@ const FontSizeWrapper = (props: IProps) => {
                 </div>
             </div>
         </Tooltip>
+        </ToolbarBtn>
     );
 }
 

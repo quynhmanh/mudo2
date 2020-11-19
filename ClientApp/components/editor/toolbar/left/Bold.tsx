@@ -1,6 +1,7 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import { handleBoldBtnClick } from "@Utils";
+import ToolbarBtn from "../ToolbarBtn";
 
 interface IProps {
     translate: any;
@@ -12,6 +13,7 @@ const Bold = (props: IProps) => {
     const { show, translate } = props;
     const content = translate("bold");
     return (
+        <ToolbarBtn>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}
@@ -41,6 +43,7 @@ const Bold = (props: IProps) => {
                     src={require("@Components/shared/svgs/editor/toolbar/bold.svg")} alt={content}/>
             </a>
         </Tooltip>
+        </ToolbarBtn>
     );
 }
 

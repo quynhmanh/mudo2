@@ -3,6 +3,7 @@ import Tooltip from "@Components/shared/Tooltip";
 import Slider from "@Components/editor/Slider";
 import editorStore from "@Store/EditorStore";
 import { getLetterSpacing, onTextChange } from "@Utils";
+import ToolbarBtn from "../ToolbarBtn";
 
 interface IProps {
     show: boolean;
@@ -155,6 +156,7 @@ export default class Spacing extends Component<IProps, IState> {
         const { show, translate, title } = this.props;
         const content = translate(title);
         return (
+            <ToolbarBtn>
             <Tooltip
                 offsetLeft={0}
                 offsetTop={-10}
@@ -230,6 +232,7 @@ export default class Spacing extends Component<IProps, IState> {
                     </div>
                 </div>
             </Tooltip>
+            </ToolbarBtn>
         );
     }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import { handleItalicBtnClick } from "@Utils";
+import ToolbarBtn from "../ToolbarBtn";
 
 interface IProps {
     translate: any;
@@ -12,6 +13,7 @@ const Italic = (props: IProps) => {
     const { show, translate } = props;
     const content = translate("italic");
     return (
+        <ToolbarBtn>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}
@@ -41,6 +43,7 @@ const Italic = (props: IProps) => {
                     src={require("@Components/shared/svgs/editor/toolbar/italic.svg")} alt={content} />
             </a>
         </Tooltip>
+        </ToolbarBtn>
     );
 }
 

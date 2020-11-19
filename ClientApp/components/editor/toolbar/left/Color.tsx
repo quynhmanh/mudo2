@@ -1,6 +1,7 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import {SidebarTab} from "@Components/editor/enums";
+import ToolbarBtn from "@Components/editor/toolbar/ToolbarBtn";
 
 interface IProps {
     translate: any;
@@ -15,6 +16,7 @@ const Color = (props: IProps) => {
     const { show, fontColor, handleColorBtnClick, translate, isText, } = props;
     const content = translate("color");
     return (
+        <ToolbarBtn>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}
@@ -82,6 +84,7 @@ const Color = (props: IProps) => {
                 ></div>}
             </a>
         </Tooltip>
+        </ToolbarBtn>
     );
 }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import { SidebarTab } from "@Components/editor/enums";
+import ToolbarBtn from "../ToolbarBtn";
 
 interface IProps {
     translate: any;
@@ -14,6 +15,7 @@ const FontFamily = (props: IProps) => {
     const { show, fontName, onClickDropDownFontList, translate } = props;
     const content = translate("fontFamily");
     return (
+        <ToolbarBtn>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}
@@ -57,6 +59,7 @@ const FontFamily = (props: IProps) => {
                     }} />
             </div>
         </Tooltip>
+        </ToolbarBtn>
     );
 }
 
