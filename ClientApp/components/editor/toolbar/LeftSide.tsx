@@ -232,6 +232,7 @@ class LeftSide extends Component<IProps, IState> {
                         <button
                             onClick={e => {
                                 editorStore.croppingVideo = true;
+                                window.sliderInitialized = false;
                             }}
                             style={{
                                 border: 'none',

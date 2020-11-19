@@ -74,10 +74,12 @@ class Toolbar extends Component<IProps, IState> {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.croppingVideo == false && editorStore.croppingVideo) {
+            console.log('updated')
             var slider = document.getElementById('slider');
 
-            if (slider) {
+            if (slider && !window.sliderInitialized) {
                 try { 
+                    window.sliderInitialized = true;
                     let image = getImageSelected();
 
                     noUiSlider.create(slider, {

@@ -1773,6 +1773,12 @@
         // Unbind move events on document, call callbacks.
         function eventEnd(event, data) {
             window.pauser.next(false);
+
+            var offsetLeftEL = document.getElementsByClassName("offsetLeft")[0];
+            var offsetRightEL = document.getElementsByClassName("offsetRight")[0];
+            offsetLeftEL.style.transition = "transform 0.3s";
+            offsetRightEL.style.transition = "transform 0.3s";
+
             // The handle is no longer active, so remove the class.
             if (data.handle) {
                 removeClass(data.handle, options.cssClasses.active);
@@ -1822,6 +1828,11 @@
                 // Mark the handle as 'active' so it can be styled.
                 addClass(handle, options.cssClasses.active);
             }
+
+            var offsetLeftEL = document.getElementsByClassName("offsetLeft")[0];
+            var offsetRightEL = document.getElementsByClassName("offsetRight")[0];
+            offsetLeftEL.style.transition = "none";
+            offsetRightEL.style.transition = "none";
 
             // A drag should never propagate up to the 'tap' event.
             event.stopPropagation();
