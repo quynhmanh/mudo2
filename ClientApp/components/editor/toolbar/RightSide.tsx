@@ -53,6 +53,7 @@ class RightSide extends Component<IProps, IState> {
                     style={{
                         display: "flex",
                         alignItems: "center",
+                        marginRight: "7px",
                     }}
                     onClick={e => {
                         e.preventDefault();
@@ -66,6 +67,7 @@ class RightSide extends Component<IProps, IState> {
                     style={{
                         display: "flex",
                         alignItems: "center",
+                        marginRight: "7px",
                     }}
                     onClick={e => {
                         e.preventDefault();
