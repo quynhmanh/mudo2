@@ -110,6 +110,26 @@ class Toolbar extends Component<IProps, IState> {
                     });
 
                     let slider_time_pos = document.getElementById("slider_time_pos");
+                    console.log('slider_time_pos', slider_time_pos);
+                    slider_time_pos.addEventListener("mousedown", (e) => {
+                        window.pauser.next(true);
+                        let ele = e.target;
+                        let last_pos = e.clientX;
+                        function mup(e, ele){
+                            document.onmousemove = null;
+                            document.onmouseup = null;
+                        }
+                        function mmov(e, ele){
+                            window.pauser.next(false);
+                            let delta = e.clientX - last_pos;
+                            last_pos = e.clientX;
+                            let total_percent = (ele.offsetLeft+delta)/ele.parentElement.offsetWidth;
+                            video.currentTime = video.duration * total_percent
+                        }
+                        document.onmousemove = (e)=>{mmov(e, ele)};
+                        document.onmouseup = (e)=>{mup(e, ele)};
+                    });
+
                     const update = () => {
                         if (video.currentTime + 0.1 < time_start * video.duration){
                             video.currentTime = time_start * video.duration;
