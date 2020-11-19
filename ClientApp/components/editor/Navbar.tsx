@@ -147,7 +147,7 @@ class LeftSide extends Component<IProps, IState> {
                             border: "none",
                             height: "40px",
                             alignItems: "center",
-                            marginRight: "13px",
+                            marginRight: "11px",
                         }}
                     >
                         <svg
