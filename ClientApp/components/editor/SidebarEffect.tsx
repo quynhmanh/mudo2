@@ -492,7 +492,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         </div>
                         {editorStore.effectId == 1 &&
                             <div style={{
-                                marginBottom: "15px",
+                                margin: "15px 0",
                             }}>
                                 <Slider
                                     title={this.props.translate("offset")}
@@ -545,7 +545,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             </div>}
                         {editorStore.effectId == 2 &&
                             <div style={{
-                                marginBottom: "15px",
+                                margin: "15px 0",
                             }}>
                                 <Slider
                                     title={this.props.translate("intensity")}
@@ -645,7 +645,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         </div>
                         {editorStore.effectId == 3 &&
                             <div style={{
-                                marginBottom: "15px",
+                                margin: "15px 0",
                             }}>
                                 <Slider
                                     title={this.props.translate("thickness")}
@@ -656,7 +656,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             </div>}
                         {editorStore.effectId == 4 &&
                             <div style={{
-                                marginBottom: "15px",
+                                margin: "15px 0",
                             }}>
                                 <Slider
                                      title={this.props.translate("thickness")}
@@ -703,7 +703,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             </div>}
                         {editorStore.effectId == 5 &&
                             <div style={{
-                                marginBottom: "15px",
+                                margin: "15px 0",
                             }}>
                                 <Slider
                                     title={this.props.translate("offset")}
@@ -858,7 +858,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         </div>
                         {editorStore.effectId == 6 &&
                             <div style={{
-                                marginBottom: "15px",
+                                margin: "15px 0",
                             }}>
                                 <Slider
                                     title={this.props.translate("offset")}
@@ -876,7 +876,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             </div>}
                         {editorStore.effectId == 7 &&
                             <div style={{
-                                marginBottom: "15px",
+                                margin: "15px 0",
                             }}>
                                 <Slider
                                     title={this.props.translate("intensity")}
@@ -887,7 +887,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             </div>}
                         {editorStore.effectId == 9 &&
                             <div style={{
-                                marginBottom: "15px",
+                                margin: "15px 0",
                             }}>
                                 <Slider
                                     title={this.props.translate("angle")}
