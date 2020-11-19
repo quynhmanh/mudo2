@@ -215,8 +215,7 @@ export default class Slider extends Component<IProps, IState> {
                             style={{
                                 position: "absolute",
                                 left: this.state.currentValue - 3 + "%",
-                                // backgroundColor: "white",
-                                backgroundImage: image && `url(${image.previewVideo})`,
+                                backgroundColor: "white",
                                 width: "15px",
                                 height: "15px",
                                 borderRadius: "50%",

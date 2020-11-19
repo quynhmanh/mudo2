@@ -13,7 +13,8 @@ const PositionDropdown = (props: IProps) => {
                 marginTop: "-1px",
                 right: "10px",
                 backgroundColor: "white",
-                animation: "bounce 0.8s ease-out"
+                animation: "bounce 0.8s ease-out",
+                width: "260px",
             }}
             className="dropdown-content-font-size"
         >
@@ -33,7 +34,7 @@ const PositionDropdown = (props: IProps) => {
                             backgroundColor: "rgba(64,87,109,.07)",
                             borderRadius: "3px",
                             marginRight: "10px",
-                            width: "135px",
+                            width: "110px",
                             display: "inline-flex",
                             justifyContent: "center",
                         }}
@@ -59,7 +60,7 @@ const PositionDropdown = (props: IProps) => {
                             border: "none",
                             backgroundColor: "rgba(64,87,109,.07)",
                             borderRadius: "3px",
-                            width: "135px",
+                            width: "120px",
                             display: "inline-flex",
                             justifyContent: "center",
                         }}
