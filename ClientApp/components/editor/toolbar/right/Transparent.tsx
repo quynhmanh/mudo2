@@ -1,5 +1,6 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
+import ToolbarBtn from "../ToolbarBtn";
 
 interface IProps {
     translate: any;
@@ -38,6 +39,8 @@ const Transparent = (props: IProps) => {
     const content =  translate("transparent");
     
     return (
+        <ToolbarBtn
+            show={show}>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}
@@ -52,12 +55,13 @@ const Transparent = (props: IProps) => {
                     padding: 0,
                     height: "32px",
                 }}
-                className="dropbtn-font dropbtn-font-size toolbar-btn"
+                className="dropbtn-font-size toolbar-btn"
                 onClick={onClickTransparent}
             >
                 <img src={require("@Components/shared/svgs/editor/toolbar/transparent.svg")} alt={content} />
             </button>
         </Tooltip>
+        </ToolbarBtn>
     );
 }
 
