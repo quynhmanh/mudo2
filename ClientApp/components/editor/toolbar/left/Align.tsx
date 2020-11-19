@@ -1,7 +1,7 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import { handleAlignBtnClick } from "@Utils";
-import ToolbarBtn from "@Components/editor/toolbar/ToolbarBtn";
+import ToolbarBtn from "../ToolbarBtn";
 
 interface IProps {
     show: boolean;
@@ -15,7 +15,9 @@ const Align = (props: IProps) => {
     const { show, translate, title, iconPath } = props;
     const content = translate(title);
     return (
-        <ToolbarBtn>
+        <ToolbarBtn
+            show={show}
+        >
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}

@@ -16,7 +16,8 @@ const Color = (props: IProps) => {
     const { show, fontColor, handleColorBtnClick, translate, isText, } = props;
     const content = translate("color");
     return (
-        <ToolbarBtn>
+        <ToolbarBtn
+            show={show}>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}

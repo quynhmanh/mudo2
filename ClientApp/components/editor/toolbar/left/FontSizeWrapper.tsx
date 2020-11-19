@@ -25,7 +25,8 @@ const FontSizeWrapper = (props: IProps) => {
 
     const content = translate("fontSize");
     return (
-        <ToolbarBtn>
+        <ToolbarBtn
+            show={show}>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}

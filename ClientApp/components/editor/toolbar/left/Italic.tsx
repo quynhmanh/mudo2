@@ -13,7 +13,8 @@ const Italic = (props: IProps) => {
     const { show, translate } = props;
     const content = translate("italic");
     return (
-        <ToolbarBtn>
+        <ToolbarBtn
+            show={show}>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}

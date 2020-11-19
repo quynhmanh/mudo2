@@ -156,7 +156,8 @@ export default class Spacing extends Component<IProps, IState> {
         const { show, translate, title } = this.props;
         const content = translate(title);
         return (
-            <ToolbarBtn>
+            <ToolbarBtn
+                show={show}>
             <Tooltip
                 offsetLeft={0}
                 offsetTop={-10}

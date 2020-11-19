@@ -15,7 +15,8 @@ const FontFamily = (props: IProps) => {
     const { show, fontName, onClickDropDownFontList, translate } = props;
     const content = translate("fontFamily");
     return (
-        <ToolbarBtn>
+        <ToolbarBtn
+            show={show}>
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}

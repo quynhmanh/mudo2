@@ -13,13 +13,14 @@ const Bold = (props: IProps) => {
     const { show, translate } = props;
     const content = translate("bold");
     return (
-        <ToolbarBtn>
+        <ToolbarBtn
+            show={show}
+        >
         <Tooltip
             offsetLeft={0}
             offsetTop={-10}
             content={content}
             delay={10}
-            style={{ display: show ? "block" : "none" }}
             position="top"
         >
             <a
