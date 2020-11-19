@@ -255,7 +255,7 @@ class Toolbar extends Component<IProps, IState> {
                     style={{
                         display: "flex",
                         alignItems: "center",
-                        marginLeft: "10px",
+                        marginLeft: "7px",
                     }}
                     onClick={e => {
                         editorStore.croppingVideo = false;
@@ -263,7 +263,6 @@ class Toolbar extends Component<IProps, IState> {
                 >
                     <span
                         style={{ 
-                            marginLeft: "5px",
                             lineHeight: "30px",
                         }}>
                         Done
