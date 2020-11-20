@@ -388,7 +388,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                             paddingLeft: "21px",
                             fontSize: "15px",
                         }}
-                    >Effect</p>
+                    >{this.props.translate("effect")}</p>
                 </div>
                 <div>
                     <div

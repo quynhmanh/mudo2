@@ -91,6 +91,6 @@
     "lock": "Lock",
     "unlock": "Unlock",
     "done": "Done",
-    "letter": "Chữ",
-    "lineLetter": "Chiều cao dòng"
+    "letter": "Letter",
+    "lineLetter": "Line letter"
 }
