@@ -156,8 +156,6 @@ export default class Canvas extends Component<IProps, IState> {
                                 offsetLeft={0}
                                 offsetTop={-15}
                                 content={"Delete page"}
-                                delay={10}
-                                // style={{ display: show ? "block" : "none" }}
                                 position="top"
                             >
                                 <button
@@ -189,8 +187,6 @@ export default class Canvas extends Component<IProps, IState> {
                             offsetLeft={0}
                             offsetTop={-15}
                             content={this.props.translate("addPage")}
-                            delay={10}
-                            // style={{ display: show ? "block" : "none" }}
                             position="top"
                         >
                             <button

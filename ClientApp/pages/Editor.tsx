@@ -1448,7 +1448,6 @@ class CanvaEditor extends Component<IProps, IState> {
                                     {{
                                         width: "100%",
                                         backgroundColor: "#dae0e7",
-                                        display: "inline-flex",
                                         position: "absolute",
                                         right: 0,
                                         left: "0px",

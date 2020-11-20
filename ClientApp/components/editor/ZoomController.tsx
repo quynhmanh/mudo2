@@ -52,8 +52,6 @@ export default class ZoomController extends Component<IProps, IState> {
                             offsetLeft={0}
                             offsetTop={-10}
                             content={this.props.translate("zoomIn")}
-                            delay={10}
-                            style={{}}
                             position="top"
                         >
                             <button
@@ -123,8 +121,6 @@ export default class ZoomController extends Component<IProps, IState> {
                             offsetLeft={0}
                             offsetTop={-10}
                             content={this.props.translate("zoomOut")}
-                            delay={10}
-                            style={{}}
                             position="top"
                         >
                             <button

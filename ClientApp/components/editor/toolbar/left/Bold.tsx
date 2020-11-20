@@ -20,7 +20,6 @@ const Bold = (props: IProps) => {
             offsetLeft={0}
             offsetTop={-10}
             content={content}
-            delay={10}
             position="top"
             style={{ display: show ? "block" : "none" }}
         >

@@ -109,8 +109,6 @@ class RightSide extends Component<IProps, IState> {
                     offsetLeft={0}
                     offsetTop={-10}
                     content={this.props.translate("copy")}
-                    style={{ display: "block"}}
-                    delay={10}
                     position="top"
                 >
                 <button
@@ -134,8 +132,6 @@ class RightSide extends Component<IProps, IState> {
                     offsetLeft={0}
                     offsetTop={-10}
                     content={this.props.translate("lock")}
-                    style={{ display: "block"}}
-                    delay={10}
                     position="top"
                 >
                 <button
@@ -162,8 +158,6 @@ class RightSide extends Component<IProps, IState> {
                     offsetLeft={0}
                     offsetTop={-10}
                     content={this.props.translate("unlock")}
-                    style={{ display: "block"}}
-                    delay={10}
                     position="top"
                 >
                 <button
@@ -190,8 +184,6 @@ class RightSide extends Component<IProps, IState> {
                     offsetLeft={0}
                     offsetTop={-10}
                     content={this.props.translate("remove")}
-                    style={{ display: "block"}}
-                    delay={10}
                     position="top"
                 >
                 <button

@@ -52,8 +52,6 @@ export default class Tooltip extends AppComponent<IProps, IState> {
 
     onMouseLeave = () => {
         clearTimeout(this.hoverTimeout);
-
-        // this.setState({isOpen: false, isClicked: false});
     };
 
     onClick = e => {

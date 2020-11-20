@@ -31,7 +31,6 @@ const FontSizeWrapper = (props: IProps) => {
             offsetLeft={0}
             offsetTop={-10}
             content={content}
-            delay={10}
             style={{ 
                 display: show ? "block" : "none",
             }}

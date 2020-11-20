@@ -341,7 +341,6 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                             offsetLeft={80}
                                                             offsetTop={-20}
                                                             content={this.props.translate("vietnameseSupport")}
-                                                            delay={10}
                                                             position="top"
                                                         >
                                                             <img

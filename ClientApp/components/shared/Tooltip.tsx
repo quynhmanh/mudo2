@@ -36,6 +36,7 @@ export default class Tooltip extends AppComponent<IProps, IState> {
     static defaultProps = {
         tipbaseClass: "",
         style: {},
+        delay: 200,
     }
 
     constructor(props) {
