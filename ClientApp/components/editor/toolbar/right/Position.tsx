@@ -51,6 +51,7 @@ const Position = (props: IProps) => {
                     fontSize: "15px",
                     height: "32px",
                     lineHeight: "30px",
+                    padding: "0 15px",
                 }}
             >
                 {translate("position")}

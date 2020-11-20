@@ -205,7 +205,7 @@ export default class Spacing extends Component<IProps, IState> {
                         className="dropdown-content-font-size"
                     >
                         <Slider
-                            title="Letter"
+                            title={this.props.translate("letter")}
                             currentValue={editorStore.currentLetterSpacing}
                             onChangeStart={e => {
                                 document.removeEventListener("mouseup", this.onDown);
@@ -218,7 +218,7 @@ export default class Spacing extends Component<IProps, IState> {
                             }}
                         />
                         <Slider
-                            title="Line letter"
+                            title={this.props.translate("lineLetter")}
                             currentValue={(100 * (editorStore.currentLineHeight ? editorStore.currentLineHeight : 30) - 50) / 2}
                             onChangeStart={e => {
                                 document.removeEventListener("mouseup", this.onDown);

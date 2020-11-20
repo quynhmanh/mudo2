@@ -32,7 +32,7 @@ export default class Effect extends Component<IProps, IState> {
                             height: "32px",
                             top: 0,
                             backgroundColor: this.props.selectedTab === SidebarTab.Effect ? "#f2f5f7 " : "white",
-                            width: "80px",
+                            padding: "0 15px",
                         }}
                         className="dropbtn-font dropbtn-font-size toolbar-btn"
                         onClick={e => {

@@ -22,6 +22,7 @@ const Bold = (props: IProps) => {
             content={content}
             delay={10}
             position="top"
+            style={{ display: show ? "block" : "none" }}
         >
             <a
                 href="#"

@@ -279,6 +279,7 @@ class Toolbar extends Component<IProps, IState> {
                         alignItems: "center",
                         marginLeft: "7px",
                         marginRight: 0,
+                        padding: "0 10px",
                     }}
                     onClick={e => {
                         editorStore.croppingVideo = false;

@@ -51,7 +51,7 @@ const Transparent = (props: IProps) => {
         >
             <button
                 style={{
-                    width: "30px",
+                    width: "32px",
                     padding: 0,
                     height: "32px",
                 }}

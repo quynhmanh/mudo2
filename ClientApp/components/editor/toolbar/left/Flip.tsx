@@ -23,7 +23,8 @@ const Flip = (props: IProps) => {
                 <button
                     style={{
                         height: "100%",
-                        top: 0
+                        top: 0,
+                        padding: "0 10px",
                     }}
                     className="dropbtn-font dropbtn-font-size toolbar-btn"
                     onClick={e => {

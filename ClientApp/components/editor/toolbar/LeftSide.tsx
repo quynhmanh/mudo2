@@ -227,6 +227,7 @@ class LeftSide extends Component<IProps, IState> {
                     {image && image.type == TemplateType.Video && !editorStore.cropMode &&  <div 
                         style={{
                             display: "flex",
+                            marginRight: "10px",
                         }}
                         className="toolbar-btn">
                         <button
