@@ -90,5 +90,7 @@
     "flipHorizontal": "Lật ngang",
     "lock": "Khoá",
     "unlock": "Mở khoá",
-    "done": "Xong"
+    "done": "Xong",
+    "letter": "Letter",
+    "lineLetter": "Line letter"
 }

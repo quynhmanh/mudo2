@@ -90,5 +90,7 @@
     "flipHorizontal": "Flip Horizontal",
     "lock": "Lock",
     "unlock": "Unlock",
-    "done": "Done"
+    "done": "Done",
+    "letter": "Chữ",
+    "lineLetter": "Chiều cao dòng"
 }
