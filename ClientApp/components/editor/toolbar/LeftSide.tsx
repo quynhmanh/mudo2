@@ -204,7 +204,7 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     checked={image && image.bold}
                 />
-                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors &&
+                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && 
                     <ColorContainer>
                         {editorStore.colors.map((color, key) =>
                             <ColorButton
@@ -398,8 +398,6 @@ const ColorButton = styled.div`
     height: 33px;
     border: none;
     margin-left: 2px;
-    margin-top: -2px;
-    padding: 4px;
     border-radius: 5px;
 
     :hover {
@@ -417,13 +415,15 @@ const ColorButton = styled.div`
 
 const ColorContainer = styled.div`
     & {
-                            display: flex;
+        display: flex;
+        height: 25px;
+        margin: auto;
     }
 
     &::after {
-                            content: "";
+        content: "";
         width: 1px;
-        height: 24px;
+        height: 25px;
         background: rgba(57,76,96,.15);
         margin: auto 7px;
     }
