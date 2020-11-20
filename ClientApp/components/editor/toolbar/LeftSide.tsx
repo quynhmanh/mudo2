@@ -397,19 +397,21 @@ const ColorButton = styled.div`
     width: 33px;
     height: 33px;
     border: none;
-    margin-left: 2px;
     border-radius: 5px;
+    margin-top: -4px;
+    display: flex;
 
     :hover {
-                            background - color: rgba(75, 102, 129, 0.15) !important;
+        background-color: rgba(75, 102, 129, 0.15) !important;
     }
 
     button {
-                            width: 25px;
+        width: 25px;
         height: 25px;
         border: none;
         box-shadow: inset 0 0 0 1px rgba(57,76,96,.15);
         border-radius: 2px;
+        margin: auto;
     }
 `;
 
