@@ -15,7 +15,7 @@ const OK = (props: IProps) => {
             onClick={handleOkBtnClick}
             style={{
                 display: show ? "flex" : "none",
-                width: "100px",
+                padding: "0 10px",
             }}
         >
             <img
