@@ -59,7 +59,7 @@ const Flip = (props: IProps) => {
                     left: "0px",
                     padding: "0",
                     background: "white",
-                    animation: "bounce 0.8s ease-out",
+                    animation: "bounce 0.5s ease-out",
                     flexDirection: "column",
                     width: "max-content",
                 }}

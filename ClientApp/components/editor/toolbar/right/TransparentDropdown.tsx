@@ -33,7 +33,7 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                     width: "310px",
                     padding: "15px 20px 0px",
                     background: "white",
-                    animation: "bounce 0.8s ease-out",
+                    animation: "bounce 0.5s ease-out",
                 }}
                 id="myTransparent"
                 className="dropdown-content-font-size"

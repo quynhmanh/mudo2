@@ -13,7 +13,7 @@ const PositionDropdown = (props: IProps) => {
                 marginTop: "-1px",
                 right: "10px",
                 backgroundColor: "white",
-                animation: "bounce 0.8s ease-out",
+                animation: "bounce 0.5s ease-out",
                 width: "260px",
             }}
             className="dropdown-content-font-size"
