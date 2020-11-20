@@ -239,6 +239,7 @@ class LeftSide extends Component<IProps, IState> {
                                 border: 'none',
                                 display: 'flex',
                                 alignItems: 'center',
+                                padding: "0 10px",
                             }}
                         >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.87 4.68a2.25 2.25 0 1 0-.06 4.5 2.25 2.25 0 0 0 .06-4.5zm-3.78 2.2a3.75 3.75 0 1 1 6.86 2.146l3.252 2.323-.848 1.159-3.437-2.455A3.75 3.75 0 0 1 2.09 6.88zm19.936 11.588a2 2 0 0 1-2.792.452l-8.218-5.928 1.17-1.622 9.84 7.098z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M22.026 5.532a2 2 0 0 0-2.792-.452l-8.218 5.928 1.17 1.622 9.84-7.098zM5.869 19.32a2.25 2.25 0 1 1-.06-4.5 2.25 2.25 0 0 1 .06 4.5zm-3.78-2.2a3.75 3.75 0 1 0 6.86-2.146l3.252-2.322-.848-1.16-3.436 2.455A3.75 3.75 0 0 0 2.09 17.12z" fill="currentColor"></path></svg>
