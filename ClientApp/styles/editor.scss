@@ -785,6 +785,10 @@ button:focus {
   top: 4px;
   width: 100%;
   text-align: left;
+  height: 100%;
+  background-color: transparent;
+  padding: 0 10px;
+  font-size: 14px;
 }
 
 button {
