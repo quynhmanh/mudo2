@@ -1561,7 +1561,7 @@ export function groupGroupedItem() {
     updateImages2(image, false);
 
     let onlyText = true;
-
+    let page;
     let childImages = [];
     if (image.childIds) {
         image.childIds.forEach(id => {
@@ -1580,10 +1580,12 @@ export function groupGroupedItem() {
                 newChildImage.ref = null;
                 newChildImage.rotateAngle = childImage.rotateAngle - image.rotateAngle;
                 newChildImage.childId = null;
-            
+                page = childImage.page;
+
                 childImages.push(clone(toJS(newChildImage)));
             } else {
                 if (newChildImage.document_object) {
+                    page = newChildImage.page;
                     newChildImage.document_object.forEach(child => {
                         child._id = uuidv4();
                         child.width2 = child.width * newChildImage.scaleX / image.width;
@@ -1598,6 +1600,7 @@ export function groupGroupedItem() {
                         child.posY = child.posY * newChildImage.scaleY;
                         child.scaleX = child.scaleX * newChildImage.scaleX;
                         child.scaleY = child.scaleY * newChildImage.scaleY;
+                        child.page = page;
                         childImages.push(child);
                     });
                 }
@@ -1609,7 +1612,7 @@ export function groupGroupedItem() {
 
     let newImage = {
         _id: uuidv4(),
-        page: editorStore.activePageId,
+        page,
         type: TemplateType.TextTemplate,
         width: image.width,
         origin_width: image.width,
