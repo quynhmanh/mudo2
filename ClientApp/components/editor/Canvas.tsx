@@ -148,7 +148,7 @@ export default class Canvas extends Component<IProps, IState> {
                         style={{
                             position: "absolute",
                             right: 0,
-                            display: editorStore.activePageId == id ? "inline" : "none",
+                            display: editorStore.activePageId == id ? "flex" : "none",
                         }}
                     >
                         {numberOfPages != 1 &&
@@ -674,6 +674,6 @@ const ResizableRectContainer = StyledComponent.div`
     top: -5px;
   }
   :hover .controllers {
-    display: inline !important;
+    display: flex !important;
   }
 `;
