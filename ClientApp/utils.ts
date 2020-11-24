@@ -1535,7 +1535,7 @@ export function ungroupGroupedItem() {
             }
         })
 
-        let index2 = editorStore.pages.findIndex(pageId => pageId == editorStore.activePageId);
+        let index2 = editorStore.pages.findIndex(pageId => pageId == image.page);
         editorStore.keys[index2] = editorStore.keys[index2] + 1;
         window.editor.forceUpdate();
     }
