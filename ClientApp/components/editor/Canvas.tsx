@@ -125,29 +125,35 @@ export default class Canvas extends Component<IProps, IState> {
                 key={id}
                 id={!this.props.downloading ? id : ""}
             >
-                <div>
-
-                </div>
+                <div
+                    style={{
+                        display: "flex",
+                    }}
+                >
                 {!this.props.preview && (
                     <span
                         style={{
                             fontSize: "14px",
                             display: "block",
                             marginBottom: "5px",
-                            marginTop: "15px",
+                            marginTop: "8px",
                             color: "rgba(14,19,24,.7)",
                             fontWeight: 500,
+                            minWidth: "70px",
                         }}
                     >
                         {this.props.translate("page")} {index + 1}
                     </span>
                 )}
+                <div
+                    style={{
+                        flex: "1 0",
+                    }}>
+                </div>
                 {(!this.props.preview || editorStore.activePageId == id) && (
                     <div
                         className="controllers"
                         style={{
-                            position: "absolute",
-                            right: 0,
                             display: editorStore.activePageId == id ? "flex" : "none",
                         }}
                     >
@@ -200,6 +206,7 @@ export default class Canvas extends Component<IProps, IState> {
                         </Tooltip>
                     </div>
                 )}
+                </div>
                 <div
                     style={{
                         width: rectWidth * scale + "px",
