@@ -78,13 +78,13 @@ class RightSide extends Component<IProps, IState> {
                 >
                     <span>{this.props.translate("ungroup")}</span>
                 </button>}
-                {!editorStore.cropMode && ((editorStore.idObjectSelected && image && image.type != TemplateType.GroupedItem)
+                {!editorStore.cropMode && ((editorStore.idObjectSelected && image && !image.locked && image.type != TemplateType.GroupedItem)
                     || editorStore.childId) &&
                     <Position
                         translate={props.translate}
                         onClickpositionList={props.onClickpositionList}
                     />}
-                {!editorStore.cropMode && ((editorStore.idObjectSelected && image && image.type != TemplateType.GroupedItem)
+                {!editorStore.cropMode && ((editorStore.idObjectSelected && image && !image.locked && image.type != TemplateType.GroupedItem)
                     || editorStore.childId) &&
                     <Transparent
                         show={true}
@@ -101,7 +101,7 @@ class RightSide extends Component<IProps, IState> {
                     translate={props.translate}
                     title={props.translate("transparent")}
                 />
-                {image && image.type != TemplateType.GroupedItem && 
+                {image && !image.locked && image.type != TemplateType.GroupedItem && 
                 <ToolbarBtn
                     show={true}
             >
@@ -191,9 +191,12 @@ class RightSide extends Component<IProps, IState> {
                     style={{
                         display: "flex",
                         alignItems: "center",
+                        color: image.locked ? "gray" : "black",
+                        cursor: image.locked && "no-drop",
                     }}
                     onClick={e => {
                         e.preventDefault();
+                        if (!image.locked)
                         this.props.removeImage();
                     }}
                 >

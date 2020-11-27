@@ -278,7 +278,7 @@ class LeftSide extends Component<IProps, IState> {
                 <Crop
                     show=
                     {
-                        image &&
+                        image && !image.locked && 
                         (
                             image.type === TemplateType.Image ||
                             image.type === TemplateType.Video ||
@@ -295,7 +295,7 @@ class LeftSide extends Component<IProps, IState> {
                 <Flip
                     show=
                     {
-                        image &&
+                        image && !image.locked &&
                         (
                             image.type === TemplateType.Image ||
                             image.type === TemplateType.Video
