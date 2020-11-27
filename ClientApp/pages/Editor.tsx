@@ -141,6 +141,7 @@ declare global {
         inputFocus: any;
         current_progress: any;
         progress_interval: any;
+        fullModeScale: number;
     }
 }
 
@@ -468,7 +469,6 @@ class CanvaEditor extends Component<IProps, IState> {
         let fitScale =
             Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
         window.fullModeScale = Math.min(window.innerWidth / this.state.rectWidth, window.innerHeight / this.state.rectHeight);
-        console.log('fullModeScale ', window.fullMdoeScale, window.innerWidth / this.state.rectWidth, window.innerHeight / this.state.rectHeight);
 
         editorStore.fontsList.forEach(id => {
             let style = `@font-face {
@@ -644,6 +644,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
                     window.rectWidth = document.width;
                     window.rectHeight = document.height;
+                    window.fullModeScale = Math.min(window.innerWidth / window.rectWidth, window.innerHeight / window.rectHeight);
 
                     editorStore.templateRatio = document.width / document.height;
 
