@@ -161,7 +161,7 @@ export default class Canvas extends Component<IProps, IState> {
                             <Tooltip
                                 offsetLeft={0}
                                 offsetTop={-15}
-                                content={"Delete page"}
+                                content={window.translate("deletePage")}
                                 position="top"
                             >
                                 <button

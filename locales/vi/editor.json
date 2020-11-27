@@ -93,5 +93,6 @@
     "done": "Xong",
     "letter": "Chữ",
     "lineLetter": "Chiều cao dòng",
-    "elementCantBeEdited": "Thành phần này không thể chỉnh sửa."
+    "elementCantBeEdited": "Thành phần này không thể chỉnh sửa.",
+    "deletePage": "Xoá trang"
 }

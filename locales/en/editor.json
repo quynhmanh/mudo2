@@ -93,5 +93,6 @@
     "done": "Done",
     "letter": "Letter",
     "lineLetter": "Line letter",
-    "elementCantBeEdited": "This element can't be edited."
+    "elementCantBeEdited": "This element can't be edited.",
+    "deletePage": "Delete page"
 }
