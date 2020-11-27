@@ -1942,7 +1942,7 @@ export default class Rect extends Component<IProps, IState> {
 																	onCurveTextFocus();
 																}
 															}}
-															contentEditable={selected && name != CanvasType.Preview && effectId != 9}
+															contentEditable={!locked && selected && name != CanvasType.Preview && effectId != 9}
 															neon={effectId == 7}
 															color={color}
 															ref={this.setTextElementRef2.bind(this)}
