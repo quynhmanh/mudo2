@@ -397,7 +397,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                             >
                                                 <FontPicker
                                                     src={font.representative}
-                                                    height={font.fontPickerHeight ? font.fontPickerHeight : 20}
+                                                    height={font.fontPickerHeight ? font.fontPickerHeight : 26}
                                                 />
                                             </button>
                                         </div>
