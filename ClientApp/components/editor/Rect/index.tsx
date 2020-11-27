@@ -13,6 +13,7 @@ import { getLetterSpacing, processChildren, } from "@Utils";
 import styled from "styled-components";
 import Shape from "./Shape";
 import Gradient from "./Gradient";
+import Tooltip from "@Components/shared/Tooltip";
 
 const zoomableMap = {
 	n: "t",
@@ -439,6 +440,7 @@ export default class Rect extends Component<IProps, IState> {
 				page,
 				hovered,
 				selected,
+				locked,
 				_id,
 				scaleX,
 				scaleY,
@@ -616,7 +618,7 @@ export default class Rect extends Component<IProps, IState> {
 										this.handleImageSelected();
 										this.props.handleImageSelected(_id, page, name == CanvasType.HoverLayer ? CanvasType.All : CanvasType.HoverLayer);
 									}
-									handleDragStart(e, _id);
+									if (!locked) handleDragStart(e, _id);
 								} else if (cropMode) {
 									handleDragStart(e, _id);
 								} else {
@@ -717,6 +719,7 @@ export default class Rect extends Component<IProps, IState> {
 							{!cropMode &&
 								name == CanvasType.HoverLayer &&
 								selected &&
+								!locked && 
 								type !== TemplateType.BackgroundImage && (
 									<div
 										id={_id + "rotate-container"}
@@ -745,6 +748,7 @@ export default class Rect extends Component<IProps, IState> {
 							{!cropMode &&
 								name == CanvasType.HoverLayer &&
 								selected &&
+								!locked &&
 								type !== TemplateType.BackgroundImage &&
 								imgDirections.map(d => {
 									let cursor = getCursorStyleForResizer(rotateAngle, d);
@@ -772,6 +776,31 @@ export default class Rect extends Component<IProps, IState> {
 										</div>
 									);
 								})}
+							{selected && locked && name == CanvasType.HoverLayer && 
+								<div
+									className="locked-icon">
+										<div
+											style={{
+												position: "relative",
+											}}
+										>
+											<Tooltip
+									offsetLeft={0}
+									offsetTop={-15}
+									content={window && window.translate("elementCantBeEdited")}
+									position="top">
+										<div
+											style={{
+												width: "24px",
+												height: "24px",
+												position: "absolute",
+												zIndex: 123123123123,
+											}}
+										></div></Tooltip>
+										</div>
+
+									</div>
+									}
 							{(name == CanvasType.All || name == CanvasType.Preview ||
 								(cropMode && name == CanvasType.HoverLayer && selected) ||
 								name == CanvasType.Download) &&

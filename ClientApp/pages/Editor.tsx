@@ -301,6 +301,9 @@ class CanvaEditor extends Component<IProps, IState> {
         this.forceEditorUpdate = this.forceEditorUpdate.bind(this);
         this.removeImage2 = this.removeImage2.bind(this);
         this.setScale = this.setScale.bind(this);
+
+        if (!isNode())
+            window.translate = this.translate;
     }
 
     $app = null;

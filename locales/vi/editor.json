@@ -92,5 +92,6 @@
     "unlock": "Mở khoá",
     "done": "Xong",
     "letter": "Chữ",
-    "lineLetter": "Chiều cao dòng"
+    "lineLetter": "Chiều cao dòng",
+    "elementCantBeEdited": "Thành phần này không thể chỉnh sửa."
 }
