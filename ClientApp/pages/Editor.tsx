@@ -468,7 +468,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
         let fitScale =
             Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
-        window.fullModeScale = Math.min(window.innerWidth / this.state.rectWidth, window.innerHeight / this.state.rectHeight);
+        window.fullModeScale = Math.min((screen.width - 100) / this.state.rectWidth, (screen.height - 100) / this.state.rectHeight);
 
         editorStore.fontsList.forEach(id => {
             let style = `@font-face {
@@ -644,7 +644,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
                     window.rectWidth = document.width;
                     window.rectHeight = document.height;
-                    window.fullModeScale = Math.min(window.innerWidth / window.rectWidth, window.innerHeight / window.rectHeight);
+                    window.fullModeScale = Math.min((screen.width - 100) / window.rectWidth, (screen.height - 100) / window.rectHeight);
 
                     editorStore.templateRatio = document.width / document.height;
 
@@ -763,7 +763,7 @@ class CanvaEditor extends Component<IProps, IState> {
             scaleY = (height - 100) / rectHeight;
             let fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
 
-            window.fullModeScale = Math.min(window.innerWidth / rectWidth, window.innerHeight / rectHeight);
+            window.fullModeScale = Math.min((screen.width - 100) / rectWidth, (screen.height - 100) / rectHeight);
             console.log('window.fullModeScale', window.fullModeScale)
 
             staticGuides = {
