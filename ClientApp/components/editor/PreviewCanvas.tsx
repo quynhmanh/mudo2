@@ -348,6 +348,8 @@ export default class Canvas extends Component<IProps, IState> {
         if (!this.props.downloading) {
         }
 
+        console.log('scale previewCanvas', scale);
+
         const customAttr = { myattribute: id };
 
         const images = Array.from(editorStore.images2.values()).filter(img => img.page === id).map(img => toJS(img));

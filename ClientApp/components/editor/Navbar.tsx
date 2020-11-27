@@ -135,7 +135,9 @@ class LeftSide extends Component<IProps, IState> {
                     editorStore.tReady &&
                     <button
                         id="download-btn"
-                        onClick={this.props.playVideos}
+                        onClick={e => {
+                            this.props.playVideos(false)
+                        }}
                         style={{
                             float: "right",
                             color: "white",

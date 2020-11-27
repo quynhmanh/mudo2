@@ -222,6 +222,7 @@ interface IState {
     designId: string;
     designTitle: string;
     showPopupPreview: boolean;
+    fullMode: boolean;
 }
 
 const NAMESPACE = "editor";
@@ -293,6 +294,7 @@ class CanvaEditor extends Component<IProps, IState> {
             selectedCanvas: "",
             saved: true,
             showPopupPreview: false,
+            fullMode: false,
         };
 
         this.handleFlipBtnClick = this.handleFlipBtnClick.bind(this);
@@ -325,9 +327,14 @@ class CanvaEditor extends Component<IProps, IState> {
         return key;
     };
 
-    playVideos = () => {
-        this.setState({ showPopupPreview: true });
+    playVideos = (fullMode = false) => {
+        this.setState({ showPopupPreview: true, fullMode, });
         this.forceUpdate();
+
+        if (fullMode) {
+            let elem = document.documentElement;
+            elem.requestFullscreen();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -460,6 +467,8 @@ class CanvaEditor extends Component<IProps, IState> {
 
         let fitScale =
             Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
+        window.fullModeScale = Math.min(window.innerWidth / this.state.rectWidth, window.innerHeight / this.state.rectHeight);
+        console.log('fullModeScale ', window.fullMdoeScale, window.innerWidth / this.state.rectWidth, window.innerHeight / this.state.rectHeight);
 
         editorStore.fontsList.forEach(id => {
             let style = `@font-face {
@@ -751,7 +760,10 @@ class CanvaEditor extends Component<IProps, IState> {
 
             scaleX = (width - 100) / rectWidth;
             scaleY = (height - 100) / rectHeight;
-            let fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY)
+            let fitScale = Math.min(scaleX, scaleY) === Infinity ? 1 : Math.min(scaleX, scaleY);
+
+            window.fullModeScale = Math.min(window.innerWidth / rectWidth, window.innerHeight / rectHeight);
+            console.log('window.fullModeScale', window.fullModeScale)
 
             staticGuides = {
                 x: [
@@ -816,6 +828,12 @@ class CanvaEditor extends Component<IProps, IState> {
         document.addEventListener("keydown", removeImage.bind(this));
         this.$app.addEventListener("scroll", handleScroll.bind(this), { passive: true });
         document.addEventListener("wheel", handleWheel.bind(this), { passive: false });
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement) {
+                this.setState({fullMode: false, showPopupPreview: false});
+                this.forceUpdate();
+            }
+        })
 
     }
 
@@ -1329,7 +1347,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     mode={this.state.mode}
                     rectWidth={this.state.rectWidth}
                     rectHeight={this.state.rectHeight}
-                    scale={this.state.fitScale}
+                    scale={this.state.fullMode ? window.fullModeScale : this.state.fitScale}
                     childId={editorStore.childId}
                     cropMode={this.state.cropMode}
                     handleImageSelected={this.handleImageSelected}
@@ -1340,6 +1358,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     showPopup={this.state.showPopup}
                     preview={false}
                     activePageId={toJS(editorStore.activePageId)}
+                    fullMode={this.state.fullMode}
                 />
             );
         }
@@ -1551,6 +1570,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                         translate={this.translate}
                                         scale={this.state.scale}
                                         fitScale={this.state.fitScale}
+                                        playVideos={this.playVideos}
                                     />}
 
                                 </div>
@@ -1617,9 +1637,10 @@ class CanvaEditor extends Component<IProps, IState> {
                             width: "100%",
                             height: "100%",
                             zIndex: 123123131,
-                            backgroundColor: "rgba(14,19,24,.95)",
+                            backgroundColor: this.state.fullMode ? "black" : "rgba(14,19,24,.95)",
                         }}
                     >
+                        {!this.state.fullMode &&
                         <button
                             id="closePreviewBtn"
                             style={{
@@ -1641,7 +1662,7 @@ class CanvaEditor extends Component<IProps, IState> {
                             }}
                         >
                             {this.translate("close")}
-                        </button>
+                        </button>}
                         {this.renderCanvasPreview()}
                     </div>}
             </div>
