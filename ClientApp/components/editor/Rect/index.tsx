@@ -786,7 +786,7 @@ export default class Rect extends Component<IProps, IState> {
 										>
 											<Tooltip
 									offsetLeft={0}
-									offsetTop={-15}
+									offsetTop={-10}
 									content={window && window.translate("elementCantBeEdited")}
 									position="top">
 										<div
