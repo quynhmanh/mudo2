@@ -141,6 +141,7 @@ class LeftSide extends Component<IProps, IState> {
                         (
                             (
                                 image &&
+                                !image.locked && 
                                 image.type === TemplateType.Heading
                             )
                         )
@@ -153,7 +154,7 @@ class LeftSide extends Component<IProps, IState> {
                 <FontSizeWrapper
                     show=
                     {
-                        (image &&
+                        (image && !image.locked &&
                             image.type === TemplateType.Heading)
                     }
                     translate={props.translate}
@@ -165,7 +166,7 @@ class LeftSide extends Component<IProps, IState> {
                 <Color
                     show=
                     {
-                        !editorStore.cropMode && image &&
+                        !editorStore.cropMode && image && !image.locked &&
                         (
                             image.type === TemplateType.Heading ||
                             image.type === TemplateType.Latex ||
@@ -183,7 +184,7 @@ class LeftSide extends Component<IProps, IState> {
                     {
                         (
                             (
-                                image &&
+                                image && !image.locked &&
                                 image.type === TemplateType.Heading
                             )
                         )
@@ -196,7 +197,7 @@ class LeftSide extends Component<IProps, IState> {
                     {
                         (
                             (
-                                image &&
+                                image && !image.locked &&
                                 image.type === TemplateType.Heading
                             )
                         )
@@ -325,7 +326,7 @@ class LeftSide extends Component<IProps, IState> {
                                     {
                                         (
                                             (
-                                                image &&
+                                                image && !image.locked &&
                                                 image.type === TemplateType.Heading
                                             )
                                         )
@@ -342,7 +343,7 @@ class LeftSide extends Component<IProps, IState> {
                         title="spacing"
                         show=
                         {
-                            (image &&
+                            (image && !image.locked &&
                                 image.type === TemplateType.Heading)
                         }
                         currentLineHeight={editorStore.currentLineHeight}
@@ -358,7 +359,7 @@ class LeftSide extends Component<IProps, IState> {
                 <Effect
                     show=
                     {
-                        (image &&
+                        (image && !image.locked &&
                             (
                                 image.type === TemplateType.Heading
                             ))
