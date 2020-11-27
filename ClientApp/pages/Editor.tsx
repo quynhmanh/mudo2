@@ -857,7 +857,7 @@ class CanvaEditor extends Component<IProps, IState> {
 
             // px, how many pixels the point should move before starting the selection (combined distance).
             // Or specifiy the threshold for each axis by passing an object like {x: <number>, y: <number>}.
-            startThreshold: 10,
+            startThreshold: 0,
 
             // Disable the selection functionality for touch devices
             disableTouch: false,

@@ -18,7 +18,7 @@ function Selection(options = {}) {
             frame: document,
             mode: 'touch',
             tapMode: 'native',
-            startThreshold: 10,
+            startThreshold: 0,
             singleClick: true,
             disableTouch: false,
 
