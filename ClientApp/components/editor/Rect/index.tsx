@@ -570,8 +570,8 @@ export default class Rect extends Component<IProps, IState> {
 			angle: rotateAngle,
 			iden: type != TemplateType.BackgroundImage ? _id : "",
 			page: page,
+			locked: locked ? "true" : "false",
 		};
-
 
 		return (
 			<div>
