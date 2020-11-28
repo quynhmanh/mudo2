@@ -64,6 +64,7 @@ class CircleType {
     this._forceWidth = false;
     this._forceHeight = true;
     this._radius = this._minRadius;
+    this._totalWidth = totalWidth;
 
     this._invalidate();
   }

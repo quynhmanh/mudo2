@@ -822,9 +822,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     editorStore.effectId = 9;
                                     let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
                                     window.circleType = new CircleType(el);
-
-                                    // Set the text radius and direction. Note: setter methods are chainable.
-                                    window.circleType.radius(0).dir(1).forceWidth(true);
+                                    window.circleType.radius(window.circleType._totalWidth/2).dir(1).forceWidth(true);
 
                                     
                                     setTimeout(() => {
