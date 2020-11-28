@@ -42,7 +42,7 @@ export default class Slider extends Component<IProps, IState> {
                 currentValue: nextProps.currentValue,
             });
 
-            this.$input.value = nextProps.currentValue * (nextProps.multiplier ? nextProps.multiplier : 1);
+            this.$input.value = Math.floor(nextProps.currentValue * (nextProps.multiplier ? nextProps.multiplier : 1));
         }
         return true;
     }
@@ -92,6 +92,7 @@ export default class Slider extends Component<IProps, IState> {
         window.scale = scale;
 
         this.$input.value = Math.floor(scale * (this.props.multiplier ? this.props.multiplier : 1));
+        console.log('onMove', this.$input.value)
         this.$leftSLide.style.width = scale + "%";
         this.$grabSlider.style.left = `calc(${scale}% - 7.5px)`;
         this.props.onChange(scale);
