@@ -961,12 +961,13 @@ class CanvaEditor extends Component<IProps, IState> {
                     node.style.opacity = 1;
                     node.classList.toggle('selected');
 
-                    let b = window.rs[id];
+                    let rect = node.getBoundingClientRect();
+                    // let b = window.rs[id];
 
-                    let w = b.right - b.left - 4;
-                    let h = b.bottom - b.top - 4;
-                    let centerX = b.left + w / 2 + 2;
-                    let centerY = b.top + h / 2 + 2;
+                    let w = rect.right - rect.left - 4;
+                    let h = rect.bottom - rect.top - 4;
+                    let centerX = rect.left + w / 2 + 2;
+                    let centerY = rect.top + h / 2 + 2;
                     let rotateAngle = node.attributes.angle.value / 180 * Math.PI;
                     let newL = centerX - node.attributes.width.value / 2;
                     let newR = centerX + node.attributes.width.value / 2;
