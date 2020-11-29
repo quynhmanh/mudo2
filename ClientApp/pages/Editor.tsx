@@ -671,16 +671,6 @@ class CanvaEditor extends Component<IProps, IState> {
             editorStore.isAdmin = true;
         }
 
-        if (this.props.match.path == "/editor/:design_id/resize/:subtype") {
-            let imagesString = localStorage.getItem("items");
-            let images = JSON.parse(imagesString);
-            images.forEach((image, key) => {
-                if (isNaN(image.zIndex)) image.zIndex = key;
-                image.page = editorStore.activePageId;
-                editorStore.images2.set(image._id, image);
-            });
-        }
-
         if (this.props.match.params.subtype) {
             editorStore.subtype = parseInt(this.props.match.params.subtype);
             let rectWidth;
@@ -767,6 +757,38 @@ class CanvaEditor extends Component<IProps, IState> {
                     rectWidth = 794;
                     rectHeight = 1123;
                     break;
+            }
+
+            if (this.props.match.path == "/editor/:design_id/resize/:subtype") {
+                let imagesString = localStorage.getItem("items");
+                let tmpRectWidth = parseInt(localStorage.getItem("rectWidth"));
+                let tmpRectHeight = parseInt(localStorage.getItem("rectHeight"));
+                let ratio = tmpRectWidth / tmpRectHeight;
+                let realWidth = rectWidth, realHeight = realWidth / ratio;
+                let offsetTop = (rectHeight - realHeight) / 2;
+                let offsetLeft = 0;
+                if (realHeight > rectHeight) {
+                    realHeight = rectHeight;
+                    realWidth = realHeight * ratio;
+                    offsetTop = 0;
+                    offsetLeft = (rectWidth - realWidth) / 2;;
+                } 
+                let ratio2 = realWidth / tmpRectWidth;
+
+                let images = JSON.parse(imagesString);
+                images.forEach((image, key) => {
+                    if (isNaN(image.zIndex)) image.zIndex = key;
+                    image.page = editorStore.activePageId;
+                    image.left = image.left * ratio2 + offsetLeft;
+                    image.top = image.top * ratio2 + offsetTop;
+                    image.width = image.width * ratio2;
+                    image.height = image.height * ratio2;
+                    image.imgWidth = image.imgWidth * ratio2;
+                    image.imgHeight = image.imgHeight * ratio2;
+                    image.scaleX = image.scaleX * ratio2;
+                    image.scaleY = image.scaleY * ratio2;
+                    editorStore.images2.set(image._id, image);
+                });
             }
 
             scaleX = (width - 100) / rectWidth;

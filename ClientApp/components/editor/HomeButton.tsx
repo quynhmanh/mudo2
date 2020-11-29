@@ -287,6 +287,8 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                         return img;
                                     })
                                     localStorage.setItem("items", JSON.stringify(images));
+                                    localStorage.setItem("rectWidth", window.rectWidth);
+                                    localStorage.setItem("rectHeight", window.rectHeight);
                                     const url = `/editor/${uuidv4()}/resize/${subtype}`;
                                     console.log('url ', url)
                                     window.open(url, "_blank");
