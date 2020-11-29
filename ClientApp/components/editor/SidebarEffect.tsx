@@ -390,7 +390,11 @@ export default class SidebarEffect extends Component<IProps, IState> {
                         }}
                     >{this.props.translate("effects")}</p>
                 </div>
-                <div>
+                <div
+                    style={{
+                        height: "calc(100% - 47px)"
+                    }}
+                >
                     <div
                         style={{
                             height: "100%",
