@@ -671,6 +671,16 @@ class CanvaEditor extends Component<IProps, IState> {
             editorStore.isAdmin = true;
         }
 
+        if (this.props.match.path == "/editor/:design_id/resize/:subtype") {
+            let imagesString = localStorage.getItem("items");
+            let images = JSON.parse(imagesString);
+            images.forEach((image, key) => {
+                if (isNaN(image.zIndex)) image.zIndex = key;
+                image.page = editorStore.activePageId;
+                editorStore.images2.set(image._id, image);
+            });
+        }
+
         if (this.props.match.params.subtype) {
             editorStore.subtype = parseInt(this.props.match.params.subtype);
             let rectWidth;

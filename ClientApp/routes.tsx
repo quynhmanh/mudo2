@@ -43,8 +43,8 @@ export const routes = <Switch>
         <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={EditorContainer} />
         <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/:subtype/:mode" component={EditorContainer} />
         <AppRoute authorizedRequired={false} layout={EditorLayout} exact path="/editor/admin/:subtype/:mode" component={EditorContainer} />
+        <AppRoute authorizedRequired={false} layout={Editorlayout} exact path="/editor/:design_id/resize/:subtype" component={EditorContainer} />
         <AppRoute authorizedRequired={false} layout={Editorlayout} exact path="/editor/:width/:height/:mode" component={EditorContainer} />
-        {/* <AppRoute authorizedRequired={false} layout={AuthorizedLayout} exact path="/templates" component={TemplatesPage}/> */}
         <AppRoute authorizedRequired={false} layout={AuthorizedLayout} exact path="/templates/:subtype" component={TemplatesPage}/>
         <AppRoute authorizedRequired={true} layout={AuthorizedLayout} exact path="/account" component={AccountPage}/>
         <AppRoute authorizedRequired={true} layout={AuthorizedLayout} path="/account/:info" component={AccountPage}/>

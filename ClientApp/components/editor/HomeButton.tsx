@@ -1,6 +1,7 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
 import Home from "@Components/shared/svgs/HomeIcon";
+import editorStore from "@Store/EditorStore";
+import uuidv4 from "uuid/v4";
 
 interface IProps {
     translate: any;
@@ -146,6 +147,12 @@ export default class HomeButton extends React.Component<IProps, IState> {
                     <br/>
                 </form>
                 <button
+                    onClick={e => {
+                        const images = Array.from(editorStore.images2.values());
+                        localStorage.setItem("items", JSON.stringify(images));
+                        const url = `/editor/${uuidv4()}/resize/6`;
+                        window.open(url);
+                    }}
                     style={{
                         width: "100px",
                         border: "none",
