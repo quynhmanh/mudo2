@@ -205,7 +205,7 @@ class LeftSide extends Component<IProps, IState> {
                     translate={props.translate}
                     checked={image && image.bold}
                 />
-                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && 
+                {!editorStore.cropMode && editorStore.idObjectSelected && editorStore.colors && !image.locked &&
                     <ColorContainer>
                         {editorStore.colors.map((color, key) =>
                             <ColorButton
