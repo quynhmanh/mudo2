@@ -948,7 +948,7 @@ class CanvaEditor extends Component<IProps, IState> {
                     let item = editorStore.images2.get(id);
                     self.handleImageSelected(item._id, item.page, true, true, true);
                 }
-            } else {
+            } else if (evt.selected.length > 1) {
                 let top = 999999, right = 0, bottom = 0, left = 999999;
                 let childIds = [];
                 evt.selected.forEach(node => {
