@@ -64,7 +64,7 @@ class RightSide extends Component<IProps, IState> {
                 >
                     <span>{this.props.translate("group")}</span>
                 </button>}
-                {image && image.type == TemplateType.TextTemplate && <button
+                {image && !image.locked && image.type == TemplateType.TextTemplate && <button
                     className="toolbar-btn"
                     style={{
                         display: "flex",
