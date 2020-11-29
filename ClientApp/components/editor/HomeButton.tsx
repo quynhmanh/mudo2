@@ -334,6 +334,7 @@ const ResizeSubtypeButton = styled.li`
     label {
         margin: 0;
         font-weight: 400;
+        font-size: 14px;
     }
 
     svg {
