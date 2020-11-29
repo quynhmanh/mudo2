@@ -815,7 +815,6 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                 onClick={e => {
                                     let image = getImageSelected();
                                     image.effectId = 9;
-                                    image.circleWidth = 0;
                                     image.circleDir = 1;
                                     image.originalHTML = image.innerHTML;
                                     editorStore.images2.set(image._id, image);
@@ -823,7 +822,7 @@ export default class SidebarEffect extends Component<IProps, IState> {
                                     let el = document.getElementById(editorStore.idObjectSelected + "hihi4alo");
                                     window.circleType = new CircleType(el);
                                     window.circleType.radius(window.circleType._totalWidth/2).dir(1).forceWidth(true);
-
+                                    image.circleWidth = window.circleType._totalWidth/2;
                                     
                                     setTimeout(() => {
                                         onTextChange2(el, 0, 1);
