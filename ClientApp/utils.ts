@@ -5345,6 +5345,10 @@ function handleImageDrag(_id, clientX, clientY) {
     }
 
     export function handleChildIdSelected(childId) {
+        let image = editorStore.getImageSelected();
+        if (image.locked) return;
+        image.selected = true;
+
         editorStore.childId = childId;
         window.editor.canvas1[editorStore.pageId].canvas[CanvasType.All][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
         window.editor.canvas1[editorStore.pageId].canvas[CanvasType.HoverLayer][editorStore.idObjectSelected].child.handleTextChildSelected(childId);
@@ -5352,8 +5356,6 @@ function handleImageDrag(_id, clientX, clientY) {
         let align, effectId, bold, italic, fontId, fontColor, fontText;
         let currentOpacity, currentLineHeight, currentLetterSpacing;
         let fontSize;
-        let image = editorStore.getImageSelected();
-        image.selected = true;
         if (image.document_object) {
             image.document_object.forEach(doc => {
                 if (doc._id == childId) {
