@@ -418,7 +418,7 @@ export default class SidebarText extends Component<IProps, IState> {
                                         fontSize: "16px",
                                         cursor: "pointer",
                                         marginTop: "10px",
-                                        marginBottom: "18px",
+                                        marginBottom: "10px",
                                         background: "hsla(0,0%,100%,.07)",
                                         borderRadius: "4px",
                                         padding: "10px",
