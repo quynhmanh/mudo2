@@ -2,6 +2,7 @@ import * as React from "react";
 import Home from "@Components/shared/svgs/HomeIcon";
 import editorStore from "@Store/EditorStore";
 import uuidv4 from "uuid/v4";
+import styled from "styled-components";
 
 interface IProps {
     translate: any;
@@ -10,6 +11,53 @@ interface IProps {
 interface IState {
     resizeSubtypeList: any;
 }
+
+const SubtypeList = [
+    {
+        title: "poster",
+        value: 1,
+    },
+    {
+        title: "facebookPost",
+        value: 6,
+    },
+    {
+        title: "squareVideoPost",
+        value: 9,
+    },
+    {
+        title: "menu",
+        value: 11,
+    },
+    {
+        title: "instagramStory",
+        value: 12,
+    },
+    {
+        title: "instagramPost",
+        value: 13,
+    },
+    {
+        title: "businessCard",
+        value: 15,
+    },
+    {
+        title: "facebookCover",
+        value: 16,
+    },
+    {
+        title: "facebookPost",
+        value: 17,
+    },
+    {
+        title: "facebookAd",
+        value: 18,
+    },
+    {
+        title: "resume",
+        value: 19,
+    },
+];
 
 export default class HomeButton extends React.Component<IProps, IState> {
 
@@ -133,12 +181,61 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             display: "none",
                             color: "black",
                             flexDirection: "column",
-                            padding: "20px",
                         }}
                         className="dropdown-content-font-size dropbtn-font-size"
                     >
-                        <form style={{ margin: 0, }} action="/action_page.php">
-                            <input 
+                        <ul>
+                            {SubtypeList.map(subtype => <ResizeSubtypeButton>
+                            <button
+                                type="button"
+                                className="ncVBXQ zipTDg fFOiLQ fP4ZCw RgBf3Q _58cEw _3phPTw"
+                                >
+                                <div className="vH6Kyg">
+                                    <span className="Sbf1Gw">
+                                    <label className="_1I5x5g">
+                                        <div className="ZJon7Q">
+                                        <input 
+                                            onChange={e => {
+                                                let resizeSubtypeList = this.state.resizeSubtypeList;
+                                                if (e.target.checked) {
+                                                    resizeSubtypeList.push(subtype.value);
+                                                } else {
+                                                    resizeSubtypeList = resizeSubtypeList.filter(val => val != subtype.value);
+                                                }
+                                                this.setState({ resizeSubtypeList });
+                                            }}
+                                        type="checkbox" className="SPXzig YmnidQ" defaultValue />
+                                        <span className="tdZD9A YmnidQ ioka9Q">
+                                            <span aria-hidden="true" className="IbvMRg uRWxVA dkWypw">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width={16}
+                                                height={16}
+                                                viewBox="0 0 16 16"
+                                            >
+                                                <path
+                                                fill="currentColor"
+                                                d="M5.72 12.53l-3.26-3.3c-.7-.72.36-1.77 1.06-1.06l2.73 2.77 6.35-6.35a.75.75 0 0 1 1.06 1.06l-6.88 6.88a.78.78 0 0 1-.5.23.83.83 0 0 1-.56-.23z"
+                                                />
+                                            </svg>
+                                            </span>
+                                        </span>
+                                        </div>
+                                        <div className="GdhAcA">
+                                        <div className="pp7Ewg FFnr-w _0bqX9Q fFOiLQ fP4ZCw">
+                                            <div className="mSSDiA" title="Facebook Post, Poster">
+                                            <span className="U1nojQ">{window.translate(subtype.title)}</span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </label>
+                                    </span>
+                                </div>
+                                </button>
+                            </ResizeSubtypeButton>)}
+                        </ul>
+                        {/* <form style={{ margin: 0, }} action="/action_page.php">
+                            <input
                                 onChange={e => {
                                     let resizeSubtypeList = this.state.resizeSubtypeList;
                                     if (e.target.checked) {
@@ -146,12 +243,12 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                     } else {
                                         resizeSubtypeList = resizeSubtypeList.filter(val => val != 6);
                                     }
-                                    this.setState({resizeSubtypeList});
+                                    this.setState({ resizeSubtypeList });
                                 }}
-                                style={{ margin: "15px 10px", }} type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
+                                style={{ margin: "10px", }} type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
                             <span>Menu</span>
                             <br />
-                            <input 
+                            <input
                                 onChange={e => {
                                     let resizeSubtypeList = this.state.resizeSubtypeList;
                                     if (e.target.checked) {
@@ -160,12 +257,12 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                         resizeSubtypeList = resizeSubtypeList.filter(val => val != 6);
                                     }
                                     console.log('resizeSubtypeList', resizeSubtypeList)
-                                    this.setState({resizeSubtypeList});
+                                    this.setState({ resizeSubtypeList });
                                 }}
-                                style={{ margin: "15px 10px", }} type="checkbox" id="vehicle2" name="vehicle2" value="Car" />
+                                style={{ margin: "10px", }} type="checkbox" id="vehicle2" name="vehicle2" value="Car" />
                             <span>Instagram Post</span>
                             <br />
-                            <input 
+                            <input
                                 onChange={e => {
                                     let resizeSubtypeList = this.state.resizeSubtypeList;
                                     if (e.target.checked) {
@@ -173,20 +270,26 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                     } else {
                                         resizeSubtypeList = resizeSubtypeList.filter(val => val != 6);
                                     }
-                                    this.setState({resizeSubtypeList});
+                                    this.setState({ resizeSubtypeList });
                                 }}
-                                style={{ margin: "15px 10px", }} type="checkbox" id="vehicle3" name="vehicle3" value="Boat" />
+                                style={{ margin: "10px", }} type="checkbox" id="vehicle3" name="vehicle3" value="Boat" />
                             <span>Facebook Post</span>
                             <br />
-                        </form>
+                        </form> */}
                         <button
                             onClick={e => {
                                 this.state.resizeSubtypeList.forEach((subtype, key) => {
                                     const images = Array.from(editorStore.images2.values());
+                                    images = images.map(img => {
+                                        img.selected = false;
+                                        img.hovered = false;
+                                        img.focused = false;
+                                        return img;
+                                    })
                                     localStorage.setItem("items", JSON.stringify(images));
                                     const url = `/editor/${uuidv4()}/resize/${subtype}`;
                                     console.log('url ', url)
-                                        window.open(url, "_blank");
+                                    window.open(url, "_blank");
                                 });
                             }}
                             style={{
@@ -195,8 +298,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                 background: "#80808030",
                                 padding: "7px 12px",
                                 borderRadius: "5px",
-                                marginTop: "10px",
-                                marginLeft: "9px",
+                                margin: "auto auto 10px",
                             }}
                         >Resize</button>
                     </div>
@@ -216,3 +318,35 @@ export default class HomeButton extends React.Component<IProps, IState> {
         );
     }
 }
+
+const ResizeSubtypeButton = styled.li`
+    button {
+        width: 100%;
+        height: 40px;
+        border: none;
+        :hover {
+            background: rgba(64, 87, 109, 0.07);
+        }
+    }
+
+    label {
+        margin: 0;
+        font-weight: 400;
+    }
+
+    svg {
+        display: none;
+    }
+
+    input {
+        margin: 10px;
+    }
+
+    .GdhAcA {
+        display: flex;
+    }
+
+    .fP4ZCw {
+        margin: auto;
+    }
+`;

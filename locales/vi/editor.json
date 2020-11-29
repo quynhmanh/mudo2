@@ -94,5 +94,21 @@
     "letter": "Chữ",
     "lineLetter": "Chiều cao dòng",
     "elementCantBeEdited": "Thành phần này không thể chỉnh sửa.",
-    "deletePage": "Xoá trang"
+    "deletePage": "Xoá trang",
+    "facebookPost": "Bài đăng Facebook",
+    "facebookCover": "Facebook Cover",
+    "facebookVideoCover": "Bìa Facebook Video ",
+    "facebookVideoStory": "Facebook Video Story",
+    "facebookEventCover": "Facebook Event Cover",
+    "facebookAd": "Facebook Ad",
+    "instagramStory": "Instagram Story",
+    "instagramVideoStory": "Instagram Video Story",
+    "instagramPost": "Instagram Post",
+    "instagramAd": "Instagram Ad",
+    "twitterPost": "Twitter Post",
+    "twitterHeader": "Twitter Header",
+    "twitterAd": "Twitter Ad",
+    "squareVideoPost": "Video vuông",
+    "menu": "Menu",
+    "businessCard": "Danh thiếp"
 }

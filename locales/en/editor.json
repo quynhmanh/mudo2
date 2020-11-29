@@ -94,5 +94,17 @@
     "letter": "Letter",
     "lineLetter": "Line letter",
     "elementCantBeEdited": "This element can't be edited.",
-    "deletePage": "Delete page"
+    "deletePage": "Delete page",
+    "facebookPost": "Facebook Post",
+    "facebookCover": "Facebook Cover",
+    "facebookVideoCover": "Facebook Video Cover",
+    "facebookVideoStory": "Facebook Video Story",
+    "facebookEventCover": "Facebook Event Cover",
+    "facebookAd": "Facebook Ad",
+    "instagramStory": "Instagram Story",
+    "instagramVideoStory": "Instagram Video Story",
+    "instagramPost": "Instagram Post",
+    "squareVideoPost": "Square Video Post",
+    "menu": "Menu",
+    "businessCard": "Business Card"
 }
