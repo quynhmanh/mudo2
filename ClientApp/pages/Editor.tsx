@@ -142,6 +142,7 @@ declare global {
         current_progress: any;
         progress_interval: any;
         fullModeScale: number;
+        translate: any;
     }
 }
 
