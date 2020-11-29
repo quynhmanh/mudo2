@@ -763,6 +763,8 @@ class CanvaEditor extends Component<IProps, IState> {
                 let imagesString = localStorage.getItem("items");
                 let tmpRectWidth = parseInt(localStorage.getItem("rectWidth"));
                 let tmpRectHeight = parseInt(localStorage.getItem("rectHeight"));
+                let fonts = JSON.parse(localStorage.getItem("fonts"));
+                console.log('fonts', fonts);
                 let ratio = tmpRectWidth / tmpRectHeight;
                 let realWidth = rectWidth, realHeight = realWidth / ratio;
                 let offsetTop = (rectHeight - realHeight) / 2;
@@ -785,10 +787,36 @@ class CanvaEditor extends Component<IProps, IState> {
                     image.height = image.height * ratio2;
                     image.imgWidth = image.imgWidth * ratio2;
                     image.imgHeight = image.imgHeight * ratio2;
-                    image.scaleX = image.scaleX * ratio2;
-                    image.scaleY = image.scaleY * ratio2;
                     editorStore.images2.set(image._id, image);
                 });
+
+                fonts.forEach(id => {
+                    let style = `@font-face {
+                        font-family: '${id}';
+                        src: url('/fonts/${id}.ttf');
+                    }`;
+                    let styleEle = ce("style");
+                    let type = ca("type");
+                    type.value = "text/css";
+                    styleEle.attributes.setNamedItem(type);
+                    styleEle.innerHTML = style;
+                    let head = document.head || ge("head")[0];
+                    head.appendChild(styleEle);
+
+                    let link = ce("link");
+                    link.id = id;
+                    link.rel = "preload";
+                    link.href = `/fonts/${id}.ttf`;
+                    link.media = "all";
+                    link.as = "font";
+                    link.crossOrigin = "anonymous";
+                    head.appendChild(link);
+                    return {
+                        id: id
+                    };
+                })
+
+                editorStore.fonts.replace(fonts);
             }
 
             scaleX = (width - 100) / rectWidth;
