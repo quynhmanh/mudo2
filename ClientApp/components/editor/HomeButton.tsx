@@ -117,7 +117,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                         >{this.props.translate("home")}</span>
                     </div>
                 </a>
-                <div
+                <a
                     id="logo-editor"
                     style={{
                         color: "white",
@@ -128,13 +128,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                         marginLeft: "5px",
                         textDecoration: "none",
                     }}
-                >
-                    <a
-                        style={{
-                            color: "white",
-                            textDecoration: "none",
-                        }}
-                        href="javascript:"
+                    href="javascript:"
                         onClick={e => {
                             document.getElementById("myResizeList").classList.toggle("show");
 
@@ -158,6 +152,12 @@ export default class HomeButton extends React.Component<IProps, IState> {
 
                             document.addEventListener("mouseup", onDown);
                         }}
+                >
+                    <div
+                        style={{
+                            color: "white",
+                            textDecoration: "none",
+                        }}
                     >
                         <div
                             style={{
@@ -171,7 +171,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                         >
                             Resize
                     </div>
-                    </a>
+                    </div>
                     <div
                         id="myResizeList"
                         style={{
@@ -279,7 +279,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                         <button
                             onClick={e => {
                                 this.state.resizeSubtypeList.forEach((subtype, key) => {
-                                    const images = Array.from(editorStore.images2.values());
+                                    let images = Array.from(editorStore.images2.values());
                                     images = images.map(img => {
                                         img.selected = false;
                                         img.hovered = false;
@@ -300,9 +300,9 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                 borderRadius: "5px",
                                 margin: "auto auto 10px",
                             }}
-                        >Resize</button>
+                        >Resize  {this.state.resizeSubtypeList.length > 0 ? "(" + this.state.resizeSubtypeList.length + ")" : ""}</button>
                     </div>
-                </div>
+                </a>
                 <p
                     id="savingState"
                     style={{
