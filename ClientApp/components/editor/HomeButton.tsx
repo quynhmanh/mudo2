@@ -113,7 +113,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                     >
                         <span
                             style={{
-                                marginRight: "5px",
+                                marginRight: "3px",
                             }}
                         >
                             <Home width="24px" height="24px" />
