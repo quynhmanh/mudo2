@@ -217,7 +217,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                         width: "20px",
                         position: "absolute",
                         left: "0",
-                        top: "0",
+                        top: "3px",
                     }}
                 >
                     <Button
@@ -268,7 +268,7 @@ export class InfiniteScroll extends React.PureComponent<InfiniteScrollProps, ISt
                             height: "200px",
                             width: "20px",
                             position: "absolute",
-                            top: "0",
+                            top: "3px",
                             right: "0",
                         }}
                     >
