@@ -159,6 +159,7 @@ class HomePage extends React.Component<IProps, IState> {
         //             this.setState({hasDesign: res.data.value.value > 0});
         //         });
         // }
+        this.handleScroll();
     }
 
     @bind
