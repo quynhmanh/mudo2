@@ -232,7 +232,6 @@ class HomePage extends React.Component<IProps, IState> {
 
     handleScroll = () => {
         templates.forEach(i => {
-            console.log('i ', i)
             if (!this.templates[i].loaded) {
                 if (this.isInViewport(this.templates[i].ref)) {
                     this.templates[i].loadMore();
