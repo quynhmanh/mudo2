@@ -17,6 +17,7 @@ import "@Styles/homePage.scss";
 import SuggestedList from "@Components/homepage/SuggestedList";
 import PopularTemplate from "@Components/homepage/PopularTemplate";
 import PopularTemplate2 from "@Components/homepage/PopularTemplate2";
+import { isNode } from "@Utils";
 
 
 const PopularTemplate3 = loadable(() => import("@Components/homepage/PopularTemplate3"));
@@ -106,6 +107,9 @@ class HomePage extends React.Component<IProps, IState> {
             Globals.locale = locale === undefined ? initLocale : locale;
             this.state.locale = locale === undefined ? initLocale : locale;
         }
+
+        if (!isNode())
+            document.addEventListener("scroll", this.handleScroll);
     }
 
     componentWillMount() {
@@ -216,17 +220,26 @@ class HomePage extends React.Component<IProps, IState> {
         document.addEventListener("mouseup", onDown);
     }
 
+    isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
     handleScroll = () => {
-        const nav = document.getElementById("hello-world");
-        const navTop = this.state.navTop;
-        if (window.scrollY > navTop) {
-            nav.classList.add('fixed-nav');
-            // document.body.style.paddingTop = nav.offsetHeight+'px';
-            document.getElementById("main-container").style.paddingTop = "43px";
-        } else {
-            nav.classList.remove('fixed-nav');
-            document.getElementById("main-container").style.paddingTop = "0px";
-        }
+        templates.forEach(i => {
+            console.log('i ', i)
+            if (!this.templates[i].loaded) {
+                if (this.isInViewport(this.templates[i].ref)) {
+                    this.templates[i].loadMore();
+                    this.templates[i].loaded = false;
+                }
+            }
+        })
     }
 
     handleLogin = () => {
@@ -289,6 +302,8 @@ class HomePage extends React.Component<IProps, IState> {
             document.addEventListener("mouseup", onDown);
         }
     }
+
+    templates = {};
 
     render() {
         if (this.props.i18n.language === undefined)
@@ -425,34 +440,18 @@ class HomePage extends React.Component<IProps, IState> {
                     <PopularTemplate2
                         translate={this.translate.bind(this)}
                     />
+                    {templates.map(i => 
                     <PopularTemplate3
+                        ref={el => this.templates[i] = el}
                         translate={this.translate.bind(this)}
-                        printType={10}
-                    />
-                    <PopularTemplate3
-                        translate={this.translate.bind(this)}
-                        printType={6}
-                    />
-                    <PopularTemplate3
-                        translate={this.translate.bind(this)}
-                        printType={9}
-                    />
-                    <PopularTemplate3
-                        translate={this.translate.bind(this)}
-                        printType={14}
-                    />
-                    <PopularTemplate3
-                        translate={this.translate.bind(this)}
-                        printType={15}
-                    />
-                    <PopularTemplate3
-                        translate={this.translate.bind(this)}
-                        printType={16}
-                    />
+                        printType={i}
+                    />)}
                 </div>
             </div>
         );
     }
 }
+
+const templates = [10, 6, 9, 14, 15, 16];
 
 export default withTranslation(NAMESPACE)(HomePage);

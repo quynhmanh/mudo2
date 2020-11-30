@@ -110,8 +110,27 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
             });
     }
 
+    isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    loaded = false;
+
     componentDidMount() {
-        this.loadMore();
+        if (this.isInViewport(this.ref)) {
+            this.loadMore();
+            this.loaded = true;
+        }
+    }
+
+    componentDidUpdate() {
+        
     }
 
     handleScroll = () => {
@@ -130,6 +149,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
 
         return (
             <div
+                ref={i => this.ref = i}
                 style={{
                     padding: "20px 100px",
                     display: this.state.mounted ? "block" : "none",
