@@ -2194,7 +2194,7 @@ export function onTextChange(thisImage, e, childId) {
             updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
             window.editor.canvas2[editorStore.pageId].canvas[CanvasType.Download][editorStore.idObjectSelected].child.childrens[childId].updateInnerHTML(target.innerHTML);
         }
-    }, 50);
+    }, 0);
 }
 
 export function onTextChange2(target, angle, dir) {
@@ -5734,6 +5734,6 @@ export function onCurveTextChange(target) {
         image.innerHTML = el.innerHTML;
         editorStore.images2.set(editorStore.idObjectSelected, image);
         updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
-    }, 50);
+    }, 0);
 
 }
