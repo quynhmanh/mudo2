@@ -145,7 +145,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                     }}
                 >Letter header</h3>
                 <a
-                    href="/templates/10/"
+                    href={`/templates/${this.props.printType}/`}
                     target="_blank"
                     style={{
                         float: "right",
