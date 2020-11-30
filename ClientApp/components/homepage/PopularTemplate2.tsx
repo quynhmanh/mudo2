@@ -53,7 +53,7 @@ export default class PopularTemplate2 extends Component<IProps, IState> {
         if (counter==newRecentDesign.length) { return; }
         
         if (newRecentDesign[counter].isVideo) {
-            var I = document.getElementById("video-"+counter);
+            var I = document.getElementById("video-2-"+counter);
         } else {
             var I = document.getElementById("image-2-"+counter);
         }
