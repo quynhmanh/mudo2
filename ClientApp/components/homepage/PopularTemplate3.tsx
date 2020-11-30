@@ -186,6 +186,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                                             {...item}
                                             key={index}
                                             keys={index}
+                                            printType={this.props.printType}
                                             loadImage={this.loadImage}
                                             startPoint={this.state.startPoint}
                                         />)}

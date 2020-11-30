@@ -22,6 +22,7 @@ export interface IProps {
     startPoint: any;
     mediaLoaded: any;
     loadImage: any;
+    prefix: any;
 }
 
 export interface IState {
@@ -124,7 +125,7 @@ export default class VideoPicker extends Component<IProps, IState> {
                 }
                 <Video
                     ref={i => this.image = i}
-                    id={`video-${this.props.keys}`}
+                    id={`video-${this.props.prefix}-${this.props.keys}`}
                     autoPlay={false}
                     loop={true}
                     muted={true}

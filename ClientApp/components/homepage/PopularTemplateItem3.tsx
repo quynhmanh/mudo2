@@ -21,6 +21,7 @@ interface IProps {
     startPoint: number;
     loadImage: any;
     prefix: any;
+    printType: string;
 }
 
 interface IState {
@@ -77,6 +78,7 @@ export default class PopularTemplateItem3 extends Component<IProps, IState> {
         let picker = null;
         if (props.isVideo) {
             picker = <VideoPicker
+                prefix={this.props.prefix + this.props.printType}
                 id={props.id}
                 keys={props.keys}
                 key={"1"}
@@ -103,7 +105,7 @@ export default class PopularTemplateItem3 extends Component<IProps, IState> {
             picker = <ImagePicker
                 id={props.id}
                 keys={props.keys}
-                prefix={this.props.prefix}
+                prefix={this.props.prefix + this.props.printType}
                 key={"1"}
                 color={""}
                 delay={100}
