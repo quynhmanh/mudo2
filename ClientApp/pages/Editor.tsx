@@ -782,16 +782,21 @@ class CanvaEditor extends Component<IProps, IState> {
                 images.forEach((image, key) => {
                     if (isNaN(image.zIndex)) image.zIndex = key;
                     image.page = editorStore.activePageId;
-                    image.left = image.left * ratio2 + offsetLeft;
-                    image.top = image.top * ratio2 + offsetTop;
-                    image.width = image.width * ratio2;
-                    image.height = image.height * ratio2;
-                    image.imgWidth = image.imgWidth * ratio2;
-                    image.imgHeight = image.imgHeight * ratio2;
-                    image.scaleX = image.scaleX * ratio2;
-                    image.scaleY = image.scaleY * ratio2;
-                    image.posX = image.posX * ratio2;
-                    image.posY = image.posY * ratio2;
+                    if (image.type == TemplateType.BackgroundImage) {
+                        image.width = rectWidth;
+                        image.height = rectHeight;
+                    } else {
+                        image.left = image.left * ratio2 + offsetLeft;
+                        image.top = image.top * ratio2 + offsetTop;
+                        image.width = image.width * ratio2;
+                        image.height = image.height * ratio2;
+                        image.imgWidth = image.imgWidth * ratio2;
+                        image.imgHeight = image.imgHeight * ratio2;
+                        image.scaleX = image.scaleX * ratio2;
+                        image.scaleY = image.scaleY * ratio2;
+                        image.posX = image.posX * ratio2;
+                        image.posY = image.posY * ratio2;
+                    }
                     editorStore.images2.set(image._id, image);
                 });
 
