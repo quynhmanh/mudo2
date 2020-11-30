@@ -76,9 +76,10 @@ export default class PopularTemplateItem3 extends Component<IProps, IState> {
     render() {
         const props = this.props;
         let picker = null;
+        console.log('this.props.prefix ', "" + this.props.prefix + this.props.printType)
         if (props.isVideo) {
             picker = <VideoPicker
-                prefix={this.props.prefix + this.props.printType}
+                prefix={"" + this.props.prefix + this.props.printType}
                 id={props.id}
                 keys={props.keys}
                 key={"1"}
@@ -105,7 +106,7 @@ export default class PopularTemplateItem3 extends Component<IProps, IState> {
             picker = <ImagePicker
                 id={props.id}
                 keys={props.keys}
-                prefix={this.props.prefix + this.props.printType}
+                prefix={"" + this.props.prefix + this.props.printType}
                 key={"1"}
                 color={""}
                 delay={100}
