@@ -94,7 +94,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                 let rem = 10;
                 if (hasMore) {
                     rem = Math.min(res.data.value.value - newRecentDesign.length, 10);
-                    newRecentDesign = [...newRecentDesign, ...getRem(rem)];
+                    newRecentDesign = [...newRecentDesign, ...this.getRem(rem)];
                 }
 
                 this.setState({
