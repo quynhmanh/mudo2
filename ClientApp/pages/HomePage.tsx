@@ -443,6 +443,6 @@ class HomePage extends React.Component<IProps, IState> {
     }
 }
 
-const templates = [10, 6, 9, 14, 15, 16];
+const templates = [10, 6, 9, 11, 1, 14, 15, 16];
 
 export default withTranslation(NAMESPACE)(HomePage);
