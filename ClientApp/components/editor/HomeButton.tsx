@@ -16,46 +16,57 @@ const SubtypeList = [
     {
         title: "poster",
         value: 1,
+        size: "1587.402px x 2245.04px"
     },
     {
         title: "facebookPost",
         value: 6,
+        size: "1024px x 1024px"
     },
     {
         title: "squareVideoPost",
         value: 9,
+        size: "1080px x 1080"
     },
     {
         title: "menu",
         value: 11,
+        size: "794px x 1123px"
     },
     {
         title: "instagramStory",
         value: 12,
+        size: "1080px x 1920px"
     },
     {
         title: "instagramPost",
         value: 13,
+        size: "320px x 320px"
     },
     {
         title: "businessCard",
         value: 15,
+        size: "1050px x 600px"
     },
     {
         title: "facebookCover",
         value: 16,
+        size: "851px x 315px"
     },
     {
         title: "facebookPost",
         value: 17,
+        size: "940px x 788px"
     },
     {
         title: "facebookAd",
         value: 18,
+        size: "1200px x 628px"
     },
     {
         title: "resume",
         value: 19,
+        size: "794px x 1123px"
     },
 ];
 
@@ -95,7 +106,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             display: "flex",
                             alignItems: "center",
                             fontSize: "15px",
-                            fontWeight: 600,
+                            fontWeight: 500,
                             height: "100%",
                             position: "relative",
                         }}
@@ -224,6 +235,13 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                         <div className="pp7Ewg FFnr-w _0bqX9Q fFOiLQ fP4ZCw">
                                             <div className="mSSDiA" title="Facebook Post, Poster">
                                             <span className="U1nojQ">{window.translate(subtype.title)}</span>
+                                            <span
+                                                style={{
+                                                    fontSize: "12px",
+                                                    marginLeft: "10px",
+                                                    color: "gray",
+                                                }}
+                                            >{subtype.size}</span>
                                             </div>
                                         </div>
                                         </div>
