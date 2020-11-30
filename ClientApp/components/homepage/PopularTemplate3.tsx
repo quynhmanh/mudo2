@@ -130,7 +130,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
     }
 
     componentDidUpdate() {
-        
+
     }
 
     handleScroll = () => {
@@ -146,6 +146,60 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
     test = null;
 
     render() {
+
+        let title = "";
+
+        switch (this.props.printType) {
+            case 0:
+                break;
+            case 1:
+                title = "poster";
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                title = "facebookPost";
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                title = "squareVideoPost";
+                break;
+            case 10:
+                break;
+            case 11: // Menu
+                title = "Menu";
+                break;
+            case 12: // Instagram Story
+                title = "instagramStory";
+                break;
+            case 14:
+                title = "instagramPost";
+                break;
+            case 15: // Business Card
+                title = "businessCard";
+                break;
+            case 16: // Facebook Cover
+                title = "facebookCover";
+                break;
+            case 17: // Facebook Post
+                title = "facebookPost";
+                break;
+            case 18: // Facebook ad
+                title = "facebookAd";
+                break;
+            case 19:
+                title = "resume";
+                break;
+        }
 
         return (
             <div
@@ -163,7 +217,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                         fontSize: "23px",
                         display: "inline-block",
                     }}
-                >Letter header</h3>
+                >{this.props.translate(title)}</h3>
                 <a
                     href={`/templates/${this.props.printType}/`}
                     target="_blank"
