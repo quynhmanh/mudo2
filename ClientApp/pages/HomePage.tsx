@@ -439,10 +439,6 @@ class HomePage extends React.Component<IProps, IState> {
                     />
                     <PopularTemplate3
                         translate={this.translate.bind(this)}
-                        printType={13}
-                    />
-                    <PopularTemplate3
-                        translate={this.translate.bind(this)}
                         printType={14}
                     />
                     <PopularTemplate3
