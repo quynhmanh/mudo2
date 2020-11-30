@@ -175,7 +175,7 @@ export default class TemplateList extends Component<IProps, IState> {
         
         if (newRecentDesign[counter].isVideo) {
         // Grab an image obj
-            var I = document.getElementById("video-"+counter);
+            var I = document.getElementById("video-3-"+counter);
         } else {
             var I = document.getElementById("image-3-"+counter);
         }
