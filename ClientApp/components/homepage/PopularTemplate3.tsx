@@ -6,6 +6,7 @@ import Item from "@Components/homepage/PopularTemplateItem3";
 
 export interface IProps {
     translate: any;
+    printType: number;
 }
 
 interface IState {
@@ -77,7 +78,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
     }
 
     loadMore = () => {
-        const url = `/api/Template/Search?Type=1&page=${(this.state.recentDesign.length - this.state.rem) / this.perPage + 1}&perPage=${this.perPage}&printType=10`;
+        const url = `/api/Template/Search?Type=1&page=${(this.state.recentDesign.length - this.state.rem) / this.perPage + 1}&perPage=${this.perPage}&printType=${this.props.printType}`;
         //https://localhost:64099/api/Template/Search?Type=1&page=1&perPage=10&printType=10
         axios
             .get(url)
