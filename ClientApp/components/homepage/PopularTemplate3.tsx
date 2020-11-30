@@ -87,7 +87,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                     design.href = `/editor/design/${uuidv4()}/${design.id}`;
                     return design;
                 });
-                let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != "sentinel-image2");
+                let newRecentDesign = this.state.recentDesign.filter(doc => doc.id != ("sentinel-image" + this.props.printType));
                 const startPoint = newRecentDesign.length;
                 newRecentDesign = [...newRecentDesign, ...recentDesign];
                 let hasMore = newRecentDesign.length < res.data.value.value;
