@@ -75,6 +75,7 @@ export default class TemplateItem extends Component<IProps, IState> {
         let picker = null;
         if (props.isVideo) {
             picker = <VideoPicker
+                prefix={this.props.prefix}
                 id={props.id}
                 keys={props.keys}
                 key={"1"}
