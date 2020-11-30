@@ -235,7 +235,7 @@ class HomePage extends React.Component<IProps, IState> {
             if (!this.templates[i].loaded) {
                 if (this.isInViewport(this.templates[i].ref)) {
                     this.templates[i].loadMore();
-                    this.templates[i].loaded = false;
+                    this.templates[i].loaded = true;
                 }
             }
         })
