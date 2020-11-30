@@ -225,9 +225,26 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                     target="_blank"
                     style={{
                         float: "right",
-                        color: "black",
+                        color: "rgb(33, 83, 204)",
+                        display: "flex",
+                        alignItems: "center",
                     }}
-                >{this.props.translate("viewAll")}</a>
+                >
+                    <span
+                        style={{
+                            marginRight: "3px",
+                            color: "rgb(33, 83, 204)",
+                            fontWeight: 500,
+                            fontSize: "15px",
+                        }}
+                    >{this.props.translate("viewAll")}</span>
+                    <svg
+                        style={{
+                            transform: "rotate(270deg)",
+                            fill: "rgb(33, 83, 204)",
+                        }}
+                        viewBox="0 0 16 16" width="16" height="16" direction="right" ><path d="M8.60021 10.8095C8.48307 10.9313 8.32415 10.9998 8.15839 11H7.84161C7.67621 10.998 7.51793 10.9297 7.39979 10.8095L3.12329 6.3579C3.04438 6.27659 3 6.16591 3 6.05045C3 5.93499 3.04438 5.8243 3.12329 5.743L3.71517 5.12809C3.792 5.04662 3.89716 5.00072 4.00694 5.00072C4.11672 5.00072 4.22187 5.04662 4.2987 5.12809L8 8.98207L11.7013 5.12809C11.7796 5.04611 11.8861 5 11.9972 5C12.1084 5 12.2149 5.04611 12.2932 5.12809L12.8767 5.743C12.9556 5.8243 13 5.93499 13 6.05045C13 6.16591 12.9556 6.27659 12.8767 6.3579L8.60021 10.8095Z"></path></svg>
+                </a>
                 <div
                     style={{
                         height: "220px",
