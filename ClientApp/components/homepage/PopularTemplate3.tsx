@@ -64,9 +64,9 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
         
         if (newRecentDesign[counter].isVideo) {
         // Grab an image obj
-            var I = document.getElementById("video-"+counter);
+            var I = document.getElementById(`video-3${this.props.printType}-`+counter);
         } else {
-            var I = document.getElementById("image-3-"+counter);
+            var I = document.getElementById(`image-3${this.props.printType}-`+counter);
         }
         
         //Change source (then wait for event)
