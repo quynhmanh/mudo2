@@ -144,9 +144,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             document.getElementById("myResizeList").classList.toggle("show");
 
                             const onDown = e => {
-                                console.log('e. target', e.target)
                                 if (!document.getElementById("myResizeList").contains(e.target)) {
-                                    console.log('contain')
                                     let dropdowns = document.getElementsByClassName(
                                         "dropdown-content-font-size"
                                     );
@@ -276,7 +274,6 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                     } else {
                                         resizeSubtypeList = resizeSubtypeList.filter(val => val != 6);
                                     }
-                                    console.log('resizeSubtypeList', resizeSubtypeList)
                                     this.setState({ resizeSubtypeList });
                                 }}
                                 style={{ margin: "10px", }} type="checkbox" id="vehicle2" name="vehicle2" value="Car" />
@@ -313,7 +310,6 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                     localStorage.setItem("rectHeight", window.rectHeight);
                                     localStorage.setItem("fonts", JSON.stringify(font));
                                     const url = `/editor/${uuidv4()}/resize/${subtype}`;
-                                    console.log('url ', url)
                                     window.open(url, "_blank");
                                 });
                             }}
