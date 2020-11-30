@@ -174,6 +174,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                 title = "squareVideoPost";
                 break;
             case 10:
+                title = "letterHeader";
                 break;
             case 11: // Menu
                 title = "Menu";
