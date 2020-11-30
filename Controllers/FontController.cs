@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Serilog;
+using Microsoft.Extensions.Configuration;
 
 namespace RCB.TypeScript.Controllers
 {
@@ -25,8 +26,9 @@ namespace RCB.TypeScript.Controllers
         //private readonly DbContextOptions<PersonContext> _context;
         private FontService FontService { get; }
         private IHostingEnvironment HostingEnvironment { get; set; }
+        private IConfiguration Configuration { get; set; }
 
-        public FontController(FontService fontService, IHostingEnvironment hostingEnvironment)
+        public FontController(FontService fontService, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
 
             var serviceCollection = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
@@ -35,6 +37,7 @@ namespace RCB.TypeScript.Controllers
 
             FontService = fontService;
             HostingEnvironment = hostingEnvironment;
+            Configuration = configuration;
         }
 
         class AddFontRequest
@@ -95,6 +98,12 @@ namespace RCB.TypeScript.Controllers
                     Log.Logger.Error($"Something went wrong: {e}");
                 }
 
+                var executablePath = "/usr/bin/google-chrome-stable";
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    executablePath = Configuration.GetSection("chromeExePath").Get<string>();
+                }
+
                 await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
                 var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                 {
@@ -104,6 +113,7 @@ namespace RCB.TypeScript.Controllers
                         Height = 50,
                     },
                     Args = new string[] { "--no-sandbox", "--disable-setuid-sandbox" },
+                    ExecutablePath = executablePath,
                 });
                 var page = await browser.NewPageAsync();
                 await page.SetContentAsync(template);

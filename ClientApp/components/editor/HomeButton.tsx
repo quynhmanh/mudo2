@@ -144,8 +144,9 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             document.getElementById("myResizeList").classList.toggle("show");
 
                             const onDown = e => {
+                                console.log('e. target', e.target)
                                 if (!document.getElementById("myResizeList").contains(e.target)) {
-                                    // if (!e.target.matches(".dropbtn-font-size")) {
+                                    console.log('contain')
                                     let dropdowns = document.getElementsByClassName(
                                         "dropdown-content-font-size"
                                     );
@@ -199,6 +200,8 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             <button
                                 type="button"
                                 className="ncVBXQ zipTDg fFOiLQ fP4ZCw RgBf3Q _58cEw _3phPTw"
+                                onClick={e => {
+                                }}
                                 >
                                 <div className="vH6Kyg">
                                     <span className="Sbf1Gw">
@@ -346,6 +349,7 @@ const ResizeSubtypeButton = styled.li`
         width: 100%;
         height: 40px;
         border: none;
+        padding: 0;
         :hover {
             background: rgba(64, 87, 109, 0.07);
         }
@@ -362,7 +366,7 @@ const ResizeSubtypeButton = styled.li`
     }
 
     input {
-        margin: 10px;
+        margin: 13px;
     }
 
     .GdhAcA {
@@ -371,5 +375,9 @@ const ResizeSubtypeButton = styled.li`
 
     .fP4ZCw {
         margin: auto;
+    }
+
+    ._1I5x5g {
+        height: 100%;
     }
 `;
