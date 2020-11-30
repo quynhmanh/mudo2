@@ -22,15 +22,6 @@ interface IState {
 const TEMPLATE_PERPAGE = 10;
 const WIDTH = 200;
 
-let getRem = (rem) => Array(rem).fill(0).map(i => {
-    return {
-        width: WIDTH,
-        height: WIDTH,
-        id: "sentinel-image2",
-        videoRepresentative: "",
-    }
-});
-
 export default class PopularTemplate3 extends Component<IProps, IState> {
     state = {
         rem: 10,
@@ -38,7 +29,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
         yLocation: 0,
         showLeft: true,
         mounted: true,
-        recentDesign: getRem(10),
+        recentDesign: [],
         startPoint: 0,
     }
 
@@ -51,10 +42,19 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
             this.perPage = Math.floor((window.innerWidth - 200) / 141) + 1;
 
         this.state.rem = this.perPage;
-        this.state.recentDesign = getRem(this.perPage);
+        this.state.recentDesign = this.getRem(this.perPage);
 
         this.loadImage = this.loadImage.bind(this);
     }
+
+    getRem = (rem) => Array(rem).fill(0).map(i => {
+        return {
+            width: WIDTH,
+            height: WIDTH,
+            id: "sentinel-image" + this.props.printType,
+            videoRepresentative: "",
+        }
+    });
 
     loadImage(counter) {
         let self = this;
@@ -165,7 +165,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
                                 isLoading={false}
                                 hasMore={this.state.hasMore}
                                 onLoadMore={this.loadMore.bind(this, false)}
-                                refId="sentinel-image2"
+                                refId={"sentinel-image" + this.props.printType}
                                 marginTop={45}
                             >
                                 <ul
