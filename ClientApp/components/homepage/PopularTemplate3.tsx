@@ -112,6 +112,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
 
     isInViewport(element) {
         const rect = element.getBoundingClientRect();
+        console.log('rect', rect)
         return (
             rect.top >= 0 &&
             rect.left >= 0 &&
@@ -206,7 +207,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
             <div
                 ref={i => this.ref = i}
                 style={{
-                    padding: "20px 100px",
+                    margin: "20px 100px",
                     display: this.state.mounted ? "block" : "none",
                 }}
             >

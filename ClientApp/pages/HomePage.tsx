@@ -151,15 +151,6 @@ class HomePage extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        // if (Globals.serviceUser) {
-        //     const url = `/api/Design/SearchWithUserName?userName=${Globals.serviceUser.username}&page=1&perPage=1`;
-        //     axios
-        //         .get(url)
-        //         .then(res => {
-        //             this.setState({hasDesign: res.data.value.value > 0});
-        //         });
-        // }
-        this.handleScroll();
     }
 
     @bind
