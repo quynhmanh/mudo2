@@ -79,6 +79,7 @@ export default class PopularTemplateItem2 extends Component<IProps, IState> {
             picker = <VideoPicker
                 id={props.id}
                 keys={props.keys}
+                prefix={this.props.prefix}
                 key={"1"}
                 color={""}
                 delay={0}
