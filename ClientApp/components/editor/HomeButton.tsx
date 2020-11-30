@@ -175,7 +175,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             style={{
                                 display: "flex",
                                 alignItems: "center",
-                                fontSize: "15px",
+                                fontSize: "14px",
                                 fontWeight: 600,
                                 height: "100%",
                                 position: "relative",
