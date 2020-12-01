@@ -309,6 +309,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                     localStorage.setItem("rectWidth", window.rectWidth);
                                     localStorage.setItem("rectHeight", window.rectHeight);
                                     localStorage.setItem("fonts", JSON.stringify(font));
+                                    localStorage.setItem("pages", JSON.stringify(editorStore.pages));
                                     const url = `/editor/${uuidv4()}/resize/${subtype}`;
                                     window.open(url, "_blank");
                                 });

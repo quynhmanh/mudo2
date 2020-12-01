@@ -765,7 +765,7 @@ class CanvaEditor extends Component<IProps, IState> {
                 let tmpRectWidth = parseInt(localStorage.getItem("rectWidth"));
                 let tmpRectHeight = parseInt(localStorage.getItem("rectHeight"));
                 let fonts = JSON.parse(localStorage.getItem("fonts"));
-                console.log('fonts', fonts);
+                let pages = JSON.parse(localStorage.getItem("pages"));
                 let ratio = tmpRectWidth / tmpRectHeight;
                 let realWidth = rectWidth, realHeight = realWidth / ratio;
                 let offsetTop = (rectHeight - realHeight) / 2;
@@ -781,7 +781,6 @@ class CanvaEditor extends Component<IProps, IState> {
                 let images = JSON.parse(imagesString);
                 images.forEach((image, key) => {
                     if (isNaN(image.zIndex)) image.zIndex = key;
-                    image.page = editorStore.activePageId;
                     if (image.type == TemplateType.BackgroundImage) {
                         image.width = rectWidth;
                         image.height = rectHeight;
@@ -799,6 +798,9 @@ class CanvaEditor extends Component<IProps, IState> {
                     }
                     editorStore.images2.set(image._id, image);
                 });
+
+                editorStore.pages.replace(pages);
+                editorStore.activePageId = pages[0];
 
                 fonts.forEach(id => {
                     let style = `@font-face {
