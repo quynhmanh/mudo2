@@ -122,6 +122,7 @@ class LeftSide extends Component<IProps, IState> {
                         style={{
                             display: "flex",
                             alignItems: "center",
+                            padding: "0 15px",
                         }}
                         onClick={e => {
                             e.preventDefault();
