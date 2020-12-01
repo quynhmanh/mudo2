@@ -190,6 +190,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             display: "none",
                             color: "black",
                             flexDirection: "column",
+                            padding: "10px 0",
                         }}
                         className="dropdown-content-font-size dropbtn-font-size"
                     >
@@ -320,7 +321,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                 background: "#80808030",
                                 padding: "7px 12px",
                                 borderRadius: "5px",
-                                margin: "auto auto 10px",
+                                margin: "auto",
                                 fontSize: "14px",
                             }}
                         >{window.translate("resize")}  {this.state.resizeSubtypeList.length > 0 ? "(" + this.state.resizeSubtypeList.length + ")" : ""}</button>
@@ -357,6 +358,7 @@ const ResizeSubtypeButton = styled.li`
         margin: 0;
         font-weight: 400;
         font-size: 14px;
+        padding: 0 10px;
     }
 
     svg {
