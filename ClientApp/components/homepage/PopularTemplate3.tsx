@@ -116,7 +116,7 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
         return (
             rect.top >= 0 &&
             rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight) + rect.height) &&
             rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
     }
