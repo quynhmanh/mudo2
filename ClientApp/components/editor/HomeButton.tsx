@@ -321,6 +321,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                 padding: "7px 12px",
                                 borderRadius: "5px",
                                 margin: "auto auto 10px",
+                                fontSize: "14px",
                             }}
                         >{window.translate("resize")}  {this.state.resizeSubtypeList.length > 0 ? "(" + this.state.resizeSubtypeList.length + ")" : ""}</button>
                     </div>
