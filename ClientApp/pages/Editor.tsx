@@ -579,8 +579,8 @@ class CanvaEditor extends Component<IProps, IState> {
                     editorStore.animationId = image.value.animationId;
 
                     let document = JSON.parse(image.value.document);
-                    scaleX = (width - 100) / document.width;
-                    scaleY = (height - 100) / document.height;
+                    scaleX = (width - 120) / document.width;
+                    scaleY = (height - 120) / document.height;
                     let staticGuides = {
                         x: [
                             [0, 0],
