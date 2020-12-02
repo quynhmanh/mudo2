@@ -135,7 +135,7 @@ export default class Spacing extends Component<IProps, IState> {
     onDown(e) {
         e.preventDefault();
         let el = document.getElementById("mySpacingList");
-        if (!el || !document.getElementById("mySpacingList").contains(e.target)) {
+        if (!window.sliding && (!el || !document.getElementById("mySpacingList").contains(e.target))) {
             var dropdowns = document.getElementsByClassName(
                 "dropdown-content-font-size"
             );
@@ -207,26 +207,32 @@ export default class Spacing extends Component<IProps, IState> {
                             title={this.props.translate("letter")}
                             currentValue={editorStore.currentLetterSpacing}
                             onChangeStart={e => {
-                                document.removeEventListener("mouseup", this.onDown);
-                                window.selectionStart = true;
+                                window.sliding = true;
+                                if (window.setSliding) clearTimeout(window.setSliding);
                             }}
                             onChange={this.handleLetterSpacingChange}
                             onChangeEnd={val => {
-                                document.addEventListener("mouseup", this.onDown);
                                 this.handleLetterSpacingChangeEnd(val);
+
+                                window.setSliding = setTimeout(() => {
+                                    window.sliding = false;
+                                }, 1000);
                             }}
                         />
                         <Slider
                             title={this.props.translate("lineLetter")}
                             currentValue={(100 * (editorStore.currentLineHeight ? editorStore.currentLineHeight : 30) - 50) / 2}
                             onChangeStart={e => {
-                                document.removeEventListener("mouseup", this.onDown);
-                                window.selectionStart = true;
+                                window.sliding = true;
+                                if (window.setSliding) clearTimeout(window.setSliding);
                             }}
                             onChange={this.handleLineHeightChange}
                             onChangeEnd={val => {
-                                document.addEventListener("mouseup", this.onDown);
                                 this.handleLineHeightChangeEnd(val);
+
+                                window.setSliding = setTimeout(() => {
+                                    window.sliding = false;
+                                }, 1000);
                             }}
                         />
                     </div>

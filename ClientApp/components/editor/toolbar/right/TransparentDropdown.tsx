@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Slider from "@Components/editor/Slider";
 import { observer } from "mobx-react";
 import editorStore from "@Store/EditorStore";
-import { handleOpacityChange, handleOpacityChangeEnd } from "@Utils";
+import { handleOpacityChange, handleOpacityChangeEnd, onClickTransparent, onUpTransparent } from "@Utils";
 
 
 interface IProps {
@@ -23,7 +23,7 @@ export default class TransparentDropdown extends Component<IProps, IState> {
         super(props);
     }
 
-    render () {
+    render() {
         return (
             <div
                 style={{
@@ -38,13 +38,17 @@ export default class TransparentDropdown extends Component<IProps, IState> {
                 id="myTransparent"
                 className="dropdown-content-font-size"
             >
-                <Slider 
-                      title={this.props.translate("transparent")} 
-                      currentValue={editorStore.currentOpacity}
-                      onChange={handleOpacityChange}
-                      onChangeEnd={handleOpacityChangeEnd}
-                    />
+                <Slider
+                    title={this.props.translate("transparent")}
+                    currentValue={editorStore.currentOpacity}
+                    onChangeStart={e => {
+                        window.sliding = true;
+                        if (window.setSliding) clearTimeout(window.setSliding);
+                    }}
+                    onChange={handleOpacityChange}
+                    onChangeEnd={handleOpacityChangeEnd}
+                />
             </div>
         );
-            }
+    }
 }

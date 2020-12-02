@@ -5333,6 +5333,10 @@ function handleImageDrag(_id, clientX, clientY) {
         editorStore.images2.set(editorStore.idObjectSelected, image);
 
         updateImages(editorStore.idObjectSelected, editorStore.pageId, image, true);
+
+        window.setSliding = setTimeout(() => {
+            window.sliding = false;
+        }, 1000);
     }
 
     export function handleGridSelected(childId) {
@@ -5737,3 +5741,24 @@ export function onCurveTextChange(target) {
     }, 0);
 
 }
+
+export function onClickTransparent() {
+    document.getElementById("myTransparent").classList.toggle("show");
+    document.addEventListener("mouseup", onUpTransparent);
+};
+
+export const onUpTransparent = e => {
+    if (!window.sliding && !document.getElementById("myTransparent").contains(e.target)) {
+        let dropdowns = document.getElementsByClassName(
+            "dropdown-content-font-size"
+        );
+        for (let i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+                openDropdown.classList.remove("show");
+            }
+        }
+
+        document.removeEventListener("mouseup", onUpTransparent);
+    }
+};

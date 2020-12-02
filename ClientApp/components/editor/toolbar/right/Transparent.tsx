@@ -1,38 +1,13 @@
 import React from "react";
 import Tooltip from "@Components/shared/Tooltip";
 import ToolbarBtn from "../ToolbarBtn";
+import { onClickTransparent } from "@Utils";
 
 interface IProps {
     translate: any;
     onClickTransparent: any;
     show: any;
 }
-
-
-const onClickTransparent = () => {
-
-    document.getElementById("myTransparent").classList.toggle("show");
-
-    const onDown = e => {
-        if (!document.getElementById("myTransparent").contains(e.target)) {
-            // if (!e.target.matches(".dropbtn-font-size")) {
-            let dropdowns = document.getElementsByClassName(
-                "dropdown-content-font-size"
-            );
-            let i;
-            for (i = 0; i < dropdowns.length; i++) {
-                let openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains("show")) {
-                    openDropdown.classList.remove("show");
-                }
-            }
-
-            document.removeEventListener("mouseup", onDown);
-        }
-    };
-
-    document.addEventListener("mouseup", onDown);
-};
 
 const Transparent = (props: IProps) => {
     const { translate, show } = props;
