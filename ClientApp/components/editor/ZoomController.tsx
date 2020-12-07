@@ -49,7 +49,7 @@ export default class ZoomController extends Component<IProps, IState> {
                         className="zoom___21DG8"
                     >
                         <Tooltip
-                            offsetLeft={0}
+                            offsetLeft={16}
                             offsetTop={-10}
                             content={this.props.translate("zoomIn")}
                             position="top"
@@ -108,7 +108,7 @@ export default class ZoomController extends Component<IProps, IState> {
                                     width: "55px",
                                     fontSize: "15px"
                                 }}
-                                className="scaleListButton___GEm7w zoomMain___1z1vk"
+                                className="scaleListButton___GEm7w zoomMain___1z1vk zoomMinus___1Ooi5"
                                 data-zoom="true"
                                 data-categ="tools"
                                 data-value="zoomPanelOpen"
@@ -118,7 +118,7 @@ export default class ZoomController extends Component<IProps, IState> {
                             </button>
                         </div>
                         <Tooltip
-                            offsetLeft={0}
+                            offsetLeft={16}
                             offsetTop={-10}
                             content={this.props.translate("zoomOut")}
                             position="top"
@@ -155,6 +155,7 @@ export default class ZoomController extends Component<IProps, IState> {
                             </button>
                         </Tooltip>
                         <button
+                            className="zoomPlus___1TbHD"
                             style={{
                                 border: "none",
                             }}

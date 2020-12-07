@@ -575,6 +575,10 @@ button:focus {
   svg {
     fill: black;
   }
+
+  &:hover {
+    background: #ffffffa3 !important;
+  }
 }
 
 .zoomPercent___3286Z:hover {

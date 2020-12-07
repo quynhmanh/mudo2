@@ -86,6 +86,8 @@ export default class Tip extends PureComponent<IProps, IState> {
         var rec = $text.getBoundingClientRect();
         var rec2 = $tip.getBoundingClientRect();
 
+        console.log('wOf$text',  $text, wOf$text, left, $text.getBoundingClientRect())
+
         const midXOf$text = left + wOf$text / 2;
         const midYOf$text = top + hOf$text / 2;
 
@@ -98,7 +100,7 @@ export default class Tip extends PureComponent<IProps, IState> {
         if (position == "bottom") {
             topTip = `${midYOf$text + hOf$text / 2 + offsetTop}px`;
         }
-        let leftTip = midXOf$text - rec2.width/2;
+        let leftTip = midXOf$text - rec2.width/2 + offsetLeft;
 
         var screenWidth = document.body.getBoundingClientRect().width;
 
