@@ -53,9 +53,6 @@ export default class TemplateList extends Component<IProps, IState> {
             this.perPage = 15;
         }
 
-        this.state.rem = this.perPage;
-        this.state.recentDesign = getRem(this.perPage);
-
         this.loadImage = this.loadImage.bind(this);
 
         let innerWidth = window.innerWidth - 116;
@@ -63,6 +60,10 @@ export default class TemplateList extends Component<IProps, IState> {
 
         if (props.type == 7 || props.type == 9 || props.type == 15 || props.type == 16) {
             this.width = Math.max(innerWidth / 6, 216);
+        }
+
+        if (props.type == 1 || props.type == 14) {
+            this.width = Math.max(innerWidth / 8, 216);
         }
 
         if (props.type == 16) {
@@ -84,6 +85,8 @@ export default class TemplateList extends Component<IProps, IState> {
             case 1:
                 rectWidth = 1587.402;
                 rectHeight = 2245.04;
+                this.perPage = Math.floor(innerWidth / this.width) * 3;
+                console.log('perPage' , this.perPage)
                 break;
             case 2:
                 rectWidth = 2245.04;
@@ -104,7 +107,7 @@ export default class TemplateList extends Component<IProps, IState> {
             case 6:
                 rectWidth = 1024;
                 rectHeight = 1024;
-                this.perPage = Math.floor(innerWidth / 216) * 3;
+                this.perPage = Math.floor(innerWidth / this.width) * 3;
                 break;
             case 7:
                 rectWidth = 1920;
@@ -139,11 +142,13 @@ export default class TemplateList extends Component<IProps, IState> {
             case 14: // Instagram Post
                 rectWidth = 1080;
                 rectHeight = 1080;
+                this.perPage = Math.floor(innerWidth / this.width) * 3;
                 break;
             case 15: // Business Card
                 rectWidth = 1050;
                 rectHeight = 600;
                 width = this.width;
+                this.perPage = Math.floor(innerWidth / this.width) * 3;
                 break;
             case 16: // Facebook Cover
                 rectWidth = 851;
@@ -165,6 +170,9 @@ export default class TemplateList extends Component<IProps, IState> {
 
         this.width = width;
         this.height = height;
+
+        this.state.rem = this.perPage;
+        this.state.recentDesign = getRem(this.perPage);
     }
 
     loadImage(counter) {
