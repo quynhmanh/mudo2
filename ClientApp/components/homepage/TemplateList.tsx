@@ -62,7 +62,7 @@ export default class TemplateList extends Component<IProps, IState> {
             this.width = Math.max(innerWidth / 6, 216);
         }
 
-        if (props.type == 1 || props.type == 14) {
+        if (props.type == 1 || props.type == 6 || props.type == 14) {
             this.width = Math.max(innerWidth / 8, 216);
         }
 
