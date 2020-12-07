@@ -238,6 +238,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                             <div className="mSSDiA" title="Facebook Post, Poster">
                                             <span className="U1nojQ">{window.translate(subtype.title)}</span>
                                             <span
+                                                className="template-size"
                                                 style={{
                                                     fontSize: "12px",
                                                     marginLeft: "10px",
@@ -344,6 +345,16 @@ export default class HomeButton extends React.Component<IProps, IState> {
 }
 
 const ResizeSubtypeButton = styled.li`
+    .template-size {
+        display: none;
+    }
+
+    :hover {
+        .template-size {
+            display: inline-block;
+        }
+    }
+
     button {
         width: 100%;
         height: 40px;
