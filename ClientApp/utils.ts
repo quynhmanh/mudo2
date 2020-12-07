@@ -3617,14 +3617,9 @@ function handleResize(
                 let d = texts[i];
                 if (!d.ref) {
                     newDocumentObjects.push(
-                        ...this.normalize2(
+                        ...normalize2(
                             d,
                             texts,
-                            image.scaleX,
-                            image.scaleY,
-                            scale,
-                            image.width,
-                            image.height
                         )
                     );
                 }
