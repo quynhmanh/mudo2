@@ -340,7 +340,6 @@ class CanvaEditor extends Component<IProps, IState> {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('shouldComponentUpdate')
         if (this.state.scale != nextState.scale) {
             return true;
         }
