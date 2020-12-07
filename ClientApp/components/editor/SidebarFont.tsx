@@ -339,7 +339,7 @@ export default class SidebarFont extends Component<IProps, IState> {
                                                     >
                                                         <Tooltip
                                                             offsetLeft={0}
-                                                            offsetTop={-20}
+                                                            offsetTop={-10}
                                                             content={this.props.translate("vietnameseSupport")}
                                                             position="top"
                                                         >
