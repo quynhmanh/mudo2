@@ -63,6 +63,12 @@ function DropdownMenu() {
                 {/* <span className="icon-button">{props.leftIcon}</span> */}
                 {props.children}
                 {/* <span className="icon-right">{props.rightIcon}</span> */}
+                <svg 
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                  }}
+                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z"></path></svg>
             </a>
         );
     }
@@ -78,14 +84,10 @@ function DropdownMenu() {
                 onEnter={calcHeight}>
                 <div className="menu">
                     <DropdownItem
-                        leftIcon={<CogIcon />}
-                        rightIcon={<ChevronIcon />}
                         goToMenu="settings">
                         Hướng dẫn về Draft
           </DropdownItem>
-                    <DropdownItem
-                        leftIcon="🦧"
-                        rightIcon={<ChevronIcon />}>
+                    <DropdownItem>
                         Báo cáo sự cố
           </DropdownItem>
 
@@ -100,14 +102,10 @@ function DropdownMenu() {
                 onEnter={calcHeight}>
                 <div className="menu">
                     <DropdownItem
-                        leftIcon={<CogIcon />}
-                        rightIcon={<ChevronIcon />}
                         goToMenu="settings">
                         Hướng dẫn về Draft cac
           </DropdownItem>
-                    <DropdownItem
-                        leftIcon="🦧"
-                        rightIcon={<ChevronIcon />}>
+                    <DropdownItem>
                         Báo cáo sự cố
           </DropdownItem>
 
@@ -124,6 +122,8 @@ function DropdownMenu() {
                     <div
                         style={{
                             padding: "0 15px",
+                            overflowY: 'scroll',
+                            maxHeight: '60vh',
                         }}
                     >
                         <h3 
@@ -186,8 +186,11 @@ function DropdownMenu() {
                 onEnter={calcHeight}>
                 <div className="menu">
                     <div
+                      className="menu-content"
                         style={{
                             padding: "0 15px",
+                            overflowY: 'scroll',
+                            maxHeight: '60vh',
                         }}
                     >
                         <h3 
@@ -197,10 +200,13 @@ function DropdownMenu() {
                             }}>Lưu thiết kế </h3>
                         <p>Draft tự động lưu các thiết kế khi bạn làm việc. Xem thanh menu phía trên cùng trong trình biên tập để biết trạng thái lưu thiết kế:</p>
 
-                        <ul class="dywODg fFOiLQ fP4ZCw"><li class="zFmx4A fFOiLQ fP4ZCw"><b>Đang lưu...</b> - Thiết kế đang trong quá trình lưu.</li><li class="zFmx4A fFOiLQ fP4ZCw"><b>Đã lưu mọi thay đổi</b> - Nội dung sửa gần đây đối với thiết kế đã được lưu.</li><li class="zFmx4A fFOiLQ fP4ZCw"><b>Thay đổi chưa được lưu</b> - Nội dung sửa gần đây đối với thiết kế chưa được lưu. Bạn có thể lưu thiết kế theo cách thủ công bằng cách nhấp vào <b>Tệp</b> và chọn <b>Lưu</b>. </li><li class="zFmx4A fFOiLQ fP4ZCw"><b>Lỗi khi lưu</b> hoặc <b>Đã tạm dừng lưu </b>- Quá trình lưu bị gián đoạn do mất kết nối Internet. Hãy kiểm tra kết nối Internet để xem kết nối có nhanh và ổn định không.</li></ul>
-                        <p class="nqE4Ig fFOiLQ fP4ZCw">Bạn có thể tìm thấy tất cả thiết kế đã lưu trong tab<b> Tất cả thiết kế </b>của trang chủ Draft.</p>
-                        <p class="nqE4Ig fFOiLQ fP4ZCw"><b>Mẹo:</b> Bạn có thể xem lại và khôi phục <a class="ovm4pQ" href="#" draggable="false" role="button">các phiên bản thiết kế trước đó</a> với đăng ký <b>Draft Pro</b> hoặc <b>Draft for Enterprise</b>. Tính năng này cũng áp dụng với trạng thái tài khoản <b>Draft cho Giáo dục</b> và <b>Draft cho tổ chức phi lợi nhuận</b>.</p>
-                        <p class="nqE4Ig fFOiLQ fP4ZCw">Nếu bạn muốn lưu thiết kế vào thiết bị của mình, nhấp vào <b>biểu tượng ⤓</b> ở góc trên cùng của trình biên tập để <a class="ovm4pQ" href="#" draggable="false" role="button">tải xuống thiết kế</a>, hoặc nhấp vào <b>Đăng</b> để xem các tùy chọn đăng có sẵn.</p>
+                        <ul><li ><b>Đang lưu...</b> - Thiết kế đang trong quá trình lưu.</li>
+                        <li><b>Đã lưu mọi thay đổi</b> - Nội dung sửa gần đây đối với thiết kế đã được lưu.</li>
+                        <li><b>Thay đổi chưa được lưu</b> - Nội dung sửa gần đây đối với thiết kế chưa được lưu. Bạn có thể lưu thiết kế theo cách thủ công bằng cách nhấp vào <b>Tệp</b> và chọn <b>Lưu</b>. </li>
+                        <li><b>Lỗi khi lưu</b> hoặc <b>Đã tạm dừng lưu </b>- Quá trình lưu bị gián đoạn do mất kết nối Internet. Hãy kiểm tra kết nối Internet để xem kết nối có nhanh và ổn định không.</li></ul>
+                        <p>Bạn có thể tìm thấy tất cả thiết kế đã lưu trong tab<b> Tất cả thiết kế </b>của trang chủ Draft.</p>
+                        <p><b>Mẹo:</b> Bạn có thể xem lại và khôi phục <a class="ovm4pQ" href="#" draggable="false" role="button">các phiên bản thiết kế trước đó</a> với đăng ký <b>Draft Pro</b> hoặc <b>Draft for Enterprise</b>. Tính năng này cũng áp dụng với trạng thái tài khoản <b>Draft cho Giáo dục</b> và <b>Draft cho tổ chức phi lợi nhuận</b>.</p>
+                        <p>Nếu bạn muốn lưu thiết kế vào thiết bị của mình, nhấp vào <b>biểu tượng ⤓</b> ở góc trên cùng của trình biên tập để <a class="ovm4pQ" href="#" draggable="false" role="button">tải xuống thiết kế</a>, hoặc nhấp vào <b>Đăng</b> để xem các tùy chọn đăng có sẵn.</p>
                     </div>
                 </div>
             </CSSTransition>
@@ -215,9 +221,9 @@ function DropdownMenu() {
                     {/* <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
             <h2>My Tutorial</h2>
           </DropdownItem> */}
-                    <DropdownItem goToMenu="tutorial" leftIcon={<BoltIcon />}>Hướng dẫn tạo thiết kế đầu tiên của bạn</DropdownItem>
-                    <DropdownItem goToMenu="saveDesign" leftIcon={<BoltIcon />}>Lưu thiết kế</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>Tải thiết kế xuống</DropdownItem>
+                    <DropdownItem goToMenu="tutorial">Hướng dẫn tạo thiết kế đầu tiên của bạn</DropdownItem>
+                    <DropdownItem goToMenu="saveDesign">Lưu thiết kế</DropdownItem>
+                    <DropdownItem>Tải thiết kế xuống</DropdownItem>
                 </div>
             </CSSTransition>
 
