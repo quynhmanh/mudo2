@@ -121,6 +121,7 @@ class LeftSide extends Component<IProps, IState> {
                                     id="designTitle"
                                     type="text"
                                     defaultValue={this.props.designTitle}
+                                    autoComplete="off"
                                     onInput={e => {
                                         let el = e.target as HTMLInputElement;
                                         (el.parentNode as HTMLLabelElement).dataset.value = el.value;
