@@ -295,7 +295,6 @@ export default class Rect extends Component<IProps, IState> {
 		video.currentTime = 0;
 		video.play();
 
-		console.log('playVideo')
 		const update = () => {
 			if (video.currentTime + 0.1 < this.state.image.timeStart * video.duration){
 				video.currentTime = this.state.image.timeStart * video.duration;
@@ -1936,9 +1935,7 @@ export default class Rect extends Component<IProps, IState> {
 															}}
 															onClick={e => {
 																e.preventDefault();
-																console.log('window.dragged', !window.dragged)
 																if (effectId == 9 && !window.dragged) {
-																	console.log('focused');
 																	onCurveTextFocus();
 																}
 															}}
