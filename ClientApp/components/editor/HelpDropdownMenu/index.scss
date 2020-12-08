@@ -72,6 +72,7 @@ a {
   transition: filter 300ms;
   border: none;
   color: white;
+  width: 80px;
 }
 
 .icon-button:hover {
@@ -99,6 +100,8 @@ a {
   background: white;
   right: -135px;
   box-shadow: 0 0 10px rgba(0,0,0,.15);
+  max-height: 60vh;
+  overflow: scroll;
 }
 
 .menu {
