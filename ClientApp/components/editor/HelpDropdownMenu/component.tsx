@@ -35,7 +35,7 @@ function NavItem(props) {
     return (
         <li className="nav-item">
             <button className="icon-button" onClick={() => setOpen(!open)}>
-                Trợ giúp <span style={{ marginLeft: "8px", width: "5px",}}>{open ? " X" : " ?"}</span>
+                {window.translate("help")} <span style={{ marginLeft: "8px", width: "5px",}}>{open ? " X" : " ?"}</span>
             </button>
 
             {open && props.children}
