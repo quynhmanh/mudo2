@@ -34,7 +34,7 @@ export default class Footer extends React.Component<{translate}, {}> {
                             </div>
                         </div>
                     </div>
-                    <div className="jsx-104637934 lower">
+                    <div className="jsx-104637934 lower" style={{marginTop: "30px",}}>
                         <div className="jsx-104637934 row">
                             <div className="jsx-104637934 col-md-8">
                                 <div className="jsx-104637934 row">

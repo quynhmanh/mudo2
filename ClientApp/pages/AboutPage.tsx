@@ -1,18 +1,25 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Helmet } from "react-helmet";
-import styled from "styled-components";
 import { isNode } from "@Utils";
+import homePageTranslation from "@Locales/default/homePage";
+import { withTranslation } from "react-i18next";
 
 type Props = RouteComponentProps<{}>;
 
-export interface IProps { }
+export interface IProps {
+    t: any;
+    i18n: any;
+}
 
 interface IState {
     tab: string;
 }
 
-export default class PrintPage extends React.Component<IProps, IState> {
+const NAMESPACE = "homePage";
+
+
+class AboutPage extends React.Component<IProps, IState> {
     state = {
         tab: "find"
     };
@@ -20,13 +27,28 @@ export default class PrintPage extends React.Component<IProps, IState> {
         super(props);
     }
 
-    componentDidMount() { }
+    componentDidMount() { 
+        
+    }
+
+    translate = (key: string) => {
+        const { t, i18n } = this.props;
+
+        if (i18n.exists(NAMESPACE + ":" + key))
+            return t(key);
+
+        if (homePageTranslation !== undefined && homePageTranslation.hasOwnProperty(key)) {
+            return homePageTranslation[key]; // load default translation in case failed to load translation file from server
+        }
+
+        return key;
+    }
 
     render() {
         return (
             <div>
                 <Helmet>
-                    <title>About us</title>
+                    <title>{isNode() ? "Draft" : this.translate("aboutUs")}</title>
                 </Helmet>
                 {!isNode() &&
                     <div className="container">
@@ -41,7 +63,7 @@ export default class PrintPage extends React.Component<IProps, IState> {
                                                 <h1 style={{
                                                     // textAlign: "center",
                                                     margin: "50px 0",
-                                                }} className="post-content__title  entry-title">About Us</h1>
+                                                }} className="post-content__title  entry-title">{this.translate("aboutUs")}</h1>
 
                                                 <div className="">
                                                     <div className="col-sm mb-16">
@@ -55,7 +77,7 @@ export default class PrintPage extends React.Component<IProps, IState> {
                                                             <div className="card-body" style={{ display: 'inline-block', border: '1px solid rgba(0,0,0,.125)', width: '350px', height: '130px', padding: '0 20px', position: 'relative', borderRadius: '.25rem', right: '24px' }}>
                                                                 <img src="https://avatars2.githubusercontent.com/u/9525970?s=400&u=729b463051f86ba79d9aa05c3c19b3420b162be4&v=4" className="card-img-right avatar-img" style={{ height: '100px', borderRadius: '50%', position: 'absolute', right: '20px', top: 0, bottom: 0, margin: 'auto', }} />
                                                             <h3 className="card-title">Quynh Nguyen</h3>
-                                                            <p className="card-text text-muted">Author</p><a target="_blank" href="https://twitter.com/_nghiatran">
+                                                            <p className="card-text text-muted">{this.translate("author")}</p><a target="_blank" href="https://twitter.com/_nghiatran">
                                                             <a href="https://www.linkedin.com/in/quynh-manh-110749107/"><svg style={{marginRight: "10px"}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
                                                             <a href="https://www.facebook.com/quynh1996/"><svg style={{width: "24px", height: "24px"}} xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" x="0px" y="0px" width="60.734px" height="60.733px" viewBox="0 0 60.734 60.733" xmlSpace="preserve">
 <g>
@@ -107,3 +129,6 @@ export default class PrintPage extends React.Component<IProps, IState> {
         );
     }
 }
+
+
+export default withTranslation(NAMESPACE)(AboutPage);

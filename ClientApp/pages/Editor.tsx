@@ -1462,7 +1462,6 @@ class CanvaEditor extends Component<IProps, IState> {
                     style={{ display: "flex", flexDirection: "column", height: "100%" }}
                 >
                     <Helmet>
-                        {/* <title>alo</title> */}
                         <title>{this.props.tReady ? this.translate("design") : "Draft"}</title>
                     </Helmet>
                     <div
