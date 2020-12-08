@@ -1399,7 +1399,7 @@ export const downloadPDF = (bleed) => {
         )
         .then(response => {
             let title = (document.getElementById("designTitle") as HTMLInputElement).value;
-            title = title ? title : "Untitled design";
+            title = title ? title : window.translate("untitledDesign");
 
             download(title + ".pdf", response.data);
             hidePopupDownloading();
@@ -1499,7 +1499,7 @@ export const downloadVideo = () => {
         )
         .then(response => {
             let title = (document.getElementById("designTitle") as HTMLInputElement).value;
-                title = title ? title : "Untitled design";
+                title = title ? title : window.translate("untitledDesign");
 
             download(title + `.mp4`, response.data);
             hidePopupDownloading();

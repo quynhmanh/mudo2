@@ -126,7 +126,7 @@ class LeftSide extends Component<IProps, IState> {
                                         (el.parentNode as HTMLLabelElement).dataset.value = el.value;
                                     }}
                                     size={this.props.designTitle ? this.props.designTitle.length : 0}
-                                    placeholder="Untitled design"
+                                    placeholder={window.translate("untitledDesign")}
                                 />
                             </label>}
                     </div>
