@@ -319,7 +319,8 @@ export default class HomeButton extends React.Component<IProps, IState> {
                             style={{
                                 width: "100px",
                                 border: "none",
-                                background: "#80808030",
+                                background: this.state.resizeSubtypeList.length > 0 ? "#7d2ae8" : "#80808030",
+                                color: this.state.resizeSubtypeList.length > 0 ? "white" : "black",
                                 padding: "7px 12px",
                                 borderRadius: "5px",
                                 margin: "auto",
