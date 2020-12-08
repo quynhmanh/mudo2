@@ -976,6 +976,7 @@ class CanvaEditor extends Component<IProps, IState> {
             // selection.on('beforestart', ({oe}) => {
             //   return oe.target.tagName !== 'INPUT'; // Returning false prevents a selection
             // });
+            console.log('evt ', evt);
             window.selectionStart = false;
             if (evt.oe.target.id != "screen-container-parent" && !evt.oe.target.classList.contains('selectable')) {
                 return false;

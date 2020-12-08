@@ -709,7 +709,7 @@ export default class Rect extends Component<IProps, IState> {
 									window.imageselected = null;
 								}
 							}}
-							className={type == TemplateType.BackgroundImage && "selectable"}
+							className={(type == TemplateType.BackgroundImage || locked) && "selectable"}
 							style={{
 								width: "100%",
 								height: "100%",
@@ -1646,7 +1646,7 @@ export default class Rect extends Component<IProps, IState> {
 										position: "absolute",
 										width: `calc(100%/${scaleX})`,
 										height: `calc(100%/${scaleY})`,
-										pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
+										pointerEvents: (name == CanvasType.HoverLayer || locked) ? "none" : "all",
 									}}
 								>
 
@@ -1908,7 +1908,7 @@ export default class Rect extends Component<IProps, IState> {
 										name == CanvasType.Download) &&
 										type === TemplateType.Heading && (
 											<div style={{
-												pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
+												pointerEvents: (name == CanvasType.HoverLayer || locked) ? "none" : "all",
 											}}>
 												<div
 													id={_id + "hihi5" + canvas}
@@ -1920,7 +1920,7 @@ export default class Rect extends Component<IProps, IState> {
 														transformOrigin: "0 0",
 														zIndex: selected ? 1 : 0,
 														WebkitTextStroke: (effectId == 3 || effectId == 4) && (`${1.0 * hollowThickness / 100 * 4 + 0.1}px ${(effectId == 3 || effectId == 4) ? color : "black"}`),
-														pointerEvents: (name == CanvasType.HoverLayer) ? "none" : "all",
+														pointerEvents: (name == CanvasType.HoverLayer || locked) ? "none" : "all",
 													}}
 												>
 													{
@@ -1948,7 +1948,7 @@ export default class Rect extends Component<IProps, IState> {
 															ref={this.setTextElementRef2.bind(this)}
 															className={"text single-text " + _id + "hihi4" + canvas}
 															style={{
-																pointerEvents: "all",
+																pointerEvents: locked ? "none" : "all",
 																position: "absolute",
 																display: "block",
 																width: width / scaleX + "px",
