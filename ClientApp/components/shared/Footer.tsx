@@ -27,7 +27,7 @@ export default class Footer extends React.Component<{translate}, {}> {
                                 <h4 style={{marginTop: 0,}} className="jsx-104637934 title">{this.props.translate("contact")}</h4>
                                 <div className="jsx-104637934 body">
                                     <ul className="jsx-104637934 list-unstyled">
-                                        <li className="jsx-104637934"><a href="mailto:19006710" className="jsx-104637934">0766145165</a></li>
+                                        <li className="jsx-104637934"><a href="mailto:19006710" className="jsx-104637934">(+84)766145165</a></li>
                                         <li className="jsx-104637934"><a href="mailto:help@draft.vn" className="jsx-104637934">help@draft.vn</a></li>
                                     </ul>
                                 </div>
