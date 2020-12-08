@@ -54,7 +54,7 @@ export default class GuestLayout extends React.Component<Props, {}> {
                 <h4 className="jsx-104637934 title">Liên hệ</h4>
                 <div className="jsx-104637934 body">
                   <ul className="jsx-104637934 list-unstyled">
-                    <li className="jsx-104637934"><a href="mailto:19006710" className="jsx-104637934">0766145165</a></li>
+                    <li className="jsx-104637934"><a href="mailto:19006710" className="jsx-104637934">(+84)766145165</a></li>
                     <li className="jsx-104637934"><a href="mailto:help@draft.vn" className="jsx-104637934">help@draft.vn</a></li>
                   </ul>
                 </div>
