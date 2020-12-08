@@ -17,6 +17,7 @@ const Toolbar = loadable(() => import("@Components/editor/toolbar/Toolbar"));
 const LeftSide = loadable(() => import("@Components/editor/LeftSide"));
 const Narbar = loadable(() => import("@Components/editor/Navbar"));
 const ZoomController = loadable(() => import("@Components/editor/ZoomController"));
+const HelpDropdownMenu = loadable(() => import("@Components/editor/HelpDropdownMenu/component.tsx"));
 
 import {
     isNode,
@@ -1634,7 +1635,7 @@ class CanvaEditor extends Component<IProps, IState> {
                                     style={{
                                         position: "fixed",
                                         bottom: "15px",
-                                        right: "15px",
+                                        right: "130px",
                                         zIndex: 99999999
                                     }}
                                 >
@@ -1738,6 +1739,7 @@ class CanvaEditor extends Component<IProps, IState> {
                         </button>}
                         {this.renderCanvasPreview()}
                     </div>}
+                    {!isNode() && <HelpDropdownMenu />}
             </div>
         );
     }

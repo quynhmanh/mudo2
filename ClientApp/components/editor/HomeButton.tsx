@@ -216,7 +216,7 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                                 }
                                                 this.setState({ resizeSubtypeList });
                                             }}
-                                        type="checkbox" className="SPXzig YmnidQ" defaultValue />
+                                        type="checkbox" className="SPXzig YmnidQ" />
                                         <span className="tdZD9A YmnidQ ioka9Q">
                                             <span aria-hidden="true" className="IbvMRg uRWxVA dkWypw">
                                             <svg
@@ -308,8 +308,8 @@ export default class HomeButton extends React.Component<IProps, IState> {
                                     let font = editorStore.fonts;
 
                                     localStorage.setItem("items", JSON.stringify(images));
-                                    localStorage.setItem("rectWidth", window.rectWidth);
-                                    localStorage.setItem("rectHeight", window.rectHeight);
+                                    localStorage.setItem("rectWidth", window.rectWidth.toString());
+                                    localStorage.setItem("rectHeight", window.rectHeight.toString());
                                     localStorage.setItem("fonts", JSON.stringify(font));
                                     localStorage.setItem("pages", JSON.stringify(editorStore.pages));
                                     const url = `/editor/${uuidv4()}/resize/${subtype}`;
