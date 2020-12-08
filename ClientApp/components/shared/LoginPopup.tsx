@@ -325,7 +325,7 @@ class LoginPopup extends PureComponent<IProps, IState> {
                             id="loginContainer"
                             style={{
                                 width: "100%",
-                                padding: "40px 80px",
+                                padding: "40px 60px",
                                 opacity: this.state.loading === true ? 0 : 1,
                                 position: 'absolute',
                             }}
