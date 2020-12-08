@@ -3,6 +3,7 @@ import { SidebarTab, TemplateType, } from "./enums";
 import editorStore from "@Store/EditorStore";
 import Sidebar from "@Components/editor/SidebarStyled";
 import { handleFadeAnimation, handleBlockAnimation } from "@Utils";
+import styled from 'styled-components';
 
 export interface IProps {
     selectedTab: any;
@@ -84,7 +85,8 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                         padding: "23px",
                     }}
                 >
-                    <button
+                    <AnimationButton
+                        selected={editorStore.animationId == 0}
                         onClick={e => {
                             e.preventDefault();
                             editorStore.animationId = 0;
@@ -103,8 +105,9 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                                 height: "46px",
                                 lineHeight: "46px",
                             }}
-                        >{this.props.translate("none")}</span></button>
-                    <button
+                        >{this.props.translate("none")}</span></AnimationButton>
+                    <AnimationButton
+                        selected={editorStore.animationId == 1}
                         onClick={this.handleBlockAnimation}
                         style={{
                             border: editorStore.animationId == 1 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
@@ -118,8 +121,9 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                                 height: "46px",
                                 lineHeight: "46px",
                             }}
-                        >{this.props.translate("block")}</span></button>
-                    <button
+                        >{this.props.translate("block")}</span></AnimationButton>
+                    <AnimationButton
+                        selected={editorStore.animationId == 2}
                         onClick={this.handleFadeAnimation}
                         style={{
                             border: editorStore.animationId == 2 ? "2px solid #00d9e1" : "1px solid rgba(57,76,96,.15)",
@@ -132,9 +136,15 @@ export default class SidebarAnimation extends Component<IProps, IState> {
                                 height: "46px",
                                 lineHeight: "46px",
                             }}
-                        >{this.props.translate("fade")}</span></button>
+                        >{this.props.translate("fade")}</span></AnimationButton>
                 </div>
             </Sidebar>
         )
     }
 }
+
+const AnimationButton = styled.button`
+    :hover {
+        ${props => !props.selected ? "border: 1px solid #00d9e1 !important;" : ""}
+    }
+`;
