@@ -76,7 +76,6 @@ export default class PopularTemplateItem3 extends Component<IProps, IState> {
     render() {
         const props = this.props;
         let picker = null;
-        console.log('this.props.prefix ', "" + this.props.prefix + this.props.printType)
         if (props.isVideo) {
             picker = <VideoPicker
                 prefix={"" + this.props.prefix + this.props.printType}

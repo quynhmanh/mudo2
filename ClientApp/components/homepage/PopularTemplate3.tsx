@@ -112,7 +112,6 @@ export default class PopularTemplate3 extends Component<IProps, IState> {
 
     isInViewport(element) {
         const rect = element.getBoundingClientRect();
-        console.log('rect', rect)
         return (
             rect.top >= 0 &&
             rect.left >= 0 &&
