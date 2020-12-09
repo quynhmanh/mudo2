@@ -34,7 +34,19 @@ function NavItem(props) {
 
     return (
         <li className="nav-item">
-            <button className="icon-button" onClick={() => setOpen(!open)}>
+            <button className="icon-button" onClick={(e) => {
+                let currentTarget = e.currentTarget.parentNode;
+                if (!open) {
+                    const onClickOutside = (oe) => {
+                        if (!oe.target.classList.contains("menu-item") && !currentTarget.contains(oe.target)) {
+                            setOpen(false);
+                            document.removeEventListener("click", onClickOutside);
+                        }
+                    }
+                    document.addEventListener("click", onClickOutside);
+                }
+                setOpen(!open);
+            }}>
                 {window.translate("help")} <span style={{ marginLeft: "8px", width: "5px",}}>{open ? " X" : " ?"}</span>
             </button>
 
@@ -74,7 +86,8 @@ function DropdownMenu() {
     }
 
     return (
-        <div className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
+        <div 
+            className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
 
             <CSSTransition
                 in={activeMenu === 'main'}
