@@ -1,5 +1,5 @@
 import React from "react";
-
+import styled from "styled-components";
 import HighQualityImage from "@Components/shared/svgs/HighQualityImage";
 
 const SvgTest = props => (
@@ -35,15 +35,8 @@ const SvgTest = props => (
                             marginBottom: "1px"
                         }}
                     >
-                        <button
+                        <DownloadButton
                             onClick={props.downloadPNG.bind(this, true, true)}
-                            style={{
-                                width: "100%",
-                                border: "none",
-                                textAlign: "left",
-                                padding: "5px 12px",
-                                display: "flex"
-                            }}
                         >
                             <HighQualityImage width="35px" height="35px" style={{ marginRight: "10px", }} />
                             <div>
@@ -57,7 +50,7 @@ const SvgTest = props => (
                                     {props.translate("highQualityImage")}
                                 </span>
                             </div>
-                        </button>
+                        </DownloadButton>
                     </li>
                     <li
                         style={{
@@ -65,15 +58,8 @@ const SvgTest = props => (
                             marginBottom: "1px"
                         }}
                     >
-                        <button
+                        <DownloadButton
                             onClick={props.downloadPNG.bind(this, false, false)}
-                            style={{
-                                width: "100%",
-                                border: "none",
-                                textAlign: "left",
-                                padding: "5px 12px",
-                                display: "flex"
-                            }}
                         >
                             <svg
                                 style={{ width: "35px", marginRight: "10px" }}
@@ -159,7 +145,7 @@ S17.101,14.5,19.069,14.5z"
                                     {props.translate("smallFileSizeImage")}
                                 </span>
                             </div>
-                        </button>
+                        </DownloadButton>
                     </li>
                     <li
                         style={{
@@ -167,15 +153,8 @@ S17.101,14.5,19.069,14.5z"
                             marginBottom: "1px"
                         }}
                     >
-                        <button
+                        <DownloadButton
                             onClick={props.downloadPDF.bind(this, false)}
-                            style={{
-                                width: "100%",
-                                border: "none",
-                                textAlign: "left",
-                                padding: "5px 12px",
-                                display: "flex"
-                            }}
                         >
                             <svg
                                 style={{ width: "35px", marginRight: "10px" }}
@@ -262,7 +241,7 @@ c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"
                                     {props.translate("pdfStandardDesc")}
                                 </span>
                             </div>
-                        </button>
+                        </DownloadButton>
                     </li>
                     {/* <li
             style={{
@@ -369,15 +348,8 @@ c0.889,0,1.052,0.131,1.175,0.197C39.777,24.916,39.719,25.05,39.57,25.259z"
                             marginBottom: "1px"
                         }}
                     >
-                        <button
+                        <DownloadButton
                             onClick={props.downloadVideo.bind(this)}
-                            style={{
-                                width: "100%",
-                                border: "none",
-                                textAlign: "left",
-                                padding: "5px 12px",
-                                display: "flex"
-                            }}
                         >
                             <svg
                                 style={{ width: "35px", marginRight: "10px" }}
@@ -450,7 +422,7 @@ C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.82
                                     MP4
                 </span>
                             </div>
-                        </button>
+                        </DownloadButton>
                     </li>
                 </ul>
             </div>
@@ -459,3 +431,11 @@ C37.325,21.66,37.5,21.342,37.5,21S37.325,20.34,37.037,20.156z M26.5,26.179V15.82
 );
 
 export default SvgTest;
+
+const DownloadButton = styled.button`
+    width: 100%;
+    border: none;
+    text-align: left;
+    padding: 10px 12px;
+    display: flex;
+`;
