@@ -378,7 +378,7 @@ const ResizeSubtypeButton = styled.li`
     }
 
     input {
-        margin: 11px 15px;
+        margin: 12px 15px;
         width: 15px;
         height: 15px;
     }
