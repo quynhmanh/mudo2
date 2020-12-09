@@ -378,7 +378,9 @@ const ResizeSubtypeButton = styled.li`
     }
 
     input {
-        margin: 13px;
+        margin: 11px 15px;
+        width: 15px;
+        height: 15px;
     }
 
     .GdhAcA {
