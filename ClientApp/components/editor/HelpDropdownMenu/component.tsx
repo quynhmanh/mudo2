@@ -122,7 +122,6 @@ function DropdownMenu() {
                     <div
                         style={{
                             padding: "0 15px",
-                            overflowY: 'scroll',
                             maxHeight: '60vh',
                         }}
                     >
@@ -189,7 +188,6 @@ function DropdownMenu() {
                       className="menu-content"
                         style={{
                             padding: "0 15px",
-                            overflowY: 'scroll',
                             maxHeight: '60vh',
                         }}
                     >
